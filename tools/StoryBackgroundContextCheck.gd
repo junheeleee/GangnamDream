@@ -33,6 +33,13 @@ const W72_DINNER := "arc_sangchul_human"
 const W69_STORE := "arc_year_one_half"
 const W69_INSIDE := "convenience_night_dry"
 const W69_STEPS := "convenience_night_steps"
+const W82_BUS := "arc_y2_hyunsu_night_bus"
+const W82_TERMINAL := "seoul_bus_terminal_night"
+const W82_DEPARTURE := "seoul_bus_terminal_departure"
+const W82_CUT_SENTENCES := [
+	["터미널 불빛 아래서", "Under the terminal lights", "ターミナルの明かりの下で", "车站灯光下", "轉運站的燈光下"],
+	["전화를 끊고", "He hung up", "電話を切って", "挂掉电话", "掛掉電話"],
+]
 const W57_VIBRATION := "arc_father_medication::description:0:0:phone_vibrate"
 const W57_PASSAGE := "seoul_subway_transfer_passage"
 const W57_CAR := "seoul_subway_commuters_w57"
@@ -254,6 +261,8 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	W82_TERMINAL: "res://assets/backgrounds/seoul_bus_terminal_night.png",
+	W82_DEPARTURE: "res://assets/backgrounds/seoul_bus_terminal_departure_v1.png",
 	W69_INSIDE: "res://assets/backgrounds/convenience_store_night_dry_v1.png",
 	W69_STEPS: "res://assets/backgrounds/convenience_store_night_steps_v1.png",
 	W57_PASSAGE: "res://assets/backgrounds/seoul_subway_transfer_passage_v1.png",
@@ -354,6 +363,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W82_BUS_CHECK"):
+		var bus_ok := await _check_w82_bus()
+		await _remove_story()
+		await _stop_audio()
+		if bus_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w82_bus")
+		get_tree().quit(0 if bus_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W69_STEPS_CHECK"):
 		var steps_ok := await _check_w69_steps()
 		await _remove_story()
@@ -562,6 +579,8 @@ func _ready() -> void:
 		_fail("W72 dinner audio regression smoke failed")
 	if not await _check_w69_steps(true):
 		_fail("W69 steps regression smoke failed")
+	if not await _check_w82_bus(true):
+		_fail("W82 bus regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2512,6 +2531,110 @@ func _expect_w57_audio(expect_vibration: bool, label: String, onboard: bool = fa
 		_fail("W57 wrong audio at %s: cues=%s, bed=%s, human=%s, season=%s" % [label, heard,
 			BGMPlayer._current_ambience_key, BGMPlayer._current_human_ambience_key, BGMPlayer._current_season_key])
 	return valid
+
+func _check_w82_bus(smoke: bool = false) -> bool:
+	var paths := 0
+	var restores := 0
+	var capture := OS.get_environment("GANGNAM_W82_CAPTURE_DIR")
+	if not capture.is_empty():
+		var out := DirAccess.open(capture) if capture.is_absolute_path() else null
+		if DisplayServer.get_name() == "headless" or out == null or not out.get_files().is_empty():
+			_fail("W82 captures require a native display and a fresh directory")
+			return false
+	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	for language: String in languages:
+		for choice: int in [0, 1]:
+			await _remove_story()
+			await _stop_audio()
+			_context = "%s/W82/c%d" % [language, choice]
+			LocaleManager.set_language(language)
+			SaveManager.clear_loaded_resume_context()
+			GameState.start_new_game()
+			GameState.turn = 82
+			GameState.age = 34
+			GameState.month = 9
+			GameState.housing = "oneroom"
+			GameState.mental = 60
+			GameState.flags["arc_intro_hyunsu_seen"] = true
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			GameState.pending_story_queue = [W82_BUS]
+			BGMPlayer.set_ambience("highway")
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			var home := ImageRegistry.resolve_contextual_background_id("current_housing")
+			for page in range((_story.get("_paragraphs") as Array).size()):
+				await _finish_page()
+				if int(_story.get("_para_index")) != page or not _expect_w82_surface(home, "phone"):
+					return false
+				if page == 0 and choice == 0 and not capture.is_empty() \
+						and not await _save_viewport_frame(capture.path_join(language + "_phone.png")):
+					return false
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) or not _expect_w82_surface(home, "phone"):
+				return false
+			var cash := float(GameState.money)
+			var count: int = GameState.events_seen
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			var pages: Array = _story.get("_paragraphs")
+			var cut := int(_story.get("_result_location_cut_page"))
+			var locale_index := LocaleManager.SUPPORTED_LANGUAGES.find(language)
+			if not bool(_story.get("_pending_after_result")) or int(_story.call("_story_source_paragraph_count")) != 3 \
+					or cut <= 0 or cut >= pages.size() or locale_index < 0 \
+					or not str(pages[cut]).begins_with(str(W82_CUT_SENTENCES[choice][locale_index])):
+				_fail("W82 missing the exact localized arrival or hangup cut")
+				return false
+			for page in range(pages.size()):
+				await _finish_page()
+				var source := int(_story.call("_story_source_paragraph_index", page))
+				var arrived := choice == 0 and source == 0 and page >= cut
+				var location := home if choice == 1 else (
+					W82_TERMINAL if arrived else W82_DEPARTURE if source == 1 else "")
+				var channel := "in_person" if arrived else "phone" if choice == 1 and page < cut else "narration"
+				if int(_story.get("_para_index")) != page or not _expect_w82_surface(location, channel):
+					return false
+				if page in [cut - 1, cut] or page == pages.size() - 1:
+					if not smoke:
+						var context: Dictionary = _story.call("build_save_resume_context")
+						if not await _reload_authored_result_context(context, language, 3, source) \
+								or int(_story.get("_para_index")) != page or not _expect_w82_surface(location, channel):
+							return false
+						restores += 1
+				if not capture.is_empty():
+					await get_tree().create_timer(0.5).timeout
+					if not await _save_viewport_frame(capture.path_join("%s_c%d_p%d.png" % [language, choice, page])):
+						return false
+				if page + 1 < pages.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			if GameState.events_seen != count + 1 or not GameState.flags.get("arc_y2_hyunsu_night_bus_seen", false) \
+					or GameState.money != cash + (30000.0 if choice == 1 else 0.0) \
+					or GameState.mental != (66 if choice == 0 else 60):
+				_fail("W82 changed a saved choice result")
+				return false
+			paths += 1
+	if not smoke:
+		print("W82_BUS_OK paths=%d v4=%d" % [paths, restores])
+	return paths == (2 if smoke else 10) and restores == (0 if smoke else 30)
+
+func _expect_w82_surface(background: String, channel: String) -> bool:
+	var portrait := _story.get("_portrait_frame") as Control
+	var badge := _story.get("_communication_badge") as Control
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var texture := (_story.get("_bg_img") as TextureRect).texture
+	var location_ok := (texture == null and str(_story.get("_event_background_id")).is_empty() \
+		and (_story.get("_bg_dim") as ColorRect).color == Color("#111216") \
+		and str(_story.get_meta("living_scene_effect", "")) == "none") if background.is_empty() \
+		else _expect_surface(background, "", "W82 bus")
+	if not location_ok or str(presentation.get("channel", "")) != channel \
+			or badge.visible != (channel == "phone") or bool(_story.get("_portrait_remote_inset")) != (channel == "phone") \
+			or portrait.visible != (channel != "narration") or BGMPlayer._ambience_player.playing \
+			or BGMPlayer._human_ambience_player.playing or BGMPlayer._season_player.playing:
+		_fail("W82 carried a location, actor or audio layer across the wrong beat")
+		return false
+	return true
 
 func _check_w69_steps(smoke: bool = false) -> bool:
 	var paths := 0

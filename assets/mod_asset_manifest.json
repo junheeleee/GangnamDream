@@ -800,6 +800,14 @@
     {
       "kind": "background",
       "ids": [
+        "seoul_bus_terminal_departure"
+      ],
+      "relative_path": "backgrounds/seoul_bus_terminal_departure_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "seoul_bus_terminal_night"
       ],
       "relative_path": "backgrounds/seoul_bus_terminal_night.png",

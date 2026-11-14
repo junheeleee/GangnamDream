@@ -102,6 +102,7 @@ TRANSIT_BACKGROUNDS = {
     "seoul_subway_transfer_passage",
     "changwon_station_arrival_gate",
     "seoul_bus_terminal_night",
+    "seoul_bus_terminal_departure",
     "chuseok_highway",
     "namsan_cable_car",
     "hometown_train_station",

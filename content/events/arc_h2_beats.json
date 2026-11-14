@@ -103,7 +103,7 @@
   {
     "id": "arc_y2_hyunsu_night_bus",
     "title": "막차",
-    "background": "late_night",
+    "background": "current_housing",
     "portrait": "hyunsu",
     "category": "story",
     "rarity": "story",
@@ -129,7 +129,6 @@
         "flags": [
           "arc_y2_hyunsu_night_bus_seen"
         ],
-        "result_background": "seoul_bus_terminal_night",
         "result_text": "차트를 끄고 택시를 잡아탔다. 터미널 불빛 아래서 현수가 놀란 얼굴로 웃었다. \"뭐 하러 여기까지 와요.\"\n\n버스가 후진하는 동안 현수가 창문 너머로 손을 들었다. {name}은 미등이 사라질 때까지 서 있었다.\n\n돌아오는 길이 이상하게 춥지 않았다. 밤바람이 문제가 아니었던 모양이다."
       },
       {

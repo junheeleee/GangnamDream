@@ -91,6 +91,17 @@ const W235_NOTICE_DESK := "finale_notice_desk"
 const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
 const M07_HYUNSU_WASHBASIN_CUT := preload("res://assets/m07_hyunsu_washbasin_cut.tres")
 const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
+const W82_HYUNSU_BUS := "arc_y2_hyunsu_night_bus"
+const W82_TERMINAL := "seoul_bus_terminal_night"
+const W82_COACH_DEPARTS := "seoul_bus_terminal_departure"
+const W82_ARRIVAL_START := {
+	"ko": "터미널 불빛 아래서", "en": "Under the terminal lights",
+	"ja": "ターミナルの明かりの下で", "zh-CN": "车站灯光下", "zh-TW": "轉運站的燈光下",
+}
+const W82_HANGUP_START := {
+	"ko": "전화를 끊고", "en": "He hung up", "ja": "電話を切って",
+	"zh-CN": "挂掉电话", "zh-TW": "掛掉電話",
+}
 const FIRST_YEAR_CLOSE_LIGHTS_OUT_EVENTS := ["arc_year1_close", "arc_year1_close_father_passed"]
 const GOSHIWON_MOVEOUT := "arc_goshiwon_goodbye"
 const GOSHIWON_MOVEOUT_STREET := "goshiwon_moveout_wet_street"
@@ -551,6 +562,7 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 		_bg_dim.color = Color("#111216") if (_full_w19_reunion \
 			or _is_w53_network_scene() \
 			or _is_w57_medication_scene() \
+			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty() else _story_dim_color(has_cg)
 	if _story_bg_material:
@@ -3408,6 +3420,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
 		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
 		or (event_id == W57_FATHER_MEDICATION and choice_index in [1, 2] and not _is_public_story_demo()) \
+		or (event_id == W82_HYUNSU_BUS and choice_index in [0, 1] and not _is_public_story_demo()) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
 		or (event_id == HYUNSU_EXAM_FAILURE and choice_index == 1) \
 		or (event_id == M23_PARENTS and choice_index == 1)
@@ -3464,6 +3477,9 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		if raw.split("\n\n").size() == 3 and not anchor.is_empty():
 			return _split_formatted_story_page(_fmt(raw), 1, _fmt(anchor))
 		return _story_page_data(_fmt(raw))
+	if event_id == W82_HYUNSU_BUS:
+		var anchors := W82_ARRIVAL_START if choice_index == 0 else W82_HANGUP_START
+		return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
 	if event_id == HYUNSU_EXAM_FAILURE:
 		var anchors: Dictionary = M07_HYUNSU_WASHBASIN_CUT.get_meta("return_anchors", {})
 		var prose := _fmt(raw)
@@ -4665,6 +4681,8 @@ func _resolved_story_surface_portrait_id() -> String:
 			return "father_normal"
 		if _event_background_id == W57_MEDICATION_TABLE:
 			return ""
+	if _pending_after_result and str(_current.get("id", "")) == W82_HYUNSU_BUS:
+		return "hyunsu" if _event_background_id == W82_TERMINAL or _w82_bus_phone_replies() else ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -5872,6 +5890,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	if _pending_after_result and _is_w57_medication_scene():
 		_apply_w57_medication_result_surface()
 		return
+	if _pending_after_result and event_id == W82_HYUNSU_BUS and not _is_public_story_demo():
+		_apply_w82_bus_result_surface()
+		return
 	if event_id == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(play_cut_cue)
 		return
@@ -6061,6 +6082,41 @@ func _apply_w57_medication_result_surface() -> void:
 	if _pending_result_choice_index == 1:
 		BGMPlayer.update_event_ambience(_current, "", _event_background_id)
 
+
+func _w82_bus_phone_replies() -> bool:
+	return _pending_result_choice_index == 1 and _result_location_cut_page >= 0 \
+		and _para_index < _result_location_cut_page
+
+func _w82_bus_result_background(source: int) -> String:
+	if _pending_result_choice_index != 0:
+		return _resolve_story_background_id("current_housing")
+	if source == 0 and _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page:
+		return W82_TERMINAL
+	if source == 1:
+		return W82_COACH_DEPARTS
+	# The taxi and the way back don't identify a lasting location or vehicle interior.
+	return ""
+
+func _apply_w82_bus_result_surface() -> void:
+	var source := _story_source_paragraph_index(_para_index)
+	var destination := _w82_bus_result_background(source)
+	var changed := destination != _event_background_id
+	if changed:
+		var texture: Texture2D = null
+		var path := str(ImageRegistry.BACKGROUNDS.get(destination, ""))
+		if not path.is_empty() and ImageRegistry.has_texture(path):
+			texture = ImageRegistry.load_texture(path)
+		_finish_story_scene_transition()
+		_event_background_id = destination if texture != null else ""
+		_bg_img.texture = texture
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+	_refresh_story_paragraph_presentation(source)
+	var new_portrait := _resolved_story_surface_portrait_id()
+	if changed or _portrait_remote_inset != _w82_bus_phone_replies() \
+			or _portrait_frame.visible != (not new_portrait.is_empty()):
+		_show_portrait(new_portrait)
+	BGMPlayer.clear_ambience_immediate()
 
 func _w117_counter_background() -> String:
 	var source := _story_source_paragraph_index(_para_index)
@@ -6368,6 +6424,19 @@ func _refresh_story_paragraph_presentation(
 	var event_id := str(_current.get("id", ""))
 	var call_end_source_index := -1
 	match event_id:
+		W82_HYUNSU_BUS:
+			_current_presentation = DataRegistry.get_story_presentation(event_id).duplicate(true)
+			if _pending_after_result and not _w82_bus_phone_replies():
+				var at_terminal := _w82_bus_result_background(source_paragraph_index) == W82_TERMINAL
+				_current_presentation["channel"] = "in_person" if at_terminal else "narration"
+				_current_presentation["portrait_role"] = "present" if at_terminal else "none"
+				_current_presentation["scene_location"] = _w82_bus_result_background(source_paragraph_index)
+				_current_presentation.erase("state")
+				_current_presentation.erase("remote_actor")
+				_current_presentation.erase("remote_location")
+			_update_communication_badge(str(_current_presentation.get("channel", "")),
+				str(_current_presentation.get("state", "")))
+			return
 		W57_FATHER_MEDICATION:
 			if not _is_w57_medication_scene():
 				return
@@ -6675,6 +6744,7 @@ func _configure_living_scene(event_override: Dictionary = {}) -> void:
 	if not is_instance_valid(_living_scene):
 		return
 	if (_full_w19_reunion or _is_w53_network_scene() or _is_w57_medication_scene() \
+			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty():
 		# A settings or viewport refresh must not infer the meeting in a recap.

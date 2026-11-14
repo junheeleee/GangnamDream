@@ -288,6 +288,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "seoul_bus_terminal_departure": {
+      "environment": "transit",
+      "depth": "mid",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "street_rainy": {
       "environment": "outdoor",
       "depth": "far",
@@ -2417,7 +2425,6 @@
       "arc_why_gangnam_real_father_passed",
       "arc_y1_new_room_first_month",
       "arc_y2_bank_limit_review",
-      "arc_y2_hyunsu_night_bus",
       "arc_y2_relationship_fork_unattached",
       "arc_y2_sangchul_first_favor",
       "arc_y2_worn_face",
@@ -2784,6 +2791,7 @@
       "arc_pre_ending_father_call",
       "arc_sangchul_casino_invite",
       "arc_sangchul_casino_people",
+      "arc_y2_hyunsu_night_bus",
       "arc_y3_cost_of_knowing",
       "arc_y3_father_deferred_call",
       "arc_y3_jiyeon_departure",

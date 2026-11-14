@@ -45,6 +45,7 @@
     "subway_station_coin_lockers": "intentional_silence",
     "seoul_subway_transfer_passage": "intentional_silence",
     "seoul_bus_terminal_night": "highway",
+    "seoul_bus_terminal_departure": "intentional_silence",
     "street_rainy": "rain",
     "sinchon_crash_approach_rain_dusk": "rain",
     "sinchon_crash_impact_rain_dusk": "rain",
@@ -153,6 +154,7 @@
   },
   "event_intents": {
     "event_contract": [
+          "arc_y2_hyunsu_night_bus",
           "amb_hoesik_drink", "anxiety_child_cost_calc", "anxiety_pension_crisis", "arc_1b_isolation",
           "arc_1b_isolation_father_passed", "arc_34_doors_open", "arc_34_money_attracts_money", "arc_34_parents_visit",
           "arc_34_routine_trap", "arc_34_two_years_in", "arc_35_birthday", "arc_35_habit_check",
@@ -285,7 +287,7 @@
           "arc_sangchul_offguard", "arc_social_comparison", "arc_spec_career", "arc_spec_climber_result",
           "arc_spec_elite_result", "arc_spec_found", "arc_spec_invest", "arc_spec_quant_result",
           "arc_spec_social_result", "arc_spec_speculator_result", "arc_spec_tech_result", "arc_temptation_fallout",
-          "arc_y2_hyunsu_night_bus", "arc_y2_sangchul_first_favor", "arc_y2_worn_face", "arc_y3_cost_of_knowing",
+          "arc_y2_sangchul_first_favor", "arc_y2_worn_face", "arc_y3_cost_of_knowing",
           "arc_y3_hyunsu_verdict", "arc_y3_ledger_grind",
           "arc_y3_ledger_kept", "arc_y4_bill_night", "arc_y4_bill_night_unattached",
           "arc_y4_body_witness", "arc_y4_body_witness_hyunsu", "arc_y4_borrowed_name",
@@ -1801,6 +1803,7 @@
     "arc_sangchul_deduction_decision": {"ambience": "current_housing", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_confrontation": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_human": {"ambience": "intentional_silence", "suppress_human_ambience": true, "suppress_season_ambience": true},
+    "arc_y2_hyunsu_night_bus": {"ambience": "intentional_silence", "suppress_human_ambience": true, "suppress_season_ambience": true},
     "arc_sangchul_buried_silence": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_stairwell": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_sangchul_reckoning": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 0}},

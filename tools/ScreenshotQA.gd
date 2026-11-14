@@ -9517,7 +9517,8 @@ func _assert_hyunsu_visual_state(story: Node, event_id: String, selected_choice:
 	var expected_portrait_id := ""
 	match event_id:
 		"arc_y2_hyunsu_night_bus":
-			expected_portrait_id = "hyunsu"
+			if not bool(story.get("_pending_after_result")) or str(story.get("_event_background_id")) == "seoul_bus_terminal_night":
+				expected_portrait_id = "hyunsu"
 		"hyunsu_reunion_later", "hyunsu_reunion_photo", "hyunsu_reunion_memory", "hyunsu_reunion_meet":
 			expected_portrait_id = "hyunsu_accounting"
 		"hyunsu_year4_echo", "hyunsu_year5_call":
@@ -9581,13 +9582,24 @@ func _assert_hyunsu_visual_state(story: Node, event_id: String, selected_choice:
 					or str(BGMPlayer._current_key) != "intimate" \
 					or not (BGMPlayer._player_a.playing or BGMPlayer._player_b.playing):
 				_fail("Hyunsu reunion restaurant did not start its human ambience and intimate score.")
-	if event_id == "arc_y2_hyunsu_night_bus" and selected_choice == 0:
-		var actual_background := str(story.get("_event_background_id"))
-		if actual_background != "seoul_bus_terminal_night":
-			_fail("Hyunsu send-off result expected bus terminal, got %s." % actual_background)
+	if event_id == "arc_y2_hyunsu_night_bus":
+		var expected_background := ImageRegistry.resolve_contextual_background_id("current_housing")
+		var result := bool(story.get("_pending_after_result"))
+		var expect_remote := not result
+		if result:
+			var page := int(story.get("_para_index"))
+			var source := int(story.call("_story_source_paragraph_index", page))
+			var cut := int(story.get("_result_location_cut_page"))
+			if selected_choice == 0:
+				expected_background = "seoul_bus_terminal_night" if source == 0 and cut >= 0 and page >= cut else (
+					"seoul_bus_terminal_departure" if source == 1 else "")
+			elif selected_choice == 1:
+				expect_remote = cut >= 0 and page < cut
+		if str(story.get("_event_background_id")) != expected_background or bool(story.get("_portrait_remote_inset")) != expect_remote:
+			_fail("Hyunsu send-off result did not match its phone, terminal or departure beat.")
 		var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
-		if actual_ambience != "highway":
-			_fail("Hyunsu send-off result expected highway ambience, got %s." % actual_ambience)
+		if not actual_ambience.is_empty():
+			_fail("Hyunsu send-off borrowed another location's ambience: %s." % actual_ambience)
 
 func _assert_cafe_visual_state(story: Node, event_id: String) -> void:
 	var investor_events := [
@@ -19405,7 +19417,9 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 	_prepare_event_visual_qa_state("cafe_peek_01")
 	await _shot_story_event("cafe_peek_01", prefix + "14e_cafe_folder_owner_reveal", "", 0.45, true, false, -1, 1)
 	_prepare_event_visual_qa_state("arc_y2_hyunsu_night_bus")
-	await _shot_story_event("arc_y2_hyunsu_night_bus", prefix + "19a_hyunsu_terminal_result", "", 0.45, true, true, 0)
+	await _shot_story_event("arc_y2_hyunsu_night_bus", prefix + "19a_hyunsu_terminal_result", "", 0.45, true, true, 0, 0, false, 1)
+	_prepare_event_visual_qa_state("arc_y2_hyunsu_night_bus")
+	await _shot_story_event("arc_y2_hyunsu_night_bus", prefix + "19b_hyunsu_window_farewell", "", 0.45, true, true, 0, 0, false, 2)
 	_prepare_event_visual_qa_state("hyunsu_year4_echo")
 	GameState.flags.erase("hyunsu_pivoted")
 	GameState.flags["hyunsu_passed"] = true

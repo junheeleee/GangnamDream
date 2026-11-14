@@ -389,6 +389,7 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/seoul_bus_terminal_night.png`
   - Person-free Seoul intercity terminal at night for the goodbye result of `arc_y2_hyunsu_night_bus`.
   - The coach door faces the curbside platform; vehicle lane, tactile paving, waiting seats, terminal glass, and pedestrian circulation remain physically separate. Keep the right edge readable under Hyunsu's portrait and do not reuse it as an ordinary city bus stop.
+  - `assets/backgrounds/seoul_bus_terminal_departure_v1.png` is the next beat only. The coach still faces the same way, its door is closed, and one hand is seen through its glass; do not use it for arrival or the way back.
 
 - `assets/backgrounds/seoul_bus_stop_wallet.png`
   - One-off rainy Seoul neighborhood bus shelter for `amb_wallet_00`.

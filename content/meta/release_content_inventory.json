@@ -264,9 +264,9 @@
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
     "ending_content_sha256": "bc04931bb7665759dad06c3d26021740db03596d3453ebb9bfa4fecb5bba68e6",
-    "active_art_assets": 307,
-    "source_raster_assets": 366,
-    "packaged_raster_assets": 358,
+    "active_art_assets": 308,
+    "source_raster_assets": 367,
+    "packaged_raster_assets": 359,
     "registry_external_source_raster_assets": 59,
     "registry_external_packaged_raster_assets": 51,
     "source_only_gdignored_raster_assets": 8,
@@ -704,7 +704,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "e0e1c9f46232a74f7f00e61bfcce404da42c8652a53a6942f97b807973ae4aa4"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "59d6dcd18c0cb88d8c70fb0cb41c5ca35a48784aa59fecb56cd53c896edd43df"
       },
       "facts": [
         {

@@ -119,8 +119,8 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - KO/EN 사건: 각각 127파일 · 1813건, ID 일치
 - 패키지 사건: 1813건 · 현재 shipping 사건: 1702건 · author-only reference 원고: 111건
 - KO/EN 엔딩: 각각 35건
-- 활성 스토리 이미지: 307장 · source raster: 366장
-- 게임 pack 대상 raster: 358장 · ImageRegistry 외부 pack 대상: 51장
+- 활성 스토리 이미지: 308장 · source raster: 367장
+- 게임 pack 대상 raster: 359장 · ImageRegistry 외부 pack 대상: 51장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 141개
 - 사건 ID SHA-256: `4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b`
 - KO/EN 엔딩 본문 SHA-256: `bc04931bb7665759dad06c3d26021740db03596d3453ebb9bfa4fecb5bba68e6`
@@ -136,7 +136,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 | 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `c3759975eca6afc72b9b289c1aca1f78e2f0c8e7ca7b512a266c3a8ac88c5200` | mild |
 | 공포 | 141 / 50 | `3840da5f51069b1fe061fbb0f1a375ad618d05379a3e76e8fddfce396e96fe0f` | `ad8fe81e7456fe1821fe14b16f74d9fd2b12041d9cd239e0cfda97a195a3c8d1` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `9483360716d35eb3f28c7d93baf091c6c8f2cd377d37a9e3a4b75252a5cfb64f` | mild |
-| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `e0e1c9f46232a74f7f00e61bfcce404da42c8652a53a6942f97b807973ae4aa4` | moderate, strong |
+| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `59d6dcd18c0cb88d8c70fb0cb41c5ca35a48784aa59fecb56cd53c896edd43df` | moderate, strong |
 | 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `ec102c23928b20a5f510a885d88e8cdeab655485c2a85360713e6dc54951d3a5` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |

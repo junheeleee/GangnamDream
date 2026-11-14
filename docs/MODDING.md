@@ -416,6 +416,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `sangchul_private_dining` | `backgrounds/sangchul_private_dining.png` | 1280x800 |
 | background | `scalping_room` | `backgrounds/scalping_trading_room.png` | 1280x800 |
 | background | `street_rainy_bus_stop_wallet` | `backgrounds/seoul_bus_stop_wallet.png` | 1280x800 |
+| background | `seoul_bus_terminal_departure` | `backgrounds/seoul_bus_terminal_departure_v1.png` | 1584x990 |
 | background | `seoul_bus_terminal_night` | `backgrounds/seoul_bus_terminal_night.png` | 1280x800 |
 | background | `cold_snap_street` | `backgrounds/seoul_cold_snap_street.png` | 1280x800 |
 | background | `street_rainy` | `backgrounds/seoul_rainy_street.png` | 1280x800 |

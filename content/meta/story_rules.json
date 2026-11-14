@@ -3636,6 +3636,16 @@
         "portrait_role": "remote"
       }
     },
+    "arc_y2_hyunsu_night_bus": {
+      "presentation": {
+        "channel": "phone",
+        "state": "connected",
+        "scene_location": "current_housing",
+        "remote_location": "seoul_bus_terminal_night",
+        "remote_actor": "hyunsu",
+        "portrait_role": "remote"
+      }
+    },
     "arc_hyunsu_new_path": {
       "logic": {
         "legacy": {
