@@ -310,16 +310,31 @@ func _play_w220_echo_fixture(language: String, choice_index: int) -> void:
 	await _wait_story_stable()
 	var expected_background := "goshiwon_room" if choice_index == 0 else "cafe"
 	var expected_ambience := "room" if choice_index == 0 else "cafe"
-	_expect(str(_story.get("_event_background_id")) == expected_background,
-		"StoryMode result did not settle at its actual choice location")
-	var story_background := _story.get("_bg_img") as TextureRect
-	var story_texture_path := ""
-	if is_instance_valid(story_background) and story_background.texture != null:
-		story_texture_path = story_background.texture.resource_path
-	_expect(story_texture_path == str(EXACT_PATHS.get(expected_background, "")),
-		"StoryMode result texture did not match its actual choice location")
-	_expect(str(BGMPlayer.get("_current_ambience_key")) == expected_ambience,
-		"StoryMode result ambience did not match its actual choice location")
+	var cut := int(_story.get("_result_location_cut_page"))
+	_expect((choice_index == 0 and cut == -1) or (choice_index == 1 and cut > 0),
+		"W220 arrival boundary missing or applied to the private memo")
+	var result_pages: Array = _story.get("_paragraphs")
+	for page_index in range(result_pages.size()):
+		var arrived := choice_index == 1 and cut > 0 and page_index >= cut
+		var story_place := "cafe" if arrived else "goshiwon_room"
+		var story_background := _story.get("_bg_img") as TextureRect
+		var story_texture_path := ""
+		if is_instance_valid(story_background) and story_background.texture != null:
+			story_texture_path = story_background.texture.resource_path
+		_expect(int(_story.get("_para_index")) == page_index
+			and str(_story.get("_event_background_id")) == story_place
+			and story_texture_path == str(EXACT_PATHS[story_place]),
+			"W220 result texture or timing did not match its current place")
+		_expect(str(BGMPlayer.get("_current_ambience_key")) == ("" if arrived else "room"),
+			"W220 app used the wrong location ambience")
+		if arrived:
+			_expect(str(BGMPlayer.get("_current_human_ambience_key")).is_empty()
+				and str(BGMPlayer.get("_current_season_key")).is_empty(),
+				"W220 cafe retained crowd or season audio")
+		if page_index + 1 < result_pages.size():
+			await _finish_story_page()
+			_story.call("_on_advance")
+			await _wait_story_stable()
 	var record := GameState.get_weekly_commitment_for_turn(220)
 	_expect(not record.is_empty(), "W220 choice did not create a weekly record")
 	_expect(str(record.get("story_event_id", "")) \

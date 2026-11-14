@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/arrival_anchors = {
+"ko": "민서를 부르거나 새 메시지를 보내지 않은 채",
+"en": "Without calling or sending her a new message",
+"ja": "ミンソを呼ばず、新しいメッセージも送らずに",
+"zh-CN": "他没约 Minseo，也没再发消息",
+"zh-TW": "他沒約 Minseo，也沒傳新訊息"
+}

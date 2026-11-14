@@ -64,6 +64,8 @@ const W19_JAEHYUK_REUNION := "arc_jaehyuk_01_reunion"
 const W19_JAEHYUK_CUTS := preload("res://assets/w19_jaehyuk_reunion_cuts.tres")
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
 const W234_SUMMIT_CUTS := preload("res://assets/w234_summit_result_cuts.tres")
+const W220_DEBT_MEMORY := "arc_y5_general_debt_memory_reconnect"
+const W220_CAFE_CUT := preload("res://assets/w220_debt_memory_cafe_cut.tres")
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
@@ -2744,6 +2746,8 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		# message one-shot. Result prose has its own source indices.
 		if result_phase or source_paragraph_index >= 1 or phase == "choices":
 			BGMPlayer.play_scene_paragraph_music(_current, "", 1)
+	elif result_phase and _is_w220_cafe_choice():
+		BGMPlayer.play_scene_paragraph_music(_current, "", 1)
 	elif str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		# Restore the sustained score only if the authored entrance was passed.
 		# No contact, police, or navigation one-shot belongs to resume.
@@ -3356,6 +3360,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == M03_JIYEON_CRASH and choice_index in [0, 2]) \
 		or (event_id == W4_TEMPTATION and choice_index == 1) \
 		or (event_id == W234_SUMMIT and choice_index == 0) \
+		or (event_id == W220_DEBT_MEMORY and choice_index == 1) \
 		or (event_id == M23_MOTHER_CALL and choice_index == 0) \
 		or (event_id == W96_FATHER_VISIT and choice_index == 3) \
 		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
@@ -3415,6 +3420,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		return _story_page_data(_fmt(raw))
 	if event_id == W117_JAEHYUK_COUNTER:
 		var anchors: Dictionary = W117_COUNTER_CUTS.get_meta("arrest_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
+	if event_id == W220_DEBT_MEMORY:
+		var anchors: Dictionary = W220_CAFE_CUT.get_meta("arrival_anchors", {})
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
@@ -5547,13 +5557,18 @@ func _render_current():
 		and str(_pending_restore_context.get("event_id", "")) == W96_FATHER_VISIT \
 		and str(_pending_restore_context.get("phase", "")) == "result" \
 		and int(_pending_restore_context.get("pending_result_choice_index", -1)) == 3
+	var cold_w220_cafe := str(_current.get("id", "")) == W220_DEBT_MEMORY \
+		and str(_pending_restore_context.get("event_id", "")) == W220_DEBT_MEMORY \
+		and str(_pending_restore_context.get("phase", "")) == "result" \
+		and int(_pending_restore_context.get("pending_result_choice_index", -1)) == 1
 	var cold_pitch_result := str(_current.get("id", "")) == M27_JAEHYUK_PITCH \
 		and str(_pending_restore_context.get("event_id", "")) == M27_JAEHYUK_PITCH \
 		and str(_pending_restore_context.get("phase", "")) == "result"
 	var cold_daeun_outside := str(_current.get("id", "")) == "arc_daeun_02_regular" \
 		and str(_pending_restore_context.get("event_id", "")) == "arc_daeun_02_regular" \
 		and str(_pending_restore_context.get("phase", "")) in ["choices", "result"]
-	if _full_w19_reunion or cold_offer_cafe or cold_first_ktx or cold_w96_return or cold_pitch_result or cold_daeun_outside \
+	if _full_w19_reunion or cold_offer_cafe or cold_first_ktx or cold_w96_return \
+			or cold_w220_cafe or cold_pitch_result or cold_daeun_outside \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
@@ -5728,6 +5743,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		return
 	if _pending_after_result and _is_w96_return_choice():
 		_apply_w96_return_surface(play_cut_cue)
+		return
+	if _pending_after_result and _is_w220_cafe_choice():
+		_apply_w220_cafe_surface(play_cut_cue)
 		return
 	if event_id == M23_PARENTS:
 		_apply_m23_parents_surface()
@@ -5929,6 +5947,33 @@ func _apply_w96_return_surface(live_advance: bool) -> void:
 	if at_station:
 		# End the hospital's location sounds, not the continuous authored score.
 		BGMPlayer.clear_ambience_immediate()
+
+func _is_w220_cafe_choice() -> bool:
+	return str(_current.get("id", "")) == W220_DEBT_MEMORY and _pending_result_choice_index == 1
+
+func _apply_w220_cafe_surface(live_advance: bool) -> void:
+	var arrived := _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page
+	var destination := "cafe" if arrived else _resolve_story_background_id("current_housing")
+	if destination != _event_background_id:
+		var path := str(ImageRegistry.BACKGROUNDS.get(destination, ""))
+		if path.is_empty() or not ImageRegistry.has_texture(path):
+			return
+		var texture := ImageRegistry.load_texture(path)
+		if texture == null:
+			return
+		if live_advance:
+			_begin_story_scene_transition("time_cut")
+		else:
+			_finish_story_scene_transition()
+		_bg_img.texture = texture
+		_event_background_id = destination
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+	if arrived:
+		# The generic cafe mix is a bar and pub crowd. Keep only the existing score.
+		BGMPlayer.clear_ambience_immediate()
+	else:
+		BGMPlayer.update_event_ambience(_current, "", destination)
 
 func _apply_first_ktx_result_surface(live_advance: bool) -> void:
 	var stage := _first_ktx_stage(_para_index)
@@ -7187,7 +7232,7 @@ func _apply_choice_result_visual(choice: Dictionary) -> void:
 	# This visit changes location within results, not upon selecting a button.
 	# The prose/result page (also on restore) owns the first visible cut.
 	if str(_current.get("id", "")) in [M23_PARENTS, M27_JAEHYUK_PITCH] \
-			or _is_first_ktx_choice() or _is_w96_return_choice():
+			or _is_first_ktx_choice() or _is_w96_return_choice() or _is_w220_cafe_choice():
 		return
 	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":
