@@ -86,6 +86,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 착수 — `scenes/StoryMode.gd`, `assets/scene_audio_manifest.json`, `tools/scene_audio_contract_check.py`, `tools/StoryBackgroundContextCheck.gd`, 현황·증거·일지. W100 실내에서 겨울 바람/냉장고·이웃·활동 잔향 대신 검증된 중립 실내 녹음 한 겹. 화면은 봉투 읽기·부재 응답·문자 단계를 원문의 두 결과 문단대로 분리, 문자에만 기존 현지화 메시지 표시. 음성사서함은 연결 통화로 표시/연기하지 않음. 기존 그림·대사·발신·응답·음향 파일·게임 상태·5언어·저장·공개 데모 보존. 책상 소품 컷과 W112 연결 시점은 별도 범위.
 
+### W112 빈칸을 앞에 둔 전화
+
+[~] 다음 단위 — W100 커밋 뒤 `scenes/StoryMode.gd`, `content/meta/story_rules.json`, `assets/scene_audio_manifest.json`, `tools/scene_audio_contract_check.py`, `tools/StoryBackgroundContextCheck.gd`, 현황·증거·일지만. 기본 첫 문단은 발신 전, 실제 세 기억 분기의 첫 문단은 발신; 5언어 전부 다음 문단에 세 번째 신호로 연결. 선택 결과 c2 마지막 문단만 명시적 종료. 장소와 민준 초상·기록·텍스트는 그대로, 중립 실내 녹음만. 새 화자/통화음/소품·경로/상태·저장 필드 없음. W100과 같은 파일 수정은 두 단위가 겹치지 않게 순차 적용.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
