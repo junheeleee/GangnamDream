@@ -69,6 +69,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 [x] 진입의 기존 `room` 재현 실패 뒤 수정, 5언어×고시원/원룸×3선택 30경로·격리 v4 재개30. 기존 +6주 예약을 실제 라우터가 한 번 소비, 원래 집 그림·현수 전화 표시와 c0 종료·선택 기록/돈 유지. 냉장고·시계에 물린 옛 원음 대신 기존 중립 룸톤 PCM/루프·사람/기상/곡 없음·전화 효과음 추가0. 자산139 출처·정적 음향·공개 RC 5언어 통과. 엔진 로그/표준 출력 SHA `7d571437210e6641816f81b489498182163ab68291a26252a3fdebfa817538a6`, stderr0, 독립 검수. 실청취·상대편 효과음·새 빌드 검증은 별도.
 
+[~] 후속 — `assets/audio/{sfx_keyboard_phone.wav,sfx_keyboard_phone.wav.import,AUDIO_SOURCE_MANIFEST.json}`, `assets/{game_audio_manifest,scene_audio_manifest}.json`, `autoloads/AudioManager.gd`, `scenes/StoryMode.gd`, `tools/{build_sample_audio_assets.py,audio_source_audit.py,scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`, `content/meta/release_content_inventory.json`의 현행 수치와 생성 보고서, 현황·일지·이 증거만. CC0 기존 키보드 원본/마스터는 보존하고 별도 전화 대역 한 음원을 재현·등록. 도입 0기준 2와 c1 결과 1에서만, 해당 구간 재개·페이지 나눔·언어 전환으로 재생하지 않고 넘어가면 잔향도 중지. 실거처·무음층·정확한 통화 상태·문구·분기·저장/데모 불변. 검증된 프린터 녹음이 없어 이번엔 추가0.
+
 ### 1장 후반 W25~48 블라인드 1차 — 사실 오류와 실제 플레이 대조
 
 [x] 파생 사실만 반영 — `content/meta/release_content_inventory.json`와 `docs/CONTENT_RATING_INVENTORY.md`: W47 연애 후보 재지문(집합 그대로), W28 투자 선택의 `panic sell` 금융 표현 제거로 공포 검색 오탐 1건 감소. 원래 검색 규칙·공시 사실·판정·역사 패키지는 그대로.
