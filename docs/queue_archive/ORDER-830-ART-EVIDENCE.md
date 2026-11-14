@@ -2,6 +2,10 @@
 
 [활성 사양](../queue_active/ORDER-830.md)에서 이관한 원문. 상태와 산출물은 당시의 기록이다.
 
+### W8 불합격 메일·W34~35 편의점 앞
+
+[~] 본편 `arc_job_first_rejection`의 도입 마지막 문단과 c1 `result_text`, `arc_daeun_02_regular` 도입 마지막 한 문장만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/{arc_events,arc_daeun}.json`에서 교열. 지원 회사/메일 원문, 처음이 아닌 세 번째 불합격, 사유 미고지, 6년 공백·한 시간·작은 개선과 기대를 유지한다. 다은에게 조금 더 같이 있자고 말하기 전까지의 망설임으로 읽고, 수락/특정 시간 약속을 앞당기지 않는다. 선택·수치·예약·기억·표시/소리·데모/저장 불변. 기존 번역 지문과 현행 출시 분류 지문(변동 시), 현황/당일 일지와 이 증거만.
+
 ### W193 마지막 해의 계산과 다음 날
 
 [~] `arc_37_reckoning` c1의 `text`·`result_text`와 `arc_final_year_start.description_if_known.final_year_realistic`만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_midgame.json`에서 교열한다. 낮춘 것은 예상 수익률이고 넣은 것은 실제 지출이다. ‘아는 채로 마지막을 산다’·‘도착 가능성’ 대신 무엇을 다시 계산하고 어느 항목이 예상과 다를 수 있는지 직접 쓴다. 결과의 저장 시각, 다음 날 파일·수첩, 목표 도달 가능성이 낮아짐, 실제 선택 효과/다른 분기/예약/공개 데모는 유지. 기존 수용 필드, 현행 사실 원장에 파생 변경이 발생한 항목, 이 증거와 현황·일지만 소유한다.
