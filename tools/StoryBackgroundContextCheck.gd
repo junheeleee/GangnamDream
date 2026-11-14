@@ -10,6 +10,7 @@ const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
 const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W4_EVENT := "arc_temptation_01"
 const W4_ROOM := "goshiwon_room"
+const HYUNSU_CALL := "arc_hyunsu_new_path"
 const W37_FIRST_BILL := "arc_y1_new_room_first_month"
 const DAEUN_AFTERNOON := "arc_daeun_02_regular"
 const DAEUN_EMPTY_STORE := "arc_daeun_02b_dream"
@@ -304,6 +305,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W41_CALL_CHECK"):
+		var call_ok := await _check_hyunsu_call()
+		if call_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w40_w41_hyunsu_call")
+		get_tree().quit(0 if call_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W19_REUNION_CHECK"):
 		var w19_ok := await _check_w19_reunion()
 		if w19_ok:
@@ -434,6 +441,8 @@ func _ready() -> void:
 		_fail("W96 default full-owner smoke failed")
 	if not await _check_daeun_store_audio(true):
 		_fail("Daeun store default full-owner smoke failed")
+	if not await _check_hyunsu_call(true):
+		_fail("Hyunsu call default full-owner smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2061,6 +2070,128 @@ func _daeun_store_surface(background: String, cg: String, fridge: bool, shoppers
 		_fail("Daeun quiet cut kept an unrelated season bed")
 		return false
 	return true
+
+func _check_hyunsu_call(smoke: bool = false) -> bool:
+	var expected_bed := load("res://assets/audio/amb_apartment_room.wav") as AudioStreamWAV
+	var homes: Array = ["gosiwon"] if smoke else ["gosiwon", "oneroom"]
+	var locales: Array = ["ko"] if smoke else W4_TERMS.keys()
+	var cases := 0
+	if expected_bed == null:
+		_fail("Hyunsu call test needs the recorded apartment master")
+		return false
+	for house: String in homes:
+		var turn := 41 if house == "gosiwon" else 40
+		for language: String in locales:
+			for choice: int in ([0] if smoke else [0, 1, 2]):
+				await _remove_story()
+				await _stop_audio()
+				LocaleManager.set_language(language)
+				_context = "%s/W%d/%s/c%d" % [language, turn, house, choice]
+				if not _prepare_full_owner_history(turn, [
+						[25, "hyunsu_exam_day"], [26, "hyunsu_result_fail"], [30, "arc_hyunsu_exam_fail"],
+						[turn - 6, "arc_hyunsu_drift"],
+					]):
+					return false
+				GameState.housing = house
+				# Keep unrelated restoration/first-move scenes out of this isolated
+				# phone fixture; the genuine delayed entry must still be consumed.
+				GameState.flags["arc_goshiwon_goodbye_seen"] = house == "oneroom"
+				GameState.flags["arc_housing_new_life_seen"] = house == "oneroom"
+				var before_money: float = GameState.money
+				var before_seen: int = GameState.events_seen
+				var reserved := GameState.deferred_events.filter(func(entry: Dictionary) -> bool:
+					return entry.get("event_id") == HYUNSU_CALL)
+				if reserved.size() != 1 or int(reserved[0].get("trigger_turn", -1)) != turn \
+						or not EventManager.deferred_event_is_eligible(HYUNSU_CALL):
+					_fail("Hyunsu call did not retain the original W+6 receipt")
+					return false
+				var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+				var selected: String = ingress.call("_next_arc_id", -1, false, true)
+				ingress.free()
+				if selected != HYUNSU_CALL or GameState.has_deferred_event(HYUNSU_CALL):
+					_fail("Hyunsu call was not selected and claimed by the real router: " + selected)
+					return false
+				BGMPlayer.set_ambience("room")
+				BGMPlayer.set_season_ambience("winter")
+				if not BGMPlayer._human_ambience_player.playing or not BGMPlayer._season_player.playing:
+					_fail("Hyunsu call test could not seed the old human and weather layers")
+					return false
+				if not await _open_full_fixture_event(selected, [], true):
+					return false
+				var home := _m23_home_background(house)
+				var authored: Dictionary = DataRegistry.find_event(HYUNSU_CALL)
+				if not await _hyunsu_call_pages(home, expected_bed, -1, str(authored["description"]), 5):
+					return false
+				_story.call("_on_advance")
+				await _wait_stable()
+				if not bool(_story.get("_showing_choices")) or not _hyunsu_call_surface(home, expected_bed, true):
+					return false
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var result_count := 2 if choice == 1 else 3
+				if not await _hyunsu_call_pages(home, expected_bed, choice,
+						str(authored["choices"][choice]["result_text"]), result_count):
+					return false
+				var resume: Dictionary = _story.call("build_save_resume_context")
+				await _stop_audio()
+				if not await _reload_authored_result_context(resume, language, result_count, result_count - 1) \
+						or int(_story.get("_pending_result_choice_index")) != choice \
+						or not _hyunsu_call_surface(home, expected_bed, choice != 0) \
+						or GameState.housing != house or GameState.money != before_money \
+						or GameState.events_seen != before_seen + 1 \
+						or not GameState.flags.get("hyunsu_pivoted", false) \
+						or bool(GameState.flags.get("asked_hyunsu_plan", false)) != (choice == 1) \
+						or GameState.has_deferred_event(HYUNSU_CALL):
+					_fail("Hyunsu isolated re-entry changed room, call state, or choice receipt")
+					return false
+				cases += 1
+	await _remove_story()
+	await _stop_audio()
+	if cases != (1 if smoke else 30) or _failures != 0:
+		return false
+	print("HYUNSU_CALL_QUIET_ROOM_OK paths=%d cold_results=%d real_deferred_ingress=1 neutral_recording=1" % [cases, cases])
+	return true
+
+func _hyunsu_call_pages(home: String, expected_bed: AudioStreamWAV, choice: int,
+		source: String, count: int) -> bool:
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	if int(_story.call("_story_source_paragraph_count")) != count \
+			or not _m23_same_prose(pages, str(_story.call("_fmt", source))):
+		_fail("Hyunsu call lost authored paragraphs")
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		var connected := not (choice == 0 and int(_story.call("_story_source_paragraph_index", page)) >= 2)
+		if int(_story.get("_para_index")) != page or not _hyunsu_call_surface(home, expected_bed, connected):
+			return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	return true
+
+func _hyunsu_call_surface(home: String, expected_bed: AudioStreamWAV, connected: bool) -> bool:
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var badge := _story.get("_communication_badge") as Control
+	var portrait := _story.get("_portrait") as TextureRect
+	var bed := BGMPlayer._ambience_player.stream as AudioStreamWAV
+	var has_cue := AudioManager._story_audio_seen.keys().any(func(key: String) -> bool:
+		return key.begins_with(HYUNSU_CALL + ":"))
+	var valid: bool = _expect_surface(home, "apartment", "Hyunsu call") \
+		and BGMPlayer._ambience_player.playing and bed != null and bed.data == expected_bed.data \
+		and bed.mix_rate == expected_bed.mix_rate and bed.format == expected_bed.format \
+		and bed.stereo == expected_bed.stereo and bed.loop_mode == AudioStreamWAV.LOOP_FORWARD \
+		and not BGMPlayer._human_ambience_player.playing and BGMPlayer._current_human_ambience_key.is_empty() \
+		and not BGMPlayer._season_player.playing and BGMPlayer._current_season_key.is_empty() \
+		and BGMPlayer._current_key.is_empty() and not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing \
+		and not has_cue and badge.visible == connected and bool(_story.get("_portrait_remote_inset")) == connected \
+		and (presentation.get("channel") == "phone") == connected
+	if connected:
+		valid = valid and presentation.get("state") == "connected" and presentation.get("remote_actor") == "hyunsu" \
+			and portrait.visible and portrait.texture != null \
+			and portrait.texture.resource_path == ImageRegistry.get_portrait("hyunsu")
+	if not valid:
+		_fail("Hyunsu call changed the sound, actual house or call boundary: %s" % presentation)
+	return valid
 
 func _check_w37_first_bill() -> bool:
 	var houses := {"oneroom": "apartment", "villa": "apartment", "apartment": "gangnam_apartment"}

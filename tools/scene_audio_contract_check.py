@@ -27,6 +27,7 @@ GOSHIWON_MOVEOUT_AUDIO = {
     "result_paragraph_cues": {"0": {"2": [{"sfx": "traffic_pass", "volume_db": -10.0}]}},
 }
 HYUNSU_DRIFT_EVENT = "arc_hyunsu_drift"
+HYUNSU_CALL_EVENT = "arc_hyunsu_new_path"
 HYUNSU_DRIFT_AUDIO = {
     "ambience": "apartment", "suppress_music": True,
     "suppress_human_ambience": True, "suppress_season_ambience": True,
@@ -434,6 +435,15 @@ def main() -> int:
     if (event_contracts.get(HYUNSU_DRIFT_EVENT) != HYUNSU_DRIFT_AUDIO
             or events.get(HYUNSU_DRIFT_EVENT, {}).get("background") != "current_housing"):
         errors.append(f"{HYUNSU_DRIFT_EVENT}: remote messages keep actual home art and a neutral bed without a phone cue")
+    hyunsu_call = events.get(HYUNSU_CALL_EVENT, {})
+    hyunsu_call_choices = hyunsu_call.get("choices", [])
+    if (event_contracts.get(HYUNSU_CALL_EVENT) != NEUTRAL_HOME_AUDIO
+            or hyunsu_call.get("background") != "current_housing"
+            or not isinstance(hyunsu_call_choices, list) or len(hyunsu_call_choices) != 3
+            or any(not isinstance(row, dict) or any(key in row
+                   for key in ("result_ambience", "result_background", "result_cg"))
+                   for row in [hyunsu_call, *hyunsu_call_choices])):
+        errors.append(f"{HYUNSU_CALL_EVENT}: connected call and all results keep the quiet home without office, weather, or placeholder sounds")
     if W224_CUSTODY_EVENT not in event_contracts:
         errors.append(f"{W224_CUSTODY_EVENT}: missing rear-table audio contract")
     if W230_VERDICT_EVENT not in event_contracts:
