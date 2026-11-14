@@ -193,7 +193,7 @@
 | Background | `assets/backgrounds/convenience_store_exterior_afternoon_v1.png` | `convenience_afternoon_exterior` | 1586x992 | no | `ffe34676416a` | PASS-B | ORDER-547 비저자 원본/KO·EN 크롭: 동일 가게·마른 오후·붉은 의자. native KO 본문/결과 전 확인. |
 | CG | `assets/cg/romance/daeun_regular_bunsik_v1.png` | `cg_daeun_regular_bunsik` | 1280x800 | no | `dda2e6e09a01` | PASS-A | ORDER-547 비저자 원본/KO·EN 크롭: 얼굴·손·상호시선·물컵/계산서 위 UI 경계. native KO 결과 확인. |
 | CG | `assets/cg/romance/daeun_regular_walk_v1.png` | `cg_daeun_regular_walk` | 1280x800 | no | `3e8d87f3695e` | PASS-A | ORDER-547 비저자 원본/KO·EN 크롭: 얼굴·손·알람폰·하천/같은 가게. 가방 하단 UI 뒤, 전량 무가림 주장은 없음. native 선택1 미관측. |
-| CG | `assets/cg/romance/daeun_regular_night_wait_v1.png` | `cg_daeun_regular_night_wait` | 1280x800 | no | `7c043845a0bb` | PASS-A | ORDER-547 비저자 원본/KO·EN 크롭: 민준 단독·얼굴/손·밤 문밖·꿈 후속 원 근무복 복귀. native 선택2 미관측. |
+| CG | `assets/cg/romance/daeun_regular_night_wait_v2.png` | `cg_daeun_regular_night_wait` | 1280x800 | no | `2424bb667cfc` | REPAIRED-A | 문 밖 민준과 유리 안 POS 뒤 근무 중인 다은. 독립 원본 대조 및 실제 KO 선택2의 낮·밤·다음 장면 검수. v1은 이전 원화로 보존. |
 | CG | `assets/cg/demo/daeun_first_kindness_v2.png` | `cg_demo_daeun_first_kindness` | 1280x800 | no | `f3e0f629c069` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/father_first_call_v1.png` | `cg_demo_father_first_call` | 1280x800 | no | `974db28ea9ac` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/demo/first_interview_v1.png` | `cg_demo_first_interview` | 1280x800 | no | `47f49936c3b9` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |

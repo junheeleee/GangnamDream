@@ -265,15 +265,15 @@
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
     "ending_content_sha256": "5ba0e6714ffe43e5b1a1d059988326ff7838e4c23c279c58fa8fb992f6d12d27",
     "active_art_assets": 292,
-    "source_raster_assets": 349,
-    "packaged_raster_assets": 341,
-    "registry_external_source_raster_assets": 57,
-    "registry_external_packaged_raster_assets": 49,
+    "source_raster_assets": 350,
+    "packaged_raster_assets": 342,
+    "registry_external_source_raster_assets": 58,
+    "registry_external_packaged_raster_assets": 50,
     "source_only_gdignored_raster_assets": 8,
-    "registry_external_raster_paths_sha256": "a93f7062709df22d75ac4d9f9e796a2ff82e57914cf50ba7021dbd866df15977",
-    "registry_external_raster_content_sha256": "091552836affac217a74feab657a4bd15b03263e3d901bccd58fd8aa97d8ed4e",
-    "registry_external_packaged_paths_sha256": "24f35dd78275a81d58227d19eb773d7871553e5a3e5c0135860164bf6f41b6c2",
-    "registry_external_packaged_content_sha256": "3febef52ac0df7d4531b4b1caa5c991fc63c1090acfe84c01418b470cf8c00d5",
+    "registry_external_raster_paths_sha256": "6ca03ace4a283498b511ecb7348e3e04f24224316bd9646ff4914ea854e2c990",
+    "registry_external_raster_content_sha256": "1dbf483e3a8d4e0d3746da8f48b47e459110436901d48a2b2f28a746e19556bd",
+    "registry_external_packaged_paths_sha256": "05807b4e6269b2884bd277501121e72beb3db5502755b01a1b2b0f4d53dd22f0",
+    "registry_external_packaged_content_sha256": "9639f9d93837a0daf273fb8a5f2d31e35c4ed7fab0064aa1f55a4bf8d616f251",
     "source_only_gdignored_paths_sha256": "f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4",
     "audio_source_assets": 139
   },
@@ -309,6 +309,12 @@
         "packaged": true,
         "review": "2026-11-14 원본 확인. wedding_daeun_small_v1은 다은 소형 결혼식 입장 와이드의 이전 원화다. 현행 ImageRegistry는 같은 ID의 v2를 가리키지만 v1도 all_resources 패키지 대상이다. 예복·부케·하객 실루엣·빈 좌석이 보이며 나체·성행위·가시적 혈흔/고어·자해·흡연·불법 약물 묘사는 확인되지 않았다. 최종 사람 검토는 별도다.",
         "paths": ["assets/cg/romance/wedding_daeun_small_v1.png"]
+      },
+      {
+        "id": "retained_daeun_regular_night_wait_v1",
+        "packaged": true,
+        "review": "2026-11-14 원본 확인. 이전 편의점 외부 밤 대기 컷은 현행 등록에서 제외했으나 all_resources 패키지에는 보존된다. 평상복 민준과 빈 편의점 계산대가 보이며 나체·성행위·혈흔·자해·약물 묘사는 확인되지 않았다. 최종 사람 검토는 별도다.",
+        "paths": ["assets/cg/romance/daeun_regular_night_wait_v1.png"]
       },
       {
         "id": "packaged_marketing",

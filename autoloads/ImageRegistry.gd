@@ -395,7 +395,7 @@ const CG = {
 	"cg_romance_sea_daeun":    "res://assets/cg/romance/sea_daeun_v3.png",
 	"cg_daeun_regular_bunsik": "res://assets/cg/romance/daeun_regular_bunsik_v1.png",
 	"cg_daeun_regular_walk": "res://assets/cg/romance/daeun_regular_walk_v1.png",
-	"cg_daeun_regular_night_wait": "res://assets/cg/romance/daeun_regular_night_wait_v1.png",
+	"cg_daeun_regular_night_wait": "res://assets/cg/romance/daeun_regular_night_wait_v2.png",
 	"cg_romance_sea_jiyeon":   "res://assets/cg/romance/sea_jiyeon_v2.png",
 	"cg_romance_fireworks_daeun": "res://assets/cg/romance/fireworks_daeun.png",
 	"cg_romance_fireworks_jiyeon": "res://assets/cg/romance/fireworks_jiyeon.png",

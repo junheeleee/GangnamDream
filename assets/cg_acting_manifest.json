@@ -1,6 +1,6 @@
 {
-  "version": 8,
-  "updated": "2026-08-26",
+  "version": 9,
+  "updated": "2026-11-14",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
     "cg_daeun_regular_bunsik": {
@@ -22,11 +22,12 @@
       ]
     },
     "cg_daeun_regular_night_wait": {
-      "path": "assets/cg/romance/daeun_regular_night_wait_v1.png",
-      "camera_role": "observational_single_shot",
-      "story_action": "That night Minjun waits alone outside the same store's glass entrance until customers thin out, with his notebook put away in his pocket; Daeun is not beside him.",
+      "path": "assets/cg/romance/daeun_regular_night_wait_v2.png",
+      "camera_role": "observational_two_plane_shot",
+      "story_action": "That night Minjun waits alone on the pavement with the notebook in his pocket. Daeun is still at work behind the glass, separated by the entrance and counter, before they speak.",
       "actors": [
-        {"id": "minjun", "gaze_target": "The store interior beyond the glass entrance", "pose_support": "His worn black crewneck and still, upright waiting stance stay on the public exterior side; his hands do not reopen the pocketed notebook or claim Daeun's presence."}
+        {"id": "minjun", "gaze_target": "The store interior beyond the glass entrance", "pose_support": "His worn black crewneck and upright waiting stance stay on the public exterior side; his hand stays by the pocketed notebook."},
+        {"id": "daeun", "gaze_target": "The POS register inside the store", "pose_support": "She is small in the far staff pocket, in her beige cardigan and navy work polo, focused on the register with no outward glance or conversation."}
       ]
     },
     "cg_start": {

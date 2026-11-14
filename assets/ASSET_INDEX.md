@@ -804,6 +804,8 @@ weather, romance, and historical portraits remain fixed.
   - T1 Daeun return-bus CG: Daeun sleeps against the window in the same summer outfit while Minjun watches her and the rural-to-Seoul reflection with quiet relief.
   - Approved 1280x800. Shared event-result CG for both dinner choices, revealed only at result paragraph 1; owned by `assets/HOMETOWN_VISUAL_BIBLE.md`.
 
+- `assets/cg/romance/daeun_regular_night_wait_v2.png` (v1 retained)
+  - Night wait choice-result CG: Minjun stays outside and Daeun works behind the glass at the existing POS. Only result paragraph 2 uses it.
 - `assets/cg/romance/proposal_daeun_v1.png`
   - T1 accepted-proposal CG: rainy cafe, one open ring box, Daeun's hand-over-mouth reaction, and mutual off-lens eye line over Minjun's shoulder.
   - Approved 1280x800 choice-result CG, revealed at result paragraph 1 only for the accepted branch.

@@ -14,6 +14,7 @@ const W37_FIRST_BILL := "arc_y1_new_room_first_month"
 const DAEUN_AFTERNOON := "arc_daeun_02_regular"
 const DAEUN_EMPTY_STORE := "arc_daeun_02b_dream"
 const DAEUN_RESULT_CGS := ["cg_daeun_regular_bunsik", "cg_daeun_regular_walk", "cg_daeun_regular_night_wait"]
+const DAEUN_NIGHT_WAIT_ASSET := "res://assets/cg/romance/daeun_regular_night_wait_v2.png"
 const FULL_CHAPTER_WEEKS := {"chapter_card_33": 1, "chapter_card_34": 49, "chapter_card_35": 97,
 	"chapter_card_36": 145, "chapter_card_37": 193}
 const M03_EVENT := "arc_jiyeon_01_crash"
@@ -1919,6 +1920,15 @@ func _check_daeun_store_audio(smoke: bool = false, capture_dir: String = "") -> 
 			or not DirAccess.dir_exists_absolute(capture_dir)):
 		_fail("Daeun dry capture requires a real renderer and an existing output directory")
 		return false
+	if OS.get_environment("GANGNAM_DAEUN_DRY_COMPACT") == "1":
+		# The project stretch otherwise retains a 1280×800 logical canvas.
+		var root := get_tree().root
+		root.content_scale_size = Vector2i(960, 600)
+		root.size = Vector2i(960, 600)
+		await get_tree().process_frame
+		if get_viewport().get_visible_rect().size != Vector2(960, 600):
+			_fail("Daeun compact check did not obtain a 960×600 logical viewport")
+			return false
 	if not _prepare_full_owner_history(35, [[5, "arc_intro_03_sns"], [6, "cafe_00", 2],
 			[8, "arc_job_first_rejection"], [9, "arc_money_check_low"],
 			[10, "arc_rescue_job", 1], [11, "arc_sangchul_01_meet"],
@@ -1974,8 +1984,9 @@ func _check_daeun_store_audio(smoke: bool = false, capture_dir: String = "") -> 
 				if not _daeun_store_surface("convenience_afternoon_exterior", art, false, false):
 					return false
 				await _finish_page()
-				if not capture_dir.is_empty() and revealed and not seen_cut[1]:
-					if not await _save_viewport_frame(capture_dir.path_join("night_waiting_ko.png")):
+				if not capture_dir.is_empty() and not seen_cut[int(revealed)]:
+					var frame := "night_waiting_ko.png" if revealed else "afternoon_before_cut_ko.png"
+					if not await _save_viewport_frame(capture_dir.path_join(frame)):
 						return false
 				if not seen_cut[int(revealed)]:
 					# An inherited bed must not leak on either side of result restore.
@@ -1986,6 +1997,10 @@ func _check_daeun_store_audio(smoke: bool = false, capture_dir: String = "") -> 
 					await _wait_stable()
 					if not _daeun_store_surface("convenience_afternoon_exterior", art, false, false):
 						return false
+					if not capture_dir.is_empty() and revealed:
+						await _finish_page()
+						if not await _save_viewport_frame(capture_dir.path_join("night_waiting_loaded_ko.png")):
+							return false
 					cold += 1
 					seen_cut[int(revealed)] = true
 				if choice != 2 and page == (_story.get("_paragraphs") as Array).size() - 1:
@@ -2037,6 +2052,10 @@ func _daeun_store_surface(background: String, cg: String, fridge: bool, shoppers
 		_fail("Daeun expected %s art and %s/%s bed and people; saw %s/%s" % [
 			cg if not cg.is_empty() else background, bed, human,
 			BGMPlayer._current_ambience_key, BGMPlayer._current_human_ambience_key])
+		return false
+	if cg == DAEUN_RESULT_CGS[2] and (art.resource_path != DAEUN_NIGHT_WAIT_ASSET \
+			or (_story.get("_portrait_frame") as Control).visible):
+		_fail("Daeun night result did not keep both figures solely in the exterior-to-interior CG")
 		return false
 	if not shoppers and (not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing):
 		_fail("Daeun quiet cut kept an unrelated season bed")

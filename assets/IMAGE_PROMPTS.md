@@ -851,6 +851,11 @@ Isolate Daeun's mother in a bride-side reaction shot inside one contemporary Seo
 Isolate the screen-right groom-side front row. In the living-Father state, Minjun's father sits in a dark charcoal formal honju suit and looks screen-left toward the unseen aisle without lens contact. The reconnected state adds only canonical Hyunsu one full row behind Father: youthful stocky build, broad soft round face, full cheeks, low gentle almond eyes, rounded jaw, medium tousled wavy black hair, thin round metal glasses, navy guest suit, white shirt, and muted burgundy tie. His head and pupils turn screen-left toward the unseen bride rather than the lens. In father-passed states, Father's reserved front-row aisle chair is completely empty; the combined state keeps it empty while Hyunsu remains alone behind it. All unnamed guests are low-contrast faceless silhouettes. No generic stocky substitute, sharp or middle-aged face, mother, couple, spouse, child, memorial portrait, ghost, replacement guest, text, logo, or mismatched chair axis.
 ```
 
+### daeun_regular_night_wait_v2.png — 2026-11-14
+
+- 입력: v1 야간 외관은 편집 원본, `assets/characters/npc_romantic_interest.png`는 다은 얼굴·복식 참고만. 내장 이미지 편집 원본 1586×992 `9c31598fb2e9a5b8b30f684f2c2f3865708e96bf1f070a90249ab583a2656acf`; 배포 RGB 1280×800 `2424bb667cfc86e3f75415f1e3dd6b89a2dbcef60ebb2f7ac5b4277a0030d843`.
+- 지시: 같은 마른 밤·같은 창과 매대, 외부에서 수첩을 주머니에 넣고 기다리는 민준 고정. 유리 안 직원 공간에 짧은 머리와 베이지 카디건/남색 근무복의 다은만 작게 넣고 POS를 내려다보게 한다. 눈맞춤·대화·손님·젖은 반사·로고·사진풍 없음. 기존 무광 잉크 톤과 구조를 보존한다. v1 파일 보존.
+
 ### wedding_daeun_small_v2.png — 2026-11-13
 
 - **활성 1280×800**: `assets/cg/romance/wedding_daeun_small_v2.png`. 원본 `exec-5207e74d-4dd9-46d5-ad15-c23ba119122e.png` (1586×992). 이전 v1과 근접 컷은 보존.

@@ -103,9 +103,10 @@ STREET / RAIN
   Daeun's basket and the same store visible in the distance. That single
   continuous corner also supports the final farewell paragraph; no night jump.
 - Notebook result paragraphs 0 and 1 remain in the afternoon. Paragraph 2
-  reveals `daeun_regular_night_wait_v1.png`: Minjun alone outside the same glass
-  entrance at night, notebook in his pocket, waiting for customers to thin out.
-  Daeun is not added beside him. The immediate `arc_daeun_02b_dream` follow-up
+  reveals `daeun_regular_night_wait_v2.png`: Minjun waits alone outside the same
+  glass entrance at night with the notebook in his pocket. Daeun is small in
+  depth at her POS inside, in work clothes, not beside Minjun or looking at him.
+  The immediate `arc_daeun_02b_dream` follow-up
   uses the person-free dry-window night interior
   `convenience_store_night_dry_v1.png` with her existing work portrait at the
   counter. Do not carry rain beads or wet road reflections over from the shared

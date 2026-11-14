@@ -119,8 +119,8 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - KO/EN 사건: 각각 127파일 · 1813건, ID 일치
 - 패키지 사건: 1813건 · 현재 shipping 사건: 1702건 · author-only reference 원고: 111건
 - KO/EN 엔딩: 각각 35건
-- 활성 스토리 이미지: 292장 · source raster: 349장
-- 게임 pack 대상 raster: 341장 · ImageRegistry 외부 pack 대상: 49장
+- 활성 스토리 이미지: 292장 · source raster: 350장
+- 게임 pack 대상 raster: 342장 · ImageRegistry 외부 pack 대상: 50장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
 - 사건 ID SHA-256: `4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b`
 - KO/EN 엔딩 본문 SHA-256: `5ba0e6714ffe43e5b1a1d059988326ff7838e4c23c279c58fa8fb992f6d12d27`
@@ -147,20 +147,21 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - 범죄: `arc_y4_family_partner_collision_jiyeon`
 - 음주·흡연·약물: `arc_36_body_signal`, `arc_year3_close`
 
-## ImageRegistry 외부 source raster 57장
+## ImageRegistry 외부 source raster 58장
 
 `all_resources`라 ImageRegistry 외부 구버전·마케팅·UI raster 중
-49장도 게임 pack 대상이다. 나머지 8장 상점 스크린샷은 `.gdignore` 아래 source-only라 게임 pack에는 없다.
-전체 57장은 원본·접촉표로 에이전트 시각 검토했지만 최종 사람 판정은
+50장도 게임 pack 대상이다. 나머지 8장 상점 스크린샷은 `.gdignore` 아래 source-only라 게임 pack에는 없다.
+전체 58장은 원본·접촉표로 에이전트 시각 검토했지만 최종 사람 판정은
 여전히 `user_required`다. 실제 pack 검사는 대상 raster의 각 `.import`가 가리키는 `.ctex`까지 확인한다.
 
-- 경로 SHA-256: `a93f7062709df22d75ac4d9f9e796a2ff82e57914cf50ba7021dbd866df15977`
-- 경로+파일 SHA-256: `091552836affac217a74feab657a4bd15b03263e3d901bccd58fd8aa97d8ed4e`
-- 실제 pack 대상 외부 raster 경로 SHA-256: `24f35dd78275a81d58227d19eb773d7871553e5a3e5c0135860164bf6f41b6c2`
-- 실제 pack 대상 외부 raster 경로+파일 SHA-256: `3febef52ac0df7d4531b4b1caa5c991fc63c1090acfe84c01418b470cf8c00d5`
+- 경로 SHA-256: `6ca03ace4a283498b511ecb7348e3e04f24224316bd9646ff4914ea854e2c990`
+- 경로+파일 SHA-256: `1dbf483e3a8d4e0d3746da8f48b47e459110436901d48a2b2f28a746e19556bd`
+- 실제 pack 대상 외부 raster 경로 SHA-256: `05807b4e6269b2884bd277501121e72beb3db5502755b01a1b2b0f4d53dd22f0`
+- 실제 pack 대상 외부 raster 경로+파일 SHA-256: `9639f9d93837a0daf273fb8a5f2d31e35c4ed7fab0064aa1f55a4bf8d616f251`
 - `.gdignore` source-only 경로 SHA-256: `f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4`
 - `story_and_legacy` 15장 · 게임 pack 포함 — 원본 해상도와 접촉표에서 나체·성행위·가시적 혈흔/고어·자해·흡연·불법 약물 묘사는 확인되지 않았다. 이전 수영복, 경제적 절망/도박 회복, 상처가 보이지 않는 충돌 구도는 축별 사실에 따로 기록했으며 최종 사용자 검토가 남는다.
 - `retained_wedding_daeun_small_v1` 1장 · 게임 pack 포함 — 2026-11-14 원본 확인. wedding_daeun_small_v1은 다은 소형 결혼식 입장 와이드의 이전 원화다. 현행 ImageRegistry는 같은 ID의 v2를 가리키지만 v1도 all_resources 패키지 대상이다. 예복·부케·하객 실루엣·빈 좌석이 보이며 나체·성행위·가시적 혈흔/고어·자해·흡연·불법 약물 묘사는 확인되지 않았다. 최종 사람 검토는 별도다.
+- `retained_daeun_regular_night_wait_v1` 1장 · 게임 pack 포함 — 2026-11-14 원본 확인. 이전 편의점 외부 밤 대기 컷은 현행 등록에서 제외했으나 all_resources 패키지에는 보존된다. 평상복 민준과 빈 편의점 계산대가 보이며 나체·성행위·혈흔·자해·약물 묘사는 확인되지 않았다. 최종 사람 검토는 별도다.
 - `packaged_marketing` 10장 · 게임 pack 포함 — 패키지에 들어가는 키아트·캡슐·로고에는 별도로 누락된 더 강한 시각 표현이 확인되지 않았으며 최종 사용자 검토가 남는다.
 - `source_only_store_screenshots` 8장 · source-only / 게임 pack 제외 — Steam 마케팅 스크린샷 8장은 assets/store/screenshots/.gdignore 아래라 게임 pack에는 없다. 이미 기록한 대포통장 선택, Moral dark 분위기, 해변 데이트, 엔딩 요약을 되풀이하며 더 강한 누락 표현은 확인되지 않았다. 상점 사용과 최종 사용자 검토는 별도 게이트다.
 - `ui` 14장 · 게임 pack 포함 — UI에는 카드·칩·말 실루엣·시장 캔들·도박 행동 atlas가 있다. 폰 기종 구매는 종료됐고 flagship 셸만 세로 연락폰에 사용하며 starter/refurbished 셸은 all_resources pack의 출처 보존용 미사용 자산이다. 실제 현금 구매/환전이나 성적·약물·폭력 묘사는 확인되지 않았으며 최종 사용자 검토가 남는다.

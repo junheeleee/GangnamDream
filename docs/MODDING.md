@@ -483,7 +483,7 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_romance_cherry_daeun` | `cg/romance/cherry_daeun.png` | 1280x800 |
 | cg | `cg_romance_cherry_jiyeon` | `cg/romance/cherry_jiyeon.png` | 1280x800 |
 | cg | `cg_daeun_regular_bunsik` | `cg/romance/daeun_regular_bunsik_v1.png` | 1280x800 |
-| cg | `cg_daeun_regular_night_wait` | `cg/romance/daeun_regular_night_wait_v1.png` | 1280x800 |
+| cg | `cg_daeun_regular_night_wait` | `cg/romance/daeun_regular_night_wait_v2.png` | 1280x800 |
 | cg | `cg_daeun_regular_walk` | `cg/romance/daeun_regular_walk_v1.png` | 1280x800 |
 | cg | `cg_romance_fireworks_daeun` | `cg/romance/fireworks_daeun.png` | 1280x800 |
 | cg | `cg_romance_fireworks_jiyeon` | `cg/romance/fireworks_jiyeon.png` | 1280x800 |
