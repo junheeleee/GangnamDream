@@ -10,6 +10,8 @@ UID `14029c9` 뒤 세 프로필 모두 실제 새 타이틀과 자동 주 처리
 
 ### M07 현수가 연 문 — 고시원 복도와 시험방
 
+[~] 사용자 실물 지적: v1 문제집이 침대에 비해 과대하고 문턱의 성인 시점이 아니다. 기존 같은 건물 복도의 문·문틀·공용 재질과 고시원 폭/높이를 맞춘 v2 후보만 먼저 검수. 원문의 바닥 문제집은 A4급으로, 서 있는 민준 눈높이에서 방을 본다. 민준 개인 방의 소지품·가구 배치 복사0, v1 실물/판정 보존. 검수 전 제품 경로·저장·원고·음향 변경0.
+
 [~] 사람 없는 현수 시험방 후보 한 컷. 실제 두 저장에서 노출된 `hyunsu_result_fail` 선택0에서 문이 열린 뒤 보이는 문제집을 그린다. 민준의 방과 다른 방, 같은 신촌 고시원 재질. 캔·인물·읽히는 시험지·합격 증거 없음. 후보 검수 전에는 등록·원고·RC·저장 변경0. 선택1의 세면대 장면은 같은 문단의 복도 복귀와 별도 정확한 경계가 필요해 이번 후보에 섞지 않는다.
 
 [~] 검수한 `assets/backgrounds/hyunsu_exam_room_v1.png`와 import, `autoloads/ImageRegistry.gd`, `scenes/StoryMode.gd`의 해당 선택0 결과 문단1 이후만, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{scene_audio_contract_check.py,scene_direction_catalog.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `docs/{MODDING,ART_AI_AUDIT,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, 현황·이 기록만. 복도 도입·선택·문 열림 결과 첫 문단은 기존 그림; 두 갈래와 돌아가기 저장은 보존. 배경음은 다른 방 냉장고·시계와 외부/사람 층 없이 기존 담백한 실내 룸톤. 맞는 사적 방문·캔 녹음이 없어 다른 소리로 때우지 않는다.
