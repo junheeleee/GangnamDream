@@ -64,6 +64,10 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 11-14 KST [~] 통화 집 음향만 선행 수리 — `assets/scene_audio_manifest.json`의 어머니 전화 한 행, `tools/scene_audio_contract_check.py`, `tools/BGMContinuityCheck.gd`의 격리 소음 회귀 한 건, `CLAUDE.md`·당일 WORK_LOG·이 증거만. 집 그림·원문·기존 무음 음악·선택·회수는 그대로. 냉장고/시계/이웃/계절 대신 기존 단일 원음 룸톤, 벨소리 발명0. 역사/객실과 통화 배지 후속 배선은 이 선언에 포함하지 않는다.
 
+후보 독립 GO(제품 배선 전): 외부 `830-first-ktx-art.UNgQPK` 1280×800 두 장. `seoul_station_first_ktx_predawn.png` SHA-256 `f5fc71079390d66f7feb676b5b44aab5a3ba97354ce9c9ce109874217bd60c56` — 눈·비 없는 새벽, 닫힌 열차와 대기 승강장. `ktx_changwon_first_train_predawn.png` SHA-256 `1d45394e080671c3a836617f704e6466148d3afcf6378b9d360a52a9a02332b9` — 움직이는 늦가을 바깥, 객실·좌석과 어두운 여명, 손/인물/비/문자 없음. KTX의 적합한 원음·실화면 미완.
+
+집 음향 배선: 기존 단일-source `amb_apartment_room.wav`만, 사람·계절·음악 억제. 이전 이웃과 겨울 레이어를 실제로 재생한 뒤 고시원/원룸/아파트 세 설정에서 즉시 꺼지고 중립 룸톤이 유지되는 격리 Godot 표적 확인, 새 소리·효과0. 종료 ObjectDB 경고 한 건, 스크립트/런타임 오류0. 원문·선택 효과·후속 예약·사용자 저장 변경0. 자동 믹서 상태이며 실청취가 아니다.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`

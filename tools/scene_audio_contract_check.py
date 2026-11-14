@@ -64,6 +64,13 @@ M23_PARENTS_AUDIO = {
     "suppress_human_ambience": True,
     "suppress_season_ambience": True,
 }
+M23_MOTHER_CALL_EVENT = "arc_father_03_hospital"
+M23_MOTHER_CALL_AUDIO = {
+    "ambience": "apartment",
+    "suppress_music": True,
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+}
 DEMO_EVENT_IDS = set("""
 story_flashforward story_arrival story_knee_door story_knee_witness
 story_knee_choice story_last_payment_wait story_last_payment_word
@@ -262,6 +269,9 @@ def main() -> int:
 
     if M14_BANK_EVENT not in event_contracts:
         errors.append(f"{M14_BANK_EVENT}: missing bank audio contract")
+    if (event_contracts.get(M23_MOTHER_CALL_EVENT) != M23_MOTHER_CALL_AUDIO
+            or "apartment" not in ambience_keys):
+        errors.append(f"{M23_MOTHER_CALL_EVENT}: retain only neutral room tone without added cues or score")
     if events.get(M14_BANK_EVENT, {}).get("background") != M14_BANK_BACKGROUNDS[0] or any(
         manifest.get("background_profiles", {}).get(background) != "intentional_silence"
         for background in M14_BANK_BACKGROUNDS

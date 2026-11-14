@@ -1645,7 +1645,12 @@
       }
     },
     "arc_y2_relationship_fork_unattached": {"ambience": "current_housing", "suppress_music": true},
-    "arc_father_03_hospital": {"ambience": "current_housing", "suppress_music": true},
+    "arc_father_03_hospital": {
+      "ambience": "apartment",
+      "suppress_music": true,
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true
+    },
     "arc_sangchul_mirror": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 3}},
     "arc_sangchul_mirror_receipt": {"ambience": "street", "music": {"key": "reckoning", "start_paragraph": 0}},
     "arc_career_ceiling": {"ambience": "current_workplace", "music": {"key": "reckoning", "start_paragraph": 0}},

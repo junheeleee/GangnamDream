@@ -2,6 +2,14 @@ extends Node
 ## BGMContinuityCheck — 기본 베드=장소/계절, 음악=정점 구두점이라는 규칙을 잠근다.
 
 func _ready() -> void:
+	if OS.has_environment("GANGNAM_MOTHER_CALL_AUDIO_CHECK"):
+		var quiet_home := await _check_mother_call_home_audio()
+		if quiet_home:
+			BGMPlayer.clear_ambience_immediate()
+			await get_tree().process_frame
+			print("MOTHER_CALL_AUDIO_OK housing=3 immediate_human_and_season_stop=true")
+		get_tree().quit(0 if quiet_home else 1)
+		return
 	if OS.has_environment("GANGNAM_WEDDING_AUDIO_OUT"):
 		await _capture_wedding_audio()
 		return
@@ -408,6 +416,8 @@ func _ready() -> void:
 	if not await _check_retiring_human_ambience():
 		return
 	if not await _check_daeun_newlywed_room_tone():
+		return
+	if not await _check_mother_call_home_audio():
 		return
 	if not await _check_mother_table_audio():
 		return
@@ -1230,6 +1240,47 @@ func _check_daeun_newlywed_room_tone() -> bool:
 				_fail("newlywed morning CG replaced or restarted the dry room tone")
 				return false
 	BGMPlayer.restore_ambience()
+	return true
+
+
+func _check_mother_call_home_audio() -> bool:
+	var saved_housing: String = GameState.housing
+	var saved_month: int = GameState.month
+	var event: Dictionary = DataRegistry.find_event("arc_father_03_hospital")
+	var stream: AudioStream = BGMPlayer._load_ambience("apartment")
+	if event.is_empty() or stream == null or stream == BGMPlayer._load_ambience("room") \
+			or stream == BGMPlayer._load_ambience("oneroom"):
+		_fail("mother call must own a distinct neutral room recording")
+		return false
+	GameState.month = 11
+	for housing in ["gosiwon", "oneroom", "apartment"]:
+		GameState.housing = housing
+		BGMPlayer.enter_ambient_bed(0.0)
+		BGMPlayer.set_ambience("room")
+		BGMPlayer.set_season_ambience("winter")
+		if not BGMPlayer._human_ambience_player.playing or not BGMPlayer._season_player.playing:
+			_fail("mother call fixture failed to seed old neighboring and winter sounds")
+			return false
+		BGMPlayer.update_event_ambience(event)
+		BGMPlayer.begin_story_event(event)
+		BGMPlayer.play_scene_paragraph_music(event, "", 0)
+		if BGMPlayer._current_ambience_key != "apartment" \
+				or BGMPlayer._ambience_player.stream != stream \
+				or not BGMPlayer._ambience_player.playing \
+				or not BGMPlayer._current_human_ambience_key.is_empty() \
+				or BGMPlayer._human_ambience_player.playing \
+				or not BGMPlayer._current_season_key.is_empty() \
+				or BGMPlayer._season_player.playing \
+				or not BGMPlayer._current_key.is_empty():
+			_fail("mother call carried a wrong room, voice, weather or score: " + housing)
+			return false
+	await get_tree().create_timer(0.65).timeout
+	if BGMPlayer._ambience_player.stream != stream or not BGMPlayer._ambience_player.playing \
+			or BGMPlayer._human_ambience_player.playing or BGMPlayer._season_player.playing:
+		_fail("mother call room tone did not survive the previous fade")
+		return false
+	GameState.housing = saved_housing
+	GameState.month = saved_month
 	return true
 
 
