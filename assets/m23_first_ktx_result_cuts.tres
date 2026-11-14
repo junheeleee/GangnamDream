@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/anchors = {
+"ko": ["새벽 다섯 시 서울역.", "기차 안에서"],
+"en": ["5 a.m. from Seoul Station.", "On the train"],
+"ja": ["明け方五時、ソウル駅。", "列車の中で"],
+"zh-CN": ["凌晨五点，首尔站。", "在列车上"],
+"zh-TW": ["凌晨五點，首爾站。", "在列車上"]
+}

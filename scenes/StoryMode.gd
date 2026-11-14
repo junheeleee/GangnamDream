@@ -43,6 +43,10 @@ const M23_PARENTS_CUTS := preload("res://assets/m23_parents_visit_cuts.tres")
 const M23_STATION := "seoul_station_parents_concourse"
 const M23_STATION_GATE := "seoul_station_parents_ticket_gate"
 const M23_FOOD_BAG := "parents_visit_food_bag_in_transit"
+const M23_MOTHER_CALL := "arc_father_03_hospital"
+const M23_FIRST_KTX_CUTS := preload("res://assets/m23_first_ktx_result_cuts.tres")
+const M23_FIRST_KTX_STATION := "seoul_station_first_ktx_predawn"
+const M23_FIRST_KTX_CABIN := "ktx_changwon_first_train_predawn"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -83,6 +87,7 @@ var _current: Dictionary = {}   # 현재 이벤트
 var _paragraphs: Array = []     # 화면 높이에 맞춰 나눈 현재 이벤트 본문 페이지
 var _paragraph_source_indices: Array = []  # 각 페이지가 속한 원문 문단 번호
 var _result_location_cut_page := -1
+var _first_ktx_cut_pages: Array = []
 var _para_index: int = 0
 var _typing: bool = false
 var _type_full: String = ""     # 현재 문단 전체 텍스트
@@ -2683,8 +2688,9 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_para_index = int(restored_position.get("page_index", 0))
 		restored_type_ratio = clampf(
 			float(restored_position.get("type_ratio", restored_type_ratio)), 0.0, 1.0)
-		if _result_location_cut_page >= 0 \
-				and (result_phase or str(_current.get("id", "")) == M23_PARENTS):
+		var first_ktx_result := result_phase and not _first_ktx_cut_pages.is_empty()
+		if first_ktx_result or (_result_location_cut_page >= 0 \
+				and (result_phase or str(_current.get("id", "")) == M23_PARENTS)):
 			var saved_page := int(context.get("paragraph_index", -1))
 			var saved_ratio: float = clampf(float(context.get("paragraph_type_ratio", 1.0)), 0.0, 1.0)
 			if saved_locale == LocaleManager.language and saved_page >= 0 \
@@ -2695,7 +2701,8 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 				_para_index = saved_page
 				restored_type_ratio = saved_ratio
 			elif saved_locale != LocaleManager.language \
-					and saved_source == _story_source_paragraph_index(_result_location_cut_page):
+					and (first_ktx_result \
+						or saved_source == _story_source_paragraph_index(_result_location_cut_page)):
 				# A different translation can put the cut at a different ratio.
 				_para_index = _first_story_page_for_source(saved_source)
 				restored_type_ratio = 0.0
@@ -3319,6 +3326,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == M03_JIYEON_CRASH and choice_index in [0, 2]) \
 		or (event_id == W4_TEMPTATION and choice_index == 1) \
 		or (event_id == W234_SUMMIT and choice_index == 0) \
+		or (event_id == M23_MOTHER_CALL and choice_index == 0) \
 		or (event_id == M23_PARENTS and choice_index == 1)
 
 func _resolved_story_prose_pages() -> Dictionary:
@@ -3339,6 +3347,8 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 	var event_id := str(_current.get("id", ""))
 	if not _has_result_location_cut(event_id, choice_index):
 		return _story_page_data(_fmt(raw))
+	if event_id == M23_MOTHER_CALL:
+		return _first_ktx_result_pages(_fmt(raw))
 	if event_id == M23_PARENTS:
 		var ride_anchors: Dictionary = M23_PARENTS_CUTS.get_meta("ride_anchors", {})
 		if raw.split("\n\n").size() == 3:
@@ -3411,6 +3421,50 @@ func _split_formatted_story_page(prose: String, source_index: int, anchor: Strin
 				indices.append(i)
 	return {"pages": pages, "source_indices": indices, "result_location_cut_page": cut_page}
 
+func _first_ktx_result_pages(prose: String) -> Dictionary:
+	var anchors_by_locale: Dictionary = M23_FIRST_KTX_CUTS.get_meta("anchors", {})
+	var anchors: Array = anchors_by_locale.get(LocaleManager.language, [])
+	if anchors.size() != 2 or prose.split("\n\n").size() != 1:
+		return _story_page_data(prose)
+	var station := str(anchors[0])
+	var cabin := str(anchors[1])
+	var station_at := prose.find(station)
+	var cabin_at := prose.find(cabin)
+	if station_at <= 0 or cabin_at < station_at + station.length() \
+			or prose.count(station) != 1 or prose.count(cabin) != 1:
+		return _story_page_data(prose)
+	# These are three presentation beats of the same authored source paragraph.
+	var parts := [prose.substr(0, station_at), prose.substr(station_at, cabin_at - station_at),
+		prose.substr(cabin_at)]
+	var pages: Array = []
+	var cuts: Array = []
+	var source_indices: Array = []
+	for part in parts:
+		if not pages.is_empty():
+			cuts.append(pages.size())
+		for page in _paginate_story_paragraph(str(part).strip_edges()):
+			pages.append(page)
+			source_indices.append(0)
+	return {"pages": pages, "source_indices": source_indices, "first_ktx_cut_pages": cuts}
+
+func _first_ktx_stage(page_index: int) -> int:
+	var stage := 0
+	for cut in _first_ktx_cut_pages:
+		if page_index >= int(cut):
+			stage += 1
+	return stage
+
+func _first_ktx_stage_limits(stage: int) -> Vector2i:
+	var first := 0 if stage == 0 else int(_first_ktx_cut_pages[stage - 1])
+	var last := _paragraphs.size() - 1 if stage == _first_ktx_cut_pages.size() \
+		else int(_first_ktx_cut_pages[stage]) - 1
+	return Vector2i(first, last)
+
+func _first_ktx_phase_progress(stage: int) -> Vector2:
+	var limits := _first_ktx_stage_limits(stage)
+	return Vector2(_story_source_page_progress(limits.x, 0.0),
+		_story_source_page_progress(limits.y, 1.0))
+
 func _restore_localized_story_text(
 		page_data: Dictionary,
 		source_paragraph_index: int,
@@ -3423,7 +3477,15 @@ func _restore_localized_story_text(
 	var old_after_cut := old_cut >= 0 and _para_index >= old_cut
 	var old_source := _story_source_paragraph_index(_para_index)
 	var old_cut_progress := _story_source_page_progress(old_cut, 0.0) if old_cut >= 0 else 0.0
+	var ktx_stage := -1 if _first_ktx_cut_pages.is_empty() else _first_ktx_stage(_para_index)
+	var old_ktx_range := _first_ktx_phase_progress(ktx_stage) if ktx_stage >= 0 else Vector2.ZERO
 	_apply_story_page_data(page_data)
+	var preserve_ktx_stage := ktx_stage >= 0 and not _first_ktx_cut_pages.is_empty()
+	if preserve_ktx_stage:
+		var new_ktx_range := _first_ktx_phase_progress(ktx_stage)
+		var local_progress := clampf(inverse_lerp(old_ktx_range.x, old_ktx_range.y,
+			source_page_progress), 0.0, 1.0)
+		source_page_progress = lerpf(new_ktx_range.x, new_ktx_range.y, local_progress)
 	var preserve_cut_side := old_cut >= 0 and _result_location_cut_page >= 0 \
 		and old_source == source_paragraph_index \
 		and source_paragraph_index == _story_source_paragraph_index(_result_location_cut_page)
@@ -3442,6 +3504,15 @@ func _restore_localized_story_text(
 	_para_index = int(restored_position.get("page_index", 0))
 	var localized_type_ratio := clampf(
 		float(restored_position.get("type_ratio", type_ratio)), 0.0, 1.0)
+	if preserve_ktx_stage:
+		# At an exact cut the generic progress lookup can return the prior page.
+		var limits := _first_ktx_stage_limits(ktx_stage)
+		if _para_index < limits.x:
+			_para_index = limits.x
+			localized_type_ratio = 0.0
+		elif _para_index > limits.y:
+			_para_index = limits.y
+			localized_type_ratio = 1.0
 	if preserve_cut_side and old_after_cut != (_para_index >= _result_location_cut_page):
 		_para_index = _result_location_cut_page if old_after_cut else _result_location_cut_page - 1
 		localized_type_ratio = 0.0 if old_after_cut else 1.0
@@ -4432,6 +4503,8 @@ func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
 		else _resolved_event_portrait_id()
 
 func _resolved_story_surface_portrait_id() -> String:
+	if _is_first_ktx_choice() and _pending_after_result and _first_ktx_stage(_para_index) > 0:
+		return ""
 	if str(_current.get("id", "")) == M23_PARENTS and _event_background_id == M23_FOOD_BAG:
 		return ""
 	if _pending_after_result and _pending_result_choice_index >= 0:
@@ -4718,6 +4791,7 @@ func _story_page_data(text: String) -> Dictionary:
 
 func _apply_story_page_data(page_data: Dictionary) -> void:
 	_result_location_cut_page = int(page_data.get("result_location_cut_page", -1))
+	_first_ktx_cut_pages = (page_data.get("first_ktx_cut_pages", []) as Array).duplicate()
 	_paragraphs = (page_data.get("pages", [""]) as Array).duplicate()
 	_paragraph_source_indices = (
 		page_data.get("source_indices", [0]) as Array).duplicate()
@@ -5369,7 +5443,11 @@ func _render_current():
 		and str(_pending_restore_context.get("event_id", "")) == SINCHON_OFFER \
 		and str(_pending_restore_context.get("phase", "")) == "result" \
 		and int(_pending_restore_context.get("pending_result_choice_index", -1)) == 1
-	if cold_offer_cafe:
+	var cold_first_ktx := str(_current.get("id", "")) == M23_MOTHER_CALL \
+		and str(_pending_restore_context.get("event_id", "")) == M23_MOTHER_CALL \
+		and str(_pending_restore_context.get("phase", "")) == "result" \
+		and int(_pending_restore_context.get("pending_result_choice_index", -1)) == 0
+	if cold_offer_cafe or cold_first_ktx:
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
 			and not _current_uses_cg and not has_authored_ambience:
@@ -5518,6 +5596,9 @@ func _is_w234_boulevard_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if _pending_after_result and _is_first_ktx_choice():
+		_apply_first_ktx_result_surface(play_cut_cue)
+		return
 	if event_id == M23_PARENTS:
 		_apply_m23_parents_surface()
 		return
@@ -5579,6 +5660,38 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 			AudioManager.play("traffic_pass", -10.0)
 	else:
 		BGMPlayer.update_event_ambience(_current, "", background_id)
+
+func _is_first_ktx_choice() -> bool:
+	return str(_current.get("id", "")) == M23_MOTHER_CALL and _pending_result_choice_index == 0
+
+func _apply_first_ktx_result_surface(live_advance: bool) -> void:
+	var stage := _first_ktx_stage(_para_index)
+	var destination := _resolve_story_background_id("current_housing")
+	if stage == 1:
+		destination = M23_FIRST_KTX_STATION
+	elif stage == 2:
+		destination = M23_FIRST_KTX_CABIN
+	if stage == 0:
+		# Also starts the room tone when a cold result resumes at the booking.
+		BGMPlayer.update_event_ambience(_current, "", destination)
+	if destination == _event_background_id:
+		return
+	var texture := ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+	if texture == null:
+		return
+	if live_advance:
+		_begin_story_scene_transition("explicit_move")
+	else:
+		_finish_story_scene_transition()
+	_bg_img.texture = texture
+	_event_background_id = destination
+	_apply_story_surface_palette(false)
+	_refresh_story_paragraph_presentation(0)
+	_configure_living_scene()
+	if stage > 0:
+		# Do not carry room tone (or fading music) outside. No substitute rail audio.
+		BGMPlayer.clear_ambience_immediate()
+		BGMPlayer.enter_ambient_bed(0.0)
 
 func _apply_m23_parents_surface() -> void:
 	var source_index := _story_source_paragraph_index(_para_index)
@@ -5701,6 +5814,10 @@ func _refresh_story_paragraph_presentation(
 	var event_id := str(_current.get("id", ""))
 	var call_end_source_index := -1
 	match event_id:
+		M23_MOTHER_CALL:
+			if not _pending_after_result or not _is_first_ktx_choice():
+				return
+			call_end_source_index = 0
 		"arc_hyunsu_new_path":
 			if _pending_result_choice_index == 0:
 				call_end_source_index = 2
@@ -5719,6 +5836,11 @@ func _refresh_story_paragraph_presentation(
 		presentation["state"] = ""
 		presentation["portrait_role"] = "none"
 		presentation["nameplate_role"] = "hidden"
+		if event_id == M23_MOTHER_CALL:
+			presentation.erase("remote_actor")
+			presentation.erase("remote_location")
+			if _first_ktx_stage(_para_index) == 0:
+				presentation["portrait_role"] = "local"
 	if not force_refresh and presentation == _current_presentation:
 		return
 	_current_presentation = presentation
@@ -6733,7 +6855,7 @@ func _choice_result_background_id(choice: Dictionary) -> String:
 func _apply_choice_result_visual(choice: Dictionary) -> void:
 	# This visit changes location within results, not upon selecting a button.
 	# The prose/result page (also on restore) owns the first visible cut.
-	if str(_current.get("id", "")) == M23_PARENTS:
+	if str(_current.get("id", "")) == M23_PARENTS or _is_first_ktx_choice():
 		return
 	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":

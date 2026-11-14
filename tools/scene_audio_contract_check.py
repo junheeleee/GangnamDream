@@ -65,6 +65,8 @@ M23_PARENTS_AUDIO = {
     "suppress_season_ambience": True,
 }
 M23_MOTHER_CALL_EVENT = "arc_father_03_hospital"
+M23_FIRST_KTX_PLATFORM = "seoul_station_first_ktx_predawn"
+M23_FIRST_KTX_CABIN = "ktx_changwon_first_train_predawn"
 M23_MOTHER_CALL_AUDIO = {
     "ambience": "apartment",
     "suppress_music": True,
@@ -272,6 +274,15 @@ def main() -> int:
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != M23_MOTHER_CALL_AUDIO
             or "apartment" not in ambience_keys):
         errors.append(f"{M23_MOTHER_CALL_EVENT}: retain only neutral room tone without added cues or score")
+    mother_call = events.get(M23_MOTHER_CALL_EVENT, {})
+    mother_choices = mother_call.get("choices", [])
+    first_ktx = mother_choices[0] if isinstance(mother_choices, list) and mother_choices else {}
+    first_ktx_profiles = manifest.get("background_profiles", {})
+    if (not isinstance(first_ktx, dict) or first_ktx.get("result_background") != M23_FIRST_KTX_CABIN
+            or "result_ambience" in first_ktx or "result_ambience" in mother_call
+            or any(first_ktx_profiles.get(background) != "intentional_silence"
+                   for background in (M23_FIRST_KTX_PLATFORM, M23_FIRST_KTX_CABIN))):
+        errors.append(f"{M23_MOTHER_CALL_EVENT}: first KTX platform and cabin must not borrow a train or room bed")
     if events.get(M14_BANK_EVENT, {}).get("background") != M14_BANK_BACKGROUNDS[0] or any(
         manifest.get("background_profiles", {}).get(background) != "intentional_silence"
         for background in M14_BANK_BACKGROUNDS

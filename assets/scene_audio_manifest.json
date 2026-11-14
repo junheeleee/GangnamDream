@@ -99,6 +99,8 @@
     "seoul_station_parents_concourse": "intentional_silence",
     "seoul_station_parents_ticket_gate": "intentional_silence",
     "parents_visit_food_bag_in_transit": "intentional_silence",
+    "seoul_station_first_ktx_predawn": "intentional_silence",
+    "ktx_changwon_first_train_predawn": "intentional_silence",
     "ktx_window": "train",
     "regional_train_window": "train",
     "daeun_mother_home_dining": "family_home",

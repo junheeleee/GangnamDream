@@ -28,6 +28,15 @@ const OFFER_FOLLOW_UP := "callback_jiyeon_honest_referral"
 const OFFER_BRANCH_FLAGS := ["jiyeon_refused_coffee", "jiyeon_had_coffee", "jiyeon_honest"]
 const M23_PARENTS := "arc_34_parents_visit"
 const M23_CALL := "arc_father_03_hospital"
+const M23_KTX_STATION := "seoul_station_first_ktx_predawn"
+const M23_KTX_COACH := "ktx_changwon_first_train_predawn"
+const M23_KTX_ANCHORS := {
+	"ko": ["새벽 다섯 시 서울역.", "기차 안에서"],
+	"en": ["5 a.m. from Seoul Station.", "On the train"],
+	"ja": ["明け方五時、ソウル駅。", "列車の中で"],
+	"zh-CN": ["凌晨五点，首尔站。", "在列车上"],
+	"zh-TW": ["凌晨五點，首爾站。", "在列車上"],
+}
 const M23_CONCOURSE := "seoul_station_parents_concourse"
 const M23_GATE := "seoul_station_parents_ticket_gate"
 const M23_BAG := "parents_visit_food_bag_in_transit"
@@ -163,6 +172,8 @@ const EXACT_PATHS := {
 	M23_GATE: "res://assets/backgrounds/seoul_station_parents_ticket_gate.png",
 	M23_BAG: "res://assets/backgrounds/parents_visit_food_bag_in_transit.png",
 	M23_RESTAURANT: "res://assets/backgrounds/restaurant_korean.png",
+	M23_KTX_STATION: "res://assets/backgrounds/seoul_station_first_ktx_predawn.png",
+	M23_KTX_COACH: "res://assets/backgrounds/ktx_changwon_first_train_predawn.png",
 	"hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
 	"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",
@@ -210,6 +221,7 @@ var _w8_capture_start_msec := 0
 var _w8_capture_shots := 0
 var _offer_capture_dir := ""
 var _m23_capture_dir := ""
+var _first_ktx_capture_dir := ""
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -232,6 +244,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_FIRST_KTX_CHECK"):
+		var ktx_ok := await _check_first_ktx()
+		if ktx_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=first_ktx")
+		get_tree().quit(0 if ktx_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_M23_PARENTS_CHECK"):
 		var m23_ok := await _check_m23_parents()
 		if m23_ok:
@@ -283,6 +301,8 @@ func _ready() -> void:
 			await _play_w4_case(language, choice_index, true)
 		for choice_index in range(2):
 			await _play_w234_case(language, choice_index)
+	if not await _check_first_ktx(true):
+		_fail("first KTX default full-owner smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -983,7 +1003,7 @@ func _m23_selector() -> bool:
 		_fail("M23 W89-92 route or its actual predecessor/death boundary failed")
 	return eligible
 
-func _play_m23_parents(low: bool, choice: int, housing: String) -> bool:
+func _play_m23_parents(low: bool, choice: int, housing: String, verify_resume: bool = true) -> bool:
 	if not await _open_full_fixture_event(M23_PARENTS):
 		return false
 	var event: Dictionary = _story.get("_current")
@@ -1021,10 +1041,10 @@ func _play_m23_parents(low: bool, choice: int, housing: String) -> bool:
 			or not _m23_surface(M23_RESTAURANT, housing):
 		_fail("M23 expected both choices in the restaurant")
 		return false
-	if _m23_capture_dir.is_empty():
-		if not await _reload_prechoice("choices", M23_PARENTS) or not _m23_surface(M23_RESTAURANT, housing):
-			return false
-	elif choice == 0 and not await _save_m23_frame("%s_choices" % tag):
+	if verify_resume and _m23_capture_dir.is_empty() \
+			and (not await _reload_prechoice("choices", M23_PARENTS) or not _m23_surface(M23_RESTAURANT, housing)):
+		return false
+	if not _m23_capture_dir.is_empty() and choice == 0 and not await _save_m23_frame("%s_choices" % tag):
 		return false
 	var expected_state := [float(GameState.money) - (80_000.0 if choice == 0 else 0.0),
 		GameState.mental + (4 if choice == 0 else 2), GameState.social_skill + (1 if choice == 0 else 0),
@@ -1165,6 +1185,270 @@ func _save_m23_frame(label: String) -> bool:
 			return await _save_viewport_frame(_m23_capture_dir.path_join(label + ".png"))
 		await get_tree().process_frame
 	_fail("M23 did not settle portrait for capture")
+	return false
+
+func _check_first_ktx(smoke: bool = false) -> bool:
+	_first_ktx_capture_dir = "" if smoke else OS.get_environment("GANGNAM_FIRST_KTX_CAPTURE_DIR")
+	var capture := not _first_ktx_capture_dir.is_empty()
+	var languages := ["ko"] if smoke else M23_KTX_ANCHORS.keys()
+	if capture:
+		var language := OS.get_environment("GANGNAM_FIRST_KTX_CAPTURE_LANGUAGE")
+		var output := DirAccess.open(_first_ktx_capture_dir) if _first_ktx_capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or not M23_KTX_ANCHORS.has(language) or DisplayServer.get_name() == "headless":
+			_fail("first KTX capture requires fresh absolute output, known locale and real display")
+			return false
+		languages = [language]
+		OS.low_processor_usage_mode = false
+	await _remove_story()
+	await _stop_audio()
+	_context = "first_ktx/prepare"
+	if not _prepare_full_owner_history(89, [[14, "arc_father_01_call"], [21, "arc_father_02_signal"],
+			[49, "chapter_card_34"], [57, "arc_father_medication"]]) or not _m23_selector():
+		_fail("first KTX could not prepare the actual parents-to-call owner")
+		return false
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var paths := 0
+	for language in languages:
+		await _remove_story()
+		LocaleManager.set_language(language)
+		GameState.call("_restore_serialized_snapshot_exact", prepared)
+		GameState.mental = 60
+		GameState.money = 600_000.0
+		GameState.moral_tint = 0.0
+		var housing: String = M23_HOUSING[M23_KTX_ANCHORS.keys().find(language) % M23_HOUSING.size()]
+		GameState.housing = housing
+		_context = "%s/first_ktx/%s" % [language, housing]
+		if not await _play_m23_parents(false, int(language in ["ja", "zh-TW"]), housing, false) \
+				or not await _read_first_ktx(housing, capture, smoke):
+			_fail("first KTX focused chain incomplete")
+			await _remove_story()
+			await _stop_audio()
+			return false
+		paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if capture and DirAccess.get_files_at(_first_ktx_capture_dir).size() != 3:
+		_fail("first KTX expected exactly three settled viewport renders")
+	if _failures != 0:
+		return false
+	if smoke:
+		print("FIRST_KTX_SMOKE_OK paths=1 same_layout_v4=1 phases=3 full_owner=1 prepared_history=1")
+		return true
+	print("FIRST_KTX_OK paths=%d same_layout_v4=%d legacy_unsplit_v4=%d different_locale_v4=%d locale_rebinds=%d text_size_reflows=%d full_owner=1 prepared_history=1 captures=%d" % [paths,
+		0 if capture else paths * 5, 0 if capture else paths * 3, 0 if capture else paths,
+		0 if capture else 12, 0 if capture else paths * 6, 3 if capture else 0])
+	return true
+
+func _read_first_ktx(housing: String, capture: bool, smoke: bool) -> bool:
+	var language := LocaleManager.language
+	var event: Dictionary = _story.get("_current")
+	var home := _m23_home_background(housing)
+	if not (_story.get("_communication_badge") as Control).visible \
+			or not await _read_phase_surface_only(home, "apartment"):
+		_fail("mother's call first needs the connected phone and actual home")
+		return false
+	_story.call("_on_advance")
+	await _wait_stable()
+	if not bool(_story.get("_showing_choices")) or (_story.get("_choice_box") as Control).get_child_count() != 4 \
+			or not (_story.get("_communication_badge") as Control).visible:
+		_fail("mother's call did not offer the existing four choices")
+		return false
+	var expected := [float(GameState.money) - 80_000.0, GameState.mental - 15,
+		GameState.get_cast_affinity("father") + 15, GameState.moral_tint + 8.0, GameState.event_log.size() + 1]
+	_story.call("_on_choice", 0)
+	await _wait_stable()
+	var authored := str(_story.call("_fmt", event["choices"][0]["result_text"]))
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var cuts := _first_ktx_expected_cuts(pages)
+	if cuts.is_empty() or not _m23_same_prose(pages, authored):
+		_fail("first KTX changed/lost author text or its exact location anchors")
+		return false
+	for page in range(pages.size()):
+		var stage := int(page >= cuts[0]) + int(page >= cuts[1])
+		if int(_story.get("_para_index")) != page or not _first_ktx_surface(stage, housing, expected):
+			_fail("first KTX did not advance within the expected original prose")
+			return false
+		await _finish_page()
+		if page == 0 or page in cuts:
+			if capture:
+				if not await _first_ktx_capture(language, stage):
+					return false
+			elif not smoke:
+				if not await _reload_cut_result(0, page, false):
+					return false
+				await _wait_stable()
+				if not _first_ktx_surface(stage, housing, expected) \
+						or not await _reflow_first_ktx(stage, housing, expected, language):
+					_fail("first KTX same-layout cold/locale/text reflow failed at stage %d" % stage)
+					return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			if not capture and (page + 1 == cuts[0] or (not smoke and page + 1 == cuts[1])):
+				if not await _reload_cut_result(0, page + 1, true):
+					return false
+			await _wait_stable()
+	if not capture and not smoke:
+		for stage in range(3):
+			if not await _reload_legacy_first_ktx(authored, stage, housing, expected):
+				return false
+		var different_language := "en" if language == "ko" else "ko"
+		var last_context: Dictionary = _story.call("build_save_resume_context")
+		if not await _reload_first_ktx_context(last_context, different_language) \
+				or int(_story.get("_para_index")) != 0 \
+				or not _first_ktx_surface(0, housing, expected):
+			_fail("first KTX different-locale cold resume did not conservatively rewind booking")
+			return false
+	return true
+
+func _read_phase_surface_only(background: String, ambience: String) -> bool:
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	for page in range(pages.size()):
+		await _finish_page()
+		if int(_story.get("_para_index")) != page or not _expect_surface(background, ambience, "mother's call"):
+			return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	return not pages.is_empty()
+
+func _first_ktx_expected_cuts(pages: Array) -> Array:
+	var anchors: Array = M23_KTX_ANCHORS[LocaleManager.language]
+	var cuts: Array = _story.get("_first_ktx_cut_pages")
+	if cuts.size() != 2 or int(cuts[0]) < 1 or int(cuts[0]) >= int(cuts[1]) or int(cuts[1]) >= pages.size() \
+			or not str(pages[cuts[0]]).begins_with(anchors[0]) or not str(pages[cuts[1]]).begins_with(anchors[1]):
+		return []
+	for page in range(pages.size()):
+		if int(_story.call("_story_source_paragraph_index", page)) != 0:
+			return []
+	return cuts.duplicate()
+
+func _first_ktx_surface(stage: int, housing: String, expected: Array) -> bool:
+	var booking := stage == 0
+	var actual := _m23_home_background(housing) if booking else str(["", M23_KTX_STATION, M23_KTX_COACH][stage])
+	if not _expect_surface(actual, "apartment" if booking else "", "first KTX"):
+		return false
+	var cuts := _first_ktx_expected_cuts(_story.get("_paragraphs"))
+	var page := int(_story.get("_para_index"))
+	var receipt: Dictionary = GameState.event_log.back() if not GameState.event_log.is_empty() else {}
+	var followups: Array = GameState.deferred_events.filter(func(entry: Dictionary) -> bool:
+		return entry.get("event_id") in ["callback_rushed_to_father_echo", "callback_sent_money_instead_echo"])
+	var cues: Array = AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(M23_CALL + ":"))
+	if cuts.is_empty() or int(page >= cuts[0]) + int(page >= cuts[1]) != stage \
+			or (_story.get("_communication_badge") as Control).visible \
+			or (_story.get("_portrait_frame") as Control).visible != booking \
+			or (not booking and (_story.get("_name_panel") as Control).visible) \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" or not cues.is_empty() \
+			or not BGMPlayer._current_key.is_empty() or BGMPlayer._ambience_player.playing != booking \
+			or not BGMPlayer._current_human_ambience_key.is_empty() or BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._current_season_key.is_empty() or BGMPlayer._season_player.playing:
+		_fail("first KTX wrong cut, weather, actor, phone, score or cue at stage %d: %s" % [stage, cues])
+		return false
+	if not FULL_STORY_FLOW.valid_session() or GameState.turn != 89 \
+			or int(_story.get("_pending_result_choice_index")) != 0 or not bool(_story.get("_pending_after_result")) \
+			or str((_story.get("_current") as Dictionary).get("id")) != M23_CALL \
+			or receipt.get("event_id") != M23_CALL or int(receipt.get("choice_index", -1)) != 0 \
+			or GameState.event_log.size() != expected[4] or not is_equal_approx(GameState.money, expected[0]) \
+			or GameState.mental != expected[1] or GameState.get_cast_affinity("father") != expected[2] \
+			or not is_equal_approx(GameState.moral_tint, expected[3]) or GameState.get_cast_stage("father") != "health_crisis" \
+			or not bool(GameState.flags.get("arc_father_03_seen", false)) or not bool(GameState.flags.get("rushed_to_father", false)) \
+			or bool(GameState.flags.get("sent_money_instead", false)) or bool(GameState.flags.get("sangchul_helped_with_father", false)) \
+			or followups.size() != 1 or followups[0].get("event_id") != "callback_rushed_to_father_echo" \
+			or int(followups[0].get("trigger_turn", -1)) != 103:
+		_fail("first KTX cost, flags, father stage or delayed receipt changed/repeated")
+		return false
+	return true
+
+func _reflow_first_ktx(stage: int, housing: String, expected: Array, language: String) -> bool:
+	for level in ["large", "standard"]:
+		_story.call("_set_story_text_size", level)
+		await _wait_stable()
+		if not _first_ktx_surface(stage, housing, expected):
+			return false
+	# Exercise the real full-build language control without widening its
+	# release allowlist. Root cold/visual coverage also loads prepared locales.
+	if language in ["ko", "en"]:
+		for other in ["en" if language == "ko" else "ko", language]:
+			_story.call("_set_story_language", other)
+			await _wait_stable()
+			if LocaleManager.language != other or not _first_ktx_surface(stage, housing, expected):
+				_fail("first KTX locale rebind expected %s and stage %d" % [other, stage])
+				return false
+	await _finish_page()
+	return true
+
+func _reload_legacy_first_ktx(authored: String, stage: int, housing: String, expected: Array) -> bool:
+	# Model the actual pre-cut v4 payload using the same unsplit paginator it used.
+	# Save/load still traverses the regular disk serializer; the real slot is never opened.
+	var legacy: Dictionary = _story.call("build_save_resume_context")
+	var old_data: Dictionary = _story.call("_story_page_data", authored)
+	var old_pages: Array = old_data["pages"]
+	var anchors: Array = M23_KTX_ANCHORS[LocaleManager.language]
+	var total := 0
+	for old_page in old_pages:
+		total += str(old_page).length()
+	var anchor_offsets := [0, -1, -1, total]
+	var seen := 0
+	for old_page in old_pages:
+		for index in range(anchors.size()):
+			var at := str(old_page).find(anchors[index])
+			if at >= 0:
+				anchor_offsets[index + 1] = seen + at
+		seen += str(old_page).length()
+	if int(anchor_offsets[1]) <= 0 or int(anchor_offsets[2]) <= int(anchor_offsets[1]):
+		_fail("could not reconstruct actual prior unsplit result progress")
+		return false
+	var target := roundi(lerpf(anchor_offsets[stage], anchor_offsets[stage + 1], 0.45))
+	seen = 0
+	for index in range(old_pages.size()):
+		var length := str(old_pages[index]).length()
+		if target <= seen + length:
+			legacy["paragraph_index"] = index
+			legacy["type_pos"] = target - seen
+			legacy["paragraph_type_ratio"] = float(target - seen) / float(length)
+			legacy["paragraph_was_typing"] = true
+			legacy["source_text_progress"] = float(target) / float(total)
+			break
+		seen += length
+	if not await _reload_first_ktx_context(legacy, LocaleManager.language) \
+			or not _first_ktx_surface(stage, housing, expected) \
+			or not bool(_story.get("_typing")) or int(_story.get("_type_pos")) < 1:
+		_fail("first KTX prior unsplit v4 position moved outside semantic stage %d" % stage)
+		return false
+	return true
+
+func _reload_first_ktx_context(context: Dictionary, target_locale: String) -> bool:
+	if context.get("phase") != "result" or int(context.get("source_paragraph_count", 0)) != 1 \
+			or int(context.get("source_paragraph_index", -1)) != 0 \
+			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail("isolated first KTX save did not preserve one original source paragraph")
+		return false
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int(disk.get("version", -1)) != 4:
+		_fail("first KTX altered disk schema v4")
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	LocaleManager.set_language(target_locale)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("isolated first KTX v4 cold load failed")
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	_story.call("_finish_story_scene_transition")
+	return LocaleManager.language == target_locale
+
+func _first_ktx_capture(language: String, stage: int) -> bool:
+	var portrait := _story.get("_portrait_frame") as Control
+	for _frame in range(150):
+		if not portrait.visible or portrait.modulate.a >= 0.99:
+			var key: String = ["booking", "station", "coach"][stage]
+			return await _save_viewport_frame(_first_ktx_capture_dir.path_join("%s_c0_%s.png" % [language, key]))
+		await get_tree().process_frame
+	_fail("first KTX player portrait did not finish fading in")
 	return false
 
 func _check_sinchon_offer() -> bool:
@@ -2064,7 +2348,8 @@ func _wait_stable() -> void:
 			return
 		if not _w4_capture_dir.is_empty() or not _w8_capture_dir.is_empty() \
 				or not _m14_capture_dir.is_empty() or not _w234_capture_dir.is_empty() \
-				or not _offer_capture_dir.is_empty() or not _m23_capture_dir.is_empty():
+				or not _offer_capture_dir.is_empty() or not _m23_capture_dir.is_empty() \
+				or not _first_ktx_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)

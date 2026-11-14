@@ -112,6 +112,8 @@ INDOOR_BACKGROUNDS = {
     "seoul_station_parents_concourse",
     "seoul_station_parents_ticket_gate",
     "parents_visit_food_bag_in_transit",
+    "seoul_station_first_ktx_predawn",
+    "ktx_changwon_first_train_predawn",
     "sinchon_offer_cafe_two_coffees",
     "bank_service_counter_rainy_day",
     "bank_loan_counter_day",

@@ -744,6 +744,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "seoul_station_first_ktx_predawn": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "ktx_changwon_first_train_predawn": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "ktx_window": {
       "environment": "transit",
       "depth": "mid",

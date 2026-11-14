@@ -475,5 +475,7 @@
 | Background | `assets/backgrounds/seoul_station_parents_concourse.png` | `seoul_station_parents_concourse` | 1280x800 | no | `bcf17350a3b7` | PASS-B | 오후 다섯 시 합류 공간, 늦가을 빛과 비어 있는 통로. |
 | Background | `assets/backgrounds/seoul_station_parents_ticket_gate.png` | `seoul_station_parents_ticket_gate` | 1280x800 | no | `c7fdfeff4a9c` | PASS-B | 밤의 표 확인 지점. 떠난 열차·비·눈·문자 없음. |
 | Background | `assets/backgrounds/parents_visit_food_bag_in_transit.png` | `parents_visit_food_bag_in_transit` | 1280x800 | no | `e08cb9a97695` | PASS-B | 어머니 무릎의 닫힌 반찬 가방. 이동수단·얼굴·상표를 보여 주지 않음. |
+| Background | `assets/backgrounds/seoul_station_first_ktx_predawn.png` | `seoul_station_first_ktx_predawn` | 1280x800 | no | `f5fc71079390` | PASS-B | 동트기 전 서울역 승강장, 문이 닫힌 열차와 마른 바닥. 사람·비·눈·문자 없음. |
+| Background | `assets/backgrounds/ktx_changwon_first_train_predawn.png` | `ktx_changwon_first_train_predawn` | 1280x800 | no | `1d45394e0806` | PASS-B | 푸른 좌석과 창 밖으로 흐르는 늦가을 풍경. 병원·인물·비·눈·문자 없음. |
 
-Inventory: 81 CG / 94 portraits / 112 backgrounds / 287 total.
+Inventory: 81 CG / 94 portraits / 114 backgrounds / 289 total.

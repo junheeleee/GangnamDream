@@ -436,6 +436,14 @@
     {
       "kind": "background",
       "ids": [
+        "ktx_changwon_first_train_predawn"
+      ],
+      "relative_path": "backgrounds/ktx_changwon_first_train_predawn.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "late_night"
       ],
       "relative_path": "backgrounds/late_night_room.png",
@@ -691,6 +699,14 @@
         "street_rainy"
       ],
       "relative_path": "backgrounds/seoul_rainy_street.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "seoul_station_first_ktx_predawn"
+      ],
+      "relative_path": "backgrounds/seoul_station_first_ktx_predawn.png",
       "resolution": "1280x800"
     },
     {

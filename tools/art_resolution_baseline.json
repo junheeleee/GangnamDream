@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 287,
+  "inventory_count": 289,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 111,
+        "light": 113,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 111,
+        "heavy": 113,
         "severe": 0
       }
     }
@@ -994,6 +994,23 @@
         "4k": "heavy"
       }
     },
+    "assets/backgrounds/ktx_changwon_first_train_predawn.png": {
+      "kind": "Background",
+      "ids": [
+        "ktx_changwon_first_train_predawn"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/backgrounds/late_night_room.png": {
       "kind": "Background",
       "ids": [
@@ -1529,6 +1546,23 @@
       "kind": "Background",
       "ids": [
         "street_rainy"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/seoul_station_first_ktx_predawn.png": {
+      "kind": "Background",
+      "ids": [
+        "seoul_station_first_ktx_predawn"
       ],
       "width": 1280,
       "height": 800,
