@@ -8685,7 +8685,7 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 		"arc_year4_close": "winter",
 		"arc_sangchul_03_network": "apartment",
 		"arc_daeun_03_fork": "convenience",
-		"arc_father_medication": "subway",
+		"arc_father_medication": "",
 		"arc_34_doors_open": "office",
 		"arc_sangchul_mirror": "street",
 		"arc_career_ceiling": "office",

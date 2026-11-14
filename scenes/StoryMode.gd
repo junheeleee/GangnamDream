@@ -55,6 +55,7 @@ const W108_HYUNSU_WARNING := "arc_jaehyuk_hyunsu_warning"
 const W112_FATHER_CALL := "arc_y3_father_deferred_call"
 const W53_SANGCHUL_NETWORK := "arc_sangchul_03_network"
 const W53_PRIVATE_DINING := "sangchul_private_dining"
+const W57_FATHER_MEDICATION := "arc_father_medication"
 const W117_JAEHYUK_COUNTER := "arc_jaehyuk_04b_counter"
 const W117_POLICE_RECEPTION := "police_evidence_reception"
 const W117_COUNTER_CUTS := preload("res://assets/w117_jaehyuk_counter_cuts.tres")
@@ -2761,6 +2762,9 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		pass
 	elif str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:
 		# The room is restored, but the momentary sound over the line has passed.
+		pass
+	elif str(_current.get("id", "")) == W57_FATHER_MEDICATION:
+		# The received text is already present on every resumed page.
 		pass
 	elif _full_w19_reunion:
 		# Restore the sustained score after its authored entrance, never the
@@ -5670,7 +5674,8 @@ func _render_current():
 		_apply_w53_network_surface()
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(false, true)
-	if not _full_w19_reunion or _pending_restore_context.is_empty():
+	if _pending_restore_context.is_empty() \
+			or (not _full_w19_reunion and str(_current.get("id", "")) != W57_FATHER_MEDICATION):
 		_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 

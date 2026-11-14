@@ -170,6 +170,14 @@ W96_HOSPITAL_VISIT_AUDIO = {
 W100_FATHER_OUTREACH_EVENT = "arc_y3_father_avoidance_document"
 W53_NETWORK_EVENT = "arc_sangchul_03_network"
 W53_DINING = "sangchul_private_dining"
+W57_MEDICATION_EVENT = "arc_father_medication"
+W57_MEDICATION_AUDIO = {
+    "ambience": "intentional_silence",
+    "suppress_music": True,
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "paragraph_cues": {"0": [{"sfx": "phone_vibrate", "volume_db": -8.0}]},
+}
 W37_FIRST_BILL_EVENT = "arc_y1_new_room_first_month"
 W45_DECEMBER_EVENT = "story_one_year"
 W45_DECEMBER_AUDIO = {
@@ -393,6 +401,9 @@ def main() -> int:
         elif owner == M23_PARENTS_EVENT:
             if contract != M23_PARENTS_AUDIO:
                 errors.append(f"{owner}: station and dinner must not borrow pub ambience, music or foley")
+        elif owner == W57_MEDICATION_EVENT:
+            if contract != W57_MEDICATION_AUDIO:
+                errors.append(f"{owner}: keep only the received handset vibration until exact location recordings exist")
         elif owner in DAEUN_QUIET_RESULT_CGS:
             if contract != {"ambience": "intentional_silence"}:
                 errors.append(f"{owner}: do not borrow the recorded bar or street crowd")
@@ -520,6 +531,8 @@ def main() -> int:
             or not isinstance(w53_choices, list) or len(w53_choices) != 2
             or any(not isinstance(choice, dict) or "result_ambience" in choice for choice in w53_choices)):
         errors.append(f"{W53_NETWORK_EVENT}: don't substitute generic bar or pub recordings for the private gathering")
+    if W57_MEDICATION_EVENT not in event_contracts:
+        errors.append(f"{W57_MEDICATION_EVENT}: missing exact incoming message audio contract")
     for event_id, expected_audio in ((W37_FIRST_BILL_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),

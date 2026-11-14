@@ -947,7 +947,7 @@
         "portrait_role": "local",
         "expected_portrait": "player_tired",
         "expected_background": "subway",
-        "expected_ambience": "subway"
+        "expected_ambience": "intentional_silence"
       }
     },
     "arc_34_doors_open": {

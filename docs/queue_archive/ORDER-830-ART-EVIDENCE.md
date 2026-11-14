@@ -521,6 +521,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] 첫 음향 묶음은 `arc_father_medication`의 `assets/scene_audio_manifest.json`과 `content/meta/story_rules.json`의 음향 기대값, `scenes/StoryMode.gd` 재개 시 진동 중복 방지, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd,ScreenshotQA.gd}` 해당 검사, 이 증거·일지·현황. 두 실제 런에서 c0 관측. 첫 어머니 문자에 휴대전화 실제 진동만, 통로·열차·귀가·창원에 현재 잘못 이어지는 공용 열차/해외 사람 층은 해당 사건에서만 끈다. 다른 장면의 지하철, 원문, 효과, 저장, 공개 데모 불변. 환승 통로·c1 객차/집·c2 창원역/식탁 그림과 장소별 녹음·약봉투는 다음 묶음으로 분리한다.
 
+확인: 원본은 첫 문단에서 다른 쪽 전화벨·승강장 합성 베드와 영국 객실 사람 소리를 실제 엔진에 요청했다(`830-w57-audio-before.g8XFx9`). 수정 뒤 격리 StoryMode가 다섯 언어 두 변형과 세 선택(30경로)으로 첫 문자 진동 1회, 본문 10·결과 30 v4 재개에서 재생 없음, 기존 수치/후속과 공유 음원 불변을 검사한다. 정적 서사 연속성의 기존 M4 한·영 및 현수 EN 진입 문구 3건은 작업 전 `51e8d2b`에서도 그대로 재현됐다. 이 음향 변경에서 검사나 해당 원고를 수정하지 않는다.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.

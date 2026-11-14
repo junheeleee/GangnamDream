@@ -28,6 +28,8 @@ const W48_GOSHIWON := "goshiwon_room"
 const W45_DECEMBER := "story_one_year"
 const W53_NETWORK := "arc_sangchul_03_network"
 const W53_DINING := "sangchul_private_dining"
+const W57_MEDICATION := "arc_father_medication"
+const W57_VIBRATION := "arc_father_medication::description:0:0:phone_vibrate"
 const HYUNSU_CALL := "arc_hyunsu_new_path"
 const HYUNSU_KEYBOARD := "keyboard_phone"
 const HYUNSU_INTRO_CUE := "arc_hyunsu_new_path::description:2:0:keyboard_phone"
@@ -330,6 +332,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W57_MESSAGE_CHECK"):
+		var message_ok := await _check_w57_message_audio()
+		await _remove_story()
+		await _stop_audio()
+		if message_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w57_message_audio")
+		get_tree().quit(0 if message_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W53_DINING_CHECK"):
 		var dining_ok := await _check_w53_dining_audio()
 		await _remove_story()
@@ -508,6 +518,8 @@ func _ready() -> void:
 		_fail("W45 quiet home regression smoke failed")
 	if not await _check_w53_dining_audio(true):
 		_fail("W53 dining audio regression smoke failed")
+	if not await _check_w57_message_audio(true):
+		_fail("W57 medication message audio regression smoke failed")
 	await _remove_story()
 	await _stop_audio()
 	if _cases != 48 or _intro_pages < 48 or _result_pages < 48:
@@ -2218,6 +2230,114 @@ func _check_w45_december_home(smoke: bool = false) -> bool:
 	if not smoke:
 		print("W45_QUIET_HOME_OK paths=%d result_v4=%d languages=5 houses=5 choices=2" % [cases, cold])
 	return cases == (1 if smoke else 50) and cold == (0 if smoke else 50)
+
+func _check_w57_message_audio(smoke: bool = false) -> bool:
+	var paths := 0
+	var restores := 0
+	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	for language: String in languages:
+		for known: bool in ([false] if smoke else [false, true]):
+			for choice: int in ([0] if smoke else [0, 1, 2]):
+				await _remove_story()
+				await _stop_audio()
+				_context = "%s/W57/known=%s/c%d" % [language, known, choice]
+				LocaleManager.set_language(language)
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 57
+				GameState.month = 3
+				GameState.age = 34
+				GameState.mental = 60
+				GameState.flags["arc_father_02_done"] = true
+				GameState.flags["arc_daeun_fork_seen"] = known
+				var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+				var selected := str(ingress.call("_story_graph_contract_event_id", 57, GameState.flags, false))
+				ingress.free()
+				if selected != W57_MEDICATION:
+					_fail("W57 prepared calendar state did not select the medication event")
+					return false
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [selected]
+				AudioManager._last_sfx_ms.erase("phone_vibrate")
+				BGMPlayer.set_ambience("subway")
+				BGMPlayer.set_season_ambience("winter")
+				if not BGMPlayer._ambience_player.playing or not BGMPlayer._human_ambience_player.playing \
+						or not BGMPlayer._season_player.playing:
+					_fail("W57 fixture did not start with the inaccurate transit layers")
+					return false
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				var expect_vibration := true
+				if not _expect_w57_audio(true, "opening") or int(_story.call("_story_source_paragraph_count")) != 4:
+					return false
+				var vibration: AudioStream = AudioManager._sounds.get("phone_vibrate")
+				var played_at := int(AudioManager._last_sfx_ms.get("phone_vibrate", -1))
+				var playing := AudioManager._pool.filter(func(player: AudioStreamPlayer) -> bool:
+					return player.playing and player.stream == vibration)
+				if vibration == null or played_at < 0 or playing.size() != 1:
+					_fail("W57 opening did not actually start one authored vibration recording")
+					return false
+				if not smoke and choice == 0:
+					await _finish_page()
+					if not await _reload_prechoice("prose", W57_MEDICATION, false) or not _expect_w57_audio(false, "restored opening"):
+						return false
+					expect_vibration = false
+					restores += 1
+				for page in range((_story.get("_paragraphs") as Array).size()):
+					await _finish_page()
+					if int(_story.get("_para_index")) != page or not _expect_w57_audio(expect_vibration, "prose"):
+						return false
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")) or not _expect_w57_audio(expect_vibration, "choices"):
+					return false
+				var cash: float = GameState.money
+				var events := GameState.events_seen
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				if not bool(_story.get("_pending_after_result")) or int(_story.call("_story_source_paragraph_count")) != 3:
+					return false
+				var pages: Array = _story.get("_paragraphs")
+				for page in range(pages.size()):
+					await _finish_page()
+					if int(_story.get("_para_index")) != page or not _expect_w57_audio(expect_vibration, "result"):
+						return false
+					if page < pages.size() - 1:
+						_story.call("_on_advance")
+						await _wait_stable()
+				if not smoke:
+					var context: Dictionary = _story.call("build_save_resume_context")
+					if not await _reload_authored_result_context(context, language, 3, 2) \
+							or int(_story.get("_pending_result_choice_index")) != choice \
+							or not _expect_w57_audio(false, "restored result"):
+						return false
+					restores += 1
+				var branch_flags := ["called_about_medication", "ignored_medication_signal", "visited_for_medication"]
+				if GameState.events_seen != events + 1 or not GameState.flags.get(branch_flags[choice], false) \
+						or GameState.money != cash - (50_000.0 if choice == 2 else 0.0) \
+						or GameState.mental != (65 if choice == 2 else 55):
+					_fail("W57 changed original choice semantics on playback or restore")
+					return false
+				if int(AudioManager._last_sfx_ms.get("phone_vibrate", -1)) != played_at:
+					_fail("W57 vibration played a second time after the received message")
+					return false
+				paths += 1
+	if not smoke:
+		print("W57_MEDICATION_AUDIO_OK paths=%d v4_restores=%d languages=5 variants=2 choices=3" % [paths, restores])
+	return paths == (1 if smoke else 30) and restores == (0 if smoke else 40)
+
+func _expect_w57_audio(expect_vibration: bool, label: String) -> bool:
+	var heard := AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(W57_MEDICATION + ":"))
+	var valid := heard == ([W57_VIBRATION] if expect_vibration else []) \
+		and BGMPlayer._current_ambience_key.is_empty() and not BGMPlayer._ambience_player.playing \
+		and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
+		and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing
+	if not valid:
+		_fail("W57 wrong audio at %s: cues=%s, bed=%s, human=%s, season=%s" % [label, heard,
+			BGMPlayer._current_ambience_key, BGMPlayer._current_human_ambience_key, BGMPlayer._current_season_key])
+	return valid
 
 func _check_w53_dining_audio(smoke: bool = false) -> bool:
 	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
