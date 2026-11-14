@@ -94,6 +94,9 @@ const W161_OUTPATIENT_CASHIER := "hospital_outpatient_cashier_w161"
 const W161_BAEKBAN_MEAL := "baekban_closing_meal_w161"
 const W161_BAEKBAN_EMPTY := "baekban_closing_empty_w161"
 const W161_STATION_SHOP := "seoul_station_convenience_w161"
+const W164_DAEUN_WITNESS := "arc_y4_body_witness"
+const W164_NIGHT_INTAKE := "hospital_night_intake_w164"
+const W164_INTAKE_CUT := preload("res://assets/w164_daeun_intake_cut.tres")
 const W132_RECKONING := "arc_sangchul_reckoning"
 const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
 const W132_RECKONING_CUT := preload("res://assets/w132_reckoning_result_cut.tres")
@@ -3422,6 +3425,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W57_FATHER_MEDICATION and choice_index in [1, 2] and not _is_public_story_demo()) \
 		or (event_id == W82_HYUNSU_BUS and choice_index in [0, 1] and not _is_public_story_demo()) \
 		or (event_id == W132_RECKONING and choice_index == 0) \
+		or (event_id == W164_DAEUN_WITNESS and choice_index == 0) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
 		or (event_id == HYUNSU_EXAM_FAILURE and choice_index == 1) \
 		or (event_id == M23_PARENTS and choice_index == 1)
@@ -3487,6 +3491,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		var anchors: Dictionary = W132_RECKONING_CUT.get_meta("stairs_anchors")
 		return _split_formatted_story_page(_fmt(raw), 1,
 			str(anchors.get(LocaleManager.language, "")))
+	if event_id == W164_DAEUN_WITNESS:
+		var anchors: Dictionary = W164_INTAKE_CUT.get_meta("arrival_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
 	if event_id == HYUNSU_EXAM_FAILURE:
 		var anchors: Dictionary = M07_HYUNSU_WASHBASIN_CUT.get_meta("return_anchors", {})
 		var prose := _fmt(raw)
@@ -5864,6 +5873,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	if event_id == W161_BODY_SIGNAL:
 		_apply_w161_transport_surface()
 		return
+	if _pending_after_result and event_id == W164_DAEUN_WITNESS and _pending_result_choice_index == 0:
+		_apply_w164_intake_surface(play_cut_cue)
+		return
 	if _is_first_year_close_lights_out():
 		# No generic room or people bed stands in for the outside countdown.
 		if BGMPlayer._ambience_player.playing or BGMPlayer._human_ambience_player.playing \
@@ -6153,6 +6165,32 @@ func _apply_w161_transport_surface() -> void:
 		_apply_story_surface_palette(false)
 		_configure_living_scene()
 	BGMPlayer.update_event_ambience(_current, "", _event_background_id)
+
+func _apply_w164_intake_surface(play_cut_cue: bool) -> void:
+	var at_intake := _story_source_paragraph_index(_para_index) == 1 \
+		or (_result_location_cut_page >= 0 and _para_index >= _result_location_cut_page)
+	var destination := W164_NIGHT_INTAKE if at_intake else _resolve_story_background_id("current_housing")
+	if destination != _event_background_id:
+		var texture := ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+		if texture == null:
+			return
+		if play_cut_cue:
+			_begin_story_scene_transition("explicit_move")
+		else:
+			_finish_story_scene_transition()
+		_event_background_id = destination
+		_bg_img.texture = texture
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+	if at_intake:
+		# The quiet outpatient room tone must not inherit home or generic crowds.
+		if BGMPlayer._current_ambience_key != "hospital":
+			BGMPlayer.clear_ambience_immediate()
+		BGMPlayer._stop_season_ambience_immediate()
+		BGMPlayer.set_ambience("hospital", false)
+	elif BGMPlayer._current_ambience_key == "hospital":
+		BGMPlayer.clear_ambience_immediate()
+		BGMPlayer.update_event_ambience(_current, "", destination)
 
 func _apply_w132_reckoning_result(play_cut_cue: bool) -> void:
 	var at_stairs := _is_w132_stair_result()

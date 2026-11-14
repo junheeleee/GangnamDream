@@ -386,6 +386,9 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/hospital_outpatient_cashier_w161_v1.png`
   - W161 care choice, final result paragraph only: a small outpatient reception/payment counter, separate from the exam room. Empty tray; no readable receipt or claimed payment method, time, or diagnosis.
 
+- `assets/backgrounds/hospital_night_intake_w164_v1.png`
+  - W164 Daeun care choice, after the first sentence at intake: exterior to the exam room, with a registration counter and waiting chairs beside the closed door. This does not identify the same clinic as W161, depict a diagnosis, or move the other branches out of the home.
+
 - `assets/backgrounds/baekban_closing_{meal,empty}_w161_v1.png`
   - W161 meal choice only: a single modest meal in a closing baekban diner, then the same table and lamp with an empty bowl at the final paragraph. No checkout move, readable bill, or invented payment method.
 

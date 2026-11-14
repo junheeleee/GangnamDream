@@ -1240,6 +1240,11 @@ sips --resampleHeightWidth 800 1280
 - `assets/backgrounds/seoul_station_convenience_w161_v1.png`, 1584×990, SHA-256 `1bd338b8228bfa4f3c1385d3b5046b89a35c73f79f84bc456699a61b2c18eac3`. 내장 생성 `exec-9149ed17-99a2-48c1-b68e-0da311884c35.png` 1586×992 중앙 크롭, 원본 SHA-256 `b17dffc09573203316bfb863c7980bb8888782b58b303009400b49ae99313cf9`.
 - 프롬프트 요약: 역 벤치 컷의 회색 타일·형광등, 기존 점포의 상품 크기만 참고. 열린 역내 점포와 이어지는 실내 통로, 작은 냉장고·낮은 진열대·POS. 거리창·컵을 든 손·결제·주연 없음. 초안 대화창과 보정본 원거리 사람 제거 후 채택.
 
+## 2026-11-15 — W164 새벽 외래 접수와 대기
+
+- `assets/backgrounds/hospital_night_intake_w164_v1.png`, 1584×990, SHA-256 `451e566daeccf697838aabbee21066e99525e7743232bd1f2053ee5882e9adc2`. 내장 생성 `exec-49d3f55b-bf80-458f-b886-49162fe24152.png` 1587×991 중앙 크롭, 원본 SHA-256 `bc63875fe2ee1b05ba57a35a94b96abc5d0adb08173a55ee08091cfdedb7a0c7`.
+- 프롬프트 요약: 주간 수납대는 구조·가구 크기 참고, 기존 야간 진료실은 새벽 색감만. 낮은 접수대, 검은 높은 창, 닫힌 진료실 문과 바로 옆 대기석. 실내 조명·통행로는 유지하되 환자·직원·진료기구·읽히는 명부·응급실 기호 없음.
+
 ## 2026-11-15 — W132 상철 카페 계단
 
 - 최종 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다.

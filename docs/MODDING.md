@@ -378,6 +378,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `hospital_clinic` | `backgrounds/hospital_clinic.png` | 1280x800 |
 | background | `hospital_clinic_day` | `backgrounds/hospital_clinic_day.png` | 1280x800 |
 | background | `hospital` | `backgrounds/hospital_corridor.png` | 1280x800 |
+| background | `hospital_night_intake_w164` | `backgrounds/hospital_night_intake_w164_v1.png` | 1584x990 |
 | background | `hospital_outpatient_cashier_w161` | `backgrounds/hospital_outpatient_cashier_w161_v1.png` | 1584x990 |
 | background | `hyunsu_exam_room` | `backgrounds/hyunsu_exam_room_v2.png` | 1584x990 |
 | background | `meeting` | `backgrounds/investment_meeting.png` | 1280x800 |

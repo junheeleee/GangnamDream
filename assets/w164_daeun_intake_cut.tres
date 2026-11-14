@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/arrival_anchors = {
+"ko": "접수대에서",
+"en": "At intake,",
+"ja": "受付で",
+"zh-CN": "在挂号台，",
+"zh-TW": "在掛號櫃檯，"
+}

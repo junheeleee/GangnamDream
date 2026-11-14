@@ -490,6 +490,14 @@
     {
       "kind": "background",
       "ids": [
+        "hospital_night_intake_w164"
+      ],
+      "relative_path": "backgrounds/hospital_night_intake_w164_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "hospital_outpatient_cashier_w161"
       ],
       "relative_path": "backgrounds/hospital_outpatient_cashier_w161_v1.png",

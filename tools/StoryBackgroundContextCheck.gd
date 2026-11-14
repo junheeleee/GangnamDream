@@ -45,6 +45,11 @@ const W161_CASHIER := "hospital_outpatient_cashier_w161"
 const W161_BAEKBAN_MEAL := "baekban_closing_meal_w161"
 const W161_BAEKBAN_EMPTY := "baekban_closing_empty_w161"
 const W161_STATION_SHOP := "seoul_station_convenience_w161"
+const W164_DAEUN := "arc_y4_body_witness"
+const W164_UNATTACHED := "arc_y4_body_witness_hyunsu"
+const W164_INTAKE := "hospital_night_intake_w164"
+const W164_START := {"ko": "접수대에서", "en": "At intake,", "ja": "受付で",
+	"zh-CN": "在挂号台，", "zh-TW": "在掛號櫃檯，"}
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -287,6 +292,7 @@ const EXACT_PATHS := {
 	W161_BAEKBAN_MEAL: "res://assets/backgrounds/baekban_closing_meal_w161_v1.png",
 	W161_BAEKBAN_EMPTY: "res://assets/backgrounds/baekban_closing_empty_w161_v1.png",
 	W161_STATION_SHOP: "res://assets/backgrounds/seoul_station_convenience_w161_v1.png",
+	W164_INTAKE: "res://assets/backgrounds/hospital_night_intake_w164_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -383,6 +389,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W164_CHECK"):
+		var intake_ok := await _check_w164_intake()
+		await _remove_story()
+		await _stop_audio()
+		if intake_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w164_intake")
+		get_tree().quit(0 if intake_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W161_CHECK"):
 		var body_ok := await _check_w161_body()
 		await _remove_story()
@@ -2688,6 +2702,92 @@ func _check_w126_w205(smoke: bool = false) -> bool:
 		print("W126_W205_OK paths=%d v4=%d cafe_handoffs=%d" % [paths, restores, cafe_handoffs])
 	return paths == (2 if smoke else 65) and restores == (0 if smoke else 65) \
 		and cafe_handoffs == (1 if smoke else 5)
+
+func _check_w164_intake() -> bool:
+	var paths := 0
+	var restores := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for is_daeun: bool in [false, true]:
+			for choice: int in range(3):
+				await _remove_story()
+				await _stop_audio()
+				_context = "%s/W164/daeun=%s/c%d" % [language, str(is_daeun), choice]
+				LocaleManager.set_language(language)
+				SaveManager.clear_loaded_resume_context()
+				GameState.start_new_game()
+				GameState.turn = 164
+				GameState.month = 5
+				GameState.age = 36
+				GameState.housing = "oneroom"
+				GameState.flags["arc_36_body_signal_seen"] = true
+				if is_daeun:
+					GameState.flags["daeun_romance_started"] = true
+				var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+				var selected := str(ingress.call("_chapter_four_causal_arc_id", 164, GameState.flags, false))
+				ingress.free()
+				if selected != (W164_DAEUN if is_daeun else W164_UNATTACHED):
+					_fail("W164 release ingress resolved the wrong witness")
+					return false
+				GameState.story_return_scene = "res://scenes/MainGame.tscn"
+				GameState.pending_story_queue = [selected]
+				_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+				add_child(_story)
+				_story.call("_set_auto_mode", false, false, false)
+				var home := ImageRegistry.resolve_contextual_background_id("current_housing")
+				for _page in range((_story.get("_paragraphs") as Array).size()):
+					await _finish_page()
+					if not _expect_surface(home, "oneroom", "W164 before choice"):
+						return false
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not bool(_story.get("_showing_choices")):
+					return false
+				var cash: float = GameState.money
+				var events := GameState.events_seen
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var pages: Array = _story.get("_paragraphs")
+				var cut := int(_story.get("_result_location_cut_page"))
+				var care := is_daeun and choice == 0
+				if int(_story.call("_story_source_paragraph_count")) != 2 or (cut > 0) != care \
+						or (care and (cut >= pages.size() or not str(pages[cut]).begins_with(W164_START[language]))):
+					_fail("W164 did not cut at the night intake words in the original source")
+					return false
+				for page in range(pages.size()):
+					await _finish_page()
+					var at_intake := care and page >= cut
+					if not _expect_w164_intake(home, at_intake):
+						return false
+					if care and page in [cut - 1, cut, pages.size() - 1]:
+						var source := int(_story.call("_story_source_paragraph_index", page))
+						var context: Dictionary = _story.call("build_save_resume_context")
+						if not await _reload_authored_result_context(context, language, 2, source, true) \
+								or not _expect_w164_intake(home, at_intake) or int(_story.get("_para_index")) != page:
+							_fail("W164 cold slot did not immediately recover the side of the cut")
+							return false
+						await _finish_page()
+						restores += 1
+					if page + 1 < pages.size():
+						_story.call("_on_advance")
+						await _wait_stable()
+				var expected_flag: String = ["arc_y4_body_chose_care", "arc_y4_body_chose_deadline", "arc_y4_body_chose_alone"][choice]
+				if GameState.money != cash or GameState.events_seen != events + 1 \
+						or not GameState.flags.get("arc_y4_body_witness_seen", false) \
+						or not GameState.flags.get(expected_flag, false):
+					_fail("W164 cut altered or replayed the chosen result")
+					return false
+				paths += 1
+	print("W164_INTAKE_OK paths=%d same_locale_v4=%d" % [paths, restores])
+	return paths == 30 and restores == 15
+
+func _expect_w164_intake(home: String, at_intake: bool) -> bool:
+	if not _expect_surface(W164_INTAKE if at_intake else home, "hospital" if at_intake else "oneroom", "W164"):
+		return false
+	if at_intake and (not BGMPlayer._ambience_player.playing or BGMPlayer._human_ambience_player.playing \
+			or BGMPlayer._season_player.playing):
+		_fail("W164 night intake inherited people, weather or lost the hospital room tone")
+		return false
+	return true
 
 func _check_w161_body() -> bool:
 	var paths := 0

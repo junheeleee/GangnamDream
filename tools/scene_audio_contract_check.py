@@ -574,6 +574,9 @@ def main() -> int:
                                       "hospital_outpatient_cashier_w161", "baekban_closing_meal_w161",
                                       "baekban_closing_empty_w161", "seoul_station_convenience_w161"))):
         errors.append(f"{W161_BODY_EVENT}: recorded onboard motion only between stops; no borrowed ambience after the train")
+    if (events.get("arc_y4_body_witness", {}).get("background") != "current_housing"
+            or manifest.get("background_profiles", {}).get("hospital_night_intake_w164") != "hospital"):
+        errors.append("W164: preserve current housing before arriving in the quiet night intake")
     if (any(event_contracts.get(owner) != W132_CAFE_AUDIO
             or events.get(owner, {}).get("background") != "cafe" for owner in W132_CAFE_EVENTS)
             or manifest.get("background_profiles", {}).get("sangchul_cafe_stairs") != "intentional_silence"):

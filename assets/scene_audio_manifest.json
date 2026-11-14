@@ -113,6 +113,7 @@
     "hospital_clinic": "hospital",
     "hospital_clinic_day": "hospital",
     "hospital_outpatient_cashier_w161": "intentional_silence",
+    "hospital_night_intake_w164": "hospital",
     "changwon_hospital_room_empty": "hospital",
     "gym": "gym",
     "exercise": "gym",
