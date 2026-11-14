@@ -6,6 +6,8 @@
 
 [~] 일반 종막 `arc_y5_final_week_general_people_outbound`의 `chapter5_finale_reads.texts[2][0–1]`만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_drama.json`에서 교열. W224의 음성메모와 종이 두 갈래 모두에 맞춘다. 첫 갈래는 마지막 상환 기록과 민서에게 했던 대답을 되짚으며 소리 내어 말한 일, 둘째는 아무것도 재생·낭독하지 않고 빈 의자를 옆으로 옮긴 일. 공통 회상에서 휴대폰을 껐다고 단정하지 않으며 새 녹음·발신·동석·답장을 만들지 않는다. 다른 선행 회상·선택·효과·화면·음원·저장·데모 원문 보존. CJK 기존 수용, 현행 사실 원장 파생분(있는 경우), 이 증거와 현황·당일 일지만.
 
+[~] 같은 사실을 읽는 W237 `arc_y5_general_final_record_seal`의 `chapter5_finale_reads.texts[0][0–1]`도 동일 단위로 추가 소유한다(`content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_pre_ending.json`). 문단 속 `[[c5read:0]]` 자리, 다른 회상 두 축, 결과와 상태는 그대로다.
+
 ### W235 상철에게 보낸 문자
 
 [~] `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_pre_ending.json`의 실제 W235 `arc_y5_property_not_executed_notice` 선택 0 문구와 두 문단 결과만. ‘무이체 결과 통지’ 대신 민준이 상철에게 서류 상태를 알리고 돈을 보내지 않았다고 쓰는 행동을 드러낸다. 사진은 창구 표지·기존 시각뿐. 발송 기록과 별도로 새 이체·소유권·채무 서류가 없고 비교본과 접수 서류를 각각 보관하는 점을 유지한다. 답장·전화·계약·금액·후속 행동을 발명하지 않는다. 도입/가변 회상·플래그·순서·컷·오디오·저장·데모와 저작용 장면은 그대로. 기존 CJK 수용 기록·필요한 현행 사실 원장·이 증거·당일 일지·현황만 소유.
