@@ -70,13 +70,7 @@ const W224_CUSTODY := "arc_y5_father_trace_custody"
 const W224_COMPARISON := "convenience_rear_comparison"
 const W224_CLEARED_TABLE := "convenience_rear_table_clear"
 # A page boundary, not substitute dialogue. The original text remains the source.
-const W224_CUSTODY_FILED_ANCHORS := {
-	"ko": "다은은 빈손으로 일어나며",
-	"en": "Daeun stood empty-handed.",
-	"ja": "ダウンは何も持たずに立ち上がって",
-	"zh-CN": "Daeun空着手站起来",
-	"zh-TW": "Daeun 空著手起身",
-}
+const W224_CUSTODY_RESULT_CUT := preload("res://assets/w224_custody_result_cut.tres")
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
@@ -3447,8 +3441,9 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		if choice_index == 0 and source_count == 2:
 			pages["result_location_cut_page"] = (pages["source_indices"] as Array).find(1)
 		elif choice_index == 1 and source_count == 1:
+			var anchors: Dictionary = W224_CUSTODY_RESULT_CUT.get_meta("filed_anchors", {})
 			return _split_formatted_story_page(prose, 0,
-				str(W224_CUSTODY_FILED_ANCHORS.get(LocaleManager.language, "")))
+				str(anchors.get(LocaleManager.language, "")))
 		return pages
 	if event_id == M27_JAEHYUK_PITCH:
 		var anchors: Dictionary = M27_JAEHYUK_CUTS.get_meta("home_anchors", {})

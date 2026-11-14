@@ -62,7 +62,7 @@
   {
     "id": "callback_daeun_supportive_warmth",
     "title": "A Text from Daeun",
-    "description": "A few months ago you were there for Daeun when things were hard.\nToday a text from Daeun.\n'Minjun. I was thinking about that time.\nHow have you been?'",
+    "description": "Over dinner that evening, Daeun told him about the nights she couldn't sleep after a shift. {name} listened without interrupting.\nToday a text came from Daeun.\n“Minjun. I was thinking about that evening.\nHow have you been?”",
     "choices": [
       {
         "text": "\"Doing well. Let's grab food sometime.\"",

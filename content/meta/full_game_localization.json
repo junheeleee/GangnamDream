@@ -31248,6 +31248,290 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-830",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_sangchul_02_coffee",
+        "arc_y1_new_room_first_month",
+        "callback_daeun_supportive_warmth",
+        "callback_investment_lesson_echo",
+        "story_one_year"
+      ],
+      "source_leaves": 13,
+      "target_leaves_by_locale": {
+        "ja": 13,
+        "zh-CN": 13,
+        "zh-TW": 13
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "W25–W48 blind-review corrections: actual housing at the December milestone, no first trade or foretold loss, exact 50,000 won cash effect only, no studio search after moving, no fixed elapsed month, and Daeun remembers the W35 dinner conversation. Existing effects, schedule, callbacks and demo preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "8e6b9ec6e1758fdd6e96eb787714f981e3a3e204",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9d526a3077069bc1541bf0f37bd3f956c5fe7850de8579ab38a644501bd533f7",
+          "selection_sha256": "36e26db489bb012f13bad5bc6b7eaa52cc14989cf2d2955af3d58f43775505c7",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2776efb54957e94619c2b00f264749db2405d07ae5a3de194987d5223358a181"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "8e6b9ec6e1758fdd6e96eb787714f981e3a3e204",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9d526a3077069bc1541bf0f37bd3f956c5fe7850de8579ab38a644501bd533f7",
+          "selection_sha256": "8aefc8cc6f3bbfe22f7e16c089a1af7a96832e000aa61fa7c903dc8662969e94",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "34eec97abd2f8e8c00abce26d14ce9c9e48af094db7433d094667daea242aa14"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "8e6b9ec6e1758fdd6e96eb787714f981e3a3e204",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "9d526a3077069bc1541bf0f37bd3f956c5fe7850de8579ab38a644501bd533f7",
+          "selection_sha256": "02f77756717296b873f60b729975725724119246206ebe97594171ee60fc1fb0",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a2afe80124698c56130c5b5af2742c1a80a97f446d799d73e0a13259237dc312"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "ed3682ca0bd072d3bba948f98cd0c0f9a7f0ef0a6b55eb268299159792e3eb35",
+        "zh-CN": "0c2b8895539203d20531d66d06d0114c1e955f7ec01797fe29adc40bc3312324",
+        "zh-TW": "f621e4455047e22fc384f4efc74de735d01657becb2c9e513e8926a16d13d7d1"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_sangchul_02_coffee:/description": "48c2dbdaa0059b934023b019ee52608102ac1fc99e40abb2675c8028a3e79ba1",
+          "events:arc_y1_new_room_first_month:/description": "4998e41f1ed8f99d6af78092ac25935c8088207dc51ad05aa19b3540540d05a0",
+          "events:callback_daeun_supportive_warmth:/description": "2d396fe80703836c6de818ac3295a3b0ff279ec1c05c9d52205a0bcc60896abf",
+          "events:callback_investment_lesson_echo:/choices/0/result_text": "ef98b602b2ceff5628e506052d4938377a4d6b696903a730cd9b572627cdc5d5",
+          "events:callback_investment_lesson_echo:/choices/0/text": "e7b7cec471ef005a5cfa2e8a3fa3d5d82efa9ab88776a02c06bc312564c5c259",
+          "events:callback_investment_lesson_echo:/choices/1/result_text": "25d740cc54d20304790829ff85fba17a05ee324364cd97b0ce5d6ea8771ecbc7",
+          "events:callback_investment_lesson_echo:/choices/1/text": "789b37f763e539d0d6e605e4be3d4707125ff6b1ab1eab0a014fddfdd1b5d2b4",
+          "events:callback_investment_lesson_echo:/description": "953e00b80f886ed97a31de17bf5f4846ec00e9138e091912c29c52a57c76b070",
+          "events:story_one_year:/choices/0/result_text": "aaac5305d7bd291a00212ef19149d2185190e1481417282fd6b5da53fa182e63",
+          "events:story_one_year:/choices/0/text": "a202431ce7918b26bed535b845bdddeed57dc030093fb849b86cec9c3709cb4b",
+          "events:story_one_year:/choices/1/result_text": "5bc8b4dd6b01d21204c064f5c4b9caff85c0109923f00d5dccf3a075264c4b58",
+          "events:story_one_year:/choices/1/text": "fe43f42f213e0e657550b103b9f0aeedb64cc1691a3001c261ef1410dde252ae",
+          "events:story_one_year:/description": "d69320dca28aa807958459d03d7c8c36944d4c863b9e6657e7fdda457fd52ddc"
+        },
+        "zh-CN": {
+          "events:arc_sangchul_02_coffee:/description": "6ee5dcf62c2a57314b59f4c18eebb708f67958e20501d222b5a3c550e23adf18",
+          "events:arc_y1_new_room_first_month:/description": "486498ef34a9e66e22ebad3e3205cb58316749e0e28ab47b5d08bd102e17a539",
+          "events:callback_daeun_supportive_warmth:/description": "832e1b9ee921dd86f4d85c0d165c93fdb75945a2a64161f6eb08085cf08e83eb",
+          "events:callback_investment_lesson_echo:/choices/0/result_text": "5cfbba20ea0c0a49b2a2a6e3a7808f915fd8c34c61289f18520244dc4f15c5b7",
+          "events:callback_investment_lesson_echo:/choices/0/text": "d2fced1e5da0041e5dae74a06af814193a984149f961293f58839deb8c9d4030",
+          "events:callback_investment_lesson_echo:/choices/1/result_text": "1b2bd888e92a69e6f442f66926919fc2d3f0ca402236e6c3002cd35350c0abd6",
+          "events:callback_investment_lesson_echo:/choices/1/text": "0347fa55cc4cee8ee62479fb7a1d9debf8b12725035c6bf0f09ee3e5e157f08a",
+          "events:callback_investment_lesson_echo:/description": "82c1d1f6576683dd4751e63b76d7540d918bdbf498d042f3d33cc90b2d9aaf3a",
+          "events:story_one_year:/choices/0/result_text": "1647f5b941ee658e3bd092b254bec76b3cb67127b62cf91fdae8dfc4acb2bf1a",
+          "events:story_one_year:/choices/0/text": "8249bd795075d997d39fde4960341a8b76c48e2162877d7597eab8d98c41606a",
+          "events:story_one_year:/choices/1/result_text": "9f60b0f50a7d4d99b6bec2b4cef1d87370617a13bbbc4f07917dcbafb4ae3375",
+          "events:story_one_year:/choices/1/text": "27e693badcd847030f2f374e62edffac5c33d27bc57ab32fcb01e72b57fdd5f8",
+          "events:story_one_year:/description": "f875e055580d83be8f9c309b079515d9ccca08d6ea12eb6dea1f0a66283386eb"
+        },
+        "zh-TW": {
+          "events:arc_sangchul_02_coffee:/description": "0496154b7ff44f5b5cd8e7662950b06963cdc651bd3a9521d5d183b5231d852b",
+          "events:arc_y1_new_room_first_month:/description": "0e7eb25dc8b007740a587356443e45fb482ac787b6314a7a5607b9397a37bac4",
+          "events:callback_daeun_supportive_warmth:/description": "96bc79b27d6c87d50eeda51765dd8d8991842d20522f46fdc879b6e8c628f2f3",
+          "events:callback_investment_lesson_echo:/choices/0/result_text": "12dc4d2ed280953d63b13ad766458ee7e96f8ce8dcb01aec980bc24d5235ce81",
+          "events:callback_investment_lesson_echo:/choices/0/text": "92713387b269d3596ff917f5da4704e0b81d7c2159d5cb6406c3c01f1a5eed3c",
+          "events:callback_investment_lesson_echo:/choices/1/result_text": "260151f60aff23c11d219d324cf97a88802c7fc03f0cd9976b5bd97511db5be3",
+          "events:callback_investment_lesson_echo:/choices/1/text": "4ba977692fdb463d650f517fa1638b27970aba3a2de7cb3f4b5eb5904988b711",
+          "events:callback_investment_lesson_echo:/description": "9b05f6fcb72fc1400a5ec215287c267de8e5135caf4308abcb7bfac1e585739e",
+          "events:story_one_year:/choices/0/result_text": "42707da63ac275dbdc9b65e251d58354eb148f888f2b52e34bbf19121ae16277",
+          "events:story_one_year:/choices/0/text": "7c4b775d27005cbca2b850218ef0f2444f0a9e66beb1d2010a27da0e4e2611c8",
+          "events:story_one_year:/choices/1/result_text": "5758345d82047f7fe5b929a0d81ac47796fc457412b028912b1ab2857de344f0",
+          "events:story_one_year:/choices/1/text": "5823a1eddb596d6f562450a124860eb0237ea4813722e6cc4d24d0b528487864",
+          "events:story_one_year:/description": "f54e00877af3edda9e9916e839dc208fb0b361453e7cae72b68ec0ad7c175ac8"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_sangchul_02_coffee:/description": {
+            "source_sha256": "9163b90414373cfb35ab2af5e568934f9f56fe2381178a6943d1975a2843d9ba",
+            "target_sha256": "48c2dbdaa0059b934023b019ee52608102ac1fc99e40abb2675c8028a3e79ba1"
+          },
+          "events:arc_y1_new_room_first_month:/description": {
+            "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
+            "target_sha256": "4998e41f1ed8f99d6af78092ac25935c8088207dc51ad05aa19b3540540d05a0"
+          },
+          "events:callback_daeun_supportive_warmth:/description": {
+            "source_sha256": "e3a11053045ff40ed6bbd44c8217e6f7f4d462ceb539a4465fbae9952c63f614",
+            "target_sha256": "2d396fe80703836c6de818ac3295a3b0ff279ec1c05c9d52205a0bcc60896abf"
+          },
+          "events:callback_investment_lesson_echo:/choices/0/result_text": {
+            "source_sha256": "bca724b0f58c2ff47ad2b4535139df66fc7a3c509c32563b7dfcab3f0c130e3d",
+            "target_sha256": "ef98b602b2ceff5628e506052d4938377a4d6b696903a730cd9b572627cdc5d5"
+          },
+          "events:callback_investment_lesson_echo:/choices/0/text": {
+            "source_sha256": "9de62479f2be503546231566e86bf6c17e1d150f4f39e2fb4570631d14edb910",
+            "target_sha256": "e7b7cec471ef005a5cfa2e8a3fa3d5d82efa9ab88776a02c06bc312564c5c259"
+          },
+          "events:callback_investment_lesson_echo:/choices/1/result_text": {
+            "source_sha256": "c30ed0722ddea51e4f43ad31ea7b55ecc7149bd980d7937c48b9ef39d801e8db",
+            "target_sha256": "25d740cc54d20304790829ff85fba17a05ee324364cd97b0ce5d6ea8771ecbc7"
+          },
+          "events:callback_investment_lesson_echo:/choices/1/text": {
+            "source_sha256": "a85f3837d34e21fadabb3aa9a226efde3fb838e9d7f18d2014b52c117b401ce8",
+            "target_sha256": "789b37f763e539d0d6e605e4be3d4707125ff6b1ab1eab0a014fddfdd1b5d2b4"
+          },
+          "events:callback_investment_lesson_echo:/description": {
+            "source_sha256": "f94bb75c90dd6dc78f6b77c4ad5fc4771d6a3229a319eba2ea4d975d91e2c85f",
+            "target_sha256": "953e00b80f886ed97a31de17bf5f4846ec00e9138e091912c29c52a57c76b070"
+          },
+          "events:story_one_year:/choices/0/result_text": {
+            "source_sha256": "6c1affc5bed538225485e4fa386f38c684ce7e61e7d3499a7c62e3f010385892",
+            "target_sha256": "aaac5305d7bd291a00212ef19149d2185190e1481417282fd6b5da53fa182e63"
+          },
+          "events:story_one_year:/choices/0/text": {
+            "source_sha256": "00a4ba2944213495a0b1fa1b849a683038e3fa07143af1cd442e4ab48035fa73",
+            "target_sha256": "a202431ce7918b26bed535b845bdddeed57dc030093fb849b86cec9c3709cb4b"
+          },
+          "events:story_one_year:/choices/1/result_text": {
+            "source_sha256": "9d058b1c97a73d5fb3514723910bd5c461739c4c19906294e9039cf817f9f2df",
+            "target_sha256": "5bc8b4dd6b01d21204c064f5c4b9caff85c0109923f00d5dccf3a075264c4b58"
+          },
+          "events:story_one_year:/choices/1/text": {
+            "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
+            "target_sha256": "fe43f42f213e0e657550b103b9f0aeedb64cc1691a3001c261ef1410dde252ae"
+          },
+          "events:story_one_year:/description": {
+            "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
+            "target_sha256": "d69320dca28aa807958459d03d7c8c36944d4c863b9e6657e7fdda457fd52ddc"
+          }
+        },
+        "zh-CN": {
+          "events:arc_sangchul_02_coffee:/description": {
+            "source_sha256": "9163b90414373cfb35ab2af5e568934f9f56fe2381178a6943d1975a2843d9ba",
+            "target_sha256": "6ee5dcf62c2a57314b59f4c18eebb708f67958e20501d222b5a3c550e23adf18"
+          },
+          "events:arc_y1_new_room_first_month:/description": {
+            "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
+            "target_sha256": "486498ef34a9e66e22ebad3e3205cb58316749e0e28ab47b5d08bd102e17a539"
+          },
+          "events:callback_daeun_supportive_warmth:/description": {
+            "source_sha256": "e3a11053045ff40ed6bbd44c8217e6f7f4d462ceb539a4465fbae9952c63f614",
+            "target_sha256": "832e1b9ee921dd86f4d85c0d165c93fdb75945a2a64161f6eb08085cf08e83eb"
+          },
+          "events:callback_investment_lesson_echo:/choices/0/result_text": {
+            "source_sha256": "bca724b0f58c2ff47ad2b4535139df66fc7a3c509c32563b7dfcab3f0c130e3d",
+            "target_sha256": "5cfbba20ea0c0a49b2a2a6e3a7808f915fd8c34c61289f18520244dc4f15c5b7"
+          },
+          "events:callback_investment_lesson_echo:/choices/0/text": {
+            "source_sha256": "9de62479f2be503546231566e86bf6c17e1d150f4f39e2fb4570631d14edb910",
+            "target_sha256": "d2fced1e5da0041e5dae74a06af814193a984149f961293f58839deb8c9d4030"
+          },
+          "events:callback_investment_lesson_echo:/choices/1/result_text": {
+            "source_sha256": "c30ed0722ddea51e4f43ad31ea7b55ecc7149bd980d7937c48b9ef39d801e8db",
+            "target_sha256": "1b2bd888e92a69e6f442f66926919fc2d3f0ca402236e6c3002cd35350c0abd6"
+          },
+          "events:callback_investment_lesson_echo:/choices/1/text": {
+            "source_sha256": "a85f3837d34e21fadabb3aa9a226efde3fb838e9d7f18d2014b52c117b401ce8",
+            "target_sha256": "0347fa55cc4cee8ee62479fb7a1d9debf8b12725035c6bf0f09ee3e5e157f08a"
+          },
+          "events:callback_investment_lesson_echo:/description": {
+            "source_sha256": "f94bb75c90dd6dc78f6b77c4ad5fc4771d6a3229a319eba2ea4d975d91e2c85f",
+            "target_sha256": "82c1d1f6576683dd4751e63b76d7540d918bdbf498d042f3d33cc90b2d9aaf3a"
+          },
+          "events:story_one_year:/choices/0/result_text": {
+            "source_sha256": "6c1affc5bed538225485e4fa386f38c684ce7e61e7d3499a7c62e3f010385892",
+            "target_sha256": "1647f5b941ee658e3bd092b254bec76b3cb67127b62cf91fdae8dfc4acb2bf1a"
+          },
+          "events:story_one_year:/choices/0/text": {
+            "source_sha256": "00a4ba2944213495a0b1fa1b849a683038e3fa07143af1cd442e4ab48035fa73",
+            "target_sha256": "8249bd795075d997d39fde4960341a8b76c48e2162877d7597eab8d98c41606a"
+          },
+          "events:story_one_year:/choices/1/result_text": {
+            "source_sha256": "9d058b1c97a73d5fb3514723910bd5c461739c4c19906294e9039cf817f9f2df",
+            "target_sha256": "9f60b0f50a7d4d99b6bec2b4cef1d87370617a13bbbc4f07917dcbafb4ae3375"
+          },
+          "events:story_one_year:/choices/1/text": {
+            "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
+            "target_sha256": "27e693badcd847030f2f374e62edffac5c33d27bc57ab32fcb01e72b57fdd5f8"
+          },
+          "events:story_one_year:/description": {
+            "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
+            "target_sha256": "f875e055580d83be8f9c309b079515d9ccca08d6ea12eb6dea1f0a66283386eb"
+          }
+        },
+        "zh-TW": {
+          "events:arc_sangchul_02_coffee:/description": {
+            "source_sha256": "9163b90414373cfb35ab2af5e568934f9f56fe2381178a6943d1975a2843d9ba",
+            "target_sha256": "0496154b7ff44f5b5cd8e7662950b06963cdc651bd3a9521d5d183b5231d852b"
+          },
+          "events:arc_y1_new_room_first_month:/description": {
+            "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
+            "target_sha256": "0e7eb25dc8b007740a587356443e45fb482ac787b6314a7a5607b9397a37bac4"
+          },
+          "events:callback_daeun_supportive_warmth:/description": {
+            "source_sha256": "e3a11053045ff40ed6bbd44c8217e6f7f4d462ceb539a4465fbae9952c63f614",
+            "target_sha256": "96bc79b27d6c87d50eeda51765dd8d8991842d20522f46fdc879b6e8c628f2f3"
+          },
+          "events:callback_investment_lesson_echo:/choices/0/result_text": {
+            "source_sha256": "bca724b0f58c2ff47ad2b4535139df66fc7a3c509c32563b7dfcab3f0c130e3d",
+            "target_sha256": "12dc4d2ed280953d63b13ad766458ee7e96f8ce8dcb01aec980bc24d5235ce81"
+          },
+          "events:callback_investment_lesson_echo:/choices/0/text": {
+            "source_sha256": "9de62479f2be503546231566e86bf6c17e1d150f4f39e2fb4570631d14edb910",
+            "target_sha256": "92713387b269d3596ff917f5da4704e0b81d7c2159d5cb6406c3c01f1a5eed3c"
+          },
+          "events:callback_investment_lesson_echo:/choices/1/result_text": {
+            "source_sha256": "c30ed0722ddea51e4f43ad31ea7b55ecc7149bd980d7937c48b9ef39d801e8db",
+            "target_sha256": "260151f60aff23c11d219d324cf97a88802c7fc03f0cd9976b5bd97511db5be3"
+          },
+          "events:callback_investment_lesson_echo:/choices/1/text": {
+            "source_sha256": "a85f3837d34e21fadabb3aa9a226efde3fb838e9d7f18d2014b52c117b401ce8",
+            "target_sha256": "4ba977692fdb463d650f517fa1638b27970aba3a2de7cb3f4b5eb5904988b711"
+          },
+          "events:callback_investment_lesson_echo:/description": {
+            "source_sha256": "f94bb75c90dd6dc78f6b77c4ad5fc4771d6a3229a319eba2ea4d975d91e2c85f",
+            "target_sha256": "9b05f6fcb72fc1400a5ec215287c267de8e5135caf4308abcb7bfac1e585739e"
+          },
+          "events:story_one_year:/choices/0/result_text": {
+            "source_sha256": "6c1affc5bed538225485e4fa386f38c684ce7e61e7d3499a7c62e3f010385892",
+            "target_sha256": "42707da63ac275dbdc9b65e251d58354eb148f888f2b52e34bbf19121ae16277"
+          },
+          "events:story_one_year:/choices/0/text": {
+            "source_sha256": "00a4ba2944213495a0b1fa1b849a683038e3fa07143af1cd442e4ab48035fa73",
+            "target_sha256": "7c4b775d27005cbca2b850218ef0f2444f0a9e66beb1d2010a27da0e4e2611c8"
+          },
+          "events:story_one_year:/choices/1/result_text": {
+            "source_sha256": "9d058b1c97a73d5fb3514723910bd5c461739c4c19906294e9039cf817f9f2df",
+            "target_sha256": "5758345d82047f7fe5b929a0d81ac47796fc457412b028912b1ab2857de344f0"
+          },
+          "events:story_one_year:/choices/1/text": {
+            "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
+            "target_sha256": "5823a1eddb596d6f562450a124860eb0237ea4813722e6cc4d24d0b528487864"
+          },
+          "events:story_one_year:/description": {
+            "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
+            "target_sha256": "f54e00877af3edda9e9916e839dc208fb0b361453e7cae72b68ec0ad7c175ac8"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -31465,8 +31749,8 @@
         "target_sha256": "90f5c3d90814031a52af6210f81edf0db57247bfa6c111f6414ba09aca80a0cb"
       },
       "events:arc_y1_new_room_first_month:/description": {
-        "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
-        "target_sha256": "4998e41f1ed8f99d6af78092ac25935c8088207dc51ad05aa19b3540540d05a0"
+        "source_sha256": "13a515ebc440ddb55e0caf5ee9488f295677779c42672d8fa0a02dd68b63e7e9",
+        "target_sha256": "a08d6cc328767e9d5686a847904e761aa5066716701e328b06a90b2f582f36ad"
       },
       "events:arc_y1_new_room_first_month:/title": {
         "source_sha256": "adc3b14b08339f3effbd021897fa67bc37de9648fb1c73e6092024f910093db6",
@@ -36293,8 +36577,8 @@
         "target_sha256": "ee725da176bb7a457dad00d354a2f8f923a30d0d21d77eed334f79a103168e09"
       },
       "events:callback_daeun_supportive_warmth:/description": {
-        "source_sha256": "e3a11053045ff40ed6bbd44c8217e6f7f4d462ceb539a4465fbae9952c63f614",
-        "target_sha256": "2d396fe80703836c6de818ac3295a3b0ff279ec1c05c9d52205a0bcc60896abf"
+        "source_sha256": "7bbd524bf2fd8fbcf9e474b724ee20bae41c1156b408cf7ffa2e44303c206fbd",
+        "target_sha256": "18010caf73d8cdf132cca4697d3ca7861d4dcaf19c730674229287fc57e579f0"
       },
       "events:callback_daeun_supportive_warmth:/title": {
         "source_sha256": "9e47258b1185c181e05742034e67cecd4a9328712ad1d67e7047252e23d46494",
@@ -52289,24 +52573,24 @@
         "target_sha256": "bed9128fc4639bf70f138143cdf8168080b7dfb98f87abd76ea9667448b5d898"
       },
       "events:story_one_year:/choices/0/result_text": {
-        "source_sha256": "6c1affc5bed538225485e4fa386f38c684ce7e61e7d3499a7c62e3f010385892",
-        "target_sha256": "aaac5305d7bd291a00212ef19149d2185190e1481417282fd6b5da53fa182e63"
+        "source_sha256": "026a3606fbc1a61e5a603061e332be494297fec9b282b20cb3d7f95897ad0822",
+        "target_sha256": "1f7aca6b72ae5046b0b72722a90875184b034d3b0bc4c485709e2cb17a098e34"
       },
       "events:story_one_year:/choices/0/text": {
-        "source_sha256": "00a4ba2944213495a0b1fa1b849a683038e3fa07143af1cd442e4ab48035fa73",
-        "target_sha256": "a202431ce7918b26bed535b845bdddeed57dc030093fb849b86cec9c3709cb4b"
+        "source_sha256": "df8e3a247a67afd8025c44e913ed8200f2621edb98be2c70251be8217cdf7f37",
+        "target_sha256": "99150233fbdd3df8281f073600ff23f12fa6556c255df5b6e375b0d22b7828a2"
       },
       "events:story_one_year:/choices/1/result_text": {
-        "source_sha256": "9d058b1c97a73d5fb3514723910bd5c461739c4c19906294e9039cf817f9f2df",
-        "target_sha256": "5bc8b4dd6b01d21204c064f5c4b9caff85c0109923f00d5dccf3a075264c4b58"
+        "source_sha256": "ed8712de5322ff0f49cf8f80691da05e6f2a088cc19b21827c61fba32ec79911",
+        "target_sha256": "6468ed2422bb78f4a2a0a5dcf3538d2f3300431ce9ed9023413cd6513f46cc4c"
       },
       "events:story_one_year:/choices/1/text": {
-        "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
-        "target_sha256": "fe43f42f213e0e657550b103b9f0aeedb64cc1691a3001c261ef1410dde252ae"
+        "source_sha256": "94ac5cd93b8a0e4d421dc84bda1df73104a470b80681f43058b0f11356a27ff4",
+        "target_sha256": "d01c689e90db22b6735abf2d6f916ae021820c80191e27e8d4bb3c909c5b89d9"
       },
       "events:story_one_year:/description": {
-        "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
-        "target_sha256": "d69320dca28aa807958459d03d7c8c36944d4c863b9e6657e7fdda457fd52ddc"
+        "source_sha256": "388e669f85b29c99cd3be335b7730e3b9964027eb6886cf3cf2c153c0efd9188",
+        "target_sha256": "99679d095a1f957ab9c869c4f8bee6c1d2108dabe41f6a4342024d9e57819946"
       },
       "events:story_one_year:/title": {
         "source_sha256": "73b7e755e0ced17c53c721f44dbc73b2664de88db3b249bf13a81934944a6e78",
@@ -64525,24 +64809,24 @@
         "target_sha256": "2694558aabc24f1ebd723e6dbfd6d437c1d8585945957b4061afab1791cd0bd5"
       },
       "events:callback_investment_lesson_echo:/choices/0/result_text": {
-        "source_sha256": "bca724b0f58c2ff47ad2b4535139df66fc7a3c509c32563b7dfcab3f0c130e3d",
-        "target_sha256": "ef98b602b2ceff5628e506052d4938377a4d6b696903a730cd9b572627cdc5d5"
+        "source_sha256": "33cb5ba373e62b59160001bbf894308f240d6feac7d5eea2edaf4c382dc2ba92",
+        "target_sha256": "0fc510b9660fbc163f0368a560cde140142f54492565cb27e34c777b54218881"
       },
       "events:callback_investment_lesson_echo:/choices/0/text": {
-        "source_sha256": "9de62479f2be503546231566e86bf6c17e1d150f4f39e2fb4570631d14edb910",
-        "target_sha256": "e7b7cec471ef005a5cfa2e8a3fa3d5d82efa9ab88776a02c06bc312564c5c259"
+        "source_sha256": "738994dd6811690e0f0e111bae7b4fc8f41d13ff33e017eaeaa626a0066116ad",
+        "target_sha256": "56cb3a075f44e3b92217dcdd6b4ab74d4e7287306efa069a7dbc301be3a6bbd7"
       },
       "events:callback_investment_lesson_echo:/choices/1/result_text": {
-        "source_sha256": "c30ed0722ddea51e4f43ad31ea7b55ecc7149bd980d7937c48b9ef39d801e8db",
-        "target_sha256": "25d740cc54d20304790829ff85fba17a05ee324364cd97b0ce5d6ea8771ecbc7"
+        "source_sha256": "2ecf6c8c2c2fad81bbddf8bf2b53794a46bdba891abb392d39823141130f4c72",
+        "target_sha256": "9715222fb3c7c2c933701b6d0358cefa0dbbc5ff60c56c8d8b03810831855e58"
       },
       "events:callback_investment_lesson_echo:/choices/1/text": {
-        "source_sha256": "a85f3837d34e21fadabb3aa9a226efde3fb838e9d7f18d2014b52c117b401ce8",
-        "target_sha256": "789b37f763e539d0d6e605e4be3d4707125ff6b1ab1eab0a014fddfdd1b5d2b4"
+        "source_sha256": "ad05d49f26dbcbeb078a30c6bad8cdd76f3f26fa1388a999432c2187eb48b366",
+        "target_sha256": "7ac360b09faa48aa4390f714829023295c1cb9640800dd66451d92eb6445a889"
       },
       "events:callback_investment_lesson_echo:/description": {
-        "source_sha256": "f94bb75c90dd6dc78f6b77c4ad5fc4771d6a3229a319eba2ea4d975d91e2c85f",
-        "target_sha256": "953e00b80f886ed97a31de17bf5f4846ec00e9138e091912c29c52a57c76b070"
+        "source_sha256": "ffb933760fdb127fe2fac0d32091e11d7f9ebd029e5e81c7f77f120d9887cb41",
+        "target_sha256": "2031006fde5fbee0b880330d59d91d332a09ad60e62f1e4b5e56995054ecd8f6"
       },
       "events:callback_investment_lesson_echo:/title": {
         "source_sha256": "51255d9cab8fcade620be56a261069d09d442ee5357a73d130fad7850d8e732d",
@@ -77793,8 +78077,8 @@
         "target_sha256": "55f3910aa677ad066ab09da5a2e303dd3823cd88128acddef9acbe2ba0f5fee9"
       },
       "events:arc_sangchul_02_coffee:/description": {
-        "source_sha256": "9163b90414373cfb35ab2af5e568934f9f56fe2381178a6943d1975a2843d9ba",
-        "target_sha256": "48c2dbdaa0059b934023b019ee52608102ac1fc99e40abb2675c8028a3e79ba1"
+        "source_sha256": "cc0082f9e2469e7b2406071a603a2a520b11c1fee29741bd707dc530f67d6f23",
+        "target_sha256": "4ee6a6b848a3162efc585150768eaf51d4a8f093f1f85cde7e9558c9a29e0f83"
       },
       "events:arc_sangchul_02_coffee:/description_if_known/sangchul_truth_known": {
         "source_sha256": "4ec424b49dd1e2fda286415807ca6eb27628e181d09c7b728ee56a976171de87",
@@ -84359,8 +84643,8 @@
         "target_sha256": "89bf1e51746ce618ac4be0cfc1ceec56ad2d41c3f6a0b15a2ef73ec9e6b3f8ca"
       },
       "events:arc_y1_new_room_first_month:/description": {
-        "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
-        "target_sha256": "486498ef34a9e66e22ebad3e3205cb58316749e0e28ab47b5d08bd102e17a539"
+        "source_sha256": "13a515ebc440ddb55e0caf5ee9488f295677779c42672d8fa0a02dd68b63e7e9",
+        "target_sha256": "725cdd3420d32d6693dc823e1cf62074a23eedebe14fcfe1d05d9b60093b4816"
       },
       "events:arc_y1_new_room_first_month:/title": {
         "source_sha256": "adc3b14b08339f3effbd021897fa67bc37de9648fb1c73e6092024f910093db6",
@@ -89187,8 +89471,8 @@
         "target_sha256": "4d64258e3fc0a4b38f242453baff873d0c3e76fc96032fb50e79f2dca0486d6a"
       },
       "events:callback_daeun_supportive_warmth:/description": {
-        "source_sha256": "e3a11053045ff40ed6bbd44c8217e6f7f4d462ceb539a4465fbae9952c63f614",
-        "target_sha256": "832e1b9ee921dd86f4d85c0d165c93fdb75945a2a64161f6eb08085cf08e83eb"
+        "source_sha256": "7bbd524bf2fd8fbcf9e474b724ee20bae41c1156b408cf7ffa2e44303c206fbd",
+        "target_sha256": "a3d30c024adf454a81b2c61bfa50654290d62ef81127ad14932d70d8f7a27941"
       },
       "events:callback_daeun_supportive_warmth:/title": {
         "source_sha256": "9e47258b1185c181e05742034e67cecd4a9328712ad1d67e7047252e23d46494",
@@ -105183,24 +105467,24 @@
         "target_sha256": "81b37cbf9a05c44885fb962956e82190abcff0953018e0c3e62c4828e1354f68"
       },
       "events:story_one_year:/choices/0/result_text": {
-        "source_sha256": "6c1affc5bed538225485e4fa386f38c684ce7e61e7d3499a7c62e3f010385892",
-        "target_sha256": "1647f5b941ee658e3bd092b254bec76b3cb67127b62cf91fdae8dfc4acb2bf1a"
+        "source_sha256": "026a3606fbc1a61e5a603061e332be494297fec9b282b20cb3d7f95897ad0822",
+        "target_sha256": "9a77ecf2a0f8da70036a449dbd932389d238dbf0d877389b9f0cd01efd9abec2"
       },
       "events:story_one_year:/choices/0/text": {
-        "source_sha256": "00a4ba2944213495a0b1fa1b849a683038e3fa07143af1cd442e4ab48035fa73",
-        "target_sha256": "8249bd795075d997d39fde4960341a8b76c48e2162877d7597eab8d98c41606a"
+        "source_sha256": "df8e3a247a67afd8025c44e913ed8200f2621edb98be2c70251be8217cdf7f37",
+        "target_sha256": "a8b78dc7d949f3b1d2c918ff177e66779442c9375caf6be23d4e277d418a5730"
       },
       "events:story_one_year:/choices/1/result_text": {
-        "source_sha256": "9d058b1c97a73d5fb3514723910bd5c461739c4c19906294e9039cf817f9f2df",
-        "target_sha256": "9f60b0f50a7d4d99b6bec2b4cef1d87370617a13bbbc4f07917dcbafb4ae3375"
+        "source_sha256": "ed8712de5322ff0f49cf8f80691da05e6f2a088cc19b21827c61fba32ec79911",
+        "target_sha256": "555944af1f96e2cb7f2589d005b578d496dbd09e0e3a3f09cdb24bc32d947aee"
       },
       "events:story_one_year:/choices/1/text": {
-        "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
-        "target_sha256": "27e693badcd847030f2f374e62edffac5c33d27bc57ab32fcb01e72b57fdd5f8"
+        "source_sha256": "94ac5cd93b8a0e4d421dc84bda1df73104a470b80681f43058b0f11356a27ff4",
+        "target_sha256": "beb638f546a083a62717402f339f075fb3bba07c6466bf0a9fc49302917cc9af"
       },
       "events:story_one_year:/description": {
-        "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
-        "target_sha256": "f875e055580d83be8f9c309b079515d9ccca08d6ea12eb6dea1f0a66283386eb"
+        "source_sha256": "388e669f85b29c99cd3be335b7730e3b9964027eb6886cf3cf2c153c0efd9188",
+        "target_sha256": "acd084e148d2e89250317c08055aefc0f78858adb056c19a69ce41a7874d4518"
       },
       "events:story_one_year:/title": {
         "source_sha256": "73b7e755e0ced17c53c721f44dbc73b2664de88db3b249bf13a81934944a6e78",
@@ -117419,24 +117703,24 @@
         "target_sha256": "88df3d97492bc9725832ffcfb074d5db176237cc03975aca9ebf714ebacfe1c3"
       },
       "events:callback_investment_lesson_echo:/choices/0/result_text": {
-        "source_sha256": "bca724b0f58c2ff47ad2b4535139df66fc7a3c509c32563b7dfcab3f0c130e3d",
-        "target_sha256": "5cfbba20ea0c0a49b2a2a6e3a7808f915fd8c34c61289f18520244dc4f15c5b7"
+        "source_sha256": "33cb5ba373e62b59160001bbf894308f240d6feac7d5eea2edaf4c382dc2ba92",
+        "target_sha256": "fa94912e6901786778efc362d16034feb2b5c36905bd334f0bb1ad98b477ee3b"
       },
       "events:callback_investment_lesson_echo:/choices/0/text": {
-        "source_sha256": "9de62479f2be503546231566e86bf6c17e1d150f4f39e2fb4570631d14edb910",
-        "target_sha256": "d2fced1e5da0041e5dae74a06af814193a984149f961293f58839deb8c9d4030"
+        "source_sha256": "738994dd6811690e0f0e111bae7b4fc8f41d13ff33e017eaeaa626a0066116ad",
+        "target_sha256": "fa0ff3a8557761701828edf42776c83610cd3ebb0953325c8ea1fc8956642292"
       },
       "events:callback_investment_lesson_echo:/choices/1/result_text": {
-        "source_sha256": "c30ed0722ddea51e4f43ad31ea7b55ecc7149bd980d7937c48b9ef39d801e8db",
-        "target_sha256": "1b2bd888e92a69e6f442f66926919fc2d3f0ca402236e6c3002cd35350c0abd6"
+        "source_sha256": "2ecf6c8c2c2fad81bbddf8bf2b53794a46bdba891abb392d39823141130f4c72",
+        "target_sha256": "215aeff12ea3c3447e6cea2767ea615c319e006b8d71fdb12656ccd422763a97"
       },
       "events:callback_investment_lesson_echo:/choices/1/text": {
-        "source_sha256": "a85f3837d34e21fadabb3aa9a226efde3fb838e9d7f18d2014b52c117b401ce8",
-        "target_sha256": "0347fa55cc4cee8ee62479fb7a1d9debf8b12725035c6bf0f09ee3e5e157f08a"
+        "source_sha256": "ad05d49f26dbcbeb078a30c6bad8cdd76f3f26fa1388a999432c2187eb48b366",
+        "target_sha256": "7672dd3334c3559e4c3de79b4c9ecb0b7d2cb07387e2590264d383f6b35b56e6"
       },
       "events:callback_investment_lesson_echo:/description": {
-        "source_sha256": "f94bb75c90dd6dc78f6b77c4ad5fc4771d6a3229a319eba2ea4d975d91e2c85f",
-        "target_sha256": "82c1d1f6576683dd4751e63b76d7540d918bdbf498d042f3d33cc90b2d9aaf3a"
+        "source_sha256": "ffb933760fdb127fe2fac0d32091e11d7f9ebd029e5e81c7f77f120d9887cb41",
+        "target_sha256": "b5c44e894f817e5b1bab113e8d242156da4096276b10d36230db06246108223a"
       },
       "events:callback_investment_lesson_echo:/title": {
         "source_sha256": "51255d9cab8fcade620be56a261069d09d442ee5357a73d130fad7850d8e732d",
@@ -130687,8 +130971,8 @@
         "target_sha256": "c8f29abd9913251ff59fbcf290dea66b5c55afbcd2d56d15a63558c124105665"
       },
       "events:arc_sangchul_02_coffee:/description": {
-        "source_sha256": "9163b90414373cfb35ab2af5e568934f9f56fe2381178a6943d1975a2843d9ba",
-        "target_sha256": "6ee5dcf62c2a57314b59f4c18eebb708f67958e20501d222b5a3c550e23adf18"
+        "source_sha256": "cc0082f9e2469e7b2406071a603a2a520b11c1fee29741bd707dc530f67d6f23",
+        "target_sha256": "f82060037c556564b5f0eb22d5e43ee78cc627a18be8535031ca336ed9d4eeca"
       },
       "events:arc_sangchul_02_coffee:/description_if_known/sangchul_truth_known": {
         "source_sha256": "4ec424b49dd1e2fda286415807ca6eb27628e181d09c7b728ee56a976171de87",
@@ -144037,8 +144321,8 @@
         "target_sha256": "5f8d5bcd4b9acd39a984a88562919cd17d05e1bc1f440b74fdb7f0b1438b4fd4"
       },
       "events:arc_y1_new_room_first_month:/description": {
-        "source_sha256": "faa4d8b541d058f072096577049ea532dfd587e045d7f5a19e6dcd6f142e6916",
-        "target_sha256": "0e7eb25dc8b007740a587356443e45fb482ac787b6314a7a5607b9397a37bac4"
+        "source_sha256": "13a515ebc440ddb55e0caf5ee9488f295677779c42672d8fa0a02dd68b63e7e9",
+        "target_sha256": "1437d6bbc011ac401bc3dce5e5455fc747d7f0d1182fb9899a158019fed8a28f"
       },
       "events:arc_y1_new_room_first_month:/title": {
         "source_sha256": "adc3b14b08339f3effbd021897fa67bc37de9648fb1c73e6092024f910093db6",
@@ -148865,8 +149149,8 @@
         "target_sha256": "09af86e83e430e47cc34daf1fe6f313fc47fc6fdb7cdee4260662c1f2b128999"
       },
       "events:callback_daeun_supportive_warmth:/description": {
-        "source_sha256": "e3a11053045ff40ed6bbd44c8217e6f7f4d462ceb539a4465fbae9952c63f614",
-        "target_sha256": "96bc79b27d6c87d50eeda51765dd8d8991842d20522f46fdc879b6e8c628f2f3"
+        "source_sha256": "7bbd524bf2fd8fbcf9e474b724ee20bae41c1156b408cf7ffa2e44303c206fbd",
+        "target_sha256": "46127d7ade0b32d01f3ef6007e8859515478aabf872d05a32108e04c7ce9eba7"
       },
       "events:callback_daeun_supportive_warmth:/title": {
         "source_sha256": "9e47258b1185c181e05742034e67cecd4a9328712ad1d67e7047252e23d46494",
@@ -164861,24 +165145,24 @@
         "target_sha256": "81b37cbf9a05c44885fb962956e82190abcff0953018e0c3e62c4828e1354f68"
       },
       "events:story_one_year:/choices/0/result_text": {
-        "source_sha256": "6c1affc5bed538225485e4fa386f38c684ce7e61e7d3499a7c62e3f010385892",
-        "target_sha256": "42707da63ac275dbdc9b65e251d58354eb148f888f2b52e34bbf19121ae16277"
+        "source_sha256": "026a3606fbc1a61e5a603061e332be494297fec9b282b20cb3d7f95897ad0822",
+        "target_sha256": "9cdb7762e2924b555f7b9c25ae87d0db3d1f0a73d4a61523c0ebd07b7934f239"
       },
       "events:story_one_year:/choices/0/text": {
-        "source_sha256": "00a4ba2944213495a0b1fa1b849a683038e3fa07143af1cd442e4ab48035fa73",
-        "target_sha256": "7c4b775d27005cbca2b850218ef0f2444f0a9e66beb1d2010a27da0e4e2611c8"
+        "source_sha256": "df8e3a247a67afd8025c44e913ed8200f2621edb98be2c70251be8217cdf7f37",
+        "target_sha256": "23a196cc3b79b491ab09615d8e0bd673c0798e74d533e4a52e99b65c2bb1b81c"
       },
       "events:story_one_year:/choices/1/result_text": {
-        "source_sha256": "9d058b1c97a73d5fb3514723910bd5c461739c4c19906294e9039cf817f9f2df",
-        "target_sha256": "5758345d82047f7fe5b929a0d81ac47796fc457412b028912b1ab2857de344f0"
+        "source_sha256": "ed8712de5322ff0f49cf8f80691da05e6f2a088cc19b21827c61fba32ec79911",
+        "target_sha256": "ea8880ca0b68fcb11efa3ddf20cde8e9fcf2c677866cb49a5bf59df55fbd11c2"
       },
       "events:story_one_year:/choices/1/text": {
-        "source_sha256": "aea1239f8204a1d5a8fef266b3925b7f8fb3fdd8e318bf5ed242c94b890d9057",
-        "target_sha256": "5823a1eddb596d6f562450a124860eb0237ea4813722e6cc4d24d0b528487864"
+        "source_sha256": "94ac5cd93b8a0e4d421dc84bda1df73104a470b80681f43058b0f11356a27ff4",
+        "target_sha256": "f644fdd0f3dc2ec59a1af22652a79d937c997333c85facce9a872d2a037e9c89"
       },
       "events:story_one_year:/description": {
-        "source_sha256": "5451b9c61d68acbd43dc18977d6acd1ad27802730dff31a9f71bc1ca8be64f47",
-        "target_sha256": "f54e00877af3edda9e9916e839dc208fb0b361453e7cae72b68ec0ad7c175ac8"
+        "source_sha256": "388e669f85b29c99cd3be335b7730e3b9964027eb6886cf3cf2c153c0efd9188",
+        "target_sha256": "8d515fc5f9e969cc2ee150a738dedf53350b0dab2759700c022a8ac229916af6"
       },
       "events:story_one_year:/title": {
         "source_sha256": "73b7e755e0ced17c53c721f44dbc73b2664de88db3b249bf13a81934944a6e78",
@@ -177097,24 +177381,24 @@
         "target_sha256": "54adc4189dfe1b66b8aaee499957fd81cb1cd5e60fd70cdbba4cd1e67de82912"
       },
       "events:callback_investment_lesson_echo:/choices/0/result_text": {
-        "source_sha256": "bca724b0f58c2ff47ad2b4535139df66fc7a3c509c32563b7dfcab3f0c130e3d",
-        "target_sha256": "12dc4d2ed280953d63b13ad766458ee7e96f8ce8dcb01aec980bc24d5235ce81"
+        "source_sha256": "33cb5ba373e62b59160001bbf894308f240d6feac7d5eea2edaf4c382dc2ba92",
+        "target_sha256": "1234fea026794413e9c22eb9609189baaacebbc12dd264efa2175a48d57790d1"
       },
       "events:callback_investment_lesson_echo:/choices/0/text": {
-        "source_sha256": "9de62479f2be503546231566e86bf6c17e1d150f4f39e2fb4570631d14edb910",
-        "target_sha256": "92713387b269d3596ff917f5da4704e0b81d7c2159d5cb6406c3c01f1a5eed3c"
+        "source_sha256": "738994dd6811690e0f0e111bae7b4fc8f41d13ff33e017eaeaa626a0066116ad",
+        "target_sha256": "51ddd329ea03fda8c8a6ed31c6e789b86893829fd22e4c0ffeb06a21f04a6aab"
       },
       "events:callback_investment_lesson_echo:/choices/1/result_text": {
-        "source_sha256": "c30ed0722ddea51e4f43ad31ea7b55ecc7149bd980d7937c48b9ef39d801e8db",
-        "target_sha256": "260151f60aff23c11d219d324cf97a88802c7fc03f0cd9976b5bd97511db5be3"
+        "source_sha256": "2ecf6c8c2c2fad81bbddf8bf2b53794a46bdba891abb392d39823141130f4c72",
+        "target_sha256": "3decfd3733646bae93002e689640dc5c7af6e0d01033dfc2f79c95baf8a48ae9"
       },
       "events:callback_investment_lesson_echo:/choices/1/text": {
-        "source_sha256": "a85f3837d34e21fadabb3aa9a226efde3fb838e9d7f18d2014b52c117b401ce8",
-        "target_sha256": "4ba977692fdb463d650f517fa1638b27970aba3a2de7cb3f4b5eb5904988b711"
+        "source_sha256": "ad05d49f26dbcbeb078a30c6bad8cdd76f3f26fa1388a999432c2187eb48b366",
+        "target_sha256": "3ab73a8b3a3fcd9c106d1ea753c7b7adb538e31663acd97962fa562d2ecc2ae1"
       },
       "events:callback_investment_lesson_echo:/description": {
-        "source_sha256": "f94bb75c90dd6dc78f6b77c4ad5fc4771d6a3229a319eba2ea4d975d91e2c85f",
-        "target_sha256": "9b05f6fcb72fc1400a5ec215287c267de8e5135caf4308abcb7bfac1e585739e"
+        "source_sha256": "ffb933760fdb127fe2fac0d32091e11d7f9ebd029e5e81c7f77f120d9887cb41",
+        "target_sha256": "c857a83a3432e37e33f128804e19613142d72ae10b0579a506863fb926d1951d"
       },
       "events:callback_investment_lesson_echo:/title": {
         "source_sha256": "51255d9cab8fcade620be56a261069d09d442ee5357a73d130fad7850d8e732d",
@@ -190365,8 +190649,8 @@
         "target_sha256": "a0c489e83c2748964e449f206bc458f01c56dcd269a7226fc8d17e4b5976c1c3"
       },
       "events:arc_sangchul_02_coffee:/description": {
-        "source_sha256": "9163b90414373cfb35ab2af5e568934f9f56fe2381178a6943d1975a2843d9ba",
-        "target_sha256": "0496154b7ff44f5b5cd8e7662950b06963cdc651bd3a9521d5d183b5231d852b"
+        "source_sha256": "cc0082f9e2469e7b2406071a603a2a520b11c1fee29741bd707dc530f67d6f23",
+        "target_sha256": "334a43753a129377e5b4594cdcf0ec5c2006d377346e1e30b7f7942ccee1a04a"
       },
       "events:arc_sangchul_02_coffee:/description_if_known/sangchul_truth_known": {
         "source_sha256": "4ec424b49dd1e2fda286415807ca6eb27628e181d09c7b728ee56a976171de87",
@@ -203502,7 +203786,7 @@
       }
     }
   },
-  "accepted_sha256": "fb1a9234f3221a8176689d24e919ac31c2e4800c8cf674a904b69d73ea5f4d91",
+  "accepted_sha256": "aab362f336fce0265561e5879fb67507ddd683f9b00195f4f1d99c5663053f65",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

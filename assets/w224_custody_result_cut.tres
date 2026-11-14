@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/filed_anchors = {
+"ko": "다은은 빈손으로 일어나며",
+"en": "Daeun stood empty-handed.",
+"ja": "ダウンは何も持たずに立ち上がって",
+"zh-CN": "Daeun空着手站起来",
+"zh-TW": "Daeun 空著手起身"
+}

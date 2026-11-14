@@ -1295,7 +1295,7 @@
   {
     "id": "arc_y1_new_room_first_month",
     "title": "The First Utility Bill",
-      "description": "A month after he moved in, {name} got a notification at 7:12 p.m. that his electricity payment had gone through. He unfolded the bill that had been wedged beneath the door and set it beside the transfer receipt. It was the first electric bill he'd paid here.\n\nHe'd redone his commute and mealtimes on the calendar, but only the first three days were checked off. The rest were blank. On moving day there had still been boxes to unpack, and even the ceiling looked unfamiliar. Now the room smelled of dry towels and bore the marks of a month's living. The light over the sink flickered once, and the refrigerator motor started up again. {name} noted the time of the payment in the margin.",
+      "description": "At 7:12 p.m., {name} got a notification that his electricity payment had gone through. He unfolded the bill that had been wedged beneath the door and set it beside the transfer receipt. It was the first electric bill he'd paid here.\n\nHe'd redone his commute and mealtimes on the calendar, but only the first three days were checked off. The rest were blank. On moving day there had still been boxes to unpack, and even the ceiling looked unfamiliar. Now the room smelled of dry towels and bore the marks of someone living there. The light over the sink flickered once, and the refrigerator motor started up again. {name} noted the time of the payment in the margin.",
     "choices": [
       {
         "text": "Tape the transfer receipt above the desk",

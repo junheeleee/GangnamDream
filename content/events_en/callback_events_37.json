@@ -2,15 +2,15 @@
   {
     "id": "callback_investment_lesson_echo",
     "title": "Start Small",
-    "description": "First real money in.\n\nSmall amount. 'Lose-and-learn money,' like Sangchul had said.\n\nThe chart turned red.\n\n'Start small. Losing is how the market comes into focus.'\nThe voice came back.",
+    "description": "He opened the chart again.\n\nBefore deciding how much to put in, he remembered what Sangchul had told him.\n\nThe price was falling.\n\n“Start small. Only put in what you can afford to lose and learn from.”",
     "choices": [
       {
-        "text": "Hold — don't panic sell",
-        "result_text": "Held for three days. It recovered — barely into the green.\n\nThe profit was nothing. The lesson was everything: how it rises, how it falls, how the hand trembles.\nThat's what Sangchul meant."
+        "text": "Watch for three days without putting money in",
+        "result_text": "For three days he put no money in. Whenever the price moved, he found himself counting how often he checked the screen.\n\nHe was beginning to understand why Sangchul had told him to start small."
       },
       {
-        "text": "Got greedy — added more, lost more",
-        "result_text": "'Small' was heard but the hands didn't listen.\n\nLost it. Tuition paid the expensive way.\nReal school always does."
+        "text": "Put a little money on the line now",
+        "result_text": "He remembered Sangchul's advice and put some money on the line anyway.\n\nHe lost 50,000 won. Next time he opened the chart, he'd decide how much he could afford to lose before doing anything else."
       }
     ]
   },

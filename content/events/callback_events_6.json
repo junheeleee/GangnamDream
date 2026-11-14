@@ -190,7 +190,7 @@
     "id": "callback_daeun_supportive_warmth",
     "title": "다은의 문자",
     "background": "current_housing",
-    "description": "다은이 힘들어할 때 옆에 있어줬던 게 몇 달 전이다.\n오늘 다은에게서 문자가 왔다.\n'민준씨. 그때 생각이 나서요.\n요즘 잘 지내요?'",
+    "description": "그날 저녁, 다은은 야간 근무를 마치고도 잠이 오지 않는 날들 얘기를 했다. {name}은 말을 보태지 않고 끝까지 들었다.\n오늘 다은에게서 문자가 왔다.\n‘민준씨. 그때 생각이 나서요.\n요즘 잘 지내요?’",
     "category": "relationship",
     "rarity": "uncommon",
     "weight": 1.0,
