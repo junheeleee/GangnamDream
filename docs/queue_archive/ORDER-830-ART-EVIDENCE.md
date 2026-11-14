@@ -633,6 +633,8 @@ M60 ‘다은과 함께’는 외곽 집의 현재 식탁 아래 기존 조용�
 
 [~] W164 야간 외래 접수·대기실 원화 후보와 이 증거만. 출시 예약기 `scenes/MainGame.gd` W164는 다은 동반 또는 비동반 결과를 고른다. 다은 동반 c0의 접수대 도착 뒤와 진료실 문 앞 의자만; 기존 진료실 내부·입원동은 부적합. 새 진단·장소명·동석 인물·진료 장비·환자 명단 발명0. 비동반 119는 현관까지, 지연 author-only 배선0. 원화 검수 이후 실제 파일 별도 선언.
 
+[~] W164 정확한 새벽 접수 문장 전환 — `scenes/StoryMode.gd`, 새 `assets/w164_daeun_intake_cut.tres`, `assets/backgrounds/hospital_night_intake_w164_v1.png`+import, `autoloads/ImageRegistry.gd`, `assets/{scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `tools/{scene_audio_contract_check.py,scene_direction_catalog.py,StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY}.md`, 이 증거·현황·일지. 다은 regular c0에만 5언어 앵커로 접수 전/후를 분리; 앵커 미확인 때 원문 첫 문단은 집 유지, 다음 명시 대기부터 전환. W164 현수, 지연 비도달, 다른 선택·원고·저장·기존 인간판정 불변. 병원 룸톤은 이미 승인된 빈 병원 실녹음만, 기존 집·사람·계절 레이어를 도착 때 끊는다. 실청취 별도.
+
 완료(2026-11-15 KST, 한강 배경·민서 원격 통화): W126 세 번째 결과만 기존 야간 강변으로 이동하고 나머지 결과는 현재 거처를 유지한다. 강물 전용 적합 원음과 구체 장소가 나오지 않는 마지막 귀갓길의 별도 컷은 미완. W205는 카페 그림과 환경음 대신 민서를 전화로 표시하며, 첫 갈래에서 원문이 전화를 끊었다는 문단부터 민서와 통화 배지를 없앤다. 두 번째 갈래는 일방 종료를 추가하지 않았다. 독립 검수에서 이전 카페 텍스처가 같은 인스턴스에 남는 결함을 발견해, 진입 즉시 텍스처·환경층을 비우도록 수정했다.
 
 최종 `830-w126-w205-headless.Jl9Vhk`·`830-w126-w205-final.gTDwV8`: 각각 5언어 선택 65·v4 결과 재개 65·같은 화면 노드에서 카페→통화 전환 5, stderr0; 1280×800 실렌더 30컷. 독립 원문·변경폭·카페 잔류 반례 대조. 글·경제·선택 효과·저장 형식·데모 불변. 직접 출력 기기 청취 미수행.
