@@ -28,6 +28,8 @@ P1 화면 완료: 맞부딪친 직후 바퀴·빗물 삽입 컷을 원래 충돌
 
 11-14 KST [~] 제품 배선: 빈 정류장·같은 자리 세단 도착 및 c0 먼 전조등 원화(`sinchon_bus_stop_{after_rain,sedan,distant_bus}_night.png`)와 import, ImageRegistry·방향/음향·mod·해상도·출시 사실 원장·출처. `arc_events.json`/story_rules/시각 계약의 이 사건 한 행 및 `StoryMode` c0 마지막 문단 배경·복원만. `scene_audio_contract_check.py`에 정류장의 무음 bed·P1 기존 차량음 1회·P2 기존 테마를 정확히 잠그고, 기존 검사와 효과·원고·저장 키·타 사건은 유지. `StoryBackgroundContextCheck` 격리 검증.
 
+`ScreenshotQA`의 지연 연령 초상 표본은 P0에서 P1 이후로 옮긴다. 보이는 초상을 검사하던 범위를 보존하기 위한 해당 표본 전용 변경이다.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
