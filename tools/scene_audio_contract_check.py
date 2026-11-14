@@ -23,6 +23,17 @@ M14_BANK_RESULT_CUES = {
     "2": {"0": [{"sfx": "pen_write", "volume_db": -8.0}],
           "1": [{"sfx": "traffic_pass", "volume_db": -10.0}]},
 }
+W230_VERDICT_EVENT = "arc_y5_people_verdict_daeun_exact"
+W230_VERDICT_AUDIO = {
+    "ambience": "intentional_silence",
+    "music": {"key": "reckoning", "start_paragraph": 1},
+    "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
+    "result_paragraph_cues": {
+        "0": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]},
+        "1": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]},
+        "2": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]},
+    },
+}
 SINCHON_REUNION_EVENT = "arc_jiyeon_02_store"
 SINCHON_REUNION_BACKGROUNDS = (
     "sinchon_bus_stop_after_rain_night",
@@ -275,6 +286,9 @@ def main() -> int:
                     or contract.get("paragraph_cues")
                     or contract.get("result_paragraph_cues") != M14_BANK_RESULT_CUES):
                 errors.append(f"{owner}: keep the bank beds quiet and use only the four result cues")
+        elif owner == W230_VERDICT_EVENT:
+            if contract != W230_VERDICT_AUDIO:
+                errors.append(f"{owner}: keep the cafe bed silent, with only the authored score, paper and writing")
         elif owner == SINCHON_REUNION_EVENT:
             if contract != SINCHON_REUNION_AUDIO:
                 errors.append(f"{owner}: after rain, only the P1 car cue and P2 score are authored")
@@ -325,6 +339,8 @@ def main() -> int:
 
     if M14_BANK_EVENT not in event_contracts:
         errors.append(f"{M14_BANK_EVENT}: missing bank audio contract")
+    if W230_VERDICT_EVENT not in event_contracts:
+        errors.append(f"{W230_VERDICT_EVENT}: missing cafe verdict audio contract")
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO
             or "apartment" not in ambience_keys):
         errors.append(f"{M23_MOTHER_CALL_EVENT}: retain only neutral room tone without added cues or score")
