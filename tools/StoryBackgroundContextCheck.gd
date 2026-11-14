@@ -10,6 +10,7 @@ const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
 const W202_EVENT := "callback_daeun_committed_gangnam_eve"
 const W4_EVENT := "arc_temptation_01"
 const W4_ROOM := "goshiwon_room"
+const W37_FIRST_BILL := "arc_y1_new_room_first_month"
 const M03_EVENT := "arc_jiyeon_01_crash"
 const M03_APPROACH := "sinchon_crash_approach_rain_dusk"
 const M03_IMPACT := "sinchon_crash_impact_rain_dusk"
@@ -297,6 +298,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W37_ROOM_CHECK"):
+		var w37_ok := await _check_w37_first_bill()
+		if w37_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w37_first_bill")
+		get_tree().quit(0 if w37_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W117_COUNTER_CHECK"):
 		var w117_ok := await _check_w117_counter()
 		if w117_ok:
@@ -1623,6 +1630,95 @@ func _jaehyuk_calendar_fixture_history(photo: bool, late_choices: Array) -> Arra
 		[115, "arc_why_gangnam_real"]] + late_choices
 	history.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) < int(b[0]))
 	return history
+
+func _check_w37_first_bill() -> bool:
+	var houses := {"oneroom": "apartment", "villa": "apartment", "apartment": "gangnam_apartment"}
+	var prepared: Dictionary = {}
+	if not _prepare_full_owner_history(37, [[34, "arc_goshiwon_goodbye"], [35, "arc_housing_new_life"]]):
+		return false
+	prepared = GameState.serialize().duplicate(true)
+	var cases := 0
+	var locales := W4_TERMS.keys()
+	for locale_index in range(locales.size()):
+		var language: String = locales[locale_index]
+		for choice in range(3):
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			GameState.call("_restore_serialized_snapshot_exact", prepared)
+			var housing: String = houses.keys()[(locale_index + choice) % houses.size()]
+			var background: String = houses[housing]
+			GameState.housing = housing
+			_context = "%s/W37/choice%d/%s" % [language, choice, housing]
+			var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+			var selected: String = ingress.call("_next_arc_id", -1, false, true)
+			var before_move: Dictionary = GameState.flags.duplicate(true)
+			before_move.erase("arc_housing_new_life_seen")
+			var when_unmoved: String = ingress.call("_story_graph_contract_event_id", 37, before_move, false)
+			ingress.free()
+			if selected != W37_FIRST_BILL or when_unmoved == W37_FIRST_BILL:
+				_fail("W37 wrong actual owner: %s (no move: %s)" % [selected, when_unmoved])
+				return false
+			if not await _open_full_fixture_event(selected, [], true) \
+					or not await _w37_read_quiet_phase(background, false):
+				return false
+			_story.call("_on_advance")
+			await _wait_stable()
+			if not bool(_story.get("_showing_choices")) or not _w37_quiet_home(background, "choices"):
+				_fail("W37 did not reach the three choices in the same quiet room")
+				return false
+			var seen_before: int = GameState.events_seen
+			var money_before: float = GameState.money
+			var deferred_before := GameState.deferred_events.duplicate(true)
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			if not await _w37_read_quiet_phase(background, true):
+				return false
+			var context: Dictionary = _story.call("build_save_resume_context")
+			await _stop_audio()
+			if not await _reload_authored_result_context(context, language, 2, 1) \
+					or int(_story.get("_pending_result_choice_index")) != choice \
+					or not _w37_quiet_home(background, "cold result") \
+					or GameState.events_seen != seen_before + 1 or GameState.money != money_before \
+					or GameState.deferred_events != deferred_before \
+					or not GameState.flags.get("arc_y1_new_room_first_month_seen", false):
+				_fail("W37 cold result lost its room or re-applied the original choice")
+				return false
+			cases += 1
+	await _remove_story()
+	await _stop_audio()
+	if cases != 15 or _failures != 0:
+		return false
+	print("W37_QUIET_ROOM_OK paths=%d localizations=5 housing=3 result_v4=%d motion_none=1 no_manufactured_foley=1" % [cases, cases])
+	return true
+
+func _w37_read_quiet_phase(background: String, result: bool) -> bool:
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	if pages.is_empty() or int(_story.call("_story_source_paragraph_count")) != 2:
+		_fail("W37 expected the same two authored paragraphs, result=%s" % result)
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		if int(_story.get("_para_index")) != page or bool(_story.get("_pending_after_result")) != result \
+				or not _w37_quiet_home(background, "result=%s/page%d" % [result, page]):
+			return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	return true
+
+func _w37_quiet_home(background: String, label: String) -> bool:
+	var cues: Array = AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(W37_FIRST_BILL + ":"))
+	var valid := _expect_surface(background, "apartment", label) \
+		and BGMPlayer._ambience_player.playing and BGMPlayer._ambience_player.stream == BGMPlayer._load_ambience("apartment") \
+		and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing \
+		and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing \
+		and BGMPlayer._current_key.is_empty() and not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing \
+		and str(_story.get_meta("living_scene_effect", "")) == "none" and cues.is_empty()
+	if not valid:
+		_fail("W37 tracks, cue or effects drifted at %s" % label)
+	return valid
 
 func _check_w116_ghost() -> bool:
 	await _remove_story()

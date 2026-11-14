@@ -80,6 +80,7 @@ W96_HOSPITAL_VISIT_AUDIO = {
     "music": {"key": "grief", "start_paragraph": 0},
 }
 W100_FATHER_OUTREACH_EVENT = "arc_y3_father_avoidance_document"
+W37_FIRST_BILL_EVENT = "arc_y1_new_room_first_month"
 W108_HYUNSU_WARNING_EVENT = "arc_jaehyuk_hyunsu_warning"
 W108_HYUNSU_WARNING_AUDIO = {
     "ambience": "apartment",
@@ -335,7 +336,8 @@ def main() -> int:
                        else choice.get("result_background") != W96_SEOUL_ARRIVAL)
                    for index, choice in enumerate(hospital_choices))):
         errors.append(f"{W96_HOSPITAL_VISIT_EVENT}: only the deferred visit may end at Seoul Station without a new bed")
-    for event_id, expected_audio in ((W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
+    for event_id, expected_audio in ((W37_FIRST_BILL_EVENT, NEUTRAL_HOME_AUDIO),
+                                     (W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),
                                      (W112_FATHER_RETURN_CALL, NEUTRAL_HOME_AUDIO)):
         home_event = events.get(event_id, {})
@@ -346,7 +348,7 @@ def main() -> int:
                 or not isinstance(home_choices, list) or len(home_choices) != 3
                 or any(not isinstance(choice, dict) or "result_background" in choice
                        or "result_ambience" in choice for choice in home_choices)):
-            errors.append(f"{event_id}: preserve neutral home tone, exact score, and no extra contact cue")
+            errors.append(f"{event_id}: preserve neutral home tone, exact score, and no extra scene cues")
     for event_id, entrance in W116_GHOST_SCORE_ENTRANCES.items():
         event = events.get(event_id, {})
         expected_audio = {"ambience": "apartment", "suppress_human_ambience": True,

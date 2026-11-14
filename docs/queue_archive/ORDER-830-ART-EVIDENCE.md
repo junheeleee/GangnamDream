@@ -154,6 +154,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 [~] W37 음향 우선 수리 — `assets/scene_audio_manifest.json`의 `arc_y1_new_room_first_month` 한 행, `tools/{StoryBackgroundContextCheck.gd,scene_audio_contract_check.py}`, `docs/AUDIO_QA.md` 정본 해당 문단과 현황·일지·이 증거. 현재 집 화면은 유지하고 지속 냉장고·사람·계절층은 기존 단일 조용한 실내 녹음으로 바꾼다. 기동·정지 원본을 실제 확보한 뒤에만 문장 시점 Foley를 별도 채택한다. 그 전에는 기동음을 채웠다고 세지 않는다. 본문·시각·다른 제품 장면·저장 키·기존 RC 무변경. 세 선택의 실제 표시/재개에서 장면 안 남는 소리와 유지할 실내음을 구분한다.
 
+격리 실제 배선: 이전 원룸 첫 문단부터 `oneroom` 사용으로 실패(`8z_dlqvk`). 이후 실제 W37 편성·다섯 언어×세 갈래 15건·원룸/빌라/아파트·v4 결과 재개 15건에서 현재 집 그림과 중립 실내음만 확인(`ju7344yq`). 세 갈래 결과·인벤토리·수치·예약 불변, 앞 장면의 사람/계절층 및 임의 장면 큐0. 오디오 출처 139개, 장면 계약, 현행 데모 5언어 통과. [기동/정지 실녹음 후보](https://freesound.org/people/gpag1/sounds/392484/)는 원본 다운로드에 로그인이 필요해 미취득·미채택. 실제 청취와 기동/정지 Foley는 남는다.
+
 ### W185 아버지 병동 통화 — 번역투 표적 검수
 
 [~] `arc_y4_father_crisis_contact`와 같은 통화가 이어지는 `arc_y4_father_final_contact_called`의 c1 결과만 `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_drama.json`에서 다듬는다. 간호사가 건넨 수화기로 들리는 소리, 민준 서울/아버지 창원, 한마디 ‘알았다’ 뒤에 방문 약속을 덧붙이지 않는 민준만. 산소 기계 소리는 원문에서 듣는 대상 그대로이지 새로 켜는 효과음이나 생사 판정이 아니다. 앞뒤 선택·2/3문단·기존 수치·후속·저장·데모와 SFX는 수정하지 않고, 기존 CJK 해시 수용·현황·일지·검수 이력만 갱신한다.

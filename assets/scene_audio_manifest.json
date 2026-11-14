@@ -1639,7 +1639,7 @@
       "suppress_human_ambience": true,
       "suppress_season_ambience": true
     },
-    "arc_y1_new_room_first_month": {"ambience": "current_housing", "suppress_music": true},
+    "arc_y1_new_room_first_month": {"ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
     "arc_y2_bank_limit_review": {
       "ambience": "intentional_silence",
       "suppress_music": true,
