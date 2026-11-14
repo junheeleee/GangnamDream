@@ -165,6 +165,7 @@ INDOOR_BACKGROUNDS = {
     "hospital",
     "hospital_clinic",
     "hospital_clinic_day",
+    "hospital_outpatient_cashier_w161",
     "changwon_hospital_room_empty",
     "gym",
     "exercise",

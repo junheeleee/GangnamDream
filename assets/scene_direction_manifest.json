@@ -792,6 +792,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "hospital_outpatient_cashier_w161": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "changwon_hospital_room_empty": {
       "environment": "indoor",
       "depth": "near",

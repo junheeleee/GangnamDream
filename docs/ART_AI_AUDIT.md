@@ -426,6 +426,7 @@
 | Background | `assets/backgrounds/hometown_train_station.png` | `hometown_train_station` | 1280x800 | no | `23055ac86c5b` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hospital_clinic.png` | `hospital_clinic` | 1280x800 | no | `b3bf477bde01` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hospital_clinic_day.png` | `hospital_clinic_day` | 1280x800 | no | `250f9aee9639` | PASS-B | 금요일 오전 9:20 서울 동네 외래 진료실, 책상·환자 의자·진찰대·커튼·진단기기와 무인·무문자·비입원실 확인. P1 마스터 아님. |
+| Background | `assets/backgrounds/hospital_outpatient_cashier_w161_v1.png` | `hospital_outpatient_cashier_w161` | 1584x990 | no | `b34faf05ebea` | PASS-B | W161 진료 선택 마무리 한 문단. 기존 외래 재질의 낮은 수납대·빈 트레이·통행 가능한 짧은 복도. 독립 원화 검수; 실화면 별도. |
 | Background | `assets/backgrounds/hospital_corridor.png` | `hospital` | 1280x800 | no | `093c49491ff5` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/investment_meeting.png` | `meeting` | 1280x800 | no | `be5850434ab5` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/investment_phone.png` | `investment`, `investment_phone`, `trading` | 1280x800 | no | `aab6cac64486` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -500,4 +501,4 @@
 | Background | `assets/backgrounds/seoul_station_visitor_sticker.png` | `seoul_station_visitor_sticker` | 1280x800 | no | `763df189e31c` | PASS-B | 서울 도착 통로, 코트와 오른손 검지의 작은 스티커. 모공·카메라 질감을 없애 강남 잉크의 무광 붓결·낮은 채도로 재작화. 얼굴·비·눈·문자 없음. |
 | Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 
-Inventory: 81 CG / 94 portraits / 136 backgrounds / 311 total.
+Inventory: 81 CG / 94 portraits / 137 backgrounds / 312 total.

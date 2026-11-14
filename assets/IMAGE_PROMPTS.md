@@ -1224,6 +1224,11 @@ sips --resampleHeightWidth 800 1280
 - `assets/backgrounds/seoul_subway_platform_bench_w161_v1.png`, 1584×990, SHA-256 `b6d8effd990a389e34480b2f2b0132b182a9b5ac4c9ca5f781df59e622e1fb1a`. 내장 생성 `exec-93ae11ec-e802-4222-8cc2-0dee851109bd.png` 1585×992 중앙 크롭, 원본 SHA-256 `aa2d1ddc3feb4abb9ec15e0e6a458645b6d4c5848a0ee45bfa6f02e68fcc12ff`.
 - 프롬프트 요약: 정차 객차 밖과 같은 타일·조명·점자블록의 승강장, 대사창 위 스테인리스 벤치와 스크린도어, 원경 통행인 둘. 초기 객차형 주황 벤치와 열린 선로 변형은 미채택. 새 인물·역명·예약 화면·사건 결과 표지 없음.
 
+## 2026-11-15 — W161 외래 수납대
+
+- `assets/backgrounds/hospital_outpatient_cashier_w161_v1.png`, 1584×990, SHA-256 `b34faf05ebea87cb84ad5fa564f14a17d85022d0f9506de7386ad4fad0f1dee2`. 내장 생성 `exec-4c486847-7ded-4840-9185-f8efc263b286.png` 1586×992 중앙 크롭, 원본 SHA-256 `1a8af98b8bdef9364f480db49d09ed6eedac5a15aa05befeb329a2645c0737a7`.
+- 프롬프트 요약: `hospital_clinic_day.png`는 외래 재료·색·조명, `police_evidence_reception.png`는 방문자와 창구 거리만 참조. 낮은 개방형 수납대에 빈 트레이, 뒤에 소형 프린터, 옆에 대기석과 열린 복도. 병동·보안 유리·사람·영수증 문구·결제수단 없음. 트레이와 창구는 대사창 위.
+
 ## 2026-11-15 — W132 상철 카페 계단
 
 - 최종 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다.

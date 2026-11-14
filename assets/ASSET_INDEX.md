@@ -383,6 +383,9 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/seoul_subway_platform_bench_w161_v1.png`
   - W161 care choice, first result paragraph only: Minjun has stepped off and waits at a real station bench before booking the appointment. Same gray tiles and tactile paving; the bench sits clear of circulation and has no train-seat styling. The appointment, clinic and later payment are separate beats.
 
+- `assets/backgrounds/hospital_outpatient_cashier_w161_v1.png`
+  - W161 care choice, final result paragraph only: a small outpatient reception/payment counter, separate from the exam room. Empty tray; no readable receipt or claimed payment method, time, or diagnosis.
+
 - `assets/backgrounds/convenience_store_night_steps_v1.png`
   - W69's first result only. Dry night, an unnamed convenience store's low entrance steps above the dialogue panel. The earlier indoor view stays separate; this does not redefine Daeun's established storefront.
 

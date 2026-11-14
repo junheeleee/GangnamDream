@@ -474,6 +474,14 @@
     {
       "kind": "background",
       "ids": [
+        "hospital_outpatient_cashier_w161"
+      ],
+      "relative_path": "backgrounds/hospital_outpatient_cashier_w161_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "hyunsu_exam_room"
       ],
       "relative_path": "backgrounds/hyunsu_exam_room_v2.png",

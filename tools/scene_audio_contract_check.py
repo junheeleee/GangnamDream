@@ -570,8 +570,9 @@ def main() -> int:
     if (event_contracts.get(W161_BODY_EVENT) != W161_MOVING_AUDIO
             or events.get(W161_BODY_EVENT, {}).get("background") != "seoul_subway_commuters_w57"
             or any(manifest.get("background_profiles", {}).get(background) != "intentional_silence"
-                   for background in ("seoul_subway_stopped_w161", "seoul_subway_platform_bench_w161"))):
-        errors.append(f"{W161_BODY_EVENT}: recorded onboard motion only between stops, never at the open door or platform bench")
+                   for background in ("seoul_subway_stopped_w161", "seoul_subway_platform_bench_w161",
+                                      "hospital_outpatient_cashier_w161"))):
+        errors.append(f"{W161_BODY_EVENT}: recorded onboard motion only between stops; door, platform and cashier stay quiet")
     if (any(event_contracts.get(owner) != W132_CAFE_AUDIO
             or events.get(owner, {}).get("background") != "cafe" for owner in W132_CAFE_EVENTS)
             or manifest.get("background_profiles", {}).get("sangchul_cafe_stairs") != "intentional_silence"):
