@@ -1,0 +1,241 @@
+week	month	C1_status	C1_event_id:zero_based_choice	29.1_status	29.1_event_id:zero_based_choice
+1	1	completed	story_flashforward:0 story_arrival:0 story_knee_door:0 story_knee_witness:0 story_knee_choice:1 story_last_payment_wait:0 story_last_payment_word:0 story_last_payment_exit:0 story_prologue_dad:0 story_prologue_goal:1 story_prologue_meal:0 story_pressure:0 chapter_card_33:0	completed	story_flashforward:0 story_arrival:0 story_knee_door:0 story_knee_witness:0 story_knee_choice:0 story_last_payment_wait:0 story_last_payment_word:1 story_last_payment_exit:0 story_prologue_dad:0 story_prologue_goal:0 story_prologue_meal:0 story_pressure:0 chapter_card_33:0
+2	1	completed		completed	
+3	1	completed		completed	
+4	1	completed	arc_temptation_01:0	completed	arc_temptation_01:0
+5	2	completed	arc_intro_03_sns:1	completed	arc_intro_03_sns:1
+6	2	completed	cafe_00:1 cafe_mind_01:0	completed	cafe_00:0 cafe_listen_01:2
+7	2	completed		completed	
+8	2	completed	arc_temptation_clean:0	completed	arc_temptation_clean:0
+9	3	completed	arc_intro_04_hyunsu:0 arc_chapter1_close:0	completed	arc_intro_04_hyunsu:0 arc_chapter1_close:1
+10	3	completed	arc_job_first_rejection:1	completed	arc_job_first_rejection:0
+11	3	completed	arc_money_check_low:0	completed	arc_money_check_low:0
+12	3	completed	arc_gosiwon_wall:0	completed	arc_gosiwon_wall:1
+13	4	completed	arc_rescue_job:0	completed	arc_rescue_job:1
+14	4	completed	arc_first_job_week_convenience:1	completed	arc_sangchul_01_meet:0 arc_sangchul_01_measure:0 arc_sangchul_01_answer:0
+15	4	completed	arc_sangchul_01_meet:0 arc_sangchul_01_measure:0 arc_sangchul_01_answer:0	completed	arc_invest_guidance:0
+16	4	completed	arc_invest_guidance:1	completed	arc_daeun_01_meet:0
+17	5	completed	arc_daeun_01_meet:0	completed	arc_father_01_call:0
+18	5	completed	arc_father_01_call:0	completed	arc_father_quiet_call:0
+19	5	completed	arc_father_quiet_call:2	completed	arc_jiyeon_01_crash:1
+20	5	completed	arc_jiyeon_01_crash:1	completed	arc_night_routine:1
+21	6	completed	arc_father_02_signal:0	completed	arc_father_02_signal:0
+22	6	completed	arc_paycheck_reality:2	completed	arc_gangnam_visit_alone:0 arc_four_months_in:0
+23	6	completed	arc_gangnam_visit_alone:1 arc_four_months_in:0	completed	arc_hyunsu_night_talk:1
+24	6	completed	arc_hyunsu_night_talk:1	completed	hyunsu_exam_day:0
+25	7	completed	hyunsu_exam_day:0	completed	hyunsu_result_fail:0
+26	7	completed	hyunsu_result_fail:0	completed	arc_jaehyuk_01_reunion:0
+27	7	completed	arc_jaehyuk_01_reunion:1	completed	
+28	7	completed	arc_sangchul_02_coffee:1	completed	arc_sangchul_02_coffee:0
+29	8	completed	story_first_paycheck_feel:1	completed	arc_hyunsu_exam_fail:0
+30	8	completed	arc_hyunsu_exam_fail:0	completed	
+31	8	completed		completed	
+32	8	completed		completed	
+33	9	completed	story_first_savings_milestone:0	completed	
+34	9	completed	arc_daeun_02_regular:1	completed	arc_hyunsu_drift:0
+35	9	completed	arc_hyunsu_drift:1	completed	arc_daeun_02_regular:0
+36	9	completed	arc_jiyeon_02_store:1	completed	arc_jiyeon_02_store:0
+37	10	completed		completed	
+38	10	completed		completed	
+39	10	completed		completed	
+40	10	completed		completed	arc_hyunsu_new_path:0
+41	11	completed	arc_hyunsu_new_path:0	completed	
+42	11	completed		completed	
+43	11	completed		completed	
+44	11	completed		completed	
+45	12	completed	story_one_year:0	completed	story_one_year:0
+46	12	completed		completed	
+47	12	completed		completed	callback_daeun_supportive_warmth:0
+48	12	completed	arc_year1_close:2 arc_year1_scene:0	completed	arc_year1_close:0 arc_year1_scene:0
+49	13	completed	chapter_card_34:0	completed	chapter_card_34:0
+50	13	completed	arc_year_one_mark:2 arc_34_money_attracts_money:1	completed	arc_year_one_mark:2 arc_34_money_attracts_money:1
+51	13	completed		completed	
+52	13	completed		completed	
+53	14	completed	arc_sangchul_03_network:0	completed	arc_y2_bank_limit_review:0
+54	14	completed		completed	
+55	14	completed		completed	
+56	14	completed	arc_jaehyuk_01b_real_face:1	completed	arc_jaehyuk_01b_real_face:1
+57	15	completed	arc_father_medication:0	completed	arc_father_medication:0
+58	15	completed		completed	
+59	15	completed		completed	
+60	15	completed		completed	
+61	16	completed		completed	
+62	16	completed	arc_34_routine_trap:1	completed	arc_34_routine_trap:1
+63	16	completed		completed	
+64	16	completed		completed	
+65	17	completed	arc_sangchul_offguard:0	completed	
+66	17	completed		completed	
+67	17	completed		completed	
+68	17	completed	arc_jaehyuk_02_bond:1	completed	arc_jaehyuk_02_bond:2
+69	18	completed	arc_year_one_half:1	completed	arc_year_one_half:1
+70	18	completed	story_one_half_year:1	completed	story_one_half_year:0
+71	18	completed		completed	
+72	18	completed	arc_sangchul_human:1	completed	
+73	19	completed	hyunsu_reunion_later:0 hyunsu_reunion_photo:0 hyunsu_reunion_meet:1	completed	hyunsu_reunion_later:0 hyunsu_reunion_photo:0 hyunsu_reunion_meet:1
+74	19	completed	arc_y2_sangchul_first_favor:1	completed	
+75	19	completed		completed	
+76	19	completed	arc_sangchul_casino_invite:0 arc_sangchul_casino_people:0 arc_sangchul_casino_decision:1	completed	
+77	20	completed	arc_34_doors_open:1	completed	arc_34_doors_open:1
+78	20	completed		completed	
+79	20	completed		completed	
+80	20	completed	arc_jaehyuk_02b_favor:1	completed	arc_jaehyuk_02b_favor:1
+81	21	completed		completed	
+82	21	completed	arc_y2_hyunsu_night_bus:0	completed	arc_y2_hyunsu_night_bus:0
+83	21	completed		completed	
+84	21	completed		completed	
+85	22	completed	arc_daeun_03_fork:0 arc_daeun_03_fork_hold_receipt:0	completed	arc_daeun_03_fork:0 arc_daeun_03_fork_hold_receipt:1
+86	22	completed	arc_daeun_03b_date:0	completed	arc_daeun_03b_date:0
+87	22	completed	arc_34_two_years_in:0	completed	arc_34_two_years_in:0
+88	22	completed	arc_daeun_04_morning:0	completed	arc_daeun_04_morning:0
+89	23	completed	arc_34_parents_visit:1 arc_father_03_hospital:0	completed	arc_34_parents_visit:0 arc_father_03_hospital:1
+90	23	completed	arc_daeun_04b_future:0	completed	arc_daeun_04b_future:0
+91	23	completed		completed	
+92	23	completed	arc_social_comparison:2	completed	arc_social_comparison:2
+93	24	completed	story_two_year:0	completed	story_two_year:0
+94	24	completed		completed	
+95	24	completed	arc_daeun_money_gap:2	completed	arc_daeun_money_gap:1
+96	24	completed	arc_father_04_visit:2 arc_year2_close:0 arc_year2_scene:0	completed	arc_father_04_visit:2 arc_year2_close:1 arc_year2_scene:0
+97	25	completed	chapter_card_35:0	completed	chapter_card_35:0
+98	25	completed	arc_daeun_05_together:0	completed	arc_daeun_05_together:0
+99	25	completed		completed	
+100	25	completed	arc_father_05_after_visit:0	completed	arc_father_05_after_visit:0
+101	26	completed	arc_35_birthday:1	completed	arc_35_birthday:1
+102	26	completed	arc_daeun_year3_together:1	completed	arc_daeun_year3_together:0
+103	26	completed	callback_rushed_to_father_echo:0	completed	
+104	26	completed	arc_sangchul_deduction:0 arc_sangchul_deduction_case:0 arc_sangchul_deduction_decision:1	completed	arc_jaehyuk_03_pitch:2
+105	27	completed	arc_jaehyuk_03_pitch:2	completed	arc_year_two_pressure:0
+106	27	completed	arc_year_two_pressure:0	completed	
+107	27	completed	callback_told_daeun_everything_echo:0	completed	callback_told_daeun_investing_echo:0
+108	27	completed	arc_35_orthodox_weight:2	completed	arc_35_orthodox_weight:2
+109	28	completed		completed	
+110	28	completed	callback_daeun_daily_life_echo:0	completed	callback_daeun_daily_life_echo:0
+111	28	completed		completed	
+112	28	completed	arc_father_06_confession:0	completed	arc_father_06_confession:0
+113	29	completed	arc_sangchul_known_offer:2	completed	
+114	29	completed		completed	
+115	29	completed	arc_why_gangnam_real:1	completed	arc_why_gangnam_real:1
+116	29	completed	arc_35_alone:0	completed	arc_jaehyuk_04b_counter:0
+117	30	completed	arc_jaehyuk_04b_counter:0	completed	arc_jaehyuk_aftermath:0
+118	30	completed	arc_jaehyuk_aftermath:0	completed	arc_jaehyuk_mirror:1 arc_jaehyuk_mirror_father:0 arc_jaehyuk_mirror_decision:0
+119	30	completed	arc_jaehyuk_mirror:1 arc_jaehyuk_mirror_father:0 arc_jaehyuk_mirror_decision:0	completed	arc_35_alone:1
+120	30	completed	arc_sangchul_known_reflex:2	completed	age_35_checkpoint:1
+121	31	completed	arc_midpoint_reckoning:1	completed	arc_midpoint_reckoning:1
+122	31	completed	arc_year_two_half:1	completed	arc_year_two_half:0
+123	31	completed		completed	
+124	31	completed	callback_father_confession_echo:1	completed	callback_father_confession_echo:1
+125	32	completed	arc_jaehyuk_sangchul_echo:0	completed	
+126	32	completed	arc_goal_vertigo:2	completed	arc_goal_vertigo:2
+127	32	completed		completed	
+128	32	completed	arc_y3_sangchul_deeper_room:1	completed	arc_y3_sangchul_deeper_room:1
+129	33	completed		completed	
+130	33	completed	arc_minjun_first_call:0	completed	arc_minjun_first_call:0
+131	33	completed		completed	
+132	33	completed	arc_sangchul_card_at_confrontation:1 arc_sangchul_confrontation:0 arc_sangchul_reckoning:1	completed	arc_sangchul_card_at_confrontation:0 arc_sangchul_confrontation:0 arc_sangchul_reckoning:0
+133	34	completed	arc_y3_cost_of_knowing:1	completed	arc_y3_cost_of_knowing:0
+134	34	completed	arc_sangchul_year3:1	completed	arc_sangchul_year3:0
+135	34	completed		completed	
+136	34	completed		completed	
+137	35	completed		completed	
+138	35	completed		completed	
+139	35	completed		completed	
+140	35	completed		completed	
+141	36	completed	story_three_year:0	completed	story_three_year:0
+142	36	completed		completed	
+143	36	completed		completed	
+144	36	completed	arc_year3_close:0 arc_year3_scene:0	completed	arc_year3_close:0 arc_year3_scene:0
+145	37	completed	chapter_card_36:0	completed	chapter_card_36:0
+146	37	completed	arc_minseo_01_meet:0	completed	arc_minseo_01_meet:0
+147	37	completed	arc_daeun_year4_together:0	completed	arc_daeun_year4_together:0
+148	37	completed	arc_35_path_cost:1	completed	arc_35_path_cost:1
+149	38	completed		completed	
+150	38	completed	hyunsu_year4_echo:0	completed	hyunsu_year4_echo:0
+151	38	completed	arc_35_habit_check:1	completed	arc_35_habit_check:2
+152	38	completed	arc_36_trust_crack:1	completed	arc_36_trust_crack:1
+153	39	completed	arc_y4_three_promises_deal_only:0	completed	arc_y4_three_promises_deal_only:1
+154	39	completed	arc_36_reality_check:1 arc_year_three_crossroads:2	completed	arc_36_reality_check:1 arc_year_three_crossroads:1
+155	39	completed	callback_daeun_gangnam_first_echo:0	completed	callback_daeun_gangnam_first_echo:0
+156	39	completed	arc_36_father_comes_to_seoul:0	completed	arc_36_father_comes_to_seoul:0
+157	40	completed	arc_36_unexpected_hand_person_deal:0	completed	arc_36_unexpected_hand_father_deal:0
+158	40	completed		completed	
+159	40	completed		completed	
+160	40	completed	arc_minseo_02_real:1	completed	arc_minseo_02_real:1
+161	41	completed	arc_36_body_signal:0	completed	arc_36_body_signal:0
+162	41	completed		completed	
+163	41	completed		completed	
+164	41	completed	arc_y4_body_witness_hyunsu:0	completed	arc_y4_body_witness_hyunsu:0
+165	42	completed		completed	
+166	42	completed		completed	
+167	42	completed	arc_y4_family_commitment_none:0	completed	arc_y4_family_table_missed:0
+168	42	completed		completed	
+169	43	completed	arc_year_three_half:0	completed	arc_year_three_half:0
+170	43	completed	arc_daeun_year4_quiet:0	completed	arc_daeun_year4_quiet:0
+171	43	completed	arc_y4_network_bill:0	completed	
+172	43	completed		completed	
+173	44	completed		completed	
+174	44	completed	arc_father_call_on_ktx_number:0 arc_y4_father_call_answered_on_ktx:0	completed	arc_father_call_on_ktx_number:0 arc_y4_father_call_answered_on_ktx:0
+175	44	completed		completed	
+176	44	completed		routine_only	
+177	45	completed	arc_y4_borrowed_name_document_gap:0	unobserved	
+178	45	completed		unobserved	
+179	45	completed		unobserved	
+180	45	completed	arc_36_night_doubt:2	unobserved	
+181	46	completed	arc_y4_bill_night_unattached:1	unobserved	
+182	46	completed		unobserved	
+183	46	completed		unobserved	
+184	46	completed		unobserved	
+185	47	completed	arc_y4_father_crisis_contact:0 arc_y4_father_final_contact_present:0	unobserved	
+186	47	completed		unobserved	
+187	47	completed		unobserved	
+188	47	completed	arc_father_passing:0 arc_father_passing_platform:0 arc_father_passing_hospital_room:0	unobserved	
+189	48	completed	story_four_year:1	unobserved	
+190	48	completed	arc_y4_year_close_unattached:1	unobserved	
+191	48	completed		unobserved	
+192	48	completed	arc_year4_close_father_passed:1 arc_year4_scene:0	unobserved	
+193	49	completed	chapter_card_37:0 arc_37_reckoning:1 arc_final_year_start:1	unobserved	
+194	49	completed	arc_daeun_y5_feelings:0	unobserved	
+195	49	completed	arc_daeun_first_night:0 arc_daeun_first_night_silence:0 arc_daeun_first_night_decision:1	unobserved	
+196	49	completed	arc_daeun_proposal:1 arc_daeun_proposal_last_cup:0 arc_daeun_proposal_answer:0	unobserved	
+197	50	completed	arc_daeun_our_home_father_passed:0	unobserved	
+198	50	completed	arc_daeun_wedding_prep:0	unobserved	
+199	50	completed	arc_daeun_the_test:0	unobserved	
+200	50	completed	arc_daeun_wedding_day:0 arc_daeun_wedding_groom_side_father_passed:0 arc_daeun_wedding_walk:0 arc_daeun_wedding_aisle:0	unobserved	
+201	51	completed	arc_daeun_wedding_night:0 arc_daeun_wedding_night_tea:0 arc_daeun_wedding_night_choice:0	unobserved	
+202	51	completed	callback_daeun_committed_gangnam_eve:0	unobserved	
+203	51	completed	hyunsu_year5_call_father_passed:0	unobserved	
+204	51	completed	arc_37_burn_or_light:1	unobserved	
+205	52	completed	arc_minseo_03b_not_arrived:1	unobserved	
+206	52	completed		unobserved	
+207	52	completed		unobserved	
+208	52	completed		unobserved	
+209	53	completed		unobserved	
+210	53	completed		unobserved	
+211	53	completed		unobserved	
+212	53	completed		unobserved	
+213	54	completed	arc_daeun_hometown_1:0	unobserved	
+214	54	completed	arc_daeun_hometown_2_father_passed:0 arc_daeun_hometown_table_hands:0 arc_daeun_hometown_table_decision:1	unobserved	
+215	54	completed	age_39_final:1	unobserved	
+216	54	completed	arc_endgame_sixmonths:2	unobserved	
+217	55	completed		unobserved	
+218	55	completed		unobserved	
+219	55	completed		unobserved	
+220	55	completed		unobserved	
+221	56	completed		unobserved	
+222	56	completed	arc_37_ending_peace:1	unobserved	
+223	56	completed		unobserved	
+224	56	completed	arc_father_legacy:0	unobserved	
+225	57	completed		unobserved	
+226	57	completed		unobserved	
+227	57	completed		unobserved	
+228	57	completed		unobserved	
+229	58	completed		unobserved	
+230	58	completed		unobserved	
+231	58	completed		unobserved	
+232	58	completed		unobserved	
+233	59	completed		unobserved	
+234	59	completed	arc_pre_ending_winter:0	unobserved	
+235	59	completed		unobserved	
+236	59	completed	arc_year5_scene:0	unobserved	
+237	60	completed		unobserved	
+238	60	completed		unobserved	
+239	60	completed		unobserved	
+240	60	completed	arc_final_countdown:0 arc_final_week:0	unobserved	

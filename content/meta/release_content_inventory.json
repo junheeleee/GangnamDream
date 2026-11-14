@@ -472,10 +472,10 @@
         "tags": ["gambling", "addiction"],
         "tokens_ko": ["도박", "베팅", "카지노", "경마", "마권", "바카라", "블랙잭", "룰렛", "슬롯", "홀덤", "다이사이", "식보"],
         "tokens_en": ["gambl", "betting", "casino", "racetrack", "baccarat", "blackjack", "roulette", "slot machine", "hold'em", "sic bo"],
-        "expected_event_count": 136,
+        "expected_event_count": 135,
         "expected_file_count": 43,
-        "expected_ids_sha256": "d41c2decfd20cbb8c4c5abe0f751009fd00e8a7de5c303b3227d0e81476a062a",
-        "expected_content_sha256": "486cd9c7d9fd67f43ce0afcee6b5ab38e7b4189c652d53833d7843919a95532e"
+        "expected_ids_sha256": "f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0",
+        "expected_content_sha256": "b8db2e00b3ae046315b4ed19bf49f1599986687a4517f1a7ecfb3eeddb403760"
       },
       "facts": [
         {
@@ -548,7 +548,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present", "arc_final_week"],
-        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "30e40e6e6fe742724a8d5f38cd086cd4f9828132bfd4704a550f0e850537b46f"
+        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "c5382c75a22fbd2f042971aa311cec0ce79264b09e4f8a9f4808bcca77e1af8c"
       },
       "facts": [
         {
@@ -634,7 +634,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 142, "expected_file_count": 50, "expected_ids_sha256": "c9af7ccbcf78254e165031b9bf7ccc4d489094fabc3e3bc649e504b15933bd3c", "expected_content_sha256": "4e154d3071aaf48106ed529f21caae5348c075984b6982b2457d95f2dc90c56a"
+        "expected_event_count": 142, "expected_file_count": 50, "expected_ids_sha256": "c9af7ccbcf78254e165031b9bf7ccc4d489094fabc3e3bc649e504b15933bd3c", "expected_content_sha256": "e9f6d404c6b67c6383861526fe3d62a1d89df85788eebf8bfc49f68e32c72a2a"
       },
       "facts": [
         {
@@ -762,7 +762,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal", "arc_year3_close"],
-        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "0f0e99a9e58e71400c6b9911bff74105eb373f3e97f938215cfddc2bd0b0fb80"
+        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "709995c763d4dab78585cb39d7f946af81b90e5b30474590b698eee6aa6982ba"
       },
       "facts": [
         {

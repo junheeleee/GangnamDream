@@ -165,16 +165,16 @@
   },
   {
     "id": "story_six_months",
-    "title": "Half a Year Gone",
-    "description": "Six calendar pages had turned. On the day {name} first entered this room, a suitcase wheel caught on the threshold and there was only five hundred thousand won in the bank. The damp wallpaper smell from that day still rose whenever it rained.\n\nHe pushed the receipts and notes on the desk to one side. Some numbers had changed. Other things had not. Was this progress, or had he merely learned how to endure?\n\nBeyond the small window, Seoul's lights moved as quickly as they had on the first night. The city did not slow down for someone just because he had survived half a year inside it.",
+    "title": "A Sixth Month in Seoul",
+    "description": "The day he moved into his tiny rented room in Sinchon, a suitcase wheel caught on the threshold. He had 500,000 won in the bank.\n\nThis was his sixth month in Seoul. {name} was living in a {housing} now. He unfolded today's receipt and set it beside the oldest one.\n\nWhen he laid one over the other, only the old paper curled up. The receipts didn't say how he'd spent every day in between.",
     "choices": [
       {
-        "text": "I held on well. Let's keep going.",
+        "text": "Take a moment to look back.",
         "result_text": "\"You held on.\" Saying it aloud felt a little embarrassing.\n\nBefore the account balance, {name} remembered the mornings he had not missed and the nights he had managed to stand up again. He folded the old calendar page and put it in the drawer.\n\nHe was still here. For once, that fact did not feel small."
       },
       {
-        "text": "Still not enough. I need to move faster.",
-        "result_text": "{name} reopened the planner and filled every blank with a task. The harder he wrote, the deeper the pen pressed into the paper.\n\nWhen you speed up, the scenery is the first thing to blur. He knew that and moved his alarm an hour earlier anyway.\n\nLong after the light went out, the boxes of the new schedule remained behind his eyelids."
+        "text": "Write down one thing to do first tomorrow.",
+        "result_text": "{name} wrote down one thing he'd put off that day. Tomorrow he'd start with that.\n\nHe set his alarm an hour earlier. He almost wrote down the rest, but put the pen down.\n\nIf he wanted to get up an hour earlier, he needed to sleep. Even after he turned off the light, it took a while."
       },
       {
         "text": "Just rest. Today, at least, I won't think about anything.",
@@ -185,7 +185,7 @@
   {
     "id": "story_one_year",
     "title": "The Twelfth Month",
-    "description": "December had begun.\n\nAt the start of the year, {name} had woken in a goshiwon, a tiny rented room in Sinchon. Where he lived now: {housing}.\n\nOnly after he shut the door did he notice how high he'd been holding his shoulders. He took off his shoes and stood there a while.\n\nHe thought of tomorrow. Should he write down one thing now, or call it a night?",
+    "description": "December had begun.\n\nAt the start of the year, {name} had woken in a goshiwon, a tiny rented room in Sinchon. By December, home meant {housing}.\n\nOnly after he shut the door did he notice how high he'd been holding his shoulders. He took off his shoes and stood there a while.\n\nHe thought of tomorrow. Should he write down one thing now, or call it a night?",
     "choices": [
       {
         "text": "Call it a night",
@@ -340,15 +340,15 @@
   {
     "id": "story_first_savings_milestone",
     "title": "The First Three Million Won",
-    "description": "{name} opened the banking app and stopped at the balance. It had crossed three million won. This was the account that held only five hundred thousand when he came to Seoul.\n\nThere was no grand success in the transaction history: wages, transit, convenience-store meals, rent. The small differences left after eating, sleeping, working, and closing things he wanted to buy had accumulated one line at a time.\n\nGangnam seemed almost no closer. The starting balance, however, had finally been pushed below the visible part of the screen. For the first time, {name} could see that money protected was also distance traveled.",
+    "description": "{name} opened the banking app. {cash_position}.\n\nHe'd come to Seoul with 500,000 won. He scrolled back to the day the balance had first reached 3 million won. He read through the deposits and withdrawals around it again.\n\nWhatever the account showed now, the transaction history still held the day he had first reached that mark.",
     "choices": [
       {
         "text": "Protect this money and grow it further",
-        "result_text": "{name} renamed the savings account DO NOT TOUCH. They were only words, but perhaps they would make his finger pause before every transfer.\n\nThe idea that preservation came before growth was not glamorous. Yet the path from five hundred thousand won to here had been made of small refusals, not one brilliant move.\n\nHe closed the app. For the first time, he felt less like someone earning money and more like someone capable of keeping it."
+        "result_text": "He renamed his savings account ‘Do not touch,’ so he'd see the words before he tapped Transfer.\n\nWhen he'd started out with 500,000 won, the next rent payment had been his first worry. Now, when money came in, he decided to think first about how much to leave untouched.\n\n{name} closed the app without moving any money. Only the account name had changed."
       },
       {
         "text": "It's time to move more aggressively",
-        "result_text": "The fact that one number had been built made a larger number easy to imagine. {name} opened the investment app and returned to the assets he had only watched before.\n\nOnce he entered an order amount, three million won looked suddenly thin. The possible loss expanded with it. His finger remained closer to Confirm than Cancel.\n\nThe first real bet delivered a sensation before it delivered any return: the time he had saved was now capable of moving against him."
+        "result_text": "{name} opened the trading app and looked again at an asset he'd only watched before. Choosing an amount was easy if he thought only about the price going up.\n\nBut once he'd entered an amount, he couldn't say how much of it he could afford to lose. His finger hovered over Confirm. He didn't press it.\n\nWhen he closed the app, the amount he'd typed disappeared. He still couldn't say how much of a loss he could live with."
       },
       {
         "text": "Record this moment",

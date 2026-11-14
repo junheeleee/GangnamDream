@@ -2,7 +2,7 @@
   {
     "id": "arc_hyunsu_night_talk",
     "title": "2 AM, Ramyeon",
-    "description": "The communal kitchen of the goshiwon. 2 AM.\n\nI came out to open the fridge and found Hyunsu already there.\n\nFour years into his Grade 9 civil service exams. Every time I'd seen him before, he had earphones in with a lecture playing — but tonight, he'd just opened a packet of ramyeon and was staring out the window. As {name} waited for the water to boil, he asked, \"Not studying today?\"\n\nHyunsu turned. His eyes were a little red.\n\n\"...What about you, hyung? Do you think that 3 billion actually going to happen?\"",
+    "description": "It was two in the morning in the goshiwon's shared kitchen.\n\n{name} came out to get something from the fridge and found Hyunsu there.\n\nHyunsu had spent four years studying for the civil service exam. Usually he had his earphones in and a lecture playing. Tonight he'd torn open a pack of instant noodles and was just staring out the window.\n\n{name} put some water on to boil. “Not studying tonight?” Hyunsu turned. His eyes were a little red.\n\n“What about you, hyung?” Hyunsu still spoke to him as you would to an older brother. “Do you really think you'll get to three billion won?”",
     "choices": [
       {
         "text": "\"Of course. What's the alternative?\" — with conviction",
@@ -100,7 +100,7 @@
   {
     "id": "arc_first_real_win",
     "title": "Fifty Million",
-    "description": "{name} turned the calculator off, then on again. The figure remained: 50,000,000 won. Its eight digits looked too bright in the room.\n\nThree billion won was still far away; every calculation made the remaining distance more exact. Yet he had begun with 500,000 won, a balance that once made rent frightening. It had grown a hundredfold, carrying luck, endurance, and several choices he could never make the same way again.\n\nHe covered the number with one finger, then revealed it. For the first time, possibility looked less like a feeling than evidence. The refrigerator sounded exactly as it had yesterday.",
+    "description": "{name} opened the figures again. Net worth: {assets}. It wasn't his bank balance that had reached 50 million won. It was what he had after counting his investments at their current value and subtracting his loans.\n\n{cash_position}. Outstanding loans: {debt}. He'd come to Seoul with just 500,000 won. The target on the first page of his notebook was three billion won.\n\nHe covered the number with a finger, then uncovered it. The fridge sounded just as it had yesterday.",
     "choices": [
       {
         "text": "Tell no one. Walk to the convenience store and buy something expensive.",
@@ -108,7 +108,7 @@
       },
       {
         "text": "Call his father.",
-        "result_text": "Even after calling, {name} did not give the amount. \"Things have been going pretty well lately.\"\n\nHis father was quiet for a moment. \"That's good. I'm glad.\" He offered neither congratulations nor warnings. Instead he asked whether {name} had eaten.\n\nAfter the call, the calculator showed the same figure. Somehow, it felt a little less like a number he held alone."
+        "result_text": "Even after calling, {name} did not give the amount. \"Things have been going pretty well lately.\"\n\nHis father was quiet for a moment. \"That's good. I'm glad.\" He offered neither congratulations nor warnings. Instead he asked whether {name} had eaten.\n\nAfter the call, he opened the figures again. The value hadn't changed, but it felt a little less like a number he held alone."
       },
       {
         "text": "Set the next target immediately — 500 million.",
@@ -388,7 +388,7 @@
   {
     "id": "arc_money_loneliness",
     "title": "A Number That Can't Be Shared",
-    "description": "The total-assets figure crossed 100 million won. The banking app displayed it without ceremony. {name} refreshed twice, then opened his contacts.\n\nHe wanted to tell someone. His parents would first ask whether he had done anything dangerous. With a friend, he would probably lower the amount before saying it, afraid it might sound like boasting. Yet he could not immediately think how many friends were still close enough to worry about.\n\nHis thumb drifted over the names. He pressed none of them and turned off the screen. In the black glass, the number vanished and left only his face.",
+    "description": "His net worth had reached 100 million won. The figure was {assets}. {cash_position}. Outstanding loans: {debt}. {name} read the figures again, closed the statement, and opened his contacts.\n\nHe wanted to tell someone. His parents would first ask whether he had done anything dangerous. With a friend, he would probably lower the amount before saying it, afraid it might sound like boasting. Yet he could not immediately think how many friends were still close enough to worry about.\n\nHis thumb drifted over the names. He pressed none of them and turned off the screen. In the black glass, the number vanished and left only his face.",
     "choices": [
       {
         "text": "Called his father — just to hear his voice.",
@@ -400,7 +400,7 @@
       },
       {
         "text": "Bought a can of beer alone at the convenience store — a private toast.",
-        "result_text": "{name} sat in a plastic chair outside the convenience store and opened a can of beer. Foam flecked the back of his hand. He raised the can slightly toward the balance glowing on his phone.\n\nPeople passed with umbrellas and grocery bags. None of them knew someone here had crossed 100 million won today. The beer was warmer than he expected.\n\nWhen the can was empty, he turned off the screen. The celebration was over, but the crush of aluminum sounded unusually loud."
+        "result_text": "{name} sat in a plastic chair outside the convenience store and opened a beer. Foam flecked the back of his hand. He raised his can a little toward the net-worth figure on his phone.\n\nPeople passed with umbrellas and grocery bags. None of them knew someone here had reached 100 million won today. The beer was warmer than he expected.\n\nWhen the can was empty, he turned off the screen. The celebration was over, but the crush of aluminum sounded unusually loud."
       }
     ]
   },
@@ -715,7 +715,7 @@
   {
     "id": "arc_four_months_in",
     "title": "The Six-Month Threshold",
-    "description": "On the way back from Gangnam, along the Han River.\n\nHe was nearing six months in Seoul.\n\nIn the account: {money}. Still nearly 3 billion won away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river moved beyond the railing. Even at night, Seoul was bright.\n\nThe lights he had just seen in Gangnam shook across the water. {name} leaned on the railing and thought.\nWhat will I stop seeing while I try to get inside?",
+    "description": "On the way back from Gangnam, {name} stopped at the railing along the Han River.\n\nHe'd been in Seoul for almost half a year.\n\n{cash_position}. After subtracting his loans, he had {assets} in net worth.\n\nOn his phone's calculator, he subtracted that figure from three billion won. He couldn't tell whether he could get there by doing what he was doing now.\n\nThe river flowed past the railing. Even at night, Seoul was bright.\n\nThe lights he'd seen in Gangnam wavered on the water. What would he pass by if he kept trying to get in there? He leaned on the railing for a while.",
     "choices": [
       {
         "text": "\"Going anyway.\" — starts walking again",
@@ -1572,7 +1572,7 @@
   {
     "id": "arc_first_real_win_father_passed",
     "title": "Fifty Million",
-    "description": "{name} turned the calculator off, then on again. The figure remained: 50,000,000 won. Its eight digits looked too bright in the room.\n\nThree billion won was still far away; every calculation made the remaining distance more exact. Yet he had begun with 500,000 won, a balance that once made rent frightening. It had grown a hundredfold, carrying luck, endurance, and several choices he could never make the same way again.\n\nHe covered the number with one finger, then revealed it. For the first time, possibility looked less like a feeling than evidence. The refrigerator sounded exactly as it had yesterday.",
+    "description": "{name} opened the figures again. Net worth: {assets}. It wasn't his bank balance that had reached 50 million won. It was what he had after counting his investments at their current value and subtracting his loans.\n\n{cash_position}. Outstanding loans: {debt}. He'd come to Seoul with just 500,000 won. The target on the first page of his notebook was three billion won.\n\nHe covered the number with a finger, then uncovered it. The fridge sounded just as it had yesterday.",
     "choices": [
       {
         "text": "Tell no one. Walk to the convenience store and buy something expensive.",
@@ -1580,7 +1580,7 @@
       },
       {
         "text": "Dial Father's number — knowing it will not connect.",
-        "result_text": "{name} tapped the name saved as Father. He even prepared a sentence for the amount. After a short signal, however, a recording said the number could not be reached.\n\nHe knew the recording and did not need to hear it through. When he ended the call, the outgoing log held one new timestamp. This was not an unanswered call. There was no one left who could answer.\n\nThe figure on the calculator had not changed. Only the person he had wanted to show had come into sharper focus."
+        "result_text": "{name} tapped the name saved as Father. He even prepared a sentence for the amount. After a short signal, however, a recording said the number could not be reached.\n\nHe knew the recording and did not need to hear it through. When he ended the call, the outgoing log held one new timestamp. This was not an unanswered call. There was no one left who could answer.\n\nThe value on the screen hadn't changed. He only knew more clearly who he'd wanted to show it to."
       },
       {
         "text": "Set the next target immediately — 500 million.",
@@ -1591,11 +1591,11 @@
   {
     "id": "arc_money_loneliness_father_passed",
     "title": "A Number That Can't Be Shared",
-    "description": "The total-assets figure crossed 100 million won. The banking app displayed it without ceremony. {name} refreshed twice, then opened his contacts.\n\nHe wanted to tell someone. Father's name remained where it had been, but the number no longer connected. With a friend, he would probably lower the amount before saying it, afraid it might sound like boasting. Yet he could not immediately think how many friends were still close enough to worry about.\n\nHis thumb drifted over the names. He pressed none of them and turned off the screen. In the black glass, the number vanished and left only his face.",
+    "description": "His net worth had reached 100 million won. The figure was {assets}. {cash_position}. Outstanding loans: {debt}. {name} read the figures again, closed the statement, and opened his contacts.\n\nHe wanted to tell someone. Father's name remained where it had been, but the number no longer connected. With a friend, he would probably lower the amount before saying it, afraid it might sound like boasting. Yet he could not immediately think how many friends were still close enough to worry about.\n\nHis thumb drifted over the names. He pressed none of them and turned off the screen. In the black glass, the number vanished and left only his face.",
     "choices": [
       {
         "text": "Open Father's contact — try to remember his last voice.",
-        "result_text": "{name} opened Father's contact, then the call records that remained. The screen held dates, times, and call lengths, but no voice. From the screen alone, he could not even tell which few words had been the last.\n\n{name} reached for the short breaths and one or two phrases he could remember. He added no sentence he was unsure of. The voice stopped where the memory did.\n\nThe 100 million won remained a number he had told no one. He placed the contact and the balance on the same screen for a moment, then closed both."
+        "result_text": "{name} opened Father's contact, then the call records that remained. The screen held dates, times, and call lengths, but no voice. From the screen alone, he could not even tell which few words had been the last.\n\n{name} reached for the short breaths and one or two phrases he could remember. He added no sentence he was unsure of. The voice stopped where the memory did.\n\nHe still hadn't told anyone he'd reached 100 million won. He closed his contacts, brought up the net-worth figure one more time, and turned off his phone screen."
       },
       {
         "text": "Told no one — decided to keep it to himself.",
@@ -1603,7 +1603,7 @@
       },
       {
         "text": "Bought a can of beer alone at the convenience store — a private toast.",
-        "result_text": "{name} sat in a plastic chair outside the convenience store and opened a can of beer. Foam flecked the back of his hand. He raised the can slightly toward the balance glowing on his phone.\n\nPeople passed with umbrellas and grocery bags. None of them knew someone here had crossed 100 million won today. The beer was warmer than he expected.\n\nWhen the can was empty, he turned off the screen. The celebration was over, but the crush of aluminum sounded unusually loud."
+        "result_text": "{name} sat in a plastic chair outside the convenience store and opened a beer. Foam flecked the back of his hand. He raised his can a little toward the net-worth figure on his phone.\n\nPeople passed with umbrellas and grocery bags. None of them knew someone here had reached 100 million won today. The beer was warmer than he expected.\n\nWhen the can was empty, he turned off the screen. The celebration was over, but the crush of aluminum sounded unusually loud."
       }
     ]
   },
