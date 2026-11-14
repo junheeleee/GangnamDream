@@ -2,6 +2,10 @@
 
 [활성 사양](../queue_active/ORDER-830.md)에서 이관한 원문. 상태와 산출물은 당시의 기록이다.
 
+### W240 강남대로 서명 원화 후보
+
+[~] 후보 1컷 및 이 증거만. 강남대로 야외의 밤, 민준의 주관 시점과 어두운 소매·수첩과 별지에만 초점을 둔다(`camera_role=player_pov`, `gaze_source=minjun`, `gaze_target=notebook`). 거래 서류·열쇠·답장·사람·날씨를 그려 넣지 않고 읽히는 글자 없이 분기에 공통인 열린 수첩과 빈 다음 줄을 표현. 기존 수첩 질감, 대로 구조, Gangnam Ink 원화체를 참조한다. 게임 원고·기존 PNG·ID·등록·오디오·저장·RC 변경0. 통과한 후보를 실제 본편에 연결할 파일은 별도 선언.
+
 ### W240 강남대로에서 수첩을 펼치는 소리
 
 [~] `assets/scene_audio_manifest.json`의 `arc_final_countdown_property_not_executed` 한 행, `tools/{scene_audio_contract_check.py,SceneDirectionCheck.gd}`의 해당 장면 계약, 현황·당일 일지·이 증거만. 강남대로 야외 밤과 집으로 돌아오는 기존 전환은 그대로. 거리·인파·계절 녹음 대신 별도 환경음 없이 수첩과 종이를 놓는 소리만 도입에 두고 기존 필기·곡 시점은 보존한다. 빗소리·지나는 차·대사·새 녹음·그림·저장·RC 추가 또는 변경 없음. 손과 문서가 보이는 전용 원화 및 실제 청취는 별도.
