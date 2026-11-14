@@ -375,7 +375,7 @@
       },
       {
         "text": "Cancel the review and go to where Daeun is waiting",
-        "result_text": "{name} told the deal lead he was giving up today's seat and boarded the subway. Daeun waited outside the convenience store with one canned coffee in her hand. \"Don't give me the other two cancellations as a debt. Tell me only that you came here today.\"\n\n{name} turned the other screens facedown and walked with her for an hour. The ward call ended as a missed record, and the review deposit became nonrefundable."
+        "result_text": "{name} told the deal lead he was giving up today's seat and boarded the subway. Daeun was waiting outside the convenience store, a can of coffee in her hand. \"Please don't tell me you missed those other two appointments because of me. It makes me feel like I owe you. Just tell me you came.\"\n\n{name} didn't check his phone again. He walked with Daeun for an hour. He missed the call with the ward, and the deposit for the contract review was no longer refundable."
       },
       {
         "text": "Go to the review room and finish the source terms and gap",
