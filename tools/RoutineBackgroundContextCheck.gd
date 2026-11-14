@@ -310,10 +310,17 @@ func _play_w220_echo_fixture(language: String, choice_index: int) -> void:
 	await _wait_story_stable()
 	var expected_background := "goshiwon_room" if choice_index == 0 else "cafe"
 	var expected_ambience := "room" if choice_index == 0 else "cafe"
-	var cut := int(_story.get("_result_location_cut_page"))
-	_expect((choice_index == 0 and cut == -1) or (choice_index == 1 and cut > 0),
-		"W220 arrival boundary missing or applied to the private memo")
 	var result_pages: Array = _story.get("_paragraphs")
+	var cut := int(_story.get("_result_location_cut_page"))
+	var valid_cafe_cut := cut > 0 and cut < result_pages.size()
+	_expect(not result_pages.is_empty() and (
+		(choice_index == 0 and cut == -1) or (choice_index == 1 and valid_cafe_cut)),
+		"W220 arrival boundary missing or applied to the private memo")
+	if choice_index == 1 and valid_cafe_cut:
+		var arrival := "민서를 부르거나 새 메시지를 보내지 않은 채" if language == "ko" \
+			else "Without calling or sending her a new message"
+		_expect(str(result_pages[cut]).begins_with(arrival),
+			"W220 cafe did not start at the authored arrival sentence")
 	for page_index in range(result_pages.size()):
 		var arrived := choice_index == 1 and cut > 0 and page_index >= cut
 		var story_place := "cafe" if arrived else "goshiwon_room"
