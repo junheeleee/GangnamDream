@@ -565,6 +565,8 @@ M60 ‘다은과 함께’는 외곽 집의 현재 식탁 아래 기존 조용�
 
 [~] W82 막차 실제 배선: `content/events/arc_h2_beats.json`의 기존 배경 및 조기 결과 컷 키, `content/meta/story_rules.json` 전화 역할, `scenes/StoryMode.gd`, `autoloads/ImageRegistry.gd`, 새 출발 PNG+import, `assets/{event_visual_contracts,scene_audio_manifest,scene_direction_manifest,mod_asset_manifest}.json`, `tools/{StoryBackgroundContextCheck.gd,ScreenshotQA.gd,scene_direction_catalog.py,art_resolution_baseline.json}`, 이전과 같은 자산·출시 원장과 현황·일지·이 증거만. 통화는 현재 거처/원격, 택시 대목과 귀갓길은 중립, 도착 문장만 기존 터미널과 동석, 떠나는 버스는 닫힌 차와 창 너머 작별. 나가지 않는 선택의 끊기 전/후도 구분. 정확한 기사·방송·캐리어 녹음 없으면 다른 장소 소음으로 대체하지 않는다. 원문·선택·저장·공개 데모 불변.
 
+[~] W82에 한해 `tools/scene_audio_contract_check.py`에 정확 무음 예외를 명시한다(다른 사건의 미등록 음향 허용 0). 출시 원장의 범죄 축은 후보/강도/원문 불변, 사건 JSON의 표시 키로 인해 변한 동일 후보 집합 지문만 대조.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
