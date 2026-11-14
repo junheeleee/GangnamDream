@@ -48,6 +48,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 11-14 KST [~] 착수: `arc_34_parents_visit`의 서울역 도착 합류 공간과 밤 승차 통로의 표 확인 지점을 위한 외부 원화 후보만. `MainGame.gd`의 W89–92 실제 선행과 KO·EN·JA·간·번의 4/3 도입·3/3 결과를 확인했다. 역 도착→식당, 숨기면 저녁→표 확인→출발 뒤, 보여 주면 음식 포장·이동→문 열림의 순서다. 판독 가능한 문자·눈/비·새 인물·플랫폼에 이미 정차한 열차 없이 두 시점을 구분한다. 식당과 집 그림·실제 배선·음향 수정은 채택 시 별도 선언; 새 서사/효과·저장·RC 변경0.
 
+원화 후보 독립 GO, 제품 채택 전: 외부 `830-m23-parents-art.ou9fZz`의 RGB 1280×800 두 장. `seoul_station_parents_concourse.png` SHA-256 `bcf17350a3b7531b8148523f5f6a4356e3b9144aa22745f655dc9712062a8635`: 17시 합류, 밖의 늦가을 빛과 빈 합류 동선. `seoul_station_parents_ticket_gate.png` SHA-256 `c7fdfeff4a9c588bba207b87a580216364c7f2877b9828ef16a30a1529b23176`: 밤, 승차 통로 방향의 단말 한 대, 이미 떠난 열차나 사람·문자 없음. 재현 사진이 아닌 장면 원화다. 기존 식당 믹스는 술집 원음, 지하철 믹스는 통과 열차·사람, 열차 믹스는 영국 객실이라 역에 부적합. 제품 배선과 시간·장소별 음향/실화면은 미완.
+
 ### M02 · 은행 창구와 지하철 보관함 — 최초 원화 후보 검수
 
 후보 제작은 `assets/backgrounds/{bank_service_counter_rainy_day,subway_station_coin_lockers}.png`
