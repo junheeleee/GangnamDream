@@ -547,6 +547,8 @@ P0 외부 후보 독립 검수 GO: `830-sinchon-offer.o4Sp6S/sinchon_main_road_b
 
 `830-w57-onboard-headless.Z1abz4`, `830-w57-onboard-native.mVCKvq`: 5언어×2변형×3선택 30경로, 기존 v4 재개 40 및 객차/창원 컷 경계 재개 40, KO↔EN 8회(객차음 유지 포함), 실제 창 1280×800 45장. 승차 중 루프의 실제 PCM·재생 상태 및 귀가 첫 프레임 무음 검증, 두 실행 stderr0. 독립 검수자가 실제 객차·전후 화면과 녹음 출처·제작 값 대조. 이어볼 범위는 W69 계단과 W72 한우집, 양쪽 대표 런에 나온 W82 현수 막차의 전화→터미널→귀가다.
 
+[~] W72 상철과 한우집 저녁: `assets/scene_audio_manifest.json`의 `arc_sangchul_human`만 전용 무음, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd}`의 해당 검증, `CLAUDE.md`·일지·이 증거만. 바 환경음·리버풀 펍 대화를 재생하지 않으며 식당 그림·원래 무음악·인물·선택 효과·다섯 언어 원문·기존 RC·저장 키를 보존한다. 한우집 전용 실녹음과 장면별 컵·병 소리는 출처와 사건 시점이 확인되기 전 추가하지 않는다.
+
 ### M14·17·19 상철·은행·현수 — 행동이 바로 읽히는 문장
 
 [~] M14·17·19 실제 출시 문장 교열. `arc_sangchul_03_network` 기본/이미 아는 갈래와 c0 결과, `arc_y2_bank_limit_review` c0 선택문, `arc_sangchul_human` 기본, `hyunsu_reunion_later`·`hyunsu_reunion_photo` 기본의 일곱 잎. `content/events{,_en,_ja,_zh-CN,_zh-TW}`의 네 소유 파일과 CJK 수용 원장, 필요한 출시 지문, 이 증거·일지·현황만. 상철의 소개/한PD건설을 듣는 시점과 이미 아는 갈래, 대출 조건을 기록하는 행동, 말하지 않은 십몇 년, 현수의 시험 4년과 현재 직장을 보존한다. 새 시간·금액·인맥 정보·소득 효과, 선택/동선/저장/공개 데모 변경0.
