@@ -28965,6 +28965,122 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-830",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "arc_father_04_visit",
+        "arc_y3_father_avoidance_document"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "W96 c3 and its W100 c1 follow-through: say that Minjun doesn't enter the hospital room, not that he avoids admission; he reads the document's first page and texts his father to ask about its source and acknowledge having turned away. Preserve exact outcomes and saved choice order. Independent semantic review; rendered/native review remains open.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "33a049b97cfa000f052d22e84bea5df237d46695",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "0183012caf1ccc600444e165b54488fc2ea19ec17ef542162956c20fe0701bd3",
+          "selection_sha256": "db81b4cb9a8ca24601b58c528601f5f7241e667e897c1cac86b63b44e9fa9036",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f9d06396a9b19bd63b19da8a41dcc186906ddb934693d6509a78a693ce9edd9b"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "33a049b97cfa000f052d22e84bea5df237d46695",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "0183012caf1ccc600444e165b54488fc2ea19ec17ef542162956c20fe0701bd3",
+          "selection_sha256": "07308ba70befec72d20f718443ce8c146b8f23634793e631437692799baa4855",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e625005bbc86b2ff697ec399891d52f59d854d3189f21441eb0592d8877f6bc0"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "33a049b97cfa000f052d22e84bea5df237d46695",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "0183012caf1ccc600444e165b54488fc2ea19ec17ef542162956c20fe0701bd3",
+          "selection_sha256": "aa0539ad319893175f9216d4891fa3dfc5950642e32fdefc60bad606e63b9069",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "86c0f16e030938f0989b5908f0e844a66638572b159b9ee255978733c2255cf5"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "6f0a10a4e9857333482de6df438b1eb3318708de362bfcd3b2d84b1c2bc84bd5",
+        "zh-CN": "203123dea0c7153aa8327308301fffa22d5a0297b5e58392d0daf88caa40a6d2",
+        "zh-TW": "d76c52ffb14c9e62bff6cf3117144ee8748a9cca7db5838b0bdd67b97872ba35"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_father_04_visit:/choices/3/text": "a5b75fd685c216990b0ad7ef9ac774e5fedb84771b9318c19234319f784aadf8",
+          "events:arc_y3_father_avoidance_document:/choices/1/text": "99a45a667b6a6ecd3231063566a278fde599b865ff9d82e07d4e75e6979b9e46"
+        },
+        "zh-CN": {
+          "events:arc_father_04_visit:/choices/3/text": "113f41a021945eab8e4508b5853558b8d4726c66f50cf080b7a17e6dbedd2126",
+          "events:arc_y3_father_avoidance_document:/choices/1/text": "79188b41d9c512b40a27185de9c6202abe702e9bf329f148ce08673f7ee32be8"
+        },
+        "zh-TW": {
+          "events:arc_father_04_visit:/choices/3/text": "0187b0d71d3681da7a85e76de8178e1c47f8e2f9bf234af2621aedb401b24f3b",
+          "events:arc_y3_father_avoidance_document:/choices/1/text": "8f5f617ae9e33493ebb19d42366e7b57b77ecaa54e365ad4238ea89b1b17c487"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_father_04_visit:/choices/3/text": {
+            "source_sha256": "dff1b3ecd3d330f2ab4fb0ce51cfb5d6cd5aed69a5c6069c2c835ea039c7d7eb",
+            "target_sha256": "a5b75fd685c216990b0ad7ef9ac774e5fedb84771b9318c19234319f784aadf8"
+          },
+          "events:arc_y3_father_avoidance_document:/choices/1/text": {
+            "source_sha256": "436a96a4c427a1ec2f59b87d9aad5d0fc00b9ecd2bec0edc994f078962b0247f",
+            "target_sha256": "99a45a667b6a6ecd3231063566a278fde599b865ff9d82e07d4e75e6979b9e46"
+          }
+        },
+        "zh-CN": {
+          "events:arc_father_04_visit:/choices/3/text": {
+            "source_sha256": "dff1b3ecd3d330f2ab4fb0ce51cfb5d6cd5aed69a5c6069c2c835ea039c7d7eb",
+            "target_sha256": "113f41a021945eab8e4508b5853558b8d4726c66f50cf080b7a17e6dbedd2126"
+          },
+          "events:arc_y3_father_avoidance_document:/choices/1/text": {
+            "source_sha256": "436a96a4c427a1ec2f59b87d9aad5d0fc00b9ecd2bec0edc994f078962b0247f",
+            "target_sha256": "79188b41d9c512b40a27185de9c6202abe702e9bf329f148ce08673f7ee32be8"
+          }
+        },
+        "zh-TW": {
+          "events:arc_father_04_visit:/choices/3/text": {
+            "source_sha256": "dff1b3ecd3d330f2ab4fb0ce51cfb5d6cd5aed69a5c6069c2c835ea039c7d7eb",
+            "target_sha256": "0187b0d71d3681da7a85e76de8178e1c47f8e2f9bf234af2621aedb401b24f3b"
+          },
+          "events:arc_y3_father_avoidance_document:/choices/1/text": {
+            "source_sha256": "436a96a4c427a1ec2f59b87d9aad5d0fc00b9ecd2bec0edc994f078962b0247f",
+            "target_sha256": "8f5f617ae9e33493ebb19d42366e7b57b77ecaa54e365ad4238ea89b1b17c487"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -34346,8 +34462,8 @@
         "target_sha256": "957b5ef1be92d787643fed8dda977b2c7e94a6f9c14124ea887f73feccd19848"
       },
       "events:arc_father_04_visit:/choices/3/text": {
-        "source_sha256": "dff1b3ecd3d330f2ab4fb0ce51cfb5d6cd5aed69a5c6069c2c835ea039c7d7eb",
-        "target_sha256": "a5b75fd685c216990b0ad7ef9ac774e5fedb84771b9318c19234319f784aadf8"
+        "source_sha256": "7d8e7f85a0cea8ce63fc579b8c6bb891d3bccf1be70fde9b8a3c8d8219f9e4a5",
+        "target_sha256": "628e1716f8af6ca7d0c60bc90a67d0ecb7821ec3b2ce5294d6c093ea6c217ec2"
       },
       "events:arc_father_04_visit:/description": {
         "source_sha256": "f22edbc7a3c406b0981b989b1fa009dd5e799ca59528b251ddfe35a50fd6427a",
@@ -35266,8 +35382,8 @@
         "target_sha256": "0993f63abe640e585b2319a48a2e67060e748a3018951dfc3d1bc3f2842f721c"
       },
       "events:arc_y3_father_avoidance_document:/choices/1/text": {
-        "source_sha256": "436a96a4c427a1ec2f59b87d9aad5d0fc00b9ecd2bec0edc994f078962b0247f",
-        "target_sha256": "99a45a667b6a6ecd3231063566a278fde599b865ff9d82e07d4e75e6979b9e46"
+        "source_sha256": "eec1d6d0ef00dac44e2b4f82c043d840f48bc545739fbd51f96a1c32bf55376c",
+        "target_sha256": "ca3967521e1a77b7235396ad25e1cc6dabe35b4dc5aeea08b58f50127e768923"
       },
       "events:arc_y3_father_avoidance_document:/choices/2/result_text": {
         "source_sha256": "c242bbeefc054d6d052bad68328ceafe57a155856f146b147bfa53975183731f",
@@ -87240,8 +87356,8 @@
         "target_sha256": "8fe9ca6fd194c53152f107737d2616e6c6df91ff4a7d14679387eb5566c48dd9"
       },
       "events:arc_father_04_visit:/choices/3/text": {
-        "source_sha256": "dff1b3ecd3d330f2ab4fb0ce51cfb5d6cd5aed69a5c6069c2c835ea039c7d7eb",
-        "target_sha256": "113f41a021945eab8e4508b5853558b8d4726c66f50cf080b7a17e6dbedd2126"
+        "source_sha256": "7d8e7f85a0cea8ce63fc579b8c6bb891d3bccf1be70fde9b8a3c8d8219f9e4a5",
+        "target_sha256": "829b6bae9f4c71c3d547ecfd1994db0ec49c58b658d647a627063de40fff3bb1"
       },
       "events:arc_father_04_visit:/description": {
         "source_sha256": "f22edbc7a3c406b0981b989b1fa009dd5e799ca59528b251ddfe35a50fd6427a",
@@ -88160,8 +88276,8 @@
         "target_sha256": "468a5ab04633e623a7c25978563ba3c20047ef28217e09ad57ff1eb063e9037f"
       },
       "events:arc_y3_father_avoidance_document:/choices/1/text": {
-        "source_sha256": "436a96a4c427a1ec2f59b87d9aad5d0fc00b9ecd2bec0edc994f078962b0247f",
-        "target_sha256": "79188b41d9c512b40a27185de9c6202abe702e9bf329f148ce08673f7ee32be8"
+        "source_sha256": "eec1d6d0ef00dac44e2b4f82c043d840f48bc545739fbd51f96a1c32bf55376c",
+        "target_sha256": "35109022373d55f5795f02c0450e2c7e5cdbfed70a799d9e30a657cd172d6c52"
       },
       "events:arc_y3_father_avoidance_document:/choices/2/result_text": {
         "source_sha256": "c242bbeefc054d6d052bad68328ceafe57a155856f146b147bfa53975183731f",
@@ -146918,8 +147034,8 @@
         "target_sha256": "8db3fea7cc0584f8d37a575d0d7bbc65058e67d9986846c6c9eeea7cb0a1d562"
       },
       "events:arc_father_04_visit:/choices/3/text": {
-        "source_sha256": "dff1b3ecd3d330f2ab4fb0ce51cfb5d6cd5aed69a5c6069c2c835ea039c7d7eb",
-        "target_sha256": "0187b0d71d3681da7a85e76de8178e1c47f8e2f9bf234af2621aedb401b24f3b"
+        "source_sha256": "7d8e7f85a0cea8ce63fc579b8c6bb891d3bccf1be70fde9b8a3c8d8219f9e4a5",
+        "target_sha256": "772710af571061ebb31b07a01fd317890974598a87d8db1ad265be8b51c73080"
       },
       "events:arc_father_04_visit:/description": {
         "source_sha256": "f22edbc7a3c406b0981b989b1fa009dd5e799ca59528b251ddfe35a50fd6427a",
@@ -147838,8 +147954,8 @@
         "target_sha256": "a7f19a80411b23f7d705a3cbee777efeabea7ce4a5c1e408e1d11b1d9f23ce2d"
       },
       "events:arc_y3_father_avoidance_document:/choices/1/text": {
-        "source_sha256": "436a96a4c427a1ec2f59b87d9aad5d0fc00b9ecd2bec0edc994f078962b0247f",
-        "target_sha256": "8f5f617ae9e33493ebb19d42366e7b57b77ecaa54e365ad4238ea89b1b17c487"
+        "source_sha256": "eec1d6d0ef00dac44e2b4f82c043d840f48bc545739fbd51f96a1c32bf55376c",
+        "target_sha256": "e54e2edbf1f65c91af9d70768296111139f8db98c769520cdac5ddf376338a57"
       },
       "events:arc_y3_father_avoidance_document:/choices/2/result_text": {
         "source_sha256": "c242bbeefc054d6d052bad68328ceafe57a155856f146b147bfa53975183731f",
@@ -201219,7 +201335,7 @@
       }
     }
   },
-  "accepted_sha256": "d4cca05a56ee69c83704a1d2b190aa946614a5a6107b6bb9fa254a6c3416de15",
+  "accepted_sha256": "d72d615684d8f5f8427918a786d7f6f5384cb738c43a1e48f95fc48363df859c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
