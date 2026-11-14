@@ -51,6 +51,7 @@ const W96_FATHER_VISIT := "arc_father_04_visit"
 const W96_RETURN_CUT := preload("res://assets/w96_father_visit_return_cut.tres")
 const W96_STATION_ARRIVAL := "seoul_station_visitor_sticker"
 const W100_FATHER_DOCUMENT := "arc_y3_father_avoidance_document"
+const W112_FATHER_CALL := "arc_y3_father_deferred_call"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -3588,7 +3589,7 @@ func _refresh_story_speaker_language() -> void:
 	_update_communication_badge(
 		str(_current_presentation.get("channel", "in_person")),
 		str(_current_presentation.get("state", "")))
-	if _story_nameplate_hidden():
+	if _story_nameplate_hidden() or (_showing_choices and str(_current.get("id", "")) == W112_FATHER_CALL):
 		if is_instance_valid(_name_panel):
 			_name_panel.visible = false
 		return
@@ -5447,6 +5448,8 @@ func _render_current():
 				_bg_img.texture = ImageRegistry.load_texture(bp)
 				_event_background_id = bg_id
 	_current_presentation = DataRegistry.get_story_presentation(str(_current.get("id", "")))
+	if str(_current.get("id", "")) == W112_FATHER_CALL:
+		_current_presentation = _w112_call_presentation(0, false)
 	_apply_story_surface_palette(_current_uses_cg)
 	var audio_contract: Dictionary = BGMPlayer.scene_audio_contract(
 		str(_current.get("id", "")), _event_cg_id)
@@ -5859,11 +5862,31 @@ func _configure_portrait_presentation() -> void:
 	_portrait_frame.add_theme_stylebox_override("panel", frame_style)
 	_update_communication_badge(channel, str(_current_presentation.get("state", "")))
 
+func _w112_call_presentation(source_paragraph_index: int, result_phase: bool) -> Dictionary:
+	var presentation := DataRegistry.get_story_presentation(W112_FATHER_CALL).duplicate(true)
+	# The first prose paragraph includes preparation (and only ends with the dial
+	# on receipt variants). The connected call starts with Father's answer in P1.
+	# Only choice 2 explicitly shows the ended call in its final paragraph.
+	if (not result_phase and source_paragraph_index == 0) \
+			or (result_phase and _pending_result_choice_index == 2 and source_paragraph_index >= 2):
+		presentation["channel"] = "internal"
+		presentation.erase("state")
+		presentation.erase("remote_actor")
+		presentation.erase("remote_location")
+	return presentation
+
 func _refresh_story_paragraph_presentation(
 		source_paragraph_index: int, force_refresh: bool = false) -> void:
 	var event_id := str(_current.get("id", ""))
 	var call_end_source_index := -1
 	match event_id:
+		W112_FATHER_CALL:
+			_current_presentation = _w112_call_presentation(source_paragraph_index, _pending_after_result)
+			# Same local portrait and room in each state. Don't fade the actor or
+			# re-open the nameplate when refreshing the badge on the choice dock.
+			_update_communication_badge(str(_current_presentation.get("channel", "internal")),
+				str(_current_presentation.get("state", "")))
+			return
 		W100_FATHER_DOCUMENT:
 			if not _pending_after_result:
 				return

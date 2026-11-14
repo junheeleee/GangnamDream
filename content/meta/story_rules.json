@@ -3445,7 +3445,8 @@
         "remote_actor": "father",
         "portrait_role": "local",
         "expected_background": "current_housing",
-        "expected_portrait": "player_tired"
+        "expected_portrait": "player_tired",
+        "expected_ambience": "apartment"
       }
     },
     "arc_y3_cost_of_knowing": {

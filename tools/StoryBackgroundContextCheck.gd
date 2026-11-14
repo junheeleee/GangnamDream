@@ -34,6 +34,9 @@ const W96_STICKER := "seoul_station_visitor_sticker"
 const W96_YEAR_CLOSE := "arc_year2_close"
 const W100_DOCUMENT := "arc_y3_father_avoidance_document"
 const W100_CONTACT_FLAGS := ["y3_father_avoidance_voicemail", "y3_father_avoidance_source_message", "y3_father_avoidance_scheduled_call"]
+const W112_PHONE := "arc_y3_father_deferred_call"
+const W112_ANSWER := {"ko": "세 번째 신호에 아버지가 받았다.", "en": "Father answered on the third ring.",
+	"ja": "三度目の呼び出し音で父が出た。", "zh-CN": "第三声铃，父亲接了。", "zh-TW": "第三聲鈴響，父親接了。"}
 const W96_ARRIVAL := {
 	"ko": "서울역에 내려", "en": "At Seoul Station,", "ja": "ソウル駅で降り",
 	"zh-CN": "到了首尔站", "zh-TW": "在首爾站下車",
@@ -235,6 +238,7 @@ var _offer_capture_dir := ""
 var _m23_capture_dir := ""
 var _first_ktx_capture_dir := ""
 var _w96_capture_dir := ""
+var _w112_capture_dir := ""
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -257,6 +261,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W112_PHONE_CHECK"):
+		var w112_ok := await _check_w112_phone()
+		if w112_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w112_phone")
+		get_tree().quit(0 if w112_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W100_DOCUMENT_CHECK"):
 		var w100_ok := await _check_w100_document()
 		if w100_ok:
@@ -1218,9 +1228,7 @@ func _check_w100_document() -> bool:
 	await _remove_story()
 	await _stop_audio()
 	_context = "W100/prepare"
-	if not _prepare_full_owner_history(100, [[14, "arc_father_01_call"], [21, "arc_father_02_signal"],
-			[49, "chapter_card_34"], [57, "arc_father_medication"], [85, "arc_y2_relationship_fork_unattached"],
-			[89, M23_PARENTS], [89, M23_CALL], [96, W96_VISIT, 3], [96, W96_YEAR_CLOSE], [97, "chapter_card_35"]]):
+	if not _prepare_full_owner_history(100, _father_contact_history()):
 		return false
 	var prepared: Dictionary = GameState.serialize().duplicate(true)
 	if not _w100_router(false):
@@ -1249,6 +1257,11 @@ func _check_w100_document() -> bool:
 		return false
 	print("W100_DOCUMENT_OK paths=%d contact_frames=%d result_v4=%d actual_choice_receipts=%d full_owner=1 w112_owner_unchanged=1" % [paths, paths * 2, paths * 2, paths])
 	return true
+
+func _father_contact_history() -> Array:
+	return [[14, "arc_father_01_call"], [21, "arc_father_02_signal"], [49, "chapter_card_34"],
+		[57, "arc_father_medication"], [85, "arc_y2_relationship_fork_unattached"], [89, M23_PARENTS],
+		[89, M23_CALL], [96, W96_VISIT, 3], [96, W96_YEAR_CLOSE], [97, "chapter_card_35"]]
 
 func _play_w100_document(choice: int, housing: String) -> bool:
 	var expected_background := _m23_home_background(housing)
@@ -1292,17 +1305,20 @@ func _play_w100_document(choice: int, housing: String) -> bool:
 	return _w100_receipt(choice, original, deferred, true) and _w100_router(true)
 
 func _w100_surface(background: String, messaging: bool) -> bool:
+	var labels := {"ko": "메시지", "en": "Message", "ja": "メッセージ", "zh-CN": "消息", "zh-TW": "訊息"}
+	return _expect_father_contact_surface(W100_DOCUMENT, background, "message" if messaging else "internal",
+		str(labels[LocaleManager.language]) if messaging else "")
+
+func _expect_father_contact_surface(event_id: String, background: String, channel: String, badge_text: String) -> bool:
 	var presentation: Dictionary = _story.get("_current_presentation")
 	var badge := _story.get("_communication_badge") as Control
 	var label := _story.get("_communication_label") as Label
 	var portrait := _story.get("_portrait") as TextureRect
-	var expected_labels := {"ko": "메시지", "en": "Message", "ja": "メッセージ", "zh-CN": "消息", "zh-TW": "訊息"}
 	var sound_cues := AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
-		return key.begins_with(W100_DOCUMENT + ":"))
-	if not _expect_surface(background, "apartment", "W100 home") \
-			or presentation.get("channel") != ("message" if messaging else "internal") \
-			or presentation.get("portrait_role") != "local" or badge.visible != messaging \
-			or label.text.nocasecmp_to(str(expected_labels[LocaleManager.language] if messaging else "")) != 0 \
+		return key.begins_with(event_id + ":"))
+	if not _expect_surface(background, "apartment", event_id + " home") \
+			or presentation.get("channel") != channel or presentation.get("portrait_role") != "local" \
+			or badge.visible != (not badge_text.is_empty()) or label.text.nocasecmp_to(badge_text) != 0 \
 			or bool(_story.get("_portrait_remote_inset")) or not (_story.get("_portrait_frame") as Control).visible \
 			or portrait.texture == null or portrait.texture.resource_path != ImageRegistry.get_portrait("player_tired") \
 			or str(_story.get_meta("living_scene_effect", "")) != "none" \
@@ -1310,8 +1326,8 @@ func _w100_surface(background: String, messaging: bool) -> bool:
 			or BGMPlayer._human_ambience_player.playing or not BGMPlayer._current_season_key.is_empty() \
 			or BGMPlayer._season_player.playing or not BGMPlayer._current_key.is_empty() \
 			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing or not sound_cues.is_empty():
-		_fail("W100 contradictory contact, actor or ambience: channel=%s badge=%s/%s score=%s cues=%s" % [
-			presentation.get("channel"), badge.visible, label.text, BGMPlayer._current_key, sound_cues])
+		_fail("%s contradictory contact, actor or ambience: channel=%s badge=%s/%s score=%s cues=%s" % [
+			event_id, presentation.get("channel"), badge.visible, label.text, BGMPlayer._current_key, sound_cues])
 		return false
 	return true
 
@@ -1353,6 +1369,180 @@ func _w100_router(closed: bool) -> bool:
 	if not valid:
 		_fail("W100 presentation changed the existing W100/W112 gate")
 	return valid
+
+func _check_w112_phone() -> bool:
+	_w112_capture_dir = OS.get_environment("GANGNAM_W112_PHONE_CAPTURE_DIR")
+	var capture := not _w112_capture_dir.is_empty()
+	var languages := ["ko"] if capture else W112_ANSWER.keys()
+	if capture:
+		var output := DirAccess.open(_w112_capture_dir) if _w112_capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or DisplayServer.get_name() == "headless":
+			_fail("W112 KO capture requires a fresh absolute output and real display")
+			return false
+		OS.low_processor_usage_mode = false
+	await _remove_story()
+	await _stop_audio()
+	var paths := 0
+	var memories := [2] if capture else [0, 1, 2]
+	var prepared_memories: Dictionary = {}
+	# Build unopened snapshots before any real W112 closure sets the return
+	# marker that the isolated MainGame boundary intentionally does not consume.
+	for memory in memories:
+		_context = "W112/prepare/memory%d" % memory
+		if not _prepare_full_owner_history(112, _father_contact_history() + [[100, W100_DOCUMENT, memory]]) \
+				or not _w112_routes(memory):
+			return false
+		prepared_memories[memory] = GameState.serialize().duplicate(true)
+	for language in languages:
+		LocaleManager.set_language(language)
+		for memory in memories:
+			for choice in ([2] if capture else [0, 1, 2]):
+				await _remove_story()
+				await _stop_audio()
+				GameState.call("_restore_serialized_snapshot_exact", prepared_memories[memory])
+				var housing: String = M23_HOUSING[(W112_ANSWER.keys().find(language) + memory + choice) % M23_HOUSING.size()]
+				GameState.housing = housing
+				_context = "%s/W112/memory%d/c%d/%s" % [language, memory, choice, housing]
+				if not await _open_full_fixture_event(W112_PHONE) or not await _play_w112_phone(memory, choice, housing, capture):
+					_fail("W112 live call or isolated restore failed")
+					await _remove_story()
+					await _stop_audio()
+					return false
+				paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if capture and DirAccess.get_files_at(_w112_capture_dir).size() != 4:
+		_fail("W112 expected exactly four settled captures")
+	if _failures != 0:
+		return false
+	print("W112_PHONE_OK paths=%d memory_variants=%d prose_v4=%d result_v4=%d actual_choice_receipts=%d full_owner=1 captures=%d" % [paths,
+		1 if capture else languages.size() * 3, 0 if capture else languages.size() * 6,
+		0 if capture else languages.size() * 9, paths, 4 if capture else 0])
+	return true
+
+func _play_w112_phone(memory: int, choice: int, housing: String, capture: bool) -> bool:
+	var background := _m23_home_background(housing)
+	var event: Dictionary = _story.get("_current")
+	var known: Dictionary = event.get("description_if_known", {})
+	var authored := str(_story.call("_fmt", known.get(W100_CONTACT_FLAGS[memory], "")))
+	var prose: Array = (_story.get("_paragraphs") as Array).duplicate()
+	if int(_story.call("_story_source_paragraph_count")) != 3 or not _m23_same_prose(prose, authored):
+		_fail("W112 did not render the actual W100 contact memory")
+		return false
+	var snapshot_before: Dictionary = GameState.serialize().duplicate(true)
+	for page in range(prose.size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		var first := page == int(_story.call("_first_story_page_for_source", source))
+		if int(_story.get("_para_index")) != page or not _w112_surface(background, source > 0):
+			return false
+		if first and source == 1 and not str(prose[page]).begins_with(W112_ANSWER[LocaleManager.language]):
+			_fail("W112 connected state not anchored to the localized third-ring answer")
+			return false
+		if first and source in [0, 1]:
+			if capture:
+				if not await _save_w112_frame("%02d_%s" % [source + 1, "before_answer" if source == 0 else "father_answers"]):
+					return false
+			elif choice == memory:
+				if not await _reload_prechoice("prose", W112_PHONE) or not _w112_surface(background, source > 0) \
+						or int(_story.get("_para_index")) != page:
+					return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	_story.call("_refresh_story_speaker_language")
+	if not bool(_story.get("_showing_choices")) or (_story.get("_choice_box") as Control).get_child_count() != 3 \
+			or (_story.get("_name_panel") as Control).visible \
+			or not _w112_surface(background, true) or GameState.event_log.size() != snapshot_before["event_log"].size():
+		return false
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var result := str(_story.call("_fmt", event["choices"][choice]["result_text"]))
+	if int(_story.call("_story_source_paragraph_count")) != 3 or not _m23_same_prose(pages, result):
+		_fail("W112 result changed the original conversation or authored paragraphs")
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		var connected := choice != 2 or source < 2
+		if int(_story.get("_para_index")) != page or not _w112_surface(background, connected) \
+				or not _w112_receipt(memory, choice, snapshot_before, false):
+			return false
+		if page == int(_story.call("_first_story_page_for_source", source)):
+			if capture and source in [1, 2]:
+				if not await _save_w112_frame("%02d_%s" % [source + 2, "agreed_time" if connected else "call_ended"]):
+					return false
+			elif not capture and choice == memory:
+				if not await _reload_cut_result(choice, page, false):
+					return false
+				await _wait_stable()
+				if not _w112_surface(background, connected) or not _w112_receipt(memory, choice, snapshot_before, false):
+					return false
+		if page == pages.size() - 1:
+			_story.set_meta("_screenshot_qa_static_surface", true)
+		_story.call("_on_advance")
+		await _wait_stable()
+	return _w112_receipt(memory, choice, snapshot_before, true)
+
+func _w112_surface(background: String, connected: bool) -> bool:
+	var labels := {"ko": "통화 중", "en": "VOICE CALL", "ja": "通話中", "zh-CN": "通话中", "zh-TW": "通話中"}
+	var presentation: Dictionary = _story.get("_current_presentation")
+	if connected and presentation.get("state") != "connected":
+		_fail("W112 active call did not declare a connection")
+		return false
+	if not connected and str(presentation.get("state", "")) == "connected":
+		_fail("W112 inactive call retained the connected state")
+		return false
+	return _expect_father_contact_surface(W112_PHONE, background, "phone" if connected else "internal",
+		str(labels[LocaleManager.language]) if connected else "")
+
+func _w112_routes(memory: int) -> bool:
+	var probe := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var flags := GameState.flags.duplicate()
+	var wrong := flags.duplicate()
+	wrong[W100_CONTACT_FLAGS[(memory + 1) % 3]] = true
+	var valid: bool = probe.call("_story_graph_contract_event_id", 112, flags, false) == W112_PHONE \
+		and probe.call("_story_graph_contract_event_id", 111, flags, false) != W112_PHONE \
+		and probe.call("_story_graph_contract_event_id", 113, flags, false) != W112_PHONE \
+		and probe.call("_story_graph_contract_event_id", 112, flags, true) != W112_PHONE \
+		and probe.call("_story_graph_contract_event_id", 112, wrong, false) != W112_PHONE
+	probe.free()
+	if not valid:
+		_fail("W112 eligibility changed for the exact W100 memory/death gate")
+	return valid
+
+func _w112_receipt(memory: int, choice: int, before: Dictionary, closed: bool) -> bool:
+	var latest: Dictionary = GameState.event_log.back()
+	var owner := FULL_STORY_FLOW.snapshot()
+	var read_100: Array = owner.get("read_receipts", {}).get("100", [])
+	var read_112: Array = owner.get("read_receipts", {}).get("112", [])
+	var chain: Dictionary = owner.get("chain", {})
+	var valid: bool = FULL_STORY_FLOW.valid_session() and GameState.turn == 112 \
+		and GameState.event_log.size() == before["event_log"].size() + 1 and latest.get("event_id") == W112_PHONE \
+		and int(latest.get("choice_index", -1)) == choice and int(latest.get("turn", -1)) == 112 \
+		and bool(GameState.flags.get("arc_y3_father_deferred_call_seen", false)) and read_100.size() == 1 \
+		and read_100[0].get("event_id") == W100_DOCUMENT and int(read_100[0].get("choice_index", -1)) == memory \
+		and _w96_deferred_equal(before["deferred_events"]) and read_112.size() == int(closed) \
+		and bool(chain.get("closed", false)) == closed and chain.get("pending_event_ids") == ([] if closed else [W112_PHONE])
+	for index in range(W100_CONTACT_FLAGS.size()):
+		valid = valid and bool(GameState.flags.get(W100_CONTACT_FLAGS[index], false)) == (index == memory)
+	for key in ["money", "health", "mental", "moral_tint"]:
+		valid = valid and is_equal_approx(float(GameState.get(key)), float(before[key]))
+	if closed and valid:
+		valid = read_112[0].get("event_id") == W112_PHONE and int(read_112[0].get("choice_index", -1)) == choice
+	if not valid:
+		_fail("W112 replay altered the original W100 memory, effects, or closure receipt")
+	return valid
+
+func _save_w112_frame(label: String) -> bool:
+	var portrait := _story.get("_portrait_frame") as Control
+	for _frame in range(150):
+		if portrait.modulate.a >= 0.99:
+			return await _save_viewport_frame(_w112_capture_dir.path_join("ko_%s.png" % label))
+		await get_tree().process_frame
+	_fail("W112 local portrait never settled for capture")
+	return false
 
 func _check_w96_return(smoke: bool = false) -> bool:
 	_w96_capture_dir = "" if smoke else OS.get_environment("GANGNAM_W96_RETURN_CAPTURE_DIR")
@@ -2779,7 +2969,8 @@ func _wait_stable() -> void:
 		if not _w4_capture_dir.is_empty() or not _w8_capture_dir.is_empty() \
 				or not _m14_capture_dir.is_empty() or not _w234_capture_dir.is_empty() \
 				or not _offer_capture_dir.is_empty() or not _m23_capture_dir.is_empty() \
-				or not _first_ktx_capture_dir.is_empty() or not _w96_capture_dir.is_empty():
+				or not _first_ktx_capture_dir.is_empty() or not _w96_capture_dir.is_empty() \
+				or not _w112_capture_dir.is_empty():
 			continue
 		if raw_ink_tween is Tween and (raw_ink_tween as Tween).is_running():
 			(raw_ink_tween as Tween).custom_step(10.0)
