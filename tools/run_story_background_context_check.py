@@ -292,7 +292,7 @@ def main() -> int:
         "--resolution",
         args.resolution,
         "--quit-after",
-        "3600",
+        "16000",  # Do not pre-empt the complete scene check; retain the wall timeout.
         "--log-file",
         str(engine_log),
         "--script",

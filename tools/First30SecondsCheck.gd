@@ -157,8 +157,8 @@ func _check_third_party_notices(menu: Control) -> void:
 	_expect(int(overlay.get_meta("font_families", 0)) == 5
 			and int(overlay.get_meta("font_files", 0)) == 8,
 		"Notice overlay font counts drifted from the generated ledger.")
-	_expect(int(overlay.get_meta("audio_sources", 0)) == 21
-			and int(overlay.get_meta("audio_assets", 0)) == 139
+	_expect(int(overlay.get_meta("audio_sources", 0)) == 22
+			and int(overlay.get_meta("audio_assets", 0)) == 141
 			and int(overlay.get_meta(
 				"attribution_required_audio_sources", 0)) == 1,
 		"Notice overlay audio counts drifted from the generated ledger.")
@@ -183,6 +183,8 @@ func _check_third_party_notices(menu: Control) -> void:
 			and "D4XX" in audio_text and "CC0 1.0" in audio_text
 			and "https://creativecommons.org/publicdomain/zero/1.0/" in audio_text,
 		"Required audio attribution is not reachable in-game.")
+	_expect("dmsb11" in audio_text and "https://freesound.org/s/727111/" in audio_text,
+		"The new Seoul subway field recording credit is not reachable in-game.")
 	_expect(not _contains_hangul(audio_text),
 		"English third-party audio notices contain Hangul.")
 	# Font notices contain the bundled full OFL bodies; return to that section

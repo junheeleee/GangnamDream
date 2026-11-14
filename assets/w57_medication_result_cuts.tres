@@ -1,0 +1,17 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/train_anchors = {
+"ko": "두 정거장을 지나는 동안",
+"en": "Two stops later,",
+"ja": "二駅過ぎる間に",
+"zh-CN": "经过两站，",
+"zh-TW": "經過兩站的時間裡，"
+}
+metadata/arrival_anchors = {
+"ko": "주말에 도착했을 때",
+"en": "When {name} arrives that weekend,",
+"ja": "週末、到着すると、",
+"zh-CN": "周末到了，",
+"zh-TW": "週末抵達時，"
+}

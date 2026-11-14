@@ -1,0 +1,17 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/arrival_anchors = {
+"ko": "터미널 불빛 아래서",
+"en": "Under the terminal lights",
+"ja": "ターミナルの明かりの下で",
+"zh-CN": "车站灯光下",
+"zh-TW": "轉運站的燈光下"
+}
+metadata/hangup_anchors = {
+"ko": "전화를 끊고",
+"en": "He hung up",
+"ja": "電話を切って",
+"zh-CN": "挂掉电话",
+"zh-TW": "掛掉電話"
+}

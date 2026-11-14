@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/stairs_anchors = {
+"ko": "그런데 이상하게 — 계단을",
+"en": "And yet, strangely, his feet",
+"ja": "それなのに、不思議と――階段を",
+"zh-CN": "可奇怪的是——下楼的脚步",
+"zh-TW": "可是，奇怪的是——走下樓梯"
+}

@@ -4,6 +4,8 @@ extends Node
 var _failures: Array[String] = []
 var _original_vibration_enabled: bool
 var _original_vibration_intensity: float
+const PHYSICAL_SFX_COUNT := 33
+const PHONE_KEYBOARD_PATH := "res://assets/audio/sfx_keyboard_phone.wav"
 
 const HAPTIC_PROFILE_IDS: Array[StringName] = [
 	&"commit_choice", &"commit_action", &"commit_wager", &"danger_impact",
@@ -44,7 +46,7 @@ func _ready() -> void:
 	_restore_haptic_settings()
 	await _release_audio_for_exit()
 	if _failures.is_empty():
-		print("GAME_AUDIO_RUNTIME_OK physical=32 ambience_roundtrip=3 varied_playback=1 casino_music=1 haptics=12 unused_profiles=0 direct_scene_raw=0 vibration_roundtrip=1 boundary_clamp=8 same_stack=3")
+		print("GAME_AUDIO_RUNTIME_OK physical=%d ambience_roundtrip=3 varied_playback=1 casino_music=1 haptics=12 unused_profiles=0 direct_scene_raw=0 vibration_roundtrip=1 boundary_clamp=8 same_stack=3" % PHYSICAL_SFX_COUNT)
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -83,9 +85,11 @@ func _check_manifest_assets() -> void:
 		_failures.append("cannot parse game_audio_manifest.json")
 		return
 	var physical: Variant = parsed.get("physical_sfx", {})
-	if not (physical is Dictionary) or physical.size() != 32:
-		_failures.append("physical SFX manifest must contain 32 semantic keys")
+	if not (physical is Dictionary) or physical.size() != PHYSICAL_SFX_COUNT:
+		_failures.append("physical SFX manifest must contain %d semantic keys" % PHYSICAL_SFX_COUNT)
 		return
+	if physical.get("keyboard_phone") != PHONE_KEYBOARD_PATH:
+		_failures.append("Hyunsu's telephone keyboard must use its exact recorded resource")
 	for raw_key in physical.keys():
 		var key := str(raw_key)
 		var path := str(physical[key])
@@ -98,6 +102,8 @@ func _check_manifest_assets() -> void:
 		var stream := load(path) as AudioStream
 		if stream == null or stream.get_length() <= 0.04:
 			_failures.append("invalid or silent-length stream for %s" % key)
+		elif AudioManager._sounds.get(key) != stream:
+			_failures.append("AudioManager loaded a different resource for %s" % key)
 	var activity_music: Variant = parsed.get("activity_music", {})
 	var casino: Variant = activity_music.get("jeongseon_casino", {}) if activity_music is Dictionary else {}
 	if not (casino is Dictionary):

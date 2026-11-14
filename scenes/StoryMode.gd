@@ -60,14 +60,7 @@ const W57_TRANSFER_PASSAGE := "seoul_subway_transfer_passage"
 const W57_COMMUTER_CAR := "seoul_subway_commuters_w57"
 const W57_CHANGWON_GATE := "changwon_station_arrival_gate"
 const W57_MEDICATION_TABLE := "changwon_home_medication_table"
-const W57_TRAIN_UNDERWAY := {
-	"ko": "두 정거장을 지나는 동안", "en": "Two stops later,",
-	"ja": "二駅過ぎる間に", "zh-CN": "经过两站，", "zh-TW": "經過兩站的時間裡，",
-}
-const W57_VISIT_ARRIVAL := {
-	"ko": "주말에 도착했을 때", "en": "When {name} arrives that weekend,",
-	"ja": "週末、到着すると、", "zh-CN": "周末到了，", "zh-TW": "週末抵達時，",
-}
+const W57_MEDICATION_CUTS := preload("res://assets/w57_medication_result_cuts.tres")
 const W117_JAEHYUK_COUNTER := "arc_jaehyuk_04b_counter"
 const W117_POLICE_RECEPTION := "police_evidence_reception"
 const W117_COUNTER_CUTS := preload("res://assets/w117_jaehyuk_counter_cuts.tres")
@@ -97,23 +90,10 @@ const W161_BODY_SIGNAL := "arc_36_body_signal"
 const W161_EXAM_ROOM := "hospital_clinic_day"
 const W132_RECKONING := "arc_sangchul_reckoning"
 const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
-const W132_STAIRS_START := {
-	"ko": "그런데 이상하게 — 계단을",
-	"en": "And yet, strangely, his feet",
-	"ja": "それなのに、不思議と――階段を",
-	"zh-CN": "可奇怪的是——下楼的脚步",
-	"zh-TW": "可是，奇怪的是——走下樓梯",
-}
+const W132_RECKONING_CUT := preload("res://assets/w132_reckoning_result_cut.tres")
 const W82_TERMINAL := "seoul_bus_terminal_night"
 const W82_COACH_DEPARTS := "seoul_bus_terminal_departure"
-const W82_ARRIVAL_START := {
-	"ko": "터미널 불빛 아래서", "en": "Under the terminal lights",
-	"ja": "ターミナルの明かりの下で", "zh-CN": "车站灯光下", "zh-TW": "轉運站的燈光下",
-}
-const W82_HANGUP_START := {
-	"ko": "전화를 끊고", "en": "He hung up", "ja": "電話を切って",
-	"zh-CN": "挂掉电话", "zh-TW": "掛掉電話",
-}
+const W82_BUS_CUTS := preload("res://assets/w82_night_bus_result_cuts.tres")
 const FIRST_YEAR_CLOSE_LIGHTS_OUT_EVENTS := ["arc_year1_close", "arc_year1_close_father_passed"]
 const GOSHIWON_MOVEOUT := "arc_goshiwon_goodbye"
 const GOSHIWON_MOVEOUT_STREET := "goshiwon_moveout_wet_street"
@@ -3487,17 +3467,20 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 	if event_id == M23_MOTHER_CALL:
 		return _first_ktx_result_pages(_fmt(raw))
 	if event_id == W57_FATHER_MEDICATION:
-		var anchors := W57_TRAIN_UNDERWAY if choice_index == 1 else W57_VISIT_ARRIVAL
+		var anchors: Dictionary = W57_MEDICATION_CUTS.get_meta(
+			"train_anchors" if choice_index == 1 else "arrival_anchors")
 		var anchor := str(anchors.get(LocaleManager.language, ""))
 		if raw.split("\n\n").size() == 3 and not anchor.is_empty():
 			return _split_formatted_story_page(_fmt(raw), 1, _fmt(anchor))
 		return _story_page_data(_fmt(raw))
 	if event_id == W82_HYUNSU_BUS:
-		var anchors := W82_ARRIVAL_START if choice_index == 0 else W82_HANGUP_START
+		var anchors: Dictionary = W82_BUS_CUTS.get_meta(
+			"arrival_anchors" if choice_index == 0 else "hangup_anchors")
 		return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
 	if event_id == W132_RECKONING and raw.split("\n\n").size() == 2:
+		var anchors: Dictionary = W132_RECKONING_CUT.get_meta("stairs_anchors")
 		return _split_formatted_story_page(_fmt(raw), 1,
-			str(W132_STAIRS_START.get(LocaleManager.language, "")))
+			str(anchors.get(LocaleManager.language, "")))
 	if event_id == HYUNSU_EXAM_FAILURE:
 		var anchors: Dictionary = M07_HYUNSU_WASHBASIN_CUT.get_meta("return_anchors", {})
 		var prose := _fmt(raw)
