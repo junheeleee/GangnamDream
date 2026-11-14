@@ -10,6 +10,8 @@
 
 [~] `content/meta/release_content_inventory.json`의 현행 본편 raster 세 수치만 이번 PNG 실측에 맞춘다. 이미지 추가 후 검사 실패 원인은 활성/소스/팩 각각 +1; 역사 데모 수치·판정과 기존 검사 유지.
 
+[~] 이 파생 수치를 읽는 `docs/ART_AI_AUDIT.md` 새 원화 행과 총계, `docs/CONTENT_RATING_INVENTORY.md` 현행 생성 결과도 동기화한다. 828 머리말·기존 행 이동·과거 판정·공시 문구는 그대로.
+
 ### W240 강남대로에서 수첩을 펼치는 소리
 
 [~] `assets/scene_audio_manifest.json`의 `arc_final_countdown_property_not_executed` 한 행, `tools/{scene_audio_contract_check.py,SceneDirectionCheck.gd}`의 해당 장면 계약, 현황·당일 일지·이 증거만. 강남대로 야외 밤과 집으로 돌아오는 기존 전환은 그대로. 거리·인파·계절 녹음 대신 별도 환경음 없이 수첩과 종이를 놓는 소리만 도입에 두고 기존 필기·곡 시점은 보존한다. 빗소리·지나는 차·대사·새 녹음·그림·저장·RC 추가 또는 변경 없음. 손과 문서가 보이는 전용 원화 및 실제 청취는 별도.
