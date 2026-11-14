@@ -10,6 +10,8 @@
 
 [~] W224 뒤편 테이블 전용 원화 후보 1컷과 이 기록만. 편의점 뒷벽과 차양 아래 작은 탁자에 비교본 한 부만 둔다. 실내 계산대·도로·날씨·원본·읽히는 시각·인물·결과 확정 없음. 이 공통 배경은 이미 있는 실제 대사·표정·음향과 읽히게 하고, 수락/보관 결과 삽화로 세지 않는다. 원고·제품 PNG·등록·장소·저장·RC에 채택 전 손대지 않는다.
 
+[~] 위 후보와 동일 구도의 빈 테이블 1컷을 채택한다. `scenes/StoryMode.gd`의 W224 결과 문단 결속만: 비교본이 두 갈래에서 각각 파일에 들어간 뒤, 같은 자리에서 화면만 바뀐다. `content/events/arc_year3_drama.json`의 해당 배경, `content/meta/story_rules.json` 기대 배경, `autoloads/ImageRegistry.gd`, 두 PNG+import, `assets/{scene_direction_manifest,scene_audio_manifest,event_visual_contracts,mod_asset_manifest}.json`, `assets/{ASSET_INDEX,IMAGE_PROMPTS}.md`, `tools/{SceneDirectionCheck.gd,StoryPlaybackCheck.gd,Chapter5HumanRejectCheck.gd,chapter5_human_reject_audit.py,art_resolution_baseline.json}`, `content/meta/release_content_inventory.json`와 `docs/{CONTENT_RATING_INVENTORY,ART_AI_AUDIT,MODDING}.md`의 해당 파생 사실, 현황·이 기록·당일 일지. 원고·효과·저장 키·전달 시각·기존 장소와 경계·갤러리·음향 타이밍·보호 RC 그대로. 동일 장면 결과 분할·복귀·언어전환 검증.
+
 ### W240 강남대로 서명 원화 후보
 
 [~] 후보 1컷 및 이 증거만. 강남대로 야외의 밤, 민준의 주관 시점과 어두운 소매·수첩과 별지에만 초점을 둔다(`camera_role=player_pov`, `gaze_source=minjun`, `gaze_target=notebook`). 거래 서류·열쇠·답장·사람·날씨를 그려 넣지 않고 읽히는 글자 없이 분기에 공통인 열린 수첩과 빈 다음 줄을 표현. 기존 수첩 질감, 대로 구조, Gangnam Ink 원화체를 참조한다. 게임 원고·기존 PNG·ID·등록·오디오·저장·RC 변경0. 통과한 후보를 실제 본편에 연결할 파일은 별도 선언.
