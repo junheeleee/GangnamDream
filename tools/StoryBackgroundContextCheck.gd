@@ -2221,8 +2221,17 @@ func _check_w45_december_home(smoke: bool = false) -> bool:
 
 func _check_w53_dining_audio(smoke: bool = false) -> bool:
 	var languages: Array = ["ko"] if smoke else LocaleManager.SUPPORTED_LANGUAGES
+	var capture_dir := OS.get_environment("GANGNAM_W53_CAPTURE_DIR")
+	if not capture_dir.is_empty():
+		var output := DirAccess.open(capture_dir) if capture_dir.is_absolute_path() else null
+		if DisplayServer.get_name() == "headless" or output == null \
+				or not output.get_files().is_empty() or not output.get_directories().is_empty():
+			_fail("W53 capture requires a display and a fresh absolute output directory")
+			return false
 	var cases := 0
 	var cold := 0
+	var prose_restores := 0
+	var rebinds := 0
 	for language: String in languages:
 		for known: bool in ([false] if smoke else [false, true]):
 			for choice: int in ([0] if smoke else [0, 1]):
@@ -2254,11 +2263,36 @@ func _check_w53_dining_audio(smoke: bool = false) -> bool:
 					await get_tree().create_timer(0.055).timeout
 					if not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing:
 						break
-				if not await _read_quiet_room_phase(W53_NETWORK, W53_DINING, false, 4 if known else 5):
+				if int(_story.call("_story_source_paragraph_count")) != (4 if known else 5):
+					_fail("W53 original prose boundaries changed")
 					return false
+				var paragraphs: Array = _story.get("_paragraphs")
+				for page in range(paragraphs.size()):
+					await _finish_page()
+					var source := int(_story.call("_story_source_paragraph_index", page))
+					var invitation := not known and source == 0
+					if not _expect_w53_surface(not invitation, not invitation, "prose/%d" % page):
+						return false
+					if not smoke and not known and choice == 1 and source < 2 \
+							and page == int(_story.call("_first_story_page_for_source", source)):
+						if not capture_dir.is_empty() and not await _capture_w53_frame(capture_dir, language,
+								"invitation" if invitation else "arrival"):
+							return false
+						BGMPlayer.set_ambience("cafe")
+						if not await _reload_prechoice("prose", W53_NETWORK, false) \
+								or not _expect_w53_surface(not invitation, not invitation, "restored prose"):
+							return false
+						prose_restores += 1
+						if language == "ko":
+							if not await _rebind_w53_surface(not invitation, not invitation, source):
+								return false
+							rebinds += 2
+					if page + 1 < paragraphs.size():
+						_story.call("_on_advance")
+						await _wait_stable()
 				_story.call("_on_advance")
 				await _wait_stable()
-				if not bool(_story.get("_showing_choices")) or not _expect_quiet_room(W53_NETWORK, W53_DINING, "choices"):
+				if not bool(_story.get("_showing_choices")) or not _expect_w53_surface(true, true, "choices"):
 					_fail("W53 lost its original choice surface")
 					return false
 				var events_seen := GameState.events_seen
@@ -2266,8 +2300,26 @@ func _check_w53_dining_audio(smoke: bool = false) -> bool:
 				_story.call("_on_choice", choice)
 				await _wait_stable()
 				var sources := 1 if choice == 0 else 2
-				if not await _read_quiet_room_phase(W53_NETWORK, W53_DINING, true, sources):
+				if not bool(_story.get("_pending_after_result")) or int(_story.call("_story_source_paragraph_count")) != sources:
+					_fail("W53 original result boundaries changed")
 					return false
+				paragraphs = _story.get("_paragraphs")
+				for page in range(paragraphs.size()):
+					await _finish_page()
+					var source := int(_story.call("_story_source_paragraph_index", page))
+					if not _expect_w53_surface(source == 0, true, "result/%d" % page):
+						return false
+					if not known and choice == 1 and page == int(_story.call("_first_story_page_for_source", source)):
+						if not capture_dir.is_empty() and not await _capture_w53_frame(capture_dir, language,
+								"results_inside" if source == 0 else "departure"):
+							return false
+						if language == "ko":
+							if not await _rebind_w53_surface(source == 0, true, source):
+								return false
+							rebinds += 2
+					if page + 1 < paragraphs.size():
+						_story.call("_on_advance")
+						await _wait_stable()
 				if not smoke:
 					var context: Dictionary = _story.call("build_save_resume_context")
 					await _stop_audio()
@@ -2276,7 +2328,7 @@ func _check_w53_dining_audio(smoke: bool = false) -> bool:
 							or not bool(_story.get("_pending_after_result")) \
 							or int(_story.get("_pending_result_choice_index")) != choice \
 							or int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != sources - 1 \
-							or not _expect_quiet_room(W53_NETWORK, W53_DINING, "cold result"):
+							or not _expect_w53_surface(choice == 0, true, "cold result"):
 						return false
 					cold += 1
 				var promises := GameState.deferred_events.filter(func(event: Dictionary) -> bool:
@@ -2292,8 +2344,52 @@ func _check_w53_dining_audio(smoke: bool = false) -> bool:
 					return false
 				cases += 1
 	if not smoke:
-		print("W53_QUIET_DINING_OK paths=%d result_v4=%d languages=5 branches=2 choices=2" % [cases, cold])
-	return cases == (1 if smoke else 20) and cold == (0 if smoke else 20)
+		print("W53_DINING_CUT_OK paths=%d result_v4=%d prose_restores=%d rebinds=%d languages=5 branches=2 choices=2" % [
+			cases, cold, prose_restores, rebinds])
+	return cases == (1 if smoke else 20) and cold == (0 if smoke else 20) \
+		and prose_restores == (0 if smoke else 10) and rebinds == (0 if smoke else 8)
+
+func _expect_w53_surface(dining: bool, with_sangchul: bool, label: String) -> bool:
+	var art := (_story.get("_bg_img") as TextureRect).texture
+	var portrait := _story.get("_portrait") as TextureRect
+	var frame := _story.get("_portrait_frame") as Control
+	var nameplate := _story.get("_name_panel") as Control
+	var badge := _story.get("_communication_badge") as Control
+	var place_ok: bool = _expect_quiet_room(W53_NETWORK, W53_DINING, label) if dining else (
+		art == null and str(_story.get("_event_background_id")).is_empty()
+		and (_story.get("_bg_dim") as ColorRect).color == Color("#111216")
+		and BGMPlayer._current_ambience_key.is_empty() and not BGMPlayer._ambience_player.playing
+		and BGMPlayer._current_human_ambience_key.is_empty() and not BGMPlayer._human_ambience_player.playing
+		and BGMPlayer._current_season_key.is_empty() and not BGMPlayer._season_player.playing
+		and BGMPlayer._current_key.is_empty() and not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing
+		and str(_story.get_meta("living_scene_effect", "")) == "none"
+		and not AudioManager._story_audio_seen.keys().any(func(key: String) -> bool: return key.begins_with(W53_NETWORK + ":")))
+	if not place_ok or frame.visible != with_sangchul or (portrait.texture != null) != with_sangchul \
+			or (with_sangchul and portrait.texture.resource_path != ImageRegistry.get_portrait("sangchul_normal")) \
+			or (not with_sangchul and nameplate.visible) or badge.visible:
+		_fail("W53 incorrect place or person at %s: dining=%s Sangchul=%s" % [label, dining, with_sangchul])
+		return false
+	return true
+
+func _rebind_w53_surface(dining: bool, with_sangchul: bool, source: int) -> bool:
+	for target in ["en", "ko"]:
+		_story.call("_set_story_language", target)
+		await _wait_stable()
+		if LocaleManager.language != target \
+				or int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != source \
+				or not _expect_w53_surface(dining, with_sangchul, "language change"):
+			_fail("W53 language change crossed a location boundary")
+			return false
+	return true
+
+func _capture_w53_frame(capture_dir: String, language: String, label: String) -> bool:
+	var frame := _story.get("_portrait_frame") as Control
+	for _frame in range(150):
+		if not frame.visible or frame.modulate.a >= 0.99:
+			return await _save_viewport_frame(capture_dir.path_join(language + "_" + label + ".png"))
+		await get_tree().process_frame
+	_fail("W53 portrait never settled for capture")
+	return false
 
 func _read_quiet_room_phase(event_id: String, background: String, result: bool, expected_count: int) -> bool:
 	var count := int(_story.call("_story_source_paragraph_count"))
@@ -4506,7 +4602,7 @@ func _reload_offer_prechoice(phase: String) -> bool:
 		return false
 	return _expect_offer_surface(OFFER_SEDAN, OFFER_UMBRELLA, false)
 
-func _reload_prechoice(phase: String, event_id: String) -> bool:
+func _reload_prechoice(phase: String, event_id: String, require_full_owner: bool = true) -> bool:
 	var saved_context: Dictionary = _story.call("build_save_resume_context")
 	var count := GameState.event_log.size()
 	if saved_context.get("phase") != phase or not SaveManager.save_game(W8_QA_SLOT, saved_context, {"qa_fixture": true}):
@@ -4525,7 +4621,7 @@ func _reload_prechoice(phase: String, event_id: String) -> bool:
 	if restored_context.get("event_id") != event_id or restored_context.get("phase") != phase \
 			or int(restored_context.get("source_paragraph_index", -1)) != int(saved_context.get("source_paragraph_index", -2)) \
 			or GameState.event_log.size() != count \
-			or not FULL_STORY_FLOW.valid_session():
+			or (require_full_owner and not FULL_STORY_FLOW.valid_session()):
 		_fail("%s %s resume changed its source page, handoff or choice state" % [event_id, phase])
 		return false
 	return true

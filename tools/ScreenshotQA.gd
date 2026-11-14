@@ -8552,7 +8552,7 @@ func _assert_chapter5_finale_story_surface(
 				_fail("W235 result page lost the exact zero-economic receipt.")
 				return
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0) -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1, advance_paragraphs: int = 0, suppress_cg: bool = false, advance_result_paragraphs: int = 0, target_source_paragraph: int = -1) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
@@ -8593,6 +8593,18 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			if bool(story.get("_typing")):
 				story._on_advance()
 				await _settle(0.12)
+	if target_source_paragraph >= 0:
+		for _step in range(30):
+			if int(story.call("_story_source_paragraph_index", int(story.get("_para_index")))) >= target_source_paragraph:
+				break
+			story._on_advance()
+			await _settle(0.16)
+		if int(story.call("_story_source_paragraph_index", int(story.get("_para_index")))) != target_source_paragraph \
+				or bool(story.get("_showing_choices")) or bool(story.get("_pending_after_result")):
+			_fail("%s never reached prose paragraph %d" % [event_id, target_source_paragraph])
+			return
+		story.call("_complete_typing")
+		await _settle(0.45)
 	if show_choices and not event_id.begins_with("chapter_card_") and story.has_method("_on_advance"):
 		for _step in range(30):
 			# Single-choice bridge scenes commit directly at the last paragraph.
@@ -8707,6 +8719,14 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 	}
 	if expected_event_ambience.has(event_id):
 		var expected_ambience := str(expected_event_ambience[event_id])
+		if event_id == "arc_sangchul_03_network":
+			var source := int(story.call("_story_source_paragraph_index", int(story.get("_para_index"))))
+			var results := bool(story.get("_pending_after_result"))
+			var invitation := not results and not bool(story.get("_showing_choices")) \
+				and source == 0 and not GameState.flags.get("sangchul_truth_known", false)
+			var departing := results and int(story.get("_pending_result_choice_index")) == 1 and source >= 1
+			if invitation or departing:
+				expected_ambience = ""
 		var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
 		if actual_ambience != expected_ambience:
 			_fail("%s ambience expected %s, got %s." % [event_id, expected_ambience, actual_ambience])
@@ -19369,10 +19389,14 @@ func _shot_event_visual_surfaces(lang: String = "en", prefix: String = "event_vi
 	for data in cases:
 		var event_id := str(data[0])
 		_prepare_event_visual_qa_state(event_id)
-		await _shot_story_event(event_id, prefix + str(data[1]), "", 0.45, true)
 		if event_id == "arc_sangchul_03_network":
+			await _shot_story_event(event_id, prefix + "13_sangchul_invitation", "", 0.45, true)
+			_prepare_event_visual_qa_state(event_id)
+			await _shot_story_event(event_id, prefix + str(data[1]), "", 0.45, true, false, -1, 0, false, 0, 1)
 			_prepare_event_visual_qa_state(event_id)
 			await _shot_story_event(event_id, prefix + str(data[1]) + "_choices", "", 0.45, true, true)
+		else:
+			await _shot_story_event(event_id, prefix + str(data[1]), "", 0.45, true)
 		if event_id in ["amb_wallet_00", "kx_street_food", "kx_seollal_sebae"]:
 			_prepare_event_visual_qa_state(event_id)
 			await _shot_story_event(event_id, prefix + str(data[1]) + "_choices", "", 0.45, true, true)

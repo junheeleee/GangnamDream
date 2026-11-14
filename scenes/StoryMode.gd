@@ -53,6 +53,8 @@ const W96_STATION_ARRIVAL := "seoul_station_visitor_sticker"
 const W100_FATHER_DOCUMENT := "arc_y3_father_avoidance_document"
 const W108_HYUNSU_WARNING := "arc_jaehyuk_hyunsu_warning"
 const W112_FATHER_CALL := "arc_y3_father_deferred_call"
+const W53_SANGCHUL_NETWORK := "arc_sangchul_03_network"
+const W53_PRIVATE_DINING := "sangchul_private_dining"
 const W117_JAEHYUK_COUNTER := "arc_jaehyuk_04b_counter"
 const W117_POLICE_RECEPTION := "police_evidence_reception"
 const W117_COUNTER_CUTS := preload("res://assets/w117_jaehyuk_counter_cuts.tres")
@@ -534,6 +536,7 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 
 	if is_instance_valid(_bg_dim):
 		_bg_dim.color = Color("#111216") if (_full_w19_reunion \
+			or _is_w53_network_scene() \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty() else _story_dim_color(has_cg)
 	if _story_bg_material:
@@ -4631,6 +4634,8 @@ func _resolved_choice_result_portrait_id(choice: Dictionary) -> String:
 func _resolved_story_surface_portrait_id() -> String:
 	if _full_w19_reunion and _event_background_id.is_empty():
 		return ""
+	if _is_w53_network_scene() and _is_w53_invitation(_story_source_paragraph_index(_para_index)):
+		return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -5484,6 +5489,7 @@ func _story_restore_position_for_source_progress(
 
 func _render_current():
 	_reset_advance_hold()
+	var w53_network := _is_w53_network_scene()
 	_full_w19_reunion = str(_current.get("id", "")) == W19_JAEHYUK_REUNION \
 		and not _read_only_replay and not _is_public_story_demo() \
 		and GameState.story_return_scene != STORY_DEMO_RETURN_SCENE \
@@ -5556,8 +5562,9 @@ func _render_current():
 
 	# CG가 있는 장면은 CG를 최우선 전체화면 배경으로 사용한다.
 	# 문단 reveal이 있으면 지정 문단 전까지 명시 background와 초상화를 유지한다.
-	if _full_w19_reunion:
-		# KakaoTalk and its recipient do not establish a physical location.
+	if _full_w19_reunion or w53_network:
+		# Contact alone doesn't establish a place. A restored W53 page will
+		# choose its exact surface before any dining sound or portrait starts.
 		_bg_img.texture = null
 		_event_portrait_revealed = false
 	elif cg_active_at_start and ImageRegistry.has_texture(cg_path):
@@ -5608,7 +5615,7 @@ func _render_current():
 	var cold_daeun_outside := str(_current.get("id", "")) == "arc_daeun_02_regular" \
 		and str(_pending_restore_context.get("event_id", "")) == "arc_daeun_02_regular" \
 		and str(_pending_restore_context.get("phase", "")) in ["choices", "result"]
-	if _full_w19_reunion or cold_offer_cafe or cold_first_ktx or cold_w96_return \
+	if _full_w19_reunion or w53_network or cold_offer_cafe or cold_first_ktx or cold_w96_return \
 			or cold_w220_cafe or cold_pitch_result or cold_daeun_outside \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
@@ -5659,6 +5666,8 @@ func _render_current():
 	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
 	_apply_story_page_data(_resolved_story_prose_pages())
 	_para_index = 0
+	if w53_network and str(_pending_restore_context.get("event_id", "")) != W53_SANGCHUL_NETWORK:
+		_apply_w53_network_surface()
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(false, true)
 	if not _full_w19_reunion or _pending_restore_context.is_empty():
@@ -5821,6 +5830,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	if _full_w19_reunion:
 		_apply_w19_reunion_surface(play_cut_cue)
 		return
+	if _is_w53_network_scene():
+		_apply_w53_network_surface()
+		return
 	if event_id == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(play_cut_cue)
 		return
@@ -5933,6 +5945,41 @@ func _apply_w19_reunion_surface(live_advance: bool) -> void:
 	_show_portrait(_resolved_event_portrait_id() if arrived else "", not arrived)
 	_apply_story_surface_palette(false)
 	_configure_living_scene()
+
+func _is_w53_network_scene() -> bool:
+	return str(_current.get("id", "")) == W53_SANGCHUL_NETWORK and not _is_public_story_demo()
+
+func _is_w53_invitation(source: int) -> bool:
+	return not _pending_after_result and not _showing_choices and source == 0 \
+		and not _known_flag_condition_matches("sangchul_truth_known")
+
+func _apply_w53_network_surface() -> void:
+	var source := _story_source_paragraph_index(_para_index)
+	var invitation := _is_w53_invitation(source)
+	var departure := _pending_after_result and _pending_result_choice_index == 1 and source >= 1
+	var destination := "" if invitation or departure else W53_PRIVATE_DINING
+	var portrait_revealed := not invitation
+	if destination == _event_background_id and portrait_revealed == _event_portrait_revealed:
+		return
+	var texture: Texture2D = null
+	if not destination.is_empty():
+		var path := str(ImageRegistry.BACKGROUNDS.get(destination, ""))
+		if not path.is_empty() and ImageRegistry.has_texture(path):
+			texture = ImageRegistry.load_texture(path)
+		if texture == null:
+			destination = ""
+	_finish_story_scene_transition()
+	_event_background_id = destination
+	_bg_img.texture = texture
+	if portrait_revealed != _event_portrait_revealed:
+		_event_portrait_revealed = portrait_revealed
+		_show_portrait(_resolved_story_surface_portrait_id(), not portrait_revealed)
+	_apply_story_surface_palette(false)
+	_configure_living_scene()
+	if destination.is_empty():
+		BGMPlayer.clear_ambience_immediate()
+	else:
+		BGMPlayer.update_event_ambience(_current, "", destination)
 
 
 func _w117_counter_background() -> String:
@@ -6510,7 +6557,7 @@ func _living_reduced_motion() -> bool:
 func _configure_living_scene(event_override: Dictionary = {}) -> void:
 	if not is_instance_valid(_living_scene):
 		return
-	if (_full_w19_reunion or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
+	if (_full_w19_reunion or _is_w53_network_scene() or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
 			and _event_background_id.is_empty():
 		# A settings or viewport refresh must not infer the meeting in a recap.
 		_living_scene.clear_profile()
@@ -7066,6 +7113,8 @@ func _show_choices():
 		_apply_m23_parents_surface()
 	if _full_w19_reunion:
 		_apply_w19_reunion_surface(false)
+	if _is_w53_network_scene():
+		_apply_w53_network_surface()
 	_set_choice_dock_active(true)
 	_continue_hint.visible = false
 	_choice_box.visible = true
