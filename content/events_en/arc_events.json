@@ -329,7 +329,7 @@
   {
     "id": "arc_y3_father_avoidance_document",
     "title": "Begin with the Avoidance",
-    "description": "On Friday evening, Father's name appeared and {name} turned the phone facedown. An eighteen-second voice message remained. A registered envelope with a Changwon postmark had arrived the same day, Father's name in the sender field and heavy paper inside.\n\nSince turning back at the door to his father’s hospital room, {name} had not reached out to him. Tonight he had already chosen to end that avoidance with an actual outgoing contact. He could listen and call, read only the first page and message a source question with the admission, or leave both unopened while sending the time of his next call. Each path had to state that he had turned away from his father and leave a real sent or outgoing-call time, not another silence.",
+    "description": "On Friday evening, Dad’s number lit up the screen and {name} put the phone facedown. Dad left an eighteen-second voice message. That same day, a registered envelope with a Changwon postmark turned up in the mailbox. Dad’s name was in the sender field. He could feel thick paper through the envelope.\n\n{name} hadn’t reached out since turning back at the hospital-room door. He set the phone down next to the envelope. It didn’t matter which he looked at first. It was time to tell Dad he’d been avoiding him.\n\nHe could listen to the message and call, or read just the first page and text to ask where Dad had found it. He could leave both untouched and text Dad a time for the next call. This time he didn’t want to let it pass without a word.",
     "choices": [
       {
         "text": "Listen to the entire message, then call and ask why Father sent it now",
@@ -1095,8 +1095,8 @@
         "result_text": "\"I'll come on the weekend.\"\nMom went quiet for a moment.\n\"Yeah. I called because I thought your dad would worry a lot.\"\nSomething buried under those words.\n{name} hung up, then thought about how far away the weekend felt."
       },
       {
-        "text": "Send money for hospital expenses",
-        "result_text": "Transferred the money. For hospital expenses.\nMom said \"Thank you.\"\nDad would ask whose money it was.\n{name} decided not to think about what Mom would say."
+        "text": "Send money to help with the hospital bill",
+        "result_text": "{name} sent money to help with the hospital bill.\nMom said, \"Thank you.\"\nDad would ask who had sent it.\n{name} decided not to think about what Mom would tell him."
       },
       {
         "text": "Called Sangchul — he'd know someone",
