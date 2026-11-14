@@ -564,6 +564,7 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/gangnam_boulevard_final_notebook_v1.png` — W240 종막 야외 서명 전용, 마른 강남대로 밤과 민준의 수첩. 범용 야경과 별개.
 - `assets/backgrounds/finale_intake_blue_pen_v1.png` — W227 접수 창구 전용. 쇠줄에 매인 파란 펜을 보여 주되 제출·보류·철회 중 어느 결과도 그림에 확정하지 않는다.
 - `assets/backgrounds/finale_cafe_rear_papers_v1.png` — W230 카페 안쪽 작은 탁자. 빈 의자와 두 서류의 위치만 보여 주고, 기록 순서와 접수 결과는 문장으로 남긴다.
+- `assets/backgrounds/finale_notice_desk_v1.png` — W235 민준의 집에서 현재 자료를 모으는 문단의 삽입 컷. 무표기 휴대폰·분리된 접수 용지와 메모, 다른 문단의 거처 그림은 유지.
 
 - `assets/backgrounds/penthouse_view.png`
   - Gangnam penthouse skyline view at night.

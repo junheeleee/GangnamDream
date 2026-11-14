@@ -71,6 +71,8 @@ const W224_COMPARISON := "convenience_rear_comparison"
 const W224_CLEARED_TABLE := "convenience_rear_table_clear"
 # A page boundary, not substitute dialogue. The original text remains the source.
 const W224_CUSTODY_RESULT_CUT := preload("res://assets/w224_custody_result_cut.tres")
+const W235_NOTICE := "arc_y5_property_not_executed_notice"
+const W235_NOTICE_DESK := "finale_notice_desk"
 const W8_FALLOUT_CUTS := preload("res://assets/w8_fallout_result_cuts.tres")
 const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
@@ -5746,6 +5748,19 @@ func _is_w234_boulevard_result() -> bool:
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
+	if event_id == W235_NOTICE:
+		# Two resolved receipts precede the desk detail. The message/result pages
+		# are already back in the same room; no transport or audio fade is needed.
+		var at_desk := not _pending_after_result and _story_source_paragraph_index(_para_index) == 2
+		var surface := W235_NOTICE_DESK if at_desk else _resolve_story_background_id("current_housing")
+		if surface != _event_background_id:
+			var texture := ImageRegistry.load_texture(ImageRegistry.get_background(surface))
+			if texture != null:
+				_bg_img.texture = texture
+				_event_background_id = surface
+				_apply_story_surface_palette(false)
+				_configure_living_scene()
+		return
 	if _pending_after_result and event_id == W224_CUSTODY:
 		# The copy has been filed. Only the props change; we haven't traveled.
 		var filed := _result_location_cut_page > 0 and _para_index >= _result_location_cut_page

@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 297,
+  "inventory_count": 298,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 121,
+        "light": 122,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 121,
+        "heavy": 122,
         "severe": 0
       }
     }
@@ -585,6 +585,23 @@
       "kind": "Background",
       "ids": [
         "finale_intake_blue_pen"
+      ],
+      "width": 1584,
+      "height": 990,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2121,
+        "4k": 2.4242
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/finale_notice_desk_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "finale_notice_desk"
       ],
       "width": 1584,
       "height": 990,

@@ -348,6 +348,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `dad_house` | `backgrounds/family_living_room.png` | 1280x800 |
 | background | `finale_cafe_rear_papers` | `backgrounds/finale_cafe_rear_papers_v1.png` | 1584x990 |
 | background | `finale_intake_blue_pen` | `backgrounds/finale_intake_blue_pen_v1.png` | 1584x990 |
+| background | `finale_notice_desk` | `backgrounds/finale_notice_desk_v1.png` | 1584x990 |
 | background | `fine_dust_sky` | `backgrounds/fine_dust_sky.png` | 1672x941 |
 | background | `gangnam_apartment` | `backgrounds/gangnam_apartment.png` | 1280x800 |
 | background | `gangnam_boulevard_final_notebook` | `backgrounds/gangnam_boulevard_final_notebook_v1.png` | 1584x990 |

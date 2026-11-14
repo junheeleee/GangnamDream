@@ -341,6 +341,12 @@ W230, a small table toward the back of a quiet Seoul cafe. A blank thin comparis
 
 Revised source SHA-256 `bff7520a22e3890dd4b44318d82e98051e5a5523236eda2eb70cbef7d118748a`; opaque 1584×990 master `82c55b547814a9f67b5230075763f8b445172959e6928c4fb1f1cd4247474361`. The logical location stays `cafe`; the illustration is not a filing receipt or result CG.
 
+### finale_notice_desk_v1.png
+
+W235, a near view of a plain table in Minjun's current home: an unmarked black-screen phone, a separate plain intake sheet and note papers. Top-left prop grouping clear of the local portrait and dialogue area. Matte ink, no known housing tier, readable marks, transaction, or reply. A physical prop detail on the present gathering paragraph only, not an illustration of the phone display.
+
+Source SHA-256 `d2b42a12a2996f034cc573355b4ec97c4dcdd12ec8e4a38dcfe9cf900704ea28`; opaque 1584×990 master `4aae01bafb3a164cc1170a15fedbf3ddfe793935d8b5266c500656ec6392fe09`. The logical location and room audio stay `current_housing`.
+
 ---
 
 ### penthouse_view.png

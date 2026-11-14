@@ -79,6 +79,7 @@
     "open_chat_screen": "open_chat",
     "office": "office",
     "finale_intake_blue_pen": "intentional_silence",
+    "finale_notice_desk": "current_housing",
     "office_interview_day": "office",
     "warehouse_inventory_night": "public_office",
     "moving_truck_loading_dusk": "street",
@@ -850,7 +851,7 @@
     "arc_y5_property_not_executed_notice": {
       "ambience": "current_housing",
       "suppress_music": true,
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+      "result_paragraph_cues": {"0": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}}
     },
     "arc_y5_remaining_jaehyuk_or_self": {
       "ambience": "current_housing",

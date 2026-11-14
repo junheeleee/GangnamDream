@@ -247,6 +247,14 @@
     {
       "kind": "background",
       "ids": [
+        "finale_notice_desk"
+      ],
+      "relative_path": "backgrounds/finale_notice_desk_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "fine_dust_sky"
       ],
       "relative_path": "backgrounds/fine_dust_sky.png",

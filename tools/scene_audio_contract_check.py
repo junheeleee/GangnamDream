@@ -62,6 +62,12 @@ W234_SUMMIT_AUDIO = {
     "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
     "result_paragraph_cues": {"1": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]}},
 }
+W235_NOTICE_EVENT = "arc_y5_property_not_executed_notice"
+W235_NOTICE_AUDIO = {
+    "ambience": "current_housing",
+    "suppress_music": True,
+    "result_paragraph_cues": {"0": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}},
+}
 W237_FINAL_RECORD_EVENT = "arc_y5_general_final_record_seal"
 W237_FINAL_RECORD_AUDIO = {
     "ambience": "current_housing",
@@ -406,6 +412,10 @@ def main() -> int:
         errors.append(f"{W230_VERDICT_EVENT}: missing cafe verdict audio contract")
     if W234_SUMMIT_EVENT not in event_contracts:
         errors.append(f"{W234_SUMMIT_EVENT}: missing quiet solo office audio contract")
+    if (event_contracts.get(W235_NOTICE_EVENT) != W235_NOTICE_AUDIO
+            or events.get(W235_NOTICE_EVENT, {}).get("background") != "current_housing"
+            or manifest.get("background_profiles", {}).get("finale_notice_desk") != "current_housing"):
+        errors.append(f"{W235_NOTICE_EVENT}: preserve the live room and only sound the papers being put away")
     final_record = events.get(W237_FINAL_RECORD_EVENT, {})
     final_record_choices = final_record.get("choices", [])
     if (event_contracts.get(W237_FINAL_RECORD_EVENT) != W237_FINAL_RECORD_AUDIO

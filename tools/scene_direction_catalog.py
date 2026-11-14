@@ -143,6 +143,7 @@ INDOOR_BACKGROUNDS = {
     "open_chat_screen",
     "office",
     "finale_intake_blue_pen",
+    "finale_notice_desk",
     "office_interview_day",
     "warehouse_inventory_night",
     "villa_renovation_day",

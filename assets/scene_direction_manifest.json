@@ -576,6 +576,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "finale_notice_desk": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "office_interview_day": {
       "environment": "indoor",
       "depth": "near",
