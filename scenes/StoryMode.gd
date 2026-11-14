@@ -50,6 +50,7 @@ const M23_FIRST_KTX_CABIN := "ktx_changwon_first_train_predawn"
 const W96_FATHER_VISIT := "arc_father_04_visit"
 const W96_RETURN_CUT := preload("res://assets/w96_father_visit_return_cut.tres")
 const W96_STATION_ARRIVAL := "seoul_station_visitor_sticker"
+const W100_FATHER_DOCUMENT := "arc_y3_father_avoidance_document"
 const W8_FALLOUT := "arc_temptation_fallout"
 const M14_BANK_REVIEW := "arc_y2_bank_limit_review"
 const W234_SUMMIT := "arc_y5_general_pre_ending_summit_exact"
@@ -5863,6 +5864,9 @@ func _refresh_story_paragraph_presentation(
 	var event_id := str(_current.get("id", ""))
 	var call_end_source_index := -1
 	match event_id:
+		W100_FATHER_DOCUMENT:
+			if not _pending_after_result:
+				return
 		W96_FATHER_VISIT:
 			if not _pending_after_result or not _is_w96_return_choice():
 				return
@@ -5882,6 +5886,11 @@ func _refresh_story_paragraph_presentation(
 	# Authored result blocks own the hang-up, not screen pagination or translated
 	# words. A cold result or locale refresh must restore that same call boundary.
 	var presentation := DataRegistry.get_story_presentation(event_id).duplicate(true)
+	if event_id == W100_FATHER_DOCUMENT and (_pending_result_choice_index == 2 \
+			or (_pending_result_choice_index == 1 and source_paragraph_index == 1)):
+		# The local player writes or sends; no recipient reply is shown.
+		# The c0 recording/outgoing mailbox is never a connected voice call.
+		presentation["channel"] = "message"
 	if _is_w96_station_result():
 		presentation["channel"] = "narration"
 		presentation["scene_location"] = "seoul_station"

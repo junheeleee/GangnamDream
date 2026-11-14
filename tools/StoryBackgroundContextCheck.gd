@@ -32,6 +32,8 @@ const W96_VISIT := "arc_father_04_visit"
 const W96_HOSPITAL := "hospital"
 const W96_STICKER := "seoul_station_visitor_sticker"
 const W96_YEAR_CLOSE := "arc_year2_close"
+const W100_DOCUMENT := "arc_y3_father_avoidance_document"
+const W100_CONTACT_FLAGS := ["y3_father_avoidance_voicemail", "y3_father_avoidance_source_message", "y3_father_avoidance_scheduled_call"]
 const W96_ARRIVAL := {
 	"ko": "서울역에 내려", "en": "At Seoul Station,", "ja": "ソウル駅で降り",
 	"zh-CN": "到了首尔站", "zh-TW": "在首爾站下車",
@@ -255,6 +257,12 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W100_DOCUMENT_CHECK"):
+		var w100_ok := await _check_w100_document()
+		if w100_ok:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w100_document")
+		get_tree().quit(0 if w100_ok else 1)
+		return
 	if OS.has_environment("GANGNAM_W96_RETURN_CHECK"):
 		var w96_ok := await _check_w96_return()
 		if w96_ok:
@@ -1206,6 +1214,146 @@ func _save_m23_frame(label: String) -> bool:
 	_fail("M23 did not settle portrait for capture")
 	return false
 
+func _check_w100_document() -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "W100/prepare"
+	if not _prepare_full_owner_history(100, [[14, "arc_father_01_call"], [21, "arc_father_02_signal"],
+			[49, "chapter_card_34"], [57, "arc_father_medication"], [85, "arc_y2_relationship_fork_unattached"],
+			[89, M23_PARENTS], [89, M23_CALL], [96, W96_VISIT, 3], [96, W96_YEAR_CLOSE], [97, "chapter_card_35"]]):
+		return false
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	if not _w100_router(false):
+		return false
+	var paths := 0
+	var known := W4_TERMS.keys()
+	for lang_index in range(known.size()):
+		var language: String = known[lang_index]
+		for choice in range(W100_CONTACT_FLAGS.size()):
+			await _remove_story()
+			await _stop_audio()
+			LocaleManager.set_language(language)
+			GameState.call("_restore_serialized_snapshot_exact", prepared)
+			var housing: String = M23_HOUSING[(lang_index + choice) % M23_HOUSING.size()]
+			GameState.housing = housing
+			_context = "%s/W100/c%d/%s" % [language, choice, housing]
+			if not await _open_full_fixture_event(W100_DOCUMENT) or not await _play_w100_document(choice, housing):
+				_fail("W100 live contact or isolated result restore failed")
+				await _remove_story()
+				await _stop_audio()
+				return false
+			paths += 1
+	await _remove_story()
+	await _stop_audio()
+	if _failures != 0:
+		return false
+	print("W100_DOCUMENT_OK paths=%d contact_frames=%d result_v4=%d actual_choice_receipts=%d full_owner=1 w112_owner_unchanged=1" % [paths, paths * 2, paths * 2, paths])
+	return true
+
+func _play_w100_document(choice: int, housing: String) -> bool:
+	var expected_background := _m23_home_background(housing)
+	var event: Dictionary = _story.get("_current")
+	var original := [GameState.money, GameState.health, GameState.mental, GameState.moral_tint,
+		GameState.get_cast_affinity("father"), GameState.get_cast_stage("father"), GameState.event_log.size()]
+	var deferred := GameState.deferred_events.duplicate(true)
+	for page in range((_story.get("_paragraphs") as Array).size()):
+		await _finish_page()
+		if int(_story.get("_para_index")) != page or not _w100_surface(expected_background, false):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	if not bool(_story.get("_showing_choices")) or (_story.get("_choice_box") as Control).get_child_count() != 3 \
+			or not _w100_surface(expected_background, false) or GameState.event_log.size() != original[6]:
+		return false
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", event["choices"][choice]["result_text"]))
+	if int(_story.call("_story_source_paragraph_count")) != 2 or not _m23_same_prose(pages, authored):
+		_fail("W100 result text or authored paragraphs changed")
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		var messaging := choice == 2 or (choice == 1 and source == 1)
+		if int(_story.get("_para_index")) != page or not _w100_surface(expected_background, messaging) \
+				or not _w100_receipt(choice, original, deferred, false):
+			return false
+		if page == int(_story.call("_first_story_page_for_source", source)):
+			if not await _reload_cut_result(choice, page, false):
+				return false
+			await _wait_stable()
+			if not _w100_surface(expected_background, messaging) or not _w100_receipt(choice, original, deferred, false):
+				return false
+		if page == pages.size() - 1:
+			_story.set_meta("_screenshot_qa_static_surface", true)
+		_story.call("_on_advance")
+		await _wait_stable()
+	return _w100_receipt(choice, original, deferred, true) and _w100_router(true)
+
+func _w100_surface(background: String, messaging: bool) -> bool:
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var badge := _story.get("_communication_badge") as Control
+	var label := _story.get("_communication_label") as Label
+	var portrait := _story.get("_portrait") as TextureRect
+	var expected_labels := {"ko": "메시지", "en": "Message", "ja": "メッセージ", "zh-CN": "消息", "zh-TW": "訊息"}
+	var sound_cues := AudioManager._story_audio_seen.keys().filter(func(key: String) -> bool:
+		return key.begins_with(W100_DOCUMENT + ":"))
+	if not _expect_surface(background, "apartment", "W100 home") \
+			or presentation.get("channel") != ("message" if messaging else "internal") \
+			or presentation.get("portrait_role") != "local" or badge.visible != messaging \
+			or label.text.nocasecmp_to(str(expected_labels[LocaleManager.language] if messaging else "")) != 0 \
+			or bool(_story.get("_portrait_remote_inset")) or not (_story.get("_portrait_frame") as Control).visible \
+			or portrait.texture == null or portrait.texture.resource_path != ImageRegistry.get_portrait("player_tired") \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or not BGMPlayer._ambience_player.playing or not BGMPlayer._current_human_ambience_key.is_empty() \
+			or BGMPlayer._human_ambience_player.playing or not BGMPlayer._current_season_key.is_empty() \
+			or BGMPlayer._season_player.playing or not BGMPlayer._current_key.is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing or not sound_cues.is_empty():
+		_fail("W100 contradictory contact, actor or ambience: channel=%s badge=%s/%s score=%s cues=%s" % [
+			presentation.get("channel"), badge.visible, label.text, BGMPlayer._current_key, sound_cues])
+		return false
+	return true
+
+func _w100_receipt(choice: int, original: Array, deferred: Array, closed: bool) -> bool:
+	var latest: Dictionary = GameState.event_log.back()
+	var snapshot := FULL_STORY_FLOW.snapshot()
+	var reads: Array = snapshot.get("read_receipts", {}).get("100", [])
+	var chain: Dictionary = snapshot.get("chain", {})
+	var valid: bool = FULL_STORY_FLOW.valid_session() and GameState.turn == 100 \
+		and GameState.event_log.size() == original[6] + 1 and latest.get("event_id") == W100_DOCUMENT \
+		and int(latest.get("choice_index", -1)) == choice and int(latest.get("turn", -1)) == 100 \
+		and is_equal_approx(GameState.money, original[0]) and GameState.health == original[1] \
+		and GameState.mental == original[2] and is_equal_approx(GameState.moral_tint, original[3]) \
+		and GameState.get_cast_affinity("father") == original[4] and GameState.get_cast_stage("father") == original[5] \
+		and _w96_deferred_equal(deferred) and bool(GameState.flags.get("arc_y3_father_avoidance_document_seen", false)) \
+		and bool(GameState.flags.get("father_visit_deferred", false)) and not bool(GameState.flags.get("visited_father", false)) \
+		and reads.size() == int(closed) and bool(chain.get("closed", false)) == closed \
+		and chain.get("pending_event_ids") == ([] if closed else [W100_DOCUMENT])
+	for index in range(W100_CONTACT_FLAGS.size()):
+		valid = valid and bool(GameState.flags.get(W100_CONTACT_FLAGS[index], false)) == (index == choice)
+	if closed and valid:
+		valid = reads[0].get("event_id") == W100_DOCUMENT and int(reads[0].get("choice_index", -1)) == choice
+	if not valid:
+		_fail("W100 altered original choice flags, effects, or owner receipt")
+	return valid
+
+func _w100_router(closed: bool) -> bool:
+	var probe := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var flags := GameState.flags.duplicate()
+	var w112 := "arc_y3_father_deferred_call"
+	var valid: bool = (probe.call("_story_graph_contract_event_id", 100, flags, false) == W100_DOCUMENT) != closed \
+		and probe.call("_story_graph_contract_event_id", 99, flags, false) != W100_DOCUMENT \
+		and probe.call("_story_graph_contract_event_id", 101, flags, false) != W100_DOCUMENT \
+		and probe.call("_story_graph_contract_event_id", 100, flags, true) != W100_DOCUMENT \
+		and (probe.call("_story_graph_contract_event_id", 112, flags, false) == w112) == closed \
+		and probe.call("_story_graph_contract_event_id", 111, flags, false) != w112 \
+		and probe.call("_story_graph_contract_event_id", 113, flags, false) != w112
+	probe.free()
+	if not valid:
+		_fail("W100 presentation changed the existing W100/W112 gate")
+	return valid
+
 func _check_w96_return(smoke: bool = false) -> bool:
 	_w96_capture_dir = "" if smoke else OS.get_environment("GANGNAM_W96_RETURN_CAPTURE_DIR")
 	var capture := not _w96_capture_dir.is_empty()
@@ -1818,13 +1966,14 @@ func _prepare_full_owner_history(at_turn: int, extra_prior: Array) -> bool:
 			[9, "arc_chapter1_close"]] + extra_prior:
 		GameState.turn = int(prior[0])
 		var event: Dictionary = DataRegistry.find_event(str(prior[1]))
-		if event.is_empty() or not GameState.apply_choice(event, event["choices"][0]):
+		var choice_index := int(prior[2]) if prior.size() > 2 else 0
+		if event.is_empty() or not GameState.apply_choice(event, event["choices"][choice_index]):
 			_fail("full owner preparation lost authored predecessor %s" % prior[1])
 			return false
 		var turn_key := str(GameState.turn)
 		if not owner["read_receipts"].has(turn_key):
 			owner["read_receipts"][turn_key] = []
-		var tuple := {"turn": GameState.turn, "event_id": prior[1], "choice_index": 0}
+		var tuple := {"turn": GameState.turn, "event_id": prior[1], "choice_index": choice_index}
 		var record: Dictionary = tuple.duplicate()
 		record.merge({"expression": false, "applied_sequence": GameState.events_seen, "applied_tuple": tuple})
 		owner["read_receipts"][turn_key].append(record)
