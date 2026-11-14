@@ -43,7 +43,7 @@
     "choices": [
       {
         "text": "Ask her to have dinner nearby now that her shift is over — spend more of today with her",
-        "result_text": "When {name} said, \"Dinner is on me,\" Daeun hesitated as if she too had seen the housing-payment notice. Then she set the boundary first. \"Nowhere expensive.\"\n\nThey sat by the steamed-up window of a small bunsik shop. Daeun talked about the nights when sleep still would not come after her shift. {name} did not add an answer; he listened to the end. The bill stayed pinned under a water glass. One bus had already passed."
+        "result_text": "When {name} said, \"Dinner is on me,\" Daeun hesitated for a moment. Then she said, \"Nowhere expensive.\"\n\nThey sat by the steamed-up window of a small bunsik shop. Daeun talked about the nights when sleep still would not come after her shift. {name} did not add an answer; he listened to the end. The bill stayed pinned under a water glass. One bus had already passed."
       },
       {
         "text": "Ask her to walk for forty minutes, then keep the next obligation",
@@ -58,11 +58,11 @@
   {
     "id": "arc_daeun_02b_dream",
     "title": "The Dream",
-  "description": "When the late-night convenience store emptied, only the refrigerator motor remained. Folding the lid of his ramyeon cup, {name} said, \"Within five years, I'll be living in Gangnam with 3 billion won in assets.\"\n\nDaeun's hand stopped over the barcode scanner. She gave a short laugh of surprise, then grew serious. \"That's a very big dream. But why Gangnam, {name}?\"\n\n{name} looked down at the steam rising from the cup. He had prepared an answer about success and status. Daeun's eyes held no contempt, only a quiet curiosity waiting for whatever he had hidden behind that answer.",
+  "description": "When the late-night convenience store emptied, only the refrigerator motor remained. Folding the lid of his ramyeon cup, {name} said, \"Within five years, I'll be living in Gangnam with 3 billion won in assets.\"\n\nDaeun had been tidying up the barcode scanner. Her hand stopped. She gave a short laugh of surprise, then grew serious. \"That's a very big dream. But why Gangnam, {name}?\"\n\n{name} looked down at the steam rising from the cup. He had prepared an answer about success and status. Daeun wasn’t making fun of him. She looked as if she was waiting to hear what was behind that answer.",
     "choices": [
       {
       "text": "\"Because I never want to be looked down on again.\" — give her the hidden reason",
-      "result_text": "For the first time, {name} spoke about shrinking before anyone could discover he was poor, and avoiding people's eyes through the years spent paying his father's debt. The steam blurred his sight as the words continued.\n\nDaeun rested both hands on the counter and listened to the end. \"I understand. But where you live doesn't give anyone permission to look down on you, {name}.\"\n\nNo one had ever taken his side before taking the side of his goal. Her sentence remained above the cooling broth."
+      "result_text": "For the first time, {name} spoke about shrinking before anyone could discover he was poor, and avoiding people's eyes through the years spent paying his father's debt. The steam blurred his sight as the words continued.\n\nDaeun rested both hands on the counter and listened to the end. \"I understand. But nobody gets to look down on you just because of where you live, {name}.\"\n\nDaeun was the first to take his side without first weighing how much he wanted to make. Her words stayed with him as the broth went cold."
       },
       {
       "text": "\"It's just the symbol of success.\" — use the answer he prepared",
