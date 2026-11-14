@@ -413,6 +413,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `rooftop_day` | `backgrounds/rooftop_daytime.png` | 1280x800 |
 | background | `rooftop_night` | `backgrounds/rooftop_night.png` | 1280x800 |
 | background | `saju_cafe` | `backgrounds/saju_cafe.png` | 1672x941 |
+| background | `sangchul_cafe_stairs` | `backgrounds/sangchul_cafe_stairs_v1.png` | 1584x990 |
 | background | `sangchul_private_dining` | `backgrounds/sangchul_private_dining.png` | 1280x800 |
 | background | `scalping_room` | `backgrounds/scalping_trading_room.png` | 1280x800 |
 | background | `street_rainy_bus_stop_wallet` | `backgrounds/seoul_bus_stop_wallet.png` | 1280x800 |

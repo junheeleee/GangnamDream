@@ -498,6 +498,8 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/cafe_seoul.png`
   - Small rainy Seoul cafe interior.
   - Use for social, relationship, date, romance, and cafe events.
+- `assets/backgrounds/sangchul_cafe_stairs_v1.png`
+  - W132 상철 신고 결과에서 내려가는 문장만. 가운데 아래참에서 오른쪽 통로로 이어지는 무인 실내 계단; 카페 바로 다음 컷이며 다른 퇴장에는 재사용하지 않는다.
 
 - `assets/backgrounds/restaurant_korean.png`
   - Modest Korean restaurant interior for family meals, awkward meetings, and relationship conversation scenes.

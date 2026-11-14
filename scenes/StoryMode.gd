@@ -93,6 +93,15 @@ const M07_HYUNSU_WASHBASIN_CUT := preload("res://assets/m07_hyunsu_washbasin_cut
 const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
 const W82_HYUNSU_BUS := "arc_y2_hyunsu_night_bus"
 const W205_MINSEO_CALL := "arc_minseo_03b_not_arrived"
+const W132_RECKONING := "arc_sangchul_reckoning"
+const W132_CAFE_STAIRS := "sangchul_cafe_stairs"
+const W132_STAIRS_START := {
+	"ko": "그런데 이상하게 — 계단을",
+	"en": "And yet, strangely, his feet",
+	"ja": "それなのに、不思議と――階段を",
+	"zh-CN": "可奇怪的是——下楼的脚步",
+	"zh-TW": "可是，奇怪的是——走下樓梯",
+}
 const W82_TERMINAL := "seoul_bus_terminal_night"
 const W82_COACH_DEPARTS := "seoul_bus_terminal_departure"
 const W82_ARRIVAL_START := {
@@ -3423,6 +3432,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == M27_JAEHYUK_PITCH and choice_index == 2) \
 		or (event_id == W57_FATHER_MEDICATION and choice_index in [1, 2] and not _is_public_story_demo()) \
 		or (event_id == W82_HYUNSU_BUS and choice_index in [0, 1] and not _is_public_story_demo()) \
+		or (event_id == W132_RECKONING and choice_index == 0) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
 		or (event_id == HYUNSU_EXAM_FAILURE and choice_index == 1) \
 		or (event_id == M23_PARENTS and choice_index == 1)
@@ -3482,6 +3492,9 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 	if event_id == W82_HYUNSU_BUS:
 		var anchors := W82_ARRIVAL_START if choice_index == 0 else W82_HANGUP_START
 		return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
+	if event_id == W132_RECKONING and raw.split("\n\n").size() == 2:
+		return _split_formatted_story_page(_fmt(raw), 1,
+			str(W132_STAIRS_START.get(LocaleManager.language, "")))
 	if event_id == HYUNSU_EXAM_FAILURE:
 		var anchors: Dictionary = M07_HYUNSU_WASHBASIN_CUT.get_meta("return_anchors", {})
 		var prose := _fmt(raw)
@@ -4685,7 +4698,7 @@ func _resolved_story_surface_portrait_id() -> String:
 			return ""
 	if _pending_after_result and str(_current.get("id", "")) == W82_HYUNSU_BUS:
 		return "hyunsu" if _event_background_id == W82_TERMINAL or _w82_bus_phone_replies() else ""
-	if _w205_minseo_hung_up(_story_source_paragraph_index(_para_index)):
+	if _w205_minseo_hung_up(_story_source_paragraph_index(_para_index)) or _is_w132_stair_result():
 		return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
@@ -5845,6 +5858,11 @@ func _is_w234_boulevard_result() -> bool:
 		_pending_result_choice_index == 1 or (_pending_result_choice_index == 0
 			and _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page))
 
+func _is_w132_stair_result() -> bool:
+	return _pending_after_result and str(_current.get("id", "")) == W132_RECKONING \
+		and _pending_result_choice_index == 0 and _result_location_cut_page >= 0 \
+		and _para_index >= _result_location_cut_page
+
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
@@ -5900,6 +5918,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		return
 	if _pending_after_result and event_id == W82_HYUNSU_BUS and not _is_public_story_demo():
 		_apply_w82_bus_result_surface()
+		return
+	if _pending_after_result and event_id == W132_RECKONING:
+		_apply_w132_reckoning_result(play_cut_cue)
 		return
 	if event_id == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(play_cut_cue)
@@ -6094,6 +6115,25 @@ func _apply_w57_medication_result_surface() -> void:
 func _w82_bus_phone_replies() -> bool:
 	return _pending_result_choice_index == 1 and _result_location_cut_page >= 0 \
 		and _para_index < _result_location_cut_page
+
+func _apply_w132_reckoning_result(play_cut_cue: bool) -> void:
+	var at_stairs := _is_w132_stair_result()
+	var destination := W132_CAFE_STAIRS if at_stairs else "cafe"
+	_refresh_story_paragraph_presentation(_story_source_paragraph_index(_para_index))
+	if destination == _event_background_id:
+		return
+	var texture := ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+	if texture == null:
+		return
+	if play_cut_cue:
+		_begin_story_scene_transition("explicit_move")
+	_bg_img.texture = texture
+	_event_background_id = destination
+	_apply_story_surface_palette(false)
+	_configure_living_scene()
+	_show_portrait(_resolved_story_surface_portrait_id())
+	if at_stairs and play_cut_cue:
+		AudioManager.play("footsteps_hall", -7.0)
 
 func _w82_bus_result_background(source: int) -> String:
 	if _pending_result_choice_index != 0:
@@ -6436,6 +6476,14 @@ func _refresh_story_paragraph_presentation(
 	var event_id := str(_current.get("id", ""))
 	var call_end_source_index := -1
 	match event_id:
+		W132_RECKONING:
+			_current_presentation = DataRegistry.get_story_presentation(event_id).duplicate(true)
+			if _is_w132_stair_result():
+				_current_presentation["channel"] = "narration"
+				_current_presentation["scene_location"] = W132_CAFE_STAIRS
+				_current_presentation["participants"] = ["player"]
+				_current_presentation["portrait_role"] = "none"
+			return
 		W205_MINSEO_CALL:
 			var was_remote := _portrait_remote_inset
 			var ended := _w205_minseo_hung_up(source_paragraph_index)

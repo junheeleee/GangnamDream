@@ -38,6 +38,9 @@ const W82_TERMINAL := "seoul_bus_terminal_night"
 const W82_DEPARTURE := "seoul_bus_terminal_departure"
 const W126_RIVER := "arc_goal_vertigo"
 const W205_PHONE := "arc_minseo_03b_not_arrived"
+const W132_REPORT := "arc_sangchul_reckoning"
+const W132_CAFE_ROOT := "arc_sangchul_stairwell"
+const W132_STAIRS := "sangchul_cafe_stairs"
 const W82_CUT_SENTENCES := [
 	["터미널 불빛 아래서", "Under the terminal lights", "ターミナルの明かりの下で", "车站灯光下", "轉運站的燈光下"],
 	["전화를 끊고", "He hung up", "電話を切って", "挂掉电话", "掛掉電話"],
@@ -263,6 +266,7 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	W132_STAIRS: "res://assets/backgrounds/sangchul_cafe_stairs_v1.png",
 	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
 	W82_TERMINAL: "res://assets/backgrounds/seoul_bus_terminal_night.png",
 	W82_DEPARTURE: "res://assets/backgrounds/seoul_bus_terminal_departure_v1.png",
@@ -366,6 +370,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W132_CHECK"):
+		var stairs_ok := await _check_w132_stairs()
+		await _remove_story()
+		await _stop_audio()
+		if stairs_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w132_stairs")
+		get_tree().quit(0 if stairs_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W126_W205_CHECK"):
 		var later_ok := await _check_w126_w205()
 		await _remove_story()
@@ -2655,6 +2667,92 @@ func _check_w126_w205(smoke: bool = false) -> bool:
 		print("W126_W205_OK paths=%d v4=%d cafe_handoffs=%d" % [paths, restores, cafe_handoffs])
 	return paths == (2 if smoke else 65) and restores == (0 if smoke else 65) \
 		and cafe_handoffs == (1 if smoke else 5)
+
+func _check_w132_stairs() -> bool:
+	var paths := 0
+	var cold := 0
+	var capture := OS.get_environment("GANGNAM_W132_CAPTURE_DIR")
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice: int in range(4):
+			await _remove_story()
+			await _stop_audio()
+			_context = "%s/W132/report-c%d" % [language, choice]
+			LocaleManager.set_language(language)
+			SaveManager.clear_loaded_resume_context()
+			GameState.start_new_game()
+			GameState.turn = 132
+			GameState.age = 35
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			GameState.pending_story_queue = [W132_CAFE_ROOT, W132_REPORT]
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			await _finish_page()
+			if not _expect_w132_surface(false):
+				return false
+			_story.call("_load_next_event")
+			await _wait_stable()
+			if str((_story.get("_current") as Dictionary).get("id", "")) != W132_REPORT:
+				_fail("W132 fixture did not advance to the reckoning")
+				return false
+			var intro: Array = _story.get("_paragraphs")
+			for _i in range(intro.size()):
+				await _finish_page()
+				if not _expect_w132_surface(false):
+					return false
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")):
+				return false
+			var count: int = GameState.events_seen
+			var money: float = GameState.money
+			AudioManager._last_sfx_ms.erase("footsteps_hall")
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			var result: Array = _story.get("_paragraphs")
+			var cut := int(_story.get("_result_location_cut_page"))
+			if (cut > 1) != (choice == 0):
+				_fail("W132 exact five-locale stairs text boundary missing or applied to other choices")
+				return false
+			for page in range(result.size()):
+				var at_stairs := cut >= 0 and page >= cut
+				await _finish_page()
+				if not _expect_w132_surface(at_stairs) \
+						or AudioManager._last_sfx_ms.has("footsteps_hall") != at_stairs:
+					_fail("W132 sound did not follow the authored descent")
+					return false
+				if choice == 0 and at_stairs and page == cut and not capture.is_empty():
+					await get_tree().create_timer(0.5).timeout
+					if not await _save_viewport_frame(capture.path_join("%s_stairs.png" % language)):
+						return false
+				if page + 1 < result.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			if choice == 0:
+				var context: Dictionary = _story.call("build_save_resume_context")
+				AudioManager._last_sfx_ms.erase("footsteps_hall")
+				if not await _reload_authored_result_context(context, language, 2, 1) \
+						or not _expect_w132_surface(true) or AudioManager._last_sfx_ms.has("footsteps_hall"):
+					_fail("W132 cold v4 replayed stairs cue or revealed the café")
+					return false
+				cold += 1
+			if GameState.events_seen != count + 1 or GameState.money != money:
+				_fail("W132 staging affected result receipt count or assets")
+				return false
+			paths += 1
+	print("W132_STAIRS_OK choices=%d cold_v4=%d" % [paths, cold])
+	return paths == 20 and cold == 5
+
+func _expect_w132_surface(at_stairs: bool) -> bool:
+	var frame := _story.get("_portrait_frame") as Control
+	var presentation := _story.get("_current_presentation") as Dictionary
+	var exact := _expect_surface(W132_STAIRS if at_stairs else "cafe", "", "W132") \
+		and not BGMPlayer._ambience_player.playing and not BGMPlayer._human_ambience_player.playing \
+		and not BGMPlayer._season_player.playing and frame.visible != at_stairs \
+		and str(presentation.get("channel", "")) == ("narration" if at_stairs else "in_person")
+	if not exact:
+		_fail("W132 stairs/café presence did not match narration")
+	return exact
 
 func _expect_w126_w205_surface(river: bool, home: String, outside: bool, ended: bool) -> bool:
 	if river:

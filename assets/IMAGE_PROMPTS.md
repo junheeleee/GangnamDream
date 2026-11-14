@@ -1214,6 +1214,12 @@ sips --resampleHeightWidth 800 1280
 
 > Create a distinctly NEW closer angle of this exact scene from higher seated human eye height, keeping the same room and tabletop but tilting the view downward. This is an illustration composition with the TOP HALF showing the far end of the low table and the featured two very ordinary small objects, and the BOTTOM HALF showing empty worn wooden tabletop flowing all the way to the lower edge. Put both palm-sized folded pharmacy envelope and 200 ml glass near x=45% and y=43% from top, completely inside the middle band from 33% to 55% canvas height. Make them both legible but physically small, with a true 10 cm medicine envelope and 9 cm glass proportional to the furniture. Reducing the wall/ceiling area is the priority: show NO ceiling, NO full-height doorway; the upper frame can show largely the lower couch and lower far doorway. Preserve identical sofa on left and entry rear right, modest exact Changwon studio house style/wood/wall material. Do not add a chair or change the room. No new print, no legible numbers, no people, no doily, no UI. Hand-inked Korean manhwa VN, NOT a photograph. 16:10 landscape.
 
+## 2026-11-15 — W132 상철 카페 계단
+
+- 최종 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다.
+- 장소·색 참조 `assets/backgrounds/cafe_seoul.png`. 초안 `exec-d1399183-e41f-494b-918d-06f6a84dcc0a.png`은 아래참이 막혀 보여 반려. 선택 갈래 밖에는 적용하지 않는다.
+- 최종 프롬프트 요약: 성인 눈높이에서 건물 계단을 내려다보는 무광 구아슈·잉크 원화. 아래참 오른쪽 벽 끝에 성인이 지나는 L자 통로와 연결된 바닥을 드러낸다. 카페의 따뜻한 빛·짙은 철제 난간, 실내 콘크리트 계단. 대사창 높이 위에 아래참·통로를 배치. 인물·간판·창·날씨·사진 효과 없음.
+
 ## 2026-11-14 — M07 공용 세면대
 
 - 최종: `assets/backgrounds/goshiwon_shared_washbasin_v1.png`, 1584×990, SHA-256 `52e30cbb8e5e046877e7dcb522e2427156a679643b0be0e7ee499fcc147ec815`.

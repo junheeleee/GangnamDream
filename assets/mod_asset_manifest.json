@@ -776,6 +776,14 @@
     {
       "kind": "background",
       "ids": [
+        "sangchul_cafe_stairs"
+      ],
+      "relative_path": "backgrounds/sangchul_cafe_stairs_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "sangchul_private_dining"
       ],
       "relative_path": "backgrounds/sangchul_private_dining.png",

@@ -168,6 +168,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "sangchul_cafe_stairs": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "finale_cafe_rear_papers": {
       "environment": "indoor",
       "depth": "near",

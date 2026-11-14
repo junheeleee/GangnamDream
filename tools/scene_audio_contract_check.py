@@ -175,6 +175,8 @@ W72_DINNER_AUDIO = {
     "ambience": "intentional_silence", "suppress_human_ambience": True, "suppress_season_ambience": True,
 }
 W82_BUS_EVENT = "arc_y2_hyunsu_night_bus"
+W132_CAFE_EVENTS = ("arc_sangchul_reckoning", "arc_sangchul_stairwell")
+W132_CAFE_AUDIO = {**W72_DINNER_AUDIO, "music": {"key": "reckoning", "start_paragraph": 0}}
 W205_MINSEO_PHONE = "arc_minseo_03b_not_arrived"
 W57_MEDICATION_EVENT = "arc_father_medication"
 W57_MEDICATION_AUDIO = {
@@ -417,6 +419,9 @@ def main() -> int:
         elif owner in {W72_DINNER_EVENT, W82_BUS_EVENT, W205_MINSEO_PHONE}:
             if contract != W72_DINNER_AUDIO:
                 errors.append(f"{owner}: do not borrow the wrong location's recorded bed")
+        elif owner in W132_CAFE_EVENTS:
+            if contract != W132_CAFE_AUDIO:
+                errors.append(f"{owner}: keep the score, not the unrelated street or bar recording")
         elif owner in DAEUN_QUIET_RESULT_CGS:
             if contract != {"ambience": "intentional_silence"}:
                 errors.append(f"{owner}: do not borrow the recorded bar or street crowd")
@@ -559,6 +564,10 @@ def main() -> int:
     if (event_contracts.get(W205_MINSEO_PHONE) != W72_DINNER_AUDIO
             or events.get(W205_MINSEO_PHONE, {}).get("background") != ""):
         errors.append(f"{W205_MINSEO_PHONE}: don't stage the remote call in an unestablished café")
+    if (any(event_contracts.get(owner) != W132_CAFE_AUDIO
+            or events.get(owner, {}).get("background") != "cafe" for owner in W132_CAFE_EVENTS)
+            or manifest.get("background_profiles", {}).get("sangchul_cafe_stairs") != "intentional_silence"):
+        errors.append("W132: exact café owners, unchanged score and a quiet stairwell")
     for event_id, expected_audio in ((W37_FIRST_BILL_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W100_FATHER_OUTREACH_EVENT, NEUTRAL_HOME_AUDIO),
                                      (W108_HYUNSU_WARNING_EVENT, W108_HYUNSU_WARNING_AUDIO),
