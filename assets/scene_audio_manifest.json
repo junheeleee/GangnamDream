@@ -893,13 +893,7 @@
     },
     "arc_y5_final_week_daeun_outbound": {
       "ambience": "current_housing",
-      "music": {"key": "daeun", "start_paragraph": 0},
-      "paragraph_cues": {"0": [{"sfx": "phone_notification", "volume_db": -9.0}]},
-      "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "phone_notification", "volume_db": -6.0}]},
-        "1": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]},
-        "2": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]}
-      }
+      "music": {"key": "daeun", "start_paragraph": 0}
     },
     "arc_y5_general_debt_memory_reconnect": {
       "ambience": "current_housing",
@@ -974,9 +968,7 @@
       "ambience": "current_housing",
       "music": {"key": "reckoning", "start_paragraph": 0},
       "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]},
-        "1": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]},
-        "2": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]}
+        "1": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]}
       }
     },
     "arc_year_one_mark": {"ambience": "current_housing", "suppress_music": true},
