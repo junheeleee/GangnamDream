@@ -829,6 +829,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W204·W207 도입 표적: cue3 제거, 5언어×전임 선택3×장면2=30 도입·결과90에서 컵/종이 재생0. 선행 읽기 source0 및 총6문단, 결과 [3,3,3]/[4,3,2], 원래 카페/사무실·다은/대면 음악 source2, W207 세 번째 결과의 카페 배경/환경음·다은 초상 계약 보존. 독립 정적 GO·격리 `em61cm` exit0/stderr0, fixture `c13587fc8c38fa0d1905ab95b45713b3a02ab4ab44685b5762ede72e668b4502`, 로그 `fbfb31788af78469b7cfba03e0c443116f183cef71848aa74fdc07fe7f4ed5c2` 및 별도 재실행 `VZQhFUh6Vo` 통과. 5장 19루트/47선택·기존 201/203 경계·공개 데모5언어·정적 계약도 통과. 새 규범0/일회성, 실청취·정확한 종이컵/철심 녹음 별도. 11-15 일지의 이전 범위 인덱스 `203/200-1/195-7+/192/188x2/185x2/181/177/174/169/167/164/132;C6`는 이 증거에서 보존한다.
 
+[~] W207 세 번째 결과의 다은 책장 넘김: `scenes/StoryMode.gd`, `assets/w207_daeun_page_turn.tres`, `tools/StoryBackgroundContextCheck.gd`, 이 증거·현황·일지만. 카페 첫 결과는 민준이 서류를 내려놓고 기한을 전하는 페이지다. 다음 원문 문단 첫 문장에서 다은이 자기 이름의 장을 실제 펼칠 때만 `Paper/pageturn2.wav` 기반 `page_turn` 1회. 다섯 언어 exact 시작, 새 페이지/문장/음원 없음. 앞 회의실, 다른 두 선택, 읽기 전용·재개·재배치에는 새 재생0. 회의실/카페·다은 초상·기존 곡·선택/영수증·저장·공개 데모 불변.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
