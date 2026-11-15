@@ -738,18 +738,15 @@
     },
     "arc_y5_jaehyuk_guarantee_request_reference": {
       "ambience": "current_housing",
-      "music": {"key": "reckoning", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "phone_notification", "volume_db": -5.0}]}
+      "music": {"key": "reckoning", "start_paragraph": 1}
     },
     "arc_y5_jaehyuk_return_call_reference": {
       "ambience": "current_housing",
-      "music": {"key": "reckoning", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "traffic_pass", "volume_db": -9.0}]}
+      "music": {"key": "reckoning", "start_paragraph": 1}
     },
     "arc_y5_jaehyuk_father_document_reference": {
       "ambience": "current_housing",
-      "music": {"key": "grief", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "page_turn", "volume_db": -7.0}]}
+      "music": {"key": "grief", "start_paragraph": 1}
     },
     "arc_y5_guarantee_protected_show_daeun": {
       "ambience": "current_housing",
