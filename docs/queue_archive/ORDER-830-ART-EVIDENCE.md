@@ -849,6 +849,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W211–212 오음 제거 표적: 전체 매니페스트 역복원·5언어 원고 독립 GO. W211 노트북 앞 도입 A4 소리 1곳, W212 발신 문자/전자 인증/발신 후 차단 결과의 통화음·연필음·통화음 3곳만 제거. 일반 W211 발신음·초상/거처·음악 source2/0 보존. 동일 fixture `0855fe01bdca787dda3ec4ecc3aa2ab3feee7d6f9f402aee12f4c50fccfac741`: 변경 전 `WhBoAH6zj6` exit1, 요청된 네 cue의 20 문맥·재생 흔적·계약 일치 불가 33건, stderr `07eb17b5b0d1fee9cd7933166a62644e8cf810fe08823667ff9fd2894603feb6`; 변경 후 `i7DhKz1kNi` exit0/stderr0, 5언어×영수증 (1+3)=20 문맥·모든 결과 60에서 잘못된 재생0, 기존 W209–210 25 문맥·5장 19장면/47선택/저장 왕복 통과. stdout `a40d0e5d20375cea555042b957a01d9de97f9a0720ad6d7df4ce940a44bbfc39`. 시각·오디오 계약 및 공개 데모5언어/EN 통과. 연속 실청취와 W215–216 구 사무실/계단참 위치·초상·효과음은 별도. 새 규범0/일회성.
 
+[~] W215 상철 옛 사무실 오음 제거: `assets/scene_audio_manifest.json`의 `arc_sangchul_final_door`에서 재혁의 이전 결정 회상(source0) 문 잠금쇠, 이미 놓인 종이컵(source1)에 붙은 탭, 빨간 펜으로 표시하는 첫 결과의 연필음만 제거한다. 실제 서류 두 장을 놓는 source3 종이음·옛 사무실·상철 초상·환경음·`reckoning` source2 유지. `tools/Chapter5CausalRouteCheck.gd` 선행3×5언어·결과 검증, 이 증거·현황·일지만. 대체음·원고·선택·저장·공개 RC는 변경0. W216 계단참 원화·초상은 별도 범위.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
