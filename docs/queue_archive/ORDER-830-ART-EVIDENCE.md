@@ -817,6 +817,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W196 일정 알림 표적: 5언어×W195 영수증 3종 실제 결과 15, `phone_vibrate` 라이브 15(각1), 벨/종이0. KO 타 선택2·v4 전후2·언어 전환4·글자 크기4 중 재생0; source 문단2·거처·무곡·상태/영수증 보존. 읽기 전용 컷 제외는 독립 코드 대조(도감 진입 대상 아님). 격리 `vt4800n4` exit0/stderr0, fixture `9b8cc6afed402f7543ba71333e617b48b9e013006c8e8317f43167fb7f4e542c`, stdout `345010165ab91ef126a677063d36b4524b9e2002f835cfa63031e0261619e27d`. 첫 `rfqxpz6e`의 fixture 타입 추론 실패 보존, 검사 기대 타입만 명시. 5장 19루트/47선택·디스크 복원, 현행 데모5언어·출시 원장 별도 통과. 새 규범0/일회성, 실제 청취 별도.
 
+[~] W200 다은 조달 문서 카페(결혼식과 별개): `scenes/StoryMode.gd`, `assets/{w200_daeun_pencil_cut.tres,scene_audio_manifest.json}`, `tools/StoryBackgroundContextCheck.gd`, 이 증거·현황·일지만. 폴더와 샤프를 놓는 도입의 컵 소리를 제거. 첫 선택의 차액 밑줄 및 셋째 선택의 밤 조항 세로선에서만 5언어 원문 경계에 연필 긋기 실녹음 1회. 둘째 화면 대조·재개·언어/글자 재배치·읽기 전용에서 재생0. 기존 카페·음악 시작·그림·원문·선택/영수증·저장·공개 RC 불변.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
