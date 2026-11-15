@@ -166,6 +166,13 @@ const W185_FOLLOW_UPS := [
 	"arc_y4_father_final_contact_called",
 	"arc_y4_father_final_contact_missed",
 ]
+const W188_ROOT := "arc_father_passing"
+const W188_PLATFORM := "arc_father_passing_platform"
+const W188_PLATFORM_BG := "seoul_station_ktx_platform_winter"
+const W188_FOLLOW_UPS := [
+	"arc_father_passing_hospital_room",
+	"arc_father_passing_deal_morning",
+]
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -411,6 +418,7 @@ const EXACT_PATHS := {
 	W164_INTAKE: "res://assets/backgrounds/hospital_night_intake_w164_v1.png",
 	W167_RESTAURANT: "res://assets/backgrounds/family_soup_restaurant_w167_v1.png",
 	W177_CORRIDOR: W177_CORRIDOR_PATH,
+	W188_PLATFORM_BG: "res://assets/backgrounds/seoul_station_ktx_platform_winter.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -507,6 +515,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W188_CHECK"):
+		var platform_ok := await _check_w188_platform_silence()
+		await _remove_story()
+		await _stop_audio()
+		if platform_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w188_platform_silence")
+		get_tree().quit(0 if platform_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W185_CHECK"):
 		var departure_ok := await _check_w185_father_departure()
 		await _remove_story()
@@ -3598,6 +3614,176 @@ func _w181_commitment_matches(before: Array, event_id: String, choice: int,
 		and str(receipt.get("scene_background_id", "")) == home \
 		and actual_forgone == forgone \
 		and receipt.get("outcome", {}) == outcome
+
+func _check_w188_platform_silence() -> bool:
+	var paths := 0
+	var restores := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice in range(2):
+			await _remove_story()
+			await _stop_audio()
+			_context = "%s/W188/platform/c%d" % [language, choice]
+			LocaleManager.set_language(language)
+			SaveManager.clear_loaded_resume_context()
+			GameState.start_new_game()
+			GameState.turn = 188
+			GameState.week_of_month = 4
+			GameState.month = 11
+			GameState.year = 2029
+			GameState.age = 36
+			GameState.housing = "oneroom"
+			GameState.money = 2_000_000.0
+			GameState.mental = 80.0
+			GameState.flags["arc_father_medication_seen"] = true
+			GameState.flags["arc_father_03_seen"] = true
+			GameState.flags["arc_y4_bill_night_seen"] = true
+			GameState.flags["father_care_left_open"] = true
+			GameState.flags["arc_y4_father_crisis_contact_seen"] = true
+			GameState.flags["father_crisis_contact_missed"] = true
+			GameState.cast["father"]["stage"] = "hospitalized"
+			var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+			var selected := str(ingress.call(
+				"_chapter_four_causal_arc_id", 188, GameState.flags, false))
+			ingress.free()
+			if selected != W188_ROOT:
+				_fail("W188 exact medical receipts did not select the father-passing root")
+				return false
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			GameState.pending_story_queue = [W188_ROOT]
+			# A wrong platform contract must remain observable even when the call
+			# starts from another public bed and a winter layer.
+			BGMPlayer.set_ambience("subway")
+			BGMPlayer.set_season_ambience("winter")
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			await _wait_stable()
+			var root: Dictionary = _story.get("_current")
+			if str(root.get("id", "")) != W188_ROOT:
+				_fail("W188 did not open the actual father-passing root")
+				return false
+			var root_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+			for _page in range(root_pages.size()):
+				await _finish_page()
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) \
+					or (root.get("choices", []) as Array).size() != 2:
+				_fail("W188 father-passing root did not expose its two decisions")
+				return false
+			_story.call("_on_choice", 0)
+			await _wait_stable()
+			var root_results: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var root_authored := str(_story.call(
+				"_fmt", str((root.get("choices", []) as Array)[0].get("result_text", ""))))
+			if str(_story.get("_pending_follow_up")) != W188_PLATFORM \
+					or root_results.is_empty() or not _m23_same_prose(root_results, root_authored):
+				_fail("W188 root choice zero lost its exact platform handoff or prose")
+				return false
+			for _page in range(root_results.size()):
+				await _finish_page()
+				_story.call("_on_advance")
+				await _wait_stable()
+			var platform: Dictionary = _story.get("_current")
+			var intro: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var resolved_intro := str(_story.call("_resolved_story_description", platform))
+			if str(platform.get("id", "")) != W188_PLATFORM \
+					or int(_story.call("_story_source_paragraph_count")) != 4 \
+					or intro.is_empty() or not _m23_same_prose(intro, resolved_intro):
+				_fail("W188 root choice zero did not enter the exact localized platform")
+				return false
+			for _page in range(intro.size()):
+				await _finish_page()
+				if not _expect_w188_platform("W188 platform intro"):
+					return false
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) \
+					or (platform.get("choices", []) as Array).size() != 2 \
+					or not _expect_w188_platform("W188 platform choices"):
+				_fail("W188 platform did not retain its two decisions on the silent winter surface")
+				return false
+			var before_phenotype := _w177_phenotype_state()
+			var before_flags: Dictionary = GameState.flags.duplicate(true)
+			var before_events := int(GameState.events_seen)
+			var before_log: Array = GameState.event_log.duplicate(true)
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			var expected_flags: Dictionary = before_flags.duplicate(true)
+			# This platform is a pure bridge. Its terminal follow-up owns the
+			# father-passing route flags; the platform itself records only the event.
+			var receipt: Dictionary = GameState.event_log.back() \
+				if not GameState.event_log.is_empty() else {}
+			var applied_state := _w177_applied_state()
+			var result_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var authored_result := str(_story.call("_fmt", str(
+				(platform.get("choices", []) as Array)[choice].get("result_text", ""))))
+			var choice_checks := {
+				"phenotype": _w177_phenotype_state() == before_phenotype,
+				"flags": GameState.flags == expected_flags,
+				"events": GameState.events_seen == before_events + 1,
+				"log_size": GameState.event_log.size() == before_log.size() + 1,
+				"log_prefix": GameState.event_log.slice(0, before_log.size()) == before_log,
+				"receipt": str(receipt.get("event_id", "")) == W188_PLATFORM \
+					and int(receipt.get("choice_index", -1)) == choice \
+					and int(receipt.get("turn", -1)) == 188,
+				"follow_up": str(_story.get("_pending_follow_up")) == W188_FOLLOW_UPS[choice],
+				"source_count": int(_story.call("_story_source_paragraph_count")) == 1,
+				"prose": not result_pages.is_empty() and _m23_same_prose(result_pages, authored_result),
+			}
+			if choice_checks.values().has(false):
+				_fail("W188 platform choice changed effects, receipt, next source or localized prose checks=%s flags=%s receipt=%s followup=%s sources=%s" % [
+					choice_checks, GameState.flags, receipt, _story.get("_pending_follow_up"),
+					_story.call("_story_source_paragraph_count")])
+				return false
+			for page in range(result_pages.size()):
+				await _finish_page()
+				if not _w177_applied_state_matches(applied_state, "W188 platform result") \
+						or not _expect_w188_platform("W188 platform result"):
+					return false
+				if language == "ko" and choice == 0 and page == 0:
+					var context: Dictionary = _story.call("build_save_resume_context")
+					if not await _reload_authored_result_context(context, language, 1, 0) \
+							or str((_story.get("_current") as Dictionary).get("id", "")) != W188_PLATFORM \
+							or int(_story.get("_para_index")) != page \
+							or not _w177_applied_state_matches(applied_state, "W188 cold platform result") \
+							or not _expect_w188_platform("W188 cold platform result"):
+						_fail("W188 v4 result restore lost the silent platform or applied choice")
+						return false
+					await _finish_page()
+					restores += 1
+				if page + 1 < result_pages.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			if str(_story.get("_pending_follow_up")) != W188_FOLLOW_UPS[choice] \
+					or not _w177_applied_state_matches(applied_state, "W188 final platform result"):
+				_fail("W188 platform result changed before its authored follow-up")
+				return false
+			paths += 1
+	print("W188_PLATFORM_SILENCE_OK paths=%d v4=%d" % [paths, restores])
+	return paths == 10 and restores == 1
+
+func _expect_w188_platform(label: String) -> bool:
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var cue_keys := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		return str(key).begins_with(W188_PLATFORM + ":"))
+	if not _expect_surface(W188_PLATFORM_BG, "", label) \
+			or not _expect_no_ambience(label) \
+			or str(BGMPlayer.get("_current_key")) != "grief" \
+			or _score_playback_position("grief") < 0.0 \
+			or str(presentation.get("channel", "")) != "narration" \
+			or str(presentation.get("scene_location", "")) != "seoul_station_ktx_platform" \
+			or (_story.get("_portrait_frame") as Control).visible \
+			or (_story.get("_name_panel") as Control).visible \
+			or (_story.get("_communication_badge") as Control).visible \
+			or bool(_story.get("_current_uses_cg")) \
+			or not str(_story.get("_event_cg_id")).is_empty() \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or not cue_keys.is_empty():
+		_fail("%s changed the winter KTX, silent beds or grief score presentation=%s cues=%s" % [
+			label, presentation, cue_keys])
+		return false
+	return true
 
 func _check_w185_father_departure() -> bool:
 	var anchors: Dictionary = W185_DEPARTURE_CUT.get_meta("taxi_anchors", {})

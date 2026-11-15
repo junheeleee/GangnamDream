@@ -783,6 +783,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W188 서울역 승강장 소리 한정 — `assets/scene_audio_manifest.json`의 `arc_father_passing_platform` 및 해당 배경 한 행, `tools/{StoryBackgroundContextCheck.gd,scene_audio_contract_check.py}`, `docs/AUDIO_QA.md` 해당 근거·일지·현황·이 증거. 사망 통보 뒤 표를 사는 실제 경로의 겨울 KTX 승강장에서 지하철 혼합음과 열차 **객실** 녹음을 모두 제외한다. 확인된 승강장 원음이 없으므로 환경 3층만 즉시 끊고 기존 애도곡·배경·두 선택·이후 병실/회의실·앱 저장은 유지. 안내방송·진동·새 원화/원음·원고 및 시간 수리·금액/분기/공개 RC는 변경0. 원고 인계는 833의 후속 경계다.
 
+[x] W188 승강장 소리: 독립 GO. 지하철 출입홀+전동차는 사건값, 영국 열차 객실은 배경 대체값이었으며 행 두 개만 정정했다. `gangnam-story-background-context-13g2yls2` 실제 W188 사망 선택기→창원행 표→서울역, 5언어×승강장 선택2=10·KO v4 1건. 겨울 승강장 원화·애도곡·기존 두 결과와 병실/다음 날 회의실 후속 불변, 환경·군중·계절층 정지, exit0/stderr0. `4mxlqntx`·`og91blvb`의 무효 `_seen` 기대는 원래 후속 소유로 바로잡았다(제품 추가 변경0). fixture `2cafdfb77e1a8328bd3502ad3f735c9aa453418a5a6a2813420a25aa87dfba10`, stdout `59ac4ecd2b1e70a18a7e32b494715bdcd5ff58562802b3508e55de5110f94545`. 지하철·객실·대체값·곡 누락 반례 4건 거절, 4장 인과·정점31·5언어 공개 데모·내용 원장 통과. KTX 실제 승강장 녹음·안내방송 및 탑승/퇴장 결과의 새 화면·실제 청취·원고 모순은 별도다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
