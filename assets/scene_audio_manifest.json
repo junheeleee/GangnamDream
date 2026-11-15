@@ -710,8 +710,7 @@
     },
     "arc_y5_final_push_deadline_investment": {
       "ambience": "current_housing",
-      "music": {"key": "reckoning", "start_paragraph": 1},
-      "paragraph_cues": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+      "music": {"key": "reckoning", "start_paragraph": 1}
     },
     "arc_y5_protection_boundary_daeun": {
       "ambience": "cafe",

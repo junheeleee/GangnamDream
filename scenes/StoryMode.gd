@@ -114,6 +114,8 @@ const W192_YEAR_CLOSE_IDS := ["arc_year4_close", "arc_year4_close_father_passed"
 const W192_WIND_CUT := preload("res://assets/w192_year4_close_wind_cut.tres")
 const W192_ROOFTOP := "year4_winter_rooftop"
 const W192_DOOR_INSIDE := "year4_rooftop_door_inside_w192"
+const W197_DEADLINE := "arc_y5_final_push_deadline_investment"
+const W197_FOLDER_CUT := preload("res://assets/w197_folder_cut.tres")
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -2777,7 +2779,8 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 			float(restored_position.get("type_ratio", restored_type_ratio)), 0.0, 1.0)
 		var first_ktx_result := result_phase and not _first_ktx_cut_pages.is_empty()
 		if first_ktx_result or (_result_location_cut_page >= 0 \
-				and (result_phase or _full_w19_reunion or str(_current.get("id", "")) == M23_PARENTS)):
+				and (result_phase or _full_w19_reunion \
+					or str(_current.get("id", "")) in [M23_PARENTS, W197_DEADLINE])):
 			var saved_page := int(context.get("paragraph_index", -1))
 			var saved_ratio: float = clampf(float(context.get("paragraph_type_ratio", 1.0)), 0.0, 1.0)
 			if saved_locale == LocaleManager.language and saved_page >= 0 \
@@ -2826,6 +2829,10 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	elif result_phase and _is_w192_door_result():
 		# A saved result has already passed the score's prose entrance.
 		BGMPlayer.play_scene_paragraph_music(_current, "", 2)
+	elif str(_current.get("id", "")) == W197_DEADLINE:
+		# The folder is a live one-shot; only the already-admitted score resumes.
+		if result_phase or phase == "choices" or source_paragraph_index >= 1:
+			BGMPlayer.play_scene_paragraph_music(_current, "", 1)
 	elif str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		# Restore the sustained score only if the authored entrance was passed.
 		# No contact, police, or navigation one-shot belongs to resume.
@@ -3273,7 +3280,7 @@ func _set_story_text_size(level: String) -> void:
 			var page_data := _story_page_data(raw_text)
 			if _pending_after_result:
 				page_data = _localized_result_page_data(_pending_result_choice_index)
-			elif _full_w19_reunion:
+			elif _full_w19_reunion or str(_current.get("id", "")) == W197_DEADLINE:
 				page_data = _resolved_story_prose_pages()
 			_restore_localized_story_text(
 				page_data, source_paragraph_index,
@@ -3464,6 +3471,12 @@ func _resolved_story_prose_pages() -> Dictionary:
 	var prose := _resolved_story_description(_current)
 	if _full_w19_reunion:
 		return _w19_reunion_prose_pages(prose)
+	if str(_current.get("id", "")) == W197_DEADLINE and not _read_only_replay:
+		var anchors: Dictionary = W197_FOLDER_CUT.get_meta("folder_anchors", {})
+		var anchor: String = _fmt(str(anchors.get(LocaleManager.language, "")))
+		if not anchor.is_empty() and prose.split("\n\n").size() == 3 \
+				and prose.count(anchor) == 1:
+			return _split_formatted_story_page(prose, 2, anchor)
 	if str(_current.get("id", "")) == M23_PARENTS and prose.split("\n\n").size() == 3:
 		var anchors: Dictionary = M23_PARENTS_CUTS.get_meta("laundry_anchors", {})
 		return _split_formatted_story_page(prose, 0, _fmt(str(anchors.get(LocaleManager.language, ""))))
@@ -7544,6 +7557,11 @@ func _on_advance():
 	if _para_index < _paragraphs.size():
 		var source_index := _story_source_paragraph_index(_para_index)
 		_apply_authored_result_location(true)
+		if not _read_only_replay and not _pending_after_result \
+				and _para_index == _result_location_cut_page \
+				and str(_current.get("id", "")) == W197_DEADLINE:
+			# Hear the sheets shifting inside the placed folder, not the screen.
+			AudioManager.play("paper_handle", -8.0)
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
 			if str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:

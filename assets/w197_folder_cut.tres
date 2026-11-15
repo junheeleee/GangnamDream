@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/folder_anchors = {
+"ko": "{name}은 R3 원문이 든 투명 폴더를 키보드 옆에 놓고",
+"en": "{name} set the clear folder holding R3 beside the keyboard",
+"ja": "{name}はR3の原文が入った透明フォルダーをキーボードの横に置き、",
+"zh-CN": "{name}把装有R3原文的透明文件夹放在键盘旁，",
+"zh-TW": "{name}把裝有 R3 原文的透明資料夾放在鍵盤旁，"
+}

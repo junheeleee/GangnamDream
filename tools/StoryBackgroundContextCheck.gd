@@ -180,6 +180,14 @@ const W192_DEAD := "arc_year4_close_father_passed"
 const W192_BG := "year4_winter_rooftop"
 const W192_INSIDE := "year4_rooftop_door_inside_w192"
 const W192_WIND_CUT := preload("res://assets/w192_year4_close_wind_cut.tres")
+const W197_PUSH := "arc_y5_final_push_deadline_investment"
+const W197_FOLDER_STARTS := {
+	"ko": "{name}은 R3 원문이 든 투명 폴더를 키보드 옆에 놓고",
+	"en": "{name} set the clear folder holding R3 beside the keyboard",
+	"ja": "{name}はR3の原文が入った透明フォルダーをキーボードの横に置き、",
+	"zh-CN": "{name}把装有R3原文的透明文件夹放在键盘旁，",
+	"zh-TW": "{name}把裝有 R3 原文的透明資料夾放在鍵盤旁，",
+}
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -525,6 +533,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W197_CHECK"):
+		var folder_ok := await _check_w197_folder_audio()
+		await _remove_story()
+		await _stop_audio()
+		if folder_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w197_folder_audio")
+		get_tree().quit(0 if folder_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W192_CHECK"):
 		var year_close_ok := await _check_w192_year_close_wind()
 		await _remove_story()
@@ -3635,6 +3651,270 @@ func _w181_commitment_matches(before: Array, event_id: String, choice: int,
 		and str(receipt.get("scene_background_id", "")) == home \
 		and actual_forgone == forgone \
 		and receipt.get("outcome", {}) == outcome
+
+func _check_w197_folder_audio() -> bool:
+	var contract: Dictionary = BGMPlayer.scene_audio_contract(W197_PUSH)
+	if contract.has("paragraph_cues") or contract.has("result_paragraph_cues") \
+			or str(contract.get("ambience", "")) != "current_housing" \
+			or contract.get("music", {}) != {"key": "reckoning", "start_paragraph": 1.0}:
+		_fail("W197 retained an opening paper cue or changed its room/score contract")
+		return false
+	var paths := 0
+	var restores := 0
+	var live_cues := 0
+	var locale_reflows := 0
+	var text_size_reflows := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for receipt_choice in range(3):
+			if not await _w197_open(language, receipt_choice):
+				return false
+			var current: Dictionary = _story.get("_current")
+			var authored := str(_story.call("_fmt", current.get("description", "")))
+			var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+			if int(_story.call("_story_source_paragraph_count")) != 3 \
+					or not _m23_same_prose(pages, authored) \
+					or not _w197_cut_layout():
+				_fail("W197 %s receipt %d lost its exact three-source live prose" % [
+					language, receipt_choice])
+				return false
+			var state_bytes := _w197_state_bytes()
+			if not await _w197_seek_before_cut(state_bytes):
+				return false
+			await _finish_page()
+			if not _w197_no_paper("W197 before folder"):
+				return false
+			var representative_reflow := language == "ko" and receipt_choice == 0
+			if representative_reflow:
+				if not await _reload_prechoice("prose", W197_PUSH, false) \
+						or not _w197_cut_structure(false) \
+						or not _w197_state_matches(state_bytes, "W197 before-folder cold restore") \
+						or not _w197_no_paper("W197 before-folder cold restore"):
+					_fail("W197 same-locale cold restore crossed or sounded before the folder sentence")
+					return false
+				restores += 1
+				if not await _w197_reflow_boundary(false, state_bytes):
+					return false
+				locale_reflows += 2
+				text_size_reflows += 2
+				if not await _w197_seek_before_cut(state_bytes):
+					return false
+				await _finish_page()
+
+			_w197_clear_paper()
+			_story.call("_on_advance")
+			var played_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+			if played_at < 0 or _w197_sfx_stream_count("paper_handle") != 1 \
+					or not _w197_cut_structure(true) \
+					or not _w197_state_matches(state_bytes, "W197 live folder cut"):
+				_fail("W197 folder sentence did not emit exactly one live paper_handle")
+				return false
+			await _wait_stable()
+			await _finish_page()
+			if int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != played_at:
+				_fail("W197 folder page replayed its paper cue while completing the same sentence")
+				return false
+			live_cues += 1
+			# The foreground sample has now been observed and authenticated. Stop it
+			# before proving that later redraws/pages do not dispatch another copy.
+			_w197_clear_paper()
+
+			if representative_reflow:
+				if not await _reload_prechoice("prose", W197_PUSH, false) \
+						or not _w197_cut_structure(true) \
+						or not _w197_state_matches(state_bytes, "W197 after-folder cold restore") \
+						or not _w197_no_paper("W197 after-folder cold restore"):
+					_fail("W197 same-locale cold restore crossed or replayed the folder sentence")
+					return false
+				restores += 1
+				if not await _w197_reflow_boundary(true, state_bytes):
+					return false
+				locale_reflows += 2
+				text_size_reflows += 2
+
+			while not bool(_story.get("_showing_choices")):
+				await _finish_page()
+				if not _w197_cut_structure(true) \
+						or not _w197_state_matches(state_bytes, "W197 later prose") \
+						or not _w197_no_paper("W197 later prose"):
+					return false
+				_story.call("_on_advance")
+				await _wait_stable()
+			if (_story.get("_choice_box") as Control).get_child_count() != 3 \
+					or not _w197_state_matches(state_bytes, "W197 choices") \
+					or not _w197_no_paper("W197 choices"):
+				_fail("W197 did not reach its unchanged three choices without another paper cue")
+				return false
+			paths += 1
+	print("W197_FOLDER_CUE_OK paths=%d v4=%d live_cues=%d locale_reflows=%d text_size_reflows=%d gallery_unchanged=1" % [
+		paths, restores, live_cues, locale_reflows, text_size_reflows])
+	return paths == 15 and restores == 2 and live_cues == 15 \
+		and locale_reflows == 4 and text_size_reflows == 4
+
+func _w197_open(language: String, receipt_choice: int) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W197/receipt%d" % [language, receipt_choice]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.turn = 197
+	GameState.age = 37
+	GameState.month = 2
+	GameState.week_of_month = 1
+	GameState.housing = "oneroom"
+	GameState.money = 2_100_000_000.0
+	GameState.portfolio = {}
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.flags["route_invest"] = true
+	for flag in [
+		"arc_sangchul_met_seen", "arc_daeun_met", "daeun_romance_started",
+		"arc_minseo_02_seen", "arc_jaehyuk_reunion_seen", "arc_jaehyuk_aftermath_seen",
+	]:
+		GameState.flags[flag] = true
+	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(
+		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true,
+		GameState.get_total_asset_value())
+	if not bool(locked.get("ok", false)):
+		_fail("W197 fixture could not lock the actual Chapter 5 route")
+		return false
+	var state: Dictionary = locked["state"]
+	for step in [[0, 2], [1, receipt_choice]]:
+		var index := int(step[0])
+		var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(
+			state, CHAPTER5_ROUTE.OWNED_EVENT_IDS[index], int(step[1]),
+			CHAPTER5_ROUTE.OWNED_TURNS[index])
+		if not bool(committed.get("ok", false)):
+			_fail("W197 fixture could not commit predecessor %d/%d" % [index, step[1]])
+			return false
+		state = committed["state"]
+	GameState.chapter5_causal_state = state
+	if GameState.chapter5_causal_next_event_for_turn() != W197_PUSH:
+		_fail("W197 exact predecessor receipts did not admit the deadline root")
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	GameState.pending_story_queue = [W197_PUSH]
+	var raw_event: Dictionary = DataRegistry.find_event(W197_PUSH)
+	var raw_sources := str(raw_event.get("description", "")).split("\n\n")
+	var raw_anchor := str(W197_FOLDER_STARTS.get(language, ""))
+	if raw_sources.size() != 2 or raw_anchor.is_empty() \
+			or not str(raw_sources[1]).contains(raw_anchor):
+		_fail("W197 %s raw/gallery source lost its unchanged two-paragraph body" % language)
+		return false
+	_w197_clear_paper()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W197_PUSH \
+			or int(GameState.chapter5_causal_selected_choice(
+				CHAPTER5_ROUTE.OWNED_EVENT_IDS[1])) != receipt_choice \
+			or not _w197_no_paper("W197 opening"):
+		_fail("W197 StoryMode did not open the exact localized receipt path")
+		return false
+	return true
+
+func _w197_cut_layout() -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var cut := int(_story.get("_result_location_cut_page"))
+	var anchor := str(_story.call("_fmt", W197_FOLDER_STARTS.get(
+		LocaleManager.language, "")))
+	return cut > 0 and cut < pages.size() \
+		and int(_story.call("_story_source_paragraph_count")) == 3 \
+		and int(_story.call("_story_source_paragraph_index", cut - 1)) == 2 \
+		and int(_story.call("_story_source_paragraph_index", cut)) == 2 \
+		and not anchor.is_empty() and str(pages[cut]).begins_with(anchor)
+
+func _w197_cut_structure(after_cut: bool) -> bool:
+	var page := int(_story.get("_para_index"))
+	var pages: Array = _story.get("_paragraphs")
+	var cut := int(_story.get("_result_location_cut_page"))
+	return _w197_cut_layout() and page >= 0 and page < pages.size() \
+		and int(_story.call("_story_source_paragraph_index", page)) == 2 \
+		and (page >= cut) == after_cut
+
+func _w197_seek_before_cut(state_bytes: String) -> bool:
+	var cut := int(_story.get("_result_location_cut_page"))
+	while int(_story.get("_para_index")) < cut - 1:
+		await _finish_page()
+		if not _w197_no_paper("W197 approach to folder") \
+				or not _w197_state_matches(state_bytes, "W197 approach to folder"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		cut = int(_story.get("_result_location_cut_page"))
+	if int(_story.get("_para_index")) != cut - 1 or not _w197_cut_structure(false):
+		_fail("W197 could not settle on the physical page before the folder sentence")
+		return false
+	return true
+
+func _w197_reflow_boundary(after_cut: bool, state_bytes: String) -> bool:
+	for level in ["large", "standard"]:
+		_w197_clear_paper()
+		_story.call("_set_story_text_size", level)
+		await _wait_stable()
+		if not _w197_cut_structure(after_cut) \
+				or not _w197_state_matches(state_bytes, "W197 text-size reflow") \
+				or not _w197_no_paper("W197 text-size reflow"):
+			_fail("W197 %s text-size reflow crossed or replayed the folder sentence" % level)
+			return false
+	for language in ["en", "ko"]:
+		_w197_clear_paper()
+		_story.call("_set_story_language", language)
+		await _wait_stable()
+		if LocaleManager.language != language or not _w197_cut_structure(after_cut) \
+				or not _w197_state_matches(state_bytes, "W197 locale reflow") \
+				or not _w197_no_paper("W197 locale reflow"):
+			_fail("W197 KO/EN reflow crossed or replayed the folder sentence")
+			return false
+	return true
+
+func _w197_state_bytes() -> String:
+	return JSON.stringify({
+		"route": GameState.chapter5_causal_state,
+		"turn": GameState.turn,
+		"money": GameState.money,
+		"ap": GameState.action_points,
+		"health": GameState.health,
+		"mental": GameState.mental,
+		"intelligence": GameState.intelligence,
+		"moral_tint": GameState.moral_tint,
+		"flags": GameState.flags,
+		"event_log": GameState.event_log,
+		"deferred_events": GameState.deferred_events,
+		"meta": MetaProgression.data,
+	}, "", true)
+
+func _w197_state_matches(expected: String, label: String) -> bool:
+	if _w197_state_bytes() == expected:
+		return true
+	_fail("%s changed route, economy, story flags, receipts or gallery" % label)
+	return false
+
+func _w197_sfx_stream_count(sound_id: String) -> int:
+	var expected: AudioStream = AudioManager._sounds.get(sound_id)
+	if expected == null:
+		return 0
+	var count := 0
+	for player: AudioStreamPlayer in AudioManager._pool:
+		if player.playing and player.stream == expected:
+			count += 1
+	return count
+
+func _w197_clear_paper() -> void:
+	AudioManager.stop_sound("paper_handle")
+	AudioManager._last_sfx_ms.erase("paper_handle")
+
+func _w197_no_paper(label: String) -> bool:
+	var cue_keys := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		return str(key).begins_with(W197_PUSH + ":") and str(key).ends_with(":paper_handle"))
+	if AudioManager._last_sfx_ms.has("paper_handle") \
+			or _w197_sfx_stream_count("paper_handle") != 0 or not cue_keys.is_empty():
+		_fail("%s replayed or opened an early W197 paper cue: %s" % [label, cue_keys])
+		return false
+	return true
 
 func _check_w192_year_close_wind() -> bool:
 	var paths := 0

@@ -140,7 +140,7 @@ func _ready() -> void:
 			+ "w212=singular-mirror-semantics "
 			+ "w210=ordered conditional=2 write_once=1 idempotent=1 "
 			+ "save=disk_roundtrip corrupt=closed legacy=closed effects=none "
-			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_unchanged "
+			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_no_early_paper "
 			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
@@ -918,12 +918,15 @@ func _check_opening_receipt_audio_alignment() -> void:
 				var resolved_deadline: Variant = story.call(
 					"_chapter5_causal_event_with_reads",
 					(raw_deadline as Dictionary).duplicate(true))
-				_expect(resolved_deadline is Dictionary \
-					and _rendered_source_indices(story, str(
-						(resolved_deadline as Dictionary).get("description", ""))) \
-						== [0, 1, 2],
+				var deadline_sources: Array[int] = []
+				if resolved_deadline is Dictionary:
+					deadline_sources = _rendered_source_indices(story, str(
+						(resolved_deadline as Dictionary).get("description", "")))
+				_expect(deadline_sources == [0, 1, 2],
 					"%s W197 receipt choice %d did not render prefix+body sources" \
 						% [language, selected_choice])
+				_assert_no_opening_audio_cues(ROOT_IDS[2], deadline_sources,
+					"%s W197 deadline paragraphs" % language)
 
 	var silent_room_contract := {
 		"ambience": "current_housing",
@@ -935,16 +938,12 @@ func _check_opening_receipt_audio_alignment() -> void:
 	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[1]),
 		silent_room_contract),
 		"W196 electronic delivery handled paper, changed room, or opened score")
-	# W197's clear folder appears within an authored paragraph. Moving its cue to
-	# a paragraph opening would be false precision, so this unit keeps the prior
-	# contract byte-for-byte and leaves sentence timing to a separate repair.
+	# W197's physical cue belongs to the live cut inside the last paragraph,
+	# never to a raw or receipt-prefixed paragraph opening.
 	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[2]), {
 		"ambience": "current_housing",
 		"music": {"key": "reckoning", "start_paragraph": 1.0},
-		"paragraph_cues": {
-			"1": [{"sfx": "paper_handle", "volume_db": -8.0}],
-		},
-	}), "W197 separate sentence-timing contract changed in the W195/W196 repair")
+	}), "W197 put back early paper or changed the existing room/score entrance")
 
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()

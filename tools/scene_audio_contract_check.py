@@ -60,6 +60,11 @@ W195_W196_ELECTRONIC_EVENTS = (
     "arc_y5_contract_reviewer_delivery_sangchul",
 )
 W195_W196_ELECTRONIC_AUDIO = {"ambience": "current_housing", "suppress_music": True}
+W197_DEADLINE_EVENT = "arc_y5_final_push_deadline_investment"
+W197_DEADLINE_AUDIO = {
+    "ambience": "current_housing",
+    "music": {"key": "reckoning", "start_paragraph": 1},
+}
 W224_CUSTODY_EVENT = "arc_y5_father_trace_custody"
 W224_CUSTODY_AUDIO = {
     "ambience": "intentional_silence",
@@ -550,6 +555,11 @@ def main() -> int:
             errors.append(
                 f"{event_id}: keep the live room without a call ring or paper over the electronic file"
             )
+    if (event_contracts.get(W197_DEADLINE_EVENT) != W197_DEADLINE_AUDIO
+            or events.get(W197_DEADLINE_EVENT, {}).get("background") != "current_housing"):
+        errors.append(
+            f"{W197_DEADLINE_EVENT}: keep the room and music; only the live folder sentence can play paper"
+        )
     mother_call = events.get(M23_MOTHER_CALL_EVENT, {})
     mother_choices = mother_call.get("choices", [])
     first_ktx = mother_choices[0] if isinstance(mother_choices, list) and mother_choices else {}
