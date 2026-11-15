@@ -807,6 +807,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W197 서류 폴더 음향: `arc_y5_final_push_deadline_investment`의 기존 종이음 한 건을 전자 마감 문단에서 실제 투명 폴더를 키보드 옆에 놓는 문장으로 옮긴다. `scenes/StoryMode.gd`, `assets/{w197_folder_cut.tres,scene_audio_manifest.json}`, `tools/{Chapter5CausalRouteCheck.gd,StoryBackgroundContextCheck.gd,scene_audio_contract_check.py}`, 이 증거·일지/현황만. 기존 A4 실녹음은 폴더 속 종이 움직임만 표현하고 별도 플라스틱/전자음·책상 충격음·새 원음 0. 5언어 정확 앵커, 실제 이전 선택 3종, 도감의 원문 두 단락, 문단 번호·음악 입구·거처·그림·원고·선택·영수증·실제 저장/데모를 보존한다. 같은 저장 키와 위치를 읽고 발표된 곡만 복원하며, 문장을 새로 넘길 때만 1회, 저장 재개·언어/글씨 재배치 0.
 
+[~] C3 큐 문서 예산 수리: 실제 `43663358941` 엔진 잡 `132657332207`은 전체 컴파일 성공 뒤 `docs/CODEX_QUEUE.md` 13197/13000B로만 실패했다. 두 작업 트리 모두에서 일치하는 11-01 완주 지시 문단만 `docs/queue_archive/CODEX_QUEUE_2026-09.md`로 원문 이동(상대 링크 보정)하고 같은 활성 제목에 보존본·실행 링크를 둔다. `docs/CODEX_QUEUE.md`, 해당 보관본·이 증거만, 828의 머리말·큐 목록·상태/게이트·과거 사람 판정·검사 설정·제품 변경0. 커밋 스냅샷에서 예산·링크·큐를 재검증한다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
