@@ -833,6 +833,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W207 서류 넘김 표적: 1280×800 `6oqtw_ig`와 960×600 `c836ebn8`에서 각각 5언어×W204 영수증3=15 라이브 각1, KO 타 선택6·v4 전후2·언어4·크기4에서 재생0, 양쪽 exit0/stderr0. 새 페이지0·기존 회의실/카페/다은 초상·곡/상태 유지. 독립 정적 GO와 엔진 검증, fixture `6b8c6c67666e8ca792dfb5b5431c756b2a7249d1171e3cbe52501065b36d7225`, stdout `ea5306f726dc8a13b0179e3411c32575f108dfb6e77e24375162cbec8f1bf482` / `0d67caaec52363624bf13072ca5e054e71a8f70730d4f837c3039adc6492d400`. 제품 컴파일69·음원 감사141·데모5언어·EN 통과. 실청취 별도, 새 규범0/일회성. 다음 W208 복사기 장면의 계산대 바코드 오음; 동작이 명시된 후보 [문서 스캔 실녹음](https://freesound.org/people/16F_Panska_TisonD/sounds/499182/)은 조사만 했으며 사용0.
 
+[~] W208 복합기 도입 오음 제거: `assets/scene_audio_manifest.json`의 `arc_y5_final_offer_reference_delivery`, `tools/Chapter5CausalRouteCheck.gd`, 이 증거·현황·일지만. 이전 선택을 회상하는 문단에서 켜지는 계산대 바코드 `register_scan`과, 복합기 앞에서 메모와 접힌 모서리를 펴기 전에 켜지는 `page_turn`만 제거한다. 실제 스캔 녹음은 출처·동작·짧은 재생 구간을 확인한 뒤 별도 선언, 전자 첨부 대조/전송 시 소리 발명0. 사무실 환경음·무곡, 분기·영수증·원고·저장·공개 RC 보존.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
