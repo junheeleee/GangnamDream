@@ -845,6 +845,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W209–210 오음 제거 표적: `arc_drama.json`의 W209 파일 알림·W210 연결 뒤 재혁 쪽 차량·W210 화면 속 문서 비교와 대조. 세 `paragraph_cues[0]`만 제거, 누락한 세 행을 역삽입하면 이전 전체 매니페스트와 일치. 독립 검수 5언어 원문·영수증·결과 및 원음 `Phonering-otherend`/직접 도로 녹음/실물 페이지 넘김 확인. 격리 `Cw62BtHmCH` exit0/stderr0, 5언어×선행 영수증 (1+1+3)=25 문맥에서 첫 회상과 실제 문단/결과의 오음0; 주거·민준 초상, 4문단, 결과 [2]/[3,3,3]/[2], 각 음악 시작 source1 유지. 5장 19장면/47선택·디스크 왕복, 240주 음향 경로 2×2언어, 장면 오디오·시각 계약, 데모5언어/EN 통과. fixture `af8ae576b2cefc8d61fac6415855dbf6c3fe3afc273ff52554baa1e2239a3fa2`, stdout `f101cf28b5fd513dc0147dba7a38c0cca4f21d3511c2b7169108166603e47273`. 해당 채널의 실제 소리 제작·연속 청취와 W211~212 종이/전화/전자 입력 오음은 다음 표적. 새 규범0/일회성.
 
+[~] W211–212 노트북·보증 선택 오음 제거: `assets/scene_audio_manifest.json`의 W211 다은에게 비교본을 보여 주는 도입 `paper_handle`과 W212 세 결과 첫 문단의 통화음·연필음·통화음만. `tools/Chapter5CausalRouteCheck.gd`의 실제 선행 영수증 및 5언어 선택·결과 오음 검사, 이 증거·현황·일지만. 대체음 신설0. 일반 경로 W211 중개사 발신음, 해당 두 장면의 거처·다은과 민준의 초상·방 환경음·기존 `reckoning` 시작 source2/0, 다섯 언어 원문·거절/전자서명/차단 효과·저장·공개 RC는 유지한다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
