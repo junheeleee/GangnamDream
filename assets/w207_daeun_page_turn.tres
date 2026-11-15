@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/page_anchors = {
+"ko": "다은은 숫자보다 자기 이름이 있는 장을 먼저 폈다.",
+"en": "Daeun opened the page bearing her name before the page of figures.",
+"ja": "ダウンは数字より、自分の名前があるページを先に開いた。",
+"zh-CN": "Daeun先翻开的不是数字，而是写着自己名字的那一页。",
+"zh-TW": "Daeun 沒先看數字，而是先翻開有自己名字的那頁。"
+}

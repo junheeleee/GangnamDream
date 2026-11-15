@@ -120,6 +120,8 @@ const W197_DEADLINE := "arc_y5_final_push_deadline_investment"
 const W197_FOLDER_CUT := preload("res://assets/w197_folder_cut.tres")
 const W200_DAEUN_PROTECTION := "arc_y5_protection_boundary_daeun"
 const W200_PENCIL_CUT := preload("res://assets/w200_daeun_pencil_cut.tres")
+const W207_FINAL_OFFER := "arc_y5_final_offer"
+const W207_DAEUN_PAGE_TURN := preload("res://assets/w207_daeun_page_turn.tres")
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -7608,6 +7610,13 @@ func _on_advance():
 			_maybe_reveal_event_portrait(source_index)
 			_maybe_reveal_event_cg(source_index)
 			if _pending_after_result:
+				if not _read_only_replay and _pending_result_choice_index == 2 \
+						and source_index == 1 and str(_current.get("id", "")) == W207_FINAL_OFFER:
+					var anchors: Dictionary = W207_DAEUN_PAGE_TURN.get_meta("page_anchors", {})
+					var anchor := str(anchors.get(LocaleManager.language, ""))
+					# The papers were already set down. Daeun opens her page here.
+					if not anchor.is_empty() and str(_paragraphs[_para_index]).begins_with(anchor):
+						AudioManager.play("page_turn", -9.0)
 				AudioManager.play_scene_result_paragraph_cues(
 					str(_current.get("id", "")), _event_cg_id,
 					_pending_result_choice_index, source_index)

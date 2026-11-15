@@ -194,6 +194,9 @@ const W197_FOLDER_STARTS := {
 const W200_BOUNDARY := "arc_y5_protection_boundary_daeun"
 const W200_PENCIL_CUT := preload("res://assets/w200_daeun_pencil_cut.tres")
 const W200_TRACKED_SFX := ["pen_write", "cup_set", "paper_handle", "page_turn"]
+const W207_OFFER := "arc_y5_final_offer"
+const W207_PAGE_TURN := preload("res://assets/w207_daeun_page_turn.tres")
+const W207_TRACKED_SFX := ["page_turn", "cup_set", "paper_handle"]
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -539,6 +542,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W207_PAGE_TURN_CHECK"):
+		var offer_ok := await _check_w207_page_turn()
+		await _remove_story()
+		await _stop_audio()
+		if offer_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w207_page_turn")
+		get_tree().quit(0 if offer_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W200_PENCIL_CHECK"):
 		var pencil_ok := await _check_w200_pencil_audio()
 		await _remove_story()
@@ -3673,6 +3684,341 @@ func _w181_commitment_matches(before: Array, event_id: String, choice: int,
 		and str(receipt.get("scene_background_id", "")) == home \
 		and actual_forgone == forgone \
 		and receipt.get("outcome", {}) == outcome
+
+func _check_w207_page_turn() -> bool:
+	var contract: Dictionary = BGMPlayer.scene_audio_contract(W207_OFFER)
+	if str(contract.get("ambience", "")) != "office" \
+			or contract.get("music", {}) != {"key": "reckoning", "start_paragraph": 2.0} \
+			or contract.has("paragraph_cues") or contract.has("result_paragraph_cues"):
+		_fail("W207 changed its office/reckoning contract or retained an opening cue")
+		return false
+	var anchors: Dictionary = W207_PAGE_TURN.get_meta("page_anchors", {})
+	if anchors.size() != LocaleManager.SUPPORTED_LANGUAGES.size():
+		_fail("W207 lost its five-locale page anchors")
+		return false
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		if str(anchors.get(language, "")).strip_edges().is_empty():
+			_fail("W207 lost its %s page anchor" % language)
+			return false
+
+	var paths := 0
+	var guards := 0
+	var restores := 0
+	var live_cues := 0
+	var locale_reflows := 0
+	var text_size_reflows := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for producer_choice in range(3):
+			if not await _w207_open(language, producer_choice) \
+					or not await _w207_read_intro(producer_choice):
+				return false
+			_story.call("_on_choice", 2)
+			await _wait_stable()
+			var applied := _w196_applied_state()
+			if not _w207_result_layout() \
+					or not _w207_surface("W207 result entry", true) \
+					or not _w207_audio_matches(false, "W207 result entry") \
+					or not await _w207_seek_before_source_one(applied):
+				return false
+			await _finish_page()
+			if not _w207_audio_matches(false, "W207 before Daeun opens her page"):
+				return false
+
+			var representative := language == "ko" and producer_choice == 0
+			if representative:
+				if not await _w207_reflow_boundary(0, applied) \
+						or not await _w207_cold_boundary(0, applied):
+					return false
+				restores += 1
+				locale_reflows += 2
+				text_size_reflows += 2
+				# A cold result restores prose but not an already-entered score. Re-open
+				# the real route before measuring the live page-turn edge.
+				if not await _w207_open(language, producer_choice) \
+						or not await _w207_read_intro(producer_choice):
+					return false
+				_story.call("_on_choice", 2)
+				await _wait_stable()
+				applied = _w196_applied_state()
+				if not await _w207_seek_before_source_one(applied):
+					return false
+				await _finish_page()
+
+			_w207_clear_tracked()
+			_story.call("_on_advance")
+			var played_at := int(AudioManager._last_sfx_ms.get("page_turn", -1))
+			if played_at < 0 or not _w207_at_source(1, true) \
+					or not _w196_state_matches(applied, "W207 live page turn") \
+					or not _w207_surface("W207 live page turn", true) \
+					or not _w207_audio_matches(true, "W207 live page turn"):
+				_fail("W207 Daeun page did not emit exactly one live page_turn")
+				return false
+			await _wait_stable()
+			await _finish_page()
+			if int(AudioManager._last_sfx_ms.get("page_turn", -1)) != played_at:
+				_fail("W207 repeated its page turn while completing the same page")
+				return false
+			live_cues += 1
+			_w207_clear_tracked()
+
+			if representative:
+				if not await _w207_reflow_boundary(1, applied) \
+						or not await _w207_cold_boundary(1, applied):
+					return false
+				restores += 1
+				locale_reflows += 2
+				text_size_reflows += 2
+			paths += 1
+
+	# The two other responses keep the offer-room surface and never turn a page.
+	for producer_choice in range(3):
+		for choice in [0, 1]:
+			if not await _w207_open("ko", producer_choice) \
+					or not await _w207_read_intro(producer_choice):
+				return false
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			var applied := _w196_applied_state()
+			if int(_story.get("_result_location_cut_page")) >= 0:
+				_fail("W207 quiet c%d unexpectedly gained a result cut" % choice)
+				return false
+			while true:
+				await _finish_page()
+				if not _w207_surface("W207 quiet c%d" % choice, false) \
+						or not _w196_state_matches(applied, "W207 quiet result") \
+						or not _w207_audio_matches(false, "W207 quiet c%d" % choice):
+					return false
+				if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+					break
+				_story.call("_on_advance")
+				await _wait_stable()
+			guards += 1
+
+	print("W207_PAGE_TURN_OK paths=%d guards=%d v4=%d live_cues=%d locale_reflows=%d text_size_reflows=%d" % [
+		paths, guards, restores, live_cues, locale_reflows, text_size_reflows])
+	return paths == 15 and guards == 6 and restores == 2 and live_cues == 15 \
+		and locale_reflows == 4 and text_size_reflows == 4
+
+func _w207_open(language: String, producer_choice: int) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W207/producer%d" % [language, producer_choice]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.turn = 207
+	GameState.age = 37
+	GameState.month = 4
+	GameState.week_of_month = 3
+	GameState.housing = "oneroom"
+	GameState.money = 2_100_000_000.0
+	GameState.portfolio = {}
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.flags["route_invest"] = true
+	for flag in [
+		"arc_sangchul_met_seen", "arc_daeun_met", "daeun_romance_started",
+		"arc_minseo_02_seen", "arc_jaehyuk_reunion_seen", "arc_jaehyuk_aftermath_seen",
+	]:
+		GameState.flags[flag] = true
+	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(
+		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true,
+		GameState.get_total_asset_value())
+	if not bool(locked.get("ok", false)):
+		_fail("W207 fixture could not lock the actual Chapter 5 route")
+		return false
+	var state: Dictionary = locked["state"]
+	for step in [[0, 2], [1, 1], [2, 0], [3, 2], [4, 1], [5, 0], [6, producer_choice]]:
+		var index := int(step[0])
+		var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(
+			state, CHAPTER5_ROUTE.OWNED_EVENT_IDS[index], int(step[1]),
+			CHAPTER5_ROUTE.OWNED_TURNS[index])
+		if not bool(committed.get("ok", false)):
+			_fail("W207 fixture could not commit predecessor %d/%d" % [index, step[1]])
+			return false
+		state = committed["state"]
+	GameState.chapter5_causal_state = state
+	if GameState.chapter5_causal_next_event_for_turn() != W207_OFFER:
+		_fail("W207 exact predecessor receipts did not admit the final offer")
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	GameState.pending_story_queue = [W207_OFFER]
+	_w207_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W207_OFFER \
+			or int(GameState.chapter5_causal_selected_choice(
+				CHAPTER5_ROUTE.OWNED_EVENT_IDS[6])) != producer_choice \
+			or not _w207_surface("W207 opening", false, false) \
+			or not _w207_audio_matches(false, "W207 opening"):
+		_fail("W207 StoryMode did not open its exact localized receipt path")
+		return false
+	return true
+
+func _w207_read_intro(producer_choice: int) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	var reads: Dictionary = current.get("chapter5_causal_reads", {})
+	var text_rows: Array = reads.get("texts", [])
+	var expected_prefix := ""
+	if text_rows.size() == 1 and text_rows[0] is Array \
+			and producer_choice < (text_rows[0] as Array).size():
+		expected_prefix = str(_story.call("_fmt", (text_rows[0] as Array)[producer_choice])).strip_edges()
+	var sources := authored.split("\n\n")
+	var untouched := _w196_applied_state()
+	if int(_story.call("_story_source_paragraph_count")) != 6 \
+			or sources.size() != 6 or str(sources[0]).strip_edges() != expected_prefix \
+			or not _m23_same_prose(pages, authored):
+		_fail("W207 lost its selected W204 receipt plus five authored sources")
+		return false
+	while not bool(_story.get("_showing_choices")):
+		var source := int(_story.call("_story_source_paragraph_index",
+			int(_story.get("_para_index"))))
+		await _finish_page()
+		if not _w207_surface("W207 intro", false, source >= 2) \
+				or not _w196_state_matches(untouched, "W207 intro") \
+				or not _w207_audio_matches(false, "W207 intro"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w196_state_matches(untouched, "W207 choices") \
+		and _w207_surface("W207 choices", false) \
+		and _w207_audio_matches(false, "W207 choices")
+
+func _w207_result_layout() -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var current: Dictionary = _story.get("_current")
+	var choices: Array = current.get("choices", [])
+	if choices.size() != 3:
+		return false
+	var authored := str(_story.call("_fmt", (choices[2] as Dictionary).get("result_text", "")))
+	var cut := _w207_source_one_page()
+	var anchor := str(_story.call("_fmt", (W207_PAGE_TURN.get_meta(
+		"page_anchors", {}) as Dictionary).get(LocaleManager.language, "")))
+	return int(_story.call("_story_source_paragraph_count")) == 2 \
+		and int(_story.get("_result_location_cut_page")) < 0 \
+		and not pages.is_empty() and _m23_same_prose(pages, authored) \
+		and cut > 0 and cut < pages.size() and not anchor.is_empty() \
+		and int(_story.call("_story_source_paragraph_index", cut - 1)) == 0 \
+		and int(_story.call("_story_source_paragraph_index", cut)) == 1 \
+		and str(pages[cut]).begins_with(anchor)
+
+func _w207_source_one_page() -> int:
+	var pages: Array = _story.get("_paragraphs")
+	for page in range(pages.size()):
+		if int(_story.call("_story_source_paragraph_index", page)) == 1:
+			return page
+	return -1
+
+func _w207_at_source(source: int, require_first_page: bool = false) -> bool:
+	var page := int(_story.get("_para_index"))
+	var pages: Array = _story.get("_paragraphs")
+	if not _w207_result_layout() or page < 0 or page >= pages.size() \
+			or int(_story.call("_story_source_paragraph_index", page)) != source:
+		return false
+	if not require_first_page:
+		return true
+	return source == 1 and page == _w207_source_one_page()
+
+func _w207_seek_before_source_one(applied: Dictionary) -> bool:
+	var cut := _w207_source_one_page()
+	while int(_story.get("_para_index")) < cut - 1:
+		await _finish_page()
+		if not _w207_surface("W207 approach to Daeun page", true) \
+				or not _w196_state_matches(applied, "W207 approach to Daeun page") \
+				or not _w207_audio_matches(false, "W207 approach to Daeun page"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		cut = _w207_source_one_page()
+	if int(_story.get("_para_index")) != cut - 1 or not _w207_at_source(0):
+		_fail("W207 did not settle on the last source0 page before Daeun opens hers")
+		return false
+	return true
+
+func _w207_cold_boundary(source: int, applied: Dictionary) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	_w207_clear_tracked()
+	if int(context.get("source_paragraph_index", -1)) != source \
+			or not await _reload_authored_result_context(
+				context, LocaleManager.language, 2, source) \
+			or not _w207_at_source(source, source == 1) \
+			or not _w207_surface("W207 cold boundary", true, false) \
+			or not _w196_state_matches(applied, "W207 cold boundary") \
+			or not _w207_audio_matches(false, "W207 cold boundary"):
+		_fail("W207 cold result crossed or replayed Daeun's page turn")
+		return false
+	return true
+
+func _w207_reflow_boundary(source: int, applied: Dictionary) -> bool:
+	for level in ["large", "standard"]:
+		_w207_clear_tracked()
+		_story.call("_set_story_text_size", level)
+		await _wait_stable()
+		if not _w207_at_source(source, source == 1) \
+				or not _w207_surface("W207 text-size reflow", true) \
+				or not _w196_state_matches(applied, "W207 text-size reflow") \
+				or not _w207_audio_matches(false, "W207 text-size reflow"):
+			return false
+	for language in ["en", "ko"]:
+		_w207_clear_tracked()
+		_story.call("_set_story_language", language)
+		await _wait_stable()
+		if LocaleManager.language != language \
+				or not _w207_at_source(source, source == 1) \
+				or not _w207_surface("W207 locale reflow", true) \
+				or not _w196_state_matches(applied, "W207 locale reflow") \
+				or not _w207_audio_matches(false, "W207 locale reflow"):
+			return false
+	return true
+
+func _w207_surface(label: String, daeun_result: bool, verify_score: bool = true) -> bool:
+	var portrait := _story.get("_portrait") as TextureRect
+	var expected_portrait := "daeun_normal" if daeun_result else "sangchul_serious"
+	var expected_background := "cafe" if daeun_result else "meeting"
+	var expected_ambience := "cafe" if daeun_result else "office"
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W207_OFFER \
+			or str(_story.get("_event_background_id")) != expected_background \
+			or str(BGMPlayer.get("_current_ambience_key")) != expected_ambience \
+			or (verify_score and str(BGMPlayer.get("_current_key")) != "reckoning") \
+			or str(_story.call("_resolved_story_surface_portrait_id")) != expected_portrait \
+			or not (_story.get("_portrait_frame") as Control).visible \
+			or portrait.texture == null \
+			or portrait.texture.resource_path != ImageRegistry.get_portrait(expected_portrait):
+		_fail("%s changed W207 %s/%s/%s/reckoning surface" % [
+			label, expected_background, expected_ambience, expected_portrait])
+		return false
+	return true
+
+func _w207_clear_tracked() -> void:
+	for sound_id in W207_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+func _w207_audio_matches(expect_turn: bool, label: String) -> bool:
+	var cue_keys := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		if not str(key).begins_with(W207_OFFER + ":"):
+			return false
+		for sound_id in W207_TRACKED_SFX:
+			if str(key).ends_with(":" + sound_id):
+				return true
+		return false)
+	var invalid: Array[String] = []
+	for sound_id in W207_TRACKED_SFX:
+		var expected: bool = expect_turn and sound_id == "page_turn"
+		if AudioManager._last_sfx_ms.has(sound_id) != expected \
+				or _w197_sfx_stream_count(sound_id) != (1 if expected else 0):
+			invalid.append(sound_id)
+	if not invalid.is_empty() or not cue_keys.is_empty():
+		_fail("%s W207 cue mismatch invalid=%s authored=%s" % [label, invalid, cue_keys])
+		return false
+	return true
 
 func _check_w200_pencil_audio() -> bool:
 	var contract: Dictionary = BGMPlayer.scene_audio_contract(W200_BOUNDARY)
