@@ -702,16 +702,11 @@
     },
     "arc_y5_contract_cover_investment": {
       "ambience": "current_housing",
-      "suppress_music": true,
-      "paragraph_cues": {
-        "0": [{"sfx": "phone_notification", "volume_db": -6.0}],
-        "1": [{"sfx": "page_turn", "volume_db": -8.0}]
-      }
+      "suppress_music": true
     },
     "arc_y5_contract_reviewer_delivery_sangchul": {
       "ambience": "current_housing",
-      "suppress_music": true,
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]}
+      "suppress_music": true
     },
     "arc_y5_final_push_deadline_investment": {
       "ambience": "current_housing",

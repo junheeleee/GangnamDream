@@ -130,6 +130,7 @@ func _ready() -> void:
 	_check_malformed_and_legacy_fail_closed()
 	_check_game_state_save_and_effect_isolation()
 	_check_localized_causal_reads()
+	_check_opening_receipt_audio_alignment()
 	_check_canonical_read_surface_close()
 	_check_owned_variant_loop_breakers()
 	if _failures.is_empty():
@@ -139,7 +140,8 @@ func _ready() -> void:
 			+ "w212=singular-mirror-semantics "
 			+ "w210=ordered conditional=2 write_once=1 idempotent=1 "
 			+ "save=disk_roundtrip corrupt=closed legacy=closed effects=none "
-			+ "reads=ko_en_selected optional=skip gallery=state_free close=canonical "
+			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_unchanged "
+			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
 		return
@@ -859,6 +861,124 @@ func _check_localized_causal_reads() -> void:
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
 	story.free()
+
+
+func _check_opening_receipt_audio_alignment() -> void:
+	# W196/W197 are rendered only after the exact predecessor receipt selects
+	# one localized causal prefix. Prove the logical source indices from that
+	# live resolver rather than treating the two-paragraph catalog body alone as
+	# the audible surface.
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	for language in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		var raw_cover: Variant = DataRegistry.find_event(ROOT_IDS[0])
+		_expect(raw_cover is Dictionary,
+			"%s W195 audio fixture is missing" % language)
+		if raw_cover is Dictionary:
+			var cover_sources := _rendered_source_indices(
+				story, str((raw_cover as Dictionary).get("description", "")))
+			_expect(cover_sources == [0, 1],
+				"%s W195 rendered source indices drifted" % language)
+			_assert_no_opening_audio_cues(
+				ROOT_IDS[0], cover_sources, "%s W195" % language)
+
+		var raw_delivery: Variant = DataRegistry.find_event(ROOT_IDS[1])
+		_expect(raw_delivery is Dictionary,
+			"%s W196 audio fixture is missing" % language)
+		if raw_delivery is Dictionary:
+			for selected_choice in range(CHOICE_COUNTS[0]):
+				GameState.chapter5_causal_state = _state_before_target(
+					1, {ROOT_IDS[0]: selected_choice})
+				var resolved_delivery: Variant = story.call(
+					"_chapter5_causal_event_with_reads",
+					(raw_delivery as Dictionary).duplicate(true))
+				var delivery_sources: Array[int] = []
+				if resolved_delivery is Dictionary:
+					delivery_sources = _rendered_source_indices(story, str(
+						(resolved_delivery as Dictionary).get("description", "")))
+				_expect(resolved_delivery is Dictionary \
+					and delivery_sources == [0, 1, 2],
+					"%s W196 receipt choice %d did not render prefix+body sources" \
+						% [language, selected_choice])
+				_assert_no_opening_audio_cues(
+					ROOT_IDS[1], delivery_sources,
+					"%s W196 receipt choice %d" % [language, selected_choice])
+
+		var raw_deadline: Variant = DataRegistry.find_event(ROOT_IDS[2])
+		_expect(raw_deadline is Dictionary,
+			"%s W197 audio fixture is missing" % language)
+		if raw_deadline is Dictionary:
+			for selected_choice in range(CHOICE_COUNTS[1]):
+				GameState.chapter5_causal_state = _state_before_target(2, {
+					ROOT_IDS[0]: HAPPY_CHOICES[0],
+					ROOT_IDS[1]: selected_choice,
+				})
+				var resolved_deadline: Variant = story.call(
+					"_chapter5_causal_event_with_reads",
+					(raw_deadline as Dictionary).duplicate(true))
+				_expect(resolved_deadline is Dictionary \
+					and _rendered_source_indices(story, str(
+						(resolved_deadline as Dictionary).get("description", ""))) \
+						== [0, 1, 2],
+					"%s W197 receipt choice %d did not render prefix+body sources" \
+						% [language, selected_choice])
+
+	var silent_room_contract := {
+		"ambience": "current_housing",
+		"suppress_music": true,
+	}
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[0]),
+		silent_room_contract),
+		"W195 digital contract rang a phone, handled paper, changed room, or opened score")
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[1]),
+		silent_room_contract),
+		"W196 electronic delivery handled paper, changed room, or opened score")
+	# W197's clear folder appears within an authored paragraph. Moving its cue to
+	# a paragraph opening would be false precision, so this unit keeps the prior
+	# contract byte-for-byte and leaves sentence timing to a separate repair.
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[2]), {
+		"ambience": "current_housing",
+		"music": {"key": "reckoning", "start_paragraph": 1.0},
+		"paragraph_cues": {
+			"1": [{"sfx": "paper_handle", "volume_db": -8.0}],
+		},
+	}), "W197 separate sentence-timing contract changed in the W195/W196 repair")
+
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _rendered_source_indices(story: Node, text: String) -> Array[int]:
+	var raw_page_data: Variant = story.call("_story_page_data", text)
+	if not raw_page_data is Dictionary:
+		return []
+	var source_indices: Array[int] = []
+	for raw_index in (raw_page_data as Dictionary).get("source_indices", []):
+		var source_index := int(raw_index)
+		if source_index not in source_indices:
+			source_indices.append(source_index)
+	return source_indices
+
+
+func _assert_no_opening_audio_cues(
+		event_id: String, source_indices: Array[int], context: String) -> void:
+	var tracked_sounds := ["phone_notification", "page_turn", "paper_handle"]
+	var last_play_before: Dictionary = {}
+	for sound_id in tracked_sounds:
+		last_play_before[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)
+	AudioManager.begin_story_audio_event(event_id)
+	for source_index in source_indices:
+		AudioManager.play_scene_paragraph_cues(event_id, "", source_index)
+	_expect(AudioManager._story_audio_seen.is_empty(),
+		"%s dispatched a rendered phone/paper paragraph cue: %s" % [
+			context, JSON.stringify(AudioManager._story_audio_seen)])
+	for sound_id in tracked_sounds:
+		_expect(AudioManager._last_sfx_ms.get(sound_id, -1) \
+			== last_play_before[sound_id],
+			"%s played forbidden %s" % [context, sound_id])
 
 
 func _check_canonical_read_surface_close() -> void:

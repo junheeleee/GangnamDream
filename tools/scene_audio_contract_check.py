@@ -55,6 +55,11 @@ W188_DEAL_ROOM_AUDIO = {
     "ambience": "office",
     "music": {"key": "grief", "start_paragraph": 0},
 }
+W195_W196_ELECTRONIC_EVENTS = (
+    "arc_y5_contract_cover_investment",
+    "arc_y5_contract_reviewer_delivery_sangchul",
+)
+W195_W196_ELECTRONIC_AUDIO = {"ambience": "current_housing", "suppress_music": True}
 W224_CUSTODY_EVENT = "arc_y5_father_trace_custody"
 W224_CUSTODY_AUDIO = {
     "ambience": "intentional_silence",
@@ -539,6 +544,12 @@ def main() -> int:
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO
             or "apartment" not in ambience_keys):
         errors.append(f"{M23_MOTHER_CALL_EVENT}: retain only neutral room tone without added cues or score")
+    for event_id in W195_W196_ELECTRONIC_EVENTS:
+        if (event_contracts.get(event_id) != W195_W196_ELECTRONIC_AUDIO
+                or events.get(event_id, {}).get("background") != "current_housing"):
+            errors.append(
+                f"{event_id}: keep the live room without a call ring or paper over the electronic file"
+            )
     mother_call = events.get(M23_MOTHER_CALL_EVENT, {})
     mother_choices = mother_call.get("choices", [])
     first_ktx = mother_choices[0] if isinstance(mother_choices, list) and mother_choices else {}
