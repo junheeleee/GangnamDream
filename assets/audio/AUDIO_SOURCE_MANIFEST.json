@@ -200,6 +200,15 @@
       "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
       "source_url": "https://freesound.org/s/718032/",
       "attribution_required": false
+    },
+    "freesound_document_scan_cc0": {
+      "provider": "16F_Panska_TisonD",
+      "title": "22_printer, scan.WAV",
+      "source_type": "object_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/499182/",
+      "attribution_required": false
     }
   },
   "assets": {
@@ -3228,6 +3237,19 @@
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 4.00s; RMS -24.0 dBFS",
       "output_sha256": "685aca4cc50c5f61e4c8764e2b53cd2086d1e97d2e851cedf26ac04e715556bf"
+    },
+    "sfx_document_scan.wav": {
+      "provenance": "object_recording",
+      "sources": [
+        {
+          "pack": "freesound_document_scan_cc0",
+          "original_file": "499182_printer_scan_hq.mp3",
+          "sha256": "6e9def558a2c86d3a27f9a3cc8f0156836d591ccd9eaa2f9a8d6357ad25b4d0f",
+          "source_type": "object_recording"
+        }
+      ],
+      "transform": "public HQ preview 2.310-3.750s; mono PCM16/44.1kHz; ffmpeg highpass=f=55,afade=t=in:st=0:d=0.025,afade=t=out:st=1.23:d=0.21,volume=7dB; no added layers",
+      "output_sha256": "14b341776333278712349cde9452799172afd12c500836dd15d4f8fda0b23f2f"
     },
     "sfx_document_stamp.wav": {
       "provenance": "field_recording",

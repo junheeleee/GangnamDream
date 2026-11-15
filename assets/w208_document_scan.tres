@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/reveal_anchors = {
+"ko": "부속 합의까지 한 파일로 다시 스캔했다.",
+"en": "then scanned the addendum into the same file.",
+"ja": "付属合意まで一つのファイルにスキャンし直した。",
+"zh-CN": "连同附属协议，重新扫描成一个文件。",
+"zh-TW": "連附屬協議一起重新掃成同一個檔案。"
+}

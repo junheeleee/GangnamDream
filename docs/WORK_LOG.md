@@ -2,7 +2,7 @@
 
 ## 2026-11-15
 
-- [830](queue_archive/ORDER-830-ART-EVIDENCE.md) 204·207–8;C6
+- [830](queue_archive/ORDER-830-ART-EVIDENCE.md) 204·207–8+;C6
 
 ## 2026-11-14
 

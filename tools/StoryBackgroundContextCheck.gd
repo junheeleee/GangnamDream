@@ -197,6 +197,9 @@ const W200_TRACKED_SFX := ["pen_write", "cup_set", "paper_handle", "page_turn"]
 const W207_OFFER := "arc_y5_final_offer"
 const W207_PAGE_TURN := preload("res://assets/w207_daeun_page_turn.tres")
 const W207_TRACKED_SFX := ["page_turn", "cup_set", "paper_handle"]
+const W208_DELIVERY := "arc_y5_final_offer_reference_delivery"
+const W208_DOCUMENT_SCAN := preload("res://assets/w208_document_scan.tres")
+const W208_TRACKED_SFX := ["document_scan", "register_scan", "page_turn", "paper_handle"]
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -542,6 +545,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W208_SCAN_CHECK"):
+		var scan_ok := await _check_w208_document_scan()
+		await _remove_story()
+		await _stop_audio()
+		if scan_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w208_document_scan")
+		get_tree().quit(0 if scan_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W207_PAGE_TURN_CHECK"):
 		var offer_ok := await _check_w207_page_turn()
 		await _remove_story()
@@ -4017,6 +4028,397 @@ func _w207_audio_matches(expect_turn: bool, label: String) -> bool:
 			invalid.append(sound_id)
 	if not invalid.is_empty() or not cue_keys.is_empty():
 		_fail("%s W207 cue mismatch invalid=%s authored=%s" % [label, invalid, cue_keys])
+		return false
+	return true
+
+func _check_w208_document_scan() -> bool:
+	var contract: Dictionary = BGMPlayer.scene_audio_contract(W208_DELIVERY)
+	if contract != {"ambience": "office", "suppress_music": true}:
+		_fail("W208 changed its office/silent-score contract or retained an opening cue")
+		return false
+	var anchors: Dictionary = W208_DOCUMENT_SCAN.get_meta("reveal_anchors", {})
+	if anchors.size() != LocaleManager.SUPPORTED_LANGUAGES.size():
+		_fail("W208 lost its five-locale scan anchors")
+		return false
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		if str(anchors.get(language, "")).strip_edges().is_empty():
+			_fail("W208 lost its %s scan anchor" % language)
+			return false
+
+	var paths := 0
+	var natural_cues := 0
+	var skip_cues := 0
+	var cold_restores := 0
+	var text_reflows := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for producer_choice in range(3):
+			if not await _w208_open(language, producer_choice):
+				return false
+			if not _w208_layout(producer_choice):
+				_fail("W208 %s producer%d lost its exact receipt, prose, or scan endpoint" % [
+					language, producer_choice])
+				return false
+			var applied := _w196_applied_state()
+			if not await _w208_seek_before_scan(applied):
+				return false
+			await _finish_page()
+			var representative := language == "ko" and producer_choice == 0
+			_w208_clear_tracked()
+			_story.call("_on_advance")
+			_story.set_process(false)
+			await _wait_stable()
+			if not _w208_at_scan_page(true) \
+					or not _w208_surface("W208 live scan page") \
+					or not _w196_state_matches(applied, "W208 live scan page") \
+					or not _w208_audio_matches(false, "W208 scan page entry"):
+				_fail("W208 did not arm its authored scan page on live advance")
+				return false
+			if representative:
+				if not await _w208_reflow_pending(applied):
+					return false
+				text_reflows += 2
+			var reveal := int(_story.get("_w208_scan_reveal_at"))
+			if reveal <= 0 or not _w208_type_to(reveal - 1) \
+					or not _w208_audio_matches(false, "W208 before scan clause end"):
+				_fail("W208 scan played before the complete localized clause")
+				return false
+			if representative:
+				if not await _w208_reload_typing_boundary(true, applied):
+					return false
+				cold_restores += 1
+				reveal = int(_story.get("_w208_scan_reveal_at"))
+			if not _w208_type_to(reveal) \
+					or not _w208_audio_matches(true, "W208 natural scan reveal"):
+				_fail("W208 natural type progression did not play one document_scan")
+				return false
+			var played_at := int(AudioManager._last_sfx_ms.get("document_scan", -1))
+			natural_cues += 1
+
+			if representative:
+				if not await _w208_reload_typing_boundary(false, applied):
+					return false
+				cold_restores += 1
+				_story.call("_complete_typing")
+				if not _w208_audio_matches(false, "W208 completion after cold consumed scan"):
+					_fail("W208 completion replayed its cold-restored consumed scan")
+					return false
+				if not await _w208_reflow_consumed(applied):
+					return false
+				text_reflows += 2
+				played_at = -1
+			else:
+				_story.call("_complete_typing")
+				if int(AudioManager._last_sfx_ms.get("document_scan", -1)) != played_at:
+					_fail("W208 completion replayed the live document scan")
+					return false
+			if not await _w208_finish_intro_without_duplicate(applied, played_at):
+				return false
+			paths += 1
+
+	# One separate path proves that manually completing the still-typing scan page
+	# crosses the same boundary exactly once; it is not a second pagination mode.
+	if not await _w208_open("ko", 0) or not await _w208_seek_before_scan(_w196_applied_state()):
+		return false
+	await _finish_page()
+	_w208_clear_tracked()
+	_story.call("_on_advance")
+	_story.set_process(false)
+	await _wait_stable()
+	_story.call("_complete_typing")
+	var skipped_at := int(AudioManager._last_sfx_ms.get("document_scan", -1))
+	if skipped_at < 0 or not _w208_audio_matches(true, "W208 skip scan reveal"):
+		_fail("W208 skip-to-complete lost its document scan")
+		return false
+	_story.call("_complete_typing")
+	if int(AudioManager._last_sfx_ms.get("document_scan", -1)) != skipped_at:
+		_fail("W208 repeated document_scan after an already-complete skip")
+		return false
+	skip_cues += 1
+
+	print("W208_DOCUMENT_SCAN_OK paths=%d natural=%d skip=%d v4=%d text_reflows=%d" % [
+		paths, natural_cues, skip_cues, cold_restores, text_reflows])
+	var counts_ok := paths == 15 and natural_cues == 15 and skip_cues == 1 \
+		and cold_restores == 2 and text_reflows == 4
+	if not counts_ok:
+		_fail("W208 fixture population drifted paths=%d natural=%d skip=%d v4=%d reflow=%d" % [
+			paths, natural_cues, skip_cues, cold_restores, text_reflows])
+	return counts_ok
+
+func _w208_open(language: String, producer_choice: int) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W208/producer%d" % [language, producer_choice]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.turn = 208
+	GameState.age = 37
+	GameState.month = 4
+	GameState.week_of_month = 4
+	GameState.housing = "oneroom"
+	GameState.money = 2_100_000_000.0
+	GameState.portfolio = {}
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.flags["route_invest"] = true
+	for flag in [
+		"arc_sangchul_met_seen", "arc_daeun_met", "daeun_romance_started",
+		"arc_minseo_02_seen", "arc_jaehyuk_reunion_seen", "arc_jaehyuk_aftermath_seen",
+	]:
+		GameState.flags[flag] = true
+	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(
+		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true,
+		GameState.get_total_asset_value())
+	if not bool(locked.get("ok", false)):
+		_fail("W208 fixture could not lock the actual Chapter 5 route")
+		return false
+	var state: Dictionary = locked["state"]
+	for step in [[0, 2], [1, 1], [2, 0], [3, 2], [4, 1], [5, 0], [6, 0], [7, producer_choice]]:
+		var index := int(step[0])
+		var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(
+			state, CHAPTER5_ROUTE.OWNED_EVENT_IDS[index], int(step[1]),
+			CHAPTER5_ROUTE.OWNED_TURNS[index])
+		if not bool(committed.get("ok", false)):
+			_fail("W208 fixture could not commit predecessor %d/%d" % [index, step[1]])
+			return false
+		state = committed["state"]
+	GameState.chapter5_causal_state = state
+	if GameState.chapter5_causal_next_event_for_turn() != W208_DELIVERY \
+			or int(GameState.chapter5_causal_selected_choice(W207_OFFER)) != producer_choice:
+		_fail("W208 predecessor receipt did not admit the reference delivery")
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	GameState.pending_story_queue = [W208_DELIVERY]
+	_w208_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	if not _w208_surface("W208 opening") or not _w208_audio_matches(false, "W208 opening"):
+		return false
+	return true
+
+func _w208_layout(producer_choice: int) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	var pages: Array = _story.get("_paragraphs")
+	var reads: Dictionary = current.get("chapter5_causal_reads", {})
+	var rows: Array = reads.get("texts", [])
+	var expected_prefix := ""
+	if rows.size() == 1 and rows[0] is Array and producer_choice < (rows[0] as Array).size():
+		expected_prefix = str(_story.call("_fmt", (rows[0] as Array)[producer_choice])).strip_edges()
+	var sources := authored.split("\n\n")
+	var anchor := str(_story.call("_fmt", (W208_DOCUMENT_SCAN.get_meta(
+		"reveal_anchors", {}) as Dictionary).get(LocaleManager.language, "")))
+	var scan: Dictionary = _w208_scan_mapping()
+	return int(_story.call("_story_source_paragraph_count")) == 4 \
+		and sources.size() == 4 and str(sources[0]).strip_edges() == expected_prefix \
+		and not pages.is_empty() and _m23_same_prose(pages, authored) \
+		and int(_story.get("_result_location_cut_page")) < 0 \
+		and not anchor.is_empty() and sources[1].count(anchor) == 1 \
+		and int(scan.get("page", -1)) > 0 and int(scan.get("reveal", -1)) > 0
+
+func _w208_scan_page() -> int:
+	return int(_w208_scan_mapping().get("page", -1))
+
+func _w208_scan_mapping() -> Dictionary:
+	var anchor := str(_story.call("_fmt", (W208_DOCUMENT_SCAN.get_meta(
+		"reveal_anchors", {}) as Dictionary).get(LocaleManager.language, "")))
+	var authored := str(_story.call("_fmt", (_story.get("_current") as Dictionary).get(
+		"description", "")))
+	var sources := authored.split("\n\n")
+	if anchor.is_empty() or sources.size() != 4 or sources[1].count(anchor) != 1:
+		return {}
+	var source := str(sources[1])
+	var anchor_end := source.find(anchor) + anchor.length()
+	var pages: Array = _story.get("_paragraphs")
+	var cursor := 0
+	for page in range(pages.size()):
+		if int(_story.call("_story_source_paragraph_index", page)) != 1:
+			continue
+		var page_text := str(pages[page])
+		var page_start := source.find(page_text, cursor)
+		if page_start < 0:
+			return {}
+		var page_end := page_start + page_text.length()
+		if anchor_end > page_start and anchor_end <= page_end:
+			return {"page": page, "reveal": anchor_end - page_start}
+		cursor = page_end
+	return {}
+
+func _w208_before_scan_page() -> bool:
+	return _w208_layout(int(GameState.chapter5_causal_selected_choice(W207_OFFER))) \
+		and int(_story.get("_para_index")) == _w208_scan_page() - 1
+
+func _w208_at_scan_page(require_pending: bool) -> bool:
+	var page := int(_story.get("_para_index"))
+	if not _w208_layout(int(GameState.chapter5_causal_selected_choice(W207_OFFER))) \
+			or page != _w208_scan_page():
+		return false
+	var reveal := int(_story.get("_w208_scan_reveal_at"))
+	return (reveal > int(_story.get("_type_pos"))) if require_pending else reveal < 0
+
+func _w208_seek_before_scan(applied: Dictionary) -> bool:
+	var target := _w208_scan_page() - 1
+	while int(_story.get("_para_index")) < target:
+		await _finish_page()
+		if not _w208_surface("W208 approach to scan") \
+				or not _w196_state_matches(applied, "W208 approach to scan") \
+				or not _w208_audio_matches(false, "W208 approach to scan"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		target = _w208_scan_page() - 1
+	if not _w208_before_scan_page():
+		_fail("W208 did not settle on the physical page before its scan clause")
+		return false
+	return true
+
+func _w208_type_to(target: int) -> bool:
+	var guard := 0
+	while int(_story.get("_type_pos")) < target and guard < 4096:
+		var before := int(_story.get("_type_pos"))
+		_story.call("_process", float(_story.call("_direction_type_interval")))
+		if int(_story.get("_type_pos")) == before:
+			_story.call("_process", 0.001)
+		guard += 1
+	if int(_story.get("_type_pos")) != target:
+		_fail("W208 typewriter skipped its exact scan threshold target=%d actual=%d" % [
+			target, int(_story.get("_type_pos"))])
+		return false
+	return true
+
+func _w208_reload_typing_boundary(before_scan: bool, applied: Dictionary) -> bool:
+	var saved_context: Dictionary = _story.call("build_save_resume_context")
+	var event_count := GameState.event_log.size()
+	var saved_progress := float(saved_context.get("source_text_progress", -1.0))
+	_w208_clear_tracked()
+	if saved_context.get("event_id") != W208_DELIVERY \
+			or saved_context.get("phase") != "prose" \
+			or int(saved_context.get("source_paragraph_index", -1)) != 1 \
+			or not bool(saved_context.get("paragraph_was_typing", false)) \
+			or not SaveManager.save_game(W8_QA_SLOT, saved_context, {"qa_fixture": true}):
+		_fail("W208 could not save its %s-scan typing boundary" % (
+			"before" if before_scan else "after"))
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("W208 could not cold load its typing boundary")
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	var reveal := int(_story.get("_w208_scan_reveal_at"))
+	var pending_matches := reveal > int(_story.get("_type_pos")) \
+		if before_scan else reveal < 0 and bool(_story.get("_w208_scan_consumed"))
+	if restored.get("event_id") != W208_DELIVERY or restored.get("phase") != "prose" \
+			or int(restored.get("source_paragraph_index", -1)) != 1 \
+			or not bool(restored.get("paragraph_was_typing", false)) \
+			or not is_equal_approx(float(restored.get("source_text_progress", -2.0)), saved_progress) \
+			or not pending_matches or GameState.event_log.size() != event_count \
+			or not _w208_surface("W208 cold typing boundary") \
+			or not _w196_state_matches(applied, "W208 cold typing boundary") \
+			or not _w208_audio_matches(false, "W208 cold typing boundary"):
+		_fail("W208 cold %s-scan boundary changed progress, sounded, or lost one-shot state" % (
+			"before" if before_scan else "after"))
+		return false
+	return true
+
+func _w208_reflow_pending(applied: Dictionary) -> bool:
+	for level in ["large", "standard"]:
+		_w208_clear_tracked()
+		_story.call("_set_story_text_size", level)
+		await _wait_stable()
+		if not _w208_at_scan_page(true) \
+				or not _w208_surface("W208 pending text reflow") \
+				or not _w196_state_matches(applied, "W208 pending text reflow") \
+				or not _w208_audio_matches(false, "W208 pending text reflow"):
+			_fail("W208 text reflow crossed or lost its pending scan boundary")
+			return false
+	return true
+
+func _w208_reflow_consumed(applied: Dictionary) -> bool:
+	for level in ["large", "standard"]:
+		_w208_clear_tracked()
+		_story.call("_set_story_text_size", level)
+		await _wait_stable()
+		if not _w208_at_scan_page(false) \
+				or not _w208_surface("W208 consumed text reflow") \
+				or not _w196_state_matches(applied, "W208 consumed text reflow") \
+				or not _w208_audio_matches(false, "W208 consumed text reflow"):
+			_fail("W208 text reflow replayed its consumed scan boundary")
+			return false
+	return true
+
+func _w208_finish_intro_without_duplicate(applied: Dictionary, played_at: int) -> bool:
+	while not bool(_story.get("_showing_choices")):
+		await _finish_page()
+		if not _w208_surface("W208 after scan") \
+				or not _w196_state_matches(applied, "W208 after scan"):
+			return false
+		if played_at >= 0 and int(AudioManager._last_sfx_ms.get("document_scan", -1)) != played_at:
+			_fail("W208 later prose replayed its document scan")
+			return false
+		for sound_id in ["register_scan", "page_turn", "paper_handle"]:
+			if AudioManager._last_sfx_ms.has(sound_id) or _w197_sfx_stream_count(sound_id) != 0:
+				_fail("W208 later prose emitted stale %s" % sound_id)
+				return false
+		if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+			_story.call("_on_advance")
+			await _wait_stable()
+			break
+		_story.call("_on_advance")
+		await _wait_stable()
+	var reached := (bool(_story.get("_showing_choices")) \
+		and (_story.get("_choice_box") as Control).get_child_count() == 1) \
+		or (bool(_story.get("_pending_after_result")) \
+		and int(_story.get("_pending_result_choice_index")) == 0)
+	if not reached:
+		_fail("W208 scan continuation did not reach or directly apply its single authored choice")
+	return reached
+
+func _w208_surface(label: String) -> bool:
+	var portrait := _story.get("_portrait") as TextureRect
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W208_DELIVERY \
+			or str(_story.get("_event_background_id")) != "meeting" \
+			or str(BGMPlayer.get("_current_ambience_key")) != "office" \
+			or not str(BGMPlayer.get("_current_key")).is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing \
+			or str(_story.call("_resolved_story_surface_portrait_id")) != "player_determined" \
+			or not (_story.get("_portrait_frame") as Control).visible \
+			or portrait.texture == null \
+			or portrait.texture.resource_path != ImageRegistry.get_portrait("player_determined"):
+		_fail("%s changed W208 meeting/office/player/silent-score surface" % label)
+		return false
+	return true
+
+func _w208_clear_tracked() -> void:
+	for sound_id in W208_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+func _w208_audio_matches(expect_scan: bool, label: String) -> bool:
+	var cue_keys := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		if not str(key).begins_with(W208_DELIVERY + ":"):
+			return false
+		for sound_id in W208_TRACKED_SFX:
+			if str(key).ends_with(":" + sound_id):
+				return true
+		return false)
+	var invalid: Array[String] = []
+	for sound_id in W208_TRACKED_SFX:
+		var expected: bool = expect_scan and sound_id == "document_scan"
+		if AudioManager._last_sfx_ms.has(sound_id) != expected \
+				or _w197_sfx_stream_count(sound_id) != (1 if expected else 0):
+			invalid.append(sound_id)
+	if not invalid.is_empty() or not cue_keys.is_empty():
+		_fail("%s W208 cue mismatch invalid=%s authored=%s" % [label, invalid, cue_keys])
 		return false
 	return true
 

@@ -122,6 +122,8 @@ const W200_DAEUN_PROTECTION := "arc_y5_protection_boundary_daeun"
 const W200_PENCIL_CUT := preload("res://assets/w200_daeun_pencil_cut.tres")
 const W207_FINAL_OFFER := "arc_y5_final_offer"
 const W207_DAEUN_PAGE_TURN := preload("res://assets/w207_daeun_page_turn.tres")
+const W208_REFERENCE_DELIVERY := "arc_y5_final_offer_reference_delivery"
+const W208_DOCUMENT_SCAN := preload("res://assets/w208_document_scan.tres")
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -178,6 +180,8 @@ var _first_ktx_cut_pages: Array = []
 var _para_index: int = 0
 var _typing: bool = false
 var _type_full: String = ""     # 현재 문단 전체 텍스트
+var _w208_scan_reveal_at := -1 # Transient character count; never a saved cue.
+var _w208_scan_consumed := false
 var _type_pos: int = 0
 var _showing_choices: bool = false
 var _transitioning: bool = false
@@ -2751,6 +2755,8 @@ func _restore_story_result(context: Dictionary) -> void:
 	_restore_story_paragraph(context, true)
 
 func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
+	_w208_scan_reveal_at = -1
+	_w208_scan_consumed = false
 	if _paragraphs.is_empty():
 		return
 	var was_typing := bool(context.get("paragraph_was_typing", false))
@@ -2807,6 +2813,11 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_para_index = clampi(
 			int(context.get("paragraph_index", 0)), 0, _paragraphs.size() - 1)
 	var source_paragraph_index := _story_source_paragraph_index(_para_index)
+	if str(_current.get("id", "")) == W208_REFERENCE_DELIVERY and source_paragraph_index == 1 \
+			and not saved_locale.is_empty() and saved_locale != LocaleManager.language:
+		# A cross-language cold restore only knows proportional text progress.
+		# It can't prove this one-shot was still ahead in the saved translation.
+		_w208_scan_consumed = true
 	_refresh_story_paragraph_presentation(source_paragraph_index)
 	_apply_authored_result_location()
 	_maybe_change_event_background(source_paragraph_index)
@@ -2872,10 +2883,12 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_start_typing(paragraph)
 		_type_pos = saved_type_pos
 		_body_lbl.text = paragraph.substr(0, saved_type_pos)
+		_rebind_w208_scan_reveal()
 		return
 	_type_pos = paragraph.length()
 	_typing = false
 	_body_lbl.text = paragraph
+	_rebind_w208_scan_reveal()
 	_sync_wedding_lights_out(true)
 	_record_current_dialogue_source()
 	_refresh_continue_hint_text()
@@ -3754,6 +3767,7 @@ func _restore_localized_story_text(
 		type_ratio: float,
 		hint_was_visible: bool,
 		beat_was_waiting: bool) -> void:
+	_w208_scan_reveal_at = -1
 	var old_cut := _result_location_cut_page
 	var old_after_cut := old_cut >= 0 and _para_index >= old_cut
 	var old_source := _story_source_paragraph_index(_para_index)
@@ -3761,6 +3775,14 @@ func _restore_localized_story_text(
 	var ktx_stage := -1 if _first_ktx_cut_pages.is_empty() else _first_ktx_stage(_para_index)
 	var old_ktx_range := _first_ktx_phase_progress(ktx_stage) if ktx_stage >= 0 else Vector2.ZERO
 	_apply_story_page_data(page_data)
+	if source_paragraph_index == 1:
+		var scan_range := _w208_scan_progress_range()
+		if scan_range.y >= 0.0:
+			# Keep the visible progress on the same side of the scan when a
+			# translation or font moves the clause. A later save can restore it
+			# from the normal prose position alone.
+			source_page_progress = maxf(source_page_progress, scan_range.y) if _w208_scan_consumed \
+				else minf(source_page_progress, scan_range.x)
 	var preserve_ktx_stage := ktx_stage >= 0 and not _first_ktx_cut_pages.is_empty()
 	if preserve_ktx_stage:
 		var new_ktx_range := _first_ktx_phase_progress(ktx_stage)
@@ -3797,6 +3819,11 @@ func _restore_localized_story_text(
 	if preserve_cut_side and old_after_cut != (_para_index >= _result_location_cut_page):
 		_para_index = _result_location_cut_page if old_after_cut else _result_location_cut_page - 1
 		localized_type_ratio = 0.0 if old_after_cut else 1.0
+	if not was_typing and not _w208_scan_consumed and source_paragraph_index == 1 \
+			and _w208_scan_reveal_position(str(_paragraphs[_para_index])) > 0:
+		# A larger page can merge unread text into a fully revealed prior page.
+		# Keep the newly visible part unrevealed until normal typing resumes.
+		was_typing = true
 	_refresh_story_paragraph_presentation(
 		_story_source_paragraph_index(_para_index), true)
 	_apply_authored_result_location()
@@ -3829,6 +3856,7 @@ func _restore_localized_story_text(
 		_body_lbl.text = _type_full
 		_continue_hint.visible = hint_was_visible \
 				and not _showing_choices and not _direction_hold_active
+	_rebind_w208_scan_reveal()
 	_sync_wedding_lights_out(true)
 
 func _refresh_story_choice_language() -> void:
@@ -5859,6 +5887,7 @@ func _render_current():
 		_animate_story_text_panel()
 
 	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
+	_w208_scan_consumed = false
 	_apply_story_page_data(_resolved_story_prose_pages())
 	_para_index = 0
 	if w53_network and str(_pending_restore_context.get("event_id", "")) != W53_SANGCHUL_NETWORK:
@@ -7449,6 +7478,7 @@ func _complete_typing() -> void:
 	_type_pos = _type_full.length()
 	_typing = false
 	_body_lbl.text = _type_full
+	_maybe_play_w208_scan()
 	_sync_wedding_lights_out(false)
 	_record_current_dialogue_source()
 	if _should_begin_direction_hold():
@@ -7465,14 +7495,81 @@ func _complete_typing() -> void:
 # ── 타이핑 효과 ───────────────────────────────────────────────
 var _type_accum: float = 0.0
 
-func _start_typing(full_text: String):
+func _w208_scan_reveal_position(full_text: String, page_index: int = -1) -> int:
+	if page_index < 0:
+		page_index = _para_index
+	if _read_only_replay or _pending_after_result or _story_source_paragraph_index(page_index) != 1 \
+			or str(_current.get("id", "")) != W208_REFERENCE_DELIVERY:
+		return -1
+	var anchors: Dictionary = W208_DOCUMENT_SCAN.get_meta("reveal_anchors", {})
+	var anchor: String = str(anchors.get(LocaleManager.language, ""))
+	var sources := _resolved_story_description(_current).split("\n\n")
+	if anchor.is_empty() or sources.size() != 4 or sources[1].count(anchor) != 1:
+		return -1
+	# Finish revealing the scan clause, not the paper preparation that precedes it.
+	var source: String = sources[1]
+	var anchor_end := source.find(anchor) + anchor.length()
+	# Viewport pagination may break inside the clause; preserve the existing pages.
+	var cursor := 0
+	for previous_page in range(_first_story_page_for_source(1), page_index):
+		var page := str(_paragraphs[previous_page])
+		var previous_start := source.find(page, cursor)
+		if previous_start < 0:
+			return -1
+		cursor = previous_start + page.length()
+	var page_start := source.find(full_text, cursor)
+	if page_start < 0 or anchor_end > page_start + full_text.length():
+		return -1
+	return maxi(0, anchor_end - page_start)
+
+func _w208_scan_progress_range() -> Vector2:
+	if str(_current.get("id", "")) != W208_REFERENCE_DELIVERY or _pending_after_result or _read_only_replay:
+		return Vector2(-1.0, -1.0)
+	for page_index in range(_paragraphs.size()):
+		if _story_source_paragraph_index(page_index) != 1:
+			continue
+		var page := str(_paragraphs[page_index])
+		var reveal_at := _w208_scan_reveal_position(page, page_index)
+		if reveal_at > 0:
+			return Vector2(
+				_story_source_page_progress(page_index, float(reveal_at - 1) / page.length()),
+				_story_source_page_progress(page_index, float(reveal_at) / page.length()))
+	return Vector2(-1.0, -1.0)
+
+func _rebind_w208_scan_reveal() -> void:
+	_w208_scan_reveal_at = -1
+	if _w208_scan_consumed or _read_only_replay \
+			or str(_current.get("id", "")) != W208_REFERENCE_DELIVERY or _pending_after_result:
+		return
+	if _story_source_paragraph_index(_para_index) > 1:
+		_w208_scan_consumed = true
+		return
+	var reveal_at := _w208_scan_reveal_position(_type_full)
+	if reveal_at < 0:
+		return
+	if _type_pos >= reveal_at:
+		_w208_scan_consumed = true
+	elif _typing:
+		_w208_scan_reveal_at = reveal_at
+
+func _maybe_play_w208_scan() -> void:
+	if _w208_scan_reveal_at < 0 or _type_pos < _w208_scan_reveal_at:
+		return
+	_w208_scan_reveal_at = -1
+	_w208_scan_consumed = true
+	AudioManager.play("document_scan", -5.0)
+
+func _start_typing(full_text: String, live_advance: bool = false):
 	_type_full = full_text
+	_w208_scan_reveal_at = -1
 	_type_pos = 0
 	_type_accum = 0.0
 	_typing = true
 	_auto_wait = -1.0
 	_body_lbl.text = ""
 	_continue_hint.visible = false
+	if live_advance:
+		_rebind_w208_scan_reveal()
 	_sync_wedding_lights_out(true)
 
 func _process(delta):
@@ -7520,6 +7617,7 @@ func _process(delta):
 		_complete_typing()
 	else:
 		_body_lbl.text = _type_full.substr(0, _type_pos)
+		_maybe_play_w208_scan()
 
 func _begin_advance_hold() -> void:
 	if _showing_choices or _is_chapter_card or _auto_mode \
@@ -7603,6 +7701,8 @@ func _on_advance():
 			AudioManager.play("pen_write", -9.0)
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
+			if previous_source_index == 1 and str(_current.get("id", "")) == W208_REFERENCE_DELIVERY:
+				AudioManager.stop_sound("document_scan")
 			if str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:
 				AudioManager.stop_sound("keyboard_phone")
 			_refresh_story_paragraph_presentation(source_index)
@@ -7625,7 +7725,7 @@ func _on_advance():
 		if entered_new_authored_paragraph and str(_direction.get("pace", "")) == "beat":
 			_begin_direction_beat(str(_paragraphs[_para_index]))
 		else:
-			_start_typing(str(_paragraphs[_para_index]))
+			_start_typing(str(_paragraphs[_para_index]), true)
 		return
 	# 문단 끝에 도달
 	if str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:

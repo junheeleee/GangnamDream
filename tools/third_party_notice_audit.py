@@ -38,8 +38,8 @@ EXPORT_PRESETS_REL = "export_presets.cfg"
 EXPECTED_COMPONENTS = 1
 EXPECTED_FONT_FAMILIES = 5
 EXPECTED_FONT_FILES = 8
-EXPECTED_AUDIO_SOURCES = 22
-EXPECTED_AUDIO_ASSETS = 141
+EXPECTED_AUDIO_SOURCES = 23
+EXPECTED_AUDIO_ASSETS = 142
 EXPECTED_ATTRIBUTION_AUDIO_SOURCES = 1
 EXPECTED_EXPORT_PRESETS = 10
 EXPECTED_PACKAGED_NOTICE_FILES = 12
@@ -115,6 +115,33 @@ ALLOWED_AUDIO_SOURCE_TYPES = {
     "field_recording",
     "object_recording",
     "real_instrument_sample",
+}
+DOCUMENT_SCAN_LIBRARY_ID = "freesound_document_scan_cc0"
+DOCUMENT_SCAN_LIBRARY_RECORD = {
+    "provider": "16F_Panska_TisonD",
+    "title": "22_printer, scan.WAV",
+    "source_type": "object_recording",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source_url": "https://freesound.org/s/499182/",
+    "attribution_required": False,
+}
+DOCUMENT_SCAN_ASSET_RECORD = {
+    "provenance": "object_recording",
+    "sources": [
+        {
+            "pack": DOCUMENT_SCAN_LIBRARY_ID,
+            "original_file": "499182_printer_scan_hq.mp3",
+            "sha256": "6e9def558a2c86d3a27f9a3cc8f0156836d591ccd9eaa2f9a8d6357ad25b4d0f",
+            "source_type": "object_recording",
+        }
+    ],
+    "transform": (
+        "public HQ preview 2.310-3.750s; mono PCM16/44.1kHz; "
+        "ffmpeg highpass=f=55,afade=t=in:st=0:d=0.025,"
+        "afade=t=out:st=1.23:d=0.21,volume=7dB; no added layers"
+    ),
+    "output_sha256": "14b341776333278712349cde9452799172afd12c500836dd15d4f8fda0b23f2f",
 }
 
 
@@ -567,6 +594,10 @@ def validate_audio(
         errors.append(
             f"audio source inventory must be {EXPECTED_AUDIO_SOURCES}, got {len(libraries)}"
         )
+    if libraries.get(DOCUMENT_SCAN_LIBRARY_ID) != DOCUMENT_SCAN_LIBRARY_RECORD:
+        errors.append("document scan audio source must remain Freesound 499182 CC0")
+    if assets.get("sfx_document_scan.wav") != DOCUMENT_SCAN_ASSET_RECORD:
+        errors.append("document scan audio asset must remain the reviewed public-preview edit")
 
     actual_assets = {
         PurePosixPath(path).name

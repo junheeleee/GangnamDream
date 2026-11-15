@@ -4,7 +4,7 @@
   "generated_from": [
     {
       "path": "res://assets/audio/AUDIO_SOURCE_MANIFEST.json",
-      "sha256": "03fc5481ebe368bf0d7534011643ee9d2a6cca72edee08618e6f22e6bcea9c92"
+      "sha256": "71319d9537821804e6f291d7aa35ed4eb9679d10e1bc3770b813b0264774704c"
     },
     {
       "path": "res://assets/fonts/FONT_LICENSE_LEDGER.md",
@@ -115,10 +115,10 @@
     "component_entries": 1,
     "font_families": 5,
     "font_files": 8,
-    "audio_sources": 22,
-    "audio_assets": 141,
+    "audio_sources": 23,
+    "audio_assets": 142,
     "attribution_required_audio_sources": 1,
-    "audio_source_assignments": 158
+    "audio_source_assignments": 159
   },
   "sections": [
     {
@@ -309,6 +309,22 @@
           "shipping_asset_count": 1,
           "shipping_assets": [
             "res://assets/audio/sfx_queue_chime.wav"
+          ]
+        },
+        {
+          "id": "freesound_document_scan_cc0",
+          "kind": "audio_source",
+          "name": "22_printer, scan.WAV",
+          "provider": "16F_Panska_TisonD",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/499182/",
+          "source_type": "object_recording",
+          "source_collection": "22_printer, scan.WAV",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/sfx_document_scan.wav"
           ]
         },
         {

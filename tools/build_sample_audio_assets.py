@@ -51,6 +51,19 @@ SEOUL_SUBWAY_ONBOARD_NAME = "amb_seoul_subway_onboard.wav"
 SEOUL_SUBWAY_ONBOARD_LAYER = "seoul_subway_onboard"
 SEOUL_SUBWAY_ONBOARD_CLIP = "727111_5804333-hq.mp3"
 SEOUL_SUBWAY_ONBOARD_SHA = "a84c41e1f0adac450274798ea920a6e4c1b54f508922d727b1c886be06d8c6e7"
+DOCUMENT_SCAN_NAME = "sfx_document_scan.wav"
+DOCUMENT_SCAN_LAYER = "document_scan"
+DOCUMENT_SCAN_CLIP = "499182_printer_scan_hq.mp3"
+DOCUMENT_SCAN_SOURCE_SHA = "6e9def558a2c86d3a27f9a3cc8f0156836d591ccd9eaa2f9a8d6357ad25b4d0f"
+DOCUMENT_SCAN_OUTPUT_SHA = "14b341776333278712349cde9452799172afd12c500836dd15d4f8fda0b23f2f"
+DOCUMENT_SCAN_FILTER = (
+    "highpass=f=55,afade=t=in:st=0:d=0.025,"
+    "afade=t=out:st=1.23:d=0.21,volume=7dB"
+)
+DOCUMENT_SCAN_TRANSFORM = (
+    "public HQ preview 2.310-3.750s; mono PCM16/44.1kHz; "
+    f"ffmpeg {DOCUMENT_SCAN_FILTER}; no added layers"
+)
 
 
 def write_phone_keyboard(ffmpeg: Path, dry: Path, destination: Path) -> None:
@@ -230,6 +243,12 @@ PACKS: dict[str, dict[str, Any]] = {
         "20231229 - Duisburg station announcement ding dong",
         718032,
         "field_recording",
+    ),
+    "freesound_document_scan_cc0": _freesound_pack(
+        "16F_Panska_TisonD",
+        "22_printer, scan.WAV",
+        499182,
+        "object_recording",
     ),
 }
 
@@ -508,6 +527,10 @@ SOURCES: dict[str, tuple[str, str]] = {
     "queue_ding_dong": (
         "freesound_queue_chime_cc0",
         "718032_announcement_ding_dong_hq.mp3",
+    ),
+    DOCUMENT_SCAN_LAYER: (
+        "freesound_document_scan_cc0",
+        DOCUMENT_SCAN_CLIP,
     ),
     "convenience_room": (
         "freesound_convenience_cc0",
@@ -949,6 +972,48 @@ class Builder:
                           "4.50s stereo PCM16/22.05kHz with 0.90s circular crossfade; "
                           "RMS -32 dBFS, peak cap -12 dBFS; no added layers")
 
+    def write_document_scan(self) -> None:
+        source = self.source_path(DOCUMENT_SCAN_LAYER)
+        if sha256(source) != DOCUMENT_SCAN_SOURCE_SHA:
+            raise ValueError("document scan recording does not match the reviewed public preview")
+        destination = self.output_root / DOCUMENT_SCAN_NAME
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        subprocess.run(
+            [
+                str(self.ffmpeg),
+                "-nostdin",
+                "-loglevel",
+                "error",
+                "-y",
+                "-ss",
+                "2.310",
+                "-i",
+                str(source),
+                "-t",
+                "1.440",
+                "-map_metadata",
+                "-1",
+                "-ac",
+                "1",
+                "-ar",
+                "44100",
+                "-af",
+                DOCUMENT_SCAN_FILTER,
+                "-c:a",
+                "pcm_s16le",
+                str(destination),
+            ],
+            check=True,
+        )
+        if sha256(destination) != DOCUMENT_SCAN_OUTPUT_SHA:
+            raise ValueError("document scan output does not match the reviewed release edit")
+        self.record_asset(
+            DOCUMENT_SCAN_NAME,
+            "object_recording",
+            [L(DOCUMENT_SCAN_LAYER)],
+            DOCUMENT_SCAN_TRANSFORM,
+        )
+
     def write_sparse_ambience(self, name: str, layers: list[TimedLayer]) -> None:
         duration = 18.0
         rate = 22050
@@ -1329,13 +1394,29 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="reproduce the phone edit from the existing dry master at a new path")
     parser.add_argument("--seoul-subway-onboard-only", action="store_true",
                         help="reproduce the single subway bed from its source under --source-root")
+    parser.add_argument("--document-scan-only", action="store_true",
+                        help="reproduce the reviewed document scan from its source under --source-root")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.document_scan_only:
+        if args.phone_keyboard_only or args.seoul_subway_onboard_only or args.validate_only:
+            raise ValueError("single document scan build cannot be combined with another mode")
+        output_root = args.output_root.resolve()
+        output = output_root / DOCUMENT_SCAN_NAME
+        if output.exists() or output.is_symlink():
+            raise ValueError("document scan output must be a new file")
+        builder = Builder(args.source_root.expanduser().resolve(), find_ffmpeg(), output_root)
+        try:
+            builder.write_document_scan()
+        finally:
+            builder.close()
+        print(json.dumps(builder.provenance[DOCUMENT_SCAN_NAME], ensure_ascii=False, indent=2))
+        return 0
     if args.seoul_subway_onboard_only:
-        if args.phone_keyboard_only or args.validate_only:
+        if args.phone_keyboard_only or args.document_scan_only or args.validate_only:
             raise ValueError("single subway build cannot be combined with another mode")
         output_root = args.output_root.resolve()
         output = output_root / SEOUL_SUBWAY_ONBOARD_NAME
@@ -1368,9 +1449,10 @@ def main(argv: list[str] | None = None) -> int:
         + len(PIANO_STINGERS)
         + 1  # phone-band derivative of the dry keyboard recipe
         + 1  # exact Seoul onboard field-recording edit
+        + 1  # exact public document-scan recording edit
     )
-    if expected_count != 141:
-        raise RuntimeError(f"release audio inventory must remain 141 assets, got {expected_count}")
+    if expected_count != 142:
+        raise RuntimeError(f"release audio inventory must remain 142 assets, got {expected_count}")
     if args.validate_only:
         print(
             "SAMPLE_AUDIO_SOURCES_OK "
@@ -1390,6 +1472,7 @@ def main(argv: list[str] | None = None) -> int:
             builder.write_sfx(name, recipe)
         builder.write_phone_keyboard()
         builder.write_seoul_subway_onboard()
+        builder.write_document_scan()
         for name, spec in sorted(TRACK_SPECS.items()):
             print("MUSIC", name)
             builder.write_track(name, spec)

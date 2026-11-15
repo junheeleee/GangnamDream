@@ -20,6 +20,7 @@ in AUDIO_SOURCE_MANIFEST.json.
 ## Voluntary Credits
 
 - LG — 20231229 - Duisburg station announcement ding dong — CC0 1.0 — https://freesound.org/s/718032/ — https://creativecommons.org/publicdomain/zero/1.0/
+- 16F_Panska_TisonD — 22_printer, scan.WAV — CC0 1.0 — https://freesound.org/s/499182/ — https://creativecommons.org/publicdomain/zero/1.0/
 - dmsb11 — airport line subway journey in Seoul — CC0 1.0 — https://freesound.org/s/727111/ — https://creativecommons.org/publicdomain/zero/1.0/
 - cMilan — Apartment Room Tone.wav — CC0 1.0 — https://freesound.org/s/426767/ — https://creativecommons.org/publicdomain/zero/1.0/
 - Eirikr — barcode-reader.wav — CC0 1.0 — https://freesound.org/s/185888/ — https://creativecommons.org/publicdomain/zero/1.0/

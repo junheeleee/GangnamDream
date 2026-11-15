@@ -18,7 +18,7 @@ AUDIO = ROOT / "assets" / "audio"
 MANIFEST = AUDIO / "AUDIO_SOURCE_MANIFEST.json"
 NOTICES = AUDIO / "AUDIO_THIRD_PARTY_NOTICES.md"
 
-EXPECTED_COUNTS = {"bgm": 20, "ambience": 50, "sfx": 71}
+EXPECTED_COUNTS = {"bgm": 20, "ambience": 50, "sfx": 72}
 ALLOWED_PROVENANCE = {
     "field_recording",
     "object_recording",
@@ -54,6 +54,33 @@ HORSE_GROUND_LICENSE_RECORD = {
     "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
     "source_url": "https://freesound.org/people/D4XX/sounds/564628/",
     "attribution_required": False,
+}
+DOCUMENT_SCAN_LIBRARY_ID = "freesound_document_scan_cc0"
+DOCUMENT_SCAN_LIBRARY_RECORD = {
+    "provider": "16F_Panska_TisonD",
+    "title": "22_printer, scan.WAV",
+    "source_type": "object_recording",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source_url": "https://freesound.org/s/499182/",
+    "attribution_required": False,
+}
+DOCUMENT_SCAN_ASSET_RECORD = {
+    "provenance": "object_recording",
+    "sources": [
+        {
+            "pack": DOCUMENT_SCAN_LIBRARY_ID,
+            "original_file": "499182_printer_scan_hq.mp3",
+            "sha256": "6e9def558a2c86d3a27f9a3cc8f0156836d591ccd9eaa2f9a8d6357ad25b4d0f",
+            "source_type": "object_recording",
+        }
+    ],
+    "transform": (
+        "public HQ preview 2.310-3.750s; mono PCM16/44.1kHz; "
+        "ffmpeg highpass=f=55,afade=t=in:st=0:d=0.025,"
+        "afade=t=out:st=1.23:d=0.21,volume=7dB; no added layers"
+    ),
+    "output_sha256": "14b341776333278712349cde9452799172afd12c500836dd15d4f8fda0b23f2f",
 }
 HASH_RE = re.compile(r"^[0-9a-f]{64}$")
 
@@ -104,7 +131,7 @@ sfx_document_stamp.wav sfx_door_latch.wav sfx_footsteps_hall.wav
 sfx_register_scan.wav sfx_keyboard_short.wav sfx_keyboard_phone.wav sfx_cup_set.wav
 sfx_bicycle_impact.wav sfx_traffic_pass.wav sfx_kettle_pour.wav
 sfx_bus_arrival.wav sfx_queue_chime.wav sfx_pen_write.wav
-sfx_cloth_shift.wav sfx_page_turn.wav
+sfx_cloth_shift.wav sfx_page_turn.wav sfx_document_scan.wav
 """.split()
 )
 
@@ -200,6 +227,10 @@ def check_libraries(payload: dict[str, Any], errors: list[str]) -> dict[str, Any
                 errors.append(f"library {library_id}: {key} must be an https URL")
         if not str(raw.get("license", "")).strip():
             errors.append(f"library {library_id}: empty license")
+    if libraries.get(DOCUMENT_SCAN_LIBRARY_ID) != DOCUMENT_SCAN_LIBRARY_RECORD:
+        errors.append(
+            "document scan source must remain pinned to Freesound 499182 CC0"
+        )
     return libraries
 
 
@@ -327,6 +358,11 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
             "recorded mono PCM16/44.1kHz master; ffmpeg highpass=f=300,lowpass=f=3200,volume=2dB"):
         errors.append("sfx_keyboard_phone.wav: retain the exact telephone-band edit of the recorded dry keyboard master")
 
+    if assets.get("sfx_document_scan.wav") != DOCUMENT_SCAN_ASSET_RECORD:
+        errors.append(
+            "sfx_document_scan.wav: retain the reviewed 2.310-3.750s printer-scan edit"
+        )
+
     required_any = {
         "amb_goshiwon_room.wav": ("apartment", "room"),
         "amb_family_home.wav": ("apartment", "room"),
@@ -348,6 +384,7 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
         "sfx_casino_reel.wav": ("slot",),
         "sfx_slot_start.wav": ("slot",),
         "sfx_queue_chime.wav": ("announcement", "ding_dong", "queue_chime"),
+        "sfx_document_scan.wav": ("printer", "scan", "document_scan"),
     }
     for name, tokens in required_any.items():
         haystack = source_haystack(name)
@@ -369,6 +406,7 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
         "sfx_slot_start.wav": ("tape measure",),
         "sfx_race_gate.wav": ("car door",),
         "sfx_queue_chime.wav": ("thermometer",),
+        "sfx_document_scan.wav": ("barcode", "register", "thermometer", "phone"),
     }
     for name, tokens in forbidden.items():
         haystack = source_haystack(name)
