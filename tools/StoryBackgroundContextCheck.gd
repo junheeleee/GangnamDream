@@ -168,7 +168,9 @@ const W185_FOLLOW_UPS := [
 ]
 const W188_ROOT := "arc_father_passing"
 const W188_PLATFORM := "arc_father_passing_platform"
+const W188_DEAL := "arc_father_passing_deal_room"
 const W188_PLATFORM_BG := "seoul_station_ktx_platform_winter"
+const W188_ONBOARD_BG := "ktx_changwon_winter_night_w188"
 const W188_FOLLOW_UPS := [
 	"arc_father_passing_hospital_room",
 	"arc_father_passing_deal_morning",
@@ -419,6 +421,7 @@ const EXACT_PATHS := {
 	W167_RESTAURANT: "res://assets/backgrounds/family_soup_restaurant_w167_v1.png",
 	W177_CORRIDOR: W177_CORRIDOR_PATH,
 	W188_PLATFORM_BG: "res://assets/backgrounds/seoul_station_ktx_platform_winter.png",
+	W188_ONBOARD_BG: "res://assets/backgrounds/ktx_changwon_winter_night_w188_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -517,11 +520,14 @@ func _ready() -> void:
 	SaveManager.set_setting("story_text_size", "standard")
 	if OS.has_environment("GANGNAM_W188_CHECK"):
 		var platform_ok := await _check_w188_platform_silence()
+		var deal_ok := false
+		if platform_ok:
+			deal_ok = await _check_w188_deal_boarding()
 		await _remove_story()
 		await _stop_audio()
-		if platform_ok and _failures == 0:
-			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w188_platform_silence")
-		get_tree().quit(0 if platform_ok and _failures == 0 else 1)
+		if platform_ok and deal_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w188_father_passing_boarding")
+		get_tree().quit(0 if platform_ok and deal_ok and _failures == 0 else 1)
 		return
 	if OS.has_environment("GANGNAM_W185_CHECK"):
 		var departure_ok := await _check_w185_father_departure()
@@ -3738,17 +3744,20 @@ func _check_w188_platform_silence() -> bool:
 				return false
 			for page in range(result_pages.size()):
 				await _finish_page()
+				var onboard := choice == 0
 				if not _w177_applied_state_matches(applied_state, "W188 platform result") \
-						or not _expect_w188_platform("W188 platform result"):
+						or not _expect_w188_result_surface(
+							W188_PLATFORM, onboard, "W188 platform result"):
 					return false
-				if language == "ko" and choice == 0 and page == 0:
+				if choice == 0 and page == 0:
 					var context: Dictionary = _story.call("build_save_resume_context")
 					if not await _reload_authored_result_context(context, language, 1, 0) \
 							or str((_story.get("_current") as Dictionary).get("id", "")) != W188_PLATFORM \
 							or int(_story.get("_para_index")) != page \
 							or not _w177_applied_state_matches(applied_state, "W188 cold platform result") \
-							or not _expect_w188_platform("W188 cold platform result"):
-						_fail("W188 v4 result restore lost the silent platform or applied choice")
+							or not _expect_w188_result_surface(
+								W188_PLATFORM, true, "W188 cold platform result"):
+						_fail("W188 v4 result restore lost the onboard KTX or applied choice")
 						return false
 					await _finish_page()
 					restores += 1
@@ -3761,7 +3770,188 @@ func _check_w188_platform_silence() -> bool:
 				return false
 			paths += 1
 	print("W188_PLATFORM_SILENCE_OK paths=%d v4=%d" % [paths, restores])
-	return paths == 10 and restores == 1
+	return paths == 10 and restores == 5
+
+func _check_w188_deal_boarding() -> bool:
+	var paths := 0
+	var restores := 0
+	var reflows := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice in range(2):
+			await _remove_story()
+			await _stop_audio()
+			_context = "%s/W188/deal/c%d" % [language, choice]
+			LocaleManager.set_language(language)
+			SaveManager.clear_loaded_resume_context()
+			GameState.start_new_game()
+			GameState.turn = 188
+			GameState.week_of_month = 4
+			GameState.month = 11
+			GameState.year = 2029
+			GameState.age = 36
+			GameState.housing = "oneroom"
+			GameState.money = 2_000_000.0
+			GameState.mental = 80.0
+			GameState.flags["arc_father_medication_seen"] = true
+			GameState.flags["arc_father_03_seen"] = true
+			GameState.flags["arc_y4_bill_night_seen"] = true
+			GameState.flags["father_care_left_open"] = true
+			GameState.flags["arc_y4_father_crisis_contact_seen"] = true
+			GameState.flags["father_crisis_contact_missed"] = true
+			GameState.cast["father"]["stage"] = "hospitalized"
+			var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+			var selected := str(ingress.call(
+				"_chapter_four_causal_arc_id", 188, GameState.flags, false))
+			ingress.free()
+			if selected != W188_ROOT:
+				_fail("W188 exact medical receipts did not select the deal-room root")
+				return false
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			GameState.pending_story_queue = [W188_ROOT]
+			BGMPlayer.set_ambience("subway")
+			BGMPlayer.set_season_ambience("winter")
+			_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+			add_child(_story)
+			_story.call("_set_auto_mode", false, false, false)
+			await _wait_stable()
+			var root: Dictionary = _story.get("_current")
+			if str(root.get("id", "")) != W188_ROOT:
+				_fail("W188 deal route did not open the actual father-passing root")
+				return false
+			var root_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+			for _page in range(root_pages.size()):
+				await _finish_page()
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) \
+					or (root.get("choices", []) as Array).size() != 2:
+				_fail("W188 father-passing root did not expose its two deal decisions")
+				return false
+			_story.call("_on_choice", 1)
+			await _wait_stable()
+			var root_results: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var root_authored := str(_story.call(
+				"_fmt", str((root.get("choices", []) as Array)[1].get("result_text", ""))))
+			if str(_story.get("_pending_follow_up")) != W188_DEAL \
+					or root_results.is_empty() or not _m23_same_prose(root_results, root_authored):
+				_fail("W188 root choice one lost its exact deal-room handoff or prose")
+				return false
+			for _page in range(root_results.size()):
+				await _finish_page()
+				_story.call("_on_advance")
+				await _wait_stable()
+			var deal: Dictionary = _story.get("_current")
+			var intro: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var resolved_intro := str(_story.call("_resolved_story_description", deal))
+			if str(deal.get("id", "")) != W188_DEAL \
+					or int(_story.call("_story_source_paragraph_count")) != 4 \
+					or intro.is_empty() or not _m23_same_prose(intro, resolved_intro):
+				_fail("W188 root choice one did not enter the exact localized deal room")
+				return false
+			for _page in range(intro.size()):
+				await _finish_page()
+				if not _expect_w188_deal("W188 deal intro"):
+					return false
+				_story.call("_on_advance")
+				await _wait_stable()
+			if not bool(_story.get("_showing_choices")) \
+					or (deal.get("choices", []) as Array).size() != 2 \
+					or not _expect_w188_deal("W188 deal choices"):
+				_fail("W188 deal room did not retain its two decisions on the meeting surface")
+				return false
+			var before_phenotype := _w177_phenotype_state()
+			var before_flags: Dictionary = GameState.flags.duplicate(true)
+			var before_events := int(GameState.events_seen)
+			var before_log: Array = GameState.event_log.duplicate(true)
+			_story.call("_on_choice", choice)
+			await _wait_stable()
+			var receipt: Dictionary = GameState.event_log.back() \
+				if not GameState.event_log.is_empty() else {}
+			var applied_state := _w177_applied_state()
+			var result_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var authored_result := str(_story.call("_fmt", str(
+				(deal.get("choices", []) as Array)[choice].get("result_text", ""))))
+			var expected_sources := 2 if choice == 0 else 1
+			var choice_checks := {
+				"phenotype": _w177_phenotype_state() == before_phenotype,
+				"flags": GameState.flags == before_flags,
+				"events": GameState.events_seen == before_events + 1,
+				"log_size": GameState.event_log.size() == before_log.size() + 1,
+				"log_prefix": GameState.event_log.slice(0, before_log.size()) == before_log,
+				"receipt": str(receipt.get("event_id", "")) == W188_DEAL \
+					and int(receipt.get("choice_index", -1)) == choice \
+					and int(receipt.get("turn", -1)) == 188,
+				"follow_up": str(_story.get("_pending_follow_up")) == W188_FOLLOW_UPS[choice],
+				"source_count": int(_story.call("_story_source_paragraph_count")) == expected_sources,
+				"prose": not result_pages.is_empty() and _m23_same_prose(result_pages, authored_result),
+			}
+			if choice_checks.values().has(false):
+				_fail("W188 deal choice changed effects, receipt, next source or localized prose checks=%s flags=%s receipt=%s followup=%s sources=%s" % [
+					choice_checks, GameState.flags, receipt, _story.get("_pending_follow_up"),
+					_story.call("_story_source_paragraph_count")])
+				return false
+			var restored_sources := {}
+			for page in range(result_pages.size()):
+				await _finish_page()
+				var source := int(_story.call(
+					"_story_source_paragraph_index", int(_story.get("_para_index"))))
+				var onboard := choice == 0 and source == 1
+				if not _w177_applied_state_matches(applied_state, "W188 deal result") \
+						or not _expect_w188_result_surface(W188_DEAL, onboard, "W188 deal result"):
+					return false
+				if choice == 0 and source == 1 \
+						and page == int(_story.call("_first_story_page_for_source", 1)) \
+						and language == "ko":
+					var targets := ["en", "ko"]
+					for target: String in targets:
+						_story.call("_set_story_language", target)
+						await _wait_stable()
+						if LocaleManager.language != target \
+								or int(_story.call("_story_source_paragraph_index", int(
+									_story.get("_para_index")))) != 1 \
+								or not _w177_applied_state_matches(
+									applied_state, "W188 locale-rebound deal result") \
+								or not _expect_w188_onboard(
+									W188_DEAL, "W188 locale-rebound deal result"):
+							_fail("W188 onboard deal locale reflow lost source one or its runtime presentation")
+							return false
+						reflows += 1
+				if choice == 0 and not restored_sources.has(source):
+					var context: Dictionary = _story.call("build_save_resume_context")
+					if not await _reload_authored_result_context(
+							context, language, expected_sources, source) \
+							or str((_story.get("_current") as Dictionary).get("id", "")) != W188_DEAL \
+							or int(_story.call("_story_source_paragraph_index", int(
+								_story.get("_para_index")))) != source \
+							or not _w177_applied_state_matches(applied_state, "W188 cold deal result") \
+							or not _expect_w188_result_surface(
+								W188_DEAL, onboard, "W188 cold deal result"):
+						_fail("W188 v4 deal restore lost source %d, its surface or applied choice" % source)
+						return false
+					await _finish_page()
+					restored_sources[source] = true
+					restores += 1
+				if page + 1 < result_pages.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			if str(_story.get("_pending_follow_up")) != W188_FOLLOW_UPS[choice] \
+					or not _w177_applied_state_matches(applied_state, "W188 final deal result"):
+				_fail("W188 deal result changed before its authored follow-up")
+				return false
+			if choice == 0 and restored_sources.size() != 2:
+				_fail("W188 deal KTX route did not cold-restore both authored sources")
+				return false
+			paths += 1
+	print("W188_DEAL_BOARDING_OK paths=%d v4=%d locale_reflows=%d" % [
+		paths, restores, reflows])
+	return paths == 10 and restores == 10 and reflows == 2
+
+func _expect_w188_result_surface(event_id: String, onboard: bool, label: String) -> bool:
+	if onboard:
+		return _expect_w188_onboard(event_id, label)
+	if event_id == W188_PLATFORM:
+		return _expect_w188_platform(label)
+	return _expect_w188_deal(label)
 
 func _expect_w188_platform(label: String) -> bool:
 	var presentation: Dictionary = _story.get("_current_presentation")
@@ -3781,6 +3971,79 @@ func _expect_w188_platform(label: String) -> bool:
 			or str(_story.get_meta("living_scene_effect", "")) != "none" \
 			or not cue_keys.is_empty():
 		_fail("%s changed the winter KTX, silent beds or grief score presentation=%s cues=%s" % [
+			label, presentation, cue_keys])
+		return false
+	return true
+
+func _expect_w188_deal(label: String) -> bool:
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var frame := _story.get("_portrait_frame") as Control
+	var portrait := _story.get("_portrait") as TextureRect
+	var badge := _story.get("_communication_badge") as Control
+	var cue_keys := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		return str(key).begins_with(W188_DEAL + ":"))
+	var ambience := str(BGMPlayer.get("_current_ambience_key"))
+	var human_ambience := str(BGMPlayer.get("_current_human_ambience_key"))
+	var ambience_ok := false
+	if ambience == "office":
+		ambience_ok = _expect_surface("meeting", "office", label) \
+			and (BGMPlayer.get("_ambience_player") as AudioStreamPlayer).playing \
+			and human_ambience == "public_interior" \
+			and (BGMPlayer.get("_human_ambience_player") as AudioStreamPlayer).playing
+	elif ambience.is_empty():
+		# A cold result restores the existing authored meeting without replaying
+		# the ducked office bed. It must remain fully quiet rather than inherit
+		# the caller's subway, crowd or winter layers.
+		ambience_ok = _expect_surface("meeting", "", label) and _expect_no_ambience(label)
+	if not ambience_ok \
+			or str(BGMPlayer.get("_current_season_key")) != "" \
+			or (BGMPlayer.get("_season_player") as AudioStreamPlayer).playing \
+			or str(BGMPlayer.get("_current_key")) != "grief" \
+			or _score_playback_position("grief") < 0.0 \
+			or str(presentation.get("channel", "")) != "in_person" \
+			or str(presentation.get("scene_location", "")) != "seoul_investment_meeting_room" \
+			or str(presentation.get("portrait_role", "")) != "local" \
+			or str(presentation.get("expected_portrait", "")) != "player_suit" \
+			or not is_instance_valid(frame) or not frame.visible \
+			or not is_instance_valid(portrait) or portrait.texture == null \
+			or portrait.texture.resource_path != ImageRegistry.get_portrait("player_suit") \
+			or str(_story.call("_resolved_story_surface_portrait_id")) != "player_suit" \
+			or not is_instance_valid(badge) or badge.visible \
+			or bool(_story.get("_portrait_remote_inset")) \
+			or bool(_story.get("_current_uses_cg")) \
+			or not str(_story.get("_event_cg_id")).is_empty() \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or not cue_keys.is_empty():
+		_fail("%s changed the existing deal room, actor, layers or grief score presentation=%s cues=%s ambience=%s/%s" % [
+			label, presentation, cue_keys, ambience, human_ambience])
+		return false
+	return true
+
+func _expect_w188_onboard(event_id: String, label: String) -> bool:
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var cue_keys := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		return str(key).begins_with(event_id + ":"))
+	if not _expect_surface(W188_ONBOARD_BG, "", label) \
+			or not _expect_no_ambience(label) \
+			or str(BGMPlayer.get("_current_key")) != "grief" \
+			or _score_playback_position("grief") < 0.0 \
+			or str(presentation.get("channel", "")) != "narration" \
+			or str(presentation.get("scene_location", "")) != W188_ONBOARD_BG \
+			or str(presentation.get("portrait_role", "")) != "none" \
+			or presentation.get("participants", []) != ["player"] \
+			or presentation.has("expected_portrait") \
+			or not str(presentation.get("state", "")).is_empty() \
+			or not str(presentation.get("remote_actor", "")).is_empty() \
+			or not str(presentation.get("remote_location", "")).is_empty() \
+			or (_story.get("_portrait_frame") as Control).visible \
+			or (_story.get("_name_panel") as Control).visible \
+			or (_story.get("_communication_badge") as Control).visible \
+			or bool(_story.get("_portrait_remote_inset")) \
+			or bool(_story.get("_current_uses_cg")) \
+			or not str(_story.get("_event_cg_id")).is_empty() \
+			or str(_story.get_meta("living_scene_effect", "")) != "none" \
+			or not cue_keys.is_empty():
+		_fail("%s changed the quiet winter KTX, narration, actor or grief score presentation=%s cues=%s" % [
 			label, presentation, cue_keys])
 		return false
 	return true

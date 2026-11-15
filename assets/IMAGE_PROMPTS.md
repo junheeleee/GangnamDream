@@ -1262,6 +1262,11 @@ sips --resampleHeightWidth 800 1280
 - `assets/backgrounds/withdrawal_corridor_w177_v1.png`, 1584×990, SHA-256 `1a44f6742b55991d51a402f060b21e2b1d4ce0426585e4402b3ce552f0055e72`. 내장 생성 `exec-3633093d-bd88-4fee-ad0b-59ef62a84363.png` 1586×992, 원본 `39790b7f51e7efae6b60008293190066a29442530d22387daabb01d526c175fd`, 네 가장자리 1px 크롭만.
 - 프롬프트 요약: `investment_meeting.png`는 동일 층의 월넛·먹색·검은 문틀·매입등과 무광 질감 참조. 성인 눈높이에서 문 바로 밖, 민준의 시선은 복도 불빛 아래 든 작은 접수표 한 장. 손의 자연스러운 관절, 통행 가능한 오른쪽 동선, 대화창 위의 표, 아래 여백. 가독할 번호·글자·시계·날씨·외부·다른 인물·사진 질감 없음.
 
+## 2026-11-15 — W188 창원행 겨울밤 객실
+
+- `assets/backgrounds/ktx_changwon_winter_night_w188_v1.png` 1584×990, SHA-256 `5d2ece543d130d71a98f0df6a5d258f1aa6741ea203d41af2783df77fee2a380`. 내장 편집 `exec-a4b55f73-55b4-4052-a573-337c1ef99840.png` 1586×992, SHA-256 `47159972190328a0ed64358a302da3564dba6ab3021b10444015ca166187a519`. 네 가장자리 1px 중앙 크롭.
+- 편집 대상 `ktx_changwon_first_train_predawn.png`의 통로·푸른 2인석·창 프레임·무광 붓결 유지. `seoul_station_ktx_platform_winter.png`는 바깥 검푸른 겨울밤 색만 참고. 창 밖 수평으로 흐르는 땅과 희미한 불빛은 대사창 위. 여명·승강장·인물·문자·상표·비/눈·사진 질감 없음.
+
 ## 2026-11-14 — M07 공용 세면대
 
 - 최종: `assets/backgrounds/goshiwon_shared_washbasin_v1.png`, 1584×990, SHA-256 `52e30cbb8e5e046877e7dcb522e2427156a679643b0be0e7ee499fcc147ec815`.

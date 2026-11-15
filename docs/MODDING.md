@@ -391,6 +391,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `jiyeon_sedan_night` | `backgrounds/jiyeon_sedan_night_interior.png` | 1280x800 |
 | background | `jjimjilbang` | `backgrounds/jjimjilbang.png` | 1672x941 |
 | background | `ktx_changwon_first_train_predawn` | `backgrounds/ktx_changwon_first_train_predawn.png` | 1280x800 |
+| background | `ktx_changwon_winter_night_w188` | `backgrounds/ktx_changwon_winter_night_w188_v1.png` | 1584x990 |
 | background | `late_night` | `backgrounds/late_night_room.png` | 1280x800 |
 | background | `library` | `backgrounds/library.png` | 1280x800 |
 | background | `military_base_gate` | `backgrounds/military_base_gate.png` | 1672x941 |

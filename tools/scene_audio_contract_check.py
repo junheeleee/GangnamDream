@@ -42,8 +42,17 @@ M14_BANK_RESULT_CUES = {
 }
 W188_PLATFORM_EVENT = "arc_father_passing_platform"
 W188_PLATFORM_BACKGROUND = "seoul_station_ktx_platform_winter"
+W188_DEAL_ROOM_EVENT = "arc_father_passing_deal_room"
+W188_DEAL_ROOM_BACKGROUND = "meeting"
+W188_HOSPITAL_EVENT = "arc_father_passing_hospital_room"
+W188_DEAL_MORNING_EVENT = "arc_father_passing_deal_morning"
+W188_CABIN_BACKGROUND = "ktx_changwon_winter_night_w188"
 W188_PLATFORM_AUDIO = {
     "ambience": "intentional_silence",
+    "music": {"key": "grief", "start_paragraph": 0},
+}
+W188_DEAL_ROOM_AUDIO = {
+    "ambience": "office",
     "music": {"key": "grief", "start_paragraph": 0},
 }
 W224_CUSTODY_EVENT = "arc_y5_father_trace_custody"
@@ -402,6 +411,9 @@ def main() -> int:
         elif owner == W188_PLATFORM_EVENT:
             if contract != W188_PLATFORM_AUDIO:
                 errors.append(f"{owner}: retain the grief score without subway, cabin or added platform cues")
+        elif owner == W188_DEAL_ROOM_EVENT:
+            if contract != W188_DEAL_ROOM_AUDIO:
+                errors.append(f"{owner}: retain the grief score and meeting-room bed until the exact boarding cut")
         elif owner == W224_CUSTODY_EVENT:
             if contract != W224_CUSTODY_AUDIO:
                 errors.append(f"{owner}: the rear table must stay free of checkout ambience and retain its paper and score")
@@ -536,10 +548,39 @@ def main() -> int:
             or any(first_ktx_profiles.get(background) != "intentional_silence"
                    for background in (M23_FIRST_KTX_PLATFORM, M23_FIRST_KTX_CABIN))):
         errors.append(f"{M23_MOTHER_CALL_EVENT}: first KTX platform and cabin must not borrow a train or room bed")
+    w188_boarding_events = (
+        events.get(W188_PLATFORM_EVENT, {}),
+        events.get(W188_DEAL_ROOM_EVENT, {}),
+    )
+    w188_boarding_choices = [
+        event.get("choices", []) if isinstance(event, dict) else []
+        for event in w188_boarding_events
+    ]
     if (W188_PLATFORM_EVENT not in event_contracts
-            or events.get(W188_PLATFORM_EVENT, {}).get("background") != W188_PLATFORM_BACKGROUND
-            or first_ktx_profiles.get(W188_PLATFORM_BACKGROUND) != "intentional_silence"):
-        errors.append(f"{W188_PLATFORM_EVENT}: winter Seoul Station platform and its background profile must stay quiet")
+            or W188_DEAL_ROOM_EVENT not in event_contracts
+            or w188_boarding_events[0].get("background") != W188_PLATFORM_BACKGROUND
+            or w188_boarding_events[1].get("background") != W188_DEAL_ROOM_BACKGROUND
+            or first_ktx_profiles.get(W188_PLATFORM_BACKGROUND) != "intentional_silence"
+            or first_ktx_profiles.get(W188_CABIN_BACKGROUND) != "intentional_silence"):
+        errors.append(
+            f"{W188_PLATFORM_EVENT}: winter platform and W188 cabin profiles must stay quiet"
+        )
+    for event_id, choices in zip(
+        (W188_PLATFORM_EVENT, W188_DEAL_ROOM_EVENT), w188_boarding_choices
+    ):
+        event = events.get(event_id, {})
+        if (any(key in event for key in ("result_background", "result_ambience"))
+                or not isinstance(choices, list) or len(choices) != 2
+                or not isinstance(choices[0], dict)
+                or choices[0].get("follow_up_event") != W188_HOSPITAL_EVENT
+                or not isinstance(choices[1], dict)
+                or choices[1].get("follow_up_event") != W188_DEAL_MORNING_EVENT
+                or any(any(key in choice for key in
+                           ("result_background", "result_ambience"))
+                       for choice in choices if isinstance(choice, dict))):
+            errors.append(
+                f"{event_id}: keep both result locations runtime-staged; only choice 0 reaches the cabin and hospital"
+            )
     hospital_visit = events.get(W96_HOSPITAL_VISIT_EVENT, {})
     hospital_choices = hospital_visit.get("choices", [])
     hospital_visit_profiles = manifest.get("background_profiles", {})

@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 318,
+  "inventory_count": 319,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 142,
+        "light": 143,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 142,
+        "heavy": 143,
         "severe": 0
       }
     }
@@ -1328,6 +1328,23 @@
       "scale": {
         "1080p": 1.5,
         "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/ktx_changwon_winter_night_w188_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "ktx_changwon_winter_night_w188"
+      ],
+      "width": 1584,
+      "height": 990,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2121,
+        "4k": 2.4242
       },
       "band": {
         "1080p": "light",

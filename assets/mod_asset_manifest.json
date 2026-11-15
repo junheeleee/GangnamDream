@@ -596,6 +596,14 @@
     {
       "kind": "background",
       "ids": [
+        "ktx_changwon_winter_night_w188"
+      ],
+      "relative_path": "backgrounds/ktx_changwon_winter_night_w188_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "late_night"
       ],
       "relative_path": "backgrounds/late_night_room.png",

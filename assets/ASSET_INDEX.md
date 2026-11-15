@@ -554,6 +554,9 @@ weather, romance, and historical portraits remain fixed.
   - Winter-night Seoul high-speed rail platform for the Father-passing departure decision.
   - Generic unbranded train, open door, tactile strip and physically coherent tracks; no baked traveler, logo, readable sign, or named-character proxy.
 
+- `assets/backgrounds/ktx_changwon_winter_night_w188_v1.png`
+  - `ktx_changwon_winter_night_w188`: inside the moving train only on the two boarded W188 results, after the meeting exit paragraph when applicable. Winter darkness, receding ground lights, and the same cabin proportions as the first-train reference; no platform, people, added weather, or branding.
+
 - `assets/backgrounds/regional_train_window_summer.png`
   - Person-free interior of a modest Korean intercity train with a two-seat window pair and summer rice paddies outside.
   - Runtime IDs `ktx_window` and `regional_train_window` both resolve here. Use for written in-train window scenes; do not substitute the outdoor `hometown_train_station` platform.

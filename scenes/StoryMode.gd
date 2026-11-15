@@ -107,6 +107,9 @@ const W181_UNATTACHED_BILL := "arc_y4_bill_night_unattached"
 const W181_BILL_CUTS := preload("res://assets/w181_bill_night_cuts.tres")
 const W185_FATHER_CRISIS := "arc_y4_father_crisis_contact"
 const W185_DEPARTURE_CUT := preload("res://assets/w185_father_departure_cut.tres")
+const W188_PLATFORM := "arc_father_passing_platform"
+const W188_DEAL_ROOM := "arc_father_passing_deal_room"
+const W188_NIGHT_KTX := "ktx_changwon_winter_night_w188"
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -4743,6 +4746,8 @@ func _resolved_story_surface_portrait_id() -> String:
 		return ""
 	if _is_w181_intake_result() and _event_background_id == W164_NIGHT_INTAKE:
 		return ""
+	if _event_background_id == W188_NIGHT_KTX:
+		return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -5943,6 +5948,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 			_apply_w185_departure_surface(in_taxi)
 		_apply_w185_contact_presentation(in_taxi)
 		return
+	if event_id == W188_PLATFORM or event_id == W188_DEAL_ROOM:
+		_apply_w188_ktx_result(event_id, play_cut_cue)
+		return
 	if _is_w167_family_table(event_id):
 		_apply_w167_family_table_surface()
 		return
@@ -6097,6 +6105,47 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 			AudioManager.play("traffic_pass", -10.0)
 	else:
 		BGMPlayer.update_event_ambience(_current, "", background_id)
+
+func _apply_w188_ktx_result(event_id: String, live_advance: bool) -> void:
+	# The platform result starts on the train. The meeting result first
+	# leaves the signature blank; only the second authored paragraph boards.
+	var onboard := _pending_after_result and _pending_result_choice_index == 0 \
+		and (event_id == W188_PLATFORM or _story_source_paragraph_index(_para_index) == 1)
+	if not onboard and _event_background_id != W188_NIGHT_KTX:
+		return
+	var destination := W188_NIGHT_KTX if onboard else str(_current.get("background", ""))
+	var surface_changed := destination != _event_background_id
+	if surface_changed:
+		var texture := ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+		if texture == null:
+			return
+		if live_advance:
+			_begin_story_scene_transition("explicit_move")
+		else:
+			_finish_story_scene_transition()
+		_bg_img.texture = texture
+		_event_background_id = destination
+	# A locale switch can restore the event's base presentation while keeping
+	# the same background. The authored source must still own this context.
+	var presentation_changed := str(_current_presentation.get("scene_location", "")) != destination
+	if surface_changed or presentation_changed:
+		_current_presentation = DataRegistry.get_story_presentation(event_id).duplicate(true)
+		if onboard:
+			_current_presentation["channel"] = "narration"
+			_current_presentation["scene_location"] = destination
+			_current_presentation["portrait_role"] = "none"
+			_current_presentation["participants"] = ["player"]
+			_current_presentation.erase("expected_portrait")
+		_show_portrait(_resolved_story_surface_portrait_id(), bool(_current.get("bg_focus", false)))
+	if surface_changed:
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+		if not onboard and str(_direction.get("amb", "")) != "cut":
+			BGMPlayer.update_event_ambience(_current, "", destination)
+	if onboard:
+		# The meeting's exact event audio overrides any background fallback.
+		# Drop only its space bed (and outdoor layers), never the grief score.
+		BGMPlayer.clear_ambience_immediate()
 
 func _apply_w19_reunion_surface(live_advance: bool) -> void:
 	var arrived := _pending_after_result or _showing_choices \

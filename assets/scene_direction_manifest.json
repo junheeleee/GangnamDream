@@ -944,6 +944,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "ktx_changwon_winter_night_w188": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "seoul_station_parents_concourse": {
       "environment": "indoor",
       "depth": "near",
@@ -3351,7 +3359,7 @@
       "to_surface": "changwon_hospital_room_empty",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
-      "from_surface": "seoul_investment_meeting_room"
+      "from_surface": "ktx_changwon_winter_night_w188"
     },
     "arc_father_passing_platform->arc_father_passing_deal_morning": {
       "mode": "explicit_move",
@@ -3365,7 +3373,7 @@
       "to_surface": "changwon_hospital_room_empty",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
-      "from_surface": "seoul_station_ktx_platform_winter"
+      "from_surface": "ktx_changwon_winter_night_w188"
     },
     "arc_final_countdown->arc_final_week": {
       "mode": "same_location",

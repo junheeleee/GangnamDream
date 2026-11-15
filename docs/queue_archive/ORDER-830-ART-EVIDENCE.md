@@ -789,6 +789,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W188 객실 배선: 독립 원화 GO `471599721903…`(1586×992, 겨울밤의 흐르는 창·좌석이 대사창 위). 중앙 1px씩만 다듬은 `ktx_changwon_winter_night_w188_v1.png`·import, `ImageRegistry`·`StoryMode`·장소/음향 계약·격리 검사 및 자산/현황/일지 파생 기록. `arc_father_passing_platform` 1번 결과 즉시와 `arc_father_passing_deal_room` 1번 결과 둘째 원문 단락만 객실로 컷. 객실에서 회의실 초상/환경 3층을 끊고 애도곡 유지. 병실 실제 진입·기존 2번·사건 원고/선택/효과/순서/저장/데모는 변경0. 합성·타국 객실 대체음이나 새 안내는 추가하지 않는다.
 
+[x] W188 탑승: 독립 원화·제품 배선 GO. 실제 선택기로 `br00xwni` 5언어×두 입구×두 선택=20, v4 재개 15, 탑승 중 KO↔EN 언어 전환 2. 회의실을 나서는 첫 단락의 초상과 사무실 소리, 두 입구의 비탑승 결과, 애도곡과 후속 병실/딜 연결·경제 영수증 불변. 객실 시점만 정확한 겨울밤 원화, 무초상·연락 표지 없음·환경 세 층 즉시 정지. 원화 `5d2ece543d13…` 1584×990, fixture `b0bb1335f277a9c78ed999b6558fe5317246f5c591c7c8671ab83ce97cefd380`, stdout `d5bce00c2ffe6baaf6816f5c7c6974e69a5f27bfa2ee7938638e878ea893f81e`, exit0/stderr0. 앞선 `ovabslzk`(검사 함수), `mf66p8s_`(기존 사무실 사람층 기대), `dq903gr_`(미개방 본편 CJK 메뉴 기대)는 검사만 정정하고 보존. 장면·음향 원장과 4장 인과·정점31·공개 데모5언어 통과. 본편 언어 선택 및 실제 창·청취는 별도. 빈 병실은 기존 연출이 진입 프레임에 환경음을 끄므로 추가 변경하지 않았다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.

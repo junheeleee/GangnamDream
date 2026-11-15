@@ -124,6 +124,7 @@ INDOOR_BACKGROUNDS = {
     "parents_visit_food_bag_in_transit",
     "seoul_station_first_ktx_predawn",
     "ktx_changwon_first_train_predawn",
+    "ktx_changwon_winter_night_w188",
     "seoul_station_visitor_sticker",
     "police_evidence_reception",
     "sinchon_offer_cafe_two_coffees",
@@ -198,6 +199,16 @@ INDOOR_BACKGROUNDS = {
     "casino",
     "jeongseon_casino_entrance",
     "scalping_room",
+}
+
+# These follow-ups are selected only by choice 0, after its result has already
+# boarded the train.  The sibling deal-morning edges remain at their authored
+# platform/meeting surfaces.
+CHOICE_RESULT_EDGE_FROM_SURFACES = {
+    "arc_father_passing_platform->arc_father_passing_hospital_room":
+        "ktx_changwon_winter_night_w188",
+    "arc_father_passing_deal_room->arc_father_passing_hospital_room":
+        "ktx_changwon_winter_night_w188",
 }
 
 ACTIVITY_CONTRACTS = {
@@ -583,7 +594,9 @@ def build_edge_contracts(
         if isinstance(authored_from_locations, list):
             contract["from_surfaces"] = list(authored_from_locations)
         else:
-            contract["from_surface"] = surfaces[source_id]
+            contract["from_surface"] = CHOICE_RESULT_EDGE_FROM_SURFACES.get(
+                key, surfaces[source_id]
+            )
         for key_name in ("arrival_cue_ko", "arrival_cue_en"):
             if authored.get(key_name):
                 contract[key_name] = authored[key_name]
@@ -810,6 +823,19 @@ def validate(manifest: dict[str, Any]) -> list[str]:
                 errors.append(f"{edge_id}: mixed singular and plural source surfaces")
         if mode in {"same_location", "remote"} and contract.get("audio_policy") != "continue":
             errors.append(f"{edge_id}: continuity edge restarts audio")
+
+    for edge_id, from_surface in CHOICE_RESULT_EDGE_FROM_SURFACES.items():
+        if edge_id not in edges:
+            errors.append(f"{edge_id}: choice-result transition edge is missing")
+        elif from_surface not in registered:
+            errors.append(
+                f"{edge_id}: choice-result source surface is not registered: "
+                f"{from_surface}"
+            )
+        elif edges[edge_id].get("from_surface") != from_surface:
+            errors.append(
+                f"{edge_id}: choice-result source must be {from_surface}"
+            )
 
     activities = manifest.get("activity_contracts", {})
     if activities != ACTIVITY_CONTRACTS:

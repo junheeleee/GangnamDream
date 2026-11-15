@@ -323,6 +323,7 @@ const BACKGROUNDS = {
 	"changwon_home_medication_table": "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	"hometown_train_station": "res://assets/backgrounds/hometown_train_station.png",
 	"seoul_station_ktx_platform_winter": "res://assets/backgrounds/seoul_station_ktx_platform_winter.png",
+	"ktx_changwon_winter_night_w188": "res://assets/backgrounds/ktx_changwon_winter_night_w188_v1.png",
 	"seoul_station_parents_concourse": "res://assets/backgrounds/seoul_station_parents_concourse.png",
 	"seoul_station_parents_ticket_gate": "res://assets/backgrounds/seoul_station_parents_ticket_gate.png",
 	"parents_visit_food_bag_in_transit": "res://assets/backgrounds/parents_visit_food_bag_in_transit.png",
