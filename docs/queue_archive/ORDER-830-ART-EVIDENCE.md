@@ -777,6 +777,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W185 택시 컷 표적: 공식 격리 `gangnam-story-background-context-94l53y0v`, 5언어×이전 통화 2결과×3선택=30, 결합 기억 6, 둘째 원문 단락의 출발 전/후 v4 복원20, exit0·stderr0. 집에서는 기존 연출 무음 유지, 택시 문장에서만 집 이미지·환경 3층·수신 전화 배지를 끊고 민준 초상은 유지한다. 앵커·후속·비용·기록/갤러리 불변. 초기 `95ndwb67`의 실내음 기대 오류는 기존 `amb: cut`과 대조해 검사만 고쳤다. fixture `87e28c82dd0f0682542f016921610ae72b58c08b2b92ad646b52b0bdd409fec3`, stdout `3c8b3a40f93a20c051f6736b115dbc522ad7e1fe51a2e7d1863be5611c198686`. 4장 인과·데모5언어·EN·음향 계약 통과. 도입 문자에 수신 전화가 뜨는 별도 기존 문제·실제 창/청취는 남는다.
 
+[~] W185 연락 표시 한정: `content/meta/story_rules.json` 한 사건의 기본 채널, `scenes/StoryMode.gd`의 해당 사건 페이지와 `tools/StoryBackgroundContextCheck.gd` 표적, 이 증거·현황·일지. 병동 발신 문자 도입/선택은 메시지, 표를 사는 갈래는 취소 문자→병동 답신→택시에서 배지 없음, 전화 갈래만 통화(첫 원문 단락은 간호사 연결, 둘째는 아버지), 미루는 갈래는 보낸 문자→병동 답신. 민준 초상·원문/다섯 언어 값·소리·배경·효과·후속·저장·공개 RC는 그대로. 제목으로 수신 전화·부재중 통화를 발명하지 않는다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
