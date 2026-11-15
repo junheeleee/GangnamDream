@@ -781,6 +781,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
 
+[x] W132 원화 교체 표적: 새 `1584×990` SHA `71062bf8de8c06ec6d0eae13f7f7de50c3e2ad365c0ff3edb22b2582832465e7`, v1 `1b91d60bd588…` 불변. 기존 ID의 원화 경로만 v2로 연결했다. 공식 격리 `gangnam-story-background-context-hb90y0ec` 5언어×4선택 20건/v4 재개5, exit0·stderr0: 신고 후 하강 문장에만 v2, 실내 발걸음 1회, 재개 때 중복0. fixture `22b6d6a51fbbca03e1055849c2db9e3de4168e26a820156438d13bf03fb8203c`, stdout `0262bc8bd8e89caebddb6793634c88f56ca0ad8db8c7d0ca4486e4a2a280aca4`. 모드·원화·해상도·출시 원장·현행 데모5언어 통과(기존 편의점 해상도 경고3). 활성318 유지, 현재 원본377→378/패키지 대상369→370(v1 보존; export 실행0). 새 판본의 네이티브 창/실청취 확인은 별도.
+
 ### W153 다은과 한 시간 — 번역투 표적 검수
 
 [~] `arc_y4_three_promises` c1의 `result_text` 한 잎(`content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_chapter_themes.json`). ‘다른 화면을 뒤집는다’는 서술을 지나가며 보지 않은 한 대의 휴대폰으로 명료화하고, 빚을 들먹이지 말라는 다은의 대화는 구어체로 유지한다. 지하철·편의점·캔커피 하나·한 시간·받지 못한 병동 전화·환불 불가 결말은 그대로. 별도의 취소 연락이나 기기·효과·선택·후속·저장/데모/음향0 변경. 기존 다국어 수용 원장·기록만 동기화한다.

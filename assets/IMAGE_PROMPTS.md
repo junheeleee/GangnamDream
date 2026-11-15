@@ -1252,9 +1252,10 @@ sips --resampleHeightWidth 800 1280
 
 ## 2026-11-15 — W132 상철 카페 계단
 
-- 최종 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다.
+- 최초 채택 `assets/backgrounds/sangchul_cafe_stairs_v1.png` 1584×990, SHA-256 `1b91d60bd5881d3bd733ede328796dd57beb1dbab1133cdec2af17b6b09ddf1f`. 내장 이미지 생성 수정 원본 `exec-dfbe66b8-2949-4535-9f60-7ea60669961a.png` 1585×992를 16:10으로 정규화했다. v1 바이트 보존.
 - 장소·색 참조 `assets/backgrounds/cafe_seoul.png`. 초안 `exec-d1399183-e41f-494b-918d-06f6a84dcc0a.png`은 아래참이 막혀 보여 반려. 선택 갈래 밖에는 적용하지 않는다.
 - 최종 프롬프트 요약: 성인 눈높이에서 건물 계단을 내려다보는 무광 구아슈·잉크 원화. 아래참 오른쪽 벽 끝에 성인이 지나는 L자 통로와 연결된 바닥을 드러낸다. 카페의 따뜻한 빛·짙은 철제 난간, 실내 콘크리트 계단. 대사창 높이 위에 아래참·통로를 배치. 인물·간판·창·날씨·사진 효과 없음.
+- 현행 `assets/backgrounds/sangchul_cafe_stairs_v2.png` 1584×990, SHA-256 `71062bf8de8c06ec6d0eae13f7f7de50c3e2ad365c0ff3edb22b2582832465e7`. v1 무광 구도에서 아래참 오른쪽 입구 폭과 바닥 깊이만 명료화하고 새 층·계단·문은 만들지 않았다. 내장 수정 원본 `exec-6cd16f62-7c11-4f09-9bfd-e54cda2a6527.png` 1586×992, SHA-256 `5b5dbbc85fadf36ff8776bc7cee583feaca1439f8385c39340f40a664eac920c`; 네 변 1px 중앙 크롭만.
 
 ## 2026-11-15 — W177 복도 불빛과 철회 접수표
 

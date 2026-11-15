@@ -394,7 +394,7 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
-	W132_STAIRS: "res://assets/backgrounds/sangchul_cafe_stairs_v1.png",
+	W132_STAIRS: "res://assets/backgrounds/sangchul_cafe_stairs_v2.png",
 	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
 	W82_TERMINAL: "res://assets/backgrounds/seoul_bus_terminal_night.png",
 	W82_DEPARTURE: "res://assets/backgrounds/seoul_bus_terminal_departure_v1.png",

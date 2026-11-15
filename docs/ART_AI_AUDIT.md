@@ -371,7 +371,7 @@
 | Background | `assets/backgrounds/aruba_delivery_street.png` | `aruba_delivery` | 1280x800 | no | `82f9531e9aff` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/burnout_hospital_room.png` | `burnout` | 1280x800 | no | `958398df156a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/cafe_seoul.png` | `cafe` | 1280x800 | no | `a8e34c6e5f11` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
-| Background | `assets/backgrounds/sangchul_cafe_stairs_v1.png` | `sangchul_cafe_stairs` | 1584x990 | no | `1b91d60bd588` | PASS-B | W132 신고 갈래의 하강만; 아래참 오른쪽 통로, 대사판 위 계단·난간·동선. |
+| Background | `assets/backgrounds/sangchul_cafe_stairs_v2.png` | `sangchul_cafe_stairs` | 1584x990 | no | `71062bf8de8c` | PASS-B | W132 신고 갈래 하강만; 아래참 바닥과 오른쪽 성인 폭 통로가 대사판 위에서 이어짐. v1 보존. |
 | Background | `assets/backgrounds/bank_exterior_wet_day.png` | `bank_exterior_wet_day` | 1280x800 | no | `b70a3f1bc6d0` | PASS-B | 원화 검수: 동일한 창구와 유리 출입문, 겨울 가로수·젖은 보도·유리에 남은 물방울. 활동 중인 비를 나타내는 빗줄기·인물·문자 없음. P1 마스터 아님. |
 | Background | `assets/backgrounds/bank_loan_counter_day.png` | `bank_loan_counter_day` | 1280x800 | no | `a8ed4f63e44f` | PASS-B | M14 무표기 상담 창구 하나와 직원 쪽 프린터. 날씨·인물 선취 없음. P1 마스터 아님. |
 | Background | `assets/backgrounds/bank_loan_exit_day.png` | `bank_loan_exit_day` | 1280x800 | no | `0169edd24ee5` | PASS-B | 마지막 결과에서 은행을 등지고 보는 건조한 겨울 거리. 글자·인물·낙우 없음. P1 마스터 아님. |
