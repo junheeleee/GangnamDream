@@ -777,6 +777,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
+[~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
+
 ### W153 다은과 한 시간 — 번역투 표적 검수
 
 [~] `arc_y4_three_promises` c1의 `result_text` 한 잎(`content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_chapter_themes.json`). ‘다른 화면을 뒤집는다’는 서술을 지나가며 보지 않은 한 대의 휴대폰으로 명료화하고, 빚을 들먹이지 말라는 다은의 대화는 구어체로 유지한다. 지하철·편의점·캔커피 하나·한 시간·받지 못한 병동 전화·환불 불가 결말은 그대로. 별도의 취소 연락이나 기기·효과·선택·후속·저장/데모/음향0 변경. 기존 다국어 수용 원장·기록만 동기화한다.
