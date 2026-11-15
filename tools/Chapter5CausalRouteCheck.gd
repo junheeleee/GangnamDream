@@ -140,7 +140,7 @@ func _ready() -> void:
 			+ "w212=singular-mirror-semantics "
 			+ "w210=ordered conditional=2 write_once=1 idempotent=1 "
 			+ "save=disk_roundtrip corrupt=closed legacy=closed effects=none "
-			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_no_early_paper_w201_w203_w204_w207_silent "
+			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_no_early_paper_w201_w203_w204_w207_w208_silent "
 			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
@@ -928,8 +928,8 @@ func _check_opening_receipt_audio_alignment() -> void:
 				_assert_no_opening_audio_cues(ROOT_IDS[2], deadline_sources,
 					"%s W197 deadline paragraphs" % language)
 
-		# W201/W203/W204/W207 each prepend one of three predecessor receipts.
-		# Their former paper/cup cues targeted a rendered source without the
+		# W201/W203/W204/W207/W208 each prepend one of three predecessor receipts.
+		# Their former paper/cup/scan cues targeted a rendered source without the
 		# named action or matching physical material.
 		for target: Dictionary in [
 			{
@@ -947,6 +947,10 @@ func _check_opening_receipt_audio_alignment() -> void:
 			{
 				"index": 7, "producer": 6, "background": "meeting",
 				"source_count": 6, "result_counts": [4, 3, 2],
+			},
+			{
+				"index": 8, "producer": 7, "background": "meeting",
+				"source_count": 4, "result_counts": [2],
 			},
 		]:
 			var target_index := int(target["index"])
@@ -984,8 +988,8 @@ func _check_opening_receipt_audio_alignment() -> void:
 					expected_description_sources.append(source_index)
 				var result_counts: Array = target["result_counts"]
 				var result_sources: Array = []
-				_expect(choices.size() == 3 and result_counts.size() == 3,
-					"%s %s lost its exact three choices" % [language, target_id])
+				_expect(not choices.is_empty() and choices.size() == result_counts.size(),
+					"%s %s lost its exact choice count" % [language, target_id])
 				for choice_index in range(choices.size()):
 					var raw_choice: Variant = choices[choice_index]
 					var result_indices: Array[int] = []
@@ -1050,6 +1054,10 @@ func _check_opening_receipt_audio_alignment() -> void:
 		"ambience": "office",
 		"music": {"key": "reckoning", "start_paragraph": 2.0},
 	}), "W207 retained early cup/paper, changed its office, or moved its score")
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[8]), {
+		"ambience": "office",
+		"suppress_music": true,
+	}), "W208 retained premature scan/page audio, changed its office, or opened score")
 
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
@@ -1071,7 +1079,9 @@ func _rendered_source_indices(story: Node, text: String) -> Array[int]:
 func _assert_no_opening_audio_cues(
 		event_id: String, source_indices: Array[int], context: String,
 		result_sources: Array = []) -> void:
-	var tracked_sounds := ["phone_notification", "page_turn", "paper_handle", "cup_set"]
+	var tracked_sounds := [
+		"phone_notification", "page_turn", "paper_handle", "cup_set", "register_scan",
+	]
 	var last_play_before: Dictionary = {}
 	for sound_id in tracked_sounds:
 		last_play_before[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)

@@ -734,11 +734,7 @@
     },
     "arc_y5_final_offer_reference_delivery": {
       "ambience": "office",
-      "suppress_music": true,
-      "paragraph_cues": {
-        "0": [{"sfx": "register_scan", "volume_db": -8.0}],
-        "1": [{"sfx": "page_turn", "volume_db": -8.0}]
-      }
+      "suppress_music": true
     },
     "arc_y5_jaehyuk_guarantee_request_reference": {
       "ambience": "current_housing",

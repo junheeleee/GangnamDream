@@ -835,6 +835,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W208 복합기 도입 오음 제거: `assets/scene_audio_manifest.json`의 `arc_y5_final_offer_reference_delivery`, `tools/Chapter5CausalRouteCheck.gd`, 이 증거·현황·일지만. 이전 선택을 회상하는 문단에서 켜지는 계산대 바코드 `register_scan`과, 복합기 앞에서 메모와 접힌 모서리를 펴기 전에 켜지는 `page_turn`만 제거한다. 실제 스캔 녹음은 출처·동작·짧은 재생 구간을 확인한 뒤 별도 선언, 전자 첨부 대조/전송 시 소리 발명0. 사무실 환경음·무곡, 분기·영수증·원고·저장·공개 RC 보존.
 
+[x] W208 오음 제거 표적: 실제 W207 세 선택 모두 W208 도달, 5언어×3=15에서 앞 회상 포함 4문단과 단일 결과 2문단의 바코드/페이지 넘김0. 회의실 배경·사무실 환경음·무곡·영수증 보존. 독립 scope GO, 격리 `cp1pyR` exit0/stderr0, fixture `d27ac426c1fa4d3629eb8ffcf7b6e5880f1fbc0bb59686d1cebb1e4246c08b2b`, 로그 `4db7a75eb57e77c8ea7e00f3208f3e2311b9125310d2e56d3543750a746c74da`. 5장 19루트/47선택·디스크 왕복과 장면 오디오 계약 통과. 새 규범0/일회성, 적합한 복합기 소리·실청취 별도.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
