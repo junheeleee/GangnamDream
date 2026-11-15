@@ -6113,7 +6113,7 @@ func _apply_w188_ktx_result(event_id: String, live_advance: bool) -> void:
 		and (event_id == W188_PLATFORM or _story_source_paragraph_index(_para_index) == 1)
 	if not onboard and _event_background_id != W188_NIGHT_KTX:
 		return
-	var destination := W188_NIGHT_KTX if onboard else str(_current.get("background", ""))
+	var destination: String = W188_NIGHT_KTX if onboard else str(_current.get("background", ""))
 	var surface_changed := destination != _event_background_id
 	if surface_changed:
 		var texture := ImageRegistry.load_texture(ImageRegistry.get_background(destination))
