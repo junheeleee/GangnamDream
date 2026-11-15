@@ -142,6 +142,7 @@ func _ready() -> void:
 			+ "save=disk_roundtrip corrupt=closed legacy=closed effects=none "
 			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_no_early_paper_w201_w203_w204_w207_w208_silent "
 			+ "w209_w210_audio=25_no_wrong_one_shots "
+			+ "w211_w212_audio=20_no_wrong_one_shots "
 			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
@@ -872,6 +873,7 @@ func _check_opening_receipt_audio_alignment() -> void:
 	var original_language: String = LocaleManager.language
 	var story: Node = STORY_MODE.new()
 	var guarantee_audio_path_count := 0
+	var guarantee_decision_audio_path_count := 0
 	for language in LocaleManager.SUPPORTED_LANGUAGES:
 		LocaleManager.set_language(language)
 		DataRegistry.reload()
@@ -965,6 +967,14 @@ func _check_opening_receipt_audio_alignment() -> void:
 				"index": 11, "producer": 10, "background": "current_housing",
 				"portrait": "player_tired", "source_count": 4, "result_counts": [2],
 			},
+			{
+				"index": 12, "producer": 11, "background": "current_housing",
+				"portrait": "daeun_normal", "source_count": 5, "result_counts": [3, 3, 3],
+			},
+			{
+				"index": 13, "producer": 12, "background": "current_housing",
+				"portrait": "player_tired", "source_count": 4, "result_counts": [2, 2, 2],
+			},
 		]:
 			var target_index := int(target["index"])
 			var producer_index := int(target["producer"])
@@ -1035,11 +1045,16 @@ func _check_opening_receipt_audio_alignment() -> void:
 					"%s %s receipt choice %d" % [language, target_id, selected_choice],
 					result_sources)
 				if target.has("portrait"):
-					guarantee_audio_path_count += 1
+					if target_index <= 11:
+						guarantee_audio_path_count += 1
+					else:
+						guarantee_decision_audio_path_count += 1
 					_expect(str(resolved.get("portrait", "")) == str(target["portrait"]),
-						"%s %s replaced Minjun with a remote or absent character" % [language, target_id])
+						"%s %s changed the authored portrait" % [language, target_id])
 	_expect(guarantee_audio_path_count == 25,
 		"W209/W210 lost coverage of 5 locales × (1 + 1 + 3) predecessor receipts")
+	_expect(guarantee_decision_audio_path_count == 20,
+		"W211/W212 lost coverage of 5 locales × (1 + 3) predecessor receipts")
 
 	var silent_room_contract := {
 		"ambience": "current_housing",
@@ -1084,6 +1099,14 @@ func _check_opening_receipt_audio_alignment() -> void:
 			"ambience": "current_housing",
 			"music": {"key": score_key, "start_paragraph": 1.0},
 		}), "%s retained a wrong one-shot or changed its room/score entrance" % target_id)
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[12]), {
+		"ambience": "current_housing",
+		"music": {"key": "reckoning", "start_paragraph": 2.0},
+	}), "W211 retained early paper or changed its room/score entrance")
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[13]), {
+		"ambience": "current_housing",
+		"music": {"key": "reckoning", "start_paragraph": 0.0},
+	}), "W212 retained phone/pen sound or changed its room/score entrance")
 
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
@@ -1107,7 +1130,7 @@ func _assert_no_opening_audio_cues(
 		result_sources: Array = []) -> void:
 	var tracked_sounds := [
 		"phone_notification", "page_turn", "paper_handle", "cup_set", "register_scan",
-		"traffic_pass",
+		"traffic_pass", "pen_write",
 	]
 	var last_play_before: Dictionary = {}
 	for sound_id in tracked_sounds:

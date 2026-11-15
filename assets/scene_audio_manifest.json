@@ -750,17 +750,11 @@
     },
     "arc_y5_guarantee_protected_show_daeun": {
       "ambience": "current_housing",
-      "music": {"key": "reckoning", "start_paragraph": 2},
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]}
+      "music": {"key": "reckoning", "start_paragraph": 2}
     },
     "arc_y5_jaehyuk_guarantee_decision_reference": {
       "ambience": "current_housing",
-      "music": {"key": "reckoning", "start_paragraph": 0},
-      "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]},
-        "1": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
-        "2": {"0": [{"sfx": "phone_notification", "volume_db": -7.0}]}
-      }
+      "music": {"key": "reckoning", "start_paragraph": 0}
     },
     "arc_sangchul_final_door": {
       "ambience": "office",
