@@ -5330,8 +5330,8 @@
         }
       },
       "presentation": {
-        "channel": "phone",
-        "state": "incoming",
+        "channel": "message",
+        "state": "received",
         "scene_location": "current_housing",
         "remote_location": "changwon_hospital",
         "remote_actor": "nurse",

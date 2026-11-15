@@ -3672,12 +3672,15 @@ func _check_w185_father_departure() -> bool:
 				var home := ImageRegistry.resolve_contextual_background_id("current_housing")
 				for page in range(intro_pages.size()):
 					await _finish_page()
-					if not _expect_w185_surface(home, false, "W185 intro"):
+					if not _expect_w185_surface(home, false, "W185 intro") \
+							or not _expect_w185_communication(-1, -1, false, "W185 intro"):
 						return false
 					_story.call("_on_advance")
 					await _wait_stable()
 				if not bool(_story.get("_showing_choices")):
 					_fail("W185 did not reach its three authored choices")
+					return false
+				if not _expect_w185_communication(-1, -1, false, "W185 choices"):
 					return false
 				var before_phenotype := _w177_phenotype_state()
 				var expected_phenotype: Dictionary = before_phenotype.duplicate(true)
@@ -3729,23 +3732,28 @@ func _check_w185_father_departure() -> bool:
 				for page in range(pages.size()):
 					await _finish_page()
 					var source := int(_story.call("_story_source_paragraph_index", page))
+					var first_source_one := source == 1 and not saw_source_one
 					if source == 1:
 						saw_source_one = true
 					var departed := choice == 0 and page >= cut
 					if source not in [0, 1] \
 							or not _w177_applied_state_matches(applied_state, "W185 live result") \
-							or not _expect_w185_surface(home, departed, "W185 result"):
+							or not _expect_w185_surface(home, departed, "W185 result") \
+							or not _expect_w185_communication(choice, source, departed, "W185 result"):
 						return false
-					if choice == 0 and page in [cut - 1, cut]:
+					var check_cold := choice == 0 and page in [cut - 1, cut] \
+						or call_index == 0 and choice in [1, 2] and first_source_one
+					if check_cold:
 						var context: Dictionary = _story.call("build_save_resume_context")
 						if not await _reload_authored_result_context(context, language, 2, 1, true) \
 								or int(_story.get("_para_index")) != page \
 								or int(_story.get("_result_location_cut_page")) != cut \
-								or (int(_story.get("_para_index")) >= cut) != departed \
+								or (choice == 0 and (int(_story.get("_para_index")) >= cut) != departed) \
 								or str(_story.get("_pending_follow_up")) != W185_FOLLOW_UPS[choice] \
 								or not _w177_applied_state_matches(applied_state, "W185 cold result") \
-								or not _expect_w185_surface(home, departed, "W185 cold result"):
-							_fail("W185 v4 load crossed the same-source taxi boundary")
+								or not _expect_w185_surface(home, departed, "W185 cold result") \
+								or not _expect_w185_communication(choice, source, departed, "W185 cold result"):
+							_fail("W185 v4 load changed the same-source contact or taxi boundary")
 							return false
 						await _finish_page()
 						restores += 1
@@ -3765,7 +3773,7 @@ func _check_w185_father_departure() -> bool:
 			return false
 	print("W185_FATHER_DEPARTURE_OK paths=%d v4=%d memories=%d" % [
 		paths, restores, memory_hits.size()])
-	return paths == 30 and restores == 20 and memory_hits.size() == 6
+	return paths == 30 and restores == 30 and memory_hits.size() == 6
 
 func _expect_w185_surface(home: String, departed: bool, label: String) -> bool:
 	var portrait := _story.get("_portrait_frame") as Control
@@ -3799,6 +3807,56 @@ func _expect_w185_surface(home: String, departed: bool, label: String) -> bool:
 			or not is_instance_valid(background) or background.texture != null \
 			or not _expect_no_ambience(label):
 		_fail("%s invented a taxi destination or retained a home ambience layer" % label)
+		return false
+	return true
+
+func _expect_w185_communication(choice: int, source: int, departed: bool, label: String) -> bool:
+	var expected_channel := "message"
+	var expected_state := "received"
+	var expected_remote_actor := "nurse"
+	var expected_remote_location := "changwon_hospital"
+	var expected_scene_location := "current_housing"
+	if departed:
+		expected_channel = "narration"
+		expected_state = ""
+		expected_remote_actor = ""
+		expected_remote_location = ""
+		expected_scene_location = ""
+	elif choice == 1:
+		expected_channel = "phone"
+		expected_state = "connected"
+		expected_remote_actor = "father" if source == 1 else "nurse"
+	elif choice == 0 and source == 0:
+		expected_state = "sent"
+		expected_remote_actor = ""
+		expected_remote_location = ""
+	elif choice == 2 and source == 0:
+		expected_state = "sent"
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var badge := _story.get("_communication_badge") as Control
+	var badge_label := _story.get("_communication_label") as Label
+	var labels: Array = W108_CONTACT[LocaleManager.language]
+	var expected_badge_label := ""
+	if expected_channel == "message":
+		expected_badge_label = str(labels[0])
+	elif expected_channel == "phone":
+		expected_badge_label = str(labels[1])
+	var expected_badge_visible := not expected_badge_label.is_empty()
+	if not is_instance_valid(badge) or not is_instance_valid(badge_label) \
+			or str(presentation.get("channel", "")) != expected_channel \
+			or str(presentation.get("state", "")) != expected_state \
+			or str(presentation.get("remote_actor", "")) != expected_remote_actor \
+			or str(presentation.get("remote_location", "")) != expected_remote_location \
+			or str(presentation.get("scene_location", "")) != expected_scene_location \
+			or str(presentation.get("portrait_role", "")) != "local" \
+			or bool(_story.get("_portrait_remote_inset")) \
+			or badge.visible != expected_badge_visible \
+			or badge_label.text != expected_badge_label:
+		_fail("%s communication mismatch c%d source%d expected=%s/%s/%s/%s/%s badge=%s actual=%s badge=%s/%s" % [
+			label, choice, source, expected_channel, expected_state, expected_remote_actor,
+			expected_remote_location, expected_scene_location, expected_badge_label,
+			presentation, badge.visible if is_instance_valid(badge) else false,
+			badge_label.text if is_instance_valid(badge_label) else "<missing>"])
 		return false
 	return true
 

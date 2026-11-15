@@ -5936,8 +5936,12 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	if _is_w181_intake_result():
 		_apply_w181_intake_surface(play_cut_cue)
 		return
-	if _is_w185_departure_result():
-		_apply_w185_departure_surface()
+	if event_id == W185_FATHER_CRISIS:
+		var in_taxi := _is_w185_departure_result() and _result_location_cut_page >= 0 \
+			and _para_index >= _result_location_cut_page
+		if _is_w185_departure_result():
+			_apply_w185_departure_surface(in_taxi)
+		_apply_w185_contact_presentation(in_taxi)
 		return
 	if _is_w167_family_table(event_id):
 		_apply_w167_family_table_surface()
@@ -6297,10 +6301,9 @@ func _is_w185_departure_result() -> bool:
 	return _pending_after_result and _pending_result_choice_index == 0 \
 		and str(_current.get("id", "")) == W185_FATHER_CRISIS
 
-func _apply_w185_departure_surface() -> void:
+func _apply_w185_departure_surface(in_taxi: bool) -> void:
 	# Only the last taxi sentence leaves home. No sourced taxi picture or
 	# recording is established here, and the train/ward has not been reached.
-	var in_taxi := _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page
 	var destination := "" if in_taxi else _resolve_story_background_id("current_housing")
 	if destination != _event_background_id:
 		var texture: Texture2D = null if in_taxi \
@@ -6314,8 +6317,10 @@ func _apply_w185_departure_surface() -> void:
 			BGMPlayer.update_event_ambience(_current, "", destination)
 	if in_taxi:
 		BGMPlayer.clear_ambience_immediate()
-	# Both pages belong to source paragraph 1, so a source-only refresh would
-	# leave the incoming-call badge on the taxi page (including after reflow).
+
+func _apply_w185_contact_presentation(in_taxi: bool) -> void:
+	# The ward's opening alert is a text. Only choice 1 dials the ward; the
+	# taxi cut shares a source paragraph with a reply but not its channel.
 	_current_presentation = DataRegistry.get_story_presentation(W185_FATHER_CRISIS).duplicate(true)
 	if in_taxi:
 		_current_presentation["channel"] = "narration"
@@ -6325,6 +6330,19 @@ func _apply_w185_departure_surface() -> void:
 		_current_presentation.erase("remote_location")
 		_current_presentation.erase("scene_location")
 		_current_presentation.erase("expected_background")
+	elif _pending_after_result:
+		var source := _story_source_paragraph_index(_para_index)
+		if _pending_result_choice_index == 1:
+			_current_presentation["channel"] = "phone"
+			_current_presentation["state"] = "connected"
+			if source >= 1:
+				_current_presentation["remote_actor"] = "father"
+		elif source == 0:
+			_current_presentation["state"] = "sent"
+			if _pending_result_choice_index == 0:
+				# The cancellation goes to the day's contact, not the ward.
+				_current_presentation.erase("remote_actor")
+				_current_presentation.erase("remote_location")
 	_update_communication_badge(str(_current_presentation.get("channel", "")),
 		str(_current_presentation.get("state", "")))
 
