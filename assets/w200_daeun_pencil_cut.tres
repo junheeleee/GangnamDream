@@ -1,0 +1,17 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/underline_anchors = {
+"ko": "다은은 4억 2천만원 아래에 짧은 선을 그었다.",
+"en": "Daeun drew a short line beneath 420 million won.",
+"ja": "ダウンは4億2,000万ウォンの下に、短い線を引いた。",
+"zh-CN": "Daeun在4亿2千万韩元下面画了一条短线。",
+"zh-TW": "Daeun 在4億2000萬韓元下畫了一小段線。"
+}
+metadata/vertical_anchors = {
+"ko": "다은은 파란 샤프로 ‘밤’과 ‘우선’ 사이에 세로선을 그었다.",
+"en": "With the blue pencil, Daeun drew a vertical line between ‘nights’ and ‘priority.’",
+"ja": "ダウンは青いシャープペンシルで、「夜」と「優先」の間に縦線を引いた。",
+"zh-CN": "Daeun用蓝色自动铅笔，在“夜间”和“优先”之间画了一道竖线。",
+"zh-TW": "Daeun 用藍色自動鉛筆，在「夜間」與「優先」之間畫了直線。"
+}

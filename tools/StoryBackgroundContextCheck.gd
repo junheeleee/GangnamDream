@@ -191,6 +191,9 @@ const W197_FOLDER_STARTS := {
 	"zh-CN": "{name}把装有R3原文的透明文件夹放在键盘旁，",
 	"zh-TW": "{name}把裝有 R3 原文的透明資料夾放在鍵盤旁，",
 }
+const W200_BOUNDARY := "arc_y5_protection_boundary_daeun"
+const W200_PENCIL_CUT := preload("res://assets/w200_daeun_pencil_cut.tres")
+const W200_TRACKED_SFX := ["pen_write", "cup_set", "paper_handle", "page_turn"]
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -536,6 +539,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W200_PENCIL_CHECK"):
+		var pencil_ok := await _check_w200_pencil_audio()
+		await _remove_story()
+		await _stop_audio()
+		if pencil_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w200_pencil_audio")
+		get_tree().quit(0 if pencil_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W196_CHECK"):
 		var friday_ok := await _check_w196_friday_vibration()
 		await _remove_story()
@@ -3662,6 +3673,346 @@ func _w181_commitment_matches(before: Array, event_id: String, choice: int,
 		and str(receipt.get("scene_background_id", "")) == home \
 		and actual_forgone == forgone \
 		and receipt.get("outcome", {}) == outcome
+
+func _check_w200_pencil_audio() -> bool:
+	var contract: Dictionary = BGMPlayer.scene_audio_contract(W200_BOUNDARY)
+	if str(contract.get("ambience", "")) != "cafe" \
+			or contract.get("music", {}) != {"key": "reckoning", "start_paragraph": 2.0} \
+			or contract.has("paragraph_cues") or contract.has("result_paragraph_cues"):
+		_fail("W200 changed its cafe/reckoning contract or retained an authored cup/paper cue")
+		return false
+	for key in ["underline_anchors", "vertical_anchors"]:
+		var anchors: Dictionary = W200_PENCIL_CUT.get_meta(key, {})
+		if anchors.size() != LocaleManager.SUPPORTED_LANGUAGES.size():
+			_fail("W200 %s lost its five-locale pencil anchors" % key)
+			return false
+		for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+			if str(anchors.get(language, "")).strip_edges().is_empty():
+				_fail("W200 %s lost its %s pencil anchor" % [key, language])
+				return false
+
+	var paths := 0
+	var guards := 0
+	var live_cues := 0
+	var restores := 0
+	var locale_reflows := 0
+	var text_size_reflows := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for producer_choice in range(3):
+			for choice in [0, 2]:
+				if not await _w200_open(language, producer_choice) \
+						or not await _w200_read_intro(producer_choice):
+					return false
+				_story.call("_on_choice", choice)
+				await _wait_stable()
+				var applied := _w196_applied_state()
+				if not _w200_cut_layout(choice) \
+						or not _w200_surface("W200 result entry", true) \
+						or not _w200_audio_matches(false, "W200 result entry") \
+						or not await _w200_seek_before_cut(choice, applied):
+					return false
+				await _finish_page()
+				if not _w200_audio_matches(false, "W200 before pencil sentence"):
+					return false
+
+				var representative: bool = language == "ko" and producer_choice == choice
+				if representative:
+					if not await _w200_reflow_boundary(choice, false, applied) \
+							or not await _w200_cold_boundary(choice, false, applied):
+						return false
+					restores += 1
+					locale_reflows += 2
+					text_size_reflows += 2
+					# A cold result restores prose/state but does not restart an already-
+					# entered score. Re-open the real path before measuring live continuity.
+					if not await _w200_open(language, producer_choice) \
+							or not await _w200_read_intro(producer_choice):
+						return false
+					_story.call("_on_choice", choice)
+					await _wait_stable()
+					applied = _w196_applied_state()
+					if not await _w200_seek_before_cut(choice, applied):
+						return false
+					await _finish_page()
+
+				_w200_clear_tracked()
+				_story.call("_on_advance")
+				var played_at := int(AudioManager._last_sfx_ms.get("pen_write", -1))
+				if played_at < 0 or not _w200_cut_structure(choice, true) \
+						or not _w196_state_matches(applied, "W200 live pencil cut") \
+						or not _w200_surface("W200 live pencil cut", true) \
+						or not _w200_audio_matches(true, "W200 live pencil cut"):
+					_fail("W200 c%d pencil sentence did not emit exactly one live pen_write" % choice)
+					return false
+				await _wait_stable()
+				await _finish_page()
+				if int(AudioManager._last_sfx_ms.get("pen_write", -1)) != played_at:
+					_fail("W200 pencil sentence replayed while completing the same page")
+					return false
+				live_cues += 1
+				_w200_clear_tracked()
+
+				if representative:
+					if not await _w200_reflow_boundary(choice, true, applied) \
+							or not await _w200_cold_boundary(choice, true, applied):
+						return false
+					restores += 1
+					locale_reflows += 2
+					text_size_reflows += 2
+				var last_source := int(_story.call("_story_source_paragraph_index",
+					int(_story.get("_para_index"))))
+				while int(_story.get("_para_index")) < (_story.get("_paragraphs") as Array).size() - 1:
+					await _finish_page()
+					var source := int(_story.call("_story_source_paragraph_index",
+						int(_story.get("_para_index"))))
+					if int(_story.get("_para_index")) < int(_story.get("_result_location_cut_page")) \
+							or source < last_source \
+							or not _w196_state_matches(applied, "W200 later result") \
+							or not _w200_surface("W200 later result", true, not representative) \
+							or not _w200_audio_matches(false, "W200 later result"):
+						return false
+					last_source = source
+					_story.call("_on_advance")
+					await _wait_stable()
+				paths += 1
+
+	# The timestamp comparison stays intentionally quiet for every W197 receipt.
+	for producer_choice in range(3):
+		if not await _w200_open("ko", producer_choice) \
+				or not await _w200_read_intro(producer_choice):
+			return false
+		_story.call("_on_choice", 1)
+		await _wait_stable()
+		var applied := _w196_applied_state()
+		if int(_story.get("_result_location_cut_page")) >= 0:
+			_fail("W200 quiet c1 unexpectedly gained a pencil cut")
+			return false
+		while true:
+			await _finish_page()
+			if not _w200_surface("W200 quiet c1", true) \
+					or not _w196_state_matches(applied, "W200 quiet c1") \
+					or not _w200_audio_matches(false, "W200 quiet c1"):
+				return false
+			if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+				break
+			_story.call("_on_advance")
+			await _wait_stable()
+		guards += 1
+
+	print("W200_PENCIL_AUDIO_OK paths=%d guards=%d v4=%d live_cues=%d locale_reflows=%d text_size_reflows=%d" % [
+		paths, guards, restores, live_cues, locale_reflows, text_size_reflows])
+	return paths == 30 and guards == 3 and restores == 4 and live_cues == 30 \
+		and locale_reflows == 8 and text_size_reflows == 8
+
+func _w200_open(language: String, producer_choice: int) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W200/producer%d" % [language, producer_choice]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.turn = 200
+	GameState.age = 37
+	GameState.month = 2
+	GameState.week_of_month = 4
+	GameState.housing = "oneroom"
+	GameState.money = 2_100_000_000.0
+	GameState.portfolio = {}
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.flags["route_invest"] = true
+	for flag in [
+		"arc_sangchul_met_seen", "arc_daeun_met", "daeun_romance_started",
+		"arc_minseo_02_seen", "arc_jaehyuk_reunion_seen", "arc_jaehyuk_aftermath_seen",
+	]:
+		GameState.flags[flag] = true
+	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(
+		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true,
+		GameState.get_total_asset_value())
+	if not bool(locked.get("ok", false)):
+		_fail("W200 fixture could not lock the actual Chapter 5 route")
+		return false
+	var state: Dictionary = locked["state"]
+	for step in [[0, 2], [1, 1], [2, producer_choice]]:
+		var index := int(step[0])
+		var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(
+			state, CHAPTER5_ROUTE.OWNED_EVENT_IDS[index], int(step[1]),
+			CHAPTER5_ROUTE.OWNED_TURNS[index])
+		if not bool(committed.get("ok", false)):
+			_fail("W200 fixture could not commit predecessor %d/%d" % [index, step[1]])
+			return false
+		state = committed["state"]
+	GameState.chapter5_causal_state = state
+	if GameState.chapter5_causal_next_event_for_turn() != W200_BOUNDARY:
+		_fail("W200 exact predecessor receipts did not admit the Daeun boundary")
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	GameState.pending_story_queue = [W200_BOUNDARY]
+	_w200_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W200_BOUNDARY \
+			or int(GameState.chapter5_causal_selected_choice(
+				CHAPTER5_ROUTE.OWNED_EVENT_IDS[2])) != producer_choice \
+			or not _w200_surface("W200 opening", false) \
+			or not _w200_audio_matches(false, "W200 opening"):
+		_fail("W200 StoryMode did not open its exact localized receipt path")
+		return false
+	return true
+
+func _w200_read_intro(producer_choice: int) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	var reads: Dictionary = current.get("chapter5_causal_reads", {})
+	var text_rows: Array = reads.get("texts", [])
+	var expected_prefix := ""
+	if text_rows.size() == 1 and text_rows[0] is Array \
+			and producer_choice < (text_rows[0] as Array).size():
+		expected_prefix = str(_story.call("_fmt", (text_rows[0] as Array)[producer_choice])).strip_edges()
+	var sources := authored.split("\n\n")
+	var untouched := _w196_applied_state()
+	if int(_story.call("_story_source_paragraph_count")) != 5 \
+			or sources.size() != 5 or str(sources[0]).strip_edges() != expected_prefix \
+			or not _m23_same_prose(pages, authored):
+		_fail("W200 lost its selected W197 receipt plus four authored sources")
+		return false
+	while not bool(_story.get("_showing_choices")):
+		var source := int(_story.call("_story_source_paragraph_index",
+			int(_story.get("_para_index"))))
+		await _finish_page()
+		if not _w200_surface("W200 intro", source >= 2) \
+				or not _w196_state_matches(untouched, "W200 intro") \
+				or not _w200_audio_matches(false, "W200 intro"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w196_state_matches(untouched, "W200 choices") \
+		and _w200_surface("W200 choices", true) \
+		and _w200_audio_matches(false, "W200 choices")
+
+func _w200_cut_layout(choice: int) -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var cut := int(_story.get("_result_location_cut_page"))
+	var anchors: Dictionary = W200_PENCIL_CUT.get_meta(
+		"underline_anchors" if choice == 0 else "vertical_anchors", {})
+	var anchor := str(_story.call("_fmt", anchors.get(LocaleManager.language, "")))
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	var authored := str(_story.call("_fmt", (choices[choice] as Dictionary).get("result_text", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 3 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored) \
+			or cut <= 0 or cut >= pages.size() or anchor.is_empty() \
+			or not str(pages[cut]).begins_with(anchor):
+		return false
+	if choice == 0:
+		return int(_story.call("_story_source_paragraph_index", cut - 1)) == 0 \
+			and int(_story.call("_story_source_paragraph_index", cut)) == 0
+	return int(_story.call("_story_source_paragraph_index", cut - 1)) == 1 \
+		and int(_story.call("_story_source_paragraph_index", cut)) == 2
+
+func _w200_cut_structure(choice: int, after_cut: bool) -> bool:
+	var page := int(_story.get("_para_index"))
+	var pages: Array = _story.get("_paragraphs")
+	var cut := int(_story.get("_result_location_cut_page"))
+	if not _w200_cut_layout(choice) or page < 0 or page >= pages.size() \
+			or (page >= cut) != after_cut:
+		return false
+	var source := int(_story.call("_story_source_paragraph_index", page))
+	return source == (0 if choice == 0 else (2 if after_cut else 1))
+
+func _w200_seek_before_cut(choice: int, applied: Dictionary) -> bool:
+	var cut := int(_story.get("_result_location_cut_page"))
+	while int(_story.get("_para_index")) < cut - 1:
+		await _finish_page()
+		if not _w200_surface("W200 approach to pencil", true) \
+				or not _w196_state_matches(applied, "W200 approach to pencil") \
+				or not _w200_audio_matches(false, "W200 approach to pencil"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		cut = int(_story.get("_result_location_cut_page"))
+	if int(_story.get("_para_index")) != cut - 1 \
+			or not _w200_cut_structure(choice, false):
+		_fail("W200 c%d did not settle before its pencil sentence" % choice)
+		return false
+	return true
+
+func _w200_cold_boundary(choice: int, after_cut: bool, applied: Dictionary) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var expected_source := 0 if choice == 0 else (2 if after_cut else 1)
+	_w200_clear_tracked()
+	if int(context.get("source_paragraph_index", -1)) != expected_source \
+			or not await _reload_authored_result_context(
+				context, LocaleManager.language, 3, expected_source) \
+			or not _w200_cut_structure(choice, after_cut) \
+			or not _w200_surface("W200 cold boundary", true, false) \
+			or not _w196_state_matches(applied, "W200 cold boundary") \
+			or not _w200_audio_matches(false, "W200 cold boundary"):
+		_fail("W200 c%d cold result crossed or replayed its pencil sentence" % choice)
+		return false
+	return true
+
+func _w200_reflow_boundary(choice: int, after_cut: bool, applied: Dictionary) -> bool:
+	for level in ["large", "standard"]:
+		_w200_clear_tracked()
+		_story.call("_set_story_text_size", level)
+		await _wait_stable()
+		if not _w200_cut_structure(choice, after_cut) \
+				or not _w200_surface("W200 text-size reflow", true) \
+				or not _w196_state_matches(applied, "W200 text-size reflow") \
+				or not _w200_audio_matches(false, "W200 text-size reflow"):
+			return false
+	for language in ["en", "ko"]:
+		_w200_clear_tracked()
+		_story.call("_set_story_language", language)
+		await _wait_stable()
+		if LocaleManager.language != language \
+				or not _w200_cut_structure(choice, after_cut) \
+				or not _w200_surface("W200 locale reflow", true) \
+				or not _w196_state_matches(applied, "W200 locale reflow") \
+				or not _w200_audio_matches(false, "W200 locale reflow"):
+			return false
+	return true
+
+func _w200_surface(label: String, expect_score: bool, verify_score: bool = true) -> bool:
+	var current_key := str(BGMPlayer.get("_current_key"))
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W200_BOUNDARY \
+			or str(_story.get("_event_background_id")) != "cafe" \
+			or str(BGMPlayer.get("_current_ambience_key")) != "cafe" \
+			or (verify_score and current_key != ("reckoning" if expect_score else "")):
+		_fail("%s changed W200 cafe or reckoning phase expected_score=%s actual=%s" % [
+			label, expect_score, current_key])
+		return false
+	return true
+
+func _w200_clear_tracked() -> void:
+	for sound_id in W200_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+func _w200_audio_matches(expect_pen: bool, label: String) -> bool:
+	var cue_keys := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		if not str(key).begins_with(W200_BOUNDARY + ":"):
+			return false
+		for sound_id in W200_TRACKED_SFX:
+			if str(key).ends_with(":" + sound_id):
+				return true
+		return false)
+	var invalid: Array[String] = []
+	for sound_id in W200_TRACKED_SFX:
+		var expected: bool = expect_pen and sound_id == "pen_write"
+		if AudioManager._last_sfx_ms.has(sound_id) != expected \
+				or _w197_sfx_stream_count(sound_id) != (1 if expected else 0):
+			invalid.append(sound_id)
+	if not invalid.is_empty() or not cue_keys.is_empty():
+		_fail("%s W200 cue mismatch invalid=%s authored=%s" % [label, invalid, cue_keys])
+		return false
+	return true
 
 func _check_w196_friday_vibration() -> bool:
 	var contract: Dictionary = BGMPlayer.scene_audio_contract(W196_DELIVERY)

@@ -714,8 +714,7 @@
     },
     "arc_y5_protection_boundary_daeun": {
       "ambience": "cafe",
-      "music": {"key": "reckoning", "start_paragraph": 2},
-      "paragraph_cues": {"1": [{"sfx": "cup_set", "volume_db": -7.0}]}
+      "music": {"key": "reckoning", "start_paragraph": 2}
     },
     "arc_y5_burnout_check_reference": {
       "ambience": "hospital",

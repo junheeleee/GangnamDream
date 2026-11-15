@@ -118,6 +118,8 @@ const W196_REVIEWER_DELIVERY := "arc_y5_contract_reviewer_delivery_sangchul"
 const W196_VIBRATE_CUT := preload("res://assets/w196_friday_notice_cut.tres")
 const W197_DEADLINE := "arc_y5_final_push_deadline_investment"
 const W197_FOLDER_CUT := preload("res://assets/w197_folder_cut.tres")
+const W200_DAEUN_PROTECTION := "arc_y5_protection_boundary_daeun"
+const W200_PENCIL_CUT := preload("res://assets/w200_daeun_pencil_cut.tres")
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -3464,6 +3466,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W185_FATHER_CRISIS and choice_index == 0) \
 		or (event_id in W192_YEAR_CLOSE_IDS and choice_index == 2) \
 		or (event_id == W196_REVIEWER_DELIVERY and choice_index == 2 and not _read_only_replay) \
+		or (event_id == W200_DAEUN_PROTECTION and choice_index in [0, 2] and not _read_only_replay) \
 		or (event_id in [W167_DAEUN_TABLE, W167_LATE_TABLE] and choice_index == 0) \
 		or (event_id == W167_UNATTACHED_TABLE and choice_index in [1, 2]) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
@@ -3563,6 +3566,8 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
+	if event_id == W200_DAEUN_PROTECTION:
+		return _w200_daeun_pencil_pages(_fmt(raw), choice_index)
 	if _is_w167_family_table(event_id):
 		var beat := "daeun_entry" if event_id == W167_DAEUN_TABLE else "late_entry"
 		if event_id == W167_UNATTACHED_TABLE:
@@ -3660,6 +3665,21 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 				pages.append(page)
 				source_indices.append(source_index)
 	return {"pages": pages, "source_indices": source_indices, "result_location_cut_page": cut_page}
+
+func _w200_daeun_pencil_pages(prose: String, choice_index: int) -> Dictionary:
+	var anchors: Dictionary = W200_PENCIL_CUT.get_meta(
+		"underline_anchors" if choice_index == 0 else "vertical_anchors", {})
+	var anchor: String = str(anchors.get(LocaleManager.language, ""))
+	var sources := prose.split("\n\n")
+	if sources.size() != 3 or anchor.is_empty():
+		return _story_page_data(prose)
+	if choice_index == 0:
+		return _split_formatted_story_page(prose, 0, anchor)
+	var data := _story_page_data(prose)
+	# Drawing the vertical line already opens this paragraph; don't add a page.
+	if sources[2].begins_with(anchor) and sources[2].count(anchor) == 1:
+		data["result_location_cut_page"] = (data["source_indices"] as Array).find(2)
+	return data
 
 func _split_formatted_story_page(prose: String, source_index: int, anchor: String) -> Dictionary:
 	var sources := prose.split("\n\n")
@@ -7575,6 +7595,10 @@ func _on_advance():
 				and str(_current.get("id", "")) == W196_REVIEWER_DELIVERY:
 			# The calendar alert comes after sending the file, not with the upload.
 			AudioManager.play("phone_vibrate", -8.0)
+		elif not _read_only_replay and _pending_after_result and _pending_result_choice_index in [0, 2] \
+				and _para_index == _result_location_cut_page \
+				and str(_current.get("id", "")) == W200_DAEUN_PROTECTION:
+			AudioManager.play("pen_write", -9.0)
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
 			if str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:
