@@ -795,6 +795,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W192 옥상 바람 한정: `arc_year4_close`·`arc_year4_close_father_passed` 선택 3 결과의 두 번째 원문 단락 안, 옥상문을 닫는 마지막 문장부터 환경 3층을 끊는다. `StoryMode.gd`, `assets/w192_year4_close_wind_cut.tres`의 양쪽 5언어 앵커, `StoryBackgroundContextCheck.gd`·이 증거·일지/현황만. 앵커 전/다른 선택의 겨울바람과 애도 아닌 성찰곡 `reckoning`, 닫힌 문이 이미 있는 기존 옥상 그림·초상, 정본·경로/효과/영수증·저장/공개 RC 보존. 내부 역샷·문 닫는 새 효과음 0. W189–190의 833 원고와 분리.
 
+[~] W192 문 안쪽 원화 후보만. 위 문장 뒤에도 옥상 바깥에서 보는 그림은 바람이 멎는 듣는 자리와 어긋난다. 기존 `year4_winter_rooftop.png`의 어두운 청회색 철문·좁은 판유리·따뜻한 계단실 빛을 반대편 시점으로 연결하고 다른 건물/층·인물·손·새 날씨를 만들지 않는다. 외부 원본·이하 제품 배선 변경0. 독립 후보 검수 뒤 새 배선을 선언한다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
