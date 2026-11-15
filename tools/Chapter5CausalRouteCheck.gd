@@ -140,7 +140,7 @@ func _ready() -> void:
 			+ "w212=singular-mirror-semantics "
 			+ "w210=ordered conditional=2 write_once=1 idempotent=1 "
 			+ "save=disk_roundtrip corrupt=closed legacy=closed effects=none "
-			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_no_early_paper_w201_w203_silent "
+			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_no_early_paper_w201_w203_w204_w207_silent "
 			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
@@ -928,17 +928,25 @@ func _check_opening_receipt_audio_alignment() -> void:
 				_assert_no_opening_audio_cues(ROOT_IDS[2], deadline_sources,
 					"%s W197 deadline paragraphs" % language)
 
-		# W201 and W203 each prepend one of three predecessor receipts to a
-		# three-source body. Their former paper/cup cues targeted a rendered
-		# source that did not contain the named physical action.
+		# W201/W203/W204/W207 each prepend one of three predecessor receipts.
+		# Their former paper/cup cues targeted a rendered source without the
+		# named action or matching physical material.
 		for target: Dictionary in [
 			{
 				"index": 4, "producer": 3, "background": "hospital_clinic_day",
-				"result_counts": [2, 2, 3],
+				"source_count": 4, "result_counts": [2, 2, 3],
 			},
 			{
 				"index": 5, "producer": 4, "background": "cafe",
-				"result_counts": [3, 3, 2],
+				"source_count": 4, "result_counts": [3, 3, 2],
+			},
+			{
+				"index": 6, "producer": 5, "background": "cafe",
+				"source_count": 6, "result_counts": [3, 3, 3],
+			},
+			{
+				"index": 7, "producer": 6, "background": "meeting",
+				"source_count": 6, "result_counts": [4, 3, 2],
 			},
 		]:
 			var target_index := int(target["index"])
@@ -970,6 +978,10 @@ func _check_opening_receipt_audio_alignment() -> void:
 					expected_prefix = str((rows[0] as Array)[selected_choice]).strip_edges()
 				var rendered_sources := description.split("\n\n")
 				var choices: Array = resolved.get("choices", [])
+				var source_count := int(target["source_count"])
+				var expected_description_sources: Array[int] = []
+				for source_index in range(source_count):
+					expected_description_sources.append(source_index)
 				var result_counts: Array = target["result_counts"]
 				var result_sources: Array = []
 				_expect(choices.size() == 3 and result_counts.size() == 3,
@@ -988,12 +1000,19 @@ func _check_opening_receipt_audio_alignment() -> void:
 						"%s %s choice result source indices drifted" % [language, target_id])
 				_expect(not resolved.is_empty() \
 					and description == _expected_read_description(raw_target as Dictionary, state) \
-					and rendered_sources.size() == 4 \
+					and rendered_sources.size() == source_count \
 					and str(rendered_sources[0]).strip_edges() == expected_prefix \
-					and description_sources == [0, 1, 2, 3] \
+					and description_sources == expected_description_sources \
 					and str(resolved.get("background", "")) == str(target["background"]),
 					"%s %s choice %d lost its exact receipt/source0/room" % [
 						language, target_id, selected_choice])
+				if target_id == ROOT_IDS[7] and choices.size() == 3:
+					var result_choice: Dictionary = choices[2]
+					_expect(str(result_choice.get("result_background", "")) == "cafe" \
+						and str(result_choice.get("result_ambience", "")) == "cafe" \
+						and str(result_choice.get("result_portrait", "")) == "daeun_normal",
+						"%s W207 choice 2 lost its authored cafe/Daeun result surface" \
+							% language)
 				_assert_no_opening_audio_cues(
 					target_id, description_sources,
 					"%s %s receipt choice %d" % [language, target_id, selected_choice],
@@ -1023,6 +1042,14 @@ func _check_opening_receipt_audio_alignment() -> void:
 		"ambience": "cafe",
 		"suppress_music": true,
 	}), "W203 retained a cup cue, changed its cafe, or opened score")
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[6]), {
+		"ambience": "cafe",
+		"music": {"key": "daeun", "start_paragraph": 2.0},
+	}), "W204 retained napkin paper, changed its cafe, or moved its score")
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[7]), {
+		"ambience": "office",
+		"music": {"key": "reckoning", "start_paragraph": 2.0},
+	}), "W207 retained early cup/paper, changed its office, or moved its score")
 
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()

@@ -726,16 +726,11 @@
     },
     "arc_y5_after_goal_daeun": {
       "ambience": "cafe",
-      "music": {"key": "daeun", "start_paragraph": 2},
-      "paragraph_cues": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+      "music": {"key": "daeun", "start_paragraph": 2}
     },
     "arc_y5_final_offer": {
       "ambience": "office",
-      "music": {"key": "reckoning", "start_paragraph": 2},
-      "paragraph_cues": {
-        "0": [{"sfx": "cup_set", "volume_db": -8.0}],
-        "1": [{"sfx": "paper_handle", "volume_db": -6.0}]
-      }
+      "music": {"key": "reckoning", "start_paragraph": 2}
     },
     "arc_y5_final_offer_reference_delivery": {
       "ambience": "office",
