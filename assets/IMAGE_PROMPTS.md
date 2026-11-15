@@ -1267,6 +1267,11 @@ sips --resampleHeightWidth 800 1280
 - `assets/backgrounds/ktx_changwon_winter_night_w188_v1.png` 1584×990, SHA-256 `5d2ece543d130d71a98f0df6a5d258f1aa6741ea203d41af2783df77fee2a380`. 내장 편집 `exec-a4b55f73-55b4-4052-a573-337c1ef99840.png` 1586×992, SHA-256 `47159972190328a0ed64358a302da3564dba6ab3021b10444015ca166187a519`. 네 가장자리 1px 중앙 크롭.
 - 편집 대상 `ktx_changwon_first_train_predawn.png`의 통로·푸른 2인석·창 프레임·무광 붓결 유지. `seoul_station_ktx_platform_winter.png`는 바깥 검푸른 겨울밤 색만 참고. 창 밖 수평으로 흐르는 땅과 희미한 불빛은 대사창 위. 여명·승강장·인물·문자·상표·비/눈·사진 질감 없음.
 
+## 2026-11-15 — W192 옥상 철문 안쪽
+
+- `assets/backgrounds/year4_rooftop_door_inside_w192_v1.png` 1584×990, SHA-256 `e6d13518d2c4aff202780fb2474dd763959f57125f2e6121a3f5267b7de00543`. 내장 편집 `exec-2613f31a-9a69-453c-8bee-c84d90c7534c.png` 1585×992, SHA-256 `329919eb08a7a6596850ca8bfd03c2a3574141b339fcef9b5d59c35bfb2db9e1`. 중앙 크롭만.
+- 입력 `year4_winter_rooftop.png`. 안쪽 시점의 청회색 단일 문짝, 반대편 손잡이와 문에 붙은 동일한 두 좁은 유리, 두 창 너머 동일한 차가운 밤/난간, 실내 무광 콘크리트와 따뜻한 한 등. 이음과 발광 옆창을 만들었던 `exec-e7c222bc-1b8f-4da0-9586-f71d8015d7fc.png` (`ea7f302e7fa2…`)는 반려. 인물·손·날씨 발명 없음.
+
 ## 2026-11-14 — M07 공용 세면대
 
 - 최종: `assets/backgrounds/goshiwon_shared_washbasin_v1.png`, 1584×990, SHA-256 `52e30cbb8e5e046877e7dcb522e2427156a679643b0be0e7ee499fcc147ec815`.

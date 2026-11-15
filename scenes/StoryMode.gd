@@ -110,6 +110,10 @@ const W185_DEPARTURE_CUT := preload("res://assets/w185_father_departure_cut.tres
 const W188_PLATFORM := "arc_father_passing_platform"
 const W188_DEAL_ROOM := "arc_father_passing_deal_room"
 const W188_NIGHT_KTX := "ktx_changwon_winter_night_w188"
+const W192_YEAR_CLOSE_IDS := ["arc_year4_close", "arc_year4_close_father_passed"]
+const W192_WIND_CUT := preload("res://assets/w192_year4_close_wind_cut.tres")
+const W192_ROOFTOP := "year4_winter_rooftop"
+const W192_DOOR_INSIDE := "year4_rooftop_door_inside_w192"
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -2819,6 +2823,9 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 			BGMPlayer.play_scene_paragraph_music(_current, "", 1)
 	elif result_phase and _is_w220_cafe_choice():
 		BGMPlayer.play_scene_paragraph_music(_current, "", 1)
+	elif result_phase and _is_w192_door_result():
+		# A saved result has already passed the score's prose entrance.
+		BGMPlayer.play_scene_paragraph_music(_current, "", 2)
 	elif str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		# Restore the sustained score only if the authored entrance was passed.
 		# No contact, police, or navigation one-shot belongs to resume.
@@ -3446,6 +3453,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W164_DAEUN_WITNESS and choice_index == 0) \
 		or (event_id in [W181_DAEUN_BILL, W181_UNATTACHED_BILL] and choice_index == 1) \
 		or (event_id == W185_FATHER_CRISIS and choice_index == 0) \
+		or (event_id in W192_YEAR_CLOSE_IDS and choice_index == 2) \
 		or (event_id in [W167_DAEUN_TABLE, W167_LATE_TABLE] and choice_index == 0) \
 		or (event_id == W167_UNATTACHED_TABLE and choice_index in [1, 2]) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
@@ -3526,6 +3534,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		return _story_page_data(_fmt(raw))
 	if event_id == W185_FATHER_CRISIS:
 		var anchors: Dictionary = W185_DEPARTURE_CUT.get_meta("taxi_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
+	if event_id in W192_YEAR_CLOSE_IDS:
+		var anchors: Dictionary = W192_WIND_CUT.get_meta(event_id, {})
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
@@ -4748,6 +4761,8 @@ func _resolved_story_surface_portrait_id() -> String:
 		return ""
 	if _event_background_id == W188_NIGHT_KTX:
 		return ""
+	if _event_background_id == W192_DOOR_INSIDE:
+		return ""
 	if _is_w96_station_result() or _is_m27_pitch_home_result():
 		return ""
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER and _event_background_id != "meeting":
@@ -5926,6 +5941,10 @@ func _is_w132_stair_result() -> bool:
 		and _pending_result_choice_index == 0 and _result_location_cut_page >= 0 \
 		and _para_index >= _result_location_cut_page
 
+func _is_w192_door_result() -> bool:
+	return _pending_after_result and _pending_result_choice_index == 2 \
+		and str(_current.get("id", "")) in W192_YEAR_CLOSE_IDS
+
 func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	var background_id := _w8_result_background_for_page(_para_index)
 	var event_id := str(_current.get("id", ""))
@@ -5950,6 +5969,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 		return
 	if event_id == W188_PLATFORM or event_id == W188_DEAL_ROOM:
 		_apply_w188_ktx_result(event_id, play_cut_cue)
+		return
+	if _is_w192_door_result() and _result_location_cut_page >= 0:
+		_apply_w192_rooftop_door(_para_index >= _result_location_cut_page, play_cut_cue)
 		return
 	if _is_w167_family_table(event_id):
 		_apply_w167_family_table_surface()
@@ -6146,6 +6168,39 @@ func _apply_w188_ktx_result(event_id: String, live_advance: bool) -> void:
 		# The meeting's exact event audio overrides any background fallback.
 		# Drop only its space bed (and outdoor layers), never the grief score.
 		BGMPlayer.clear_ambience_immediate()
+
+func _apply_w192_rooftop_door(is_inside: bool, live_advance: bool) -> void:
+	# Writing the date is still outdoors. The closing sentence is seen and
+	# heard from the other side of the same door, without ending the score.
+	var destination := W192_DOOR_INSIDE if is_inside else W192_ROOFTOP
+	var changed := destination != _event_background_id
+	if changed:
+		var texture := ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+		if texture == null:
+			return
+		if live_advance:
+			_begin_story_scene_transition("explicit_move")
+		else:
+			_finish_story_scene_transition()
+		_bg_img.texture = texture
+		_event_background_id = destination
+	if changed or (is_inside and _current_presentation.get("scene_location", "") != destination):
+		_current_presentation = DataRegistry.get_story_presentation(str(_current.get("id", ""))).duplicate(true)
+		if is_inside:
+			_current_presentation["channel"] = "narration"
+			_current_presentation["scene_location"] = destination
+			_current_presentation["portrait_role"] = "none"
+			_current_presentation["participants"] = ["player"]
+		_show_portrait(_resolved_story_surface_portrait_id(), bool(_current.get("bg_focus", false)))
+	if changed:
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+	if is_inside:
+		BGMPlayer.clear_ambience_immediate()
+		if changed and live_advance:
+			AudioManager.play("door_latch", -10.0)
+	elif BGMPlayer._current_ambience_key != "winter":
+		BGMPlayer.update_event_ambience(_current, "", destination)
 
 func _apply_w19_reunion_surface(live_advance: bool) -> void:
 	var arrived := _pending_after_result or _showing_choices \

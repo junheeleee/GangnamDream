@@ -557,6 +557,9 @@ weather, romance, and historical portraits remain fixed.
 - `assets/backgrounds/ktx_changwon_winter_night_w188_v1.png`
   - `ktx_changwon_winter_night_w188`: inside the moving train only on the two boarded W188 results, after the meeting exit paragraph when applicable. Winter darkness, receding ground lights, and the same cabin proportions as the first-train reference; no platform, people, added weather, or branding.
 
+- `assets/backgrounds/year4_rooftop_door_inside_w192_v1.png`
+  - `year4_rooftop_door_inside_w192`: reverse view of the same single blue steel door and two narrow panes, only after it closes on the fourth-year rooftop envelope result. No actor, weather inside, or invented building.
+
 - `assets/backgrounds/regional_train_window_summer.png`
   - Person-free interior of a modest Korean intercity train with a two-seat window pair and summer rice paddies outside.
   - Runtime IDs `ktx_window` and `regional_train_window` both resolve here. Use for written in-train window scenes; do not substitute the outdoor `hometown_train_station` platform.

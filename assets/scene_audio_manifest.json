@@ -82,6 +82,7 @@
     "rooftop_day": "street",
     "rooftop_night": "street",
     "year4_winter_rooftop": "street",
+    "year4_rooftop_door_inside_w192": "intentional_silence",
     "hagwon_street": "hagwon",
     "suneung_test_hall": "school",
     "community_center": "public_office",

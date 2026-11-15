@@ -1161,6 +1161,14 @@
     {
       "kind": "background",
       "ids": [
+        "year4_rooftop_door_inside_w192"
+      ],
+      "relative_path": "backgrounds/year4_rooftop_door_inside_w192_v1.png",
+      "resolution": "1584x990"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "year4_winter_rooftop"
       ],
       "relative_path": "backgrounds/year4_winter_rooftop.png",

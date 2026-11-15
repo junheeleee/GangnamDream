@@ -175,6 +175,11 @@ const W188_FOLLOW_UPS := [
 	"arc_father_passing_hospital_room",
 	"arc_father_passing_deal_morning",
 ]
+const W192_ROOT := "arc_year4_close"
+const W192_DEAD := "arc_year4_close_father_passed"
+const W192_BG := "year4_winter_rooftop"
+const W192_INSIDE := "year4_rooftop_door_inside_w192"
+const W192_WIND_CUT := preload("res://assets/w192_year4_close_wind_cut.tres")
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -422,6 +427,8 @@ const EXACT_PATHS := {
 	W177_CORRIDOR: W177_CORRIDOR_PATH,
 	W188_PLATFORM_BG: "res://assets/backgrounds/seoul_station_ktx_platform_winter.png",
 	W188_ONBOARD_BG: "res://assets/backgrounds/ktx_changwon_winter_night_w188_v1.png",
+	W192_BG: "res://assets/backgrounds/year4_winter_rooftop.png",
+	W192_INSIDE: "res://assets/backgrounds/year4_rooftop_door_inside_w192_v1.png",
 	W57_GATE: "res://assets/backgrounds/changwon_station_arrival_gate_v1.png",
 	W57_TABLE: "res://assets/backgrounds/changwon_home_medication_table_v1.png",
 	W53_DINING: "res://assets/backgrounds/sangchul_private_dining.png",
@@ -518,6 +525,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W192_CHECK"):
+		var year_close_ok := await _check_w192_year_close_wind()
+		await _remove_story()
+		await _stop_audio()
+		if year_close_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w192_year_close_wind")
+		get_tree().quit(0 if year_close_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W188_CHECK"):
 		var platform_ok := await _check_w188_platform_silence()
 		var deal_ok := false
@@ -3620,6 +3635,301 @@ func _w181_commitment_matches(before: Array, event_id: String, choice: int,
 		and str(receipt.get("scene_background_id", "")) == home \
 		and actual_forgone == forgone \
 		and receipt.get("outcome", {}) == outcome
+
+func _check_w192_year_close_wind() -> bool:
+	var paths := 0
+	var restores := 0
+	var locale_reflows := 0
+	for event_id in [W192_ROOT, W192_DEAD]:
+		var anchors: Dictionary = W192_WIND_CUT.get_meta(event_id, {})
+		if anchors.size() != LocaleManager.SUPPORTED_LANGUAGES.size():
+			_fail("W192 wind cut lost a five-locale event map for %s" % event_id)
+			return false
+		for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+			if not anchors.has(language) or str(anchors[language]).strip_edges().is_empty():
+				_fail("W192 wind cut lost %s/%s" % [event_id, language])
+				return false
+			if not await _w192_open(event_id, language):
+				return false
+			if not await _w192_read_intro("W192 %s/%s" % [event_id, language]):
+				return false
+			var current: Dictionary = _story.get("_current")
+			var choices: Array = current.get("choices", [])
+			if not bool(_story.get("_showing_choices")) or choices.size() != 3 \
+					or not _expect_w192_surface(false, true, -1, "W192 choices"):
+				_fail("W192 did not reach its exact three choices on the windy rooftop")
+				return false
+			var score_token := int(BGMPlayer._punctuation_token)
+			var before_flags: Dictionary = GameState.flags.duplicate(true)
+			var before_events := int(GameState.events_seen)
+			var before_log: Array = GameState.event_log.duplicate(true)
+			var before_deferred: Array = GameState.deferred_events.duplicate(true)
+			var before_mental := float(GameState.mental)
+			var before_meta: Dictionary = MetaProgression.data.duplicate(true)
+			_story.call("_on_choice", 2)
+			await _wait_stable()
+			var applied_state := _w177_applied_state()
+			if not _w192_choice_matches(before_flags, before_events, before_log,
+					before_deferred, before_mental, event_id, 2):
+				return false
+			var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+			var cut := int(_story.get("_result_location_cut_page"))
+			var authored := str(_story.call("_fmt", str(choices[2].get("result_text", ""))))
+			if int(_story.call("_story_source_paragraph_count")) != 2 \
+					or pages.is_empty() or not _m23_same_prose(pages, authored) \
+					or cut <= 0 or cut >= pages.size() \
+					or int(_story.call("_story_source_paragraph_index", cut - 1)) != 1 \
+					or int(_story.call("_story_source_paragraph_index", cut)) != 1 \
+					or not str(pages[cut]).begins_with(str(anchors[language])):
+				_fail("W192 localized last-sentence cut no longer preserves source paragraph one")
+				return false
+			for page in range(pages.size()):
+				await _finish_page()
+				var closed := page >= cut
+				var live_latch := 1 if page == cut else (0 if page < cut else -1)
+				if int(_story.call("_story_source_paragraph_index", page)) not in [0, 1] \
+						or not _w177_applied_state_matches(applied_state, "W192 live result") \
+						or not _expect_w192_surface(
+							closed, true, score_token, "W192 result", live_latch):
+					return false
+				if event_id == W192_ROOT and language == "ko" and page in [cut - 1, cut]:
+					AudioManager._last_sfx_ms.erase("door_latch")
+					for target_language in ["en", "ko"]:
+						_story.call("_set_story_language", target_language)
+						await _wait_stable()
+						var rebound_cut := int(_story.get("_result_location_cut_page"))
+						var rebound_page := int(_story.get("_para_index"))
+						if LocaleManager.language != target_language \
+								or str((_story.get("_current") as Dictionary).get("id", "")) != event_id \
+								or rebound_cut <= 0 \
+								or (rebound_page >= rebound_cut) != closed \
+								or not _w177_applied_state_matches(applied_state, "W192 locale reflow") \
+								or not _expect_w192_surface(
+									closed, true, score_token, "W192 locale reflow", 0):
+							_fail("W192 KO/EN reflow crossed the authored door boundary")
+							return false
+						locale_reflows += 1
+				if page in [cut - 1, cut]:
+					var context: Dictionary = _story.call("build_save_resume_context")
+					AudioManager._last_sfx_ms.erase("door_latch")
+					if not await _reload_authored_result_context(context, language, 2, 1, true):
+						return false
+					await _wait_stable()
+					var cold_cut := int(_story.get("_result_location_cut_page"))
+					var cold_page := int(_story.get("_para_index"))
+					if str((_story.get("_current") as Dictionary).get("id", "")) != event_id \
+							or cold_cut <= 0 or cold_page != page \
+							or (cold_page >= cold_cut) != closed \
+							or not _w177_applied_state_matches(applied_state, "W192 cold result") \
+							or not _expect_w192_surface(closed, true, -1, "W192 cold result", 0):
+						_fail("W192 v4 restore crossed the same-source door boundary")
+						return false
+					# Cold reconstruction intentionally resumes the sustained score with a
+					# fresh player token. Continue live-cut continuity from that verified token.
+					score_token = int(BGMPlayer._punctuation_token)
+					await _finish_page()
+					restores += 1
+				if page + 1 < pages.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			if not _w177_applied_state_matches(applied_state, "W192 final result") \
+					or MetaProgression.data != before_meta:
+				_fail("W192 result reading changed applied choice or gallery state")
+				return false
+			paths += 1
+	# The two unaffected choices keep the original winter rooftop, score, prose,
+	# effects and delayed reckoning on the canonical KO event.
+	for choice in [0, 1]:
+		if not await _w192_open(W192_ROOT, "ko") \
+				or not await _w192_read_intro("W192 unaffected c%d" % choice):
+			return false
+		var current: Dictionary = _story.get("_current")
+		var choices: Array = current.get("choices", [])
+		var score_token := int(BGMPlayer._punctuation_token)
+		var before_flags: Dictionary = GameState.flags.duplicate(true)
+		var before_events := int(GameState.events_seen)
+		var before_log: Array = GameState.event_log.duplicate(true)
+		var before_deferred: Array = GameState.deferred_events.duplicate(true)
+		var before_mental := float(GameState.mental)
+		_story.call("_on_choice", choice)
+		await _wait_stable()
+		var applied_state := _w177_applied_state()
+		var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+		var authored := str(_story.call("_fmt", str(choices[choice].get("result_text", ""))))
+		if not _w192_choice_matches(before_flags, before_events, before_log,
+				before_deferred, before_mental, W192_ROOT, choice) \
+				or int(_story.get("_result_location_cut_page")) >= 0 \
+				or int(_story.call("_story_source_paragraph_count")) != 2 \
+				or pages.is_empty() or not _m23_same_prose(pages, authored):
+			_fail("W192 unaffected choice c%d changed its source/effect contract" % choice)
+			return false
+		for page in range(pages.size()):
+			await _finish_page()
+			if not _w177_applied_state_matches(applied_state, "W192 unaffected result") \
+					or not _expect_w192_surface(false, true, score_token,
+						"W192 unaffected result"):
+				return false
+			if page + 1 < pages.size():
+				_story.call("_on_advance")
+				await _wait_stable()
+	print("W192_YEAR_CLOSE_WIND_OK paths=%d v4=%d locale_reflows=%d guards=2" % [
+		paths, restores, locale_reflows])
+	return paths == 10 and restores == 20 and locale_reflows == 4
+
+func _w192_open(event_id: String, language: String) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W192/%s" % [language, event_id]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	GameState.start_new_game()
+	GameState.turn = 192
+	GameState.week_of_month = 4
+	GameState.month = 12
+	GameState.year = 2029
+	GameState.age = 36
+	GameState.housing = "oneroom"
+	GameState.mental = 80.0
+	for flag in [
+		"prologue_done", "chapter_33_seen", "chapter_34_seen", "chapter_35_seen",
+		"chapter_36_seen", "arc_year1_close_seen", "arc_year3_close_seen",
+	]:
+		GameState.flags[flag] = true
+	var father_passed := event_id == W192_DEAD
+	if father_passed:
+		GameState.flags["father_passed"] = true
+		GameState.flags["arc_father_passing_seen"] = true
+		GameState.cast["father"]["stage"] = "passed"
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var selected := str(ingress.call("_next_arc_id", -1, true))
+	ingress.free()
+	if selected != W192_ROOT:
+		_fail("W192 exact calendar did not select the canonical year-close root: %s" % selected)
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	if EventManager.live_event_variant_id(W192_ROOT) != event_id:
+		_fail("W192 father state did not resolve the expected live event %s" % event_id)
+		return false
+	EventManager.queue_event(DataRegistry.find_event(W192_ROOT))
+	var live: Dictionary = EventManager.get_next_event()
+	EventManager.current_event = {}
+	EventManager.pending_events.clear()
+	if str(live.get("id", "")) != event_id:
+		_fail("W192 EventManager substitution did not yield %s" % event_id)
+		return false
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	GameState.pending_story_queue = [event_id]
+	AudioManager._last_sfx_ms.erase("door_latch")
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	if str((_story.get("_current") as Dictionary).get("id", "")) != event_id:
+		_fail("W192 StoryMode did not open %s" % event_id)
+		return false
+	return true
+
+func _w192_read_intro(label: String) -> bool:
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	if int(_story.call("_story_source_paragraph_count")) != 3 or pages.is_empty():
+		_fail("%s lost its three-source intro" % label)
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		var source := int(_story.call("_story_source_paragraph_index", page))
+		if source not in [0, 1, 2] \
+				or not _expect_w192_surface(false, source >= 2, -1, "%s intro" % label):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return true
+
+func _expect_w192_surface(closed: bool, score_required: bool,
+		score_token: int, label: String, latch_expected: int = -1) -> bool:
+	if not _expect_surface(W192_INSIDE if closed else W192_BG,
+			"" if closed else "winter", label):
+		return false
+	var portrait := _story.get("_portrait_frame") as Control
+	var presentation: Dictionary = _story.get("_current_presentation")
+	var badge := _story.get("_communication_badge") as Control
+	var nameplate := _story.get("_name_panel") as Control
+	if not is_instance_valid(portrait) or portrait.visible == closed \
+			or (not closed \
+				and str(_story.call("_resolved_story_surface_portrait_id")) != "player_cold_snap") \
+			or bool(_story.get("_current_uses_cg")) \
+			or not str(_story.get("_event_cg_id")).is_empty():
+		_fail("%s changed the exterior/interior portrait or introduced a CG" % label)
+		return false
+	if closed:
+		if str(presentation.get("scene_location", "")) != W192_INSIDE \
+				or str(presentation.get("channel", "")) != "narration" \
+				or str(presentation.get("portrait_role", "")) != "none" \
+				or (is_instance_valid(nameplate) and nameplate.visible) \
+				or (is_instance_valid(badge) and badge.visible) \
+				or not _expect_no_ambience(label):
+			_fail("%s retained exterior identity or communication info inside the door" % label)
+			return false
+	else:
+		var generic := BGMPlayer._ambience_player as AudioStreamPlayer
+		var human := BGMPlayer._human_ambience_player as AudioStreamPlayer
+		var season := BGMPlayer._season_player as AudioStreamPlayer
+		if not is_instance_valid(generic) or not generic.playing \
+				or not is_instance_valid(human) or human.playing \
+				or not str(BGMPlayer._current_human_ambience_key).is_empty() \
+				or str(BGMPlayer._current_season_key) != "winter" \
+				or not is_instance_valid(season) or not season.playing:
+			_fail("%s did not keep the exact generic/season winter layers" % label)
+			return false
+	if score_required and (str(BGMPlayer._current_key) != "reckoning" \
+			or (not BGMPlayer._player_a.playing and not BGMPlayer._player_b.playing)):
+		_fail("%s lost the continuous reckoning score" % label)
+		return false
+	if score_token >= 0 and int(BGMPlayer._punctuation_token) != score_token:
+		_fail("%s restarted the reckoning score at the wind cut" % label)
+		return false
+	if latch_expected >= 0 \
+			and AudioManager._last_sfx_ms.has("door_latch") != (latch_expected == 1):
+		_fail("%s door-latch cue did not match live-only cut expectation=%d" % [
+			label, latch_expected])
+		return false
+	var event_id := str((_story.get("_current") as Dictionary).get("id", ""))
+	var cues := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		return str(key).begins_with(event_id + ":"))
+	if not cues.is_empty():
+		_fail("%s introduced an authored one-shot cue: %s" % [label, cues])
+		return false
+	return true
+
+func _w192_choice_matches(before_flags: Dictionary, before_events: int,
+		before_log: Array, before_deferred: Array, before_mental: float,
+		event_id: String, choice: int) -> bool:
+	var expected_flags: Dictionary = before_flags.duplicate(true)
+	expected_flags["arc_year4_close_seen"] = true
+	if choice == 0:
+		expected_flags["year4_final_resolve"] = true
+	elif choice == 1:
+		expected_flags["year4_self_known"] = true
+	var expected_mental := minf(100.0, before_mental + [3.0, 1.0, 0.0][choice])
+	var receipt: Dictionary = GameState.event_log.back() if not GameState.event_log.is_empty() else {}
+	var new_deferred: Array = GameState.deferred_events.slice(before_deferred.size())
+	var checks := {
+		"flags": GameState.flags == expected_flags,
+		"mental": is_equal_approx(GameState.mental, expected_mental),
+		"events": GameState.events_seen == before_events + 1,
+		"log_size": GameState.event_log.size() == before_log.size() + 1,
+		"log_prefix": GameState.event_log.slice(0, before_log.size()) == before_log,
+		"receipt": str(receipt.get("event_id", "")) == event_id \
+			and int(receipt.get("choice_index", -1)) == choice \
+			and int(receipt.get("turn", -1)) == 192,
+		"deferred_prefix": GameState.deferred_events.slice(0, before_deferred.size()) == before_deferred,
+		"deferred": new_deferred == [{"event_id": "arc_37_reckoning", "trigger_turn": 193}],
+	}
+	if checks.values().has(false):
+		_fail("W192 choice c%d changed effects/receipt/deferred contract checks=%s receipt=%s deferred=%s" % [
+			choice, checks, receipt, GameState.deferred_events])
+		return false
+	return true
 
 func _check_w188_platform_silence() -> bool:
 	var paths := 0

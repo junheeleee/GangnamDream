@@ -461,6 +461,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `withdrawal_corridor_w177` | `backgrounds/withdrawal_corridor_w177_v1.png` | 1584x990 |
 | background | `year2_winter_street_night` | `backgrounds/year2_winter_last_night.png` | 1280x800 |
 | background | `year3_hangang_winter_night` | `backgrounds/year3_hangang_winter_night.png` | 1280x800 |
+| background | `year4_rooftop_door_inside_w192` | `backgrounds/year4_rooftop_door_inside_w192_v1.png` | 1584x990 |
 | background | `year4_winter_rooftop` | `backgrounds/year4_winter_rooftop.png` | 1280x800 |
 | cg | `cg_demo_daeun_first_kindness` | `cg/demo/daeun_first_kindness_v2.png` | 1280x800 |
 | cg | `cg_demo_father_first_call` | `cg/demo/father_first_call_v1.png` | 1280x800 |

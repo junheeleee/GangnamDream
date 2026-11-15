@@ -576,6 +576,14 @@
       "intensity": 0.2,
       "weather_source": "background"
     },
+    "year4_rooftop_door_inside_w192": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "hagwon_street": {
       "environment": "outdoor",
       "depth": "far",

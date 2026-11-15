@@ -273,6 +273,7 @@ const BACKGROUNDS = {
 	"rooftop_day":       "res://assets/backgrounds/rooftop_daytime.png",
 	"rooftop_night":     "res://assets/backgrounds/rooftop_night.png",
 	"year4_winter_rooftop": "res://assets/backgrounds/year4_winter_rooftop.png",
+	"year4_rooftop_door_inside_w192": "res://assets/backgrounds/year4_rooftop_door_inside_w192_v1.png",
 	"hagwon_street":     "res://assets/backgrounds/hagwon_street.png",
 	"suneung_test_hall": "res://assets/backgrounds/suneung_test_hall.png",
 	"community_center":  "res://assets/backgrounds/community_center.png",

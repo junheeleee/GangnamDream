@@ -507,5 +507,6 @@
 | Background | `assets/backgrounds/police_evidence_reception.png` | `police_evidence_reception` | 1280x800 | no | `338988ecbf96` | PASS-B | 증거 제출 첫 대목용으로 원화 독립 대조: 무광 잉크·민원석·서류 전달구, 인물·상호·체포 없음. 장소는 본문이 식별한다. P1 마스터·사람 판정 아님. |
 | Background | `assets/backgrounds/withdrawal_corridor_w177_v1.png` | `withdrawal_corridor_w177` | 1584x990 | no | `1a44f6742b55` | PASS-B | W177 철회 결과 전용 1인칭 삽입. 손·작은 접수표 비율, 기존 검토실 재질, 동선과 16:9 중앙 크롭 독립 확인. 게임 창·청취 별도. |
 | Background | `assets/backgrounds/ktx_changwon_winter_night_w188_v1.png` | `ktx_changwon_winter_night_w188` | 1584x990 | no | `5d2ece543d13` | PASS-B | W188 탑승 결과만. 객실 구조·겨울밤 이동 창·대사창 위 크롭 독립 확인; 인물·새벽·내리는 눈 없음. 실제 창·청취 별도. |
+| Background | `assets/backgrounds/year4_rooftop_door_inside_w192_v1.png` | `year4_rooftop_door_inside_w192` | 1584x990 | no | `e6d13518d2c4` | PASS-B | W192 닫힌 단일 철문의 반대편, 동일 유리 두 장·반전 손잡이·겨울밤과 대사창 크롭 독립 확인. 실기기·청취 별도. |
 
-Inventory: 81 CG / 94 portraits / 144 backgrounds / 319 total.
+Inventory: 81 CG / 94 portraits / 145 backgrounds / 320 total.

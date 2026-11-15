@@ -799,6 +799,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W192 같은 철문 안쪽 컷 배선: v1 `ea7f302e7fa2…`는 별도 옆창처럼 보여 HOLD, 단일 문짝·유리 두 장을 복원한 v2 `329919eb08a7…` 독립 GO. 새 `year4_rooftop_door_inside_w192_v1.png`·import, ImageRegistry·StoryMode·원화/장소/음향/출시 원장과 위 검사만. 검증된 닫힘 문장에만 실내 반대편·무초상/환경 무음·성찰곡 유지, 기존 금속 계단문 녹음 `door_latch`는 실제 전환에서만 작게 1회(재개/언어 전환/리플레이 위치 복원 0). 원문·다른 선택·다음 장·외부 원본·저장/공개 RC 불변.
 
+[x] W192 옥상문 소리·안쪽 원화: 원화 독립 GO, 최종 1584×990 `e6d13518d2c4…`. 실제 W192 편성·아버지 생사 치환, 5언어×2변형의 마지막 문장 10, 동일 원문 단락 경계 전/후 v4 재개 20, 본편 KO↔EN 4, 다른 선택 2. 날짜를 쓰는 동안 기존 옥상/초상/바람, 문장 진입 시 실내 동일 철문·무초상·환경 3층 즉시 정지와 `door_latch`만 1회, 성찰곡·영수증·다음 해 예약 유지. 저장 재개·언어 전환 때 문소리 중복0. `2soouunu` exit0/stderr0, fixture `d36b6b3ccb76b57eff64977204dc9a3573d616b37accc779510bb32f7700a6e4`, stdout `34c136c2b546afa45b32dcfd3bbd21324bf736b16d286ea5c920d16daec9594d`. `kwe7up67` 선택 버튼의 초상 숨김과 `yyba0phy` 냉간 후 재생 토큰 기대는 기존 동작에 맞춰 검사만 바로잡아 보존. 4장 인과·정점31·공개 데모5언어·원장·정적 검사 통과. 실기기 창·청취·전 구간 완료는 별도.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
