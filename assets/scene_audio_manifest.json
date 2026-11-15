@@ -760,12 +760,7 @@
       "ambience": "office",
       "music": {"key": "reckoning", "start_paragraph": 2},
       "paragraph_cues": {
-        "0": [{"sfx": "door_latch", "volume_db": -7.0}],
-        "1": [{"sfx": "cup_set", "volume_db": -8.0}],
         "3": [{"sfx": "paper_handle", "volume_db": -7.0}]
-      },
-      "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]}
       }
     },
     "arc_y5_sangchul_review_receipt": {

@@ -143,6 +143,7 @@ func _ready() -> void:
 			+ "reads=ko_en_selected audio=5locale_w195_w196_silent_w197_no_early_paper_w201_w203_w204_w207_w208_silent "
 			+ "w209_w210_audio=25_no_wrong_one_shots "
 			+ "w211_w212_audio=20_no_wrong_one_shots "
+			+ "w215_audio=15_paper_only "
 			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
@@ -874,6 +875,7 @@ func _check_opening_receipt_audio_alignment() -> void:
 	var story: Node = STORY_MODE.new()
 	var guarantee_audio_path_count := 0
 	var guarantee_decision_audio_path_count := 0
+	var old_office_audio_path_count := 0
 	for language in LocaleManager.SUPPORTED_LANGUAGES:
 		LocaleManager.set_language(language)
 		DataRegistry.reload()
@@ -975,6 +977,10 @@ func _check_opening_receipt_audio_alignment() -> void:
 				"index": 13, "producer": 12, "background": "current_housing",
 				"portrait": "player_tired", "source_count": 4, "result_counts": [2, 2, 2],
 			},
+			{
+				"index": 14, "producer": 13, "background": "office",
+				"portrait": "sangchul_serious", "source_count": 7, "result_counts": [3, 2, 3],
+			},
 		]:
 			var target_index := int(target["index"])
 			var producer_index := int(target["producer"])
@@ -1040,14 +1046,18 @@ func _check_opening_receipt_audio_alignment() -> void:
 						and str(result_choice.get("result_portrait", "")) == "daeun_normal",
 						"%s W207 choice 2 lost its authored cafe/Daeun result surface" \
 							% language)
-				_assert_no_opening_audio_cues(
-					target_id, description_sources,
-					"%s %s receipt choice %d" % [language, target_id, selected_choice],
-					result_sources)
+				var audio_context := "%s %s receipt choice %d" % [language, target_id, selected_choice]
+				if target_index == 14:
+					old_office_audio_path_count += 1
+					_assert_story_audio_cues(target_id, description_sources, audio_context,
+						result_sources, [target_id + "::description:3:0:paper_handle"], ["paper_handle"])
+				else:
+					_assert_no_opening_audio_cues(
+						target_id, description_sources, audio_context, result_sources)
 				if target.has("portrait"):
 					if target_index <= 11:
 						guarantee_audio_path_count += 1
-					else:
+					elif target_index <= 13:
 						guarantee_decision_audio_path_count += 1
 					_expect(str(resolved.get("portrait", "")) == str(target["portrait"]),
 						"%s %s changed the authored portrait" % [language, target_id])
@@ -1055,6 +1065,8 @@ func _check_opening_receipt_audio_alignment() -> void:
 		"W209/W210 lost coverage of 5 locales × (1 + 1 + 3) predecessor receipts")
 	_expect(guarantee_decision_audio_path_count == 20,
 		"W211/W212 lost coverage of 5 locales × (1 + 3) predecessor receipts")
+	_expect(old_office_audio_path_count == 15,
+		"W215 lost coverage of 5 locales × 3 guarantee receipts")
 
 	var silent_room_contract := {
 		"ambience": "current_housing",
@@ -1107,6 +1119,11 @@ func _check_opening_receipt_audio_alignment() -> void:
 		"ambience": "current_housing",
 		"music": {"key": "reckoning", "start_paragraph": 0.0},
 	}), "W212 retained phone/pen sound or changed its room/score entrance")
+	_expect(_same(BGMPlayer.scene_audio_contract(ROOT_IDS[14]), {
+		"ambience": "office",
+		"music": {"key": "reckoning", "start_paragraph": 2.0},
+		"paragraph_cues": {"3": [{"sfx": "paper_handle", "volume_db": -7.0}]},
+	}), "W215 lost the proposal-paper cue or added another sound to the old office")
 
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
@@ -1128,9 +1145,15 @@ func _rendered_source_indices(story: Node, text: String) -> Array[int]:
 func _assert_no_opening_audio_cues(
 		event_id: String, source_indices: Array[int], context: String,
 		result_sources: Array = []) -> void:
+	_assert_story_audio_cues(event_id, source_indices, context, result_sources, [], [])
+
+
+func _assert_story_audio_cues(
+		event_id: String, source_indices: Array[int], context: String,
+		result_sources: Array, expected_tokens: Array, allowed_sounds: Array) -> void:
 	var tracked_sounds := [
 		"phone_notification", "page_turn", "paper_handle", "cup_set", "register_scan",
-		"traffic_pass", "pen_write",
+		"traffic_pass", "pen_write", "door_latch",
 	]
 	var last_play_before: Dictionary = {}
 	for sound_id in tracked_sounds:
@@ -1142,10 +1165,12 @@ func _assert_no_opening_audio_cues(
 		for raw_source_index in (result_sources[choice_index] as Array):
 			AudioManager.play_scene_result_paragraph_cues(
 				event_id, "", choice_index, int(raw_source_index))
-	_expect(AudioManager._story_audio_seen.is_empty(),
-		"%s dispatched an unwanted paragraph cue: %s" % [
-			context, JSON.stringify(AudioManager._story_audio_seen)])
+	_expect(AudioManager._story_audio_seen.keys() == expected_tokens,
+		"%s dispatched wrong paragraph cues: %s (expected %s)" % [
+			context, JSON.stringify(AudioManager._story_audio_seen), JSON.stringify(expected_tokens)])
 	for sound_id in tracked_sounds:
+		if allowed_sounds.has(sound_id):
+			continue
 		_expect(AudioManager._last_sfx_ms.get(sound_id, -1) \
 			== last_play_before[sound_id],
 			"%s played forbidden %s" % [context, sound_id])
