@@ -857,6 +857,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W216 계단참 원화 제품 연결: 최종 출력 `b6f2cbbc…`의 네 변 1px 크롭만. `assets/backgrounds/sangchul_old_office_landing_w216_v1.png{,.import}`, `autoloads/ImageRegistry.gd`, `content/events/arc_pre_ending.json` W216 배경·빈 초상 두 필드, `assets/{event_visual_contracts.json,scene_audio_manifest.json,scene_direction_manifest.json,mod_asset_manifest.json,ASSET_INDEX.md,IMAGE_PROMPTS.md}`, `tools/{scene_direction_catalog.py,art_resolution_baseline.json,StoryBackgroundContextCheck.gd}`, `content/meta/release_content_inventory.json`, `docs/{ART_AI_AUDIT.md,MODDING.md,CONTENT_RATING_INVENTORY.md,WORK_LOG.md}`, 현황과 이 증거. 빈 계단참 환경음(낡은 사무실 군중/기계음 없음), W216 문소리만 제거·서류음/곡 보존. 정확한 문 너머 컵 소리 및 마지막 센서등 소등 연출 별도. W215 및 다른 갈래·원고·기존 ID/저장·공개 데모·설정 불변.
 
+[~] W216 검사 소유 추가: `tools/scene_audio_contract_check.py`의 W216 단일 exact 행. 일반 ambient 키 정책은 그대로이며 이 위치에선 무환경음+기존 곡/서류 소리 외에 한 필드라도 추가되면 실패시킨다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
