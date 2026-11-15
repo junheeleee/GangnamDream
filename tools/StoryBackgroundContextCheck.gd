@@ -180,6 +180,9 @@ const W192_DEAD := "arc_year4_close_father_passed"
 const W192_BG := "year4_winter_rooftop"
 const W192_INSIDE := "year4_rooftop_door_inside_w192"
 const W192_WIND_CUT := preload("res://assets/w192_year4_close_wind_cut.tres")
+const W196_DELIVERY := "arc_y5_contract_reviewer_delivery_sangchul"
+const W196_VIBRATE_CUT := preload("res://assets/w196_friday_notice_cut.tres")
+const W196_TRACKED_SFX := ["phone_vibrate", "phone_notification", "paper_handle", "page_turn"]
 const W197_PUSH := "arc_y5_final_push_deadline_investment"
 const W197_FOLDER_STARTS := {
 	"ko": "{name}은 R3 원문이 든 투명 폴더를 키보드 옆에 놓고",
@@ -533,6 +536,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W196_CHECK"):
+		var friday_ok := await _check_w196_friday_vibration()
+		await _remove_story()
+		await _stop_audio()
+		if friday_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w196_friday_vibration")
+		get_tree().quit(0 if friday_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W197_CHECK"):
 		var folder_ok := await _check_w197_folder_audio()
 		await _remove_story()
@@ -3651,6 +3662,308 @@ func _w181_commitment_matches(before: Array, event_id: String, choice: int,
 		and str(receipt.get("scene_background_id", "")) == home \
 		and actual_forgone == forgone \
 		and receipt.get("outcome", {}) == outcome
+
+func _check_w196_friday_vibration() -> bool:
+	var contract: Dictionary = BGMPlayer.scene_audio_contract(W196_DELIVERY)
+	if contract.has("paragraph_cues") or contract.has("result_paragraph_cues") \
+			or str(contract.get("ambience", "")) != "current_housing" \
+			or not bool(contract.get("suppress_music", false)):
+		_fail("W196 retained an opening cue or changed its quiet room contract")
+		return false
+	var paths := 0
+	var live_cues := 0
+	var restores := 0
+	var locale_reflows := 0
+	var text_size_reflows := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for cover_choice in range(3):
+			if not await _w196_open(language, cover_choice) \
+					or not await _w196_read_intro():
+				return false
+			_story.call("_on_choice", 2)
+			await _wait_stable()
+			var applied := _w196_applied_state()
+			if not _w196_cut_layout() or not _w196_surface("W196 c2 result entry") \
+					or not _w196_audio_matches(false, "W196 c2 result entry"):
+				return false
+			if not await _w196_seek_before_cut(applied):
+				return false
+			await _finish_page()
+			if not _w196_audio_matches(false, "W196 before Friday alert"):
+				return false
+			var representative := language == "ko" and cover_choice == 0
+			if representative:
+				if not await _w196_cold_boundary(false, applied) \
+						or not await _w196_reflow_boundary(false, applied):
+					return false
+				restores += 1
+				locale_reflows += 2
+				text_size_reflows += 2
+				if not await _w196_seek_before_cut(applied):
+					return false
+				await _finish_page()
+
+			_w196_clear_tracked()
+			_story.call("_on_advance")
+			if not _w196_cut_structure(true) or not _w196_surface("W196 Friday alert") \
+					or not _w196_state_matches(applied, "W196 Friday alert") \
+					or not _w196_audio_matches(true, "W196 Friday alert"):
+				_fail("W196 Friday sentence did not emit exactly one live phone vibration")
+				return false
+			var played_at := int(AudioManager._last_sfx_ms.get("phone_vibrate", -1))
+			await _wait_stable()
+			await _finish_page()
+			if int(AudioManager._last_sfx_ms.get("phone_vibrate", -1)) != played_at:
+				_fail("W196 Friday sentence replayed its vibration while completing")
+				return false
+			live_cues += 1
+			_w196_clear_tracked()
+			if representative:
+				if not await _w196_cold_boundary(true, applied) \
+						or not await _w196_reflow_boundary(true, applied):
+					return false
+				restores += 1
+				locale_reflows += 2
+				text_size_reflows += 2
+			while not bool(_story.get("_pending_after_result")) \
+					or int(_story.get("_para_index")) < (_story.get("_paragraphs") as Array).size() - 1:
+				await _finish_page()
+				if not _w196_cut_structure(true) or not _w196_surface("W196 later result") \
+						or not _w196_state_matches(applied, "W196 later result") \
+						or not _w196_audio_matches(false, "W196 later result"):
+					return false
+				if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+					break
+				_story.call("_on_advance")
+				await _wait_stable()
+			paths += 1
+
+	# The two non-Friday choices retain their existing quiet result surface.
+	for choice in [0, 1]:
+		if not await _w196_open("ko", choice) or not await _w196_read_intro():
+			return false
+		_story.call("_on_choice", choice)
+		await _wait_stable()
+		var applied := _w196_applied_state()
+		if int(_story.get("_result_location_cut_page")) >= 0:
+			_fail("W196 unchanged c%d unexpectedly gained a sentence cut" % choice)
+			return false
+		for page in range((_story.get("_paragraphs") as Array).size()):
+			await _finish_page()
+			if not _w196_surface("W196 unchanged c%d" % choice) \
+					or not _w196_state_matches(applied, "W196 unchanged choice") \
+					or not _w196_audio_matches(false, "W196 unchanged c%d" % choice):
+				return false
+			if page + 1 < (_story.get("_paragraphs") as Array).size():
+				_story.call("_on_advance")
+				await _wait_stable()
+	print("W196_FRIDAY_VIBRATION_OK paths=%d guards=2 v4=%d live_cues=%d locale_reflows=%d text_size_reflows=%d" % [
+		paths, restores, live_cues, locale_reflows, text_size_reflows])
+	return paths == 15 and restores == 2 and live_cues == 15 \
+		and locale_reflows == 4 and text_size_reflows == 4
+
+func _w196_open(language: String, cover_choice: int) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W196/cover%d" % [language, cover_choice]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.turn = 196
+	GameState.age = 37
+	GameState.month = 1
+	GameState.week_of_month = 4
+	GameState.housing = "oneroom"
+	GameState.money = 2_100_000_000.0
+	GameState.portfolio = {}
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.flags["route_invest"] = true
+	for flag in [
+		"arc_sangchul_met_seen", "arc_daeun_met", "daeun_romance_started",
+		"arc_minseo_02_seen", "arc_jaehyuk_reunion_seen", "arc_jaehyuk_aftermath_seen",
+	]:
+		GameState.flags[flag] = true
+	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(
+		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true,
+		GameState.get_total_asset_value())
+	if not bool(locked.get("ok", false)):
+		_fail("W196 fixture could not lock the actual Chapter 5 route")
+		return false
+	var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(
+		locked["state"], CHAPTER5_ROUTE.OWNED_EVENT_IDS[0], cover_choice,
+		CHAPTER5_ROUTE.OWNED_TURNS[0])
+	if not bool(committed.get("ok", false)):
+		_fail("W196 fixture could not commit W195 receipt %d" % cover_choice)
+		return false
+	GameState.chapter5_causal_state = committed["state"]
+	if GameState.chapter5_causal_next_event_for_turn() != W196_DELIVERY:
+		_fail("W196 exact W195 receipt did not admit reviewer delivery")
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	GameState.pending_story_queue = [W196_DELIVERY]
+	_w196_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W196_DELIVERY \
+			or int(GameState.chapter5_causal_selected_choice(
+				CHAPTER5_ROUTE.OWNED_EVENT_IDS[0])) != cover_choice \
+			or not _w196_surface("W196 opening") \
+			or not _w196_audio_matches(false, "W196 opening"):
+		_fail("W196 StoryMode did not open its exact localized receipt path")
+		return false
+	return true
+
+func _w196_read_intro() -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	var untouched := _w196_applied_state()
+	if int(_story.call("_story_source_paragraph_count")) != 3 \
+			or not _m23_same_prose(pages, authored):
+		_fail("W196 lost its W195 receipt plus two authored sources")
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		if not _w196_surface("W196 intro") \
+				or not _w196_state_matches(untouched, "W196 intro") \
+				or not _w196_audio_matches(false, "W196 intro"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return bool(_story.get("_showing_choices")) \
+		and (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w196_state_matches(untouched, "W196 choices") \
+		and _w196_audio_matches(false, "W196 choices")
+
+func _w196_cut_layout() -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var cut := int(_story.get("_result_location_cut_page"))
+	var anchors: Dictionary = W196_VIBRATE_CUT.get_meta("vibration_anchors", {})
+	var anchor := str(_story.call("_fmt", anchors.get(LocaleManager.language, "")))
+	var authored := str(_story.call("_fmt", ((_story.get("_current") as Dictionary)
+		.get("choices", []) as Array)[2].get("result_text", "")))
+	return anchors.size() == LocaleManager.SUPPORTED_LANGUAGES.size() \
+		and int(_story.call("_story_source_paragraph_count")) == 2 \
+		and not pages.is_empty() and _m23_same_prose(pages, authored) \
+		and cut > 0 and cut < pages.size() \
+		and int(_story.call("_story_source_paragraph_index", cut - 1)) == 1 \
+		and int(_story.call("_story_source_paragraph_index", cut)) == 1 \
+		and not anchor.is_empty() and str(pages[cut]).begins_with(anchor)
+
+func _w196_cut_structure(after_cut: bool) -> bool:
+	var page := int(_story.get("_para_index"))
+	var pages: Array = _story.get("_paragraphs")
+	var cut := int(_story.get("_result_location_cut_page"))
+	return _w196_cut_layout() and page >= 0 and page < pages.size() \
+		and int(_story.call("_story_source_paragraph_index", page)) == 1 \
+		and (page >= cut) == after_cut
+
+func _w196_seek_before_cut(applied: Dictionary) -> bool:
+	var cut := int(_story.get("_result_location_cut_page"))
+	while int(_story.get("_para_index")) < cut - 1:
+		await _finish_page()
+		if not _w196_surface("W196 approach to alert") \
+				or not _w196_state_matches(applied, "W196 approach to alert") \
+				or not _w196_audio_matches(false, "W196 approach to alert"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		cut = int(_story.get("_result_location_cut_page"))
+	if int(_story.get("_para_index")) != cut - 1 or not _w196_cut_structure(false):
+		_fail("W196 did not settle on the physical page before the Friday alert")
+		return false
+	return true
+
+func _w196_cold_boundary(after_cut: bool, applied: Dictionary) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	_w196_clear_tracked()
+	if not await _reload_authored_result_context(
+			context, LocaleManager.language, 2, 1) \
+			or not _w196_cut_structure(after_cut) \
+			or not _w196_surface("W196 cold boundary") \
+			or not _w196_state_matches(applied, "W196 cold boundary") \
+			or not _w196_audio_matches(false, "W196 cold boundary"):
+		_fail("W196 cold result crossed or replayed the Friday alert")
+		return false
+	return true
+
+func _w196_reflow_boundary(after_cut: bool, applied: Dictionary) -> bool:
+	for level in ["large", "standard"]:
+		_w196_clear_tracked()
+		_story.call("_set_story_text_size", level)
+		await _wait_stable()
+		if not _w196_cut_structure(after_cut) \
+				or not _w196_surface("W196 text-size reflow") \
+				or not _w196_state_matches(applied, "W196 text-size reflow") \
+				or not _w196_audio_matches(false, "W196 text-size reflow"):
+			return false
+	for language in ["en", "ko"]:
+		_w196_clear_tracked()
+		_story.call("_set_story_language", language)
+		await _wait_stable()
+		if LocaleManager.language != language or not _w196_cut_structure(after_cut) \
+				or not _w196_surface("W196 locale reflow") \
+				or not _w196_state_matches(applied, "W196 locale reflow") \
+				or not _w196_audio_matches(false, "W196 locale reflow"):
+			return false
+	return true
+
+func _w196_surface(label: String) -> bool:
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W196_DELIVERY \
+			or str(_story.get("_event_background_id")) != "apartment" \
+			or str(BGMPlayer.get("_current_ambience_key")) != "oneroom" \
+			or not str(BGMPlayer.get("_current_key")).is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("%s changed W196 current housing or opened music" % label)
+		return false
+	return true
+
+func _w196_applied_state() -> Dictionary:
+	var state := _w177_applied_state()
+	state["chapter5_causal_state"] = _w177_json_state(GameState.chapter5_causal_state)
+	state["deferred_events"] = _w177_json_state(GameState.deferred_events)
+	state["meta"] = _w177_json_state(MetaProgression.data)
+	return state
+
+func _w196_state_matches(expected: Dictionary, label: String) -> bool:
+	var actual := _w196_applied_state()
+	if actual == expected:
+		return true
+	var changed: Array[String] = []
+	for key: String in expected:
+		if expected[key] != actual.get(key):
+			changed.append(key)
+	_fail("%s changed W196 state keys=%s" % [label, changed])
+	return false
+
+func _w196_clear_tracked() -> void:
+	for sound_id in W196_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+func _w196_audio_matches(expect_vibration: bool, label: String) -> bool:
+	var cue_keys := AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		if not str(key).begins_with(W196_DELIVERY + ":"):
+			return false
+		for sound_id in W196_TRACKED_SFX:
+			if str(key).ends_with(":" + sound_id):
+				return true
+		return false)
+	var invalid: Array[String] = []
+	for sound_id in W196_TRACKED_SFX:
+		var expected: bool = expect_vibration and sound_id == "phone_vibrate"
+		if AudioManager._last_sfx_ms.has(sound_id) != expected \
+				or _w197_sfx_stream_count(sound_id) != (1 if expected else 0):
+			invalid.append(sound_id)
+	if not invalid.is_empty() or not cue_keys.is_empty():
+		_fail("%s W196 cue mismatch invalid=%s authored=%s" % [label, invalid, cue_keys])
+		return false
+	return true
 
 func _check_w197_folder_audio() -> bool:
 	var contract: Dictionary = BGMPlayer.scene_audio_contract(W197_PUSH)

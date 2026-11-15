@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/vibration_anchors = {
+"ko": "닫히지 않은 대화창 위에서 금요일 일정 알림만 한 번 진동했다.",
+"en": "A Friday calendar alert vibrated once above the chat he had left open.",
+"ja": "閉じていないチャットの上で、金曜の予定通知だけが一度震えた。",
+"zh-CN": "没有关闭的聊天窗口上方，周五的日程提醒只振动了一次。",
+"zh-TW": "尚未關閉的對話視窗上，只有週五的行程提醒震動了一次。"
+}

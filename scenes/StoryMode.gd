@@ -114,6 +114,8 @@ const W192_YEAR_CLOSE_IDS := ["arc_year4_close", "arc_year4_close_father_passed"
 const W192_WIND_CUT := preload("res://assets/w192_year4_close_wind_cut.tres")
 const W192_ROOFTOP := "year4_winter_rooftop"
 const W192_DOOR_INSIDE := "year4_rooftop_door_inside_w192"
+const W196_REVIEWER_DELIVERY := "arc_y5_contract_reviewer_delivery_sangchul"
+const W196_VIBRATE_CUT := preload("res://assets/w196_friday_notice_cut.tres")
 const W197_DEADLINE := "arc_y5_final_push_deadline_investment"
 const W197_FOLDER_CUT := preload("res://assets/w197_folder_cut.tres")
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
@@ -3461,6 +3463,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id in [W181_DAEUN_BILL, W181_UNATTACHED_BILL] and choice_index == 1) \
 		or (event_id == W185_FATHER_CRISIS and choice_index == 0) \
 		or (event_id in W192_YEAR_CLOSE_IDS and choice_index == 2) \
+		or (event_id == W196_REVIEWER_DELIVERY and choice_index == 2 and not _read_only_replay) \
 		or (event_id in [W167_DAEUN_TABLE, W167_LATE_TABLE] and choice_index == 0) \
 		or (event_id == W167_UNATTACHED_TABLE and choice_index in [1, 2]) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
@@ -3552,6 +3555,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		return _story_page_data(_fmt(raw))
 	if event_id in W192_YEAR_CLOSE_IDS:
 		var anchors: Dictionary = W192_WIND_CUT.get_meta(event_id, {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
+	if event_id == W196_REVIEWER_DELIVERY:
+		var anchors: Dictionary = W196_VIBRATE_CUT.get_meta("vibration_anchors", {})
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
@@ -7562,6 +7570,11 @@ func _on_advance():
 				and str(_current.get("id", "")) == W197_DEADLINE:
 			# Hear the sheets shifting inside the placed folder, not the screen.
 			AudioManager.play("paper_handle", -8.0)
+		elif not _read_only_replay and _pending_after_result and _pending_result_choice_index == 2 \
+				and _para_index == _result_location_cut_page \
+				and str(_current.get("id", "")) == W196_REVIEWER_DELIVERY:
+			# The calendar alert comes after sending the file, not with the upload.
+			AudioManager.play("phone_vibrate", -8.0)
 		var entered_new_authored_paragraph := source_index != previous_source_index
 		if entered_new_authored_paragraph:
 			if str(_current.get("id", "")) == HYUNSU_CONNECTED_CALL:
