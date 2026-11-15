@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/taxi_anchors = {
+"ko": "역으로 가는 택시 안에서",
+"en": "In the taxi to the station,",
+"ja": "駅へ向かうタクシーの中で、",
+"zh-CN": "在去车站的出租车里，",
+"zh-TW": "在前往車站的計程車裡，"
+}

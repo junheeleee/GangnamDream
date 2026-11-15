@@ -105,6 +105,8 @@ const W177_WITHDRAWAL_CORRIDOR := "withdrawal_corridor_w177"
 const W181_DAEUN_BILL := "arc_y4_bill_night"
 const W181_UNATTACHED_BILL := "arc_y4_bill_night_unattached"
 const W181_BILL_CUTS := preload("res://assets/w181_bill_night_cuts.tres")
+const W185_FATHER_CRISIS := "arc_y4_father_crisis_contact"
+const W185_DEPARTURE_CUT := preload("res://assets/w185_father_departure_cut.tres")
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -3440,6 +3442,7 @@ func _has_result_location_cut(event_id: String, choice_index: int) -> bool:
 		or (event_id == W132_RECKONING and choice_index == 0) \
 		or (event_id == W164_DAEUN_WITNESS and choice_index == 0) \
 		or (event_id in [W181_DAEUN_BILL, W181_UNATTACHED_BILL] and choice_index == 1) \
+		or (event_id == W185_FATHER_CRISIS and choice_index == 0) \
 		or (event_id in [W167_DAEUN_TABLE, W167_LATE_TABLE] and choice_index == 0) \
 		or (event_id == W167_UNATTACHED_TABLE and choice_index in [1, 2]) \
 		or (event_id == W117_JAEHYUK_COUNTER and choice_index == 0) \
@@ -3517,6 +3520,11 @@ func _localized_result_page_data(choice_index: int) -> Dictionary:
 		var anchors: Dictionary = W181_BILL_CUTS.get_meta(beat, {})
 		if raw.split("\n\n").size() == 2:
 			return _split_formatted_story_page(_fmt(raw), 0, str(anchors.get(LocaleManager.language, "")))
+		return _story_page_data(_fmt(raw))
+	if event_id == W185_FATHER_CRISIS:
+		var anchors: Dictionary = W185_DEPARTURE_CUT.get_meta("taxi_anchors", {})
+		if raw.split("\n\n").size() == 2:
+			return _split_formatted_story_page(_fmt(raw), 1, str(anchors.get(LocaleManager.language, "")))
 		return _story_page_data(_fmt(raw))
 	if _is_w167_family_table(event_id):
 		var beat := "daeun_entry" if event_id == W167_DAEUN_TABLE else "late_entry"
@@ -5928,6 +5936,9 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 	if _is_w181_intake_result():
 		_apply_w181_intake_surface(play_cut_cue)
 		return
+	if _is_w185_departure_result():
+		_apply_w185_departure_surface()
+		return
 	if _is_w167_family_table(event_id):
 		_apply_w167_family_table_surface()
 		return
@@ -6281,6 +6292,41 @@ func _apply_w181_intake_surface(live_advance: bool) -> void:
 			BGMPlayer.clear_ambience_immediate()
 		BGMPlayer._stop_season_ambience_immediate()
 		BGMPlayer.set_ambience("hospital", false)
+
+func _is_w185_departure_result() -> bool:
+	return _pending_after_result and _pending_result_choice_index == 0 \
+		and str(_current.get("id", "")) == W185_FATHER_CRISIS
+
+func _apply_w185_departure_surface() -> void:
+	# Only the last taxi sentence leaves home. No sourced taxi picture or
+	# recording is established here, and the train/ward has not been reached.
+	var in_taxi := _result_location_cut_page >= 0 and _para_index >= _result_location_cut_page
+	var destination := "" if in_taxi else _resolve_story_background_id("current_housing")
+	if destination != _event_background_id:
+		var texture: Texture2D = null if in_taxi \
+			else ImageRegistry.load_texture(ImageRegistry.get_background(destination))
+		_finish_story_scene_transition()
+		_event_background_id = destination if texture != null else ""
+		_bg_img.texture = texture
+		_apply_story_surface_palette(false)
+		_configure_living_scene()
+		if not in_taxi and texture != null and str(_direction.get("amb", "")) != "cut":
+			BGMPlayer.update_event_ambience(_current, "", destination)
+	if in_taxi:
+		BGMPlayer.clear_ambience_immediate()
+	# Both pages belong to source paragraph 1, so a source-only refresh would
+	# leave the incoming-call badge on the taxi page (including after reflow).
+	_current_presentation = DataRegistry.get_story_presentation(W185_FATHER_CRISIS).duplicate(true)
+	if in_taxi:
+		_current_presentation["channel"] = "narration"
+		_current_presentation["participants"] = ["player"]
+		_current_presentation.erase("state")
+		_current_presentation.erase("remote_actor")
+		_current_presentation.erase("remote_location")
+		_current_presentation.erase("scene_location")
+		_current_presentation.erase("expected_background")
+	_update_communication_badge(str(_current_presentation.get("channel", "")),
+		str(_current_presentation.get("state", "")))
 
 func _sync_w174_tunnel_panes() -> void:
 	if _story_bg_material == null:
@@ -7043,6 +7089,7 @@ func _configure_living_scene(event_override: Dictionary = {}) -> void:
 			or str(_current.get("id", "")) == W161_BODY_SIGNAL \
 			or _is_w167_family_table(str(_current.get("id", ""))) \
 			or _is_w181_intake_result() \
+			or _is_w185_departure_result() \
 			or str(_current.get("id", "")) == W82_HYUNSU_BUS \
 			or str(_current.get("id", "")) == W205_MINSEO_CALL \
 			or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER) \
