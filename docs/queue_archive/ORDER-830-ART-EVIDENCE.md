@@ -781,6 +781,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W185 연락 표시 표적: 독립 GO. 병동에 보낸 답장에는 수신처가 남고, 다른 사람에게 보낸 취소 문자에는 병동 정보를 붙이지 않는다. `gangnam-story-background-context-nttho8z8` 실제 선택기 5언어×이전 통화2×선택3=30, 동일 단락 내 택시 경계 v4 20과 통화/미루기 v4 10, 결합 기억6, 초상·배지·원격 대상·영수증·장소와 환경음 불변, exit0·stderr0. fixture `0b6e64ec641f91d391a711047162ce1debc1b796cb9715a24697ae6dce486612`, stdout `377fddd77c24a2afec18e1107898711685f3581ba75bcaa391165054e31d535c`. 정적 서사·4장 인과·음향·영어·공개 데모 통과. 별도 일반 Presence 검사는 기능 성공 표식 뒤 종료 시 자원 정리 오류가 있어 깨끗한 성공으로 세지 않는다(`/tmp/gangnam-w185-presence.JE4KgP`). 실제 창·청취·사람 검수는 별도.
 
+[~] W188 서울역 승강장 소리 한정 — `assets/scene_audio_manifest.json`의 `arc_father_passing_platform` 및 해당 배경 한 행, `tools/{StoryBackgroundContextCheck.gd,scene_audio_contract_check.py}`, `docs/AUDIO_QA.md` 해당 근거·일지·현황·이 증거. 사망 통보 뒤 표를 사는 실제 경로의 겨울 KTX 승강장에서 지하철 혼합음과 열차 **객실** 녹음을 모두 제외한다. 확인된 승강장 원음이 없으므로 환경 3층만 즉시 끊고 기존 애도곡·배경·두 선택·이후 병실/회의실·앱 저장은 유지. 안내방송·진동·새 원화/원음·원고 및 시간 수리·금액/분기/공개 RC는 변경0. 원고 인계는 833의 후속 경계다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
