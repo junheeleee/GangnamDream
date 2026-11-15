@@ -718,13 +718,11 @@
     },
     "arc_y5_burnout_check_reference": {
       "ambience": "hospital",
-      "suppress_music": true,
-      "paragraph_cues": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}
+      "suppress_music": true
     },
     "arc_y5_minseo_goal_cost_reference": {
       "ambience": "cafe",
-      "suppress_music": true,
-      "paragraph_cues": {"0": [{"sfx": "cup_set", "volume_db": -8.0}]}
+      "suppress_music": true
     },
     "arc_y5_after_goal_daeun": {
       "ambience": "cafe",
