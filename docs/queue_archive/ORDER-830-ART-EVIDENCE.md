@@ -825,6 +825,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W201·W203 도입 표적: manifest 의미차 cue2 제거뿐. 5언어×선행 선택3×장면2=30 도입, 결과90의 실제 문단 cue 소비자에서 잘못된 재생0. 선행 영수증·본문 [0,1,2,3]·결과 문단 [2,2,3]/[3,3,2]·진료실/카페/무곡 보존, 5장 19루트/47선택·디스크 왕복 통과. 독립 검수 및 격리 `KplG0T` exit0/stderr0, fixture `d16145d75ce2d00f88630c0a6d2b0e85462e83b7175594f438304db1ded4a567`, 로그 `c0da5d1610d150a152c4efb924615a05a3f0bb336000f2b55e99389ce277b68d`; 첫 `qYhJNl`은 검사 결과문단수 오가정만 보존·교정. 현행 데모5언어/EN·정적 계약 통과, 새 규범0/일회성. 펜 닫는 실녹음 후보 Freesound 586518(원본 로그인 필요) 개별 동작 분리/청취·채택0. 카페 원음 출처·실청취, 종이와 냅킨 동작의 실제 타이밍은 별도.
 
+[~] W204 다은 냅킨·W207 상철 제안서: `assets/scene_audio_manifest.json`의 `arc_y5_after_goal_daeun`·`arc_y5_final_offer`, `tools/Chapter5CausalRouteCheck.gd`, 이 증거·현황·일지만. 냅킨을 펴는 문장의 복사용지 넘김, W207 앞 선택 회상의 컵 놓기와 실제 첫 문단의 앞선 종이 넘김을 제거한다. 회의실에서 밀어 주는 종이컵과 뒤 문단에서 철심을 푸는 동작은 원고에만 그대로, 다른 물체/일반 탭으로 대체0. 카페/사무실 환경음과 각각 다은/대면 음악의 2번 원문 문단, W207 마지막 선택의 카페→다은 결과, 원고·효과·영수증·저장·공개 RC 불변.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
