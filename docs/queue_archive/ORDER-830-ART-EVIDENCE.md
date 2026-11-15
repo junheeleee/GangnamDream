@@ -821,6 +821,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [x] W200 카페 연필 표적: 다섯 언어×W197 영수증3×밑줄/세로선2=30 라이브 각1, KO 화면 대조3·v4 전후4·언어8·크기8의 연필0, 도입/결과의 컵/종이0. 첫 결과 source0의 두 번째 문장 앞만 나누고 셋째는 source2 첫 페이지 그대로. 카페·기존 음악 입구·전체 원문·영수증/상태 보존. 독립 GO, 격리 `yvj4rk77` exit0/stderr0, fixture `3314c28682019601662705cc7feba8a0fbc66598c380efcff46535e2258684ff`, stdout `740f2e56e35eaa75e558ccea2dccbdd79a5c7b5ec903c90a7bc7cafba3a25ac`. 첫 `hk4auhio` fixture 타입 추론 실패 보존·검사 타입과 이후 페이지 기대만 수리. 제품 컴파일69, 음원 감사·현행 데모5언어·EN 통과. 실청취 별도, 출시/결혼식/저장 편집0, 새 규범0/일회성. 다음 W201 진료실·W203 카페의 실제 동작 대조.
 
+[~] W201 진료실·W203 민서 카페 도입 음향: `assets/scene_audio_manifest.json`의 `arc_y5_burnout_check_reference`·`arc_y5_minseo_goal_cost_reference`, `tools/Chapter5CausalRouteCheck.gd`, 이 증거·현황·일지만. 모든 경로에 깔린 이른 A4 넘김/컵 효과 두 건만 제거한다. 카페 컵음은 W201 선행 선택에 따라 계산기·휴대폰·시간표를 다루는 회상에 깔렸으며, 화면에 부합하는 물체로 확인하지 않는다. 진료실/카페 기존 공간층, 무곡, 5언어 원고·분기·영수증·저장·공개 데모 불변. 맞는 음원이 확인되지 않은 펜 뚜껑·접수 호출·계산기나 다른 결과 동작은 임의 대체0, 실청취 별도. 직전 W200 stdout 지문 오기도 뜻·제품 변경 없이 바로잡는다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
