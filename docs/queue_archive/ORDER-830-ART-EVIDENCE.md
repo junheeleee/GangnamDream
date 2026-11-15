@@ -787,6 +787,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] W188 창원행 이동 중 객실 원화 후보만. 승강장 선택 1 결과 첫 단락 및 회의실 선택 1 결과 둘째 단락은 겨울밤 같은 이동 열차다. M23 여명 객실의 구조·화풍은 참고하되 창밖의 새벽빛·여름 풍경·내리는 눈·새 사건을 넣지 않는다. 상용 원화·코드·원고·음향은 독립 후보 판정 뒤 별도 선언까지 변경0.
 
+[~] W188 객실 배선: 독립 원화 GO `471599721903…`(1586×992, 겨울밤의 흐르는 창·좌석이 대사창 위). 중앙 1px씩만 다듬은 `ktx_changwon_winter_night_w188_v1.png`·import, `ImageRegistry`·`StoryMode`·장소/음향 계약·격리 검사 및 자산/현황/일지 파생 기록. `arc_father_passing_platform` 1번 결과 즉시와 `arc_father_passing_deal_room` 1번 결과 둘째 원문 단락만 객실로 컷. 객실에서 회의실 초상/환경 3층을 끊고 애도곡 유지. 병실 실제 진입·기존 2번·사건 원고/선택/효과/순서/저장/데모는 변경0. 합성·타국 객실 대체음이나 새 안내는 추가하지 않는다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
