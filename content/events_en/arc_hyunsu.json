@@ -6,18 +6,18 @@
     "choices": [
       {
         "text": "Encourage him",
-        "result_text": "\"You'll get it this year.\"\n\nThere was nothing to back it up. Hyunsu grinned anyway. A real one.\n\"You'll be fine too, hyung.\"\n\nBack in his room, lying down, {name} found the words stayed longer than expected. Two baseless sentences traded in a kitchen at dawn — and somehow they held."
+        "result_text": "\"You'll get it this year.\"\n\nThere was nothing to back it up. Hyunsu grinned anyway. A real one.\n\"You'll be fine too, hyung.\"\n\nBack in his room, lying down, {name} found the words stayed longer than expected. Two baseless sentences traded in a kitchen at dawn, and somehow they held."
       },
       {
         "text": "\"Four years is a long time\"",
-        "result_text": "\"Yeah, it has.\" Hyunsu said it while setting the pot down. \"But quitting now feels like I'd regret it even longer.\"\n\n{name} understood that.\nChoosing a different path versus staying on this one — you only find out which was right later.\n\nWhile the broth went cold, the two of them quietly went on with their separate arithmetic."
+        "result_text": "\"Yeah, it has.\" Hyunsu said it while setting the pot down. \"But quitting now feels like I'd regret it even longer.\"\n\n{name} understood that.\nChoosing a different path, or staying on this one. You only find out which was right later.\n\nWhile the broth went cold, the two of them quietly went on with their separate arithmetic."
       }
     ]
   },
   {
     "id": "hyunsu_exam_day",
     "title": "Exam Day",
-    "description": "Five in the morning — {name} half-woke to the sound of a door closing.\n\nFootsteps faded down the hall. Hyunsu. Today was the exam. Grade 9 administrative track — four years graded in a single day.\n\nHe closed his eyes again, and when they wouldn't stay closed, stared at the ceiling. Out in the shared kitchen, a single cup sat upturned at Hyunsu's spot. Washed and left to dry. A man who washes his cup even on the dawn he leaves for the exam.\n\nWhat kind of evening he would come home to — nobody knew yet.",
+    "description": "Five in the morning — {name} half-woke to the sound of a door closing.\n\nFootsteps faded down the hall. Hyunsu. Today was the exam. Grade 9 administrative track. Four years graded in a single day.\n\nHe closed his eyes again, and when they wouldn't stay closed, stared at the ceiling. Out in the shared kitchen, a single cup sat upturned at Hyunsu's spot. Washed and left to dry. A man who washes his cup even on the dawn he leaves for the exam.\n\nWhat kind of evening he would come home to — nobody knew yet.",
     "choices": [
       {
         "text": "Ask how it went later",
@@ -161,7 +161,7 @@
       },
       {
         "text": "\"From now on, let's be the first to call when things get hard\"",
-        "result_text": "Hyunsu's eyes widened for a moment.\n\"You're really saying that first, hyung?\"\n\nThey laughed and took out their phones. It took only seconds to confirm numbers already saved. The promise was not the number. It was who could press it first."
+        "result_text": "Hyunsu's eyes widened for a moment.\n\"You're really saying that first, hyung?\"\n\nThey laughed and took out their phones. It took only seconds to confirm numbers already saved. They already had the numbers. This time they had only agreed on who would call first."
       }
     ]
   },

@@ -246,7 +246,7 @@
       },
       {
         "text": "Buy a small gift for myself, who worked so hard",
-        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work.\n\nThe first thing he bought with wages he had earned was not perfect. That made it feel more likely to stay in his memory."
+        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work."
       }
     ]
   },
@@ -363,7 +363,7 @@
     "choices": [
       {
         "text": "Now's the time. Prepare to look for a new job.",
-        "result_text": "You pulled out your resume again.\nYou organized what you'd learned and done so far.\nEven if it feels like you're not ready, the ones who move are the ones who catch the chance."
+        "result_text": "{name} pulled out the resume again.\nHe listed what he had learned and done so far.\nIt still felt too early, but he pressed Apply."
       },
       {
         "text": "Hold on a bit longer. Keep my life as it is.",
@@ -483,7 +483,7 @@
       },
       {
         "text": "Buy a small gift for myself, who worked so hard",
-        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work.\n\nThe first thing he bought with wages he had earned was not perfect. That made it feel more likely to stay in his memory."
+        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work."
       }
     ]
   },

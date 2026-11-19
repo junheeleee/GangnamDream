@@ -1,5 +1,13 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-11-19 — 1~2년 차 AI 말투 정리 (Claude)
+
+- 실측(origin/main `0e0126d`, KR 사건 원고): 대시 1,703·"A가 아니라 B였다" 337. 실제 도달 장면(arc_flow_sim A/B + 833 C1·29.1 런 추적) 기준으로는 309사건·대시 369. 1~2년 차 도달 119사건 중 본문 문단만 수정(선택지 "행동 — 의도" 표기·대사 끊김·SNS 목록은 유지).
+- KR/EN 54문단: 서술 대시와 해설형 마무리를 사물·행동으로 교체. 의미·선택·효과·플래그 불변. 1문단(`arc_intro_03_sns` lent_account)은 zh 검증기 인명 규칙 충돌로 원복.
+- JA/간체/번체 52문단 `full_game_localization.py` check→import(전 locale VALID), 원장 batch `CLAUDE-AI-TONE-Y1Y2` 추가. 공개 데모 보호 문단 `arc_daeun_01_meet` 1개는 데모 locale 파일 직접 수정, `story_demo_localization_audit` OK.
+- 검증기 오탐 회피: `arc_ch1_invest_first_chart`의 '한 주/첫 주'(주=week 오인)를 '생애 첫 매수 버튼'으로, JA '午前3時'→'午前三時', JA '二時間半'→'2時間半', zh '两个半小时'→'两小时半', zh KakaoBank→手机银行, '말 두 개'→'말 두 마디'. 검증기 수정0.
+- 3~5년 차는 833 원고 수리와 겹치므로 미수정. 사람 청취·원어민 검수 별도.
+
 ## 2026-11-15
 
 - [830](queue_archive/ORDER-830-ART-EVIDENCE.md) 207–12/15;C6

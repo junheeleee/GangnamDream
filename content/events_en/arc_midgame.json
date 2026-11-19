@@ -42,7 +42,7 @@
     "title": "Sangchul Off Guard",
     "description": "{name} had stayed late with Sangchul at the agency to go over some contracts.\n\nSangchul stepped away to take a call. Ten minutes. Fifteen.\n\nWhen he returned, he didn't look like himself. He opened the papers without a word — then suddenly said it.\n\n\"That was my son. He wants to drop out of university.\"\n\nHe said it without being asked. \"I can't tell if he doesn't want to study, or if he just hates everything right now. Honestly, I don't know.\"\n\nHe'd never said anything like this before.",
     "description_if_known": {
-      "sangchul_truth_known": "Sangchul came back from the call looking different.\n\n\"That was my son. He wants to drop out.\"\n\nMinjun listened.\nHe used to think bad people only did bad things.\nSangchul wasn't like that.\nThis worry — it was real.\nAnd that was the hardest part to hold."
+      "sangchul_truth_known": "Sangchul came back from the call looking different.\n\n\"That was my son. He wants to drop out.\"\n\nMinjun listened.\nHe used to think bad people only did bad things.\nSangchul wasn't like that.\nThe worry was real. After the call ended, his thumb stayed on his son's name for a long while."
     },
     "choices": [
       {
@@ -55,7 +55,7 @@
       },
       {
         "text": "\"What does your son want to do?\" — steering toward the son",
-        "result_text": "\"That's the problem — he doesn't know.\" Sangchul said.\n\nIt sounded like something that applied to {name} too — and he couldn't find a word to say."
+        "result_text": "\"That's the problem — he doesn't know.\" Sangchul said.\n\nIt sounded like something that applied to {name} too, and he couldn't find a word to say."
       }
     ]
   },
@@ -112,7 +112,7 @@
       },
       {
         "text": "Set the next target immediately — 500 million.",
-        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. At the same time, he could finally see the full height left to climb."
+        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. The 3 billion won on the top step pressed against the edge of the paper."
       }
     ]
   },
@@ -146,7 +146,7 @@
     "choices": [
       {
         "text": "Turned off the stock app's alerts.",
-        "result_text": "{name} silenced the stock app and laid the phone facedown. During work hours he would protect the salary; after work, he would grow another possibility. The job was not the goal. It was the base that supplied capital.\n\nFor his next shift, he arrived early and finished every assigned task. No one knew he opened a different ledger after work.\n\nHe had chosen to hold two lives at once. He did not yet know which hand would loosen first."
+        "result_text": "{name} silenced the stock app and laid the phone facedown. During work hours he would protect the salary; after work, he would grow another possibility.\n\nFor his next shift, he arrived early and finished every assigned task. No one knew he opened a different ledger after work.\n\nHe did not yet know which hand would loosen first."
       },
       {
         "text": "Opened a job-search site.",
@@ -154,7 +154,7 @@
       },
       {
         "text": "Closed the calculator. He had known this from the start.",
-        "result_text": "{name} closed the calculator. He had never planned to reach the goal on salary alone. This was not a notice of failure, he told himself, merely confirmation of the salary's role.\n\nPay would keep his life standing. The remaining hours would build something else. He opened his next work schedule on the phone.\n\nThe schedule replaced the ceiling he had just seen. He knew that disappearing was not the same as being gone."
+        "result_text": "{name} closed the calculator. He had never planned to reach the goal on salary alone. This was not a notice of failure, he told himself, merely confirmation of the salary's role.\n\nPay would keep his life standing. The remaining hours would build something else. He opened his next work schedule on the phone.\n\nThe schedule pushed the ceiling he had just seen off the screen."
       }
     ]
   },
@@ -254,7 +254,7 @@
     "choices": [
       {
       "text": "\"Failing the exam doesn't erase the years you gave it.\" — reply",
-      "result_text": "The read mark appeared. Much later came a reply. \"I still don't know what those years are worth.\"\n\n{name} could not tell whether it helped. But for the first time, Hyunsu was speaking about what came after the result."
+      "result_text": "The read mark appeared. Much later came a reply. \"I still don't know what those years are worth.\"\n\n{name} could not tell whether it helped. But Hyunsu's reply had the word \"still\" in it."
       },
       {
         "text": "\"What are you going to do next?\" — ask realistically",
@@ -269,7 +269,7 @@
   {
     "id": "arc_gangnam_visit_alone",
     "title": "First Time in Gangnam Alone",
-    "description": "Came to Gangnam for the first time with no one else.\n\nThe first glimpse of Gangnam had been a bus-stop ad on the day he arrived in Seoul.\n[A city where your place is waiting.]\nToday he had taken the subway alone all the way to that sentence.\n\nWalked into a café. The Americano was 9,000 won. Just ordered it.\n\nSat by the window and looked outside. Well-dressed people walking fast, not looking at each other.\n\n{name} took a sip of coffee.\nThis is the goal. Or — is it to become someone who belongs here?",
+    "description": "Came to Gangnam for the first time with no one else.\n\nThe first glimpse of Gangnam had been a bus-stop ad on the day he arrived in Seoul.\n[A city where your place is waiting.]\nToday he had taken the subway alone all the way to that sentence.\n\nWalked into a café. The Americano was 9,000 won. Just ordered it.\n\nSat by the window and looked outside. Well-dressed people walking fast, not looking at each other.\n\n{name} took a sip of coffee.\nIs this the goal? Or is the goal to blend in here?",
     "choices": [
       {
         "text": "\"I will be back here.\" — a silent promise",
@@ -277,7 +277,7 @@
       },
       {
         "text": "\"I'm not even sure this is what I really want.\" — being honest",
-        "result_text": "The coffee went cold. It wasn't that Gangnam was undesirable —\njust the first moment of wondering: is this actually what he wants, or is he just refusing to lose?"
+        "result_text": "The coffee went cold. It wasn't that he disliked Gangnam.\nIs this what he actually wants, or is he just refusing to lose? {name} didn't get up until he had finished the cold coffee."
       },
       {
         "text": "Keep the 9,000-won receipt. Plan to look at it again later.",
@@ -516,7 +516,7 @@
   {
     "id": "arc_daeun_money_gap",
     "title": "What Daeun Doesn't Know",
-    "description": "Daeun tried to pay for the coffee.\n\n{name} paid first. At that moment, a notification came up on his phone — the card charge for the coffee he had just paid for.\n\nDaeun didn't notice. {name} quickly turned off the screen.\n\nCould he show this person his bank account someday? It doesn't feel like they're at that stage yet.",
+    "description": "Daeun tried to pay for the coffee.\n\n{name} paid first. At that moment, the charge for the coffee popped up on his phone as a card alert.\n\nDaeun didn't notice. {name} quickly turned off the screen.\n\nCould he show this person his bank account someday? It doesn't feel like they're at that stage yet.",
     "choices": [
       {
         "text": "Let it pass — too early to talk about it.",
@@ -719,11 +719,11 @@
     "choices": [
       {
         "text": "\"Going anyway.\" — starts walking again",
-        "result_text": "I don't know.\n\nEven without a reason, even without confidence it'll work — just go.\n\nThat was all. The feet moved first."
+        "result_text": "I don't know.\n\nEven without a reason, even without confidence it'll work, just go.\n\nThe feet moved first."
       },
       {
         "text": "\"There has to be another way.\" — looks for a shortcut",
-        "result_text": "The conventional path won't work.\n\nThere's leverage somewhere. Gambling, investment, business — some play that changes everything in one move.\n\n{name} took out his phone. Began searching for something."
+        "result_text": "The conventional path won't work.\n\nThere's leverage somewhere. Gambling, investment, business. Some play that changes everything in one move.\n\n{name} took out his phone. Began searching for something."
       },
       {
         "text": "Just stands there for a while.",
@@ -734,11 +734,11 @@
   {
     "id": "arc_paycheck_reality",
     "title": "First Payday Night",
-    "description": "A KakaoBank notification buzzed.\n\nYour monthly salary from {job} has been deposited.\n\n{name} stared at the number for a long time. Until 3 billion — if he saved this amount without spending a single won, how many years would it take? He opened the calculator. Then closed it.",
+    "description": "A KakaoBank notification buzzed.\n\nYour monthly salary from {job} has been deposited.\n\n{name} stared at the number for a long time. If he saved this amount without spending a single won, how many years would it take to reach 3 billion? He opened the calculator. Then closed it.",
     "choices": [
       {
         "text": "Celebrate today. Even small things deserve to be marked.",
-        "result_text": "Bought a can of beer at the convenience store. 3,800 won. Shelved that long calculation for the night. For now — it's just a first paycheck.",
+        "result_text": "Bought a can of beer at the convenience store. 3,800 won. Shelved that long calculation for the night. Tonight was just his first payday.",
         "bridge_summary": "For one first-payday night, he set that long calculation aside and bought a 3,800-won beer."
       },
       {
@@ -1580,11 +1580,11 @@
       },
       {
         "text": "Dial Father's number — knowing it will not connect.",
-        "result_text": "{name} tapped the name saved as Father. He even prepared a sentence for the amount. After a short signal, however, a recording said the number could not be reached.\n\nHe knew the recording and did not need to hear it through. When he ended the call, the outgoing log held one new timestamp. This was not an unanswered call. There was no one left who could answer.\n\nThe value on the screen hadn't changed. He only knew more clearly who he'd wanted to show it to."
+        "result_text": "{name} tapped the name saved as Father. He even prepared a sentence for the amount. After a short signal, however, a recording said the number could not be reached.\n\nHe knew the recording and did not need to hear it through. When he ended the call, the outgoing log held one new timestamp. This was not an unanswered call. There was no one left who could answer.\n\nThe value on the screen hadn't changed. The sentence he had prepared never left his mouth."
       },
       {
         "text": "Set the next target immediately — 500 million.",
-        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. At the same time, he could finally see the full height left to climb."
+        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. The 3 billion won on the top step pressed against the edge of the paper."
       }
     ]
   },

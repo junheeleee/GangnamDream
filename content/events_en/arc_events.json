@@ -17,7 +17,7 @@
       }
     ],
     "description_orthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\nAt the third landing, {name} stops for breath. Flaking paint from the handrail dusts his palm.\n\nThe interviewer picks up the résumé. The tip of her pen stops at the six-year gap.\n\n{name} places the rehearsed answer on his tongue. His mouth is so dry it tastes like paper.",
-    "description_unorthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flags the six-year gap. {name} knows that look — 'an odd one.'\nFine. So what if I'm odd."
+    "description_unorthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flags the six-year gap. It's the look people give an odd one. {name} knows it.\nFine. So what if I'm odd."
   },
   {
     "id": "arc_intro_02_dad_call",
@@ -38,7 +38,7 @@
       }
     ],
     "description_orthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage 10,000 won/hour. Two million won a month. Gangnam, 3 billion won. 125 years.\n\n{name} wrote down more numbers. Save 3 million won a month. 15% annual return. Compounding.\nWhat looks impossible to the gut, broken into numbers, starts to show a path.\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The clearer the path got, the less he knew where to even begin.",
-    "description_unorthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage 10,000 won/hour. 125 years.\n\n{name} shut the calculator off. This way won't work.\nHe'd known that from the start. So he needed another way — a different axis than time.\nHe had to see what others didn't.\n\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The more set he was on finding another road, the heavier that voice felt.",
+    "description_unorthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage 10,000 won/hour. 125 years.\n\n{name} shut the calculator off. This way won't work.\nHe'd known that from the start. So he needed another way. A different axis than time.\nHe had to see what others didn't.\n\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The more set he was on finding another road, the heavier that voice felt.",
     "description_low_mental": "Goshiwon. 3 AM.\n\nCouldn't sleep again.\n\nOpened the calculator, then closed it. The number — 125 years — stayed in front of his eyes. Even doing nothing.\n\nHis body felt heavy. The air in this room felt heavy.\n\nThe phone rang. Father. {name} thought for a moment about whether to answer."
   },
   {
@@ -87,11 +87,11 @@
   {
     "id": "arc_chapter1_close",
     "title": "Two Months In",
-    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nHis first two months in Seoul — the burner account text, his father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\n{name} returned to the room where he currently lived and opened the notebook. First line:\n'{notebook_motive}'\n\nBelow it: '3 billion won. Five years.' The pages after that were still empty.\n\nUnder fluorescent light: a small room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still didn't have an answer.\nBut tonight was the first time the question felt completely real.",
+    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nHis first two months in Seoul. The burner account text, his father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\n{name} returned to the room where he currently lived and opened the notebook. First line:\n'{notebook_motive}'\n\nBelow it: '3 billion won. Five years.' The pages after that were still empty.\n\nUnder fluorescent light: a small room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still didn't have an answer.\nHe left the notebook open.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
-        "result_text": "Turned off the light.\n\nIn the dark, the number 3 billion won remained.\nThe distance between that number and this room — that's exactly the distance ahead.\n\n{name} closed his eyes. No plan yet. Still — he thought he could sleep tonight."
+        "result_text": "Turned off the light.\n\nIn the dark, the number 3 billion won remained.\n\n{name} closed his eyes. No plan yet. Still, he thought he could sleep tonight."
       },
       {
         "text": "Write one more line: 'Wake up at 7 AM tomorrow.'",
@@ -195,7 +195,7 @@
       },
       {
         "text": "\"You were driving that day, right?\" Speak first",
-        "result_text": "The tension leaves her face.\n\"You remember. I've been worrying about what happened that day.\"\n\"There was no need to go looking for me.\"\n\"Still, I told myself I'd introduce myself properly if I saw you again.\"\n\nShe hesitates, then holds out a hand.\n\"I'm Han Jiyeon. I wanted you to know my name this time.\"\n\nFor the first time, there is a name between them."
+        "result_text": "The tension leaves her face.\n\"You remember. I've been worrying about what happened that day.\"\n\"There was no need to go looking for me.\"\n\"Still, I told myself I'd introduce myself properly if I saw you again.\"\n\nShe hesitates, then holds out a hand.\n\"I'm Han Jiyeon. I wanted you to know my name this time.\"\n\n{name} gives his name too and takes her hand."
       }
     ]
   },
@@ -914,7 +914,7 @@
     "choices": [
       {
         "text": "It's fine, look for the next posting",
-        "result_text": "He opened the job app again. Similar postings, similar requirements, similar feel.\nHitting the apply button was a 0.3-second act of courage.\nThey usually reply about three weeks later — or never at all."
+        "result_text": "He opened the job app again. Similar postings, similar requirements, similar feel.\nHitting the apply button was a 0.3-second act of courage.\nThey usually reply about three weeks later. Sometimes they never do."
       },
       {
         "text": "Work on the résumé (revise the cover letter)",
@@ -1067,7 +1067,7 @@
     "choices": [
       {
         "text": "Reply that you'll come down next week",
-        "result_text": "Dad didn't reply.\nThat wasn't a no, and {name} knew it.\nSearched for train tickets. KTX Changwon-Jungang, two and a half hours.\nSome things come before money — learned that this time."
+        "result_text": "Dad didn't reply.\nThat wasn't a no, and {name} knew it.\nSearched for train tickets. KTX Changwon-Jungang, two and a half hours.\nHe pressed Pay faster than he expected."
       },
       {
         "text": "Call to check — can't be that serious",
@@ -1208,7 +1208,7 @@
       },
       {
         "text": "Knock once on the wall — asking if they're okay",
-        "result_text": "{name} tapped twice with his knuckle. The crying stopped. He asked, \"Are you all right?\" After a long pause, a very small \"Yes\" came back.\n\nBoth of them probably knew it was not true. He asked nothing more. Between two people who knew neither face nor name, the thin wall felt for once less like a barrier than a connection.",
+        "result_text": "{name} tapped twice with his knuckle. The crying stopped. He asked, \"Are you all right?\" After a long pause, a very small \"Yes\" came back.\n\nBoth of them probably knew it was not true. He asked nothing more. That night {name} fell asleep facing the wall.",
         "bridge_summary": "Two knocks brought back a tiny 'Yes.' For a moment, the thin wall felt like a connection."
       },
       {
@@ -1225,11 +1225,11 @@
     "choices": [
       {
         "text": "Put in 10,000 won — have to feel it to understand it",
-        "result_text": "{name} deposited 10,000 won and bought one share. When the fill alert sounded, the market price stopped being someone else's number. A rise of a few won lifted his mouth; a fall made him refresh.\n\nIt was too little to call a profit. Still, he learned that his body reacted before thought whenever money moved. The first lesson was not the chart, but his own pulse."
+        "result_text": "{name} deposited 10,000 won and pressed Buy for the first time in his life. When the fill alert sounded, the market price stopped being someone else's number. A rise of a few won lifted his mouth; a fall made him refresh.\n\nIt was too little to call a profit. Still, when the money moved, his body reacted first. His pulse stayed quick for a while after he closed the app."
       },
       {
         "text": "Read a book first — understand it before going in",
-        "result_text": "The account was open, but {name} did not press Deposit. Instead, he searched order types, fees, and examples of losses, filling the first page of a notebook. Every sentence contained another unknown word.\n\nToday's profit was zero. So was the loss. The empty balance no longer looked like proof that he was behind, but like space that would remain until he understood where he was entering."
+        "result_text": "The account was open, but {name} did not press Deposit. Instead, he searched order types, fees, and examples of losses, filling the first page of a notebook. Every sentence contained another unknown word.\n\nToday's profit was zero. So was the loss. He decided not to press Deposit until he had filled the next page too."
       }
     ]
   },

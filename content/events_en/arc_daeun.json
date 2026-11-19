@@ -6,7 +6,7 @@
     "choices": [
       {
         "text": "Thank her, then ask her name",
-        "result_text": "\"...I didn't realize. Thank you.\"\nThe clerk smiled. \"I'm Kim Daeun. I work the night shift.\"\n\n{name} gave his name too. For the first time, they used each other's names."
+        "result_text": "\"...I didn't realize. Thank you.\"\nThe clerk smiled. \"I'm Kim Daeun. I work the night shift.\"\n\n{name} gave his name too. Two triangle gimbap slid across the counter, side by side."
       },
       {
         "text": "Thank her and leave",
@@ -145,14 +145,14 @@
       },
       {
         "text": "\"Next time I'll take you somewhere better\" — today feels like too little",
-        "result_text": "Today was today. Whether it was enough — not really sure."
+        "result_text": "Today was today. Whether it was enough, he wasn't sure."
       }
     ]
   },
   {
     "id": "arc_daeun_04_morning",
     "title": "The Reason at 3 A.M.",
-    "description": "3 A.M.\n\nA message from Daeun.\n\"You awake? ...Just can't sleep. Not exactly struggling — just.\"\n\n{name} stared at the screen, then looked out the window. Seoul doesn't go dark at 3 A.M.\n\nFor a moment, the figure of three billion won slipped from his mind. Time was always running short.\n\nBut right now, looking at this message — for the first time, it felt clear.\nWhy he was running.",
+    "description": "3 A.M.\n\nA message from Daeun.\n\"You awake? ...Just can't sleep. Not exactly struggling — just.\"\n\n{name} stared at the screen, then looked out the window. Seoul doesn't go dark at 3 A.M.\n\nFor a moment, the figure of three billion won slipped from his mind. Time was always running short.\n\nBut while he looked at this message, he almost knew why he was running.",
     "choices": [
       {
         "text": "Reply: \"Me too. Don't worry\"",
@@ -160,7 +160,7 @@
       },
       {
         "text": "Send \"Sleep well\" — then open the laptop",
-        "result_text": "Can't afford to waver. But — why he's running felt a little clearer."
+        "result_text": "Can't afford to waver. Daeun's message stayed open beside the laptop screen."
       }
     ]
   },
@@ -171,7 +171,7 @@
     "choices": [
       {
         "text": "\"Even there, I won't forget the person who's here. Let's hold on together.\" — that was all",
-        "result_text": "She nodded without a word.\nThe words fell short — but they got through.\nThe things he still couldn't put into words — maybe he'd say them someday, in Gangnam."
+        "result_text": "She nodded without a word.\nThe words fell short — but they got through.\nWhatever he still couldn't say, maybe he'd say it someday, in Gangnam."
       },
       {
         "text": "\"When I get to Gangnam I'll treat you better. Bear with it for now.\"",
@@ -183,7 +183,7 @@
       },
       {
       "text": "\"Forget Gangnam — I need you here, now. Let's be together.\"",
-        "result_text": "Daeun's eyes widened. The numbers on the calculator stayed still, but their light trembled faintly between them.\n\n\"...Do you mean it?\"\n\"I do. Gangnam will still be there in five years. But you — you're here now.\"\n\nDaeun did not smile right away. She looked at {name}'s hand resting on the calculator and pressed her lips together. Only after touching the reddened corner of one eye with the back of her hand did she nod.\n\n\"Then you don't get to say you weren't sure later.\"\n\"I won't.\"\n\nShe smiled. Neither of them hurried to fill the silence before it was finished.\n\nThat night, the distance that had lingered since the convenience-store counter disappeared. It was the first day they chose to walk the time that remained together."
+        "result_text": "Daeun's eyes widened. The numbers on the calculator stayed still, but their light trembled faintly between them.\n\n\"...Do you mean it?\"\n\"I do. Gangnam will still be there in five years. But you — you're here now.\"\n\nDaeun did not smile right away. She looked at {name}'s hand resting on the calculator and pressed her lips together. Only after touching the reddened corner of one eye with the back of her hand did she nod.\n\n\"Then you don't get to say you weren't sure later.\"\n\"I won't.\"\n\nShe smiled. Neither of them hurried to fill the silence before it was finished.\n\nThat night {name} even forgot to switch off the calculator."
       }
     ]
   },
@@ -205,7 +205,7 @@
   {
     "id": "arc_daeun_ghost",
     "title": "A Glimpse of Her",
-    "description": "Stumbled across it on social media.\n\nA photo Daeun took back in her hometown.\nIn front of the grocery store. Side by side with her mom. One small potted plant. A bright smile.\n\n'Doing just fine :)'\n\n{name} looked at that photo for a long time.\nShe's okay. That thought arrived — and for some reason made the hollow feeling worse.\nIt only now fully landed that she was someone nowhere in Seoul anymore.",
+    "description": "Stumbled across it on social media.\n\nA photo Daeun took back in her hometown.\nIn front of the grocery store. Side by side with her mom. One small potted plant. A bright smile.\n\n'Doing just fine :)'\n\n{name} looked at that photo for a long time.\nShe's okay. Somehow the thought only made the hollow feeling worse.\nIt only now fully landed that she was someone nowhere in Seoul anymore.",
     "choices": [
       {
         "text": "Hit like — hope you're doing well. I'll do the same",
