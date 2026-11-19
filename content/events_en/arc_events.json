@@ -401,7 +401,7 @@
         "result_text": "\"Let me think about it.\" {name} leaves.\nBack home, he starts searching.\nThe investment product from Jaehyuk's pitch. The company name. Similar fraud cases.\n\nResults begin appearing one by one.\nA chill runs down his spine."
       }
     ],
-    "description_orthodox": "Hotel lounge. Jaehyuk's expression turns serious.\n\nTriple the principal. This week only.\n\n{name} analyzes the structure of those two sentences.\nIf \"triple\" is the hook, \"this week only\" is the device that kills thinking time.\nTextbook pattern.\n\nJaehyuk says, \"We lived and died together in there.\"\n\nBecause that sentence is true — even though he knows he should be more careful — {name} wavers anyway.",
+    "description_orthodox": "Hotel lounge. Jaehyuk's expression turns serious.\n\nTriple the principal. This week only.\n\n{name} analyzes the structure of those two sentences.\nIf \"triple\" is the hook, \"this week only\" is the device that kills thinking time.\nTextbook pattern.\n\nJaehyuk says, \"We lived and died together in there.\"\n\nBecause that sentence is true, he knows he should be more careful. {name} wavers anyway.",
     "description_unorthodox": "Hotel lounge. Jaehyuk leaned across the table.\n\n\"Triple the principal.\"\n\nBefore {name} could ask how, he was leaning forward too. The edge of the table pressed against his forearms.\n\n\"This week only.\"\n\nThe voices at the other tables grew distant.\n\"We lived and died together in there.\"\n\n{name} opened his mouth, then closed it. Jaehyuk stayed leaning forward, waiting for an answer."
   },
   {
@@ -851,11 +851,11 @@
     "choices": [
       {
         "text": "Call Jaehyuk right now and demand it back — maybe I can still pull it out",
-        "result_text": "He made the call. Jaehyuk picked up — he could still be reached, for now.\n\"Hey, I think I need to pull my money out. Something urgent came up.\"\nJaehyuk went quiet for a beat, then said with a laugh,\n\"What are you talking about, man. You'll lose if you pull out now. Just a little longer and...\"\n\nWith great difficulty, he salvaged only a part of it.\nWhere the rest had gone, there was no way to know.\n\nHyunsu said, \"Hyung, I should've told you sooner. I'm sorry.\"\nThat hurt more. Because it wasn't Hyunsu's fault."
+        "result_text": "He made the call. Jaehyuk picked up. He could still be reached, for now.\n\"Hey, I think I need to pull my money out. Something urgent came up.\"\nJaehyuk went quiet for a beat, then said with a laugh,\n\"What are you talking about, man. You'll lose if you pull out now. Just a little longer and...\"\n\nWith great difficulty, he salvaged only a part of it.\nWhere the rest had gone, there was no way to know.\n\nHyunsu said, \"Hyung, I should've told you sooner. I'm sorry.\"\n{name} tried to say it wasn't his fault, but his throat closed and he only shook his head."
       },
       {
         "text": "\"...It can't be Jaehyuk\" — choose to trust his army friend",
-        "result_text": "\"Hyunsu, not everything in those forum posts is necessarily true.\nJaehyuk's a real friend of mine. We went through the army together, lived and died side by side.\"\nHyunsu was quiet for a moment, then said, \"...Right. I guess I worried for nothing.\"\n\n{name} set the phone down.\nHis heart beat a little faster.\nWhether it was because he wanted to believe, or because he already knew — he couldn't tell."
+        "result_text": "\"Hyunsu, not everything in those forum posts is necessarily true.\nJaehyuk's a real friend of mine. We went through the army together, lived and died side by side.\"\nHyunsu was quiet for a moment, then said, \"...Right. I guess I worried for nothing.\"\n\n{name} set the phone down.\nHis heart beat a little faster.\nWhether it was because he wanted to believe, or because he already knew, he couldn't tell."
       },
       {
         "text": "\"I thought something was off too. Let's look into it together\"",
@@ -971,7 +971,7 @@
       },
       {
         "text": "Keep walking, holding onto the memory that began at the convenience store",
-        "result_text": "Daeun is living her life, in her own way.\n{name} made it this far, in his.\n\nTogether or not —\nthe fact that she was at the starting line isn't something that gets erased.\n\nHe held onto that as he walked toward the final stretch."
+        "result_text": "Daeun is living her life, in her own way.\n{name} made it this far, in his.\n\nTogether or not,\nthe fact that she was at the starting line doesn't get erased.\n\nHe held onto that as he walked toward the final stretch."
       }
     ]
   },
@@ -1139,11 +1139,11 @@
     "choices": [
       {
         "text": "\"Cold here. Cold there too, right?\" — just talk about small things",
-        "result_text": "Fifteen minutes of weather, the neighborhood, nothing in particular.\n\nAfter hanging up, {name} was smiling.\n\nNot a word about Gangnam.\nBut today that felt better. Because Dad called first."
+        "result_text": "Fifteen minutes of weather, the neighborhood, nothing in particular.\n\nAfter hanging up, {name} was smiling.\n\nNot a word about Gangnam.\nAt the top of the call log was the call Dad had made first."
       },
       {
         "text": "\"I'm doing well lately, Dad. Don't worry.\"",
-        "result_text": "Dad's voice sounded warm.\n\n\"You take care too, Dad. Don't worry.\"\nA brief silence.\n\"...Yeah. You too.\"\n\nThat was all. But the feeling after the call was different today."
+        "result_text": "Dad's voice sounded warm.\n\n\"You take care too, Dad. Don't worry.\"\nA brief silence.\n\"...Yeah. You too.\"\n\nThat was all. Even after hanging up, {name} didn't put the phone down for a while."
       }
     ]
   },
@@ -1180,7 +1180,7 @@
   {
     "id": "arc_jaehyuk_04c_stand_up",
     "title": "Back from Zero",
-    "description": "The word 'scam' would not leave his head.\n\nSat and calculated the amount lost.\nCalculated it again. The number didn't change.\n\n{name} took out a notebook.\n\nWhat was in the account when first coming to this city?\nAlmost nothing, back then too. And somehow it worked out.\n\nThe difference between now and then —\nMeeting someone like Choi Jaehyuk.\nAnd now knowing why those words sounded so sweet.\n\n{name} started writing.",
+    "description": "The word 'scam' would not leave his head.\n\nSat and calculated the amount lost.\nCalculated it again. The number didn't change.\n\n{name} took out a notebook.\n\nWhat was in the account when first coming to this city?\nAlmost nothing, back then too. And somehow it worked out.\n\nThe difference between now and then:\nMeeting someone like Choi Jaehyuk.\nAnd now knowing why those words sounded so sweet.\n\n{name} started writing.",
     "choices": [
       {
         "text": "Copied Jaehyuk's words into the notebook.",
@@ -1193,7 +1193,7 @@
     ],
     "description_if_known": {
       "jaehyuk_night_was_real": "The word 'scam' would not leave his head.\n\nThe number hadn't changed.\n\nBut {name} didn't delete the photo.\nThe two of them in front of the pojangmacha.\nThat night was that night.\n\n{name} took out the notebook. Decided to write only what came after that night.",
-      "deleted_jaehyuk_photo": "The word 'scam' would not leave his head.\n\nThe number hadn't changed.\n\n{name} deleted the photo.\nThe pojangmacha, the army stories, the laughter of that night —\nerased all of it together.\n\n{name} took out the notebook. Started over from the beginning."
+      "deleted_jaehyuk_photo": "The word 'scam' would not leave his head.\n\nThe number hadn't changed.\n\n{name} deleted the photo.\nThe pojangmacha, the army stories, the laughter of that night.\nerased all of it together.\n\n{name} took out the notebook. Started over from the beginning."
     }
   },
   {
@@ -1381,7 +1381,7 @@
   {
     "id": "arc_jaehyuk_photo_in_dark",
     "title": "The Photo From That Night",
-    "description": "Night.\n\n{name} took out the phone and opened the gallery.\n\nOne photo.\nIn front of a pojangmacha. The two of them together.\nJaehyuk had an arm around {name}'s shoulder and was smiling.\n\nThat night had been real.\nEven if he was a con man, at least that smile that night — must have been real.\n\nOr had even that been practiced?",
+    "description": "Night.\n\n{name} took out the phone and opened the gallery.\n\nOne photo.\nIn front of a pojangmacha. The two of them together.\nJaehyuk had an arm around {name}'s shoulder and was smiling.\n\nThat night had been real.\nEven if he was a con man, at least that smile that night must have been real.\n\nOr had even that been practiced?",
     "choices": [
       {
         "text": "Decide to believe it was real",

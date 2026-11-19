@@ -2,26 +2,26 @@
   {
     "id": "arc_daeun_our_home",
     "title": "Our Home",
-    "description": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"This room... how about it for your father?\"\n{name} froze. He'd never even thought of it.\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else with that one sentence.\nA number he'd climbed alone — was now a home with several rooms.",
+    "description": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"This room... how about it for your father?\"\n{name} froze. He'd never even thought of it.\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else with that one sentence.\nA number he'd climbed alone was now a home with several rooms.",
     "choices": [
       {
       "text": "\"Yeah. Let's find a home with a place for both of them.\"",
-        "result_text": "Daeun beamed.\n\nThat night, for the first time, {name} thought of Gangnam not as 'where I arrive' but 'where we live.'\nThe weight of the number changed. Heavier now — and yet, strangely, lighter."
+        "result_text": "Daeun beamed.\n\nThat night, for the first time, {name} thought of Gangnam not as 'where I arrive' but 'where we live.'\nThree listing photos from Daeun sat side by side in his phone."
       },
       {
         "text": "\"Let's think about that after we get in. Right now the number comes first.\"",
-        "result_text": "Daeun went quiet for a moment, then closed the screen.\n\"...Right. The number comes first.\"\n\n{name} felt the temperature of her voice drop half a degree, but his head was already back in the listing math.\nHow many rooms it had — was a problem for later."
+        "result_text": "Daeun went quiet for a moment, then closed the screen.\n\"...Right. The number comes first.\"\n\n{name} felt the temperature of her voice drop half a degree, but his head was already back in the listing math.\nHow many rooms it had was a problem for later."
       }
     ]
   },
   {
     "id": "arc_daeun_families_meet",
     "title": "The Families Meet",
-    "description": "The introductions. A quiet Korean restaurant.\n\n{name}'s father — a lifetime in the factory, stooped shoulders, a borrowed suit. Daeun's mother — up on the dawn bus from the countryside, knuckles thick from work.\n\nNeither of them had anything. You could see it at a glance.\n\nHis father spoke, with effort.\n\"I... once did a terrible thing to my child, over a debt. A shameful father...\"\n\nSilence settled over the table. Daeun's mother looked at {name}.\nWhatever {name} said next — his father's remaining pride hung on it.",
+    "description": "The introductions. A quiet Korean restaurant.\n\n{name}'s father had spent a lifetime in the factory: stooped shoulders, a borrowed suit. Daeun's mother had come up on the dawn bus from the countryside, her knuckles thick from work.\n\nNeither of them had anything. You could see it at a glance.\n\nHis father spoke, with effort.\n\"I... once did a terrible thing to my child, over a debt. A shameful father...\"\n\nSilence settled over the table. Daeun's mother looked at {name}.\nWhatever {name} said next, his father's remaining pride hung on it.",
     "choices": [
       {
         "text": "\"My father paid off every won of that debt. Everything I am, I owe to him.\"",
-        "result_text": "His father lifted his head. His eyes were red.\n\nDaeun's mother said quietly, \"You've got a good father.\"\n\nOn the way home, his father clapped {name} once on the back.\nNo words — but that was enough."
+        "result_text": "His father lifted his head. His eyes were red.\n\nDaeun's mother said quietly, \"You've got a good father.\"\n\nOn the way home, his father clapped {name} once on the back.\nNo words. That was enough."
       },
       {
         "text": "Change the subject. (The debt talk doesn't belong here)",
@@ -91,7 +91,7 @@
     "choices": [
       {
         "text": "Put the pen down. \"Daeun, let's just... get there a little later.\"",
-        "result_text": "Daeun came out of the kitchen. \"What'd you say?\"\n\"Nothing. The rolled omelet smells good.\"\n\nThe shortcut went in the trash that night.\nGangnam would come honestly, or it wouldn't come at all — one of the two.\nEither way, he wasn't trading it for the person making dinner in the kitchen.\n{name} learned that day it was worth more than any deed."
+        "result_text": "Daeun came out of the kitchen. \"What'd you say?\"\n\"Nothing. The rolled omelet smells good.\"\n\nThe shortcut went in the trash that night.\nGangnam would come honestly, or it wouldn't come at all.\nEither way, he wasn't trading it for the person making dinner in the kitchen."
       },
       {
         "text": "Sign it. Trust the numbers one more time.",
@@ -99,7 +99,7 @@
       },
       {
         "text": "(Pen in hand — that post-it in the drawer came to mind.)",
-        "result_text": "Pen still in hand, {name} opened the desk drawer.\nOne old post-it note. Years had passed since he peeled it off the fridge and put it here.\n'Eat properly.' Written carefully, in rounded letters.\n\nThe person who wrote those words was in the kitchen making rolled omelet. Selling off everything she had with one secret signature — and those words — could not exist in the same world.\n\n{name} stuck the post-it onto the contract, and put the pen down.\n\"Daeun. Let's just... go a little late.\"\nThe humming in the kitchen paused a moment, then went on. Knowing nothing. That was good."
+        "result_text": "Pen still in hand, {name} opened the desk drawer.\nOne old post-it note. Years had passed since he peeled it off the fridge and put it here.\n'Eat properly.' Written carefully, in rounded letters.\n\nThe person who wrote those words was in the kitchen making rolled omelet. Selling off everything she had with one secret signature, and those words, could not exist in the same world.\n\n{name} stuck the post-it onto the contract, and put the pen down.\n\"Daeun. Let's just... go a little late.\"\nThe humming in the kitchen paused a moment, then went on. Knowing nothing. That was good."
       }
     ]
   },
@@ -143,7 +143,7 @@
       },
       {
         "text": "Turn to the bride's side and bow first to the people who came today.",
-        "result_text": "When {name} bowed, quiet applause spread through the bride's side.\n\nA mart coworker who had traded shifts, a hometown friend who had taken the dawn bus, relatives he'd met only once. Every one of them had made time to be here for Daeun.\n\nIn the front row, her mother brought her hands together and bowed back. Only then did {name} understand that this wedding was not something he was doing alone."
+        "result_text": "When {name} bowed, quiet applause spread through the bride's side.\n\nA mart coworker who had traded shifts, a hometown friend who had taken the dawn bus, relatives he'd met only once. Every one of them had made time to be here for Daeun.\n\nIn the front row, her mother brought her hands together and bowed back. {name} bowed once more, deeper."
       }
     ],
     "description_if_known": {
@@ -166,7 +166,7 @@
       },
       {
         "text": "Turn to the bride's side and bow first to the people who came today.",
-        "result_text": "When {name} bowed, quiet applause spread through the bride's side.\n\nA mart coworker who had traded shifts, a hometown friend who had taken the dawn bus, relatives he'd met only once. Every one of them had made time to be here for Daeun.\n\nIn the front row, her mother brought her hands together and bowed back. Only then did {name} understand that this wedding was not something he was doing alone."
+        "result_text": "When {name} bowed, quiet applause spread through the bride's side.\n\nA mart coworker who had traded shifts, a hometown friend who had taken the dawn bus, relatives he'd met only once. Every one of them had made time to be here for Daeun.\n\nIn the front row, her mother brought her hands together and bowed back. {name} bowed once more, deeper."
       }
     ]
   },
@@ -202,15 +202,15 @@
   {
     "id": "arc_daeun_our_home_father_passed",
     "title": "Our Home",
-    "description": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"Let's keep this room for your father. Hang a photo of him.\"\n{name} froze. His father was gone now — but Daeun wanted to leave a place for him.\n\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else.\nA number he'd climbed alone — was now a home with a place for both the departed and the living.",
+    "description": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"Let's keep this room for your father. Hang a photo of him.\"\n{name} froze. His father was gone now. Daeun still wanted to leave a place for him.\n\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else.\nA number he'd climbed alone was now a home with a place for both the departed and the living.",
     "choices": [
       {
         "text": "\"Yeah. Let's find a home with a place for both of them.\"",
-        "result_text": "Daeun beamed.\n\nThat night, for the first time, {name} thought of Gangnam not as 'where I arrive' but 'where we live.'\nThe weight of the number changed. Heavier now — and yet, strangely, lighter."
+        "result_text": "Daeun beamed.\n\nThat night, for the first time, {name} thought of Gangnam not as 'where I arrive' but 'where we live.'\nThree listing photos from Daeun sat side by side in his phone."
       },
       {
         "text": "\"Let's think about that after we get in. Right now the number comes first.\"",
-        "result_text": "Daeun went quiet for a moment, then closed the screen.\n\"...Right. The number comes first.\"\n\n{name} felt the temperature of her voice drop half a degree, but his head was already back in the listing math.\nHow many rooms it had — was a problem for later."
+        "result_text": "Daeun went quiet for a moment, then closed the screen.\n\"...Right. The number comes first.\"\n\n{name} felt the temperature of her voice drop half a degree, but his head was already back in the listing math.\nHow many rooms it had was a problem for later."
       }
     ]
   }

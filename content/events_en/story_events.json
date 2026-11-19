@@ -400,7 +400,7 @@
     "choices": [
       {
         "text": "My path is the right one. Different pace is fine.",
-        "result_text": "{name} looked through the wedding and housewarming photos again and left congratulations. Then he opened his own ledger. Erasing other people's milestones would not create a road of his own.\n\nHe wrote the balance from three years ago beside today's. The start and speed were different. Movement was still visible.\n\nHe did not yet know whether the direction was right. He chose only to set the next step by his own record rather than someone else's clock."
+        "result_text": "{name} looked through the wedding and housewarming photos again and left congratulations. Then he opened his own ledger. Erasing other people's milestones would not create a road of his own.\n\nHe wrote the balance from three years ago beside today's. The start and speed were different. Movement was still visible.\n\nHe did not yet know whether the direction was right. Under the two numbers, {name} wrote one line of next month's plan."
       },
       {
         "text": "I have to move faster. Three years is long enough.",
@@ -434,7 +434,7 @@
     "choices": [
       {
         "text": "This is the most important turning point of my life. Go all in.",
-        "result_text": "The skills have stacked up now. The timing is there too.\n{name} read thirty-five not as 'not yet' but as 'now.'\nThere's no age limit on taking a chance."
+        "result_text": "The skills have stacked up now. The timing is there too.\n{name} touched the 35 on the calendar once and opened the application file."
       },
       {
         "text": "Stay unshaken. Protect my foundation.",

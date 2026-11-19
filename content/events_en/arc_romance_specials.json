@@ -17,7 +17,7 @@
   {
     "id": "arc_daeun_hometown_2",
     "title": "Her Mother's Table",
-    "description": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl. \"Eat more. You can't get food like this up in Seoul.\"\n\nThen, out of nowhere, her mother glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — yellow, thick, the ends neatly folded.\n{name} knew that shape. It was the very same rolled omelet Daeun used to bring to his goshiwon in a side-dish container.\nWithout a word, he understood where it had come from.",
+    "description": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl. \"Eat more. You can't get food like this up in Seoul.\"\n\nThen, out of nowhere, her mother glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — yellow, thick, the ends neatly folded.\n{name} knew that shape. It was the very same rolled omelet Daeun used to bring to his goshiwon in a side-dish container.\nWithout a word, {name} picked up a piece of it.",
     "choices": [
       {
         "text": "Follow her mother's gaze and open your palm beneath the table.",
@@ -145,7 +145,7 @@
   {
     "id": "arc_daeun_wedding_night",
     "title": "The First Night",
-    "description": "After the wedding, they were finally alone. Their first home together was new, with half the boxes still unpacked.\n\nAt the threshold, Daeun could not quite make herself step inside. She kept turning her new ring with one fingertip. The white dress was gone, yet tonight she somehow looked unfamiliar.\n\n\"I...\" Her voice was small. She took a breath, then chose not to hide.\n\"This is my first time, so... don't laugh.\"\n\nThe tips of her ears flushed red, but she did not look away. That was Daeun: shy, and honest enough to say so. {name} did not rush to answer. After an entire day spent in front of other people, the two of them were finally alone for the first time.",
+    "description": "After the wedding, they were finally alone. Their first home together was new, with half the boxes still unpacked.\n\nAt the threshold, Daeun could not quite make herself step inside. She kept turning her new ring with one fingertip. The white dress was gone, yet tonight she somehow looked unfamiliar.\n\n\"I...\" Her voice was small. She took a breath, then chose not to hide.\n\"This is my first time, so... don't laugh.\"\n\nThe tips of her ears flushed red, but she did not look away. Shy, and honest enough to say so. That was Daeun. {name} did not rush to answer. After an entire day spent in front of other people, the two of them were finally alone for the first time.",
     "choices": [
       {
         "text": "Dim the lights and make something warm to drink.",
@@ -252,7 +252,7 @@
   {
     "id": "arc_daeun_hometown_2_father_passed",
     "title": "Her Mother's Table",
-    "description": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl.\nThen she asked, \"And your parents, Minjun — what do they do?\"\n\n{name} lost his answer for a moment. His father was gone now. Not knowing what to say, he just looked at his bowl.\nHer mother must have read the silence; she didn't ask again, only glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — the very same one Daeun used to bring to his goshiwon.\nWithout a word, he understood where it had come from.",
+    "description": "After the appointment, they had dinner at Daeun's country home.\n\nHer mother wasn't one for words. Instead she kept heaping more rice into {name}'s bowl.\nThen she asked, \"And your parents, Minjun — what do they do?\"\n\n{name} lost his answer for a moment. His father was gone now. Not knowing what to say, he just looked at his bowl.\nHer mother must have read the silence; she didn't ask again, only glanced at {name}'s hands.\n\"...Hands that have worked hard.\"\n\nIn the middle of the table sat a gyeran-mari, the rolled omelet — the very same one Daeun used to bring to his goshiwon.\nWithout a word, {name} picked up a piece of it.",
     "choices": [
       {
         "text": "Follow her mother's gaze and open your palm beneath the table.",
