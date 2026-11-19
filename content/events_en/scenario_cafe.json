@@ -21,7 +21,7 @@
   {
     "id": "cafe_listen_01",
     "title": "The Gap",
-    "description": "The man hangs up and stands. Bathroom, maybe.\nHis phone and a document folder, left on the table.\nBold text on the cover: \"XX District Housing Association Allocation Guide.\"\n\nNobody around is paying attention.\n{name}'s heart quickens slightly.",
+    "description": "The man hangs up and stands. Bathroom, maybe.\nHis phone and — a document folder, left on the table.\nBold text on the cover: \"XX District Housing Association Allocation Guide.\"\n\nNobody around is paying attention.\n{name}'s heart quickens slightly.",
     "choices": [
       {
         "text": "Flip the folder open. Just a peek.",
@@ -33,7 +33,7 @@
       },
       {
         "text": "Pretend not to notice. Drink the coffee.",
-      "result_text": "He heard something, but that's as far as it goes.\n{name} leaves the folder closed and drinks the coffee.\nOnly a name and a few words stay lodged in the back of the mind."
+      "result_text": "He hears it — but that's as far as it goes.\n{name} leaves the folder closed and drinks the coffee.\nOnly a name and a few words stay lodged in the back of the mind."
       }
     ]
   },

@@ -17,7 +17,7 @@
       }
     ],
     "description_orthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\nAt the third landing, {name} stops for breath. Flaking paint from the handrail dusts his palm.\n\nThe interviewer picks up the résumé. The tip of her pen stops at the six-year gap.\n\n{name} places the rehearsed answer on his tongue. His mouth is so dry it tastes like paper.",
-    "description_unorthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flags the six-year gap. It's the look people give an odd one. {name} knows it.\nFine. So what if I'm odd."
+    "description_unorthodox": "A company {name} applied to gets back to him. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flags the six-year gap. {name} knows that look — 'an odd one.'\nFine. So what if I'm odd."
   },
   {
     "id": "arc_intro_02_dad_call",
@@ -195,7 +195,7 @@
       },
       {
         "text": "\"You were driving that day, right?\" Speak first",
-        "result_text": "The tension leaves her face.\n\"You remember. I've been worrying about what happened that day.\"\n\"There was no need to go looking for me.\"\n\"Still, I told myself I'd introduce myself properly if I saw you again.\"\n\nShe hesitates, then holds out a hand.\n\"I'm Han Jiyeon. I wanted you to know my name this time.\"\n\n{name} gives his name too and takes her hand."
+        "result_text": "The tension leaves her face.\n\"You remember. I've been worrying about what happened that day.\"\n\"There was no need to go looking for me.\"\n\"Still, I told myself I'd introduce myself properly if I saw you again.\"\n\nShe hesitates, then holds out a hand.\n\"I'm Han Jiyeon. I wanted you to know my name this time.\"\n\nFor the first time, there is a name between them."
       }
     ]
   },
