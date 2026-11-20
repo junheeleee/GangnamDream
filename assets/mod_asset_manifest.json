@@ -3284,6 +3284,13 @@
     },
     {
       "ids": [
+        "document_scan"
+      ],
+      "relative_path": "audio/sfx_document_scan.wav",
+      "bytes": 127086
+    },
+    {
+      "ids": [
         "document_stamp"
       ],
       "relative_path": "audio/sfx_document_stamp.wav",
