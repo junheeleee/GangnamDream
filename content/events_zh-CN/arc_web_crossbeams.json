@@ -2,11 +2,11 @@
   {
     "id": "arc_jaehyuk_sangchul_echo",
     "title": "同一类人",
-    "description": "不知怎么，说到了Jaehyuk。\n说有个朋友总谈投资，以前是部队里的同期战友。\n\nIm Sangchul放下咖啡，短暂地笑了笑。\n\n“你那个朋友，起初八成也上过当。”\n\nMinjun愣了愣。和Jaehyuk在韩国路边摊上眼神浑浊时说的那句——“其实我也上过当”——一模一样。\n\n“然后，大概就有人说了吧。你做这个会很在行，自己干干看。”\nIm Sangchul望向窗外。\n“大家都是这样过去的。从受害者——变成下一种人。”\n\nMinjun不知道，这个人现在说的是Jaehyuk，还是他自己。",
+    "description": "不知怎么，说到了Jaehyuk。\n说有个朋友总谈投资，以前是部队里的同期战友。\n\nIm Sangchul放下咖啡，短暂地笑了笑。\n\n“你那个朋友，起初八成也上过当。”\n\nMinjun愣了愣。和Jaehyuk在韩国路边摊上眼神浑浊时说的那句“其实我也上过当”，一模一样。\n\n“然后，大概就有人说了吧。你做这个会很在行，自己干干看。”\nIm Sangchul望向窗外。\n“大家都是这样过去的。从受害者——变成下一种人。”\n\nMinjun不知道，这个人现在说的是Jaehyuk，还是他自己。",
     "choices": [
       {
         "text": "“Sangchul先生也这样过吗？”",
-        "result_text": "Im Sangchul没有回答，喝了口咖啡。\n\n过了很久，他仍望着窗外，说道。\n“对某个人来说，我大概也当过那种前辈吧。”\n\nMinjun忽然觉得，Jaehyuk和Im Sangchul像是同一个人。无论从何时开始，最后都站到了同样的位置。\n可怕的是——那个位置看起来，也朝自己近了一步。"
+        "result_text": "Im Sangchul没有回答，喝了口咖啡。\n\n过了很久，他仍望着窗外，说道。\n“对某个人来说，我大概也当过那种前辈吧。”\n\nMinjun忽然觉得，Jaehyuk和Im Sangchul像是同一个人。无论从何时开始，最后都站到了同样的位置。\nMinjun 把凉掉的咖啡杯往自己这边拉，又停住了。"
       },
       {
         "text": "“我不会那样的。”",

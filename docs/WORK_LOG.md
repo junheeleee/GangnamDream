@@ -1,5 +1,14 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
+## 2026-11-20
+
+- #43 정점 장면 숨은 경로 이름 제거: 정석·비정석 변형 5언어를 수첩 숫자 간격으로 바꾸고 peak 계약에 경로 이름 금지 추가([결정](DECISIONS.md#2026-11-20-정점-장면은-숨은-경로-이름을-쓰지-않는다--사용자-승인)).
+- #43 main CI 원장 동기화(W208 스캔음 142/23/34·모드 목록·등급 지문)와 [출시 후 보류 60오더](queue_backlog/DEFERRED_POST_LAUNCH_2026-11-20.md) 이동: 활성 83→23. 사람 원장 참조 16건은 유지.
+
+## 2026-11-19
+
+- #43 도달 장면 AI 말투 5언어 정리: 1~2년 차 47문단(Y1Y2)·3~5년 차 165문단(Y3Y5). 24주 데모 보호 6사건 제외, 검증기 수정0.
+
 ## 2026-11-15
 
 - [830](queue_archive/ORDER-830-ART-EVIDENCE.md) 207–12/15;C6
@@ -95,13 +104,7 @@
 - C5/737: 사용자 잠금 중 작업 지시. 기존 master/폰트/wordmark/4규격을 이용하는 CPU/Pillow 실물4PNG와 소형2장만 준비한다. native exporter/잠금가드/게임/저장/원그림 변경0. 별도 source-derived rendition이며 native pixel/layout parity·출시GO0.
 - exact 소유는 활성737, 제작자/비저자 분리. 완료 로그39765B를 아래 history에 byteexact 보관했으며 기존 월별 마감/HOLD/인간판정은 삭제하지 않았다. 신규규범0/일회성.
 
-## 2026-10-31 — 실제 캡슐 4종 제작·독립 검수 완료
-
-- [737 마감](queue_archive/ORDER-737.md): 고정 원화/폰트/wordmark 규칙의 CPU/Pillow 실제4PNG와 소형120x45·184x69 전독GO_OFFLINE_ASSETS_ONLY. 새 외부폴더 `GangnamDream-Release-Assets/steam-capsules-20261031-y33uh_11`, manifest SHA fd6ba8c01682c9bf7306c3787bed1ded9c3a87bf642ce533ee96a9d50348e50d. 원3인/민준crop·얼굴비겹침·제목가독성 유지. 합성15/독립15PASS, 실제exit0/3.823초/stderr0.
-- source3558/입력6/helper2 exact·보호1147그룹1815항목 전후/현재 exact·live378278B/8df231 불변. 독립보고 private737 review.md SHA de413fccd80290c257c62915d2b30dec691abd34e597ab6ec6a85f706e901690, JSON b7b5bb850dd631b910de630ee154b47ee034fe852cc75caa81134535f8c189f0.
-- offline4/native0·native pixel/layout parity0·게임/엔진/UI/저장편집/업로드0. STEAM_PAGE §8에 별도 실물 한계 기록, 원native guard/735/736/HOLD/인간판정 보존. 규범은 일회성·승격0. M40/M60/전체C2/C5·사람/청취/retail5언어·출시 미완이며 로컬기록을 remote CI로 세지 않는다.
-
 ## 이전 완료 기록
 
-[2026-10-31 체크포인트](history/WORK_LOG_2026-10-31_order737_checkpoint.md)에 이전 기커밋 원문을 보존한다.
+[2026-10-31 캡슐 절](history/WORK_LOG_2026-11-19_before_43.md)과 [2026-10-31 체크포인트](history/WORK_LOG_2026-10-31_order737_checkpoint.md)에 이전 기커밋 원문을 보존한다.
 원문39765B/SHA256 bb196b32a5e51c387e20fcdf3e211ec5ce2015a7d9e93d9076bf8053d0c53f35.

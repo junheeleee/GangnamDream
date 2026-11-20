@@ -2,7 +2,7 @@
   {
     "id": "arc_sangchul_year3",
     "title": "News Article",
-    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im under investigation over suspected fraud against multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\nClosed the article and looked up. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
+    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im under investigation over suspected fraud against multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nBeneath the article, other victims' stories ran on and on. Father's case wasn't the only one.\n\nClosed the article and looked up. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
     "choices": [
       {
         "text": "Closed the article. Back to what needs doing now.",
@@ -14,7 +14,7 @@
       },
       {
         "text": "Feeling sorry for him is strange",
-        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously. That's uncomfortable."
+        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously."
       }
     ]
   },
@@ -44,7 +44,7 @@
     "choices": [
       {
         "text": "\"I'll get there, Father.\" — said it out loud",
-        "result_text": "The words came out.\n\nNo one heard. Father isn't here. Did it anyway. That's what's possible right now."
+        "result_text": "The words came out.\n\nNo one heard. Father isn't here. He said it anyway."
       },
       {
         "text": "Wanted to explain the current situation to him",
@@ -162,15 +162,15 @@
   {
     "id": "arc_minjun_first_call",
     "title": "Making the Call First",
-    "description": "Sunday morning.\n\nNo reason. Nothing he needs to do.\n{name} picks up the phone. Puts it down. Picks it up again.\n\nThinking back — he has almost never called first for no particular reason.\nWithout anything particular to say, {name} would often put the call off.\n\nToday, he decides to call first. No reason at all.",
+    "description": "Sunday morning.\n\nNo reason. Nothing he needs to do.\n{name} picks up the phone. Puts it down. Picks it up again.\n\nThinking back, he has almost never called first for no particular reason.\nWithout anything particular to say, {name} would often put the call off.\n\nToday, he decides to call first. No reason at all.",
     "choices": [
       {
         "text": "Called his father. No reason.",
-        "result_text": "Father picked up.\n\"Oh, Minjun?\" His voice was warm with surprise.\n\nNothing special was said. Weather talk, \"Have you eaten?\" talk.\nAfter hanging up, {name} realized:\nThat was the reason. You don't need one."
+        "result_text": "Father picked up.\n\"Oh, Minjun?\" His voice was warm with surprise.\n\nNothing special was said. Weather talk, \"Have you eaten?\" talk.\nAfter hanging up, {name} kept looking at 'Dad' in the call log for a while."
       },
       {
         "text": "Called Hyunsu. Haven't heard from him in a while.",
-        "result_text": "Hyunsu picked up {name}'s call. \"Oh, hyung? It's been a while.\"\n\n\"Yeah. What are you up to?\" — \"Just taking it easy. Nothing much today.\" — \"Not much going on here, either.\" — \"...Maybe we could get something to eat?\" — \"When?\" — \"When are you free?\"\n\nThat settled it. One call made first became a plan to meet a month later."
+        "result_text": "Hyunsu picked up {name}'s call. \"Oh, hyung? It's been a while.\"\n\n\"Yeah. What are you up to?\"\n\"Just taking it easy. Nothing much today.\"\n\"Not much going on here, either.\"\n\"...Maybe we could get something to eat?\"\n\"When?\"\n\"When are you free?\"\n\nThat settled it. One call made first became a plan to meet a month later."
       },
       {
         "text": "Pressed the call button. Then hung up. Not yet.",
@@ -622,7 +622,7 @@
   {
     "id": "arc_sangchul_year3_father_passed",
     "title": "News Article",
-    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im under investigation over suspected fraud against multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\nClosed the article and looked up. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
+    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Im under investigation over suspected fraud against multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nBeneath the article, other victims' stories ran on and on. Father's case wasn't the only one.\n\nClosed the article and looked up. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
     "choices": [
       {
         "text": "Closed the article. Back to what needs doing now.",
@@ -630,11 +630,11 @@
       },
       {
         "text": "Opened Father's number — wanting to tell him the news.",
-        "result_text": "Father's name and number remained in Contacts. {name} tapped Share on the article, then stopped at the recipient field.\n\nHe wanted to tell him that more victims had surfaced, that what happened to Father had not been the only case. But this was no longer a number that could connect. The link was never sent.\n\nWhen he closed the article, nothing heavy had lifted. Only the absence of anyone who could hear this news had become clearer."
+        "result_text": "Father's name and number remained in Contacts. {name} tapped Share on the article, then stopped at the recipient field.\n\nHe wanted to tell him that more victims had surfaced, that what happened to Father had not been the only case. But this was no longer a number that could connect. The link was never sent.\n\nHe closed the article. Father's name was still in the recipient field."
       },
       {
         "text": "Feeling sorry for him is strange",
-        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously. That's uncomfortable."
+        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously."
       }
     ]
   }

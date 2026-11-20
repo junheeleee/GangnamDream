@@ -25,7 +25,7 @@
     "choices": [
       {
         "text": "Closed the calculator, opened another tab.",
-        "result_text": "Excitement overtook the fear. Playing it safe now would mean regret later.\n\nLucky to have made it this far — but now the real game begins."
+        "result_text": "Excitement overtook the fear. Playing it safe now would mean regret later.\n\nLucky to have made it this far. Now the real game begins."
       },
       {
         "text": "Set the phone down. Just today, nothing more.",
@@ -42,7 +42,7 @@
     "title": "Sangchul Off Guard",
     "description": "{name} had stayed late with Sangchul at the agency to go over some contracts.\n\nSangchul stepped away to take a call. Ten minutes. Fifteen.\n\nWhen he returned, he didn't look like himself. He opened the papers without a word — then suddenly said it.\n\n\"That was my son. He wants to drop out of university.\"\n\nHe said it without being asked. \"I can't tell if he doesn't want to study, or if he just hates everything right now. Honestly, I don't know.\"\n\nHe'd never said anything like this before.",
     "description_if_known": {
-      "sangchul_truth_known": "Sangchul came back from the call looking different.\n\n\"That was my son. He wants to drop out.\"\n\nMinjun listened.\nHe used to think bad people only did bad things.\nSangchul wasn't like that.\nThis worry — it was real.\nAnd that was the hardest part to hold."
+      "sangchul_truth_known": "Sangchul came back from the call looking different.\n\n\"That was my son. He wants to drop out.\"\n\nMinjun listened.\nHe used to think bad people only did bad things.\nSangchul wasn't like that.\nThe worry was real. After the call ended, his thumb stayed on his son's name for a long while."
     },
     "choices": [
       {
@@ -55,7 +55,7 @@
       },
       {
         "text": "\"What does your son want to do?\" — steering toward the son",
-        "result_text": "\"That's the problem — he doesn't know.\" Sangchul said.\n\nIt sounded like something that applied to {name} too — and he couldn't find a word to say."
+        "result_text": "\"That's the problem — he doesn't know.\" Sangchul said.\n\nIt sounded like something that applied to {name} too, and he couldn't find a word to say."
       }
     ]
   },
@@ -112,7 +112,7 @@
       },
       {
         "text": "Set the next target immediately — 500 million.",
-        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. At the same time, he could finally see the full height left to climb."
+        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. The 3 billion won on the top step pressed against the edge of the paper."
       }
     ]
   },
@@ -146,7 +146,7 @@
     "choices": [
       {
         "text": "Turned off the stock app's alerts.",
-        "result_text": "{name} silenced the stock app and laid the phone facedown. During work hours he would protect the salary; after work, he would grow another possibility. The job was not the goal. It was the base that supplied capital.\n\nFor his next shift, he arrived early and finished every assigned task. No one knew he opened a different ledger after work.\n\nHe had chosen to hold two lives at once. He did not yet know which hand would loosen first."
+        "result_text": "{name} silenced the stock app and laid the phone facedown. During work hours he would protect the salary; after work, he would grow another possibility.\n\nFor his next shift, he arrived early and finished every assigned task. No one knew he opened a different ledger after work.\n\nHe did not yet know which hand would loosen first."
       },
       {
         "text": "Opened a job-search site.",
@@ -154,7 +154,7 @@
       },
       {
         "text": "Closed the calculator. He had known this from the start.",
-        "result_text": "{name} closed the calculator. He had never planned to reach the goal on salary alone. This was not a notice of failure, he told himself, merely confirmation of the salary's role.\n\nPay would keep his life standing. The remaining hours would build something else. He opened his next work schedule on the phone.\n\nThe schedule replaced the ceiling he had just seen. He knew that disappearing was not the same as being gone."
+        "result_text": "{name} closed the calculator. He had never planned to reach the goal on salary alone. This was not a notice of failure, he told himself, merely confirmation of the salary's role.\n\nPay would keep his life standing. The remaining hours would build something else. He opened his next work schedule on the phone.\n\nThe schedule pushed the ceiling he had just seen off the screen."
       }
     ]
   },
@@ -254,7 +254,7 @@
     "choices": [
       {
       "text": "\"Failing the exam doesn't erase the years you gave it.\" — reply",
-      "result_text": "The read mark appeared. Much later came a reply. \"I still don't know what those years are worth.\"\n\n{name} could not tell whether it helped. But for the first time, Hyunsu was speaking about what came after the result."
+      "result_text": "The read mark appeared. Much later came a reply. \"I still don't know what those years are worth.\"\n\n{name} could not tell whether it helped. But Hyunsu's reply had the word \"still\" in it."
       },
       {
         "text": "\"What are you going to do next?\" — ask realistically",
@@ -269,7 +269,7 @@
   {
     "id": "arc_gangnam_visit_alone",
     "title": "First Time in Gangnam Alone",
-    "description": "Came to Gangnam for the first time with no one else.\n\nThe first glimpse of Gangnam had been a bus-stop ad on the day he arrived in Seoul.\n[A city where your place is waiting.]\nToday he had taken the subway alone all the way to that sentence.\n\nWalked into a café. The Americano was 9,000 won. Just ordered it.\n\nSat by the window and looked outside. Well-dressed people walking fast, not looking at each other.\n\n{name} took a sip of coffee.\nThis is the goal. Or — is it to become someone who belongs here?",
+    "description": "Came to Gangnam for the first time with no one else.\n\nThe first glimpse of Gangnam had been a bus-stop ad on the day he arrived in Seoul.\n[A city where your place is waiting.]\nToday he had taken the subway alone all the way to that sentence.\n\nWalked into a café. The Americano was 9,000 won. Just ordered it.\n\nSat by the window and looked outside. Well-dressed people walking fast, not looking at each other.\n\n{name} took a sip of coffee.\nIs this the goal? Or is the goal to blend in here?",
     "choices": [
       {
         "text": "\"I will be back here.\" — a silent promise",
@@ -277,7 +277,7 @@
       },
       {
         "text": "\"I'm not even sure this is what I really want.\" — being honest",
-        "result_text": "The coffee went cold. It wasn't that Gangnam was undesirable —\njust the first moment of wondering: is this actually what he wants, or is he just refusing to lose?"
+        "result_text": "The coffee went cold. It wasn't that he disliked Gangnam.\nIs this what he actually wants, or is he just refusing to lose? {name} didn't get up until he had finished the cold coffee."
       },
       {
         "text": "Keep the 9,000-won receipt. Plan to look at it again later.",
@@ -288,7 +288,7 @@
   {
     "id": "arc_jaehyuk_wait",
     "title": "Waiting for the Money",
-    "description": "He kept wondering when the money he had entrusted to Jaehyuk would come back.\n\nStill no word about the payout today. Maybe he was busy — that thought brought a moment of relief.\n\nAnd yet. Why does he keep checking his phone?\n\nHe taps Jaehyuk's name in KakaoTalk.\n{name} touches the empty message field, then pulls his hand away without typing anything.\n\nThe money put in keeps cycling as a number in his head.",
+    "description": "He kept wondering when the money he had entrusted to Jaehyuk would come back.\n\nStill no word about the payout today. Maybe he was busy. That thought brought a moment of relief.\n\nAnd yet. Why does he keep checking his phone?\n\nHe taps Jaehyuk's name in KakaoTalk.\n{name} touches the empty message field, then pulls his hand away without typing anything.\n\nThe money put in keeps cycling as a number in his head.",
     "choices": [
       {
         "text": "\"Hey Jaehyuk, how's everything?\" — reach out first",
@@ -300,7 +300,7 @@
       },
       {
         "text": "Message asking to get at least part of it back.",
-        "result_text": "\"Why all of a sudden? Don't you trust me?\" Jaehyuk's reply came back in five minutes.\n\nThat fast reply — somehow made it worse."
+        "result_text": "\"Why all of a sudden? Don't you trust me?\" Jaehyuk's reply came back in five minutes.\n\nThat fast reply somehow made it worse."
       }
     ]
   },
@@ -497,7 +497,7 @@
   {
     "id": "arc_final_stretch",
     "title": "The End Is in Sight",
-    "description": "Walking down Gangnam-daero.\n\nIn his first year in Seoul, he looked up at those apartments from here. \"Could I live there?\" — a thought made almost as a joke.\n\nEven after total assets first crossed two billion won, the figure kept moving each week. The top of the screen read {assets} today. The distance to three billion was not a fixed one billion; the next choice could widen it again or narrow it.\n\nOnly now did it feel real that actual time, not a spreadsheet, was running out.",
+    "description": "Walking down Gangnam-daero.\n\nIn his first year in Seoul, he looked up at those apartments from here. \"Could I live there?\" — a thought made almost as a joke.\n\nEven after total assets first crossed two billion won, the figure kept moving each week. The top of the screen read {assets} today. The distance to three billion was not a fixed one billion; the next choice could widen it again or narrow it.\n\nThe finger counting the calendar's remaining squares reached the end faster than before.",
     "choices": [
       {
         "text": "Looked up at that apartment again.",
@@ -509,14 +509,14 @@
       },
       {
         "text": "Admitted fear for the first time.",
-        "result_text": "Why is he scared when he's come this far? {name} thought about it for a moment. Maybe it's not fear of failing — maybe it's fear of succeeding."
+        "result_text": "Why is he scared when he's come this far? {name} thought about it for a moment. Maybe it isn't failure he fears. Maybe it's success."
       }
     ]
   },
   {
     "id": "arc_daeun_money_gap",
     "title": "What Daeun Doesn't Know",
-    "description": "Daeun tried to pay for the coffee.\n\n{name} paid first. At that moment, a notification came up on his phone — the card charge for the coffee he had just paid for.\n\nDaeun didn't notice. {name} quickly turned off the screen.\n\nCould he show this person his bank account someday? It doesn't feel like they're at that stage yet.",
+    "description": "Daeun tried to pay for the coffee.\n\n{name} paid first. At that moment, the charge for the coffee popped up on his phone as a card alert.\n\nDaeun didn't notice. {name} quickly turned off the screen.\n\nCould he show this person his bank account someday? It doesn't feel like they're at that stage yet.",
     "choices": [
       {
         "text": "Let it pass — too early to talk about it.",
@@ -557,18 +557,18 @@
   {
     "id": "arc_sangchul_known_offer",
     "title": "Knowing",
-    "description": "Sangchul set his coffee down and spoke.\n\n\"This is just between us, Minjun.\"\n\nHe slid a single sheet across. A property not on the market yet. Redevelopment about to be confirmed. Get in — and in six months it doubles.\n\n\"Trust me and go in. You won't lose.\"\n\nMinjun looked at the sheet.\nAnd he knew who this man was.\nThe man who pushed his father into that debt.\n\nAnd yet right now, the hand reaching out held a real opportunity.",
+    "description": "Sangchul set his coffee down and spoke.\n\n\"This is just between us, Minjun.\"\n\nHe slid a single sheet across. A property not on the market yet. Redevelopment about to be confirmed. Get in, and in six months it doubles.\n\n\"Trust me and go in. You won't lose.\"\n\nMinjun looked at the sheet.\nAnd he knew who this man was.\nThe man who pushed his father into that debt.\n\nAnd yet right now, the hand reaching out held a real opportunity.",
     "description_if_known": {
       "sangchul_helped_with_father": "Sangchul slid a single sheet across.\nA property not on the market yet. Redevelopment about to be confirmed. Six months, double.\n\n\"Trust me and go in. You won't lose.\"\n\nMinjun knew who this man was.\nThe man who pushed his father into that debt.\nAnd the man who got the hospital room when his father collapsed.\n\nThe same hand. The same hand was holding out an opportunity now."
     },
     "choices": [
       {
         "text": "Took the sheet",
-        "result_text": "He took the sheet.\nSangchul smiled, satisfied.\n\nSix months later, he'd been right. The account swelled.\nLooking at the money, Minjun never once felt glad.\nHe'd just — gotten used to it."
+        "result_text": "He took the sheet.\nSangchul smiled, satisfied.\n\nSix months later, he'd been right. The account swelled.\nLooking at the money, Minjun never once felt glad.\nHe'd just gotten used to it."
       },
       {
         "text": "Took it. His fingers caught for a second",
-        "result_text": "He took it. His fingers caught for a second.\n\nWhether Sangchul noticed that hitch, he couldn't tell.\nThe money came in. Exactly double.\n\nThat night, Minjun didn't call his father.\nNot because he had nothing to say — because there was nothing he could say."
+        "result_text": "He took it. His fingers caught for a second.\n\nWhether Sangchul noticed that hitch, he couldn't tell.\nThe money came in. Exactly double.\n\nThat night, Minjun didn't call his father.\nNot because he had nothing to say. Because there was nothing he could say."
       },
       {
         "text": "\"Not this time.\" — pushed the sheet back",
@@ -579,19 +579,19 @@
   {
     "id": "arc_sangchul_known_reflex",
     "title": "The Habit",
-    "description": "He was sitting in a café with Hyunsu.\nHyunsu wanted to introduce a junior of his. Looking for work.\n\nAs Minjun listened to the kid's résumé — without meaning to, he was calculating.\nIs he useful. What can I extract. Does this help me.\n\nThen he stopped.\n\nWhen did he start seeing people like this.\n\nThe way Sangchul must have looked at him the first time.\nThat look that called him \"someone with drive.\"",
+    "description": "He was sitting in a café with Hyunsu.\nHyunsu wanted to introduce a junior of his. Looking for work.\n\nAs Minjun listened to the kid's résumé, without meaning to, he was calculating.\nIs he useful. What can I extract. Does this help me.\n\nThen he stopped.\n\nWhen did he start seeing people like this.\n\nThe way Sangchul must have looked at him the first time.\nThat look that called him \"someone with drive.\"",
     "choices": [
       {
         "text": "Pushed the thought away",
-        "result_text": "He pushed the thought away.\nTold Hyunsu, \"Sure, let's meet him.\" Meaning to genuinely help.\n\nBut walking out of the café, the calculation was already done.\nWhat he'd pushed away wasn't the thought — only the discomfort."
+        "result_text": "He pushed the thought away.\nTold Hyunsu, \"Sure, let's meet him.\" Meaning to genuinely help.\n\nBut walking out of the café, the calculation was already done.\n"
       },
       {
         "text": "(Is this so wrong? Everyone lives like this)",
-        "result_text": "Is this so wrong. Everyone lives like this.\nSangchul came up that way, and everyone in Gangnam does it too.\n\nThinking that, it got easier.\nThat it got easier — was the most frightening part."
+        "result_text": "Is this so wrong. Everyone lives like this.\nSangchul came up that way, and everyone in Gangnam does it too.\n\nThinking that, it got easier.\n"
       },
       {
         "text": "Told Hyunsu the truth",
-        "result_text": "\"Lately I think I look at people kind of wrong.\"\nHyunsu laughed. \"Man, you were never like that.\"\n\nHe was never like that.\nThe words landed not as comfort but as evidence.\nThat something had changed."
+        "result_text": "\"Lately I think I look at people kind of wrong.\"\nHyunsu laughed. \"Man, you were never like that.\"\n\nHe was never like that.\nMinjun drank his cold coffee instead of answering."
       }
     ]
   },
@@ -719,11 +719,11 @@
     "choices": [
       {
         "text": "\"Going anyway.\" — starts walking again",
-        "result_text": "I don't know.\n\nEven without a reason, even without confidence it'll work — just go.\n\nThat was all. The feet moved first."
+        "result_text": "I don't know.\n\nEven without a reason, even without confidence it'll work, just go.\n\nThe feet moved first."
       },
       {
         "text": "\"There has to be another way.\" — looks for a shortcut",
-        "result_text": "The conventional path won't work.\n\nThere's leverage somewhere. Gambling, investment, business — some play that changes everything in one move.\n\n{name} took out his phone. Began searching for something."
+        "result_text": "The conventional path won't work.\n\nThere's leverage somewhere. Gambling, investment, business. Some play that changes everything in one move.\n\n{name} took out his phone. Began searching for something."
       },
       {
         "text": "Just stands there for a while.",
@@ -734,11 +734,11 @@
   {
     "id": "arc_paycheck_reality",
     "title": "First Payday Night",
-    "description": "A KakaoBank notification buzzed.\n\nYour monthly salary from {job} has been deposited.\n\n{name} stared at the number for a long time. Until 3 billion — if he saved this amount without spending a single won, how many years would it take? He opened the calculator. Then closed it.",
+    "description": "A KakaoBank notification buzzed.\n\nYour monthly salary from {job} has been deposited.\n\n{name} stared at the number for a long time. If he saved this amount without spending a single won, how many years would it take to reach 3 billion? He opened the calculator. Then closed it.",
     "choices": [
       {
         "text": "Celebrate today. Even small things deserve to be marked.",
-        "result_text": "Bought a can of beer at the convenience store. 3,800 won. Shelved that long calculation for the night. For now — it's just a first paycheck.",
+        "result_text": "Bought a can of beer at the convenience store. 3,800 won. Shelved that long calculation for the night. Tonight was just his first payday.",
         "bridge_summary": "For one first-payday night, he set that long calculation aside and bought a 3,800-won beer."
       },
       {
@@ -864,9 +864,9 @@
   {
     "id": "arc_final_year_start",
     "title": "The Morning After",
-    "description": "The morning after the reckoning, the calculator and notebook remained open on the desk.\n\nThe figures were unchanged. What {name} had been pretending not to know was not.\n\nBefore starting the day, he opened a blank page. Instead of writing what else he could gain, he began with what he was still willing to put at stake.",
+    "description": "The morning after the reckoning, the calculator and notebook remained open on the desk.\n\nThe figures were unchanged.\n\nBefore starting the day, he opened a blank page. On the first line, he wrote how much he was still willing to put at stake.",
     "description_if_known": {
-      "final_year_resolve": "The morning after the reckoning, the notebook cover still seemed solid against {name}'s palm.\n\nThe night before, he had decided not to erase a single page between 500,000 won and today's figure. He had also written that an outcome could not change who owned the path.\n\nIn the morning light, he opened a blank page. The question was no longer what success should look like, but how much of the ending he could still bear as his own.",
+      "final_year_resolve": "The morning after the reckoning, the notebook cover still seemed solid against {name}'s palm.\n\nThe night before, he had decided not to erase a single page between 500,000 won and today's figure.\n\nIn the morning light, he opened a blank page. On the first line, he wrote the size of choice he could carry to the end.",
       "final_year_realistic": "The morning after the reckoning, the plan file was on the screen, stamped with the new save time.\n\nLowering the expected rate of return and entering his actual expenses had reduced his chance of reaching the goal. But for the first time he could see where the plan might go wrong. The numbers offered no comfort, which made them useful.\n\n{name} opened a blank page. Now he had to write down how much he could risk in the year he had left.",
       "final_year_open": "The morning after the reckoning, {name} remembered the calculator display fading in the dark.\n\nHe had not forced an answer. He had admitted only that the largest turns of the past four years had come from beyond the calculation.\n\n{name} opened a blank page. Even without writing the ending in advance, he still had to decide what to put at stake today."
     },
@@ -921,7 +921,7 @@
     "choices": [
       {
         "text": "What would Minjun from his first days in Seoul say if he saw this?",
-        "result_text": "The Minjun who first arrived in Seoul — looking at this room, this account, these numbers now — would probably say it's enough. That's all that's needed."
+        "result_text": "The Minjun who first arrived in Seoul, looking at this room, this account, these numbers now, would probably say it's enough."
       },
       {
         "text": "Admitted the exhaustion. It was time to stop for a moment.",
@@ -995,7 +995,7 @@
   {
     "id": "arc_35_birthday",
     "title": "Thirty-Five",
-    "description": "Thirty-five.\n\nHe started at thirty-three. That means two years have passed.\n\nIn Korea, thirty-five carries weight — an age by which things are supposed to have settled. Employment, marriage, a home. A thirty-five-year-old without those three things gets a certain label.\n\nA text from Dad: \"Don't push yourself to come down. Have you eaten?\"\n\n{name} holds the phone for a moment.",
+    "description": "Thirty-five.\n\nHe started at thirty-three. That means two years have passed.\n\nIn Korea, thirty-five carries weight: an age by which things are supposed to have settled. Employment, marriage, a home. A thirty-five-year-old without those three things gets a certain label.\n\nA text from Dad: \"Don't push yourself to come down. Have you eaten?\"\n\n{name} holds the phone for a moment.",
     "choices": [
       {
         "text": "Replied \"Thank you\" and opened the planner",
@@ -1003,7 +1003,7 @@
       },
       {
         "text": "Take today off",
-        "result_text": "Closed the planner. Needed one day as {name}, not as the person chasing 3 billion won. For once, that felt allowed."
+        "result_text": "Closed the planner. That day he slept in without an alarm and had a birthday bowl of noodles at the neighborhood noodle shop."
       },
       {
         "text": "Called dad",
@@ -1070,7 +1070,7 @@
     "description_if_known": {
       "kept_routine": "Midnight.\n\nIn his notebook, he wrote down how he had spent today. One line for each task and time he could remember from morning to night; the gaps stayed blank.\n\nWhat had he repeated, and what had he changed? He tried to separate the things he had chosen from the things his body had done first, but the boundary wasn't clear.\n\nGood or bad — hard to say. This is just {name} now.\n\nOnce, he had chosen to keep the routine.\nHow that choice had carried into today was something he had to check against the day he had just written down.",
       "broke_routine": "Midnight.\n\nIn his notebook, he wrote down how he had spent today. One line for each task and time he could remember from morning to night; the gaps stayed blank.\n\nWhat had he repeated, and what had he changed? He tried to separate the things he had chosen from the things his body had done first, but the boundary wasn't clear.\n\nGood or bad — hard to say. This is just {name} now.\n\nOnce, he had chosen to change the routine.\nThe days after that had not rearranged themselves. He went back through the repetitions that remained, one line at a time.",
-      "godsaeng_paradox_seen": "Midnight.\n\nIn his notebook, he wrote down how he had spent today. One line for each task and time he could remember from morning to night; the gaps stayed blank.\n\nWhat had he repeated, and what had he changed? He tried to separate the things he had chosen from the things his body had done first, but the boundary wasn't clear.\n\nGood or bad — hard to say. This is just {name} now.\n\nHe'd seen the godsaeng paradox — people whose routines live their lives for them.\nWhich is why this check matters: does the routine exist for him, or he for the routine."
+      "godsaeng_paradox_seen": "Midnight.\n\nIn his notebook, he wrote down how he had spent today. One line for each task and time he could remember from morning to night; the gaps stayed blank.\n\nWhat had he repeated, and what had he changed? He tried to separate the things he had chosen from the things his body had done first, but the boundary wasn't clear.\n\nGood or bad — hard to say. This is just {name} now.\n\nHe'd seen the godsaeng paradox: people whose routines live their lives for them.\n{name} drew a question mark beside the blank in the notebook."
     }
   },
   {
@@ -1084,7 +1084,7 @@
       },
       {
         "text": "Closed the calculator. Rushing leads to mistakes.",
-        "result_text": "Impatient people make the first mistakes. If the direction is right — time handles the rest. {name} closed the calculator."
+        "result_text": "Impatient people make the first mistakes. If the direction is right, time handles the rest. {name} closed the calculator."
       },
       {
         "text": "Couldn't revise the plan for a while.",
@@ -1135,7 +1135,7 @@
       }
     ],
     "description_if_known": {
-      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of your own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. Conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. Doubt."
+      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt, he needed to build something of his own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender, he couldn't tell.\n\nOnce before, he had carried a 3 a.m. Conviction into daylight to test it.\nIt held in daylight too.\n{name} opened the note he had written that day. The handwriting was as steady as daylight."
     },
     "description_memory_if_known": {
       "arc_y4_midpoint_receipt_seen": "He unfolded the long sheet he'd tucked inside the front of the notebook and laid it beside the calculator. The display showed how far he still had to go. The paper held the times he'd finished things and the dates he'd missed."
@@ -1161,9 +1161,9 @@
     ],
     "description_if_known": {
       "year3_doubled_down": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nLast year, at the calculator, he had redrawn the plan on a larger scale. Tonight, his pen touched the paper to write another figure. {name} stopped before the final stroke. Ink spread from the tip in a small dot.\n\nWarmth lingered in the palm holding the calculator. Asking whether he still wanted this goal or only pretended because he could not stop, {name} waited for the ink to dry.",
-      "year3_questioned_path": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nLast year, he had finally asked whether this road was right. The question never left; it sat beside him each time he opened the plan. He no longer believed anxiety had to disappear before he could move.\n\nHe wrote down the distance and the time remaining. For someone who had learned to walk beside the question, the final year was not about proving an answer, but preserving the courage to keep asking.",
+      "year3_questioned_path": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nLast year, he had finally asked whether this road was right. The question never left; it sat beside him each time he opened the plan. He no longer believed anxiety had to disappear before he could move.\n\nHe wrote down the distance and the time remaining. At the bottom of the notebook, {name} wrote the same question once more.",
       "year3_steady_path": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nLast year, he had closed the calculator, thinking that haste led to mistakes. Now he slowly lifted his palm from the lit calculator. The keys had left marks on his skin. With that hand, {name} wrote today's figure.\n\nHe followed the ledger's rows with one finger. His hand stopped beside what he meant to protect in the final year. Before moving to the next row, he read that entry once more.",
-      "vision_revised": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nSomewhere along the way, he had revised how he would reach the goal. The old line remained faint beneath the erased plan. It was not an attempt to hide failure, but a course correction made to keep from drifting.\n\nHe wrote down the distance and the time remaining. In the final year, remembering why he changed course mattered more than preserving the straight line he first drew."
+      "vision_revised": "Late one night at thirty-seven, {name} laid a calculator beside the notebook from four years ago. The ink around 500,000 won and 3 billion won had bled on the first page. His current assets shone in cold, new digits.\n\nSomewhere along the way, he had revised how he would reach the goal. The old line remained faint beneath the erased plan. {name} did not erase that line.\n\nHe wrote down the distance and the time remaining. In the final year, remembering why he changed course mattered more than preserving the straight line he first drew."
     }
   },
   {
@@ -1177,7 +1177,7 @@
       },
       {
         "text": "He cleared a day and did nothing.",
-        "result_text": "{name} cleared one day and put his phone in a drawer. For the first few hours, his hand kept searching an empty pocket. He napped, cooked a meal, and walked the neighborhood at sunset.\n\nBy evening, postponed thoughts began to return. Faces and voices unrelated to the goal came with them. They had not vanished; they had only been waiting for enough quiet.\n\nHe set the next morning's alarm to its old time. The day was blank in the plan, but not inside him."
+        "result_text": "{name} cleared one day and put his phone in a drawer. For the first few hours, his hand kept searching an empty pocket. He napped, cooked a meal, and walked the neighborhood at sunset.\n\nBy evening, postponed thoughts began to return. Faces and voices unrelated to the goal came with them. \n\nHe set the next morning's alarm to its old time. In the drawer, a few missed-call alerts had piled up on his phone."
       },
       {
         "text": "He sat with it: burnout, or focus?",
@@ -1202,7 +1202,7 @@
       },
       {
         "text": "Put the 500,000-won balance from age thirty-three beside today's ledger and preserve the date.",
-        "result_text": "{name} found the capture of his 500,000-won balance from the day he came to Seoul and placed it beside today's ledger. He added no explanation, preserving only the dates and account names.\n\nThe difference was enormous. Neither figure totaled the people or body spent across five years. When the screen went dark, tower lights crossed the glass. He kept the page not as proof of success, but as the first sheet that would keep the final accounting honest."
+        "result_text": "{name} found the capture of his 500,000-won balance from the day he came to Seoul and placed it beside today's ledger. He added no explanation, preserving only the dates and account names.\n\nThe difference was enormous. Neither figure totaled the people or body spent across five years. When the screen went dark, tower lights crossed the glass. He moved the capture to the front of the final-accounting folder."
       },
       {
         "text": "Record the first sentence he will say to Father as an actual voice memo.",
@@ -1210,14 +1210,14 @@
       }
     ],
     "description_if_known": {
-      "gangnam_reason_prove": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nWhatever the outcome, the time already lived was his.\n\nOne night, someone had asked: why Gangnam, in the beginning?\nTo prove something — that had been his answer.\nAsked again on this road, he thought the proof was already in.\nNot the number. The time he had walked was the proof.",
-      "gangnam_reason_uncertain": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nWhatever the outcome, the time already lived was his.\n\nOne night, asked why Gangnam, he had answered: I don't know.\nWith the end close, he still did not know.\nBut he did not hate the road he had walked without knowing.",
-      "happy_consistent": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nWhatever the outcome, the time already lived was his.\n\nOnce, he had asked himself whether he was happy and answered yes.\nThe answer had not changed. Regardless of the number, that was the strangest achievement of all.",
-      "happy_faded": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nWhatever the outcome, the time already lived was his.\n\nThere had been a time when he answered yes to being happy. Somewhere along the way the answer blurred.\nWalking down Gangnam-daero, he thought: maybe what needed recovering was not the number.",
-      "happy_recovered": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nWhatever the outcome, the time already lived was his.\n\nThere had been a night when he answered no, he was not happy. Since then, it had come back little by little.\nOnly someone who had said the bottom out loud knew what recovery was.",
-      "happy_resolved_yes": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nWhatever the outcome, the time already lived was his.\n\nThe question he had deferred with I don't know — are you happy — had eventually become one he could answer yes.\nIt was not the answer that changed. It was the person.",
-      "happy_resolved_no": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nWhatever the outcome, the time already lived was his.\n\nThe question he had deferred was finally answered one day: no.\nMaybe that honesty was what built this calm.",
-      "happy_still_no": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nWhatever the outcome, the time already lived was his.\n\nTo the question of happiness, the answer was still no.\nBut now he knew that answer was a beginning, not an end. There was still work to do before the end."
+      "gangnam_reason_prove": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nOne night, someone had asked: why Gangnam, in the beginning?\nTo prove something. That had been his answer.\nAsked again on this road, the names along the way came to mind before that answer did.",
+      "gangnam_reason_uncertain": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nOne night, asked why Gangnam, he had answered: I don't know.\nWith the end close, he still did not know.\nBut he did not hate the road he had walked without knowing.",
+      "happy_consistent": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nOnce, he had asked himself whether he was happy and answered yes.\nThe answer had not changed, regardless of the number.",
+      "happy_faded": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nThere had been a time when he answered yes to being happy. Somewhere along the way the answer blurred.\nAt the crosswalk, {name} let one light go by.",
+      "happy_recovered": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nThere had been a night when he answered no, he was not happy. Since then, it had come back little by little.",
+      "happy_resolved_yes": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nThe question he had deferred with I don't know, are you happy, had eventually become one he could answer yes.",
+      "happy_resolved_no": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nThe question he had deferred was finally answered one day: no.\nMaybe that honesty was what built this calm.",
+      "happy_still_no": "Walking down Gangnam-daero.\n\nHe had seen those apartment buildings here in his first year in Seoul.\n\nNow the end was close. Whether or not he reached three billion won, the end of this road was in sight. Strangely, it was not frightening.\n\nTo the question of happiness, the answer was still no.\nHe kept walking anyway. There was still work to do before the end."
     }
   },
   {
@@ -1580,11 +1580,11 @@
       },
       {
         "text": "Dial Father's number — knowing it will not connect.",
-        "result_text": "{name} tapped the name saved as Father. He even prepared a sentence for the amount. After a short signal, however, a recording said the number could not be reached.\n\nHe knew the recording and did not need to hear it through. When he ended the call, the outgoing log held one new timestamp. This was not an unanswered call. There was no one left who could answer.\n\nThe value on the screen hadn't changed. He only knew more clearly who he'd wanted to show it to."
+        "result_text": "{name} tapped the name saved as Father. He even prepared a sentence for the amount. After a short signal, however, a recording said the number could not be reached.\n\nHe knew the recording and did not need to hear it through. When he ended the call, the outgoing log held one new timestamp. This was not an unanswered call. There was no one left who could answer.\n\nThe value on the screen hadn't changed. The sentence he had prepared never left his mouth."
       },
       {
         "text": "Set the next target immediately — 500 million.",
-        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. At the same time, he could finally see the full height left to climb."
+        "result_text": "On paper, {name} wrote 500,000 won, 50 million won, then 500 million won. The next box held 3 billion won. Arrows between them made a staircase.\n\nInstead of marking 50 million as a victory, he underlined it and began calculating the next step. The pleasure had nowhere to linger.\n\nAn impossible wall had divided into several ledges. The 3 billion won on the top step pressed against the edge of the paper."
       }
     ]
   },
@@ -1629,7 +1629,7 @@
   {
     "id": "arc_36_night_doubt_father_passed",
     "title": "3 AM",
-    "description": "3 AM. Sleep would not come.\n\nA folded medicine packet lay at one side of the desk. Father was younger in the photograph than he had sounded on their last call. Minjun kept his eyes on the calculator so he would not look at the empty chair.\n\nThere had been a clear reason at first. Father's guarantee fraud. Six years. After paying off that debt, he needed to build something of his own. Three billion won had been the symbol.\n\nBut if he was still chasing the same number now that Father was gone, who was he trying to show it to? At 3 AM he could not tell grief from exhaustion, or either one from having forgotten how to stop.",
+    "description": "3 AM. Sleep would not come.\n\nA folded medicine packet lay at one side of the desk. Father was younger in the photograph than he had sounded on their last call. Minjun kept his eyes on the calculator so he would not look at the empty chair.\n\nThere had been a clear reason at first. Father's guarantee fraud. Six years. After paying off that debt, he needed to build something of his own. Three billion won had been the symbol.\n\nBut if he was still chasing the same number now that Father was gone, who was he trying to show it to? Exhaustion, grief, or forgetting how to stop. At 3 AM he could not tell them apart.",
     "choices": [
       {
         "text": "Pulled out the original reason. Not to forget.",
@@ -1645,7 +1645,7 @@
       }
     ],
     "description_if_known": {
-      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of your own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. Conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. Doubt."
+      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt, he needed to build something of his own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender, he couldn't tell.\n\nOnce before, he had carried a 3 a.m. Conviction into daylight to test it.\nIt held in daylight too.\n{name} opened the note he had written that day. The handwriting was as steady as daylight."
     },
     "description_memory_if_known": {
       "arc_y4_midpoint_receipt_seen": "He unfolded the long sheet he'd tucked inside the front of the notebook and laid it beside the calculator. The display showed how far he still had to go. The paper held the times he'd finished things and the dates he'd missed."

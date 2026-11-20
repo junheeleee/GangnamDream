@@ -39,15 +39,15 @@
   {
     "id": "arc_daeun_first_night_decision",
     "title": "Before the Light Went Out",
-    "description": "Under the low light, the soju glasses went back and forth a couple of times. They laughed, then talked less — until only the rain beyond the window remained.\n\nDaeun looked at {name} for a long moment. She did not put on a smile first or turn her eyes away. Neither did he.\n\nBetween two people past thirty, there was a distance that no longer needed explaining. It closed one handspan at a time.\n\nDaeun's fingertips touched the back of his hand. He had expected them to be cold. They were warm, and trembling just slightly.\n\n\"...Minjun.\"\n\nDaeun rested her hand on the light switch and waited.",
+    "description": "Under the low light, the soju glasses went back and forth a couple of times. They laughed, then talked less, until only the rain beyond the window remained.\n\nDaeun looked at {name} for a long moment. She did not put on a smile first or turn her eyes away. Neither did he.\n\nBetween two people past thirty, there was a distance that no longer needed explaining. It closed one handspan at a time.\n\nDaeun's fingertips touched the back of his hand. He had expected them to be cold. They were warm, and trembling just slightly.\n\n\"...Minjun.\"\n\nDaeun rested her hand on the light switch and waited.",
     "choices": [
       {
         "text": "Take that trembling hand in his.",
-        "result_text": "{name} took that trembling hand in his. In the dark, Daeun's breath came closer.\nThe rain filled the world beyond the window — and the rest of that night belonged to the two of them alone.\n\nMorning. He woke as grey light came through the window. Two people lay on the bed.\nDaeun was still asleep with her head on his arm, her face undisturbed by a single turn in the night. Her glasses lay beside the pillow where she had taken them off. That one small thing said it plainly: this was no longer a place for one.\n\nGangnam and three billion won were very far away that morning.\nFor a man who believed life waited somewhere beyond the target, that morning arrived before the numbers did."
+        "result_text": "{name} took that trembling hand in his. In the dark, Daeun's breath came closer.\nThe rain filled the world beyond the window, and the rest of that night belonged to the two of them alone.\n\nMorning. He woke as grey light came through the window. Two people lay on the bed.\nDaeun was still asleep with her head on his arm, her face undisturbed by a single turn in the night. Her glasses lay beside the pillow where she had taken them off. That one small thing said it plainly: this was no longer a place for one.\n\nGangnam and three billion won were very far away that morning."
       },
       {
         "text": "\"...Just stay next to me tonight.\" (Falls asleep holding her)",
-        "result_text": "{name} held her hand, then pulled the blanket up over her damp shoulders.\n\"...Let's just stay like this tonight.\"\nDaeun looked startled for a second, then smiled quietly. \"...You really are tender in the strangest places, Minjun.\"\n\nThey lay side by side and listened to the rain against the window. Daeun's breathing slowed until she fell asleep against {name}'s shoulder. Somehow, being two people who did not have to hurry felt deeper.\n\nLove in your thirties held firmer precisely because it was not in a rush."
+        "result_text": "{name} held her hand, then pulled the blanket up over her damp shoulders.\n\"...Let's just stay like this tonight.\"\nDaeun looked startled for a second, then smiled quietly. \"...You really are tender in the strangest places, Minjun.\"\n\nThey lay side by side and listened to the rain against the window. Daeun's breathing slowed until she fell asleep against {name}'s shoulder. {name} counted her breaths until the rain eased, and fell asleep."
       }
     ]
   },
@@ -80,7 +80,7 @@
   {
     "id": "arc_daeun_proposal_answer",
     "title": "The Proposal",
-    "description": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured year after year in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
+    "description": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money. For the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured year after year in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
     "choices": [
       {
         "text": "Take out the box. \"I haven't reached Gangnam yet — but I want to make this promise first.\"",
@@ -88,12 +88,12 @@
       },
       {
         "text": "Put the box away. \"Just a little more... when I'm ready.\" (Not yet)",
-        "result_text": "The box spent another night in his pocket.\n\nDaeun seemed to notice, or maybe not.\n\"Were you going to say something?\"\n\"...No. Let's eat.\"\n\nWhen he was ready. Even {name} could not say what 'ready' meant.\nWhether Gangnam came first, or she did — he had postponed the answer again."
+        "result_text": "The box spent another night in his pocket.\n\nDaeun seemed to notice, or maybe not.\n\"Were you going to say something?\"\n\"...No. Let's eat.\"\n\nWhen he was ready. Even {name} could not say what 'ready' meant.\nWhether Gangnam came first, or she did, he had postponed the answer again."
       }
     ],
     "description_if_known": {
-      "daeun_first_night": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured year after year in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nHe remembered that rainy night: her hand before the light went out, the grey light of morning. Perhaps he had already known then that she was the one.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
-      "daeun_seen_by_gifts": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nCanned coffee, socks, a scarf. Things that cost very little, yet Daeun had smiled for so long each time. He had never given her anything expensive. Instead, each time, he had truly seen her.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment."
+      "daeun_first_night": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money. For the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured year after year in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nHe remembered that rainy night: her hand before the light went out, the grey light of morning. Perhaps he had already known then that she was the one.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
+      "daeun_seen_by_gifts": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money. For the first time, doing that math made him ashamed.\n\nCanned coffee, socks, a scarf. Things that cost very little, yet Daeun had smiled for so long each time. He had never given her anything expensive. Instead, each time, he had truly seen her.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment."
     }
   }
 ]

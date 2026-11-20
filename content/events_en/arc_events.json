@@ -38,7 +38,7 @@
       }
     ],
     "description_orthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage 10,000 won/hour. Two million won a month. Gangnam, 3 billion won. 125 years.\n\n{name} wrote down more numbers. Save 3 million won a month. 15% annual return. Compounding.\nWhat looks impossible to the gut, broken into numbers, starts to show a path.\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The clearer the path got, the less he knew where to even begin.",
-    "description_unorthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage 10,000 won/hour. 125 years.\n\n{name} shut the calculator off. This way won't work.\nHe'd known that from the start. So he needed another way — a different axis than time.\nHe had to see what others didn't.\n\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The more set he was on finding another road, the heavier that voice felt.",
+    "description_unorthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage 10,000 won/hour. 125 years.\n\n{name} shut the calculator off. This way won't work.\nHe'd known that from the start. So he needed another way. A different axis than time.\nHe had to see what others didn't.\n\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The more set he was on finding another road, the heavier that voice felt.",
     "description_low_mental": "Goshiwon. 3 AM.\n\nCouldn't sleep again.\n\nOpened the calculator, then closed it. The number — 125 years — stayed in front of his eyes. Even doing nothing.\n\nHis body felt heavy. The air in this room felt heavy.\n\nThe phone rang. Father. {name} thought for a moment about whether to answer."
   },
   {
@@ -87,11 +87,11 @@
   {
     "id": "arc_chapter1_close",
     "title": "Two Months In",
-    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nHis first two months in Seoul — the burner account text, his father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\n{name} returned to the room where he currently lived and opened the notebook. First line:\n'{notebook_motive}'\n\nBelow it: '3 billion won. Five years.' The pages after that were still empty.\n\nUnder fluorescent light: a small room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still didn't have an answer.\nBut tonight was the first time the question felt completely real.",
+    "description": "2 AM.\n\nThe ramyeon broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nHis first two months in Seoul. The burner account text, his father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramyeon.\n\n{name} returned to the room where he currently lived and opened the notebook. First line:\n'{notebook_motive}'\n\nBelow it: '3 billion won. Five years.' The pages after that were still empty.\n\nUnder fluorescent light: a small room. One desk. One blanket.\nCan 3 billion won actually come out of here?\n\n{name} still didn't have an answer.\nHe left the notebook open.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
-        "result_text": "Turned off the light.\n\nIn the dark, the number 3 billion won remained.\nThe distance between that number and this room — that's exactly the distance ahead.\n\n{name} closed his eyes. No plan yet. Still — he thought he could sleep tonight."
+        "result_text": "Turned off the light.\n\nIn the dark, the number 3 billion won remained.\n\n{name} closed his eyes. No plan yet. Still, he thought he could sleep tonight."
       },
       {
         "text": "Write one more line: 'Wake up at 7 AM tomorrow.'",
@@ -401,7 +401,7 @@
         "result_text": "\"Let me think about it.\" {name} leaves.\nBack home, he starts searching.\nThe investment product from Jaehyuk's pitch. The company name. Similar fraud cases.\n\nResults begin appearing one by one.\nA chill runs down his spine."
       }
     ],
-    "description_orthodox": "Hotel lounge. Jaehyuk's expression turns serious.\n\nTriple the principal. This week only.\n\n{name} analyzes the structure of those two sentences.\nIf \"triple\" is the hook, \"this week only\" is the device that kills thinking time.\nTextbook pattern.\n\nJaehyuk says, \"We lived and died together in there.\"\n\nBecause that sentence is true — even though he knows he should be more careful — {name} wavers anyway.",
+    "description_orthodox": "Hotel lounge. Jaehyuk's expression turns serious.\n\nTriple the principal. This week only.\n\n{name} analyzes the structure of those two sentences.\nIf \"triple\" is the hook, \"this week only\" is the device that kills thinking time.\nTextbook pattern.\n\nJaehyuk says, \"We lived and died together in there.\"\n\nBecause that sentence is true, he knows he should be more careful. {name} wavers anyway.",
     "description_unorthodox": "Hotel lounge. Jaehyuk leaned across the table.\n\n\"Triple the principal.\"\n\nBefore {name} could ask how, he was leaning forward too. The edge of the table pressed against his forearms.\n\n\"This week only.\"\n\nThe voices at the other tables grew distant.\n\"We lived and died together in there.\"\n\n{name} opened his mouth, then closed it. Jaehyuk stayed leaning forward, waiting for an answer."
   },
   {
@@ -851,11 +851,11 @@
     "choices": [
       {
         "text": "Call Jaehyuk right now and demand it back — maybe I can still pull it out",
-        "result_text": "He made the call. Jaehyuk picked up — he could still be reached, for now.\n\"Hey, I think I need to pull my money out. Something urgent came up.\"\nJaehyuk went quiet for a beat, then said with a laugh,\n\"What are you talking about, man. You'll lose if you pull out now. Just a little longer and...\"\n\nWith great difficulty, he salvaged only a part of it.\nWhere the rest had gone, there was no way to know.\n\nHyunsu said, \"Hyung, I should've told you sooner. I'm sorry.\"\nThat hurt more. Because it wasn't Hyunsu's fault."
+        "result_text": "He made the call. Jaehyuk picked up. He could still be reached, for now.\n\"Hey, I think I need to pull my money out. Something urgent came up.\"\nJaehyuk went quiet for a beat, then said with a laugh,\n\"What are you talking about, man. You'll lose if you pull out now. Just a little longer and...\"\n\nWith great difficulty, he salvaged only a part of it.\nWhere the rest had gone, there was no way to know.\n\nHyunsu said, \"Hyung, I should've told you sooner. I'm sorry.\"\n{name} tried to say it wasn't his fault, but his throat closed and he only shook his head."
       },
       {
         "text": "\"...It can't be Jaehyuk\" — choose to trust his army friend",
-        "result_text": "\"Hyunsu, not everything in those forum posts is necessarily true.\nJaehyuk's a real friend of mine. We went through the army together, lived and died side by side.\"\nHyunsu was quiet for a moment, then said, \"...Right. I guess I worried for nothing.\"\n\n{name} set the phone down.\nHis heart beat a little faster.\nWhether it was because he wanted to believe, or because he already knew — he couldn't tell."
+        "result_text": "\"Hyunsu, not everything in those forum posts is necessarily true.\nJaehyuk's a real friend of mine. We went through the army together, lived and died side by side.\"\nHyunsu was quiet for a moment, then said, \"...Right. I guess I worried for nothing.\"\n\n{name} set the phone down.\nHis heart beat a little faster.\nWhether it was because he wanted to believe, or because he already knew, he couldn't tell."
       },
       {
         "text": "\"I thought something was off too. Let's look into it together\"",
@@ -914,7 +914,7 @@
     "choices": [
       {
         "text": "It's fine, look for the next posting",
-        "result_text": "He opened the job app again. Similar postings, similar requirements, similar feel.\nHitting the apply button was a 0.3-second act of courage.\nThey usually reply about three weeks later — or never at all."
+        "result_text": "He opened the job app again. Similar postings, similar requirements, similar feel.\nHitting the apply button was a 0.3-second act of courage.\nThey usually reply about three weeks later. Sometimes they never do."
       },
       {
         "text": "Work on the résumé (revise the cover letter)",
@@ -971,7 +971,7 @@
       },
       {
         "text": "Keep walking, holding onto the memory that began at the convenience store",
-        "result_text": "Daeun is living her life, in her own way.\n{name} made it this far, in his.\n\nTogether or not —\nthe fact that she was at the starting line isn't something that gets erased.\n\nHe held onto that as he walked toward the final stretch."
+        "result_text": "Daeun is living her life, in her own way.\n{name} made it this far, in his.\n\nTogether or not,\nthe fact that she was at the starting line doesn't get erased.\n\nHe held onto that as he walked toward the final stretch."
       }
     ]
   },
@@ -1067,7 +1067,7 @@
     "choices": [
       {
         "text": "Reply that you'll come down next week",
-        "result_text": "Dad didn't reply.\nThat wasn't a no, and {name} knew it.\nSearched for train tickets. KTX Changwon-Jungang, two and a half hours.\nSome things come before money — learned that this time."
+        "result_text": "Dad didn't reply.\nThat wasn't a no, and {name} knew it.\nSearched for train tickets. KTX Changwon-Jungang, two and a half hours.\nHe pressed Pay faster than he expected."
       },
       {
         "text": "Call to check — can't be that serious",
@@ -1139,11 +1139,11 @@
     "choices": [
       {
         "text": "\"Cold here. Cold there too, right?\" — just talk about small things",
-        "result_text": "Fifteen minutes of weather, the neighborhood, nothing in particular.\n\nAfter hanging up, {name} was smiling.\n\nNot a word about Gangnam.\nBut today that felt better. Because Dad called first."
+        "result_text": "Fifteen minutes of weather, the neighborhood, nothing in particular.\n\nAfter hanging up, {name} was smiling.\n\nNot a word about Gangnam.\nAt the top of the call log was the call Dad had made first."
       },
       {
         "text": "\"I'm doing well lately, Dad. Don't worry.\"",
-        "result_text": "Dad's voice sounded warm.\n\n\"You take care too, Dad. Don't worry.\"\nA brief silence.\n\"...Yeah. You too.\"\n\nThat was all. But the feeling after the call was different today."
+        "result_text": "Dad's voice sounded warm.\n\n\"You take care too, Dad. Don't worry.\"\nA brief silence.\n\"...Yeah. You too.\"\n\nThat was all. Even after hanging up, {name} didn't put the phone down for a while."
       }
     ]
   },
@@ -1180,7 +1180,7 @@
   {
     "id": "arc_jaehyuk_04c_stand_up",
     "title": "Back from Zero",
-    "description": "The word 'scam' would not leave his head.\n\nSat and calculated the amount lost.\nCalculated it again. The number didn't change.\n\n{name} took out a notebook.\n\nWhat was in the account when first coming to this city?\nAlmost nothing, back then too. And somehow it worked out.\n\nThe difference between now and then —\nMeeting someone like Choi Jaehyuk.\nAnd now knowing why those words sounded so sweet.\n\n{name} started writing.",
+    "description": "The word 'scam' would not leave his head.\n\nSat and calculated the amount lost.\nCalculated it again. The number didn't change.\n\n{name} took out a notebook.\n\nWhat was in the account when first coming to this city?\nAlmost nothing, back then too. And somehow it worked out.\n\nThe difference between now and then:\nMeeting someone like Choi Jaehyuk.\nAnd now knowing why those words sounded so sweet.\n\n{name} started writing.",
     "choices": [
       {
         "text": "Copied Jaehyuk's words into the notebook.",
@@ -1193,7 +1193,7 @@
     ],
     "description_if_known": {
       "jaehyuk_night_was_real": "The word 'scam' would not leave his head.\n\nThe number hadn't changed.\n\nBut {name} didn't delete the photo.\nThe two of them in front of the pojangmacha.\nThat night was that night.\n\n{name} took out the notebook. Decided to write only what came after that night.",
-      "deleted_jaehyuk_photo": "The word 'scam' would not leave his head.\n\nThe number hadn't changed.\n\n{name} deleted the photo.\nThe pojangmacha, the army stories, the laughter of that night —\nerased all of it together.\n\n{name} took out the notebook. Started over from the beginning."
+      "deleted_jaehyuk_photo": "The word 'scam' would not leave his head.\n\nThe number hadn't changed.\n\n{name} deleted the photo.\nThe pojangmacha, the army stories, the laughter of that night.\nerased all of it together.\n\n{name} took out the notebook. Started over from the beginning."
     }
   },
   {
@@ -1208,7 +1208,7 @@
       },
       {
         "text": "Knock once on the wall — asking if they're okay",
-        "result_text": "{name} tapped twice with his knuckle. The crying stopped. He asked, \"Are you all right?\" After a long pause, a very small \"Yes\" came back.\n\nBoth of them probably knew it was not true. He asked nothing more. Between two people who knew neither face nor name, the thin wall felt for once less like a barrier than a connection.",
+        "result_text": "{name} tapped twice with his knuckle. The crying stopped. He asked, \"Are you all right?\" After a long pause, a very small \"Yes\" came back.\n\nBoth of them probably knew it was not true. He asked nothing more. That night {name} fell asleep facing the wall.",
         "bridge_summary": "Two knocks brought back a tiny 'Yes.' For a moment, the thin wall felt like a connection."
       },
       {
@@ -1225,11 +1225,11 @@
     "choices": [
       {
         "text": "Put in 10,000 won — have to feel it to understand it",
-        "result_text": "{name} deposited 10,000 won and bought one share. When the fill alert sounded, the market price stopped being someone else's number. A rise of a few won lifted his mouth; a fall made him refresh.\n\nIt was too little to call a profit. Still, he learned that his body reacted before thought whenever money moved. The first lesson was not the chart, but his own pulse."
+        "result_text": "{name} deposited 10,000 won and pressed Buy for the first time in his life. When the fill alert sounded, the market price stopped being someone else's number. A rise of a few won lifted his mouth; a fall made him refresh.\n\nIt was too little to call a profit. Still, when the money moved, his body reacted first. His pulse stayed quick for a while after he closed the app."
       },
       {
         "text": "Read a book first — understand it before going in",
-        "result_text": "The account was open, but {name} did not press Deposit. Instead, he searched order types, fees, and examples of losses, filling the first page of a notebook. Every sentence contained another unknown word.\n\nToday's profit was zero. So was the loss. The empty balance no longer looked like proof that he was behind, but like space that would remain until he understood where he was entering."
+        "result_text": "The account was open, but {name} did not press Deposit. Instead, he searched order types, fees, and examples of losses, filling the first page of a notebook. Every sentence contained another unknown word.\n\nToday's profit was zero. So was the loss. He decided not to press Deposit until he had filled the next page too."
       }
     ]
   },
@@ -1381,7 +1381,7 @@
   {
     "id": "arc_jaehyuk_photo_in_dark",
     "title": "The Photo From That Night",
-    "description": "Night.\n\n{name} took out the phone and opened the gallery.\n\nOne photo.\nIn front of a pojangmacha. The two of them together.\nJaehyuk had an arm around {name}'s shoulder and was smiling.\n\nThat night had been real.\nEven if he was a con man, at least that smile that night — must have been real.\n\nOr had even that been practiced?",
+    "description": "Night.\n\n{name} took out the phone and opened the gallery.\n\nOne photo.\nIn front of a pojangmacha. The two of them together.\nJaehyuk had an arm around {name}'s shoulder and was smiling.\n\nThat night had been real.\nEven if he was a con man, at least that smile that night must have been real.\n\nOr had even that been practiced?",
     "choices": [
       {
         "text": "Decide to believe it was real",

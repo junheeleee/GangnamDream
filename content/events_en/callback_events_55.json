@@ -66,7 +66,7 @@
     "choices": [
       {
         "text": "Keep using it. This is fine.",
-        "result_text": "Deal done. Money came in.\n\nChecking the balance, {name} thought: this is fine.\nEveryone lives like this.\n\nWho's in that 'everyone' — chose not to think about slowly."
+        "result_text": "Deal done. Money came in.\n\nChecking the balance, {name} thought: this is fine.\nEveryone lives like this.\n\nWho was in that 'everyone', he chose not to think about."
       },
       {
         "text": "Turned it down this time. Felt like it had to stop here.",

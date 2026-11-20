@@ -246,7 +246,7 @@
       },
       {
         "text": "Buy a small gift for myself, who worked so hard",
-        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work.\n\nThe first thing he bought with wages he had earned was not perfect. That made it feel more likely to stay in his memory."
+        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work."
       }
     ]
   },
@@ -363,7 +363,7 @@
     "choices": [
       {
         "text": "Now's the time. Prepare to look for a new job.",
-        "result_text": "You pulled out your resume again.\nYou organized what you'd learned and done so far.\nEven if it feels like you're not ready, the ones who move are the ones who catch the chance."
+        "result_text": "{name} pulled out the resume again.\nHe listed what he had learned and done so far.\nIt still felt too early, but he pressed Apply."
       },
       {
         "text": "Hold on a bit longer. Keep my life as it is.",
@@ -400,7 +400,7 @@
     "choices": [
       {
         "text": "My path is the right one. Different pace is fine.",
-        "result_text": "{name} looked through the wedding and housewarming photos again and left congratulations. Then he opened his own ledger. Erasing other people's milestones would not create a road of his own.\n\nHe wrote the balance from three years ago beside today's. The start and speed were different. Movement was still visible.\n\nHe did not yet know whether the direction was right. He chose only to set the next step by his own record rather than someone else's clock."
+        "result_text": "{name} looked through the wedding and housewarming photos again and left congratulations. Then he opened his own ledger. Erasing other people's milestones would not create a road of his own.\n\nHe wrote the balance from three years ago beside today's. The start and speed were different. Movement was still visible.\n\nHe did not yet know whether the direction was right. Under the two numbers, {name} wrote one line of next month's plan."
       },
       {
         "text": "I have to move faster. Three years is long enough.",
@@ -434,7 +434,7 @@
     "choices": [
       {
         "text": "This is the most important turning point of my life. Go all in.",
-        "result_text": "The skills have stacked up now. The timing is there too.\n{name} read thirty-five not as 'not yet' but as 'now.'\nThere's no age limit on taking a chance."
+        "result_text": "The skills have stacked up now. The timing is there too.\n{name} touched the 35 on the calendar once and opened the application file."
       },
       {
         "text": "Stay unshaken. Protect my foundation.",
@@ -483,7 +483,7 @@
       },
       {
         "text": "Buy a small gift for myself, who worked so hard",
-        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work.\n\nThe first thing he bought with wages he had earned was not perfect. That made it feel more likely to stay in his memory."
+        "result_text": "After a long hesitation, {name} bought a new pair of sneakers. They were not expensive, yet pressing Pay felt like asking himself for permission.\n\nThe box smelled of rubber and new fabric. The next morning the heels rubbed raw, and he kept looking down at them on the way to work."
       }
     ]
   },

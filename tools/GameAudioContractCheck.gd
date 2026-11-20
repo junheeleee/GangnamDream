@@ -4,7 +4,7 @@ extends Node
 var _failures: Array[String] = []
 var _original_vibration_enabled: bool
 var _original_vibration_intensity: float
-const PHYSICAL_SFX_COUNT := 33
+const PHYSICAL_SFX_COUNT := 34
 const PHONE_KEYBOARD_PATH := "res://assets/audio/sfx_keyboard_phone.wav"
 
 const HAPTIC_PROFILE_IDS: Array[StringName] = [

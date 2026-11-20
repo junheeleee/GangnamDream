@@ -2,7 +2,7 @@
   {
     "id": "callback_father_confession_echo",
     "title": "What You Know Now",
-    "description": "Sangchul poured tea.\n\nSame as any other day. Charts, market, next month's strategy.\n\n{name} took the cup and thought:\nThis man — he's the one who introduced the scammer to Dad.\n\nSitting here knowing that.",
+    "description": "Sangchul poured tea.\n\nSame as any other day. Charts, market, next month's strategy.\n\n{name} took the cup and thought:\nThis man was the one who introduced the scammer to Dad.\n\nSitting here knowing that.",
     "choices": [
       {
         "text": "Learn everything this person can teach — then decide",

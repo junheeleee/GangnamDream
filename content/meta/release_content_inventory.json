@@ -275,7 +275,7 @@
     "registry_external_packaged_paths_sha256": "3c41deef6b66ae46cd904b1acd5b0e0ca63789feede7ae93e12749084fa95dfc",
     "registry_external_packaged_content_sha256": "0a91fe5169b8fac97239fc7281edafab97e959e9e67c23ebb69bbbd082d99594",
     "source_only_gdignored_paths_sha256": "f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4",
-    "audio_source_assets": 141
+    "audio_source_assets": 142
   },
   "registry_external_raster_review": {
     "reviewed": "2026-08-27",
@@ -481,7 +481,7 @@
         "expected_event_count": 135,
         "expected_file_count": 43,
         "expected_ids_sha256": "f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0",
-        "expected_content_sha256": "1f57f4652cd387ce9581f43664e90b7f23a3ac6e57b6d86a4be35ec13588b82e"
+        "expected_content_sha256": "93986f6194259e107b8b7647aa1534d033992401ec467a38a7e2707669fe32fa"
       },
       "facts": [
         {
@@ -554,7 +554,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present", "arc_final_week"],
-        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "d86583c34f9e37acb9dac7c51e41563eaeba39c1a96389ef019185811d2baf65"
+        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "046560fcecd05095c881d49b0677aa44a60e8f0713a7010ee4b998081d8da135"
       },
       "facts": [
         {
@@ -613,7 +613,7 @@
         "tokens_ko": ["폭행", "폭력", "구타", "뺨", "주먹", "피투성이", "선혈", "살해", "칼로 찔", "목을 졸", "무릎에 피", "앞바퀴를 쳤", "충돌"],
         "tokens_en": ["assault", "violence", "beaten", "slapped", "punched", "bloodied", "murder", "stabbed", "strangled", "knee was bleeding", "clipped the front wheel"],
         "reviewed_search_noise_ids": ["amb_coin_00", "arc_daeun_first_night", "arc_sangchul_confrontation", "cafe_bluff_caught", "callback_ignored_hyunsu_warning_echo", "callback_recommitted_to_job_echo", "inv_portfolio_review", "job_colleague_conflict", "kx_coin_noraebang", "startup_team_conflict", "story_knee_choice", "story_knee_witness"],
-        "expected_event_count": 16, "expected_file_count": 13, "expected_ids_sha256": "fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91", "expected_content_sha256": "c3759975eca6afc72b9b289c1aca1f78e2f0c8e7ca7b512a266c3a8ac88c5200"
+        "expected_event_count": 16, "expected_file_count": 13, "expected_ids_sha256": "fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91", "expected_content_sha256": "3c85b52e84318c841a165f6e058b3df7897833bcb1882ab7d56ac0954f92627e"
       },
       "facts": [
         {
@@ -640,7 +640,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 141, "expected_file_count": 50, "expected_ids_sha256": "3840da5f51069b1fe061fbb0f1a375ad618d05379a3e76e8fddfce396e96fe0f", "expected_content_sha256": "ad8fe81e7456fe1821fe14b16f74d9fd2b12041d9cd239e0cfda97a195a3c8d1"
+        "expected_event_count": 140, "expected_file_count": 50, "expected_ids_sha256": "da1905da4c772a4b047bab1afe63e224d46cc4ccb2715ea7e2cae2d14720cf02", "expected_content_sha256": "6c1593f49f485824836ab65e4ace5d8497ddbff3f5d87464d06bedc2afe60a91"
       },
       "facts": [
         {
@@ -710,7 +710,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "59d6dcd18c0cb88d8c70fb0cb41c5ca35a48784aa59fecb56cd53c896edd43df"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "e9d7ff7d6a620f4330d4f4052ddac08b6677e7076f3718668a1ba510c7b084a8"
       },
       "facts": [
         {
@@ -768,7 +768,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal", "arc_year3_close"],
-        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "6d750f0f51aea2e7e0d1a76169a941fb72487584c0f4a7de52332b0a54bdd536"
+        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "ebed49428a80856dab756f5c568a6dea3df0b82b28b3e03cbd0bd2866b612118"
       },
       "facts": [
         {
