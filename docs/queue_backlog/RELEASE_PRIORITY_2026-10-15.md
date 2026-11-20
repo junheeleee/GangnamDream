@@ -56,74 +56,74 @@ C4/C5의 gap은 이번 문서 정렬로 구현된 것이 아니다. 제품/상�
 | ORDER-612 (미커밋 월별 overlay) · 최신 수리 후보 M18 실제 앱 검수 | 유지 · C1/C2 | 동일 M18 HUD/내구 저장 불일치 수리 후보의 실제 재검수; 이후는 월별 선언 | 월초 저장 source GO · 동일M18 수정 앱 재검수/화면접근 HOLD | `docs/queue_active/ORDER-612.md:93-109`; `docs/queue_active/ORDER-612.md:122-128`; `docs/queue_active/ORDER-612.md:143-147` |
 | [ORDER-149](../queue_active/ORDER-149.md) · 프롤로그 세 비트의 강조·리듬 | 출시 후 보류 | 강조·리듬·옛 캡처 및 전 프레임/사람 L3; 현재 치명 결함 수리의 확인된 범위가 아님 | 실제창 autoplay4·OS skip2 PASS/표본관찰 · 옛캡처 FAIL·전프레임 HOLD · L3 OPEN | `docs/queue_active/ORDER-149.md:95-113`; `docs/queue_active/ORDER-149.md:202-217` |
 | [ORDER-302](../queue_active/ORDER-302.md) · 체험판 대본 사실·영어 정합 수리 | 출시 후 보류 | 공개 데모 사실 수리 source GO·실제 저장/재개/월 복귀 GO 후 남은 별도 후보/분기 관찰 | 수리7항목 source GO · 실제 저장·재개·월 복귀 GO/나머지 HOLD | `docs/queue_active/ORDER-302.md:139-166`; `docs/queue_active/ORDER-302.md:168-187` |
-| [ORDER-352](../queue_active/ORDER-352.md) · 본편 5장 대본 이름·시간·회수 정합 | 출시 후 보류 | 미착수 이름·시간·호칭/문법 목록; 현재 대표 경로의 미수리 C2 반례로 확정되지 않음 | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 | `docs/queue_active/ORDER-352.md:16-19`; `docs/queue_active/ORDER-352.md:34-40`; `docs/queue_active/ORDER-352.md:64-70` |
-| [ORDER-212](../queue_active/ORDER-212.md) · 선택의 나비효과·친절의 연쇄 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 432번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-212.md:130-149` |
-| [ORDER-211](../queue_active/ORDER-211.md) · 카페·만남·SNS 생활 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 660번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-211.md:170-199` |
-| [ORDER-210](../queue_active/ORDER-210.md) · 도시 휴식·도박·우정 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 714번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-210.md:123-142` |
-| [ORDER-209](../queue_active/ORDER-209.md) · 계절·동네·취미 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 726번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-209.md:142-163` |
-| [ORDER-208](../queue_active/ORDER-208.md) · 투자 연쇄·한국 생활 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 828번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-208.md:217-237` |
-| [ORDER-207](../queue_active/ORDER-207.md) · 투자·직장·불안·자기 기준 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 822번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-207.md:247-254` |
-| [ORDER-206](../queue_active/ORDER-206.md) · 도움·경계·가족·인맥 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 288번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-206.md:127-134` |
-| [ORDER-205](../queue_active/ORDER-205.md) · 비교·돌봄·관계·재기 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 720번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-205.md:177-184` |
-| [ORDER-204](../queue_active/ORDER-204.md) · 소비·습관·도박·인연 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 756번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-204.md:237-245` |
-| [ORDER-203](../queue_active/ORDER-203.md) · 직장·투자·이별 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 720번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-203.md:238-241` |
-| [ORDER-202](../queue_active/ORDER-202.md) · 현수·가족·건강·목표 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 738번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-202.md:225-232` |
-| [ORDER-201](../queue_active/ORDER-201.md) · 아버지·관계·목표 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 270번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-201.md:206-210` |
-| [ORDER-200](../queue_active/ORDER-200.md) · 친구·직장·살림 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 276번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-200.md:181-219` |
-| [ORDER-199](../queue_active/ORDER-199.md) · 어머니·일·살림 중간 회수 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 348번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-199.md:177-222` |
-| [ORDER-198](../queue_active/ORDER-198.md) · 생활 인연·마지막 전략 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 342번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-198.md:153-187` |
-| [ORDER-197](../queue_active/ORDER-197.md) · 일·신뢰·되돌림 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 774번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-197.md:206-211` |
-| [ORDER-196](../queue_active/ORDER-196.md) · 거절·재기·연락 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 804번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-196.md:197-229` |
-| [ORDER-195](../queue_active/ORDER-195.md) · 절제·신뢰·생활 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 762번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-195.md:186-217` |
-| [ORDER-194](../queue_active/ORDER-194.md) · 가족·회복·관계 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 714번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-194.md:189-217` |
-| [ORDER-193](../queue_active/ORDER-193.md) · 투자·사람 후속 결과 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 576번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-193.md:175-206` |
-| [ORDER-192](../queue_active/ORDER-192.md) · 관계의 다음 말·책임 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 360번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-192.md:163-197` |
-| [ORDER-191](../queue_active/ORDER-191.md) · 판단의 비용·작은 회신 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 444번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-191.md:163-194` |
-| [ORDER-190](../queue_active/ORDER-190.md) · 투자·인연 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 582번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-190.md:191-218` |
-| [ORDER-189](../queue_active/ORDER-189.md) · 마지막 질주·선택의 대가 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 642번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-189.md:205-230` |
+| [ORDER-352](../queue_backlog/ORDER-352.md) · 본편 5장 대본 이름·시간·회수 정합 | 출시 후 보류 | 미착수 이름·시간·호칭/문법 목록; 현재 대표 경로의 미수리 C2 반례로 확정되지 않음 | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 | `docs/queue_backlog/ORDER-352.md:16-19`; `docs/queue_backlog/ORDER-352.md:34-40`; `docs/queue_backlog/ORDER-352.md:64-70` |
+| [ORDER-212](../queue_backlog/ORDER-212.md) · 선택의 나비효과·친절의 연쇄 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 432번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-212.md:130-149` |
+| [ORDER-211](../queue_backlog/ORDER-211.md) · 카페·만남·SNS 생활 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 660번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-211.md:170-199` |
+| [ORDER-210](../queue_backlog/ORDER-210.md) · 도시 휴식·도박·우정 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 714번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-210.md:123-142` |
+| [ORDER-209](../queue_backlog/ORDER-209.md) · 계절·동네·취미 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 726번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-209.md:142-163` |
+| [ORDER-208](../queue_backlog/ORDER-208.md) · 투자 연쇄·한국 생활 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 828번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-208.md:217-237` |
+| [ORDER-207](../queue_backlog/ORDER-207.md) · 투자·직장·불안·자기 기준 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 822번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-207.md:247-254` |
+| [ORDER-206](../queue_backlog/ORDER-206.md) · 도움·경계·가족·인맥 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 288번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-206.md:127-134` |
+| [ORDER-205](../queue_backlog/ORDER-205.md) · 비교·돌봄·관계·재기 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 720번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-205.md:177-184` |
+| [ORDER-204](../queue_backlog/ORDER-204.md) · 소비·습관·도박·인연 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 756번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-204.md:237-245` |
+| [ORDER-203](../queue_backlog/ORDER-203.md) · 직장·투자·이별 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 720번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-203.md:238-241` |
+| [ORDER-202](../queue_backlog/ORDER-202.md) · 현수·가족·건강·목표 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 738번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-202.md:225-232` |
+| [ORDER-201](../queue_backlog/ORDER-201.md) · 아버지·관계·목표 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 270번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-201.md:206-210` |
+| [ORDER-200](../queue_backlog/ORDER-200.md) · 친구·직장·살림 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 276번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-200.md:181-219` |
+| [ORDER-199](../queue_backlog/ORDER-199.md) · 어머니·일·살림 중간 회수 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 348번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-199.md:177-222` |
+| [ORDER-198](../queue_backlog/ORDER-198.md) · 생활 인연·마지막 전략 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 342번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-198.md:153-187` |
+| [ORDER-197](../queue_backlog/ORDER-197.md) · 일·신뢰·되돌림 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 774번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-197.md:206-211` |
+| [ORDER-196](../queue_backlog/ORDER-196.md) · 거절·재기·연락 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 804번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-196.md:197-229` |
+| [ORDER-195](../queue_backlog/ORDER-195.md) · 절제·신뢰·생활 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 762번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-195.md:186-217` |
+| [ORDER-194](../queue_backlog/ORDER-194.md) · 가족·회복·관계 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 714번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-194.md:189-217` |
+| [ORDER-193](../queue_backlog/ORDER-193.md) · 투자·사람 후속 결과 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 576번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-193.md:175-206` |
+| [ORDER-192](../queue_backlog/ORDER-192.md) · 관계의 다음 말·책임 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 360번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-192.md:163-197` |
+| [ORDER-191](../queue_backlog/ORDER-191.md) · 판단의 비용·작은 회신 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 444번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-191.md:163-194` |
+| [ORDER-190](../queue_backlog/ORDER-190.md) · 투자·인연 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 582번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-190.md:191-218` |
+| [ORDER-189](../queue_backlog/ORDER-189.md) · 마지막 질주·선택의 대가 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 642번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-189.md:205-230` |
 | [ORDER-188](../queue_active/ORDER-188.md) · 관계·투자 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 600번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-188.md:189-224` |
-| [ORDER-187](../queue_active/ORDER-187.md) · 소비·독립 생활 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 312번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-187.md:143-177` |
-| [ORDER-186](../queue_active/ORDER-186.md) · 가족·일상 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 312번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-186.md:122-156` |
-| [ORDER-185](../queue_active/ORDER-185.md) · 창업·크리에이터·회복 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 438번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-185.md:151-182` |
+| [ORDER-187](../queue_backlog/ORDER-187.md) · 소비·독립 생활 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 312번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-187.md:143-177` |
+| [ORDER-186](../queue_backlog/ORDER-186.md) · 가족·일상 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 312번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-186.md:122-156` |
+| [ORDER-185](../queue_backlog/ORDER-185.md) · 창업·크리에이터·회복 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 438번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-185.md:151-182` |
 | [ORDER-184](../queue_active/ORDER-184.md) · 후반 이정표와 돈·직장 갈림길 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 567번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-184.md:164-207` |
-| [ORDER-183](../queue_active/ORDER-183.md) · 회상·첫 생활과 사별 변형 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 474번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-183.md:143-190` |
-| [ORDER-182](../queue_active/ORDER-182.md) · 생활·숨은 사건 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 594번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-182.md:139-199` |
-| [ORDER-181](../queue_active/ORDER-181.md) · 창업·정치·정선과 생활 전환 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 534번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-181.md:120-158` |
-| [ORDER-180](../queue_active/ORDER-180.md) · 아버지·인연·연애 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 516번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-180.md:118-150` |
-| [ORDER-179](../queue_active/ORDER-179.md) · 생활비·소비·주거 불안 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 558번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-179.md:114-165` |
-| [ORDER-178](../queue_active/ORDER-178.md) · 직장·구직·자기계발 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 582번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-178.md:109-146` |
-| [ORDER-177](../queue_active/ORDER-177.md) · 고시원·출퇴근·건강 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 528번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-177.md:108-143` |
-| [ORDER-176](../queue_active/ORDER-176.md) · 월세·첫 월급·가족 기억 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 555번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-176.md:122-149` |
-| [ORDER-174](../queue_active/ORDER-174.md) · 다은 일본어 존대 복구 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 기존2문구 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-174.md:63-84` |
-| [ORDER-173](../queue_active/ORDER-173.md) · 남은 관계·부모 대화 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 282번역 L1/L2 · L3 OPEN | `docs/queue_active/ORDER-173.md:102-133` |
-| [ORDER-172](../queue_active/ORDER-172.md) · 가족·직장·친구 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-172.md:146-175` |
-| [ORDER-171](../queue_active/ORDER-171.md) · 데이트·계절 장면 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-171.md:125-158` |
-| [ORDER-170](../queue_active/ORDER-170.md) · 결혼·가족 장면 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-170.md:103-150` |
-| [ORDER-169](../queue_active/ORDER-169.md) · 일본어 원화 단위 정밀화 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-169.md:49-63` |
-| [ORDER-168](../queue_active/ORDER-168.md) · 다은 관계·통화 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-168.md:103-130` |
-| [ORDER-167](../queue_active/ORDER-167.md) · 종막 서명·선발신 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-167.md:91-112` |
+| [ORDER-183](../queue_backlog/ORDER-183.md) · 회상·첫 생활과 사별 변형 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 474번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-183.md:143-190` |
+| [ORDER-182](../queue_backlog/ORDER-182.md) · 생활·숨은 사건 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 594번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-182.md:139-199` |
+| [ORDER-181](../queue_backlog/ORDER-181.md) · 창업·정치·정선과 생활 전환 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 534번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-181.md:120-158` |
+| [ORDER-180](../queue_backlog/ORDER-180.md) · 아버지·인연·연애 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 516번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-180.md:118-150` |
+| [ORDER-179](../queue_backlog/ORDER-179.md) · 생활비·소비·주거 불안 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 558번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-179.md:114-165` |
+| [ORDER-178](../queue_backlog/ORDER-178.md) · 직장·구직·자기계발 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 582번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-178.md:109-146` |
+| [ORDER-177](../queue_backlog/ORDER-177.md) · 고시원·출퇴근·건강 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 528번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-177.md:108-143` |
+| [ORDER-176](../queue_backlog/ORDER-176.md) · 월세·첫 월급·가족 기억 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 555번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-176.md:122-149` |
+| [ORDER-174](../queue_backlog/ORDER-174.md) · 다은 일본어 존대 복구 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 기존2문구 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-174.md:63-84` |
+| [ORDER-173](../queue_backlog/ORDER-173.md) · 남은 관계·부모 대화 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | 282번역 L1/L2 · L3 OPEN | `docs/queue_backlog/ORDER-173.md:102-133` |
+| [ORDER-172](../queue_backlog/ORDER-172.md) · 가족·직장·친구 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-172.md:146-175` |
+| [ORDER-171](../queue_backlog/ORDER-171.md) · 데이트·계절 장면 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-171.md:125-158` |
+| [ORDER-170](../queue_backlog/ORDER-170.md) · 결혼·가족 장면 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-170.md:103-150` |
+| [ORDER-169](../queue_backlog/ORDER-169.md) · 일본어 원화 단위 정밀화 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-169.md:49-63` |
+| [ORDER-168](../queue_backlog/ORDER-168.md) · 다은 관계·통화 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-168.md:103-130` |
+| [ORDER-167](../queue_backlog/ORDER-167.md) · 종막 서명·선발신 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-167.md:91-112` |
 | [ORDER-166](../queue_active/ORDER-166.md) · 마지막 해 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-166.md:117-148` |
-| [ORDER-165](../queue_active/ORDER-165.md) · 데모 간체 수량 정밀화 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-165.md:38-45` |
-| [ORDER-164](../queue_active/ORDER-164.md) · 4년차와 아버지 경과 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-164.md:135-163` |
-| [ORDER-163](../queue_active/ORDER-163.md) · 3년차와 장기 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-163.md:150-188` |
-| [ORDER-162](../queue_active/ORDER-162.md) · M07~M24 연결 사건 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-162.md:114-140` |
-| [ORDER-161](../queue_active/ORDER-161.md) · catalog 전체 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-161.md:70-95` |
-| [ORDER-160](../queue_active/ORDER-160.md) · 남은 결말18종 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-160.md:62-98` |
-| [ORDER-159](../queue_active/ORDER-159.md) · 일상·회복 결말 14종 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_active/ORDER-159.md:91-105` |
-| [ORDER-158](../queue_active/ORDER-158.md) · 본편 8장면 번역 | 출시 후 보류 | 8장면 L1/L2 수용 후 원어민/화면 L3만 미완료 | L1/L2 PASS · 원어민 OPEN | `docs/queue_active/ORDER-158.md:74-86` |
+| [ORDER-165](../queue_backlog/ORDER-165.md) · 데모 간체 수량 정밀화 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-165.md:38-45` |
+| [ORDER-164](../queue_backlog/ORDER-164.md) · 4년차와 아버지 경과 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-164.md:135-163` |
+| [ORDER-163](../queue_backlog/ORDER-163.md) · 3년차와 장기 후속 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-163.md:150-188` |
+| [ORDER-162](../queue_backlog/ORDER-162.md) · M07~M24 연결 사건 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-162.md:114-140` |
+| [ORDER-161](../queue_backlog/ORDER-161.md) · catalog 전체 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-161.md:70-95` |
+| [ORDER-160](../queue_backlog/ORDER-160.md) · 남은 결말18종 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-160.md:62-98` |
+| [ORDER-159](../queue_backlog/ORDER-159.md) · 일상·회복 결말 14종 번역 | 출시 후 보류 | 번역 L1/L2 수용 후 원어민/화면 L3; C4 고지로 출시 차단 의무 대체 | L1/L2 PASS · L3 OPEN | `docs/queue_backlog/ORDER-159.md:91-105` |
+| [ORDER-158](../queue_backlog/ORDER-158.md) · 본편 8장면 번역 | 출시 후 보류 | 8장면 L1/L2 수용 후 원어민/화면 L3만 미완료 | L1/L2 PASS · 원어민 OPEN | `docs/queue_backlog/ORDER-158.md:74-86` |
 | [ORDER-157](../queue_active/ORDER-157.md) · 본편 일본어·중국어 전체 번역 | 조건부 축소 · C2/C4/C5 | 실제 빈 표면/EN 한글, AI 보조 번역 고지, KO/EN 확정 후 CJK 1회 정합·retail5언어 준비만 | 전체 INCOMPLETE · 원어민 OPEN | `docs/queue_active/ORDER-157.md:99-117` |
 | [ORDER-156](../queue_active/ORDER-156.md) · Ch5 생활 routine 실제 배경 | 출시 후 보류 | Ch5 생활 배경의 추가 입력/사람 관찰; 별도 두 경로 전수 요구 | 입력 QA 잔여 · 사람 OPEN·HOLD | `docs/queue_active/ORDER-156.md:67-82` |
 | [ORDER-151](../queue_active/ORDER-151.md) · Ch5 장소·기간·카지노 맥락 | 출시 후 보류 | Ch5 장소/기간/카지노 맥락 후속 관찰; 156과 과거 두 경로 gate | 후속 156 · 사람 OPEN·HOLD | `docs/queue_active/ORDER-151.md:65-76`; `docs/queue_active/ORDER-151.md:78-113` |
 | [ORDER-150](../queue_active/ORDER-150.md) · Ch5 human REJECT 수리 | 출시 후 보류 | 과거 REJECT 수리 뒤 exact 두 경로·두 사람 gate | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD | `docs/queue_active/ORDER-150.md:19-28`; `docs/queue_active/ORDER-150.md:195-214` |
 | [ORDER-148](../queue_active/ORDER-148.md) · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | 출시 후 보류 | 부정 종결 습관의 문체 개선·재계측; 사실 삭제나 치명 수리 아님 | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 | `docs/queue_active/ORDER-148.md:107-109`; `docs/queue_active/ORDER-148.md:111-144` |
-| [ORDER-147](../queue_active/ORDER-147.md) · runtime identity | 출시 후 보류 | 과거 runtime identity 후보의 인간 REJECT; 현재 CI/대표 경로와 별도인 후보 승인 | human REJECT | `docs/queue_active/ORDER-147.md:167-183` |
-| [ORDER-146](../queue_active/ORDER-146.md) · ledger | 출시 후 보류 | 후보 ledger의 두 경로 replay OPEN; 자동 검사/저장 계약은 그대로 유지 | 후속 151 새 exact 후보 · 두 replay OPEN | `docs/queue_active/ORDER-146.md:65-85` |
-| [ORDER-145](../queue_active/ORDER-145.md) · 후보 | 출시 후 보류 | 과거 후보 HOLD 해소를 위한 추가 replay/사람 판정 | HOLD | `docs/queue_active/ORDER-145.md:77-83`; `docs/queue_active/ORDER-147.md:167-183` |
-| [ORDER-143](../queue_active/ORDER-143.md) · graph | 출시 후 보류 | graph/공개 M01~M06 보호 후 남은 후보 HOLD; 제품 보호 검사는 유지 | M01~M06 보호 · HOLD | `docs/queue_active/ORDER-143.md:130-137`; `docs/queue_active/ORDER-142.md:75-77` |
-| [ORDER-144](../queue_active/ORDER-144.md) · trace | 출시 후 보류 | trace PENDING·역사 인간 OPEN; 현 대표 1회 완주와 중복 승인하지 않음 | PENDING · human OPEN | `docs/queue_active/ORDER-144.md:72-91`; `docs/queue_active/ORDER-146.md:70-85` |
-| [ORDER-142](../queue_active/ORDER-142.md) · volume | 출시 후 보류 | 전체 원고량·밀도·회수의 품질 목표 HOLD | M01~M60 · HOLD | `docs/queue_active/ORDER-142.md:49-77`; `docs/queue_active/ORDER-142.md:132-141` |
-| [ORDER-138](../queue_active/ORDER-138.md) · finale | 출시 후 보류 | 종막 품질·과거 인간 REJECT와 추가 경로 | human REJECT · HOLD | `docs/queue_active/ORDER-138.md:15-29`; `docs/queue_active/ORDER-138.md:199-209` |
-| [ORDER-137](../queue_active/ORDER-137.md) · Ch5 수리 | 출시 후 보류 | Ch5 이전 후보의 인간 REJECT·후속 수리/관찰 | human REJECT · HOLD | `docs/queue_active/ORDER-137.md:7-19`; `docs/queue_active/ORDER-137.md:194-197` |
+| [ORDER-147](../queue_backlog/ORDER-147.md) · runtime identity | 출시 후 보류 | 과거 runtime identity 후보의 인간 REJECT; 현재 CI/대표 경로와 별도인 후보 승인 | human REJECT | `docs/queue_backlog/ORDER-147.md:167-183` |
+| [ORDER-146](../queue_backlog/ORDER-146.md) · ledger | 출시 후 보류 | 후보 ledger의 두 경로 replay OPEN; 자동 검사/저장 계약은 그대로 유지 | 후속 151 새 exact 후보 · 두 replay OPEN | `docs/queue_backlog/ORDER-146.md:65-85` |
+| [ORDER-145](../queue_backlog/ORDER-145.md) · 후보 | 출시 후 보류 | 과거 후보 HOLD 해소를 위한 추가 replay/사람 판정 | HOLD | `docs/queue_backlog/ORDER-145.md:77-83`; `docs/queue_backlog/ORDER-147.md:167-183` |
+| [ORDER-143](../queue_backlog/ORDER-143.md) · graph | 출시 후 보류 | graph/공개 M01~M06 보호 후 남은 후보 HOLD; 제품 보호 검사는 유지 | M01~M06 보호 · HOLD | `docs/queue_backlog/ORDER-143.md:130-137`; `docs/queue_backlog/ORDER-142.md:75-77` |
+| [ORDER-144](../queue_backlog/ORDER-144.md) · trace | 출시 후 보류 | trace PENDING·역사 인간 OPEN; 현 대표 1회 완주와 중복 승인하지 않음 | PENDING · human OPEN | `docs/queue_backlog/ORDER-144.md:72-91`; `docs/queue_backlog/ORDER-146.md:70-85` |
+| [ORDER-142](../queue_backlog/ORDER-142.md) · volume | 출시 후 보류 | 전체 원고량·밀도·회수의 품질 목표 HOLD | M01~M60 · HOLD | `docs/queue_backlog/ORDER-142.md:49-77`; `docs/queue_backlog/ORDER-142.md:132-141` |
+| [ORDER-138](../queue_backlog/ORDER-138.md) · finale | 출시 후 보류 | 종막 품질·과거 인간 REJECT와 추가 경로 | human REJECT · HOLD | `docs/queue_backlog/ORDER-138.md:15-29`; `docs/queue_backlog/ORDER-138.md:199-209` |
+| [ORDER-137](../queue_backlog/ORDER-137.md) · Ch5 수리 | 출시 후 보류 | Ch5 이전 후보의 인간 REJECT·후속 수리/관찰 | human REJECT · HOLD | `docs/queue_backlog/ORDER-137.md:7-19`; `docs/queue_backlog/ORDER-137.md:194-197` |
 | [ORDER-135](../queue_active/ORDER-135.md) · 일반 경로 | 출시 후 보류 | 137/138 후속 두 Ch5 replay 잔여; 대표 1회 완주와 중복 요구하지 않음 | human REJECT · HOLD | `docs/queue_active/ORDER-135.md:7-19`; `docs/queue_active/ORDER-135.md:197-209` |
 | [ORDER-119](../queue_active/ORDER-119.md) · 표면 언어 | 출시 후 보류 | 표면 언어의 과거 최종 사용자 GO 대기; 현 EN 누출/빈 문자열은 C2로 별도 수리 | 사용자 GO OPEN | `docs/queue_active/ORDER-119.md:94-122`; `docs/queue_active/ORDER-119.md:184-200` |
 | [ORDER-118](../queue_active/ORDER-118.md) · startup | 출시 후 보류 | startup 사용자 GO·R1b 추가 경로 HOLD | 사용자 GO OPEN · R1b HOLD | `docs/queue_active/ORDER-118.md:19-35`; `docs/queue_active/ORDER-118.md:165-180` |

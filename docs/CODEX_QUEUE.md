@@ -72,33 +72,23 @@
 | 3 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 새 번역 일시 중지 · #41/#42 병합 |
 | 4 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 | 5 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 6 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 7 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 8 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 9 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 10 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 11 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 12 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 13 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 14 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 15 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 16 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 17 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 18 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 19 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 20 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 21 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 22 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 23 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 24 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 25 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 6 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 7 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 8 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 9 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 10 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 11 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 12 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 13 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 14 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 15 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
-| 80 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | 목록·삭제0 |
-| 81 | [~] | ORDER-828 · 문서·큐·에셋 | [828](queue_active/ORDER-828.md) | 문서와 에셋 목록 |
-| 82 | [~] | ORDER-731 · 연속 대표 플레이 | [731](queue_active/ORDER-731.md) | M60 완료 · 사람 검수 별도 |
-| 83 | [~] | ORDER-833 · 본편 원고 | [833](queue_active/ORDER-833.md) | 1년 차 |
+| 20 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | 목록·삭제0 |
+| 21 | [~] | ORDER-828 · 문서·큐·에셋 | [828](queue_active/ORDER-828.md) | 문서와 에셋 목록 |
+| 22 | [~] | ORDER-731 · 연속 대표 플레이 | [731](queue_active/ORDER-731.md) | M60 완료 · 사람 검수 별도 |
+| 23 | [~] | ORDER-833 · 본편 원고 | [833](queue_active/ORDER-833.md) | 1년 차 |
 
 
 
@@ -143,6 +133,8 @@ Chapter 5 두 경로 재플레이 요구는 [보류 분류 기록](queue_backlog
 legacy 저장 호환·제품 동작 검사는 유지한다. 역사 인간 OPEN45는 가짜 done으로 바꾸지 않는다.
 
 ### legacy 부모 계획과 본편 범위
+
+출시 후 보류 오더 60건은 [보류 이동 목록](queue_backlog/DEFERRED_POST_LAUNCH_2026-11-20.md)으로 옮겼다(완료 판정 아님).
 
 부모 참조와 사람 게이트 소유 원문은 [이동 보존본](queue_archive/CODEX_QUEUE_2026-09.md#legacy-부모-계획과-본편-범위)에 그대로 있다.
 

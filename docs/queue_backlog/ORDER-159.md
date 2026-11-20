@@ -37,7 +37,7 @@
 - `content/endings_{ja,zh-CN,zh-TW}.json`의 위 14 root 텍스트만.
 - git-private source/response/receipt; `content/meta/full_game_localization.json`의
   위 96 leaf/locale 수용 해시·배치 기록. 실제 원문 대조 뒤에만 수용한다.
-- `docs/queue_active/ORDER-159.md`, CODEX_QUEUE, WORK_LOG, STATUS, CLAUDE,
+- `docs/queue_backlog/ORDER-159.md`, CODEX_QUEUE, WORK_LOG, STATUS, CLAUDE,
   `docs/queue_backlog/FULL_GAME_LOCALIZATION.md`의 실측 진행 상태.
 - `tools/audit_scope.json`의 위 문서 경로 등록만. 번역 검사 오탐이 새로 생기면
   별도 exact 선언 뒤 수리하며 수량·문자 기준을 통과용으로 넓히지 않는다.
