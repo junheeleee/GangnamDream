@@ -37,6 +37,15 @@ All 143 current assets are recording/sample-backed: 20 real-piano scores, 50 fie
 - Read-only replay and cold resume never replay past physical actions. A same-language resume before the writing clause may still play it once when normal reading reaches it. A cross-language cold position cannot prove an unread clause and conservatively suppresses that one-shot; live language/font reflow preserves the consumed side. No new saved cue flag is added.
 - File/hash/PCM, source alignment and isolated runtime timing checks do not establish audible suitability. Image-paired listening and continuous mix approval remain separate.
 
+## Cafe Verdict Handwriting
+
+- `arc_y5_people_verdict_daeun_exact` keeps the quiet rear-cafe picture, held `reckoning` score and description-source-0 `paper_handle` at -7 dB. That opening is current paper handling, not merely a historical receipt. Description source 1 only recaps the earlier filing state and has no physical writing cue.
+- `assets/w230_cafe_write.tres` binds full writer clauses in five languages: choice 0 has Minjun at result source 0 and Minseo at source 1; choice 1 has Minjun at source 0 and Daeun at source 1; choice 2 has one joint writing sentence at source 0. Its source 1 only sets pens down and cannot emit another writing sound. Keep all five clause endpoints, without adding a page cut.
+- The ordinary pen-on-paper recording uses the existing `pen_ballpoint` master; it does not establish that the chained blue counter pen travels to the cafe. Per-choice trims remain -7/-6/-7 dB for their corresponding writers. The old three paragraph-entry pencil requests are removed, not repurposed as extra pen cues.
+- Consumption is transient and local to each result source. Cold resume consumes earlier actions; a same-language current source retains its unread writing clause. Cross-language cold consumes the uncertain current action but leaves a definitely future source 1 available. Legacy positions lacking a source/locale are conservatively silent. Live font/language reflow preserves only the current source's before/after side. No saved sound flag or prose offset is added.
+- Normal reading can play both writers separately. The existing 650-ms cooldown is unchanged: rapid advance/skip may retain an already-playing one-second stroke rather than stack a second identical voice. Tests must verify that ongoing stream, not equate a consumed action with a new audible dispatch. Never clear cooldown timestamps, queue a late stroke after its page, or replay it on a later bind.
+- Resuming the scene restores only the admitted score, not the opening paper. File/source guards and isolated runtime tests do not establish listening, final mix taste, native pixel quality or human approval.
+
 ## Public Office Queue Cue
 
 - `story_last_payment_wait` keeps `public_office` room ambience. A queue call is a result-owned physical cue, not a substitute ambience.

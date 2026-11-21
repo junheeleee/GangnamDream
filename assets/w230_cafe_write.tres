@@ -1,0 +1,46 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/write_anchors = {
+"0": {
+"0": {
+"ko": "{name}은 말을 끊지 않고 첫 줄을 채웠다.",
+"en": "{name} did not interrupt as he filled the first line.",
+"ja": "{name}は話を遮らず、最初の行を埋めた。",
+"zh-CN": "{name}没有打断，把第一行写满。",
+"zh-TW": "{name}沒有打斷，填滿第一行。"
+},
+"1": {
+"ko": "민서가 현재 표지와 문서의 마지막 상태를 둘째 줄에 적었다.",
+"en": "Minseo write the current label and the document's last state on the second line.",
+"ja": "ミンソが現在の表紙と書類の最後の状態を二行目に書いた。",
+"zh-CN": "Minseo才在第二行写下当前的封面和文件的最终状态。",
+"zh-TW": "Minseo 才在第二行寫下目前的封面和文件最後的狀態。"
+}
+},
+"1": {
+"0": {
+"ko": "{name}은 그 위치를 첫 줄에 적었다.",
+"en": "{name} put that location on the first line.",
+"ja": "{name}はその場所を最初の行に書いた。",
+"zh-CN": "{name}把那个位置写进第一行。",
+"zh-TW": "{name}把那個位置記在第一行。"
+},
+"1": {
+"ko": "다은은 둘째 줄에 자기가 쓴 저녁의 날짜를 적었다.",
+"en": "Daeun wrote the dates of her evenings on the second.",
+"ja": "ダウンは二行目に、自分が使った夜の日付を書いた。",
+"zh-CN": "Daeun在第二行写下自己花掉的那些晚上的日期。",
+"zh-TW": "Daeun 在第二行寫下自己花掉的那些晚上的日期。"
+}
+},
+"2": {
+"0": {
+"ko": "민서는 표지와 문서의 마지막 상태를 오른쪽 줄에 직접 적었다.",
+"en": "Minseo wrote the label and the document's last state on the right.",
+"ja": "ミンソは表紙と書類の最後の状態を右の行に、自分で書いた。",
+"zh-CN": "Minseo在右边一行写下封面和文件的最终状态。",
+"zh-TW": "Minseo 在右側那行，親手寫下封面和文件最後的狀態。"
+}
+}
+}

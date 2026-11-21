@@ -212,6 +212,8 @@ const W227_BALLPOINT_WRITE := preload("res://assets/w227_ballpoint_write.tres")
 const W227_TRACKED_SFX := [
 	"pen_ballpoint", "paper_handle", "pen_write", "document_scan", "register_scan",
 ]
+const W230_CAFE := "arc_y5_people_verdict_daeun_exact"
+const W230_BACKGROUND := "finale_cafe_rear_papers"
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -442,6 +444,7 @@ const CASES := [
 const EXACT_PATHS := {
 	W216_LANDING: "res://assets/backgrounds/sangchul_old_office_landing_w216_v1.png",
 	W227_BACKGROUND: "res://assets/backgrounds/finale_intake_blue_pen_v1.png",
+	W230_BACKGROUND: "res://assets/backgrounds/finale_cafe_rear_papers_v1.png",
 	"office": "res://assets/backgrounds/office_desk.png",
 	W132_STAIRS: "res://assets/backgrounds/sangchul_cafe_stairs_v2.png",
 	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
@@ -542,6 +545,9 @@ var _w216_cold_restored := false
 var _w216_cold_count := 0
 var _w220_receipt_cold_count := 0
 var _w220_receipt_paper_expected := false
+var _w230_cold_ink := 0
+var _w230_cross_future_ink := 0
+var _w230_reflow_ink := 0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -564,6 +570,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W230_BALLPOINT_CHECK"):
+		var w230_ok: bool = await _check_w230_cafe_write()
+		await _remove_story()
+		await _stop_audio()
+		if w230_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w230_ballpoint")
+		get_tree().quit(0 if w230_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W227_BALLPOINT_CHECK"):
 		var ballpoint_ok: bool = await _check_w227_ballpoint()
 		await _remove_story()
@@ -4352,13 +4366,20 @@ func _check_w227_ballpoint() -> bool:
 	return counts_ok
 
 func _w227_open(language: String) -> bool:
+	return await _open_finale_ink_event(language, W227_FILING, 227)
+
+func _w230_open(language: String) -> bool:
+	return await _open_finale_ink_event(language, W230_CAFE, 230)
+
+func _open_finale_ink_event(language: String, target_event_id: String, turn: int) -> bool:
 	await _remove_story()
 	await _stop_audio()
-	_context = "%s/W227" % language
+	var label := "W227" if target_event_id == W227_FILING else "W230"
+	_context = "%s/%s" % [language, label]
 	LocaleManager.set_language(language)
 	SaveManager.clear_loaded_resume_context()
 	SaveManager.set_setting("story_text_size", "standard")
-	if not _prepare_full_owner_history(227, []):
+	if not _prepare_full_owner_history(turn, []):
 		return false
 	GameState.money = 2_100_000_000.0
 	GameState.housing = "oneroom"
@@ -4366,7 +4387,7 @@ func _w227_open(language: String) -> bool:
 		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true,
 		GameState.get_total_asset_value())
 	if not bool(locked.get("ok", false)):
-		_fail("W227 could not lock the actual Chapter 5 causal route")
+		_fail("%s could not lock the actual Chapter 5 causal route" % label)
 		return false
 	var state: Dictionary = locked["state"]
 	for index: int in range(CHAPTER5_ROUTE.OWNED_EVENT_IDS.size()):
@@ -4378,25 +4399,32 @@ func _w227_open(language: String) -> bool:
 		var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(
 			state, event_id, choice_index, at_turn)
 		if not bool(committed.get("ok", false)):
-			_fail("W227 could not commit causal predecessor %s/c%d" % [event_id, choice_index])
+			_fail("%s could not commit causal predecessor %s/c%d" % [
+				label, event_id, choice_index])
 			return false
 		state = committed["state"]
 	if not CHAPTER5_ROUTE.route_complete(state) \
 			or CHAPTER5_ROUTE.selected_choice(state, W219_MEETING_DECISION) != 1:
-		_fail("W227 causal paper trail did not close on W219 c1")
+		_fail("%s causal paper trail did not close on W219 c1" % label)
 		return false
 	GameState.chapter5_causal_state = state
 	var final_calendar := [GameState.turn, GameState.age, GameState.year,
 		GameState.month, GameState.week_of_month]
 	GameState.turn = 221
 	if not GameState.prepare_chapter5_finale_route_entry():
-		_fail("W227 could not lock its real finale entry")
+		_fail("%s could not lock its real finale entry" % label)
 		return false
 	var father_event := GameState.chapter5_finale_next_event_for_turn()
 	var father_result: Dictionary = GameState.record_chapter5_finale_choice(father_event, 0)
 	GameState.turn = 224
 	var custody_event := GameState.chapter5_finale_next_event_for_turn()
 	var custody_result: Dictionary = GameState.record_chapter5_finale_choice(custody_event, 0)
+	var filing_event := ""
+	var filing_result: Dictionary = {}
+	if target_event_id == W230_CAFE:
+		GameState.turn = 227
+		filing_event = GameState.chapter5_finale_next_event_for_turn()
+		filing_result = GameState.record_chapter5_finale_choice(filing_event, 0)
 	GameState.turn = int(final_calendar[0])
 	GameState.age = int(final_calendar[1])
 	GameState.year = int(final_calendar[2])
@@ -4406,8 +4434,10 @@ func _w227_open(language: String) -> bool:
 			or not bool(father_result.get("ok", false)) \
 			or custody_event != CHAPTER5_FINALE_ROUTE.OWNED_EVENT_IDS[2] \
 			or not bool(custody_result.get("ok", false)) \
-			or GameState.chapter5_finale_next_event_for_turn() != W227_FILING:
-		_fail("W227 finale predecessors did not admit the filing root")
+			or (target_event_id == W230_CAFE and (filing_event != W227_FILING \
+				or not bool(filing_result.get("ok", false)))) \
+			or GameState.chapter5_finale_next_event_for_turn() != target_event_id:
+		_fail("%s finale predecessors did not admit its exact root" % label)
 		return false
 	EventManager.pending_events.clear()
 	EventManager.current_event = {}
@@ -4415,9 +4445,9 @@ func _w227_open(language: String) -> bool:
 	ingress.set_meta("_screenshot_qa_static_surface", true)
 	var routed := bool(ingress.call("_route_chapter5_finale_week"))
 	ingress.free()
-	if not routed or GameState.pending_story_queue != [W227_FILING] \
+	if not routed or GameState.pending_story_queue != [target_event_id] \
 			or not FULL_STORY_FLOW.valid_session():
-		_fail("W227 did not route through MainGame and FullStoryFlow")
+		_fail("%s did not route through MainGame and FullStoryFlow" % label)
 		return false
 	BGMPlayer.set_ambience("rain")
 	BGMPlayer.set_season_ambience("winter")
@@ -4428,9 +4458,13 @@ func _w227_open(language: String) -> bool:
 	_story.set_process(false)
 	_story.call("_set_auto_mode", false, false, false)
 	await _wait_stable()
-	return str((_story.get("_current") as Dictionary).get("id", "")) == W227_FILING \
-		and _w227_surface("W227 live opening", false) \
-		and _w227_audio_matches("none", "W227 live opening")
+	if str((_story.get("_current") as Dictionary).get("id", "")) != target_event_id:
+		return false
+	if target_event_id == W227_FILING:
+		return _w227_surface("W227 live opening", false) \
+			and _w227_audio_matches("none", "W227 live opening")
+	return _w230_surface("W230 live opening", false) \
+		and _w230_audio_matches("paper", "W230 live opening", true, true)
 
 func _w227_read_intro() -> bool:
 	var current: Dictionary = _story.get("_current")
@@ -4504,7 +4538,7 @@ func _w227_seek_pen_page(applied: String) -> bool:
 		return false
 	return true
 
-func _w227_type_to(target: int) -> bool:
+func _w227_type_to(target: int, owner: String = "W227") -> bool:
 	var guard := 0
 	while int(_story.get("_type_pos")) < target and guard < 4096:
 		var before := int(_story.get("_type_pos"))
@@ -4513,7 +4547,8 @@ func _w227_type_to(target: int) -> bool:
 			_story.call("_process", 0.001)
 		guard += 1
 	if int(_story.get("_type_pos")) != target:
-		_fail("W227 typewriter skipped target=%d actual=%d" % [target, int(_story.get("_type_pos"))])
+		_fail("%s typewriter skipped target=%d actual=%d" % [
+			owner, target, int(_story.get("_type_pos"))])
 		return false
 	return true
 
@@ -4701,21 +4736,26 @@ func _w227_source1_cold_guard() -> bool:
 		and _w227_audio_matches("none", "W227 source1 cold")
 
 func _w227_surface(label: String, expect_score: bool) -> bool:
+	return _finale_ink_surface(
+		W227_FILING, W227_BACKGROUND, "W227", label, expect_score)
+
+func _finale_ink_surface(event_id: String, background_id: String,
+		owner: String, label: String, expect_score: bool) -> bool:
 	var portrait := _story.get("_portrait") as TextureRect
 	var portrait_frame := _story.get("_portrait_frame") as Control
-	if str((_story.get("_current") as Dictionary).get("id", "")) != W227_FILING \
-			or not _expect_surface(W227_BACKGROUND, "", label) \
+	if str((_story.get("_current") as Dictionary).get("id", "")) != event_id \
+			or not _expect_surface(background_id, "", label) \
 			or portrait.texture != null or portrait_frame.visible \
 			or not _expect_no_ambience(label):
-		_fail("%s changed W227 filing-counter surface or empty portrait" % label)
+		_fail("%s changed %s quiet surface or empty portrait" % [label, owner])
 		return false
 	if expect_score:
 		if not _w216_score_playing():
-			_fail("%s lost W227 held reckoning score" % label)
+			_fail("%s lost %s held reckoning score" % [label, owner])
 			return false
 	elif not str(BGMPlayer.get("_current_key")).is_empty() \
 			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
-		_fail("%s opened W227 score before source1" % label)
+		_fail("%s opened %s score before source1" % [label, owner])
 		return false
 	return true
 
@@ -4725,18 +4765,26 @@ func _w227_clear_tracked() -> void:
 		AudioManager._last_sfx_ms.erase(sound_id)
 
 func _w227_audio_matches(mode: String, label: String, require_stream: bool = false) -> bool:
+	return _finale_ink_audio_matches(
+		W227_FILING, "W227", mode, label, require_stream, false)
+
+func _finale_ink_audio_matches(event_id: String, owner: String, mode: String,
+		label: String, require_stream: bool, expect_intro_token: bool) -> bool:
 	var expected_sound := "paper_handle" if mode == "paper" else (
 		"pen_ballpoint" if mode == "pen" else "")
 	var cue_keys: Array = AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
-		if not str(key).begins_with(W227_FILING + ":"):
+		if not str(key).begins_with(event_id + ":"):
 			return false
 		for sound_id: String in W227_TRACKED_SFX:
 			if str(key).ends_with(":" + sound_id):
 				return true
 		return false)
 	cue_keys.sort()
-	var expected_cues: Array = [W227_FILING + "::result:0:0:0:paper_handle"] \
-		if mode == "paper" else []
+	var expected_cues: Array = []
+	if event_id == W227_FILING and mode == "paper":
+		expected_cues.append(W227_FILING + "::result:0:0:0:paper_handle")
+	elif event_id == W230_CAFE and expect_intro_token:
+		expected_cues.append(W230_CAFE + "::description:0:0:paper_handle")
 	var invalid: Array[String] = []
 	for sound_id: String in W227_TRACKED_SFX:
 		var expected := sound_id == expected_sound
@@ -4746,21 +4794,23 @@ func _w227_audio_matches(mode: String, label: String, require_stream: bool = fal
 				or (expected and require_stream and streams != 1):
 			invalid.append(sound_id)
 	if cue_keys != expected_cues or not invalid.is_empty():
-		_fail("%s W227 audio mismatch mode=%s invalid=%s cues=%s" % [
-			label, mode, invalid, cue_keys])
+		_fail("%s %s audio mismatch mode=%s invalid=%s cues=%s" % [
+			label, owner, mode, invalid, cue_keys])
 		return false
 	if require_stream and not expected_sound.is_empty():
+		var choice := int(_story.get("_pending_result_choice_index"))
+		var gain := (-6.0 if mode == "paper" else -5.0) \
+			if event_id == W227_FILING else (-7.0 if mode == "paper" or choice != 1 else -6.0)
 		var expected_db := float(AudioManager.call("_vol_db")) \
-			+ AudioManager.sfx_mix_trim_db(expected_sound) \
-			+ (-6.0 if mode == "paper" else -5.0)
+			+ AudioManager.sfx_mix_trim_db(expected_sound) + gain
 		for player: AudioStreamPlayer in AudioManager._pool:
 			if player.playing and player.stream == AudioManager._sounds.get(expected_sound):
 				if not is_equal_approx(player.volume_db, expected_db):
-					_fail("%s W227 %s volume expected=%s actual=%s" % [
-						label, expected_sound, expected_db, player.volume_db])
+					_fail("%s %s %s volume expected=%s actual=%s" % [
+						label, owner, expected_sound, expected_db, player.volume_db])
 					return false
 				return true
-		_fail("%s W227 %s stream was not active" % [label, expected_sound])
+		_fail("%s %s %s stream was not active" % [label, owner, expected_sound])
 		return false
 	return true
 
@@ -4773,7 +4823,7 @@ func _w227_state_bytes() -> String:
 	}, "", true)
 
 func _w227_state_matches(expected: String, label: String,
-		allow_default_name_projection: bool = false) -> bool:
+		allow_default_name_projection: bool = false, owner: String = "W227") -> bool:
 	var actual_bytes := _w227_state_bytes()
 	if actual_bytes == expected:
 		return true
@@ -4814,10 +4864,561 @@ func _w227_state_matches(expected: String, label: String,
 		for key: Variant in expected_game:
 			if expected_game[key] != actual_game.get(key, null):
 				changed_game.append(str(key))
-	_fail("%s changed W227 route/economy/flags/receipts/gallery state keys=%s game=%s flags=%s expected=%s actual=%s" % [
-		label, changed, changed_game, changed_flags,
+	_fail("%s changed %s route/economy/flags/receipts/gallery state keys=%s game=%s flags=%s expected=%s actual=%s" % [
+		label, owner, changed, changed_game, changed_flags,
 		expected.sha256_text(), actual_bytes.sha256_text()])
 	return false
+
+
+func _check_w230_cafe_write() -> bool:
+	_w230_cold_ink = 0
+	_w230_cross_future_ink = 0
+	_w230_reflow_ink = 0
+	var paths := 0
+	var live_ink := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice: int in range(3):
+			if not await _w230_prepare_result(language, choice):
+				return false
+			var applied := _w227_state_bytes()
+			if not GameState.chapter5_finale_receipt_matches(W230_CAFE, choice, 230) \
+					or not _w230_surface("W230 result entry", true) \
+					or not _w230_state_matches(applied, "W230 result entry") \
+					or not _w230_audio_matches(
+						"none", "W230 result entry", false, true):
+				_fail("W230 %s c%d did not enter its exact live result" % [language, choice])
+				return false
+			var last_pen_ms := -1
+			var action_sources := _w230_action_sources(choice)
+			for action_index in range(action_sources.size()):
+				var source_index: int = action_sources[action_index]
+				if not await _w230_seek_pen_page(source_index, applied, last_pen_ms):
+					return false
+				var reveal := int(_story.get("_w230_pen_reveal_at"))
+				if reveal <= 0 or not _w227_type_to(reveal - 1, "W230") \
+						or not _w230_boundary_side(source_index, true) \
+						or int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != last_pen_ms:
+					_fail("W230 %s c%d/s%d sounded before its localized writing clause" % [
+						language, choice, source_index])
+					return false
+				if not _w227_type_to(reveal, "W230"):
+					return false
+				var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+				if played_at <= last_pen_ms \
+						or not _w230_boundary_side(source_index, false) \
+						or not _w230_audio_matches(
+							"pen", "W230 exact writing clause", true, true):
+					_fail("W230 %s c%d/s%d lost its exact live ballpoint crossing" % [
+						language, choice, source_index])
+					return false
+				_story.call("_complete_typing")
+				_story.call("_complete_typing")
+				if int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != played_at:
+					_fail("W230 %s c%d/s%d replayed its completed writing action" % [
+						language, choice, source_index])
+					return false
+				last_pen_ms = played_at
+				live_ink += 1
+				if action_index + 1 < action_sources.size() \
+						and not await _w230_wait_ballpoint_completion(played_at):
+					return false
+			if not await _w230_finish_result(applied, last_pen_ms):
+				return false
+			paths += 1
+	if paths != 15 or live_ink != 25:
+		_fail("W230 live fixture population drifted paths=%d live_ink=%d" % [
+			paths, live_ink])
+		return false
+	var rapid: Dictionary = await _w230_rapid_skip_guard()
+	if not bool(rapid.get("ok", false)):
+		return false
+	var cold_boundaries := 0
+	for choice: int in range(3):
+		for source_index: int in _w230_action_sources(choice):
+			for before_pen: bool in [true, false]:
+				if not await _w230_prepare_result("ko", choice):
+					return false
+				var applied := _w227_state_bytes()
+				if not await _w230_position_at_action(source_index, applied):
+					return false
+				var reveal := int(_story.get("_w230_pen_reveal_at"))
+				if not _w227_type_to(reveal - 1 if before_pen else reveal, "W230"):
+					return false
+				if not before_pen:
+					var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+					if played_at < 0 or not await _w230_wait_ballpoint_completion(played_at):
+						return false
+				_w227_clear_tracked()
+				if not await _w230_cold_boundary(
+						choice, source_index, before_pen, applied, "ko", false):
+					return false
+				cold_boundaries += 1
+	var cross_locale_cold := 0
+	for choice: int in range(3):
+		for source_index: int in _w230_action_sources(choice):
+			if not await _w230_prepare_result("ko", choice):
+				return false
+			var applied := _w227_state_bytes()
+			if not await _w230_position_at_action(source_index, applied):
+				return false
+			var reveal := int(_story.get("_w230_pen_reveal_at"))
+			if not _w227_type_to(reveal - 1, "W230"):
+				return false
+			_w227_clear_tracked()
+			if not await _w230_cold_boundary(
+					choice, source_index, false, applied, "en", true):
+				return false
+			cross_locale_cold += 1
+	var reflow_boundaries := 0
+	for choice: int in range(3):
+		for source_index: int in _w230_action_sources(choice):
+			for before_pen: bool in [true, false]:
+				if not await _w230_prepare_result("ko", choice):
+					return false
+				var applied := _w227_state_bytes()
+				if not await _w230_position_at_action(source_index, applied):
+					return false
+				var reveal := int(_story.get("_w230_pen_reveal_at"))
+				if not _w227_type_to(reveal - 1 if before_pen else reveal, "W230"):
+					return false
+				if not before_pen:
+					var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+					if played_at < 0 or not await _w230_wait_ballpoint_completion(played_at):
+						return false
+				if not await _w230_reflow_boundary(
+						choice, source_index, before_pen, applied):
+					return false
+				reflow_boundaries += 2
+	print("W230_BALLPOINT_OK paths=%d live_ink=%d rapid_beats=%d rapid_dispatch=%d v4=%d cold_ink=%d cross_locale_v4=%d cross_future_ink=%d reflows=%d reflow_ink=%d" % [
+		paths, live_ink, int(rapid.get("beats", 0)), int(rapid.get("dispatch", 0)),
+		cold_boundaries, _w230_cold_ink, cross_locale_cold,
+		_w230_cross_future_ink, reflow_boundaries, _w230_reflow_ink])
+	var counts_ok := cold_boundaries == 10 and _w230_cold_ink == 9 \
+		and cross_locale_cold == 5 and _w230_cross_future_ink == 2 \
+		and reflow_boundaries == 20 and _w230_reflow_ink == 5 \
+		and int(rapid.get("beats", 0)) == 5 and int(rapid.get("dispatch", 0)) == 3
+	if not counts_ok:
+		_fail("W230 dynamic fixture population drifted")
+	return counts_ok
+
+
+func _w230_action_sources(choice: int) -> Array[int]:
+	var sources: Array[int] = []
+	if choice in [0, 1]:
+		sources.assign([0, 1])
+	elif choice == 2:
+		sources.append(0)
+	return sources
+
+
+func _w230_read_intro() -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	var paper_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+	if int(_story.call("_story_source_paragraph_count")) != 4 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored) or paper_at < 0:
+		_fail("W230 lost its two receipt rows, two authored prose sources, or intro paper")
+		return false
+	while not bool(_story.get("_showing_choices")):
+		var source := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		await _finish_page()
+		if not _w230_surface("W230 opening", source >= 1) \
+				or not _w230_audio_matches("paper", "W230 opening", false, true) \
+				or int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != paper_at:
+			_fail("W230 replayed its intro paper while reading")
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w230_surface("W230 choices", true) \
+		and _w230_audio_matches("paper", "W230 choices", false, true)
+
+
+func _w230_prepare_result(language: String, choice: int) -> bool:
+	if not await _w230_open(language) or not await _w230_read_intro():
+		return false
+	_w227_clear_tracked()
+	_story.call("_on_choice", choice)
+	_story.set_process(false)
+	await _wait_stable()
+	return _w230_result_layout(choice) \
+		and GameState.chapter5_finale_receipt_matches(W230_CAFE, choice, 230) \
+		and _w230_surface("W230 prepared result", true) \
+		and _w230_audio_matches("none", "W230 prepared result", false, true)
+
+
+func _w230_result_layout(choice: int) -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choice < 0 or choice >= choices.size() or pages.is_empty():
+		return false
+	var authored := str(_story.call(
+		"_fmt", (choices[choice] as Dictionary).get("result_text", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 2 \
+			or not _m23_same_prose(pages, authored) \
+			or int(_story.get("_result_location_cut_page")) >= 0:
+		_fail("W230 c%d lost its exact two-source result" % choice)
+		return false
+	var expected_sources := _w230_action_sources(choice)
+	for source_index in range(2):
+		var mapping := _w230_pen_mapping(source_index)
+		if (source_index in expected_sources) != (not mapping.is_empty()):
+			_fail("W230 c%d/s%d changed its exact write-action inventory" % [
+				choice, source_index])
+			return false
+	return true
+
+
+func _w230_pen_mapping(source_index: int) -> Dictionary:
+	var found: Array[Dictionary] = []
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		if int(_story.call("_story_source_paragraph_index", page_index)) != source_index:
+			continue
+		var page := str((_story.get("_paragraphs") as Array)[page_index])
+		var reveal := int(_story.call("_w230_pen_reveal_position", page, page_index))
+		if reveal > 0:
+			found.append({"page": page_index, "reveal": reveal})
+	return found[0] if found.size() == 1 else {}
+
+
+func _w230_seek_pen_page(source_index: int, applied: String, last_pen_ms: int,
+		allow_default_name_projection: bool = false) -> bool:
+	var mapping := _w230_pen_mapping(source_index)
+	var target := int(mapping.get("page", -1))
+	while int(_story.get("_para_index")) < target:
+		await _finish_page()
+		if not _w230_state_matches(
+				applied, "W230 before writing page", allow_default_name_projection) \
+				or int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != last_pen_ms:
+			_fail("W230 changed state or replayed ink before its writing page")
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		mapping = _w230_pen_mapping(source_index)
+		target = int(mapping.get("page", -1))
+	if target < 0 or int(_story.get("_para_index")) != target \
+			or int(_story.get("_w230_pen_reveal_at")) != int(mapping.get("reveal", -2)):
+		_fail("W230 did not settle on c%d/source%d writing-clause page" % [
+			int(_story.get("_pending_result_choice_index")), source_index])
+		return false
+	return true
+
+
+func _w230_finish_result(applied: String, last_pen_ms: int) -> bool:
+	while true:
+		await _finish_page()
+		if not _w230_surface("W230 result", true) \
+				or not _w230_state_matches(applied, "W230 result") \
+				or not _w230_audio_matches("pen", "W230 result", false, true) \
+				or int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != last_pen_ms:
+			_fail("W230 later result page replayed or lost pen_ballpoint")
+			return false
+		if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w230_boundary_side(source_index: int, before_pen: bool) -> bool:
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) not in [0, 1, 2] \
+			or int(_story.call(
+				"_story_source_paragraph_index", int(_story.get("_para_index")))) != source_index:
+		return false
+	var pen_range: Vector2 = _story.call("_w230_pen_progress_range", source_index)
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var progress := float(context.get("source_text_progress", -1.0))
+	var consumed: Dictionary = _story.get("_w230_pen_consumed")
+	if pen_range.x < 0.0 or pen_range.y < pen_range.x:
+		return false
+	if before_pen:
+		return not bool(consumed.get(str(source_index), false)) \
+			and int(_story.get("_w230_pen_reveal_at")) > int(_story.get("_type_pos")) \
+			and progress <= pen_range.x + 0.00001
+	return bool(consumed.get(str(source_index), false)) \
+		and int(_story.get("_w230_pen_reveal_at")) < 0 \
+		and progress >= pen_range.y - 0.00001
+
+
+func _w230_surface(label: String, expect_score: bool) -> bool:
+	return _finale_ink_surface(
+		W230_CAFE, W230_BACKGROUND, "W230", label, expect_score)
+
+
+func _w230_audio_matches(mode: String, label: String,
+		require_stream: bool = false, expect_intro_token: bool = true) -> bool:
+	return _finale_ink_audio_matches(
+		W230_CAFE, "W230", mode, label, require_stream, expect_intro_token)
+
+
+func _w230_state_matches(expected: String, label: String,
+		allow_default_name_projection: bool = false) -> bool:
+	return _w227_state_matches(
+		expected, label, allow_default_name_projection, "W230")
+
+
+func _w230_wait_ballpoint_completion(played_at: int) -> bool:
+	var stream: AudioStream = AudioManager._sounds.get("pen_ballpoint")
+	if stream == null or played_at < 0:
+		_fail("W230 cannot derive the recorded ballpoint completion boundary")
+		return false
+	var duration_msec := int(ceil(stream.get_length() * 1000.0))
+	var deadline := Time.get_ticks_msec() + maxi(250, duration_msec + 250)
+	while _w197_sfx_stream_count("pen_ballpoint") > 0 \
+			and Time.get_ticks_msec() < deadline:
+		await get_tree().process_frame
+	if _w197_sfx_stream_count("pen_ballpoint") != 0 \
+			or int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != played_at:
+		_fail("W230 ballpoint did not finish naturally without replay")
+		return false
+	return true
+
+
+func _w230_rapid_skip_guard() -> Dictionary:
+	var beats := 0
+	var dispatch := 0
+	for choice: int in range(3):
+		if not await _w230_prepare_result("ko", choice):
+			return {"ok": false}
+		var applied := _w227_state_bytes()
+		var last_pen_ms := -1
+		var actions := _w230_action_sources(choice)
+		for action_index in range(actions.size()):
+			var source_index: int = actions[action_index]
+			if not await _w230_seek_pen_page(source_index, applied, last_pen_ms):
+				return {"ok": false}
+			var consumed: Dictionary = _story.get("_w230_pen_consumed")
+			if bool(consumed.get(str(source_index), false)):
+				_fail("W230 rapid c%d/s%d was consumed before its own clause" % [
+					choice, source_index])
+				return {"ok": false}
+			var reveal := int(_story.get("_w230_pen_reveal_at"))
+			if reveal <= 0:
+				return {"ok": false}
+			var pending_timers: Dictionary = AudioManager._pending_audio_timers.duplicate()
+			_story.call("_complete_typing")
+			var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+			consumed = _story.get("_w230_pen_consumed")
+			if not bool(consumed.get(str(source_index), false)) \
+					or _w197_sfx_stream_count("pen_ballpoint") != 1 \
+					or not _w230_state_matches(applied, "W230 rapid completion"):
+				_fail("W230 rapid c%d/s%d lost its consumed beat or live stroke" % [
+					choice, source_index])
+				return {"ok": false}
+			beats += 1
+			if action_index == 0:
+				if played_at <= last_pen_ms:
+					_fail("W230 rapid c%d did not dispatch its first physical stroke" % choice)
+					return {"ok": false}
+				dispatch += 1
+			else:
+				if played_at != last_pen_ms \
+						or AudioManager._pending_audio_timers != pending_timers:
+					_fail("W230 rapid c%d stacked or queued a late second stroke" % choice)
+					return {"ok": false}
+			last_pen_ms = played_at
+			if action_index + 1 < actions.size():
+				var future_source: int = actions[action_index + 1]
+				consumed = _story.get("_w230_pen_consumed")
+				if bool(consumed.get(str(future_source), false)):
+					_fail("W230 rapid c%d consumed future source%d with source%d" % [
+						choice, future_source, source_index])
+					return {"ok": false}
+		if not await _w230_wait_ballpoint_completion(last_pen_ms):
+			return {"ok": false}
+		for _frame in range(4):
+			await get_tree().process_frame
+		if int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != last_pen_ms \
+				or _w197_sfx_stream_count("pen_ballpoint") != 0:
+			_fail("W230 rapid completion emitted a late pen after the stroke ended")
+			return {"ok": false}
+	return {"ok": true, "beats": beats, "dispatch": dispatch}
+
+
+func _w230_position_at_action(source_index: int, applied: String) -> bool:
+	var choice := int(_story.get("_pending_result_choice_index"))
+	var last_pen_ms := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+	for prior_source: int in _w230_action_sources(choice):
+		if prior_source >= source_index:
+			break
+		if not await _w230_seek_pen_page(prior_source, applied, last_pen_ms):
+			return false
+		var reveal := int(_story.get("_w230_pen_reveal_at"))
+		if not _w227_type_to(reveal, "W230"):
+			return false
+		var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+		if played_at <= last_pen_ms \
+				or not _w230_audio_matches(
+					"pen", "W230 prior source action", true, true) \
+				or not await _w230_wait_ballpoint_completion(played_at):
+			_fail("W230 could not complete prior source%d before source%d" % [
+				prior_source, source_index])
+			return false
+		last_pen_ms = played_at
+	return await _w230_seek_pen_page(source_index, applied, last_pen_ms)
+
+
+func _w230_cold_boundary(
+		choice: int, source_index: int, before_pen: bool, applied: String,
+		target_locale: String, cross_locale: bool) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var saved_progress := float(context.get("source_text_progress", -1.0))
+	if context.get("event_id") != W230_CAFE or context.get("phase") != "result" \
+			or int(context.get("pending_result_choice_index", -1)) != choice \
+			or int(context.get("source_paragraph_index", -1)) != source_index \
+			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail("W230 could not save c%d/source%d exact typing boundary" % [
+			choice, source_index])
+		return false
+	var disk: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int((disk as Dictionary).get("version", -1)) != 4:
+		_fail("W230 cold boundary lost disk schema v4")
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	LocaleManager.set_language(target_locale)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("W230 could not cold-load its typing boundary")
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	await get_tree().create_timer(0.85).timeout
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	var expected_before := before_pen and not cross_locale
+	var restored_progress := float(restored.get("source_text_progress", -2.0))
+	var side_ok := _w230_boundary_side(source_index, expected_before)
+	if cross_locale:
+		var pen_range: Vector2 = _story.call("_w230_pen_progress_range", source_index)
+		var source_characters := 0
+		for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+			if int(_story.call("_story_source_paragraph_index", page_index)) == source_index:
+				source_characters += str((_story.get("_paragraphs") as Array)[page_index]).length()
+		var quantization_bound := 0.5 / float(source_characters) + 0.000001 \
+			if source_characters > 0 else -1.0
+		var consumed: Dictionary = _story.get("_w230_pen_consumed")
+		side_ok = bool(consumed.get(str(source_index), false)) \
+			and int(_story.get("_w230_pen_reveal_at")) < 0 \
+			and quantization_bound > 0.0 \
+			and absf(restored_progress - saved_progress) <= quantization_bound \
+			and (saved_progress >= pen_range.x or restored_progress < pen_range.y)
+	var consumed: Dictionary = _story.get("_w230_pen_consumed")
+	var source_states_ok := true
+	for action_source: int in _w230_action_sources(choice):
+		var expected_consumed := action_source < source_index \
+			or (action_source == source_index and not expected_before)
+		if bool(consumed.get(str(action_source), false)) != expected_consumed:
+			source_states_ok = false
+	if LocaleManager.language != target_locale or restored.get("event_id") != W230_CAFE \
+			or restored.get("phase") != "result" \
+			or int(restored.get("pending_result_choice_index", -1)) != choice \
+			or int(restored.get("source_paragraph_index", -1)) != source_index \
+			or (not cross_locale and not is_equal_approx(restored_progress, saved_progress)) \
+			or not side_ok or not source_states_ok \
+			or not _w230_state_matches(applied, "W230 cold result", cross_locale) \
+			or not _w230_surface("W230 cold result", true) \
+			or not _w230_audio_matches("none", "W230 cold result", false, false):
+		_fail("W230 cold boundary crossed, replayed, changed state, or lost source identity")
+		return false
+	var last_pen_ms := -1
+	if expected_before:
+		var reveal := int(_story.get("_w230_pen_reveal_at"))
+		if not _w227_type_to(reveal, "W230") \
+				or not _w230_audio_matches(
+					"pen", "W230 cold pending crossing", true, false):
+			_fail("W230 same-locale cold restore lost its pending pen action")
+			return false
+		last_pen_ms = int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+		_w230_cold_ink += 1
+	else:
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if not _w230_audio_matches("none", "W230 cold consumed completion", false, false):
+			_fail("W230 cold consumed boundary replayed a past writing action")
+			return false
+	if source_index == 0 and choice in [0, 1]:
+		consumed = _story.get("_w230_pen_consumed")
+		if bool(consumed.get("1", false)):
+			_fail("W230 cold source0 consumed the definitely future source1 writer")
+			return false
+		if last_pen_ms >= 0 and not await _w230_wait_ballpoint_completion(last_pen_ms):
+			return false
+		if not await _w230_seek_pen_page(1, applied, last_pen_ms, cross_locale):
+			return false
+		var future_reveal := int(_story.get("_w230_pen_reveal_at"))
+		if future_reveal <= 0 or not _w227_type_to(future_reveal - 1, "W230") \
+				or bool((_story.get("_w230_pen_consumed") as Dictionary).get("1", false)):
+			_fail("W230 cold restore lost source1 before its own writing clause")
+			return false
+		if not _w227_type_to(future_reveal, "W230"):
+			return false
+		var future_played := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+		if future_played <= last_pen_ms \
+				or not _w230_audio_matches(
+					"pen", "W230 cold future source1", true, false):
+			_fail("W230 cold restore did not retain source1's independent pen action")
+			return false
+		last_pen_ms = future_played
+		if cross_locale:
+			_w230_cross_future_ink += 1
+		else:
+			_w230_cold_ink += 1
+	if last_pen_ms >= 0:
+		if not await _w230_wait_ballpoint_completion(last_pen_ms):
+			return false
+	return _w216_score_playing() \
+		and _w230_state_matches(applied, "W230 cold final", cross_locale)
+
+
+func _w230_reflow_boundary(
+		choice: int, source_index: int, before_pen: bool, applied: String) -> bool:
+	var last_pen_ms := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+	_story.call("_set_story_text_size", "large")
+	await _wait_stable()
+	if not _w230_boundary_side(source_index, before_pen) \
+			or not _w230_state_matches(applied, "W230 font reflow") \
+			or not _w230_surface("W230 font reflow", true) \
+			or int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != last_pen_ms:
+		_fail("W230 c%d/s%d font reflow crossed or replayed its pen boundary" % [
+			choice, source_index])
+		return false
+	_story.call("_set_story_language", "en")
+	await _wait_stable()
+	if LocaleManager.language != "en" \
+			or not _w230_boundary_side(source_index, before_pen) \
+			or not _w230_state_matches(applied, "W230 locale reflow", true) \
+			or not _w230_surface("W230 locale reflow", true) \
+			or int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != last_pen_ms:
+		_fail("W230 c%d/s%d locale reflow crossed or replayed its pen boundary" % [
+			choice, source_index])
+		return false
+	var consumed: Dictionary = _story.get("_w230_pen_consumed")
+	if source_index == 0 and choice in [0, 1] and bool(consumed.get("1", false)):
+		_fail("W230 c%d reflow consumed its future source1 writer" % choice)
+		return false
+	if before_pen:
+		var reveal := int(_story.get("_w230_pen_reveal_at"))
+		if not _w227_type_to(reveal, "W230"):
+			return false
+		var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+		if played_at <= last_pen_ms \
+				or not _w230_audio_matches(
+					"pen", "W230 reflow pending crossing", true, true):
+			_fail("W230 c%d/s%d reflow lost its remaining pen action" % [
+				choice, source_index])
+			return false
+		_w230_reflow_ink += 1
+		return true
+	_story.call("_complete_typing")
+	_story.call("_complete_typing")
+	return int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) == last_pen_ms
 
 func _check_w220_receipt() -> bool:
 	var paths: int = 0

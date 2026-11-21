@@ -103,10 +103,48 @@ W230_VERDICT_AUDIO = {
     "ambience": "intentional_silence",
     "music": {"key": "reckoning", "start_paragraph": 1},
     "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
-    "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]},
-        "1": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]},
-        "2": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]},
+}
+W230_WRITE_ANCHORS = {
+    "0": {
+        "0": {
+            "ko": "{name}은 말을 끊지 않고 첫 줄을 채웠다.",
+            "en": "{name} did not interrupt as he filled the first line.",
+            "ja": "{name}は話を遮らず、最初の行を埋めた。",
+            "zh-CN": "{name}没有打断，把第一行写满。",
+            "zh-TW": "{name}沒有打斷，填滿第一行。",
+        },
+        "1": {
+            "ko": "민서가 현재 표지와 문서의 마지막 상태를 둘째 줄에 적었다.",
+            "en": "Minseo write the current label and the document's last state on the second line.",
+            "ja": "ミンソが現在の表紙と書類の最後の状態を二行目に書いた。",
+            "zh-CN": "Minseo才在第二行写下当前的封面和文件的最终状态。",
+            "zh-TW": "Minseo 才在第二行寫下目前的封面和文件最後的狀態。",
+        },
+    },
+    "1": {
+        "0": {
+            "ko": "{name}은 그 위치를 첫 줄에 적었다.",
+            "en": "{name} put that location on the first line.",
+            "ja": "{name}はその場所を最初の行に書いた。",
+            "zh-CN": "{name}把那个位置写进第一行。",
+            "zh-TW": "{name}把那個位置記在第一行。",
+        },
+        "1": {
+            "ko": "다은은 둘째 줄에 자기가 쓴 저녁의 날짜를 적었다.",
+            "en": "Daeun wrote the dates of her evenings on the second.",
+            "ja": "ダウンは二行目に、自分が使った夜の日付を書いた。",
+            "zh-CN": "Daeun在第二行写下自己花掉的那些晚上的日期。",
+            "zh-TW": "Daeun 在第二行寫下自己花掉的那些晚上的日期。",
+        },
+    },
+    "2": {
+        "0": {
+            "ko": "민서는 표지와 문서의 마지막 상태를 오른쪽 줄에 직접 적었다.",
+            "en": "Minseo wrote the label and the document's last state on the right.",
+            "ja": "ミンソは表紙と書類の最後の状態を右の行に、自分で書いた。",
+            "zh-CN": "Minseo在右边一行写下封面和文件的最终状态。",
+            "zh-TW": "Minseo 在右側那行，親手寫下封面和文件最後的狀態。",
+        },
     },
 }
 W234_SUMMIT_EVENT = "arc_y5_general_pre_ending_summit_exact"
@@ -402,12 +440,46 @@ def check_w227_write_anchors(errors: list[str]) -> None:
                 errors.append(f"W227 ballpoint: {locale} result {choice} lost its unique first-source writing clause")
 
 
+def check_w230_write_anchors(errors: list[str]) -> None:
+    resource = ROOT / "assets/w230_cafe_write.tres"
+    try:
+        text = resource.read_text(encoding="utf-8")
+        match = re.fullmatch(
+            r'\[gd_resource type="Resource" format=3\]\s*\[resource\]\s*'
+            r'metadata/write_anchors\s*=\s*(\{.*\})\s*', text, re.S,
+        )
+        anchors = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError):
+        anchors = None
+    if anchors != W230_WRITE_ANCHORS:
+        errors.append("W230 handwriting: preserve the five writer/source actions in all five locales")
+    for locale in W227_WRITE_ANCHORS["1"]:
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_pre_ending.json")
+        event = next((row for row in rows if row.get("id") == W230_VERDICT_EVENT), {})
+        choices = event.get("choices", [])
+        if len(choices) != 3:
+            errors.append(f"W230 handwriting: {locale} lost its three exact choices")
+            continue
+        for choice_index, choice in enumerate(choices):
+            prose = str(choice.get("result_text", ""))
+            paragraphs = prose.split("\n\n")
+            if len(paragraphs) != 2:
+                errors.append(f"W230 handwriting: {locale} choice{choice_index} must retain two sources")
+                continue
+            for source_index, localized in W230_WRITE_ANCHORS[str(choice_index)].items():
+                anchor = localized[locale]
+                if prose.count(anchor) != 1 or paragraphs[int(source_index)].count(anchor) != 1:
+                    errors.append(f"W230 handwriting: {locale} choice{choice_index} source{source_index} lost its unique writer clause")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
     acting = load_json(ACTING_PATH)
     events = load_events()
     check_w227_write_anchors(errors)
+    check_w230_write_anchors(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
@@ -474,7 +546,7 @@ def main() -> int:
                 errors.append(f"{owner}: no borrowed office ambience, only the authored score and exact result cues")
         elif owner == W230_VERDICT_EVENT:
             if contract != W230_VERDICT_AUDIO:
-                errors.append(f"{owner}: keep the cafe bed silent, with only the authored score, paper and writing")
+                errors.append(f"{owner}: keep the cafe quiet, paper at entry and writing only on revealed source clauses")
         elif owner == W234_SUMMIT_EVENT:
             if contract != W234_SUMMIT_AUDIO:
                 errors.append(f"{owner}: keep the solo office free of chatter and machinery, with the authored score and paper")
