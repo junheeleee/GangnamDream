@@ -9,6 +9,8 @@ const W230_CAFE_WRITE := preload("res://assets/w230_cafe_write.tres")
 const W230_CAFE := "arc_y5_people_verdict_daeun_exact"
 const W235_NOTICE_RETURN := preload("res://assets/w235_notice_return.tres")
 const W235_NOTICE := "arc_y5_property_not_executed_notice"
+const W237_RECORD_PAGE_TURN := preload("res://assets/w237_record_page_turn.tres")
+const W237_RECORD := "arc_y5_general_final_record_seal"
 const LEDGER_PATH := "res://content/meta/chapter5_finale_ledger.json"
 const MAIN_GAME_PATH := "res://scenes/MainGame.gd"
 const ACTIVE_TURNS: Array[int] = [221, 224, 227, 230, 235, 238, 239, 240, 240]
@@ -78,6 +80,7 @@ func _ready() -> void:
 	_check_w227_ballpoint_audio_alignment()
 	_check_w230_cafe_write_alignment()
 	_check_w235_notice_return_alignment()
+	_check_w237_final_record_alignment()
 	await _release_audio_for_exit()
 	if _failures.is_empty():
 		print(
@@ -97,7 +100,8 @@ func _ready() -> void:
 			+ "w224-contexts30/results60/kept-result-cues8/"
 			+ "w227-contexts60/results240/anchors10/manifest-result-cues1/"
 			+ "w230-contexts80/results240/anchors25/manifest-description-cues1/"
-			+ "w235-contexts120/results120/anchors5/manifest-cues0")
+			+ "w235-contexts120/results120/anchors5/manifest-cues0/"
+			+ "w237-contexts80/results160/anchors5/manifest-description-cues2")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -2058,6 +2062,244 @@ func _assert_w235_manifest_audio(
 		context + " replayed a W235 manifest cue on repeated paragraph binding")
 	_expect(_same(GameState.serialize(), before),
 		context + " W235 manifest audio rewrote finale receipts or game state")
+
+
+func _check_w237_final_record_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var raw_anchor_metadata: Variant = W237_RECORD_PAGE_TURN.get_meta(
+		"page_turn_anchors", {})
+	_expect(raw_anchor_metadata is Dictionary,
+		"W237 page-turn asset lost its page-turn anchor dictionary")
+	var anchors: Dictionary = raw_anchor_metadata as Dictionary \
+		if raw_anchor_metadata is Dictionary else {}
+	var anchor_languages: Array = anchors.keys()
+	anchor_languages.sort()
+	var expected_languages: Array = LocaleManager.SUPPORTED_LANGUAGES.duplicate()
+	expected_languages.sort()
+	_expect(anchor_languages == expected_languages,
+		"W237 page-turn asset lost its exact five-locale inventory")
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		_expect(anchors.get(language, "") is String \
+			and not str(anchors.get(language, "")).strip_edges().is_empty(),
+			"W237 page turn has no exact %s anchor" % language)
+
+	var father_receipts: Array = [
+		[
+			["m56_general_father_legacy_voice_spoken",
+				"Y5-GENERAL-FATHER-LEGACY-VOICE-SPOKEN"],
+			["m56_general_father_legacy_voice_silence_beside_chair",
+				"Y5-GENERAL-FATHER-LEGACY-VOICE-SILENCE-BESIDE-CHAIR"],
+		],
+		[
+			["m56_general_father_legacy_cafe_copy_read_aloud",
+				"Y5-GENERAL-FATHER-LEGACY-CAFE-COPY-READ-ALOUD"],
+			["m56_general_father_legacy_cafe_copy_left_folded_in_silence",
+				"Y5-GENERAL-FATHER-LEGACY-CAFE-COPY-LEFT-FOLDED-IN-SILENCE"],
+		],
+	]
+	var debt_receipts: Array = [
+		[
+			["m58_general_voice_memo_kept_private",
+				"Y5-GENERAL-VOICE-MEMO-KEPT-PRIVATE"],
+			["m58_general_voice_memo_deleted_timestamp_kept",
+				"Y5-GENERAL-VOICE-MEMO-DELETED-TIMESTAMP-KEPT"],
+		],
+		[
+			["m58_general_cafe_copy_carried_forward",
+				"Y5-GENERAL-CAFE-COPY-CARRIED-FORWARD"],
+			["m58_general_cafe_copy_left_with_father_record",
+				"Y5-GENERAL-CAFE-COPY-LEFT-WITH-FATHER-RECORD"],
+		],
+	]
+	var summit_receipts: Array = [
+		["m59_general_summit_father_contact_opened",
+			"Y5-GENERAL-SUMMIT-FATHER-CONTACT"],
+		["m59_general_summit_one_block_walked",
+			"Y5-GENERAL-SUMMIT-ONE-BLOCK"],
+	]
+	var contexts := 0
+	var results := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		for branch_choice in range(2):
+			var events := _general_events(branch_choice)
+			for father_choice in range(2):
+				for debt_choice in range(2):
+					for summit_choice in range(2):
+						var context := "%s W237 branch%d/father%d/debt%d/summit%d" % [
+							language, branch_choice, father_choice, debt_choice, summit_choice]
+						var locked: Dictionary = _general_lock(branch_choice)
+						var state: Dictionary = (locked.get(
+							"state", {}) as Dictionary).duplicate(true)
+						var selected_choices: Array[int] = [
+							father_choice, debt_choice, summit_choice]
+						var expected_receipts: Array = [
+							(father_receipts[branch_choice] as Array)[father_choice],
+							(debt_receipts[branch_choice] as Array)[debt_choice],
+							summit_receipts[summit_choice],
+						]
+						for stage_index in range(3):
+							var committed: Dictionary = ROUTE.commit_choice(
+								state, events[stage_index], selected_choices[stage_index],
+								GENERAL_TURNS[stage_index])
+							_expect(bool(committed.get("ok", false)),
+								context + " could not commit " + events[stage_index])
+							if not bool(committed.get("ok", false)):
+								break
+							state = (committed.get("state", state) as Dictionary).duplicate(true)
+							_assert_w237_predecessor_receipt(
+								state, events[stage_index], selected_choices[stage_index],
+								expected_receipts[stage_index] as Array, context)
+						GameState.start_new_game()
+						GameState.chapter5_finale_state = state.duplicate(true)
+						GameState.turn = 237
+						_expect(bool(locked.get("ok", false)) \
+							and GameState.chapter5_finale_next_event_for_turn() == W237_RECORD \
+							and GameState.chapter5_finale_ingress_available(W237_RECORD),
+							context + " lost its exact W224/W229/W234 receipt ingress")
+
+						var raw_event: Dictionary = DataRegistry.find_event(W237_RECORD)
+						var resolved: Dictionary = story.call(
+							"_chapter5_finale_event_with_reads", raw_event)
+						var read_contract: Dictionary = raw_event.get(
+							"chapter5_finale_reads", {}) as Dictionary
+						var rows: Array = read_contract.get("texts", [])
+						var expected_description := str(raw_event.get("description", ""))
+						if rows.size() == 3:
+							for source_index in range(3):
+								expected_description = expected_description.replace(
+									"[[c5read:%d]]" % source_index,
+									str((rows[source_index] as Array)[selected_choices[source_index]]))
+						_expect(rows.size() == 3 \
+							and str(read_contract.get("mode", "")) == "inline_slots" \
+							and "[[c5read:" not in expected_description \
+							and str(resolved.get("description", "")) == expected_description \
+							and _father_trace_source_indices(
+								story, expected_description) == [0, 1, 2, 3] \
+							and str(resolved.get("background", "")) == "current_housing" \
+							and str(resolved.get("portrait", "")) == "player_tired" \
+							and not resolved.has("cg"),
+							context + " changed its inline receipts, four sources, or home surface")
+						var choices: Array = resolved.get("choices", [])
+						_expect(choices.size() == 2,
+							context + " lost its two final-record choices")
+						if choices.size() != 2:
+							continue
+						var result_sources: Array = []
+						for choice_index in range(2):
+							var formatted_result: String = str(story.call(
+								"_fmt", str((choices[choice_index] as Dictionary).get(
+									"result_text", ""))))
+							var indices: Array[int] = []
+							indices.assign(_father_trace_source_indices(story, formatted_result))
+							_expect(indices == [0, 1],
+								context + " changed result sources for choice%d" % choice_index)
+							result_sources.append(indices)
+							_check_w237_result_anchor(
+								story, anchors, language, choice_index,
+								formatted_result, context)
+							results += 1
+						_assert_w237_manifest_audio(
+							[0, 1, 2, 3], result_sources, context)
+						contexts += 1
+	_expect(contexts == 80 and results == 160,
+		"W237 page-turn audio did not cover exact 80 contexts and 160 results")
+	_expect(_same(BGMPlayer.scene_audio_contract(W237_RECORD), {
+		"ambience": "apartment",
+		"suppress_human_ambience": true,
+		"suppress_season_ambience": true,
+		"music": {"key": "reckoning", "start_paragraph": 1.0},
+		"paragraph_cues": {
+			"0": [{"sfx": "phone_vibrate", "volume_db": -8.0}],
+			"3": [{"sfx": "phone_vibrate", "volume_db": -8.0}],
+		},
+	}), "W237 changed its apartment bed, lower-layer suppression, score entrance, or two vibrations")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _assert_w237_predecessor_receipt(
+		state: Dictionary, event_id: String, choice_index: int,
+		expected: Array, context: String) -> void:
+	var receipt: Dictionary = ROUTE.receipt_snapshot_for_event(state, event_id)
+	_expect(int(receipt.get("choice_index", -1)) == choice_index \
+		and _same(receipt.get("receipt_ids", []), [str(expected[0])]) \
+		and _same(receipt.get("document_ids", []), [str(expected[1])]) \
+		and (receipt.get("economic_outcome", {}) as Dictionary).is_empty(),
+		context + " changed predecessor receipt evidence for " + event_id)
+
+
+func _check_w237_result_anchor(
+		story: Node, anchors: Dictionary, language: String,
+		choice_index: int, formatted_result: String, context: String) -> void:
+	var sources := formatted_result.split("\n\n")
+	var anchor: String = str(story.call(
+		"_fmt", str(anchors.get(language, ""))))
+	if sources.size() != 2:
+		_expect(false,
+			context + " choice%d lost its exact two result sources" % choice_index)
+		return
+	var source_zero := str(sources[0])
+	var source_one := str(sources[1])
+	if choice_index == 0:
+		var anchor_at := source_one.find(anchor)
+		_expect(not anchor.is_empty() \
+			and formatted_result.count(anchor) == 1 \
+			and source_zero.count(anchor) == 0 \
+			and source_one.count(anchor) == 1 \
+			and anchor_at > 0 \
+			and anchor_at + anchor.length() == source_one.length(),
+			context + " choice0 lost its unique final source1 page-turn clause")
+		return
+	_expect(anchor.is_empty() or anchor not in formatted_result,
+		context + " choice1 inherited the page-turn action")
+
+
+func _assert_w237_manifest_audio(
+		sources: Array[int], result_sources: Array, context: String) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var tracked: Array[String] = [
+		"phone_notification", "phone_vibrate", "page_turn", "paper_handle",
+		"cup_set", "register_scan", "traffic_pass", "pen_write",
+		"pen_ballpoint", "door_latch",
+	]
+	var last_play: Dictionary = {}
+	for sound_id: String in tracked:
+		last_play[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)
+	AudioManager.begin_story_audio_event(W237_RECORD)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(W237_RECORD, "", source_index)
+	for choice_index in range(result_sources.size()):
+		for raw_index in result_sources[choice_index] as Array:
+			AudioManager.play_scene_result_paragraph_cues(
+				W237_RECORD, "", choice_index, int(raw_index))
+	var expected: Array[String] = [
+		W237_RECORD + "::description:0:0:phone_vibrate",
+		W237_RECORD + "::description:3:0:phone_vibrate",
+	]
+	_expect(AudioManager._story_audio_seen.keys() == expected,
+		"%s dispatched wrong W237 manifest cues: %s (expected %s)" % [
+			context, JSON.stringify(AudioManager._story_audio_seen), JSON.stringify(expected)])
+	for sound_id: String in tracked:
+		if sound_id != "phone_vibrate":
+			_expect(AudioManager._last_sfx_ms.get(sound_id, -1) == last_play[sound_id],
+				context + " played forbidden W237 manifest sound " + sound_id)
+	var seen: Dictionary = AudioManager._story_audio_seen.duplicate(true)
+	var timestamps: Dictionary = AudioManager._last_sfx_ms.duplicate(true)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(W237_RECORD, "", source_index)
+	for choice_index in range(result_sources.size()):
+		for raw_index in result_sources[choice_index] as Array:
+			AudioManager.play_scene_result_paragraph_cues(
+				W237_RECORD, "", choice_index, int(raw_index))
+	_expect(_same(AudioManager._story_audio_seen, seen) \
+		and _same(AudioManager._last_sfx_ms, timestamps),
+		context + " replayed W237 manifest cues on repeated paragraph binding")
+	_expect(_same(GameState.serialize(), before),
+		context + " W237 manifest audio rewrote finale receipts or game state")
 
 
 func _father_trace_source_state(meeting_choice: int) -> Dictionary:

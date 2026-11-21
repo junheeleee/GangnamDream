@@ -170,13 +170,21 @@ W235_RETURN_ANCHORS = {
 }
 W237_FINAL_RECORD_EVENT = "arc_y5_general_final_record_seal"
 W237_FINAL_RECORD_AUDIO = {
-    "ambience": "current_housing",
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
     "music": {"key": "reckoning", "start_paragraph": 1},
     "paragraph_cues": {
         "0": [{"sfx": "phone_vibrate", "volume_db": -8.0}],
         "3": [{"sfx": "phone_vibrate", "volume_db": -8.0}],
     },
-    "result_paragraph_cues": {"0": {"1": [{"sfx": "page_turn", "volume_db": -7.0}]}},
+}
+W237_PAGE_TURN_ANCHORS = {
+    "ko": "말을 마친 뒤에는 종이 넘기는 소리만 났다.",
+    "en": "When he finished speaking, all he could hear was the turn of a page.",
+    "ja": "話し終えると、紙をめくる音だけがした。",
+    "zh-CN": "他说完后，只听见翻纸的声音。",
+    "zh-TW": "他說完後，只聽見翻紙的聲音。",
 }
 W240_OUTDOOR_SIGNATURE_EVENT = "arc_final_countdown_property_not_executed"
 W240_OUTDOOR_SIGNATURE_AUDIO = {
@@ -509,6 +517,37 @@ def check_w235_return_anchors(errors: list[str]) -> None:
             errors.append(f"W235 paper return: {locale} lost the unique final source-1 return action")
 
 
+def check_w237_page_turn_anchors(errors: list[str]) -> None:
+    resource = ROOT / "assets/w237_record_page_turn.tres"
+    try:
+        text = resource.read_text(encoding="utf-8")
+        match = re.fullmatch(
+            r'\[gd_resource type="Resource" format=3\]\s*\[resource\]\s*'
+            r'metadata/page_turn_anchors\s*=\s*(\{.*\})\s*', text, re.S,
+        )
+        anchors = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError):
+        anchors = None
+    if anchors != W237_PAGE_TURN_ANCHORS:
+        errors.append("W237 page turn: preserve all five full after-speaking page-turn clauses")
+    for locale, anchor in W237_PAGE_TURN_ANCHORS.items():
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_pre_ending.json")
+        event = next((row for row in rows if row.get("id") == W237_FINAL_RECORD_EVENT), {})
+        choices = event.get("choices", [])
+        if len(choices) != 2:
+            errors.append(f"W237 page turn: {locale} must retain both night choices")
+            continue
+        prose = str(choices[0].get("result_text", ""))
+        paragraphs = prose.split("\n\n")
+        other_prose = str(choices[1].get("result_text", ""))
+        if (len(paragraphs) != 2 or len(other_prose.split("\n\n")) != 2
+                or prose.count(anchor) != 1 or paragraphs[0].count(anchor)
+                or paragraphs[1].count(anchor) != 1 or not paragraphs[1].endswith(anchor)
+                or other_prose.count(anchor)):
+            errors.append(f"W237 page turn: {locale} lost the unique c0 final source-1 page turn")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
@@ -517,6 +556,7 @@ def main() -> int:
     check_w227_write_anchors(errors)
     check_w230_write_anchors(errors)
     check_w235_return_anchors(errors)
+    check_w237_page_turn_anchors(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
@@ -704,8 +744,12 @@ def main() -> int:
     final_record_choices = final_record.get("choices", [])
     if (event_contracts.get(W237_FINAL_RECORD_EVENT) != W237_FINAL_RECORD_AUDIO
             or final_record.get("background") != "current_housing"
-            or not isinstance(final_record_choices, list) or len(final_record_choices) != 2):
-        errors.append(f"{W237_FINAL_RECORD_EVENT}: play two vibrations, then only the quiet result's page turn")
+            or final_record.get("cg")
+            or any(key in final_record for key in ("result_background", "result_ambience", "result_cg"))
+            or not isinstance(final_record_choices, list) or len(final_record_choices) != 2
+            or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
+                   for choice in final_record_choices)):
+        errors.append(f"{W237_FINAL_RECORD_EVENT}: retain home, neutral bed, score source1 and two vibrations; page turn only at c0's final clause")
     if W240_OUTDOOR_SIGNATURE_EVENT not in event_contracts:
         errors.append(f"{W240_OUTDOOR_SIGNATURE_EVENT}: missing outdoor signature audio contract")
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO

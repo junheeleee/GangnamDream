@@ -909,14 +909,13 @@
       }
     },
     "arc_y5_general_final_record_seal": {
-      "ambience": "current_housing",
+      "ambience": "apartment",
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true,
       "music": {"key": "reckoning", "start_paragraph": 1},
       "paragraph_cues": {
         "0": [{"sfx": "phone_vibrate", "volume_db": -8.0}],
         "3": [{"sfx": "phone_vibrate", "volume_db": -8.0}]
-      },
-      "result_paragraph_cues": {
-        "0": {"1": [{"sfx": "page_turn", "volume_db": -7.0}]}
       }
     },
     "arc_final_countdown_general_near_goal_passed": {

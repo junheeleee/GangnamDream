@@ -2397,7 +2397,7 @@
     "arc_y5_general_final_record_seal": {
       "scene_location": "current_housing",
       "visual_background": "current_housing",
-      "audio_ambience": "current_housing"
+      "audio_ambience": "apartment"
     },
     "arc_final_countdown_general_near_goal_passed": {
       "scene_location": "current_housing",

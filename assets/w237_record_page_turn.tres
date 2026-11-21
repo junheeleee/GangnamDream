@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/page_turn_anchors = {
+"ko": "말을 마친 뒤에는 종이 넘기는 소리만 났다.",
+"en": "When he finished speaking, all he could hear was the turn of a page.",
+"ja": "話し終えると、紙をめくる音だけがした。",
+"zh-CN": "他说完后，只听见翻纸的声音。",
+"zh-TW": "他說完後，只聽見翻紙的聲音。"
+}

@@ -217,6 +217,12 @@ const W230_BACKGROUND := "finale_cafe_rear_papers"
 const W235_NOTICE := "arc_y5_property_not_executed_notice"
 const W235_NOTICE_DESK := "finale_notice_desk"
 const W235_NOTICE_RETURN := preload("res://assets/w235_notice_return.tres")
+const W237_RECORD := "arc_y5_general_final_record_seal"
+const W237_RECORD_PAGE_TURN := preload("res://assets/w237_record_page_turn.tres")
+const W237_TRACKED_SFX := [
+	"phone_vibrate", "page_turn", "paper_handle", "pen_ballpoint", "pen_write",
+	"document_scan", "register_scan",
+]
 const W235_HOME_CASES: Array[Dictionary] = [
 	{"id": "gosiwon", "housing": "gosiwon", "background": "goshiwon_room"},
 	{"id": "oneroom", "housing": "oneroom", "background": "apartment"},
@@ -567,6 +573,9 @@ var _w230_reflow_ink := 0
 var _w235_cold_paper := 0
 var _w235_future_paper := 0
 var _w235_reflow_paper := 0
+var _w237_cold_pages := 0
+var _w237_future_pages := 0
+var _w237_reflow_pages := 0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -589,6 +598,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W237_PAGE_TURN_CHECK"):
+		var w237_ok: bool = await _check_w237_record_page_turn()
+		await _remove_story()
+		await _stop_audio()
+		if w237_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w237_page_turn")
+		get_tree().quit(0 if w237_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W235_PAPER_RETURN_CHECK"):
 		var w235_ok: bool = await _check_w235_notice_return()
 		await _remove_story()
@@ -5495,6 +5512,883 @@ func _w230_reflow_boundary(
 	_story.call("_complete_typing")
 	_story.call("_complete_typing")
 	return int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) == last_pen_ms
+
+
+func _check_w237_record_page_turn() -> bool:
+	_w237_cold_pages = 0
+	_w237_future_pages = 0
+	_w237_reflow_pages = 0
+	var default_home: Dictionary = W235_HOME_CASES[1]
+	var settings_before := [
+		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
+	var paths := 0
+	var live_pages := 0
+	var silent_results := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice in range(2):
+			if not await _w237_prepare_result(
+					language, choice, default_home, true):
+				return false
+			var applied := _w227_state_bytes()
+			if choice == 0:
+				if not await _w237_seek_page(applied):
+					return false
+				var reveal := int(_story.get("_w237_page_reveal_at"))
+				if reveal <= 0 or not _w227_type_to(reveal - 1, "W237") \
+						or not _w237_boundary_side(true) \
+						or AudioManager._last_sfx_ms.has("page_turn"):
+					_fail("W237 %s sounded before its localized final page clause" % language)
+					return false
+				if not _w227_type_to(reveal, "W237"):
+					return false
+				var played_at := int(AudioManager._last_sfx_ms.get("page_turn", -1))
+				if played_at < 0 or not _w237_boundary_side(false) \
+						or not _w237_audio_matches(
+							[_w237_phone_token(0), _w237_phone_token(3)], true,
+							"W237 exact page clause", true):
+					_fail("W237 %s lost its exact page turn" % language)
+					return false
+				if not await _w237_finish_result(applied, played_at) \
+						or not await _w237_wait_sfx_completion(
+							"page_turn", played_at, "W237 live result"):
+					return false
+				live_pages += 1
+			else:
+				if not await _w237_finish_result(applied, -1):
+					return false
+				silent_results += 1
+			paths += 1
+
+	var housing_contexts := 0
+	for home_case: Dictionary in W235_HOME_CASES:
+		if not await _w237_open("ko", home_case) \
+				or not _w237_surface(
+					"W237 housing " + str(home_case.get("id", "")),
+					str(home_case.get("background", "")), false):
+			return false
+		housing_contexts += 1
+
+	var apartment_case: Dictionary = W235_HOME_CASES[3]
+	if not await _w237_open("ko", apartment_case, true):
+		return false
+	await get_tree().create_timer(1.5).timeout
+	if not _w237_surface("W237 same-key settled bed", "gangnam_apartment", false) \
+			or BGMPlayer._ambience_tween != null and BGMPlayer._ambience_tween.is_running() \
+			or not is_equal_approx(
+				BGMPlayer._ambience_player.volume_db,
+				float(BGMPlayer.call("_ambience_target_db"))):
+		_fail("W237 inherited same-key fade stopped or kept ducking its fresh bed")
+		return false
+
+	var cold_boundaries := await _w237_result_cold_matrix(default_home)
+	if cold_boundaries < 0:
+		return false
+	var intro_cold := await _w237_intro_cold_matrix(default_home)
+	if intro_cold < 0:
+		return false
+	var reflow_boundaries := await _w237_reflow_matrix(default_home)
+	if reflow_boundaries < 0:
+		return false
+	var settings_after := [
+		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
+	print("W237_PAGE_TURN_OK paths=%d phones=%d page_turns=%d silent=%d homes=%d same_key=1 v4=%d cold_pages=%d future_pages=%d intro_cold=%d reflows=%d reflow_pages=%d" % [
+		paths, paths * 2, live_pages, silent_results, housing_contexts,
+		cold_boundaries, _w237_cold_pages, _w237_future_pages,
+		intro_cold, reflow_boundaries, _w237_reflow_pages])
+	var counts_ok := paths == 10 and live_pages == 5 and silent_results == 5 \
+		and housing_contexts == 7 and cold_boundaries == 6 \
+		and _w237_cold_pages == 3 and _w237_future_pages == 2 \
+		and intro_cold == 3 and reflow_boundaries == 6 \
+		and _w237_reflow_pages == 2 and settings_before == settings_after
+	if not counts_ok:
+		_fail("W237 dynamic fixture population or master-volume state drifted")
+	return counts_ok
+
+
+func _w237_read_intro(home_background: String, prove_live_phones: bool) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 4 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored):
+		_fail("W237 lost its three inline receipt reads plus authored prose sources")
+		return false
+	var first_phone := int(AudioManager._last_sfx_ms.get("phone_vibrate", -1))
+	if first_phone < 0 or not _w237_audio_matches(
+			[_w237_phone_token(0)], false, "W237 source0 phone",
+			false, prove_live_phones):
+		return false
+	if prove_live_phones and not await _w237_wait_sfx_completion(
+			"phone_vibrate", first_phone, "W237 source0 phone"):
+		return false
+	var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+	var bed_position := BGMPlayer._ambience_player.get_playback_position()
+	var score_token := -1
+	var score_player: AudioStreamPlayer = null
+	var score_stream: AudioStream = null
+	var score_position := -1.0
+	while not bool(_story.get("_showing_choices")):
+		var source := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		await _finish_page()
+		var current_bed_position := BGMPlayer._ambience_player.get_playback_position()
+		if not _w237_surface("W237 opening source%d" % source, home_background, source >= 1) \
+				or BGMPlayer._ambience_player.stream != bed_stream \
+				or current_bed_position + 0.05 < bed_position:
+			_fail("W237 source%d restarted its apartment bed or score state" % source)
+			return false
+		bed_position = current_bed_position
+		if source >= 1:
+			var current_score := _w237_score_player()
+			if not is_instance_valid(current_score):
+				_fail("W237 source%d has no actual reckoning stream" % source)
+				return false
+			if score_player == null:
+				score_player = current_score
+				score_stream = current_score.stream
+				score_token = int(BGMPlayer.get("_punctuation_token"))
+				score_position = current_score.get_playback_position()
+			elif current_score != score_player or current_score.stream != score_stream \
+					or int(BGMPlayer.get("_punctuation_token")) != score_token \
+					or current_score.get_playback_position() + 0.05 < score_position:
+				_fail("W237 source%d restarted its held reckoning stream" % source)
+				return false
+			else:
+				score_position = current_score.get_playback_position()
+		if source == 3:
+			var second_phone := int(AudioManager._last_sfx_ms.get("phone_vibrate", -1))
+			if prove_live_phones and (second_phone <= first_phone \
+					or not _w237_audio_matches(
+						[_w237_phone_token(0), _w237_phone_token(3)], false,
+						"W237 source3 phone", false, true) \
+					or not await _w237_wait_sfx_completion(
+						"phone_vibrate", second_phone, "W237 source3 phone")):
+				_fail("W237 source3 did not dispatch a distinct second phone vibration")
+				return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 2 \
+		and _w237_surface("W237 choices", home_background, true) \
+		and _w237_audio_matches(
+			[_w237_phone_token(0), _w237_phone_token(3)], false,
+			"W237 choices")
+
+
+func _w237_prepare_result(language: String, choice: int,
+		home_case: Dictionary, prove_live_phones: bool = false) -> bool:
+	var home_background := str(home_case.get("background", ""))
+	if not await _w237_open(language, home_case) \
+			or not await _w237_read_intro(home_background, prove_live_phones):
+		return false
+	AudioManager.stop_sound("page_turn")
+	AudioManager._last_sfx_ms.erase("page_turn")
+	_story.call("_on_choice", choice)
+	_story.set_process(false)
+	await _wait_stable()
+	return _w237_result_layout(choice) \
+		and GameState.chapter5_finale_receipt_matches(W237_RECORD, choice, 237) \
+		and _w237_surface("W237 prepared result", home_background, true) \
+		and _w237_audio_matches(
+			[_w237_phone_token(0), _w237_phone_token(3)], false,
+			"W237 prepared result")
+
+
+func _w237_result_layout(choice: int) -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choice < 0 or choice >= choices.size() or pages.is_empty():
+		return false
+	var authored := str(_story.call(
+		"_fmt", (choices[choice] as Dictionary).get("result_text", "")))
+	var mapping := _w237_page_mapping()
+	var contract: Dictionary = _story.call(
+		"_physical_cue_contract", int(mapping.get("page", -1))) \
+		if not mapping.is_empty() else {}
+	var expected_anchor := str(W237_RECORD_PAGE_TURN.get_meta(
+		"page_turn_anchors", {}).get(LocaleManager.language, ""))
+	var action_ok: bool = mapping.is_empty() and contract.is_empty() if choice == 1 \
+		else int(mapping.get("source", -1)) == 1 \
+			and contract.get("source_index") == 1 \
+			and str(contract.get("anchor", "")) == str(_story.call("_fmt", expected_anchor)) \
+			and is_equal_approx(float(contract.get("volume_db", 0.0)), -7.0) \
+			and str(contract.get("sfx", "")) == "page_turn"
+	if choices.size() != 2 \
+			or int(_story.call("_story_source_paragraph_count")) != 2 \
+			or not _m23_same_prose(pages, authored) \
+			or int(_story.get("_result_location_cut_page")) >= 0 \
+			or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+			or not action_ok:
+		_fail("W237 choice%d lost its exact two-source paper-only contract" % choice)
+		return false
+	return true
+
+
+func _w237_page_mapping() -> Dictionary:
+	var found: Array[Dictionary] = []
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		var source_index := int(_story.call("_story_source_paragraph_index", page_index))
+		var page := str((_story.get("_paragraphs") as Array)[page_index])
+		var reveal := int(_story.call("_w237_page_reveal_position", page, page_index))
+		if reveal > 0:
+			found.append({"page": page_index, "reveal": reveal, "source": source_index})
+	return found[0] if found.size() == 1 else {}
+
+
+func _w237_seek_page(applied: String,
+		allow_default_name_projection: bool = false) -> bool:
+	var mapping := _w237_page_mapping()
+	var target := int(mapping.get("page", -1))
+	while int(_story.get("_para_index")) < target:
+		await _finish_page()
+		if not _w227_state_matches(
+				applied, "W237 before page-turn page",
+				allow_default_name_projection, "W237") \
+				or not _w237_surface(
+					"W237 before page-turn page", _w235_current_home_background(), true):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		mapping = _w237_page_mapping()
+		target = int(mapping.get("page", -1))
+	if target < 0 or int(_story.get("_para_index")) != target \
+			or int(_story.get("_w237_page_reveal_at")) != int(mapping.get("reveal", -2)):
+		_fail("W237 did not settle on its exact final page-turn clause")
+		return false
+	return true
+
+
+func _w237_boundary_side(before_page: bool) -> bool:
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != 0 \
+			or int(_story.call(
+				"_story_source_paragraph_index", int(_story.get("_para_index")))) != 1:
+		return false
+	var page_range: Vector2 = _story.call("_w237_page_progress_range")
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var progress := float(context.get("source_text_progress", -1.0))
+	if page_range.x < 0.0 or page_range.y < page_range.x:
+		return false
+	if before_page:
+		return not bool(_story.get("_w237_page_consumed")) \
+			and int(_story.get("_w237_page_reveal_at")) > int(_story.get("_type_pos")) \
+			and progress <= page_range.x + 0.00001
+	return bool(_story.get("_w237_page_consumed")) \
+		and int(_story.get("_w237_page_reveal_at")) < 0 \
+		and progress >= page_range.y - 0.00001
+
+
+func _w237_finish_result(applied: String, played_at: int) -> bool:
+	while true:
+		await _finish_page()
+		if not _w237_surface("W237 result", _w235_current_home_background(), true) \
+				or not _w227_state_matches(applied, "W237 result", false, "W237") \
+				or int(AudioManager._last_sfx_ms.get("page_turn", -1)) != played_at \
+				or not _w237_audio_matches(
+					[_w237_phone_token(0), _w237_phone_token(3)], played_at >= 0,
+					"W237 result"):
+			_fail("W237 later result page replayed or lost page_turn")
+			return false
+		if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w237_intro_cold_matrix(home_case: Dictionary) -> int:
+	var restored_cases := 0
+	for target in [0, 2, -1]:
+		if not await _w237_open("ko", home_case):
+			return -1
+		if target < 0:
+			if not await _w237_read_intro(
+					str(home_case.get("background", "")), true):
+				return -1
+		else:
+			var first_phone := int(AudioManager._last_sfx_ms.get("phone_vibrate", -1))
+			if first_phone < 0 or not await _w237_wait_sfx_completion(
+					"phone_vibrate", first_phone, "W237 intro cold source0") \
+					or not await _w237_advance_to_prose_source(target):
+				return -1
+		if target >= 0:
+			var page_length := str(_story.get("_type_full")).length()
+			if not _w227_type_to(maxi(1, floori(float(page_length) / 2.0)), "W237"):
+				return -1
+		var applied := _w227_state_bytes()
+		var context: Dictionary = _story.call("build_save_resume_context")
+		var expected_phase := "choices" if target < 0 else "prose"
+		var expected_source := int(context.get("source_paragraph_index", -1))
+		var saved_progress := float(context.get("source_text_progress", -1.0))
+		_w237_clear_tracked()
+		if context.get("event_id") != W237_RECORD \
+				or context.get("phase") != expected_phase \
+				or not await _w237_cold_load(
+					context, "ko", applied, false, "W237 cold " + expected_phase):
+			return -1
+		var restored: Dictionary = _story.call("build_save_resume_context")
+		var expect_score: bool = target != 0
+		if restored.get("event_id") != W237_RECORD \
+				or restored.get("phase") != expected_phase \
+				or int(restored.get("source_paragraph_index", -1)) != expected_source \
+				or not is_equal_approx(
+					float(restored.get("source_text_progress", -2.0)), saved_progress) \
+				or not _w237_surface(
+					"W237 cold " + expected_phase,
+					_w235_current_home_background(), expect_score) \
+				or not _w237_audio_matches([], false, "W237 cold " + expected_phase):
+			_fail("W237 cold %s replayed a phone or changed its source/score" % expected_phase)
+			return -1
+		if target in [0, 2]:
+			if target == 0:
+				if not await _w237_advance_to_prose_source(1) \
+						or not _w237_surface(
+							"W237 cold source1 score admission",
+							_w235_current_home_background(), true):
+					_fail("W237 cold source0 did not admit score at live source1")
+					return -1
+			if not await _w237_advance_to_prose_source(3):
+				return -1
+			var future_phone := int(AudioManager._last_sfx_ms.get("phone_vibrate", -1))
+			if future_phone < 0 or not _w237_audio_matches(
+					[_w237_phone_token(3)], false,
+					"W237 cold future source3 phone", false, true) \
+					or not await _w237_wait_sfx_completion(
+						"phone_vibrate", future_phone,
+						"W237 cold future source3 phone"):
+				_fail("W237 cold prose lost its definitely future source3 phone")
+				return -1
+		restored_cases += 1
+	return restored_cases
+
+
+func _w237_advance_to_prose_source(target_source: int) -> bool:
+	for _guard in range(64):
+		if bool(_story.get("_showing_choices")):
+			break
+		var source := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		if source == target_source:
+			return true
+		if source > target_source:
+			break
+		await _finish_page()
+		_story.call("_on_advance")
+		await _wait_stable()
+	_fail("W237 could not advance to prose source%d" % target_source)
+	return false
+
+
+func _w237_reflow_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for before_page: bool in [true, false]:
+		if not await _w237_prepare_result("ko", 0, home_case):
+			return -1
+		var applied := _w227_state_bytes()
+		if not await _w237_seek_page(applied):
+			return -1
+		var reveal := int(_story.get("_w237_page_reveal_at"))
+		if not _w227_type_to(reveal - 1 if before_page else reveal, "W237"):
+			return -1
+		if not before_page:
+			var played_at := int(AudioManager._last_sfx_ms.get("page_turn", -1))
+			if played_at < 0 or not await _w237_wait_sfx_completion(
+					"page_turn", played_at, "W237 before reflow"):
+				return -1
+		AudioManager.stop_sound("page_turn")
+		AudioManager._last_sfx_ms.erase("page_turn")
+		if not await _w237_reflow_boundary(1, before_page, applied):
+			return -1
+		boundaries += 2
+	if not await _w237_prepare_result("ko", 0, home_case):
+		return -1
+	var future_state := _w227_state_bytes()
+	if not await _w237_reflow_boundary(0, true, future_state):
+		return -1
+	boundaries += 2
+	return boundaries
+
+
+func _w237_reflow_boundary(
+		source_index: int, before_page: bool, applied: String) -> bool:
+	var score_player := _w237_score_player()
+	if not is_instance_valid(score_player):
+		_fail("W237 reflow started without actual reckoning stream")
+		return false
+	var score_stream: AudioStream = score_player.stream
+	var score_position := score_player.get_playback_position()
+	var score_token := int(BGMPlayer.get("_punctuation_token"))
+	_story.call("_set_story_text_size", "large")
+	await _wait_stable()
+	var font_ok := not bool(_story.get("_w237_page_consumed")) \
+		and int(_story.get("_w237_page_reveal_at")) < 0 if source_index == 0 \
+		else _w237_boundary_side(before_page)
+	if not font_ok \
+			or not _w237_score_unchanged(
+				score_player, score_stream, score_position, score_token,
+				"W237 font reflow") \
+			or not _w227_state_matches(applied, "W237 font reflow", false, "W237") \
+			or not _w237_surface(
+				"W237 font reflow", _w235_current_home_background(), true) \
+			or not _w237_audio_matches(
+				[_w237_phone_token(0), _w237_phone_token(3)], false,
+				"W237 font reflow"):
+		_fail("W237 source%d font reflow crossed or replayed its page boundary" % source_index)
+		return false
+	score_position = score_player.get_playback_position()
+	_story.call("_set_story_language", "en")
+	await _wait_stable()
+	var locale_ok := not bool(_story.get("_w237_page_consumed")) \
+		and int(_story.get("_w237_page_reveal_at")) < 0 if source_index == 0 \
+		else _w237_boundary_side(before_page)
+	if LocaleManager.language != "en" or not locale_ok \
+			or not _w237_score_unchanged(
+				score_player, score_stream, score_position, score_token,
+				"W237 locale reflow") \
+			or not _w227_state_matches(applied, "W237 locale reflow", true, "W237") \
+			or not _w237_surface(
+				"W237 locale reflow", _w235_current_home_background(), true) \
+			or not _w237_audio_matches(
+				[_w237_phone_token(0), _w237_phone_token(3)], false,
+				"W237 locale reflow"):
+		_fail("W237 source%d locale reflow crossed or replayed its page boundary" % source_index)
+		return false
+	var played_at := -1
+	if source_index == 0:
+		if not await _w237_seek_page(applied, true):
+			return false
+		var reveal := int(_story.get("_w237_page_reveal_at"))
+		if reveal <= 0 or not _w227_type_to(reveal, "W237"):
+			_fail("W237 source0 reflow consumed or lost future source1 page turn")
+			return false
+		played_at = int(AudioManager._last_sfx_ms.get("page_turn", -1))
+		_w237_reflow_pages += 1
+	elif before_page:
+		var reveal := int(_story.get("_w237_page_reveal_at"))
+		if not _w227_type_to(reveal, "W237"):
+			_fail("W237 source1 reflow lost its one remaining page turn")
+			return false
+		played_at = int(AudioManager._last_sfx_ms.get("page_turn", -1))
+		_w237_reflow_pages += 1
+	else:
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		return not AudioManager._last_sfx_ms.has("page_turn")
+	return played_at >= 0 \
+		and _w237_audio_matches(
+			[_w237_phone_token(0), _w237_phone_token(3)], true,
+			"W237 reflow page turn", true) \
+		and await _w237_wait_sfx_completion(
+			"page_turn", played_at, "W237 reflow page turn")
+
+
+func _w237_score_unchanged(player: AudioStreamPlayer, stream: AudioStream,
+		previous_position: float, token: int, label: String) -> bool:
+	var current := _w237_score_player()
+	if current != player or not is_instance_valid(current) \
+			or current.stream != stream \
+			or int(BGMPlayer.get("_punctuation_token")) != token \
+			or current.get_playback_position() + 0.05 < previous_position:
+		_fail(label + " restarted or replaced the held reckoning stream")
+		return false
+	return true
+
+
+func _w237_result_cold_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for before_page: bool in [true, false]:
+		if not await _w237_prepare_result("ko", 0, home_case):
+			return -1
+		var applied := _w227_state_bytes()
+		if not await _w237_seek_page(applied):
+			return -1
+		var reveal := int(_story.get("_w237_page_reveal_at"))
+		if not _w227_type_to(reveal - 1 if before_page else reveal, "W237"):
+			return -1
+		if not before_page:
+			var played_at := int(AudioManager._last_sfx_ms.get("page_turn", -1))
+			if played_at < 0 or not await _w237_wait_sfx_completion(
+					"page_turn", played_at, "W237 before cold save"):
+				return -1
+		_w237_clear_tracked()
+		if not await _w237_cold_result_boundary(
+				0, 1, before_page, applied, "ko", false):
+			return -1
+		boundaries += 1
+
+	if not await _w237_prepare_result("ko", 0, home_case):
+		return -1
+	var cross_state := _w227_state_bytes()
+	if not await _w237_seek_page(cross_state):
+		return -1
+	var cross_reveal := int(_story.get("_w237_page_reveal_at"))
+	if not _w227_type_to(cross_reveal - 1, "W237"):
+		return -1
+	_w237_clear_tracked()
+	if not await _w237_cold_result_boundary(
+			0, 1, true, cross_state, "en", true):
+		return -1
+	boundaries += 1
+
+	for target_locale: String in ["ko", "en"]:
+		if not await _w237_prepare_result("ko", 0, home_case):
+			return -1
+		var future_state := _w227_state_bytes()
+		var first_page_length := str(_story.get("_type_full")).length()
+		if not _w227_type_to(maxi(1, floori(float(first_page_length) / 2.0)), "W237"):
+			return -1
+		_w237_clear_tracked()
+		if not await _w237_cold_result_boundary(
+				0, 0, true, future_state, target_locale, target_locale == "en"):
+			return -1
+		boundaries += 1
+
+	if not await _w237_prepare_result("ko", 1, home_case):
+		return -1
+	var silent_state := _w227_state_bytes()
+	var silent_length := str(_story.get("_type_full")).length()
+	if not _w227_type_to(maxi(1, floori(float(silent_length) / 2.0)), "W237"):
+		return -1
+	var silent_context: Dictionary = _story.call("build_save_resume_context")
+	_w237_clear_tracked()
+	if not await _w237_cold_load(silent_context, "ko", silent_state, false,
+			"W237 silent result"):
+		return -1
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	if restored.get("phase") != "result" \
+			or int(restored.get("pending_result_choice_index", -1)) != 1 \
+			or not _w237_surface(
+				"W237 cold silent result", _w235_current_home_background(), true) \
+			or not (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+			or not _w237_audio_matches([], false, "W237 cold silent result"):
+		_fail("W237 c1 cold result invented or replayed a physical action")
+		return -1
+	_story.call("_complete_typing")
+	_story.call("_complete_typing")
+	if AudioManager._last_sfx_ms.has("page_turn"):
+		_fail("W237 c1 cold result replayed page_turn")
+		return -1
+	boundaries += 1
+	return boundaries
+
+
+func _w237_cold_result_boundary(
+		choice: int, source_index: int, before_page: bool, applied: String,
+		target_locale: String, cross_locale: bool) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var saved_progress := float(context.get("source_text_progress", -1.0))
+	if context.get("event_id") != W237_RECORD or context.get("phase") != "result" \
+			or int(context.get("pending_result_choice_index", -1)) != choice \
+			or int(context.get("source_paragraph_index", -1)) != source_index:
+		_fail("W237 could not capture source%d result boundary" % source_index)
+		return false
+	if not await _w237_cold_load(
+			context, target_locale, applied, cross_locale, "W237 cold result"):
+		return false
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	var restored_progress := float(restored.get("source_text_progress", -2.0))
+	var source_characters := 0
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		if int(_story.call("_story_source_paragraph_index", page_index)) == source_index:
+			source_characters += str((_story.get("_paragraphs") as Array)[page_index]).length()
+	var quantization_bound := 0.5 / float(source_characters) + 0.000001 \
+		if source_characters > 0 else -1.0
+	var progress_ok := is_equal_approx(restored_progress, saved_progress) \
+		if not cross_locale else quantization_bound > 0.0 \
+			and absf(restored_progress - saved_progress) <= quantization_bound
+	var boundary_ok := not bool(_story.get("_w237_page_consumed")) \
+		and int(_story.get("_w237_page_reveal_at")) < 0 if source_index == 0 \
+		else _w237_boundary_side(before_page and not cross_locale)
+	if source_index == 1 and cross_locale:
+		boundary_ok = bool(_story.get("_w237_page_consumed")) \
+			and int(_story.get("_w237_page_reveal_at")) < 0
+	if LocaleManager.language != target_locale or restored.get("event_id") != W237_RECORD \
+			or restored.get("phase") != "result" \
+			or int(restored.get("pending_result_choice_index", -1)) != choice \
+			or int(restored.get("source_paragraph_index", -1)) != source_index \
+			or not progress_ok or not boundary_ok \
+			or not _w237_surface(
+				"W237 cold result", _w235_current_home_background(), true) \
+			or not _w237_audio_matches([], false, "W237 cold result"):
+		_fail("W237 cold result crossed, replayed, changed state, or lost source identity")
+		return false
+	var played_at := -1
+	if source_index == 0:
+		if not await _w237_seek_page(applied, cross_locale):
+			return false
+		var reveal := int(_story.get("_w237_page_reveal_at"))
+		if reveal <= 0 or not _w227_type_to(reveal - 1, "W237") \
+				or bool(_story.get("_w237_page_consumed")) \
+				or not _w227_type_to(reveal, "W237"):
+			_fail("W237 cold source0 lost its definitely future source1 page turn")
+			return false
+		played_at = int(AudioManager._last_sfx_ms.get("page_turn", -1))
+		_w237_cold_pages += 1
+		_w237_future_pages += 1
+	elif before_page and not cross_locale:
+		var reveal := int(_story.get("_w237_page_reveal_at"))
+		if not _w227_type_to(reveal, "W237"):
+			_fail("W237 same-locale cold restore lost its pending page turn")
+			return false
+		played_at = int(AudioManager._last_sfx_ms.get("page_turn", -1))
+		_w237_cold_pages += 1
+	else:
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if AudioManager._last_sfx_ms.has("page_turn"):
+			_fail("W237 cold consumed boundary replayed a past page turn")
+			return false
+	if played_at >= 0:
+		if not _w237_audio_matches([], true, "W237 cold page turn", true) \
+				or not await _w237_wait_sfx_completion(
+					"page_turn", played_at, "W237 cold page turn"):
+			return false
+	return _w227_state_matches(
+		applied, "W237 cold final", cross_locale, "W237") \
+		and _w237_surface(
+			"W237 cold final", _w235_current_home_background(), true)
+
+
+func _w237_cold_load(context: Dictionary, target_locale: String,
+		applied: String, allow_default_name_projection: bool, label: String) -> bool:
+	if not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail(label + " could not write isolated v4 save")
+		return false
+	var disk: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int((disk as Dictionary).get("version", -1)) != 4:
+		_fail(label + " lost disk schema v4")
+		return false
+	await _remove_story()
+	await _stop_audio()
+	GameState.start_new_game()
+	LocaleManager.set_language(target_locale)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail(label + " could not cold-load its boundary")
+		return false
+	BGMPlayer.set_ambience("room")
+	BGMPlayer.set_season_ambience("winter")
+	BGMPlayer.play_punctuation("reckoning")
+	_w237_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	await get_tree().create_timer(0.9).timeout
+	return _w227_state_matches(
+		applied, label, allow_default_name_projection, "W237")
+
+
+func _w237_open(language: String, home_case: Dictionary,
+		prime_same_key: bool = false) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W237/%s" % [language, str(home_case.get("id", "home"))]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	if not _prepare_full_owner_history(237, [
+			[203, "arc_minseo_03_arrival", 1],
+			[211, "arc_y5_general_name_boundary_exact", 0],
+			[220, "arc_y5_general_debt_memory_reconnect", 0],
+		]):
+		return false
+	GameState.money = 2_500_000_000.0
+	GameState.housing = str(home_case.get("housing", "oneroom"))
+	for flag_id: String in ["arc_daeun_wedding_day_seen", "daeun_divorced"]:
+		GameState.flags.erase(flag_id)
+	var home_flags: Dictionary = home_case.get("flags", {})
+	for flag_id: String in home_flags:
+		GameState.flags[flag_id] = bool(home_flags[flag_id])
+	GameState.flags["father_passed"] = true
+	GameState.flags["arc_endgame_sixmonths_seen"] = true
+	var final_calendar := [GameState.turn, GameState.age, GameState.year,
+		GameState.month, GameState.week_of_month]
+	GameState.turn = 224
+	if not GameState.prepare_chapter5_finale_route_entry():
+		_fail("W237 could not lock its real general finale entry")
+		return false
+	var predecessors: Array = [
+		["arc_y5_general_father_legacy_voice_exact", 1, 224],
+		["arc_y5_general_debt_memory_voice_exact", 0, 229],
+		["arc_y5_general_pre_ending_summit_exact", 1, 234],
+	]
+	for predecessor: Array in predecessors:
+		GameState.turn = int(predecessor[2])
+		if GameState.chapter5_finale_next_event_for_turn() != str(predecessor[0]):
+			_fail("W237 lost predecessor ingress %s" % predecessor[0])
+			return false
+		var committed: Dictionary = GameState.record_chapter5_finale_choice(
+			str(predecessor[0]), int(predecessor[1]))
+		if not bool(committed.get("ok", false)):
+			_fail("W237 could not commit predecessor %s/c%d" % [
+				predecessor[0], predecessor[1]])
+			return false
+	GameState.turn = int(final_calendar[0])
+	GameState.age = int(final_calendar[1])
+	GameState.year = int(final_calendar[2])
+	GameState.month = int(final_calendar[3])
+	GameState.week_of_month = int(final_calendar[4])
+	if GameState.chapter5_finale_next_event_for_turn() != W237_RECORD \
+			or not GameState.chapter5_finale_ingress_available(W237_RECORD):
+		_fail("W237 predecessor receipts did not admit the exact record root")
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	ingress.set_meta("_screenshot_qa_static_surface", true)
+	var routed := bool(ingress.call("_route_chapter5_finale_week"))
+	ingress.free()
+	if not routed or GameState.pending_story_queue != [W237_RECORD] \
+			or not FULL_STORY_FLOW.valid_session():
+		var owner: Dictionary = FULL_STORY_FLOW.snapshot()
+		_fail("W237 did not route through MainGame and FullStoryFlow turn=%d last=%s valid=%s chain=%s routine_current=%s queue=%s" % [
+			GameState.turn, owner.get("last_completed_turn"),
+			FULL_STORY_FLOW.valid_session(), owner.get("chain", {}),
+			(owner.get("routine_receipts", {}) as Dictionary).has(str(GameState.turn)),
+			GameState.pending_story_queue])
+		return false
+	BGMPlayer.set_ambience("room")
+	BGMPlayer.set_season_ambience("winter")
+	BGMPlayer.play_punctuation("reckoning")
+	if prime_same_key:
+		BGMPlayer.set_ambience("apartment")
+		BGMPlayer.duck_ambience(-12.0, 1.4)
+		if str(BGMPlayer.get("_current_ambience_key")) != "apartment" \
+				or not BGMPlayer._ambience_player.playing \
+				or BGMPlayer._ambience_tween == null \
+				or not BGMPlayer._ambience_tween.is_running():
+			_fail("W237 same-key fixture did not seed its inherited apartment fade")
+			return false
+	elif str(BGMPlayer.get("_current_ambience_key")) != "room" \
+			or str(BGMPlayer.get("_current_human_ambience_key")) != "thin_wall" \
+			or str(BGMPlayer.get("_current_season_key")) != "winter" \
+			or not BGMPlayer._ambience_player.playing \
+			or not BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._season_player.playing or not _w216_score_playing():
+		_fail("W237 fixture did not seed old room/thin-wall/winter/reckoning layers")
+		return false
+	_w237_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	var background := str(home_case.get("background", ""))
+	return _w237_surface("W237 live opening", background, false) \
+		and (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+		and (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+		and _w237_audio_matches(
+			[_w237_phone_token(0)], false, "W237 live opening", false, true)
+
+
+func _w237_phone_token(source_index: int) -> String:
+	return W237_RECORD + "::description:%d:0:phone_vibrate" % source_index
+
+
+func _w237_clear_tracked() -> void:
+	for sound_id: String in W237_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+
+func _w237_audio_matches(expected_cues: Array, expect_page: bool,
+		label: String, require_page_stream: bool = false,
+		require_phone_stream: bool = false) -> bool:
+	var cue_keys: Array = AudioManager._story_audio_seen.keys().filter(
+		func(key: Variant) -> bool:
+			return str(key).begins_with(W237_RECORD + ":") and (
+				str(key).ends_with(":phone_vibrate") \
+				or str(key).ends_with(":page_turn") \
+				or str(key).ends_with(":paper_handle") \
+				or str(key).ends_with(":pen_ballpoint")))
+	cue_keys.sort()
+	var sorted_expected: Array = expected_cues.duplicate()
+	sorted_expected.sort()
+	var invalid: Array[String] = []
+	for sound_id: String in W237_TRACKED_SFX:
+		var expected_timestamp := expect_page if sound_id == "page_turn" else (
+			not expected_cues.is_empty() if sound_id == "phone_vibrate" else false)
+		var stream_count := _w197_sfx_stream_count(sound_id)
+		if AudioManager._last_sfx_ms.has(sound_id) != expected_timestamp \
+				or (not expected_timestamp and stream_count != 0) \
+				or (sound_id == "page_turn" and require_page_stream and stream_count != 1) \
+				or (sound_id == "phone_vibrate" and require_phone_stream and stream_count != 1):
+			invalid.append(sound_id)
+	if cue_keys != sorted_expected or not invalid.is_empty():
+		_fail("%s W237 audio mismatch page=%s invalid=%s cues=%s expected=%s" % [
+			label, expect_page, invalid, cue_keys, sorted_expected])
+		return false
+	var required_sound := "page_turn" if require_page_stream else (
+		"phone_vibrate" if require_phone_stream else "")
+	if not required_sound.is_empty():
+		var gain := -7.0 if required_sound == "page_turn" else -8.0
+		var expected_db := float(AudioManager.call("_vol_db")) \
+			+ AudioManager.sfx_mix_trim_db(required_sound) + gain
+		for player: AudioStreamPlayer in AudioManager._pool:
+			if player.playing and player.stream == AudioManager._sounds.get(required_sound):
+				if is_equal_approx(player.volume_db, expected_db):
+					return true
+				_fail("%s W237 %s volume expected=%s actual=%s" % [
+					label, required_sound, expected_db, player.volume_db])
+				return false
+		_fail("%s W237 %s stream was not active" % [label, required_sound])
+		return false
+	return true
+
+
+func _w237_surface(label: String, background_id: String, expect_score: bool) -> bool:
+	var expected_stream: AudioStream = BGMPlayer.call("_load_ambience", "apartment")
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W237_RECORD \
+			or background_id.is_empty() \
+			or not _expect_surface(background_id, "apartment", label) \
+			or str(_story.call("_resolved_story_surface_portrait_id")) != "player_tired" \
+			or expected_stream == null \
+			or BGMPlayer._ambience_player.stream != expected_stream \
+			or not BGMPlayer._ambience_player.playing \
+			or not str(BGMPlayer.get("_current_human_ambience_key")).is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
+			or not str(BGMPlayer.get("_current_season_key")).is_empty() \
+			or BGMPlayer._season_player.playing:
+		_fail(label + " changed the W237 home, apartment bed, portrait, or lower-layer silence")
+		return false
+	if expect_score:
+		if not _w216_score_playing():
+			_fail(label + " lost the W237 held reckoning score")
+			return false
+	elif not str(BGMPlayer.get("_current_key")).is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail(label + " opened W237 score before source1")
+		return false
+	return true
+
+
+func _w237_score_player() -> AudioStreamPlayer:
+	var expected: AudioStream = BGMPlayer.call("_load_track", "reckoning")
+	for player: AudioStreamPlayer in [BGMPlayer._player_a, BGMPlayer._player_b]:
+		if expected != null and player.playing and player.stream == expected:
+			return player
+	return null
+
+
+func _w237_wait_sfx_completion(
+		sound_id: String, played_at: int, label: String) -> bool:
+	var stream: AudioStream = AudioManager._sounds.get(sound_id)
+	if stream == null or played_at < 0:
+		_fail("%s cannot derive recorded %s completion boundary" % [label, sound_id])
+		return false
+	var duration_msec := int(ceil(stream.get_length() * 1000.0))
+	var deadline := Time.get_ticks_msec() + maxi(250, duration_msec + 250)
+	while _w197_sfx_stream_count(sound_id) > 0 \
+			and Time.get_ticks_msec() < deadline:
+		await get_tree().process_frame
+	if _w197_sfx_stream_count(sound_id) != 0 \
+			or int(AudioManager._last_sfx_ms.get(sound_id, -1)) != played_at:
+		_fail("%s %s did not finish naturally without replay" % [label, sound_id])
+		return false
+	return true
 
 
 func _check_w235_notice_return() -> bool:

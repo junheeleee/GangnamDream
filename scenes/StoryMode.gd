@@ -82,6 +82,8 @@ const W224_CUSTODY_RESULT_CUT := preload("res://assets/w224_custody_result_cut.t
 const W235_NOTICE := "arc_y5_property_not_executed_notice"
 const W235_NOTICE_DESK := "finale_notice_desk"
 const W235_NOTICE_RETURN := preload("res://assets/w235_notice_return.tres")
+const W237_RECORD := "arc_y5_general_final_record_seal"
+const W237_RECORD_PAGE_TURN := preload("res://assets/w237_record_page_turn.tres")
 const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
 const M07_HYUNSU_WASHBASIN_CUT := preload("res://assets/m07_hyunsu_washbasin_cut.tres")
 const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
@@ -195,6 +197,8 @@ var _w230_pen_reveal_at := -1
 var _w230_pen_consumed: Dictionary = {} # Per-result source; never a saved action.
 var _w235_paper_reveal_at := -1
 var _w235_paper_consumed := false
+var _w237_page_reveal_at := -1
+var _w237_page_consumed := false
 var _type_pos: int = 0
 var _showing_choices: bool = false
 var _transitioning: bool = false
@@ -2776,6 +2780,8 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_w230_pen_consumed.clear()
 	_w235_paper_reveal_at = -1
 	_w235_paper_consumed = false
+	_w237_page_reveal_at = -1
+	_w237_page_consumed = false
 	if _paragraphs.is_empty():
 		return
 	var was_typing := bool(context.get("paragraph_was_typing", false))
@@ -2806,6 +2812,13 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 			# A named translation's source0 is before the return. Cross-language
 			# source1 and legacy pages without position/locale proof are ambiguous.
 			_w235_paper_consumed = true
+	if _w237_page_result_active():
+		var saved_page_source := int(context.get("source_paragraph_index", -1))
+		if not has_source_position or saved_locale.is_empty() or saved_page_source not in [0, 1] \
+				or (saved_page_source == 1 and saved_locale != LocaleManager.language):
+			# The page turn is still future in a named source0 save. Source1 in
+			# another translation, or missing legacy proof, cannot locate it safely.
+			_w237_page_consumed = true
 	var current_source_count := _story_source_paragraph_count()
 	var saved_source_count := int(context.get("source_paragraph_count", -1))
 	var locale_structure_changed := not saved_locale.is_empty() \
@@ -2902,9 +2915,9 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		# Finish the old screen's idle fade before restoring the held score.
 		BGMPlayer.enter_ambient_bed(0.0)
 		BGMPlayer.play_scene_paragraph_music(_current, "", 0)
-	elif str(_current.get("id", "")) in [W227_FILING, W230_CAFE]:
-		# The result's paper/writing happened on the original visit. A later live
-		# reveal may still own the pen when resuming before its exact clause.
+	elif str(_current.get("id", "")) in [W227_FILING, W230_CAFE, W237_RECORD]:
+		# Restore only the admitted score, not the visit's momentary actions.
+		# An unread physical clause may still own its later live one-shot.
 		BGMPlayer.enter_ambient_bed(0.0)
 		if result_phase or phase == "choices" or source_paragraph_index >= 1:
 			BGMPlayer.play_scene_paragraph_music(_current, "", 1)
@@ -2949,6 +2962,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_rebind_w227_pen_reveal()
 		_rebind_w230_pen_reveal()
 		_rebind_w235_paper_reveal()
+		_rebind_w237_page_reveal()
 		return
 	_type_pos = paragraph.length()
 	_typing = false
@@ -2957,6 +2971,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_rebind_w227_pen_reveal()
 	_rebind_w230_pen_reveal()
 	_rebind_w235_paper_reveal()
+	_rebind_w237_page_reveal()
 	_sync_wedding_lights_out(true)
 	_record_current_dialogue_source()
 	_refresh_continue_hint_text()
@@ -3839,6 +3854,7 @@ func _restore_localized_story_text(
 	_w227_pen_reveal_at = -1
 	_w230_pen_reveal_at = -1
 	_w235_paper_reveal_at = -1
+	_w237_page_reveal_at = -1
 	var old_cut := _result_location_cut_page
 	var old_after_cut := old_cut >= 0 and _para_index >= old_cut
 	var old_source := _story_source_paragraph_index(_para_index)
@@ -3872,6 +3888,10 @@ func _restore_localized_story_text(
 		if paper_range.y >= 0.0:
 			source_page_progress = maxf(source_page_progress, paper_range.y) if _w235_paper_consumed \
 				else minf(source_page_progress, paper_range.x)
+		var page_range := _w237_page_progress_range()
+		if page_range.y >= 0.0:
+			source_page_progress = maxf(source_page_progress, page_range.y) if _w237_page_consumed \
+				else minf(source_page_progress, page_range.x)
 	var preserve_ktx_stage := ktx_stage >= 0 and not _first_ktx_cut_pages.is_empty()
 	if preserve_ktx_stage:
 		var new_ktx_range := _first_ktx_phase_progress(ktx_stage)
@@ -3923,6 +3943,9 @@ func _restore_localized_story_text(
 	if not was_typing and not _w235_paper_consumed and source_paragraph_index == 1 \
 			and _w235_paper_reveal_position(str(_paragraphs[_para_index])) > 0:
 		was_typing = true
+	if not was_typing and not _w237_page_consumed and source_paragraph_index == 1 \
+			and _w237_page_reveal_position(str(_paragraphs[_para_index])) > 0:
+		was_typing = true
 	_refresh_story_paragraph_presentation(
 		_story_source_paragraph_index(_para_index), true)
 	_apply_authored_result_location()
@@ -3959,6 +3982,7 @@ func _restore_localized_story_text(
 	_rebind_w227_pen_reveal()
 	_rebind_w230_pen_reveal()
 	_rebind_w235_paper_reveal()
+	_rebind_w237_page_reveal()
 	_sync_wedding_lights_out(true)
 
 func _refresh_story_choice_language() -> void:
@@ -5944,7 +5968,7 @@ func _render_current():
 			or cold_w220_cafe or cold_pitch_result or cold_daeun_outside \
 			or w205_minseo_call or cold_w161_result or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
-	elif str(_current.get("id", "")) == W235_NOTICE:
+	elif str(_current.get("id", "")) in [W235_NOTICE, W237_RECORD]:
 		# An old same-key idle/duck fade must not later stop this fresh quiet bed.
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
@@ -5961,9 +5985,10 @@ func _render_current():
 		# sound like the later face-to-face encounter has already begun.
 		BGMPlayer.enter_ambient_bed(0.0)
 	BGMPlayer.begin_story_event(_current, _event_cg_id)
-	if str(_current.get("id", "")) == W235_NOTICE:
-		# Finish the prior score and its fade, then bind this event's reviewed bed
-		# once. The desk insert and language/font refreshes do not restart it.
+	if str(_current.get("id", "")) in [W235_NOTICE, W237_RECORD]:
+		# These new visits don't inherit the prior moment's score, even if its key
+		# matches. W237 admits its own score later at source1. Bind the bed once;
+		# paragraph transitions and language/font refreshes do not restart it.
 		BGMPlayer.enter_ambient_bed(0.0)
 		BGMPlayer.update_event_ambience(_current, _event_cg_id, _event_background_id)
 	AudioManager.begin_story_audio_event(str(_current.get("id", "")))
@@ -6001,6 +6026,7 @@ func _render_current():
 	_w227_pen_consumed = false
 	_w230_pen_consumed.clear()
 	_w235_paper_consumed = false
+	_w237_page_consumed = false
 	_apply_story_page_data(_resolved_story_prose_pages())
 	_para_index = 0
 	if w53_network and str(_pending_restore_context.get("event_id", "")) != W53_SANGCHUL_NETWORK:
@@ -6009,7 +6035,7 @@ func _render_current():
 		_apply_w117_counter_surface(false, true)
 	if _pending_restore_context.is_empty() \
 			or (not _full_w19_reunion \
-				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW, W220_CONSENT_RECEIPT, W227_FILING, W230_CAFE, W235_NOTICE]):
+				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW, W220_CONSENT_RECEIPT, W227_FILING, W230_CAFE, W235_NOTICE, W237_RECORD]):
 		_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 
@@ -7596,6 +7622,7 @@ func _complete_typing() -> void:
 	_maybe_play_w227_pen()
 	_maybe_play_w230_pen()
 	_maybe_play_w235_paper()
+	_maybe_play_w237_page()
 	_sync_wedding_lights_out(false)
 	_record_current_dialogue_source()
 	if _should_begin_direction_hold():
@@ -7691,8 +7718,14 @@ func _w235_paper_result_active() -> bool:
 		and str(_current.get("id", "")) == W235_NOTICE \
 		and _pending_result_choice_index == 0
 
+func _w237_page_result_active() -> bool:
+	return not _read_only_replay and _pending_after_result \
+		and str(_current.get("id", "")) == W237_RECORD \
+		and _pending_result_choice_index == 0
+
 func _physical_cue_result_active() -> bool:
-	return _w227_pen_result_active() or _w230_pen_result_active() or _w235_paper_result_active()
+	return _w227_pen_result_active() or _w230_pen_result_active() \
+		or _w235_paper_result_active() or _w237_page_result_active()
 
 func _w227_pen_reveal_position(full_text: String, page_index: int = -1) -> int:
 	return _ballpoint_write_reveal_position(full_text, page_index) if _w227_pen_result_active() else -1
@@ -7702,6 +7735,9 @@ func _w230_pen_reveal_position(full_text: String, page_index: int = -1) -> int:
 
 func _w235_paper_reveal_position(full_text: String, page_index: int = -1) -> int:
 	return _physical_cue_reveal_position(full_text, page_index) if _w235_paper_result_active() else -1
+
+func _w237_page_reveal_position(full_text: String, page_index: int = -1) -> int:
+	return _physical_cue_reveal_position(full_text, page_index) if _w237_page_result_active() else -1
 
 func _ballpoint_write_contract(page_index: int = -1) -> Dictionary:
 	# Keep the pen-only API and its dictionary shape; paper is not a ballpoint.
@@ -7720,7 +7756,7 @@ func _physical_cue_contract(page_index: int = -1) -> Dictionary:
 	var expected_sources := 2
 	var volume_db := -5.0
 	var sound_id: String = "pen_ballpoint"
-	# Closed to these three reviewed events; no inferred action/tag fallback.
+	# Closed to these four reviewed events; no inferred action/tag fallback.
 	if _w227_pen_result_active() and source_index == 0 and choices.size() == 4:
 		var rows: Dictionary = W227_BALLPOINT_WRITE.get_meta("write_anchors", {})
 		anchors = rows.get(str(_pending_result_choice_index), {})
@@ -7734,6 +7770,10 @@ func _physical_cue_contract(page_index: int = -1) -> Dictionary:
 		anchors = W235_NOTICE_RETURN.get_meta("return_anchors", {})
 		volume_db = -8.0
 		sound_id = "paper_handle"
+	elif _w237_page_result_active() and source_index == 1 and choices.size() == 2:
+		anchors = W237_RECORD_PAGE_TURN.get_meta("page_turn_anchors", {})
+		volume_db = -7.0
+		sound_id = "page_turn"
 	else:
 		return {}
 	var anchor: String = _fmt(str(anchors.get(LocaleManager.language, "")))
@@ -7785,6 +7825,9 @@ func _w230_pen_progress_range(source_index: int = -1) -> Vector2:
 func _w235_paper_progress_range() -> Vector2:
 	return _physical_cue_progress_range(1) if _w235_paper_result_active() else Vector2(-1.0, -1.0)
 
+func _w237_page_progress_range() -> Vector2:
+	return _physical_cue_progress_range(1) if _w237_page_result_active() else Vector2(-1.0, -1.0)
+
 func _ballpoint_write_progress_range(source_index: int) -> Vector2:
 	return _physical_cue_progress_range(source_index) \
 		if _w227_pen_result_active() or _w230_pen_result_active() else Vector2(-1.0, -1.0)
@@ -7810,6 +7853,9 @@ func _rebind_w230_pen_reveal() -> void:
 func _rebind_w235_paper_reveal() -> void:
 	_rebind_physical_cue(W235_NOTICE)
 
+func _rebind_w237_page_reveal() -> void:
+	_rebind_physical_cue(W237_RECORD)
+
 func _ballpoint_write_consumed(source_index: int) -> bool:
 	return _w227_pen_consumed if _w227_pen_result_active() \
 		else bool(_w230_pen_consumed.get(str(source_index), false))
@@ -7821,10 +7867,14 @@ func _consume_ballpoint_write(source_index: int) -> void:
 		_w230_pen_consumed[str(source_index)] = true
 
 func _physical_cue_consumed(source_index: int) -> bool:
+	if _w237_page_result_active():
+		return _w237_page_consumed
 	return _w235_paper_consumed if _w235_paper_result_active() else _ballpoint_write_consumed(source_index)
 
 func _consume_physical_cue(source_index: int) -> void:
-	if _w235_paper_result_active():
+	if _w237_page_result_active():
+		_w237_page_consumed = true
+	elif _w235_paper_result_active():
 		_w235_paper_consumed = true
 	else:
 		_consume_ballpoint_write(source_index)
@@ -7836,7 +7886,9 @@ func _set_ballpoint_reveal_at(event_id: String, reveal_at: int) -> void:
 		_w230_pen_reveal_at = reveal_at
 
 func _set_physical_reveal_at(event_id: String, reveal_at: int) -> void:
-	if event_id == W235_NOTICE:
+	if event_id == W237_RECORD:
+		_w237_page_reveal_at = reveal_at
+	elif event_id == W235_NOTICE:
 		_w235_paper_reveal_at = reveal_at
 	else:
 		_set_ballpoint_reveal_at(event_id, reveal_at)
@@ -7860,6 +7912,9 @@ func _rebind_physical_cue(event_id: String) -> void:
 	if event_id == W235_NOTICE and source_index > 1:
 		_w235_paper_consumed = true
 		return
+	if event_id == W237_RECORD and source_index > 1:
+		_w237_page_consumed = true
+		return
 	if _physical_cue_consumed(source_index):
 		return
 	var reveal_at := _physical_cue_reveal_position(_type_full)
@@ -7879,6 +7934,9 @@ func _maybe_play_w230_pen() -> void:
 func _maybe_play_w235_paper() -> void:
 	_maybe_play_physical_cue(W235_NOTICE)
 
+func _maybe_play_w237_page() -> void:
+	_maybe_play_physical_cue(W237_RECORD)
+
 func _maybe_play_ballpoint_write(event_id: String) -> void:
 	if event_id in [W227_FILING, W230_CAFE]:
 		_maybe_play_physical_cue(event_id)
@@ -7891,6 +7949,8 @@ func _maybe_play_physical_cue(event_id: String) -> void:
 	var reveal_at := _w227_pen_reveal_at if event_id == W227_FILING else _w230_pen_reveal_at
 	if event_id == W235_NOTICE:
 		reveal_at = _w235_paper_reveal_at
+	elif event_id == W237_RECORD:
+		reveal_at = _w237_page_reveal_at
 	if _physical_cue_consumed(source_index) or reveal_at < 0 or _type_pos < reveal_at:
 		return
 	var contract: Dictionary = _physical_cue_contract()
@@ -7909,6 +7969,7 @@ func _start_typing(full_text: String, live_advance: bool = false):
 	_w227_pen_reveal_at = -1
 	_w230_pen_reveal_at = -1
 	_w235_paper_reveal_at = -1
+	_w237_page_reveal_at = -1
 	_type_pos = 0
 	_type_accum = 0.0
 	_typing = true
@@ -7920,6 +7981,7 @@ func _start_typing(full_text: String, live_advance: bool = false):
 	_rebind_w227_pen_reveal()
 	_rebind_w230_pen_reveal()
 	_rebind_w235_paper_reveal()
+	_rebind_w237_page_reveal()
 	_sync_wedding_lights_out(true)
 
 func _process(delta):
@@ -7971,6 +8033,7 @@ func _process(delta):
 		_maybe_play_w227_pen()
 		_maybe_play_w230_pen()
 		_maybe_play_w235_paper()
+		_maybe_play_w237_page()
 
 func _begin_advance_hold() -> void:
 	if _showing_choices or _is_chapter_card or _auto_mode \
