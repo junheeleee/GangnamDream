@@ -869,6 +869,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 W208 후속 CI 동기화: 실제 실패4(FIRST30/GAME_AUDIO_RUNTIME/MOD_LAYER/RELEASE_CONTENT) 중 고정 기대를 실물23출처/142음원/34물리음에 정합·스캐너 exact path/고지 URL 추가 검증, 기존 게이트 삭제0. 격리 `jw2D4XkTCu` FIRST_30_SECONDS / `5GNFSyaX3f` GAME_AUDIO_RUNTIME 각각 exit0/stderr0·출처/고지/모드 검사 독립 GO. 출시 원장5필드(art3/audio1/W216 crime내용지문1)와 생성 보고만 정합, 지문은 W216 표시2필드 역복원으로 이전 `59d6dcd1…` 일치 확인. 공개 RC·내용 축·강도·분류·외부등록0. 출시 원장/45반례·그림321·해상도·오디오/연출·EN·보호 데모5언어 통과. strict console 잠금 Yes로 실제창/촬영0. 실제 청취, 마지막 센서등 소등·촬영 화면·문 너머 종이컵 소리 및 W215 원화는 다음 범위. 사용자 문서 변경 보존·10-31 단락 원문 이동, 새 규범0/일회성.
 
+[~] W217 회의 도입의 회상 오음 제거: `assets/scene_audio_manifest.json`의 `arc_y5_three_in_room`에서 W212 전자 결정 회상 source0의 종이음과 W215 선택 회상 source1의 컵 탭만 제거한다. `tools/Chapter5CausalRouteCheck.gd` 실제 CG 포함 5언어×W212선택3×W215선택3 검증, 이 증거·현황·일지만. W215c0에만 W216 회상까지 source3개, 나머지는2개인 실제 조립·네 인물 CG·회의실/환경음·기존 음악source2·선택·원문·저장·공개 RC 불변. 현재 새 행동은 컵을 내려놓는 것이 아닌 띠 벗기기. 실제 수익표를 펴는 source4/3 및 결과의 종이 동작은 적합한 지점 결속을 별도로 처리하며 이 범위에서 소리를 발명/이동하지 않는다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
