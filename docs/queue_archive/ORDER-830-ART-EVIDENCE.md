@@ -897,6 +897,8 @@ W208 후속 CI 동기화: 실제 실패4(FIRST30/GAME_AUDIO_RUNTIME/MOD_LAYER/RE
 
 [~] W221·224 아버지 기록의 회상 오음3: `assets/scene_audio_manifest.json`의 `arc_y5_father_trace_{alive_exact,passed_exact}` 도입source0 page_turn 각1, `arc_y5_father_trace_custody` 도입source0 paper_handle1만 제거한다. `tools/Chapter5FinaleRouteCheck.gd`에 실제 종막 입장·생사2/연락4/W219선택3/5언어의 조립120문맥·결과360, W224 앞선 기록3/생사2/5언어30문맥·결과60 검증을 추가. 이 증거·현황·오늘 일지만 함께 소유. W221 본문은source2부터이며 실제 페이지 넘김0; W224는source1부터 현재 보관 장면이다. 기존 결과 쓰기/사본 전달·삽입/파일 닫기8cue와 음량, 주거·현재 초상/대면·기억 구분·전용 비교 자리·환경음·곡/시점, 5언어 원고/수용·상태/ID/저장/라우팅·공개 RC·W220 변경0. 실제 서류 꺼냄·추가 잉크/펜·동석 시각·실청취는 별도. typed 출시 경로를 확인하고 옛 author_only와 섞지 않는다.
 
+[~] W224 정적 exact 원장 추가 소유: `tools/scene_audio_contract_check.py`의 `W224_CUSTODY_AUDIO`에서 실제 회상 source0의 옛 종이음 요구 한 행만 제거하고 오류 설명을 ‘결과 종이만’으로 명료화한다. 기존 strict dict 일치·intentional_silence·곡source1·두 결과/음량은 유지하며, 옛 도입·다른 도입 시점·결과 삭제/교체·군중/곡 변조를 전체 검사 함수의 메모리 반례로 거부한다. 다른 validator/예외·원문·제품 추가 변경0. 새 검사 완화가 아니라, 실제 5언어/조립 소비자와 어긋난 한 기대값의 동기화다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
