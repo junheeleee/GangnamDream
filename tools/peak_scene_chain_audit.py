@@ -2602,10 +2602,10 @@ def _validate_finale_meanings(
                 "summit.general_route_cost": ((r"들어온 돈",), (r"나간 돈",), (r"자산[^.]{0,20}선택",), (r"지나간 시간",)),
             },
             "description_orthodox": {
-                "summit.orthodox_cost": ((r"정석",), (r"선택 기록",), (r"더 많은 무게",), (r"고르지 않은 가능성",)),
+                "summit.orthodox_cost": ((r"수첩 뒷장",), (r"같은 간격",), (r"크게 뛴 줄은 드물",), (r"비워 둔 칸",)),
             },
             "description_unorthodox": {
-                "summit.unorthodox_cost": ((r"비정석",), (r"선택 기록",), (r"더 많은 무게",), (r"고르지 않은 가능성",)),
+                "summit.unorthodox_cost": ((r"수첩 뒷장",), (r"고르지 않은 간격",), (r"두 번 그어",), (r"비워 둔 칸",)),
             },
         },
         "en": {
@@ -2613,12 +2613,17 @@ def _validate_finale_meanings(
                 "summit.general_route_cost": ((r"money in",), (r"money[^.]{0,12}out",), (r"choices[^.]{0,25}moved[^.]{0,15}assets",), (r"time[^.]{0,15}passed",)),
             },
             "description_orthodox": {
-                "summit.orthodox_cost": ((r"conventional",), (r"record of his choices",), (r"carried more weight",), (r"possibilities[^.]{0,25}not chosen",)),
+                "summit.orthodox_cost": ((r"back pages of the notebook",), (r"almost even intervals",), (r"few lines jumped",), (r"blanks he had left",)),
             },
             "description_unorthodox": {
-                "summit.unorthodox_cost": ((r"unorthodox",), (r"record of his choices",), (r"carried more weight",), (r"possibilities[^.]{0,25}not chosen",)),
+                "summit.unorthodox_cost": ((r"back pages of the notebook",), (r"uneven intervals",), (r"struck through",), (r"blanks he had left",)),
             },
         },
+    }
+    # Hidden route totals select the variant; the prose must never name them.
+    summit_route_terms = {
+        "ko": r"정석|선택 기록",
+        "en": r"\b(?:conventional|orthodox|unorthodox)\b|record of (?:his|your) choices",
     }
     for locale, events in (("ko", ko_events), ("en", en_events)):
         summit = events["arc_pre_ending_summit"]
@@ -2634,6 +2639,10 @@ def _validate_finale_meanings(
                 summit_route[locale][field])
         if len(set(surfaces)) != len(surfaces):
             raise ValueError(f"{locale}:summit route variants lost distinct meaning")
+        for field, text in zip(summit_fields, surfaces):
+            if re.search(summit_route_terms[locale], text, re.IGNORECASE):
+                raise ValueError(
+                    f"{locale}:arc_pre_ending_summit.{field} names the hidden route")
 
     summit_results = {
         "ko": (

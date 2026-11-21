@@ -52,7 +52,7 @@
       },
       {
         "text": "\"I've got work.\" — say goodbye on the phone",
-        "result_text": "\"Oh, okay. Get home safe.\" He hung up and opened the charts again.\n\nThe numbers hadn't moved. Nothing had changed in those few minutes — and somehow that was what nagged at him.\n\nImagining the terminal lights and seeing them are different things. That night, he only imagined."
+        "result_text": "\"Oh, okay. Get home safe.\" He hung up and opened the charts again.\n\nThe numbers hadn't moved. Nothing had changed in those few minutes, and somehow that was what nagged at him.\n\n{name} only imagined the terminal lights."
       }
     ]
   },
@@ -89,9 +89,9 @@
   {
     "id": "arc_y3_sangchul_deeper_room",
     "title": "The Inner Room",
-    "description": "Sangchul led {name} to a room at the end of the hall.\n\nThe lighting was lower than in the usual office. The blinds were drawn all the way down, and the numbers on the papers on the table were of a different order of magnitude. Beside the ashtray, a few business cards lay face-down — names hidden.\n\n\"Figured you could sit in here now.\" Sangchul offered a seat. The voice was warm, as always.\n\nIt was a greyer room. The chair looked comfortable, which made it worse. It felt like something would begin the moment he sat down. The kind of beginning you can't walk back from.",
+    "description": "Sangchul led {name} to a room at the end of the hall.\n\nThe lighting was lower than in the usual office. The blinds were drawn all the way down, and the numbers on the papers on the table were of a different order of magnitude. Beside the ashtray, a few business cards lay face-down, names hidden.\n\n\"Figured you could sit in here now.\" Sangchul offered a seat. The voice was warm, as always.\n\nIt was a greyer room. The chair looked comfortable, which made it worse. It felt like something would begin the moment he sat down. The kind of beginning you can't walk back from.",
     "description_if_known": {
-      "sangchul_truth_known": "Sangchul led {name} to a room at the end of the hall.\n\nTo eyes that knew the truth, even the lighting of that room looked different. The hand that had broken his father was now holding this door open.\n\n\"Figured you could sit in here now.\" The voice offering the seat was as warm as ever.\n\nThat was the coldest part."
+      "sangchul_truth_known": "Sangchul led {name} to a room at the end of the hall.\n\nTo eyes that knew the truth, even the lighting of that room looked different. The hand that had broken his father was now holding this door open.\n\n\"Figured you could sit in here now.\" The voice offering the seat was as warm as ever."
     },
     "choices": [
       {
@@ -156,7 +156,7 @@
   {
     "id": "arc_y4_network_bill",
     "title": "A Business Card",
-    "description": "Clearing out a drawer, a single business card turned up. From the network days.\n\nThick stock. Paper heavy enough to feel between the fingertips. The ink was slightly smudged — sweat on his palm the day he received it, or just the years.\n\nOne card, and the rooms of that time came up with it. Low lighting, big numbers, the things he had agreed not to ask about.\n\nWhat that time had left in his account — {name} did the tally, the card still in his hand. The tally didn't finish quickly.",
+    "description": "Clearing out a drawer, a single business card turned up. From the network days.\n\nThick stock. Paper heavy enough to feel between the fingertips. The ink was slightly smudged. Sweat on his palm the day he received it, or just the years.\n\nOne card, and the rooms of that time came up with it. Low lighting, big numbers, the things he had agreed not to ask about.\n\nWhat that time had left in his account, {name} tallied with the card still in his hand. The tally didn't finish quickly.",
     "description_if_known": {
       "sangchul_network_fully_cut": "Clearing out a drawer, a single business card turned up. The settling-up of one who had cut it off.\n\nSlower, but every line in the account, Minjun could explain.\n\nAn account holding only money whose source he knew — thin, but light.",
       "used_sangchul_knowingly": "Clearing out a drawer, a single business card turned up. The settling-up of one who had used it to the end.\n\nAmong the numbers stacked up fast, a few lines whose source he couldn't explain were mixed in.\n\nThose few lines didn't erase."

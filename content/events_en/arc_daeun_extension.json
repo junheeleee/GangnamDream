@@ -43,7 +43,7 @@
     "choices": [
       {
         "text": "\"That's great. When I get there, let's grab a cafe nearby.\" — happy for her",
-        "result_text": "\"That's wonderful. Find us a café near the office after your first day.\"\n\nHer reply came at once. \"I already found one. When you get here, that's our first stop. Promise.\" A map pin followed.\n\n{name} studied the saved location. On the map he had climbed alone, there was now a table where two people might sit. For the first time, Gangnam looked less like a target sum than the address of a promise."
+        "result_text": "\"That's wonderful. Find us a café near the office after your first day.\"\n\nHer reply came at once. \"I already found one. When you get here, that's our first stop. Promise.\" A map pin followed.\n\n{name} studied the saved location. On the map he had climbed alone, there was now a table where two people might sit."
       },
       {
         "text": "(First thought: she's going to get there before me)",
