@@ -877,6 +877,8 @@ W208 후속 CI 동기화: 실제 실패4(FIRST30/GAME_AUDIO_RUNTIME/MOD_LAYER/RE
 
 [~] W216 CI 모딩 생성 표 정렬 수리: 실제 `c5e3efd` CI44920750796의 단일 최종 실패에 대해 `docs/MODDING.md` 생성 표의 새 계단참 배경 행만 생성기 순서로 이동한다. 현황·오늘 일지·이 증거만 함께 소유. 사용자 828 머리말·다른 문서 변경, JSON/생성기/검사/제품 변경0. index의 정확한 생성 블록을 독립 재현하고 `generate_mod_manifest --check`와 모딩 감사로 확인한다.
 
+[x] 2026-11-22 생성 표 한정: `docs/MODDING.md`의 W216 배경 행을 scalping 뒤에서 sangchul_cafe_stairs 바로 뒤로 이동했다. index 문서 `63f42b25b69d8484cbc7271e0dfbed04fd0613a71a3a4011ab0179de86d4e587`는 현행 생성 결과와 byte 동일; 사용자의 `[정본]` 머리말은 미스테이징으로 보존. 이전 index에 같은 생성 함수를 적용해도 이 한 행 이동만 발생. `generate_mod_manifest --check` visuals321/audio145 및 모딩 감사 통과, JSON·검사기·제품 변경0. 독립 검수 `a1_test_tools`가 committed 실패 원인과 정확한 행 이동을 대조. 이전 실제 CI 실패는 보존하고 이후 전체 CI 결과는 별도. 새 규범0/일회성.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
