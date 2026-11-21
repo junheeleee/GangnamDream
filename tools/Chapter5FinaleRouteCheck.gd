@@ -66,6 +66,7 @@ func _ready() -> void:
 	_check_general_game_state_contract()
 	_check_general_w211_source_contract()
 	_check_general_w220_callbacks_to_v2_route()
+	_check_father_trace_receipt_audio_alignment()
 	if _failures.is_empty():
 		print(
 			"CHAPTER5_FINALE_ROUTE_CHECK_OK roots=11 active=9 "
@@ -79,7 +80,9 @@ func _ready() -> void:
 			+ "roots8-active6/choices17-active13-w237-w240-outbound-save-release "
 			+ "general-gate=assets2.5b-exact/stale-generic/source-tamper/"
 			+ "old-v1-closed/locked-durable "
-			+ "terminal-axes=profiles2/cases4/once-json/no-extra-wear")
+			+ "terminal-axes=profiles2/cases4/once-json/no-extra-wear "
+			+ "father-trace-audio=w221-contexts120/results360/"
+			+ "w224-contexts30/results60/kept-result-cues8")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -1285,6 +1288,213 @@ func _check_general_game_state_exclusions() -> void:
 		and str(GameState.chapter5_finale_entry_snapshot().get(
 			"father", {}).get("contact_mode", "")) == "records_only",
 		"non-bool father contact receipt was coerced into a witnessed contact")
+
+
+func _check_father_trace_receipt_audio_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var source_states: Array[Dictionary] = []
+	for meeting_choice in range(3):
+		source_states.append(_father_trace_source_state(meeting_choice))
+	var trace_contexts := 0
+	var trace_results := 0
+	var custody_contexts := 0
+	var custody_results := 0
+	var contacts: Array[String] = ["present", "called", "missed", "records_only"]
+	var homes: Array[String] = ["gosiwon", "oneroom", "apartment"]
+	var home_backgrounds: Array[String] = ["goshiwon_room", "apartment", "gangnam_apartment"]
+	var home_beds: Array[String] = ["room", "oneroom", "apartment"]
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		for life: String in ["alive", "passed"]:
+			var event_id: String = ALIVE_EVENTS[0] if life == "alive" else PASSED_EVENTS[0]
+			var inactive_id: String = PASSED_EVENTS[0] if life == "alive" else ALIVE_EVENTS[0]
+			var raw_event: Dictionary = DataRegistry.find_event(event_id)
+			for contact_index in range(contacts.size()):
+				for meeting_choice in range(3):
+					_seed_father_trace_entry(source_states[meeting_choice], life, contacts[contact_index])
+					GameState.housing = homes[meeting_choice]
+					var context := "%s W221 %s/%s/meeting%d" % [language, life, contacts[contact_index], meeting_choice]
+					_expect(GameState.chapter5_finale_next_event_for_turn() == event_id \
+						and GameState.chapter5_finale_ingress_available(event_id) \
+						and not GameState.chapter5_finale_ingress_available(inactive_id),
+						context + " did not retain the active father-life ingress")
+					var resolved: Dictionary = story.call("_chapter5_finale_event_with_reads", raw_event)
+					var rows: Array = (raw_event.get("chapter5_finale_reads", {}) as Dictionary).get("texts", [])
+					var expected_description := str((rows[0] as Array)[meeting_choice]) + "\n\n" \
+						+ str((rows[1] as Array)[contact_index]) + "\n\n" + str(raw_event.get("description", ""))
+					_expect(str(resolved.get("description", "")) == expected_description \
+						and _father_trace_source_indices(story, expected_description) == [0, 1, 2, 3] \
+						and str(resolved.get("background", "")) == "current_housing" \
+						and str(resolved.get("portrait", "")) == ("player_tired" if life == "alive" else "player_sad") \
+						and not resolved.has("cg"), context + " changed exact receipt assembly, portrait, or home")
+					_expect(str(story.call("_resolve_story_background_id", "current_housing")) == home_backgrounds[meeting_choice] \
+						and str(BGMPlayer.call("_resolve_dynamic_ambience_key", "current_housing")) == home_beds[meeting_choice],
+						context + " did not resolve the actual housing image and bed")
+					var choices: Array = resolved.get("choices", [])
+					_expect(choices.size() == 3, context + " lost its three authored choices")
+					if choices.size() != 3:
+						continue
+					var expected_result_counts: Array[int] = [2, 1, 2]
+					if life == "passed":
+						expected_result_counts[2] = 1
+					var result_sources: Array = []
+					for choice_index in range(choices.size()):
+						var indices := _father_trace_source_indices(story, str((choices[choice_index] as Dictionary).get("result_text", "")))
+						_expect(indices == ([0, 1] if expected_result_counts[choice_index] == 2 else [0]),
+							context + " changed result source counts for choice%d" % choice_index)
+						result_sources.append(indices)
+						trace_results += 1
+					var result_sounds: Array[String] = ["pen_write", "pen_write", "pen_write"]
+					if life == "passed":
+						result_sounds[2] = "paper_handle"
+					_assert_father_trace_audio(event_id, [0, 1, 2, 3], result_sources, result_sounds, context)
+					trace_contexts += 1
+			for trace_choice in range(3):
+				_seed_father_trace_entry(source_states[1], life, "records_only")
+				var committed: Dictionary = GameState.record_chapter5_finale_choice(event_id, trace_choice)
+				_expect(bool(committed.get("ok", false)), "%s W224 could not commit father trace%d" % [language, trace_choice])
+				GameState.turn = 224
+				var custody_id: String = ALIVE_EVENTS[1]
+				var context := "%s W224 %s/trace%d" % [language, life, trace_choice]
+				_expect(GameState.chapter5_finale_next_event_for_turn() == custody_id \
+					and GameState.chapter5_finale_ingress_available(custody_id), context + " lost its exact custody ingress")
+				var custody_raw: Dictionary = DataRegistry.find_event(custody_id)
+				var custody: Dictionary = story.call("_chapter5_finale_event_with_reads", custody_raw)
+				var rows: Array = (custody_raw.get("chapter5_finale_reads", {}) as Dictionary).get("texts", [])
+				var expected_description := str((rows[0] as Array)[trace_choice]) + "\n\n" + str(custody_raw.get("description", ""))
+				_expect(str(custody.get("description", "")) == expected_description \
+					and _father_trace_source_indices(story, expected_description) == [0, 1, 2] \
+					and str(custody.get("background", "")) == "convenience_rear_comparison" \
+					and str(custody.get("portrait", "")) == "player_tired" and not custody.has("cg"),
+					context + " changed its exact prefix, comparison background, or portrait")
+				var choices: Array = custody.get("choices", [])
+				_expect(choices.size() == 2, context + " lost its two custody choices")
+				if choices.size() != 2:
+					continue
+				var result_sources: Array = []
+				for choice_index in range(choices.size()):
+					var indices := _father_trace_source_indices(story, str((choices[choice_index] as Dictionary).get("result_text", "")))
+					_expect(indices == ([0, 1] if choice_index == 0 else [0]),
+						context + " changed result sources for custody choice%d" % choice_index)
+					result_sources.append(indices)
+					custody_results += 1
+				_assert_father_trace_audio(custody_id, [0, 1, 2], result_sources, ["paper_handle", "paper_handle"], context)
+				custody_contexts += 1
+	_expect(trace_contexts == 120 and trace_results == 360 \
+		and custody_contexts == 30 and custody_results == 60,
+		"father trace audio did not cover exact W221 120/360 and W224 30/60 contexts/results")
+	_expect(_same(BGMPlayer.scene_audio_contract(ALIVE_EVENTS[0]), {
+		"ambience": "current_housing", "suppress_music": true,
+		"result_paragraph_cues": {
+			"0": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]},
+			"1": {"0": [{"sfx": "pen_write", "volume_db": -8.0}]},
+			"2": {"0": [{"sfx": "pen_write", "volume_db": -10.0}]},
+		},
+	}), "W221 alive changed its room, silence, or three exact result cues")
+	_expect(_same(BGMPlayer.scene_audio_contract(PASSED_EVENTS[0]), {
+		"ambience": "current_housing", "music": {"key": "grief", "start_paragraph": 1.0},
+		"result_paragraph_cues": {
+			"0": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]},
+			"1": {"0": [{"sfx": "pen_write", "volume_db": -10.0}]},
+			"2": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+		},
+	}), "W221 passed changed its room, grief entrance, or three exact result cues")
+	_expect(_same(BGMPlayer.scene_audio_contract(ALIVE_EVENTS[1]), {
+		"ambience": "intentional_silence", "music": {"key": "reckoning", "start_paragraph": 1.0},
+		"result_paragraph_cues": {
+			"0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
+			"1": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
+		},
+	}), "W224 changed intentional silence, score entrance, or two exact result cues")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _father_trace_source_state(meeting_choice: int) -> Dictionary:
+	var locked: Dictionary = CAUSAL_ROUTE.lock_entry(
+		CAUSAL_ROUTE.default_state(), 195, "투자형", true, true, 2_000_000_000.0)
+	var state: Dictionary = (locked.get("state", {}) as Dictionary).duplicate(true)
+	var committed := 0
+	for turn in range(195, 221):
+		for same_turn_index in range(3):
+			var event_id: String = CAUSAL_ROUTE.next_event_for_turn(state, turn)
+			if event_id.is_empty():
+				break
+			var choice_index := meeting_choice if event_id == "arc_y5_three_in_room_decision" else 0
+			var result: Dictionary = CAUSAL_ROUTE.commit_choice(state, event_id, choice_index, turn)
+			_expect(bool(result.get("ok", false)), "father audio source could not commit %s" % event_id)
+			if not bool(result.get("ok", false)):
+				return state
+			state = (result.get("state", state) as Dictionary).duplicate(true)
+			committed += 1
+			_expect(same_turn_index < 2, "father audio source exposed more than three same-turn roots")
+	_expect(CAUSAL_ROUTE.route_complete(state) and committed == (19 if meeting_choice == 1 else 18) \
+		and CAUSAL_ROUTE.selected_choice(state, "arc_y5_three_in_room_decision") == meeting_choice \
+		and CAUSAL_ROUTE.receipt_snapshot(state, "arc_y5_room_consent_receipt").is_empty() == (meeting_choice != 1),
+		"father audio source lost W219's exact choice or conditional W220 receipt")
+	return state
+
+
+func _seed_father_trace_entry(source: Dictionary, life: String, contact_mode: String) -> void:
+	GameState.start_new_game()
+	GameState.chapter5_causal_state = source.duplicate(true)
+	if life == "passed":
+		GameState.flags["father_passed"] = true
+	if contact_mode != "records_only":
+		GameState.flags["father_crisis_contact_" + contact_mode] = true
+	GameState.turn = 221
+	_expect(GameState.prepare_chapter5_finale_route_entry(), "father audio could not prepare its real wrapper entry")
+	var entry: Dictionary = GameState.chapter5_finale_entry_snapshot()
+	_expect(_same(entry.get("father", {}), {"life": life, "contact_mode": contact_mode}) \
+		and _same(entry.get("source_choices", {}), {
+			"m55_decision": CAUSAL_ROUTE.selected_choice(source, "arc_y5_three_in_room_decision"),
+			"w212_guarantee": 0, "w215_final_door": 0,
+		}), "father audio entry rewrote exact life, contact, or predecessor choices")
+
+
+func _father_trace_source_indices(story: Node, text: String) -> Array[int]:
+	var page_data: Dictionary = story.call("_story_page_data", text)
+	var indices: Array[int] = []
+	for raw_index in page_data.get("source_indices", []):
+		var source_index := int(raw_index)
+		if source_index not in indices:
+			indices.append(source_index)
+	return indices
+
+
+func _assert_father_trace_audio(
+		event_id: String, sources: Array[int], result_sources: Array,
+		result_sounds: Array[String], context: String) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var tracked: Array[String] = ["phone_notification", "page_turn", "paper_handle", "cup_set", "register_scan", "traffic_pass", "pen_write", "door_latch"]
+	var last_play: Dictionary = {}
+	for sound_id: String in tracked:
+		last_play[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)
+	AudioManager.begin_story_audio_event(event_id)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(event_id, "", source_index)
+	var expected: Array[String] = []
+	for choice_index in range(result_sources.size()):
+		expected.append("%s::result:%d:0:0:%s" % [event_id, choice_index, result_sounds[choice_index]])
+		for raw_index in result_sources[choice_index] as Array:
+			AudioManager.play_scene_result_paragraph_cues(event_id, "", choice_index, int(raw_index))
+	_expect(AudioManager._story_audio_seen.keys() == expected,
+		"%s dispatched wrong cues: %s (expected %s)" % [context, JSON.stringify(AudioManager._story_audio_seen), JSON.stringify(expected)])
+	for sound_id: String in tracked:
+		if sound_id not in result_sounds:
+			_expect(AudioManager._last_sfx_ms.get(sound_id, -1) == last_play[sound_id], context + " played forbidden " + sound_id)
+	var seen: Dictionary = AudioManager._story_audio_seen.duplicate(true)
+	var timestamps: Dictionary = AudioManager._last_sfx_ms.duplicate(true)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(event_id, "", source_index)
+	for choice_index in range(result_sources.size()):
+		for raw_index in result_sources[choice_index] as Array:
+			AudioManager.play_scene_result_paragraph_cues(event_id, "", choice_index, int(raw_index))
+	_expect(_same(AudioManager._story_audio_seen, seen) and _same(AudioManager._last_sfx_ms, timestamps), context + " replayed cues on a repeated paragraph bind")
+	_expect(_same(GameState.serialize(), before), context + " audio rewrote game state, life/contact, or predecessor receipts")
 
 
 func _complete_source_route_state() -> Dictionary:

@@ -787,7 +787,6 @@
     "arc_y5_father_trace_alive_exact": {
       "ambience": "current_housing",
       "suppress_music": true,
-      "paragraph_cues": {"0": [{"sfx": "page_turn", "volume_db": -8.0}]},
       "result_paragraph_cues": {
         "0": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]},
         "1": {"0": [{"sfx": "pen_write", "volume_db": -8.0}]},
@@ -797,7 +796,6 @@
     "arc_y5_father_trace_passed_exact": {
       "ambience": "current_housing",
       "music": {"key": "grief", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "page_turn", "volume_db": -8.0}]},
       "result_paragraph_cues": {
         "0": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]},
         "1": {"0": [{"sfx": "pen_write", "volume_db": -10.0}]},
@@ -807,7 +805,6 @@
     "arc_y5_father_trace_custody": {
       "ambience": "intentional_silence",
       "music": {"key": "reckoning", "start_paragraph": 1},
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
       "result_paragraph_cues": {
         "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
         "1": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]}

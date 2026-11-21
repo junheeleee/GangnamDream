@@ -76,7 +76,6 @@ W224_CUSTODY_EVENT = "arc_y5_father_trace_custody"
 W224_CUSTODY_AUDIO = {
     "ambience": "intentional_silence",
     "music": {"key": "reckoning", "start_paragraph": 1},
-    "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
     "result_paragraph_cues": {
         "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
         "1": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
@@ -436,7 +435,7 @@ def main() -> int:
                 errors.append(f"{owner}: only the score and actual paper handling belong on the empty landing")
         elif owner == W224_CUSTODY_EVENT:
             if contract != W224_CUSTODY_AUDIO:
-                errors.append(f"{owner}: the rear table must stay free of checkout ambience and retain its paper and score")
+                errors.append(f"{owner}: keep the rear table free of checkout ambience, with paper only on the two results and the exact score")
         elif owner == W227_INTAKE_EVENT:
             if contract != W227_INTAKE_AUDIO:
                 errors.append(f"{owner}: no borrowed office ambience, only the authored score and exact result cues")
