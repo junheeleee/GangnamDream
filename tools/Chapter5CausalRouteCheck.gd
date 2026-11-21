@@ -132,6 +132,7 @@ func _ready() -> void:
 	_check_localized_causal_reads()
 	_check_opening_receipt_audio_alignment()
 	_check_w217_receipt_audio_alignment()
+	_check_w219_decision_audio_alignment()
 	_check_canonical_read_surface_close()
 	_check_owned_variant_loop_breakers()
 	if _failures.is_empty():
@@ -146,6 +147,7 @@ func _ready() -> void:
 			+ "w211_w212_audio=20_no_wrong_one_shots "
 			+ "w215_audio=15_paper_only "
 			+ "w217_audio=45_receipts/135_results "
+			+ "w219_audio=15_receipts/45_results "
 			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
@@ -1197,6 +1199,67 @@ func _check_w217_receipt_audio_alignment() -> void:
 	_expect(presentation.get("participants", []) == ["player", "sangchul", "jaehyuk", "daeun"] \
 		and presentation.get("scene_location", "") == "meeting" \
 		and presentation.get("portrait_role", "") == "none", "W217 changed its four-person/no-portrait presentation")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _check_w219_decision_audio_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var event_id := ROOT_IDS[17]
+	var cg_id := "cg_y5_three_in_room"
+	var contexts := 0
+	var results := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		var raw_event: Dictionary = DataRegistry.find_event(event_id)
+		var reads: Dictionary = raw_event.get("chapter5_causal_reads", {})
+		var rows: Array = reads.get("texts", [])
+		_expect(rows.size() == 1 and (rows[0] as Array).size() == 3,
+			"%s W219 lost its three W217 receipt alternatives" % language)
+		if rows.size() != 1 or (rows[0] as Array).size() != 3:
+			continue
+		for meeting_choice in range(3):
+			var state := _state_before_target(17, {ROOT_IDS[16]: meeting_choice})
+			_expect(ROUTE.next_event_for_turn(state, 219) == event_id \
+				and ROUTE.selected_choice(state, ROOT_IDS[16]) == meeting_choice,
+				"%s W219 fixture did not read its actual W217 receipt" % language)
+			GameState.chapter5_causal_state = state.duplicate(true)
+			var resolved: Dictionary = story.call("_chapter5_causal_event_with_reads", raw_event)
+			var description := str(resolved.get("description", ""))
+			var sources := description.split("\n\n")
+			var source_indices := _rendered_source_indices(story, description)
+			_expect(not resolved.is_empty() and description == _expected_read_description(raw_event, state) \
+				and sources.size() == 5 and source_indices == [0, 1, 2, 3, 4] \
+				and sources[0] == str((rows[0] as Array)[meeting_choice]).strip_edges() \
+				and str(resolved.get("background", "")) == "meeting" \
+				and str(resolved.get("portrait", "")).is_empty() and str(resolved.get("cg", "")) == cg_id \
+				and _same(resolved.get("choices", []), raw_event.get("choices", [])),
+				"%s W219 receipt%d changed its selected prefix, five sources or ensemble choices" % [language, meeting_choice])
+			var choices: Array = resolved.get("choices", [])
+			var result_sources: Array = []
+			_expect(choices.size() == 3, "%s W219 lost its three authored choices" % language)
+			for choice_index in range(choices.size()):
+				var indices := _rendered_source_indices(story, str((choices[choice_index] as Dictionary).get("result_text", "")))
+				_expect(indices == ([0, 1] if choice_index == 1 else [0, 1, 2]),
+					"%s W219 choice%d changed its authored result source indices" % [language, choice_index])
+				result_sources.append(indices)
+				results += 1
+			var before_audio: Dictionary = GameState.serialize().duplicate(true)
+			_assert_no_opening_audio_cues(event_id, source_indices,
+				"%s W219 meeting%d" % [language, meeting_choice], result_sources, cg_id)
+			_expect(_same(GameState.serialize(), before_audio), "W219 audio mutated game state or its predecessor ledger")
+			contexts += 1
+	_expect(contexts == 15 and results == 45, "W219 did not cover 5 locales × 3 receipts and all three results")
+	_expect(_same(BGMPlayer.scene_audio_contract(event_id, cg_id), {
+		"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 0.0},
+	}), "W219 retained mismatched paper/pencil sounds or changed its room/score entrance")
+	var presentation := DataRegistry.get_story_presentation(event_id)
+	_expect(presentation.get("participants", []) == ["player", "sangchul", "jaehyuk", "daeun"] \
+		and presentation.get("scene_location", "") == "meeting" \
+		and presentation.get("portrait_role", "") == "none", "W219 changed its four-person/no-portrait presentation")
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
 	story.free()

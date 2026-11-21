@@ -777,12 +777,7 @@
     },
     "arc_y5_three_in_room_decision": {
       "ambience": "office",
-      "music": {"key": "reckoning", "start_paragraph": 0},
-      "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
-        "1": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
-        "2": {"0": [{"sfx": "pen_write", "volume_db": -6.0}]}
-      }
+      "music": {"key": "reckoning", "start_paragraph": 0}
     },
     "arc_y5_room_consent_receipt": {
       "ambience": "office",
