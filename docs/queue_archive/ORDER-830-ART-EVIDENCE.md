@@ -905,6 +905,8 @@ W208 후속 CI 동기화: 실제 실패4(FIRST30/GAME_AUDIO_RUNTIME/MOD_LAYER/RE
 
 [x] W224 exact 검사 수리: 기존 정적 원장이 잘못된 도입0의 종이음을 필수로 요구해 그 행만 현재 동작과 정합, ‘결과에만 종이’라는 오류 설명을 붙였다. 최종 검사기 `759fea1208f19c35498c72d3e305fc394130c31d0b5fceb28f6d6753e31d4559`. strict 전체 dict 비교·무환경음/곡source1·두 결과/음량·다른 검사/정책 불변을 독립 역복원으로 확인. 실제 전체 main() 메모리 실행에서 baseline 통과 및9반례(도입0/1/2, 결과0 삭제·음량/재질 변경, 계산대 환경음, 곡/진입 시점 변경) 모두 W224 오류로 거부, 파일 쓰기0; 루트와 `w211_asset_recon` 독립 재실행 일치. 오디오 계약/카탈로그·종막/일반종막·시각·EN/한글·보호 데모5언어·정본/큐 통과. 새 규범0/일회성. 실제 종이 꺼냄/추가음원·소품/동석 연출·실화면·연속 청취와 새 main 전체 CI는 남는다.
 
+[~] W227 볼펜 원음 후보: 공식 Freesound 499189(16F_Panska_TisonD, ballpoint on paper, CC0)과 대안461806의 공개 출처/라이선스·실제 미디어를 확인한다. 이 증거 외 tracked 변경0, 원음/가공 후보는 새 프로젝트 외부 임시 폴더에만 두고 입력·출력 hash와 실제 샘플 편집을 남긴다. 로그인/인증 우회·구매0. 원래 파란 볼펜 그림과 c0 서류음·실제 연필 장면은 보존하며, 원음 검수 뒤 제품 키/두 필기 시점·복원 검사를 별도 선언한다. 이 단계는 청취/제품 통합 완료가 아니다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
