@@ -133,6 +133,7 @@ func _ready() -> void:
 	_check_opening_receipt_audio_alignment()
 	_check_w217_receipt_audio_alignment()
 	_check_w219_decision_audio_alignment()
+	_check_w220_copy_count_audio_alignment()
 	_check_canonical_read_surface_close()
 	_check_owned_variant_loop_breakers()
 	if _failures.is_empty():
@@ -148,6 +149,7 @@ func _ready() -> void:
 			+ "w215_audio=15_paper_only "
 			+ "w217_audio=45_receipts/135_results "
 			+ "w219_audio=15_receipts/45_results "
+			+ "w220_audio=5_paper_source2/10_skips "
 			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
@@ -1260,6 +1262,69 @@ func _check_w219_decision_audio_alignment() -> void:
 	_expect(presentation.get("participants", []) == ["player", "sangchul", "jaehyuk", "daeun"] \
 		and presentation.get("scene_location", "") == "meeting" \
 		and presentation.get("portrait_role", "") == "none", "W219 changed its four-person/no-portrait presentation")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _check_w220_copy_count_audio_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var event_id := ROOT_IDS[18]
+	var admitted := 0
+	var skipped := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		var raw_event: Dictionary = DataRegistry.find_event(event_id)
+		for room_choice in range(3):
+			var state := _state_before_target(18, {ROOT_IDS[17]: room_choice})
+			var should_open := room_choice == 1
+			_expect(ROUTE.selected_choice(state, ROOT_IDS[17]) == room_choice \
+				and ROUTE.next_event_for_turn(state, 220) == (event_id if should_open else "") \
+				and ROUTE.ingress_available(state, event_id, 220) == should_open,
+				"%s W220 admitted or lost the handwritten consent after W219 choice%d" % [language, room_choice])
+			if not should_open:
+				skipped += 1
+				continue
+			GameState.chapter5_causal_state = state.duplicate(true)
+			var resolved: Dictionary = story.call("_chapter5_causal_event_with_reads", raw_event)
+			var description := str(resolved.get("description", ""))
+			var source_indices := _rendered_source_indices(story, description)
+			var choices: Array = resolved.get("choices", [])
+			_expect(not raw_event.has("chapter5_causal_reads") and _same(resolved, raw_event) \
+				and source_indices == [0, 1, 2] and description.split("\n\n").size() == 3 \
+				and str(resolved.get("background", "")) == "meeting" \
+				and str(resolved.get("portrait", "")).is_empty() and not resolved.has("cg") \
+				and choices.size() == 1,
+				"%s W220 changed its raw three-source/no-CG/single-choice surface or invented a prefix" % language)
+			if choices.size() != 1:
+				continue
+			var result_indices := _rendered_source_indices(story, str((choices[0] as Dictionary).get("result_text", "")))
+			_expect(result_indices == [0, 1], "%s W220 changed its two authored result sources" % language)
+			var before_audio: Dictionary = GameState.serialize().duplicate(true)
+			_assert_story_audio_cues(event_id, source_indices, "%s W220 copy counts" % language,
+				[result_indices], [event_id + "::description:2:0:paper_handle"], ["paper_handle"])
+			var played_at: Variant = AudioManager._last_sfx_ms.get("paper_handle", -1)
+			var seen: Dictionary = AudioManager._story_audio_seen.duplicate(true)
+			for source_index in source_indices:
+				AudioManager.play_scene_paragraph_cues(event_id, "", source_index)
+			for source_index in result_indices:
+				AudioManager.play_scene_result_paragraph_cues(event_id, "", 0, source_index)
+			_expect(_same(AudioManager._story_audio_seen, seen) \
+				and AudioManager._last_sfx_ms.get("paper_handle", -1) == played_at,
+				"%s W220 repeated its copy-count sound on a second paragraph bind" % language)
+			_expect(_same(GameState.serialize(), before_audio), "W220 audio mutated game state or its predecessor ledger")
+			admitted += 1
+	_expect(admitted == 5 and skipped == 10, "W220 did not check all 15 locale/decision gates and five actual copy-count paths")
+	_expect(_same(BGMPlayer.scene_audio_contract(event_id), {
+		"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 0.0},
+		"paragraph_cues": {"2": [{"sfx": "paper_handle", "volume_db": -6.0}]},
+	}), "W220 lost its source2 copy-count cue or changed its room/score/volume")
+	var presentation := DataRegistry.get_story_presentation(event_id)
+	_expect(presentation.get("participants", []) == ["player", "sangchul", "jaehyuk", "daeun"] \
+		and presentation.get("scene_location", "") == "meeting" \
+		and presentation.get("portrait_role", "") == "none", "W220 changed its four-person/no-portrait presentation")
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
 	story.free()

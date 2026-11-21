@@ -782,7 +782,7 @@
     "arc_y5_room_consent_receipt": {
       "ambience": "office",
       "music": {"key": "reckoning", "start_paragraph": 0},
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]}
+      "paragraph_cues": {"2": [{"sfx": "paper_handle", "volume_db": -6.0}]}
     },
     "arc_y5_father_trace_alive_exact": {
       "ambience": "current_housing",

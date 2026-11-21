@@ -203,6 +203,8 @@ const W208_TRACKED_SFX := ["document_scan", "register_scan", "page_turn", "paper
 const W215_OLD_OFFICE := "arc_sangchul_final_door"
 const W216_REVIEW := "arc_y5_sangchul_review_receipt"
 const W216_LANDING := "sangchul_old_office_landing_w216"
+const W219_MEETING_DECISION := "arc_y5_three_in_room_decision"
+const W220_CONSENT_RECEIPT := "arc_y5_room_consent_receipt"
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -530,6 +532,8 @@ var _w112_capture_dir := ""
 var _w117_capture_dir := ""
 var _w216_cold_restored := false
 var _w216_cold_count := 0
+var _w220_receipt_cold_count := 0
+var _w220_receipt_paper_expected := false
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -552,6 +556,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W220_RECEIPT_CHECK"):
+		var receipt_ok: bool = await _check_w220_receipt()
+		await _remove_story()
+		await _stop_audio()
+		if receipt_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w220_receipt")
+		get_tree().quit(0 if receipt_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W216_LANDING_CHECK"):
 		var landing_ok := await _check_w216_landing()
 		await _remove_story()
@@ -4158,6 +4170,211 @@ func _check_w208_document_scan() -> bool:
 		_fail("W208 fixture population drifted paths=%d natural=%d skip=%d v4=%d reflow=%d" % [
 			paths, natural_cues, skip_cues, cold_restores, text_reflows])
 	return counts_ok
+
+func _check_w220_receipt() -> bool:
+	var paths: int = 0
+	var skips: int = 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice: int in ([0, 1, 2] if language == "ko" else [1]):
+			if not await _w220_receipt_route(language, choice):
+				return false
+			if choice != 1:
+				skips += 1
+				continue
+			var current: Dictionary = _story.get("_current")
+			var choices: Array = current.get("choices", [])
+			if choices.size() != 1 or current.has("chapter5_causal_reads") \
+					or not await _w220_receipt_read(false, 3, str(current.get("description", ""))):
+				_fail("W220 lost its three unprefixed description sources")
+				return false
+			_story.call("_on_advance")
+			await _wait_stable()
+			if bool(_story.get("_showing_choices")) or int(_story.get("_pending_result_choice_index")) != 0 \
+					or not await _w220_receipt_read(true, 2, str((choices[0] as Dictionary).get("result_text", ""))) \
+					or GameState.chapter5_causal_selected_choice(W220_CONSENT_RECEIPT) != 0:
+				_fail("W220 lost its single direct-progress result or exact receipt")
+				return false
+			paths += 1
+	if paths != 5 or skips != 2 or _w220_receipt_cold_count != 15:
+		_fail("W220 fixture population drifted paths=%d skips=%d v4=%d" % [paths, skips, _w220_receipt_cold_count])
+		return false
+	if _failures != 0:
+		return false
+	print("W220_RECEIPT_OK paths=%d skips=%d paper=5 reentry=5 v4=%d" % [paths, skips, _w220_receipt_cold_count])
+	return true
+
+func _w220_receipt_route(language: String, choice: int) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W220/W219-c%d" % [language, choice]
+	_w220_receipt_paper_expected = false
+	GameState.returning_from_story = false
+	LocaleManager.set_language(language)
+	if not _prepare_full_owner_history(219, []):
+		return false
+	GameState.money = 2_100_000_000.0
+	GameState.housing = "oneroom"
+	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(CHAPTER5_ROUTE.default_state(),
+		195, "투자형", true, true, GameState.get_total_asset_value())
+	if not bool(locked.get("ok", false)):
+		_fail("W220 could not lock the actual Chapter 5 route")
+		return false
+	var state: Dictionary = locked["state"]
+	for index: int in range(CHAPTER5_ROUTE.OWNED_EVENT_IDS.find(W219_MEETING_DECISION)):
+		var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(state,
+			CHAPTER5_ROUTE.OWNED_EVENT_IDS[index], 0, CHAPTER5_ROUTE.OWNED_TURNS[index])
+		if not bool(committed.get("ok", false)):
+			_fail("W220 could not bind predecessor index%d" % index)
+			return false
+		state = committed["state"]
+	GameState.chapter5_causal_state = state
+	if not await _w216_open_owned_root(W219_MEETING_DECISION) \
+			or not await _w220_receipt_finish_predecessor(false):
+		return false
+	_story.call("_on_advance")
+	await _wait_stable()
+	if not bool(_story.get("_showing_choices")):
+		_fail("W220 predecessor lost its three choices")
+		return false
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	if GameState.chapter5_causal_selected_choice(W219_MEETING_DECISION) != choice \
+			or not await _w220_receipt_finish_predecessor(true):
+		return false
+	_story.call("_on_advance")
+	await _wait_stable()
+	if not FULL_STORY_FLOW.ready_to_advance() or not FULL_STORY_FLOW.apply_background_for_turn(219):
+		_fail("W220 predecessor did not close its actual FullStoryFlow result")
+		return false
+	GameState.advance_calendar()
+	if GameState.turn != 220 or not FULL_STORY_FLOW.complete_turn(219):
+		_fail("W220 exact calendar advance failed")
+		return false
+	await _remove_story()
+	var expected_id: String = W220_CONSENT_RECEIPT if choice == 1 else ""
+	if GameState.chapter5_causal_next_event_for_turn() != expected_id \
+			or GameState.chapter5_causal_ingress_available(W220_CONSENT_RECEIPT) != (choice == 1):
+		_fail("W220 admission did not read the actual W219 choice")
+		return false
+	if choice != 1:
+		return true
+	_w197_clear_paper()
+	return await _w216_open_owned_root(W220_CONSENT_RECEIPT)
+
+func _w220_receipt_finish_predecessor(result: bool) -> bool:
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	if pages.is_empty():
+		_fail("W220 predecessor has no readable pages")
+		return false
+	for page: int in range(pages.size()):
+		await _finish_page()
+		var image: TextureRect = _story.get("_bg_img")
+		if int(_story.get("_para_index")) != page or bool(_story.get("_pending_after_result")) != result \
+				or str((_story.get("_current") as Dictionary).get("id", "")) != W219_MEETING_DECISION \
+				or image.texture == null or image.texture.resource_path != ImageRegistry.get_cg("cg_y5_three_in_room") \
+				or str(BGMPlayer.get("_current_ambience_key")) != "office":
+			_fail("W220 predecessor changed its real pages, ensemble CG or office")
+			return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	return true
+
+func _w220_receipt_read(result: bool, source_count: int, prose: String) -> bool:
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var applied: Dictionary = _w196_applied_state()
+	var label: String = "result" if result else "prose"
+	if pages.is_empty() or int(_story.call("_story_source_paragraph_count")) != source_count \
+			or not _m23_same_prose(pages, str(_story.call("_fmt", prose))):
+		_fail("W220 changed its authored %s prose or source count" % label)
+		return false
+	var probed_before: bool = false
+	var probed_after: bool = false
+	for page: int in range(pages.size()):
+		await _finish_page()
+		var source: int = int(_story.call("_story_source_paragraph_index", page))
+		if not result and source == 2 and not probed_after:
+			_w220_receipt_paper_expected = true
+			var last_paper: int = int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+			_story.call("_play_current_paragraph_audio", 2)
+			_story.call("_play_current_paragraph_audio", 2)
+			if last_paper < 0 or int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != last_paper:
+				_fail("W220 source2 repeated or failed to play its physical paper handling")
+		if int(_story.get("_para_index")) != page or bool(_story.get("_pending_after_result")) != result \
+				or not _w196_state_matches(applied, "W220 " + label) or not _w220_receipt_surface(label):
+			return false
+		var last_in_source: bool = page + 1 == pages.size() \
+			or int(_story.call("_story_source_paragraph_index", page + 1)) != source
+		if not result and source == 1 and last_in_source and not probed_before:
+			if not await _w220_receipt_cold(false, "before_paper"):
+				return false
+			probed_before = true
+		if not result and source == 2 and not probed_after:
+			if not await _w220_receipt_cold(false, "after_paper"):
+				return false
+			probed_after = true
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	if result:
+		return await _w220_receipt_cold(true, "result")
+	return probed_before and probed_after
+
+func _w220_receipt_surface(label: String) -> bool:
+	var portrait: TextureRect = _story.get("_portrait")
+	if not _expect_surface("meeting", "office", "W220 " + label) \
+			or not str(_story.get("_event_cg_id")).is_empty() \
+			or not str(_story.call("_resolved_story_surface_portrait_id")).is_empty() \
+			or portrait.texture != null or (_story.get("_portrait_frame") as Control).visible:
+		_fail("W220 lost its meeting room or added an ensemble image/portrait")
+		return false
+	var expected_tokens: Array = [W220_CONSENT_RECEIPT + "::description:2:0:paper_handle"] \
+		if _w220_receipt_paper_expected else []
+	if AudioManager._story_audio_seen.keys() != expected_tokens \
+			or AudioManager._last_sfx_ms.has("paper_handle") != _w220_receipt_paper_expected:
+		_fail("W220 %s changed its paper timing/count: %s" % [label, AudioManager._story_audio_seen.keys()])
+	if not _w216_score_playing():
+		_fail("W220 %s lost its actual reckoning playback" % label)
+	return true
+
+func _w220_receipt_cold(result: bool, boundary: String) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var applied: Dictionary = _w196_applied_state()
+	var phase: String = "result" if result else "prose"
+	if context.get("event_id") != W220_CONSENT_RECEIPT or context.get("phase") != phase \
+			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail("W220 could not save its live " + boundary)
+		return false
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int((disk as Dictionary).get("version", -1)) != 4:
+		_fail("W220 lost its actual v4 disk format")
+		return false
+	await _remove_story()
+	_w197_clear_paper()
+	GameState.start_new_game()
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("W220 could not load its live " + boundary)
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	await get_tree().create_timer(0.85).timeout
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	if restored.get("event_id") != W220_CONSENT_RECEIPT or restored.get("phase") != phase \
+			or restored.get("source_paragraph_index") != context.get("source_paragraph_index") \
+			or not is_equal_approx(float(restored.get("source_text_progress", -1.0)), float(context.get("source_text_progress", -2.0))) \
+			or not _w196_state_matches(applied, "W220 cold " + boundary):
+		_fail("W220 cold %s changed source progress, choice effects or its real receipt" % boundary)
+		return false
+	_w220_receipt_paper_expected = false
+	if not _w220_receipt_surface("cold " + boundary):
+		return false
+	_w220_receipt_cold_count += 1
+	print("W220_COLD_BOUNDARY_PROBED locale=%s boundary=%s source=%s" % [
+		LocaleManager.language, boundary, restored.get("source_paragraph_index")])
+	return true
 
 func _check_w216_landing() -> bool:
 	var capture_dir := OS.get_environment("GANGNAM_W216_CAPTURE_DIR")

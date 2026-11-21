@@ -125,6 +125,7 @@ const W207_DAEUN_PAGE_TURN := preload("res://assets/w207_daeun_page_turn.tres")
 const W208_REFERENCE_DELIVERY := "arc_y5_final_offer_reference_delivery"
 const W208_DOCUMENT_SCAN := preload("res://assets/w208_document_scan.tres")
 const W216_REVIEW := "arc_y5_sangchul_review_receipt"
+const W220_CONSENT_RECEIPT := "arc_y5_room_consent_receipt"
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -2855,6 +2856,12 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		# The papers were opened before this save. Restore the score, not the
 		# live source0 handling cue, even when resuming another prose page.
 		# Retire the prior screen's idle fade before reconstructing playback.
+		BGMPlayer.enter_ambient_bed(0.0)
+		BGMPlayer.play_scene_paragraph_music(_current, "", 0)
+	elif str(_current.get("id", "")) == W220_CONSENT_RECEIPT:
+		# Loading a page is not a new paper action. A later live arrival at
+		# source2 still owns its cue when the saved page was before it.
+		# Finish the old screen's idle fade before restoring the held score.
 		BGMPlayer.enter_ambient_bed(0.0)
 		BGMPlayer.play_scene_paragraph_music(_current, "", 0)
 	elif str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
@@ -5903,7 +5910,7 @@ func _render_current():
 		_apply_w117_counter_surface(false, true)
 	if _pending_restore_context.is_empty() \
 			or (not _full_w19_reunion \
-				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW]):
+				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW, W220_CONSENT_RECEIPT]):
 		_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 
