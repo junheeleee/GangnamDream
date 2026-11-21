@@ -861,6 +861,8 @@ W174 후보 보류: `cee17ae23f5ca98832a5e84641f2a7bb879f87df5f949b825dfc00c1dda
 
 [~] 2026-11-22 W216 중단 지점 재개·원장 결속: 새 Claude #43의 동일 파일은 텍스트 교열이며 이 작업은 W216 표시 두 필드만 소유. `content/meta/release_content_inventory.json`의 crime 후보 내용 지문은 배경/초상 두 값 역복원으로 이전 지문이 정확히 돌아오는지 검증 후 갱신하며 축·강도·분류·공개 RC는 불변. 이전 W208 실녹음142를 누락한 `corpus_contract.audio_source_assets`와 생성 보고 한 줄도 동기화. 실제 main `0e0126d`/run43673658585 엔진 잡 실패의 FIRST30(고지141 고정)·GAME_AUDIO_RUNTIME(물리음33 고정)·MOD_LAYER·RELEASE_CONTENT를 별도 증거로 보존하고 `tools/{First30SecondsCheck,GameAudioContractCheck}.gd`의 기대 수와 새 음원 exact 결속을 보완한다. 기존 검증을 제거·완화하지 않으며 새 scanner 빠짐/경로 교체를 실패로 유지. 실제 저장·활성 앱 미조작.
 
+[~] W216 정상 재개 중복음 수리: 실제 격리 v4 source2 저장 재개 `yllp7kc8`에서 도입 종이음 재생을 확인. `scenes/StoryMode.gd`의 W216 한정 복원 시작과 source0 도입 분기만 소유하여 과거 종이음을 다시 요청하지 않고 현재 곡/장소는 유지한다. 기존 장면·본문·쪽/선택·save schema 불변. 오늘 작업 기록 여백을 위해 `docs/WORK_LOG.md`의 10-31 캡슐 완료 단락을 기존 `docs/history/WORK_LOG_2026-10-31_order737_checkpoint.md`에 원문 그대로 옮긴다. 사용자 머리말·정렬과 다른 기록 변경0.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
