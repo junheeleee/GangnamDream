@@ -773,11 +773,7 @@
     },
     "arc_y5_three_in_room": {
       "ambience": "office",
-      "music": {"key": "reckoning", "start_paragraph": 2},
-      "paragraph_cues": {
-        "0": [{"sfx": "paper_handle", "volume_db": -7.0}],
-        "1": [{"sfx": "cup_set", "volume_db": -8.0}]
-      }
+      "music": {"key": "reckoning", "start_paragraph": 2}
     },
     "arc_y5_three_in_room_decision": {
       "ambience": "office",

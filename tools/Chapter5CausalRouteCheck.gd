@@ -131,6 +131,7 @@ func _ready() -> void:
 	_check_game_state_save_and_effect_isolation()
 	_check_localized_causal_reads()
 	_check_opening_receipt_audio_alignment()
+	_check_w217_receipt_audio_alignment()
 	_check_canonical_read_surface_close()
 	_check_owned_variant_loop_breakers()
 	if _failures.is_empty():
@@ -144,6 +145,7 @@ func _ready() -> void:
 			+ "w209_w210_audio=25_no_wrong_one_shots "
 			+ "w211_w212_audio=20_no_wrong_one_shots "
 			+ "w215_audio=15_paper_only "
+			+ "w217_audio=45_receipts/135_results "
 			+ "optional=skip gallery=state_free close=canonical "
 			+ "variant=closed")
 		get_tree().quit(0)
@@ -1130,6 +1132,76 @@ func _check_opening_receipt_audio_alignment() -> void:
 	story.free()
 
 
+func _check_w217_receipt_audio_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var event_id := ROOT_IDS[16]
+	var cg_id := "cg_y5_three_in_room"
+	var contexts := 0
+	var results := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		var raw_event: Dictionary = DataRegistry.find_event(event_id)
+		var reads: Dictionary = raw_event.get("chapter5_causal_reads", {})
+		var rows: Array = reads.get("texts", [])
+		_expect(rows.size() == 3, "%s W217 lost its three predecessor text groups" % language)
+		if rows.size() != 3:
+			continue
+		for guarantee_choice in range(3):
+			for door_choice in range(3):
+				var state := _state_before_target(16, {
+					ROOT_IDS[13]: guarantee_choice, ROOT_IDS[14]: door_choice,
+				})
+				var has_review := door_choice == 0
+				_expect(ROUTE.next_event_for_turn(state, 217) == event_id \
+					and ROUTE.selected_choice(state, ROOT_IDS[13]) == guarantee_choice \
+					and ROUTE.selected_choice(state, ROOT_IDS[14]) == door_choice \
+					and ROUTE.selected_choice(state, ROOT_IDS[15]) == (0 if has_review else -1),
+					"%s W217 fixture lost its guarantee/door/optional review receipts" % language)
+				GameState.chapter5_causal_state = state.duplicate(true)
+				var resolved: Dictionary = story.call("_chapter5_causal_event_with_reads", raw_event)
+				var description := str(resolved.get("description", ""))
+				var sources := description.split("\n\n")
+				var source_indices := _rendered_source_indices(story, description)
+				var expected_indices: Array[int] = []
+				for source_index in range(7 if has_review else 6):
+					expected_indices.append(source_index)
+				_expect(not resolved.is_empty() and description == _expected_read_description(raw_event, state) \
+					and sources.size() == expected_indices.size() and source_indices == expected_indices \
+					and sources[0] == str((rows[0] as Array)[guarantee_choice]).strip_edges() \
+					and sources[1] == str((rows[1] as Array)[door_choice]).strip_edges() \
+					and (not has_review or sources[2] == str((rows[2] as Array)[0]).strip_edges()) \
+					and str(resolved.get("background", "")) == "meeting" \
+					and str(resolved.get("portrait", "")).is_empty() and str(resolved.get("cg", "")) == cg_id,
+					"%s W217 guarantee%d/door%d lost its exact 7/6 sources, room or ensemble CG" % [
+						language, guarantee_choice, door_choice])
+				var choices: Array = resolved.get("choices", [])
+				var result_sources: Array = []
+				_expect(choices.size() == 3, "%s W217 lost its three authored choices" % language)
+				for choice_index in range(choices.size()):
+					var indices := _rendered_source_indices(story, str((choices[choice_index] as Dictionary).get("result_text", "")))
+					_expect(indices == ([0, 1] if choice_index == 0 else [0, 1, 2]),
+						"%s W217 choice%d changed its authored result source indices" % [language, choice_index])
+					result_sources.append(indices)
+					results += 1
+				_assert_no_opening_audio_cues(event_id, source_indices,
+					"%s W217 guarantee%d/door%d" % [language, guarantee_choice, door_choice], result_sources, cg_id)
+				_expect(_same(GameState.chapter5_causal_state, state), "W217 audio mutated its predecessor ledger")
+				contexts += 1
+	_expect(contexts == 45 and results == 135, "W217 did not cover 5 locales × 3 × 3 contexts and all three results")
+	_expect(_same(BGMPlayer.scene_audio_contract(event_id, cg_id), {
+		"ambience": "office", "music": {"key": "reckoning", "start_paragraph": 2.0},
+	}), "W217 retained recap paper/cup sounds or changed its room/score entrance")
+	var presentation := DataRegistry.get_story_presentation(event_id)
+	_expect(presentation.get("participants", []) == ["player", "sangchul", "jaehyuk", "daeun"] \
+		and presentation.get("scene_location", "") == "meeting" \
+		and presentation.get("portrait_role", "") == "none", "W217 changed its four-person/no-portrait presentation")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
 func _rendered_source_indices(story: Node, text: String) -> Array[int]:
 	var raw_page_data: Variant = story.call("_story_page_data", text)
 	if not raw_page_data is Dictionary:
@@ -1144,13 +1216,13 @@ func _rendered_source_indices(story: Node, text: String) -> Array[int]:
 
 func _assert_no_opening_audio_cues(
 		event_id: String, source_indices: Array[int], context: String,
-		result_sources: Array = []) -> void:
-	_assert_story_audio_cues(event_id, source_indices, context, result_sources, [], [])
+		result_sources: Array = [], cg_id: String = "") -> void:
+	_assert_story_audio_cues(event_id, source_indices, context, result_sources, [], [], cg_id)
 
 
 func _assert_story_audio_cues(
 		event_id: String, source_indices: Array[int], context: String,
-		result_sources: Array, expected_tokens: Array, allowed_sounds: Array) -> void:
+		result_sources: Array, expected_tokens: Array, allowed_sounds: Array, cg_id: String = "") -> void:
 	var tracked_sounds := [
 		"phone_notification", "page_turn", "paper_handle", "cup_set", "register_scan",
 		"traffic_pass", "pen_write", "door_latch",
@@ -1160,11 +1232,11 @@ func _assert_story_audio_cues(
 		last_play_before[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)
 	AudioManager.begin_story_audio_event(event_id)
 	for source_index in source_indices:
-		AudioManager.play_scene_paragraph_cues(event_id, "", source_index)
+		AudioManager.play_scene_paragraph_cues(event_id, cg_id, source_index)
 	for choice_index in range(result_sources.size()):
 		for raw_source_index in (result_sources[choice_index] as Array):
 			AudioManager.play_scene_result_paragraph_cues(
-				event_id, "", choice_index, int(raw_source_index))
+				event_id, cg_id, choice_index, int(raw_source_index))
 	_expect(AudioManager._story_audio_seen.keys() == expected_tokens,
 		"%s dispatched wrong paragraph cues: %s (expected %s)" % [
 			context, JSON.stringify(AudioManager._story_audio_seen), JSON.stringify(expected_tokens)])
