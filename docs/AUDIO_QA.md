@@ -63,6 +63,14 @@ All 143 current assets are recording/sample-backed: 20 real-piano scores, 50 fie
 - Cold resume restores only the admitted score: source-0 prose stays unscored, later prose/choices/results restore `reckoning`, and past phone/page cues stay silent. A named source-0 result position leaves the future source-1 turn available. Current same-language unread turns may still play once; already-read, uncertain cross-language current, or unlocated legacy turns do not replay. Live reflow preserves the current action side without a saved cue flag or a new prose cut.
 - Exact source/scene contracts, isolated runtime timing and full-state comparisons are integration evidence only. Actual listening, native image-paired mix, fatigue and human/release approval remain separate.
 
+## Remaining Message and Private Record
+
+- `arc_y5_remaining_jaehyuk_or_self` preserves the current home picture and solitary tired Minjun. Its earlier guarantee receipt determines whether the Jaehyuk input remains open or blocked: sending on the open channel and keeping an undelivered personal record are not interchangeable. The separate private-ledger choice does not establish a paper or digital medium.
+- Remove the result-source-0 `pen_write` request. That master is a pencil-scratch recording, but neither the current prose nor the home pictures identify a pencil action. Do not infer a ballpoint, keyboard, notification, page turn or paper cue instead. Both results and all four resolved description sources have no physical one-shot.
+- Use the existing single-source `apartment` bed with human and seasonal suppression, without changing the housing picture. This removes separately added machinery, neighbour and weather layers, not every incidental sound in the original recording. A distinct visit clears inherited fades and score once; current description source 1 admits `reckoning`.
+- Cold resume restores the admitted room and score only: source-0 prose remains unscored, later prose/choices/results restore the score without replaying an action. Live paragraph, font and locale reflow keeps playback continuous. No physical-cue mapper, writing resource, consumed state, gameplay field or saved flag is added.
+- Source checks and isolated route/resume tests are integration evidence, not audible suitability, native image-paired listening, fatigue, human or release approval.
+
 ## Public Office Queue Cue
 
 - `story_last_payment_wait` keeps `public_office` room ambience. A queue call is a result-owned physical cue, not a substitute ambience.

@@ -186,6 +186,13 @@ W237_PAGE_TURN_ANCHORS = {
     "zh-CN": "他说完后，只听见翻纸的声音。",
     "zh-TW": "他說完後，只聽見翻紙的聲音。",
 }
+W238_REMAINING_EVENT = "arc_y5_remaining_jaehyuk_or_self"
+W238_REMAINING_AUDIO = {
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "music": {"key": "reckoning", "start_paragraph": 1},
+}
 W240_OUTDOOR_SIGNATURE_EVENT = "arc_final_countdown_property_not_executed"
 W240_OUTDOOR_SIGNATURE_AUDIO = {
     "ambience": "intentional_silence",
@@ -548,6 +555,21 @@ def check_w237_page_turn_anchors(errors: list[str]) -> None:
             errors.append(f"W237 page turn: {locale} lost the unique c0 final source-1 page turn")
 
 
+def check_w238_record_structure(errors: list[str]) -> None:
+    for locale in ("ko", "en", "ja", "zh-CN", "zh-TW"):
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_drama.json")
+        event = next((row for row in rows if row.get("id") == W238_REMAINING_EVENT), {})
+        choices = event.get("choices", [])
+        reads = event.get("chapter5_finale_reads", {}).get("texts", [])
+        if (len(choices) != 2 or len(reads) != 2
+                or [len(row) for row in reads] != [3, 1]
+                or len(str(event.get("description", "")).split("\n\n")) != 2
+                or [len(str(choice.get("result_text", "")).split("\n\n"))
+                    for choice in choices] != [1, 2]):
+            errors.append(f"W238 record: {locale} lost its guarantee3/notice1 reads or exact prose/result sources")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
@@ -557,6 +579,7 @@ def main() -> int:
     check_w230_write_anchors(errors)
     check_w235_return_anchors(errors)
     check_w237_page_turn_anchors(errors)
+    check_w238_record_structure(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
@@ -750,6 +773,19 @@ def main() -> int:
             or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
                    for choice in final_record_choices)):
         errors.append(f"{W237_FINAL_RECORD_EVENT}: retain home, neutral bed, score source1 and two vibrations; page turn only at c0's final clause")
+    remaining = events.get(W238_REMAINING_EVENT, {})
+    if (event_contracts.get(W238_REMAINING_EVENT) != W238_REMAINING_AUDIO
+            or remaining.get("background") != "current_housing"
+            or remaining.get("portrait") != "player_tired" or remaining.get("cg")
+            or remaining.get("chapter5_finale_reads", {}).get("mode") != "prepend"
+            or remaining.get("chapter5_finale_reads", {}).get("sources") != [
+                {"kind": "causal_event", "id": "arc_y5_jaehyuk_guarantee_decision_reference"},
+                {"kind": "finale_stage", "id": "nontransaction"},
+            ]
+            or any(key in remaining for key in ("result_background", "result_ambience", "result_cg"))
+            or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
+                   for choice in remaining.get("choices", []))):
+        errors.append(f"{W238_REMAINING_EVENT}: retain current home, exact channel reads and source1 score; unspecified writing medium must not infer a physical cue")
     if W240_OUTDOOR_SIGNATURE_EVENT not in event_contracts:
         errors.append(f"{W240_OUTDOOR_SIGNATURE_EVENT}: missing outdoor signature audio contract")
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO

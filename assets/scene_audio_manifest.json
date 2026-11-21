@@ -829,11 +829,10 @@
       "suppress_music": true
     },
     "arc_y5_remaining_jaehyuk_or_self": {
-      "ambience": "current_housing",
-      "music": {"key": "reckoning", "start_paragraph": 1},
-      "result_paragraph_cues": {
-        "1": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]}
-      }
+      "ambience": "apartment",
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true,
+      "music": {"key": "reckoning", "start_paragraph": 1}
     },
     "arc_y5_final_father_answer_alive": {
       "ambience": "current_housing",

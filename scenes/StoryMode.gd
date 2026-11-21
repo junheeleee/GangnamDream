@@ -84,6 +84,7 @@ const W235_NOTICE_DESK := "finale_notice_desk"
 const W235_NOTICE_RETURN := preload("res://assets/w235_notice_return.tres")
 const W237_RECORD := "arc_y5_general_final_record_seal"
 const W237_RECORD_PAGE_TURN := preload("res://assets/w237_record_page_turn.tres")
+const W238_REMAINING := "arc_y5_remaining_jaehyuk_or_self"
 const HYUNSU_EXAM_FAILURE := "hyunsu_result_fail"
 const M07_HYUNSU_WASHBASIN_CUT := preload("res://assets/m07_hyunsu_washbasin_cut.tres")
 const HYUNSU_CONNECTED_CALL := "arc_hyunsu_new_path"
@@ -2915,7 +2916,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		# Finish the old screen's idle fade before restoring the held score.
 		BGMPlayer.enter_ambient_bed(0.0)
 		BGMPlayer.play_scene_paragraph_music(_current, "", 0)
-	elif str(_current.get("id", "")) in [W227_FILING, W230_CAFE, W237_RECORD]:
+	elif str(_current.get("id", "")) in [W227_FILING, W230_CAFE, W237_RECORD, W238_REMAINING]:
 		# Restore only the admitted score, not the visit's momentary actions.
 		# An unread physical clause may still own its later live one-shot.
 		BGMPlayer.enter_ambient_bed(0.0)
@@ -5968,7 +5969,7 @@ func _render_current():
 			or cold_w220_cafe or cold_pitch_result or cold_daeun_outside \
 			or w205_minseo_call or cold_w161_result or str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		BGMPlayer.clear_ambience_immediate()
-	elif str(_current.get("id", "")) in [W235_NOTICE, W237_RECORD]:
+	elif str(_current.get("id", "")) in [W235_NOTICE, W237_RECORD, W238_REMAINING]:
 		# An old same-key idle/duck fade must not later stop this fresh quiet bed.
 		BGMPlayer.clear_ambience_immediate()
 	elif str(_current.get("background", "")) == "current_housing" \
@@ -5985,7 +5986,7 @@ func _render_current():
 		# sound like the later face-to-face encounter has already begun.
 		BGMPlayer.enter_ambient_bed(0.0)
 	BGMPlayer.begin_story_event(_current, _event_cg_id)
-	if str(_current.get("id", "")) in [W235_NOTICE, W237_RECORD]:
+	if str(_current.get("id", "")) in [W235_NOTICE, W237_RECORD, W238_REMAINING]:
 		# These new visits don't inherit the prior moment's score, even if its key
 		# matches. W237 admits its own score later at source1. Bind the bed once;
 		# paragraph transitions and language/font refreshes do not restart it.
@@ -6035,7 +6036,7 @@ func _render_current():
 		_apply_w117_counter_surface(false, true)
 	if _pending_restore_context.is_empty() \
 			or (not _full_w19_reunion \
-				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW, W220_CONSENT_RECEIPT, W227_FILING, W230_CAFE, W235_NOTICE, W237_RECORD]):
+				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW, W220_CONSENT_RECEIPT, W227_FILING, W230_CAFE, W235_NOTICE, W237_RECORD, W238_REMAINING]):
 		_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 
