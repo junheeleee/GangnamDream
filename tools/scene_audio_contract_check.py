@@ -156,9 +156,17 @@ W234_SUMMIT_AUDIO = {
 }
 W235_NOTICE_EVENT = "arc_y5_property_not_executed_notice"
 W235_NOTICE_AUDIO = {
-    "ambience": "current_housing",
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
     "suppress_music": True,
-    "result_paragraph_cues": {"0": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}},
+}
+W235_RETURN_ANCHORS = {
+    "ko": "{name}은 대조해 본 사본과 접수 서류를 각각 보관하던 곳에 돌려놓았다.",
+    "en": "{name} put the comparison copy and the filing papers back where each was kept.",
+    "ja": "{name}は照合した写しと受付書類を、それぞれ元の保管場所に戻した。",
+    "zh-CN": "{name}把核对过的副本和受理文件分别放回原处。",
+    "zh-TW": "{name}把核對過的副本和收件文件各自放回原處。",
 }
 W237_FINAL_RECORD_EVENT = "arc_y5_general_final_record_seal"
 W237_FINAL_RECORD_AUDIO = {
@@ -473,6 +481,34 @@ def check_w230_write_anchors(errors: list[str]) -> None:
                     errors.append(f"W230 handwriting: {locale} choice{choice_index} source{source_index} lost its unique writer clause")
 
 
+def check_w235_return_anchors(errors: list[str]) -> None:
+    resource = ROOT / "assets/w235_notice_return.tres"
+    try:
+        text = resource.read_text(encoding="utf-8")
+        match = re.fullmatch(
+            r'\[gd_resource type="Resource" format=3\]\s*\[resource\]\s*'
+            r'metadata/return_anchors\s*=\s*(\{.*\})\s*', text, re.S,
+        )
+        anchors = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError):
+        anchors = None
+    if anchors != W235_RETURN_ANCHORS:
+        errors.append("W235 paper return: preserve all five full physical-return clauses")
+    for locale, anchor in W235_RETURN_ANCHORS.items():
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_pre_ending.json")
+        event = next((row for row in rows if row.get("id") == W235_NOTICE_EVENT), {})
+        choices = event.get("choices", [])
+        if len(choices) != 1:
+            errors.append(f"W235 paper return: {locale} must retain its single direct-progress choice")
+            continue
+        prose = str(choices[0].get("result_text", ""))
+        paragraphs = prose.split("\n\n")
+        if (len(paragraphs) != 2 or prose.count(anchor) != 1
+                or paragraphs[1].count(anchor) != 1 or not paragraphs[1].endswith(anchor)):
+            errors.append(f"W235 paper return: {locale} lost the unique final source-1 return action")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
@@ -480,6 +516,7 @@ def main() -> int:
     events = load_events()
     check_w227_write_anchors(errors)
     check_w230_write_anchors(errors)
+    check_w235_return_anchors(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
@@ -655,7 +692,14 @@ def main() -> int:
     if (event_contracts.get(W235_NOTICE_EVENT) != W235_NOTICE_AUDIO
             or events.get(W235_NOTICE_EVENT, {}).get("background") != "current_housing"
             or manifest.get("background_profiles", {}).get("finale_notice_desk") != "current_housing"):
-        errors.append(f"{W235_NOTICE_EVENT}: preserve the live room and only sound the papers being put away")
+        errors.append(f"{W235_NOTICE_EVENT}: preserve home/desk pictures with neutral room tone; paper belongs only to the final return clause")
+    notice = events.get(W235_NOTICE_EVENT, {})
+    if (notice.get("cg") or any(key in notice for key in
+                               ("result_background", "result_ambience", "result_cg"))
+            or any(any(key in choice for key in
+                       ("result_background", "result_ambience", "result_cg"))
+                   for choice in notice.get("choices", []))):
+        errors.append(f"{W235_NOTICE_EVENT}: no extra result location or CG may replace the live home")
     final_record = events.get(W237_FINAL_RECORD_EVENT, {})
     final_record_choices = final_record.get("choices", [])
     if (event_contracts.get(W237_FINAL_RECORD_EVENT) != W237_FINAL_RECORD_AUDIO

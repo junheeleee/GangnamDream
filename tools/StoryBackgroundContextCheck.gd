@@ -214,6 +214,20 @@ const W227_TRACKED_SFX := [
 ]
 const W230_CAFE := "arc_y5_people_verdict_daeun_exact"
 const W230_BACKGROUND := "finale_cafe_rear_papers"
+const W235_NOTICE := "arc_y5_property_not_executed_notice"
+const W235_NOTICE_DESK := "finale_notice_desk"
+const W235_NOTICE_RETURN := preload("res://assets/w235_notice_return.tres")
+const W235_HOME_CASES: Array[Dictionary] = [
+	{"id": "gosiwon", "housing": "gosiwon", "background": "goshiwon_room"},
+	{"id": "oneroom", "housing": "oneroom", "background": "apartment"},
+	{"id": "villa", "housing": "villa", "background": "apartment"},
+	{"id": "apartment", "housing": "apartment", "background": "gangnam_apartment"},
+	{"id": "gangnam", "housing": "gangnam", "background": "gangnam_apartment"},
+	{"id": "daeun_shared", "housing": "gosiwon", "background": "daeun_newlywed_home",
+		"flags": {"arc_daeun_wedding_day_seen": true}},
+	{"id": "divorced_villa", "housing": "villa", "background": "apartment",
+		"flags": {"arc_daeun_wedding_day_seen": true, "daeun_divorced": true}},
+]
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -445,6 +459,8 @@ const EXACT_PATHS := {
 	W216_LANDING: "res://assets/backgrounds/sangchul_old_office_landing_w216_v1.png",
 	W227_BACKGROUND: "res://assets/backgrounds/finale_intake_blue_pen_v1.png",
 	W230_BACKGROUND: "res://assets/backgrounds/finale_cafe_rear_papers_v1.png",
+	W235_NOTICE_DESK: "res://assets/backgrounds/finale_notice_desk_v1.png",
+	"daeun_newlywed_home": "res://assets/backgrounds/daeun_newlywed_home_night.png",
 	"office": "res://assets/backgrounds/office_desk.png",
 	W132_STAIRS: "res://assets/backgrounds/sangchul_cafe_stairs_v2.png",
 	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
@@ -548,6 +564,9 @@ var _w220_receipt_paper_expected := false
 var _w230_cold_ink := 0
 var _w230_cross_future_ink := 0
 var _w230_reflow_ink := 0
+var _w235_cold_paper := 0
+var _w235_future_paper := 0
+var _w235_reflow_paper := 0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -570,6 +589,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W235_PAPER_RETURN_CHECK"):
+		var w235_ok: bool = await _check_w235_notice_return()
+		await _remove_story()
+		await _stop_audio()
+		if w235_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w235_paper_return")
+		get_tree().quit(0 if w235_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W230_BALLPOINT_CHECK"):
 		var w230_ok: bool = await _check_w230_cafe_write()
 		await _remove_story()
@@ -4371,10 +4398,17 @@ func _w227_open(language: String) -> bool:
 func _w230_open(language: String) -> bool:
 	return await _open_finale_ink_event(language, W230_CAFE, 230)
 
-func _open_finale_ink_event(language: String, target_event_id: String, turn: int) -> bool:
+func _w235_open(language: String, home_case: Dictionary,
+		prime_same_key: bool = false) -> bool:
+	return await _open_finale_ink_event(
+		language, W235_NOTICE, 235, home_case, prime_same_key)
+
+func _open_finale_ink_event(language: String, target_event_id: String, turn: int,
+		home_case: Dictionary = {}, prime_same_key: bool = false) -> bool:
 	await _remove_story()
 	await _stop_audio()
-	var label := "W227" if target_event_id == W227_FILING else "W230"
+	var label := "W227" if target_event_id == W227_FILING else (
+		"W230" if target_event_id == W230_CAFE else "W235")
 	_context = "%s/%s" % [language, label]
 	LocaleManager.set_language(language)
 	SaveManager.clear_loaded_resume_context()
@@ -4382,7 +4416,14 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 	if not _prepare_full_owner_history(turn, []):
 		return false
 	GameState.money = 2_100_000_000.0
-	GameState.housing = "oneroom"
+	GameState.housing = str(home_case.get("housing", "oneroom")) \
+		if target_event_id == W235_NOTICE else "oneroom"
+	if target_event_id == W235_NOTICE:
+		GameState.flags.erase("arc_daeun_wedding_day_seen")
+		GameState.flags.erase("daeun_divorced")
+		var home_flags: Dictionary = home_case.get("flags", {})
+		for flag: String in home_flags:
+			GameState.flags[flag] = bool(home_flags[flag])
 	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(
 		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true,
 		GameState.get_total_asset_value())
@@ -4421,10 +4462,16 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 	var custody_result: Dictionary = GameState.record_chapter5_finale_choice(custody_event, 0)
 	var filing_event := ""
 	var filing_result: Dictionary = {}
-	if target_event_id == W230_CAFE:
+	if target_event_id in [W230_CAFE, W235_NOTICE]:
 		GameState.turn = 227
 		filing_event = GameState.chapter5_finale_next_event_for_turn()
 		filing_result = GameState.record_chapter5_finale_choice(filing_event, 0)
+	var verdict_event := ""
+	var verdict_result: Dictionary = {}
+	if target_event_id == W235_NOTICE:
+		GameState.turn = 230
+		verdict_event = GameState.chapter5_finale_next_event_for_turn()
+		verdict_result = GameState.record_chapter5_finale_choice(verdict_event, 0)
 	GameState.turn = int(final_calendar[0])
 	GameState.age = int(final_calendar[1])
 	GameState.year = int(final_calendar[2])
@@ -4434,8 +4481,10 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 			or not bool(father_result.get("ok", false)) \
 			or custody_event != CHAPTER5_FINALE_ROUTE.OWNED_EVENT_IDS[2] \
 			or not bool(custody_result.get("ok", false)) \
-			or (target_event_id == W230_CAFE and (filing_event != W227_FILING \
+			or (target_event_id in [W230_CAFE, W235_NOTICE] and (filing_event != W227_FILING \
 				or not bool(filing_result.get("ok", false)))) \
+			or (target_event_id == W235_NOTICE and (verdict_event != W230_CAFE \
+				or not bool(verdict_result.get("ok", false)))) \
 			or GameState.chapter5_finale_next_event_for_turn() != target_event_id:
 		_fail("%s finale predecessors did not admit its exact root" % label)
 		return false
@@ -4449,8 +4498,31 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 			or not FULL_STORY_FLOW.valid_session():
 		_fail("%s did not route through MainGame and FullStoryFlow" % label)
 		return false
-	BGMPlayer.set_ambience("rain")
-	BGMPlayer.set_season_ambience("winter")
+	if target_event_id == W235_NOTICE:
+		BGMPlayer.set_ambience("room")
+		BGMPlayer.set_season_ambience("winter")
+		BGMPlayer.play_punctuation("reckoning")
+		if prime_same_key:
+			BGMPlayer.set_ambience("apartment")
+			BGMPlayer.duck_ambience(-12.0, 1.4)
+			if str(BGMPlayer.get("_current_ambience_key")) != "apartment" \
+					or not BGMPlayer._ambience_player.playing \
+					or BGMPlayer._ambience_tween == null \
+					or not BGMPlayer._ambience_tween.is_running():
+				_fail("W235 same-key fixture did not seed its inherited apartment fade")
+				return false
+		elif str(BGMPlayer.get("_current_ambience_key")) != "room" \
+				or str(BGMPlayer.get("_current_human_ambience_key")) != "thin_wall" \
+				or str(BGMPlayer.get("_current_season_key")) != "winter" \
+				or not BGMPlayer._ambience_player.playing \
+				or not BGMPlayer._human_ambience_player.playing \
+				or not BGMPlayer._season_player.playing \
+				or not _w216_score_playing():
+			_fail("W235 fixture did not seed old room/thin-wall/winter/reckoning layers")
+			return false
+	else:
+		BGMPlayer.set_ambience("rain")
+		BGMPlayer.set_season_ambience("winter")
 	_w227_clear_tracked()
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	_story.set_meta("_screenshot_qa_static_surface", true)
@@ -4463,8 +4535,11 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 	if target_event_id == W227_FILING:
 		return _w227_surface("W227 live opening", false) \
 			and _w227_audio_matches("none", "W227 live opening")
-	return _w230_surface("W230 live opening", false) \
-		and _w230_audio_matches("paper", "W230 live opening", true, true)
+	if target_event_id == W230_CAFE:
+		return _w230_surface("W230 live opening", false) \
+			and _w230_audio_matches("paper", "W230 live opening", true, true)
+	return _w235_surface("W235 live opening", str(home_case.get("background", ""))) \
+		and _w235_audio_matches("none", "W235 live opening")
 
 func _w227_read_intro() -> bool:
 	var current: Dictionary = _story.get("_current")
@@ -4799,8 +4874,9 @@ func _finale_ink_audio_matches(event_id: String, owner: String, mode: String,
 		return false
 	if require_stream and not expected_sound.is_empty():
 		var choice := int(_story.get("_pending_result_choice_index"))
-		var gain := (-6.0 if mode == "paper" else -5.0) \
-			if event_id == W227_FILING else (-7.0 if mode == "paper" or choice != 1 else -6.0)
+		var gain := -8.0 if event_id == W235_NOTICE else (
+			(-6.0 if mode == "paper" else -5.0) if event_id == W227_FILING \
+			else (-7.0 if mode == "paper" or choice != 1 else -6.0))
 		var expected_db := float(AudioManager.call("_vol_db")) \
 			+ AudioManager.sfx_mix_trim_db(expected_sound) + gain
 		for player: AudioStreamPlayer in AudioManager._pool:
@@ -5419,6 +5495,504 @@ func _w230_reflow_boundary(
 	_story.call("_complete_typing")
 	_story.call("_complete_typing")
 	return int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) == last_pen_ms
+
+
+func _check_w235_notice_return() -> bool:
+	_w235_cold_paper = 0
+	_w235_future_paper = 0
+	_w235_reflow_paper = 0
+	var default_home: Dictionary = W235_HOME_CASES[1]
+	var paths := 0
+	var live_paper := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		if not await _w235_prepare_result(language, default_home):
+			return false
+		var applied := _w227_state_bytes()
+		if not _w235_state_matches(applied, "W235 result entry") \
+				or not await _w235_seek_paper_page(applied):
+			return false
+		var reveal := int(_story.get("_w235_paper_reveal_at"))
+		if reveal <= 0 or not _w227_type_to(reveal - 1, "W235") \
+				or not _w235_boundary_side(true) \
+				or not _w235_audio_matches("none", "W235 before return clause"):
+			_fail("W235 %s sounded before its localized return clause" % language)
+			return false
+		if not _w227_type_to(reveal, "W235"):
+			return false
+		var played_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+		if played_at < 0 or not _w235_boundary_side(false) \
+				or not _w235_audio_matches(
+					"paper", "W235 exact return clause", true):
+			_fail("W235 %s lost its exact physical paper return" % language)
+			return false
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != played_at \
+				or not await _w235_finish_result(applied, played_at) \
+				or not await _w235_wait_paper_completion(played_at):
+			_fail("W235 %s replayed or lost its completed paper return" % language)
+			return false
+		paths += 1
+		live_paper += 1
+
+	var housing_contexts := 0
+	for home_case: Dictionary in W235_HOME_CASES:
+		if not await _w235_prepare_result("ko", home_case):
+			return false
+		await get_tree().create_timer(0.9).timeout
+		if not _w235_surface(
+				"W235 housing " + str(home_case.get("id", "")),
+				str(home_case.get("background", ""))):
+			return false
+		housing_contexts += 1
+
+	var apartment_case: Dictionary = W235_HOME_CASES[3]
+	if not await _w235_open("ko", apartment_case, true):
+		return false
+	await get_tree().create_timer(1.5).timeout
+	if not _w235_surface("W235 same-key settled bed", "gangnam_apartment") \
+			or BGMPlayer._ambience_tween != null and BGMPlayer._ambience_tween.is_running() \
+			or not is_equal_approx(
+				BGMPlayer._ambience_player.volume_db,
+				float(BGMPlayer.call("_ambience_target_db"))):
+		_fail("W235 inherited same-key fade stopped or kept ducking the fresh apartment bed")
+		return false
+	if not await _w235_read_intro("gangnam_apartment"):
+		return false
+
+	if not await _w235_prepare_result("ko", default_home):
+		return false
+	var skip_state := _w227_state_bytes()
+	if not await _w235_seek_paper_page(skip_state):
+		return false
+	_w227_clear_tracked()
+	_story.call("_complete_typing")
+	var skip_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+	if skip_at < 0 or not _w235_boundary_side(false) \
+			or not _w235_audio_matches("paper", "W235 page completion", true) \
+			or not await _w235_wait_paper_completion(skip_at):
+		_fail("W235 page completion did not emit exactly one return action")
+		return false
+
+	var cold_boundaries := 0
+	for before_paper: bool in [true, false]:
+		if not await _w235_prepare_result("ko", default_home):
+			return false
+		var applied := _w227_state_bytes()
+		if not await _w235_seek_paper_page(applied):
+			return false
+		var reveal := int(_story.get("_w235_paper_reveal_at"))
+		if not _w227_type_to(reveal - 1 if before_paper else reveal, "W235"):
+			return false
+		if not before_paper:
+			var played_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+			if played_at < 0 or not await _w235_wait_paper_completion(played_at):
+				return false
+		_w227_clear_tracked()
+		if not await _w235_cold_boundary(1, before_paper, applied, "ko", false):
+			return false
+		cold_boundaries += 1
+	if not await _w235_prepare_result("ko", default_home):
+		return false
+	var cross_state := _w227_state_bytes()
+	if not await _w235_seek_paper_page(cross_state):
+		return false
+	var cross_reveal := int(_story.get("_w235_paper_reveal_at"))
+	if not _w227_type_to(cross_reveal - 1, "W235"):
+		return false
+	_w227_clear_tracked()
+	if not await _w235_cold_boundary(1, true, cross_state, "en", true):
+		return false
+	cold_boundaries += 1
+	for target_locale: String in ["ko", "en"]:
+		if not await _w235_prepare_result("ko", default_home):
+			return false
+		var future_state := _w227_state_bytes()
+		var first_page_length := str(_story.get("_type_full")).length()
+		if not _w227_type_to(maxi(1, floori(float(first_page_length) / 2.0)), "W235") \
+				or not await _w235_cold_boundary(
+					0, true, future_state, target_locale, target_locale == "en"):
+			return false
+		cold_boundaries += 1
+
+	var reflow_boundaries := 0
+	for before_paper: bool in [true, false]:
+		if not await _w235_prepare_result("ko", default_home):
+			return false
+		var applied := _w227_state_bytes()
+		if not await _w235_seek_paper_page(applied):
+			return false
+		var reveal := int(_story.get("_w235_paper_reveal_at"))
+		if not _w227_type_to(reveal - 1 if before_paper else reveal, "W235"):
+			return false
+		if not before_paper:
+			var played_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+			if played_at < 0 or not await _w235_wait_paper_completion(played_at):
+				return false
+		_w227_clear_tracked()
+		if not await _w235_reflow_boundary(1, before_paper, applied):
+			return false
+		reflow_boundaries += 2
+	if not await _w235_prepare_result("ko", default_home):
+		return false
+	var future_reflow_state := _w227_state_bytes()
+	if not await _w235_reflow_boundary(0, true, future_reflow_state):
+		return false
+	reflow_boundaries += 2
+
+	print("W235_PAPER_RETURN_OK paths=%d live_paper=%d skip_paper=1 homes=%d same_key=1 v4=%d cold_paper=%d future_paper=%d reflows=%d reflow_paper=%d" % [
+		paths, live_paper, housing_contexts, cold_boundaries, _w235_cold_paper,
+		_w235_future_paper, reflow_boundaries, _w235_reflow_paper])
+	var counts_ok := paths == 5 and live_paper == 5 and housing_contexts == 7 \
+		and cold_boundaries == 5 and _w235_cold_paper == 3 \
+		and _w235_future_paper == 2 and reflow_boundaries == 6 \
+		and _w235_reflow_paper == 2
+	if not counts_ok:
+		_fail("W235 dynamic fixture population drifted")
+	return counts_ok
+
+
+func _w235_read_intro(home_background: String) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 4 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored):
+		_fail("W235 lost its filing/verdict rows plus two authored prose sources")
+		return false
+	var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+	var bed_position := BGMPlayer._ambience_player.get_playback_position()
+	while not bool(_story.get("_showing_choices")) \
+			and not bool(_story.get("_pending_after_result")):
+		var source := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		var expected_background := W235_NOTICE_DESK if source == 2 else home_background
+		await _finish_page()
+		var current_position := BGMPlayer._ambience_player.get_playback_position()
+		if not _w235_surface("W235 opening source%d" % source, expected_background) \
+				or not _w235_audio_matches("none", "W235 opening") \
+				or BGMPlayer._ambience_player.stream != bed_stream \
+				or current_position + 0.05 < bed_position:
+			_fail("W235 source%d restarted or changed its single apartment bed" % source)
+			return false
+		bed_position = current_position
+		_story.call("_on_advance")
+		await _wait_stable()
+	var direct_result := bool(_story.get("_pending_after_result")) \
+		and int(_story.get("_pending_result_choice_index")) == 0
+	return (direct_result \
+		or bool(_story.get("_showing_choices")) \
+			and (_story.get("_choice_box") as Control).get_child_count() == 1) \
+		and _w235_surface(
+			"W235 direct result" if direct_result else "W235 choices", home_background) \
+		and _w235_audio_matches(
+			"none", "W235 direct result" if direct_result else "W235 choices")
+
+
+func _w235_prepare_result(language: String, home_case: Dictionary) -> bool:
+	var home_background := str(home_case.get("background", ""))
+	if not await _w235_open(language, home_case) \
+			or not await _w235_read_intro(home_background):
+		return false
+	_w227_clear_tracked()
+	if not bool(_story.get("_pending_after_result")):
+		_story.call("_on_choice", 0)
+		_story.set_process(false)
+		await _wait_stable()
+	return _w235_result_layout() \
+		and GameState.chapter5_finale_receipt_matches(W235_NOTICE, 0, 235) \
+		and _w235_surface("W235 prepared result", home_background) \
+		and _w235_audio_matches("none", "W235 prepared result")
+
+
+func _w235_result_layout() -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choices.size() != 1 or pages.is_empty():
+		return false
+	var authored := str(_story.call(
+		"_fmt", (choices[0] as Dictionary).get("result_text", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 2 \
+			or not _m23_same_prose(pages, authored) \
+			or int(_story.get("_result_location_cut_page")) >= 0 \
+			or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty():
+		_fail("W235 lost its exact two-source paper-only result")
+		return false
+	var mapping := _w235_paper_mapping()
+	if mapping.is_empty() or int(mapping.get("source", -1)) != 1:
+		_fail("W235 lost its one source1 physical-return action")
+		return false
+	return true
+
+
+func _w235_paper_mapping() -> Dictionary:
+	var found: Array[Dictionary] = []
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		var source_index := int(_story.call("_story_source_paragraph_index", page_index))
+		var page := str((_story.get("_paragraphs") as Array)[page_index])
+		var reveal := int(_story.call("_w235_paper_reveal_position", page, page_index))
+		if reveal > 0:
+			found.append({"page": page_index, "reveal": reveal, "source": source_index})
+	return found[0] if found.size() == 1 else {}
+
+
+func _w235_seek_paper_page(
+		applied: String, allow_default_name_projection: bool = false) -> bool:
+	var mapping := _w235_paper_mapping()
+	var target := int(mapping.get("page", -1))
+	while int(_story.get("_para_index")) < target:
+		await _finish_page()
+		if not _w235_state_matches(
+				applied, "W235 before return page", allow_default_name_projection) \
+				or not _w235_audio_matches("none", "W235 before return page"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		mapping = _w235_paper_mapping()
+		target = int(mapping.get("page", -1))
+	if target < 0 or int(_story.get("_para_index")) != target \
+			or int(_story.get("_w235_paper_reveal_at")) != int(mapping.get("reveal", -2)):
+		_fail("W235 did not settle on its exact return-clause page")
+		return false
+	return true
+
+
+func _w235_finish_result(applied: String, played_at: int) -> bool:
+	while true:
+		await _finish_page()
+		if not _w235_surface("W235 result", _w235_current_home_background()) \
+				or not _w235_state_matches(applied, "W235 result") \
+				or not _w235_audio_matches("paper", "W235 result") \
+				or int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != played_at:
+			_fail("W235 later result page replayed or lost paper_handle")
+			return false
+		if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w235_boundary_side(before_paper: bool) -> bool:
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != 0 \
+			or int(_story.call(
+				"_story_source_paragraph_index", int(_story.get("_para_index")))) != 1:
+		return false
+	var paper_range: Vector2 = _story.call("_w235_paper_progress_range")
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var progress := float(context.get("source_text_progress", -1.0))
+	if paper_range.x < 0.0 or paper_range.y < paper_range.x:
+		return false
+	if before_paper:
+		return not bool(_story.get("_w235_paper_consumed")) \
+			and int(_story.get("_w235_paper_reveal_at")) > int(_story.get("_type_pos")) \
+			and progress <= paper_range.x + 0.00001
+	return bool(_story.get("_w235_paper_consumed")) \
+		and int(_story.get("_w235_paper_reveal_at")) < 0 \
+		and progress >= paper_range.y - 0.00001
+
+
+func _w235_surface(label: String, background_id: String) -> bool:
+	var expected_stream: AudioStream = BGMPlayer.call("_load_ambience", "apartment")
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W235_NOTICE \
+			or background_id.is_empty() \
+			or not _expect_surface(background_id, "apartment", label) \
+			or str(_story.call("_resolved_story_surface_portrait_id")) != "player_tired" \
+			or expected_stream == null \
+			or BGMPlayer._ambience_player.stream != expected_stream \
+			or not BGMPlayer._ambience_player.playing \
+			or not str(BGMPlayer.get("_current_human_ambience_key")).is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
+			or not str(BGMPlayer.get("_current_season_key")).is_empty() \
+			or BGMPlayer._season_player.playing \
+			or not str(BGMPlayer.get("_current_key")).is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail(label + " changed the W235 home/desk, apartment bed, portrait, or lower-layer silence")
+		return false
+	return true
+
+
+func _w235_current_home_background() -> String:
+	return ImageRegistry.resolve_contextual_background_id("current_housing")
+
+
+func _w235_audio_matches(
+		mode: String, label: String, require_stream: bool = false) -> bool:
+	return _finale_ink_audio_matches(
+		W235_NOTICE, "W235", mode, label, require_stream, false)
+
+
+func _w235_state_matches(expected: String, label: String,
+		allow_default_name_projection: bool = false) -> bool:
+	return _w227_state_matches(
+		expected, label, allow_default_name_projection, "W235")
+
+
+func _w235_wait_paper_completion(played_at: int) -> bool:
+	var stream: AudioStream = AudioManager._sounds.get("paper_handle")
+	if stream == null or played_at < 0:
+		_fail("W235 cannot derive the recorded paper completion boundary")
+		return false
+	var duration_msec := int(ceil(stream.get_length() * 1000.0))
+	var deadline := Time.get_ticks_msec() + maxi(250, duration_msec + 250)
+	while _w197_sfx_stream_count("paper_handle") > 0 \
+			and Time.get_ticks_msec() < deadline:
+		await get_tree().process_frame
+	if _w197_sfx_stream_count("paper_handle") != 0 \
+			or int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != played_at:
+		_fail("W235 paper return did not finish naturally without replay")
+		return false
+	return true
+
+
+func _w235_cold_boundary(
+		source_index: int, before_paper: bool, applied: String,
+		target_locale: String, cross_locale: bool) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var saved_progress := float(context.get("source_text_progress", -1.0))
+	if context.get("event_id") != W235_NOTICE or context.get("phase") != "result" \
+			or int(context.get("pending_result_choice_index", -1)) != 0 \
+			or int(context.get("source_paragraph_index", -1)) != source_index \
+			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail("W235 could not save source%d exact typing boundary" % source_index)
+		return false
+	var disk: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int((disk as Dictionary).get("version", -1)) != 4:
+		_fail("W235 cold boundary lost disk schema v4")
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	LocaleManager.set_language(target_locale)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("W235 could not cold-load its typing boundary")
+		return false
+	BGMPlayer.set_ambience("room")
+	BGMPlayer.set_season_ambience("winter")
+	BGMPlayer.play_punctuation("reckoning")
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	await get_tree().create_timer(0.85).timeout
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	var restored_progress := float(restored.get("source_text_progress", -2.0))
+	var source_characters := 0
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		if int(_story.call("_story_source_paragraph_index", page_index)) == source_index:
+			source_characters += str((_story.get("_paragraphs") as Array)[page_index]).length()
+	var quantization_bound := 0.5 / float(source_characters) + 0.000001 \
+		if source_characters > 0 else -1.0
+	var progress_ok := is_equal_approx(restored_progress, saved_progress) \
+		if not cross_locale else quantization_bound > 0.0 \
+			and absf(restored_progress - saved_progress) <= quantization_bound
+	var boundary_ok := false
+	if source_index == 0:
+		boundary_ok = not bool(_story.get("_w235_paper_consumed")) \
+			and int(_story.get("_w235_paper_reveal_at")) < 0
+	else:
+		boundary_ok = _w235_boundary_side(before_paper and not cross_locale)
+		if cross_locale:
+			boundary_ok = bool(_story.get("_w235_paper_consumed")) \
+				and int(_story.get("_w235_paper_reveal_at")) < 0
+	if LocaleManager.language != target_locale or restored.get("event_id") != W235_NOTICE \
+			or restored.get("phase") != "result" \
+			or int(restored.get("pending_result_choice_index", -1)) != 0 \
+			or int(restored.get("source_paragraph_index", -1)) != source_index \
+			or not progress_ok or not boundary_ok \
+			or not _w235_state_matches(applied, "W235 cold result", cross_locale) \
+			or not _w235_surface("W235 cold result", _w235_current_home_background()) \
+			or not _w235_audio_matches("none", "W235 cold result"):
+		_fail("W235 cold boundary crossed, replayed, changed state, or lost source identity")
+		return false
+	var played_at := -1
+	if source_index == 0:
+		if not await _w235_seek_paper_page(applied, cross_locale):
+			return false
+		var reveal := int(_story.get("_w235_paper_reveal_at"))
+		if reveal <= 0 or not _w227_type_to(reveal - 1, "W235") \
+				or bool(_story.get("_w235_paper_consumed")) \
+				or not _w227_type_to(reveal, "W235"):
+			_fail("W235 cold source0 lost its definitely future source1 return")
+			return false
+		played_at = int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+		if played_at < 0 or not _w235_audio_matches(
+				"paper", "W235 cold future return", true):
+			return false
+		_w235_cold_paper += 1
+		_w235_future_paper += 1
+	elif before_paper and not cross_locale:
+		var reveal := int(_story.get("_w235_paper_reveal_at"))
+		if not _w227_type_to(reveal, "W235") \
+				or not _w235_audio_matches(
+					"paper", "W235 cold pending return", true):
+			_fail("W235 same-locale cold restore lost its pending paper action")
+			return false
+		played_at = int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+		_w235_cold_paper += 1
+	else:
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if not _w235_audio_matches("none", "W235 cold consumed completion"):
+			_fail("W235 cold consumed boundary replayed a past paper action")
+			return false
+	if played_at >= 0 and not await _w235_wait_paper_completion(played_at):
+		return false
+	return _w235_state_matches(applied, "W235 cold final", cross_locale) \
+		and _w235_surface("W235 cold final", _w235_current_home_background())
+
+
+func _w235_reflow_boundary(
+		source_index: int, before_paper: bool, applied: String) -> bool:
+	_story.call("_set_story_text_size", "large")
+	await _wait_stable()
+	var font_ok := not bool(_story.get("_w235_paper_consumed")) \
+		and int(_story.get("_w235_paper_reveal_at")) < 0 if source_index == 0 \
+		else _w235_boundary_side(before_paper)
+	if not font_ok or not _w235_state_matches(applied, "W235 font reflow") \
+			or not _w235_surface("W235 font reflow", _w235_current_home_background()) \
+			or not _w235_audio_matches("none", "W235 font reflow"):
+		_fail("W235 source%d font reflow crossed or replayed its paper boundary" % source_index)
+		return false
+	_story.call("_set_story_language", "en")
+	await _wait_stable()
+	var locale_ok := not bool(_story.get("_w235_paper_consumed")) \
+		and int(_story.get("_w235_paper_reveal_at")) < 0 if source_index == 0 \
+		else _w235_boundary_side(before_paper)
+	if LocaleManager.language != "en" or not locale_ok \
+			or not _w235_state_matches(applied, "W235 locale reflow", true) \
+			or not _w235_surface("W235 locale reflow", _w235_current_home_background()) \
+			or not _w235_audio_matches("none", "W235 locale reflow"):
+		_fail("W235 source%d locale reflow crossed or replayed its paper boundary" % source_index)
+		return false
+	if source_index == 0:
+		if not await _w235_seek_paper_page(applied, true):
+			return false
+		var reveal := int(_story.get("_w235_paper_reveal_at"))
+		if reveal <= 0 or not _w227_type_to(reveal, "W235") \
+				or not _w235_audio_matches(
+					"paper", "W235 reflow future return", true):
+			_fail("W235 source0 reflow consumed or lost future source1 paper")
+			return false
+		_w235_reflow_paper += 1
+		return await _w235_wait_paper_completion(
+			int(AudioManager._last_sfx_ms.get("paper_handle", -1)))
+	if before_paper:
+		var reveal := int(_story.get("_w235_paper_reveal_at"))
+		if not _w227_type_to(reveal, "W235") \
+				or not _w235_audio_matches(
+					"paper", "W235 reflow pending return", true):
+			_fail("W235 source1 reflow lost its one remaining paper action")
+			return false
+		_w235_reflow_paper += 1
+		return await _w235_wait_paper_completion(
+			int(AudioManager._last_sfx_ms.get("paper_handle", -1)))
+	_story.call("_complete_typing")
+	_story.call("_complete_typing")
+	return _w235_audio_matches("none", "W235 reflow consumed completion")
 
 func _check_w220_receipt() -> bool:
 	var paths: int = 0

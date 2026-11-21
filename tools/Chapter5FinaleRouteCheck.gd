@@ -7,6 +7,8 @@ const STORY_MODE := preload("res://scenes/StoryMode.gd")
 const W227_BALLPOINT_WRITE := preload("res://assets/w227_ballpoint_write.tres")
 const W230_CAFE_WRITE := preload("res://assets/w230_cafe_write.tres")
 const W230_CAFE := "arc_y5_people_verdict_daeun_exact"
+const W235_NOTICE_RETURN := preload("res://assets/w235_notice_return.tres")
+const W235_NOTICE := "arc_y5_property_not_executed_notice"
 const LEDGER_PATH := "res://content/meta/chapter5_finale_ledger.json"
 const MAIN_GAME_PATH := "res://scenes/MainGame.gd"
 const ACTIVE_TURNS: Array[int] = [221, 224, 227, 230, 235, 238, 239, 240, 240]
@@ -75,6 +77,7 @@ func _ready() -> void:
 	_check_father_trace_receipt_audio_alignment()
 	_check_w227_ballpoint_audio_alignment()
 	_check_w230_cafe_write_alignment()
+	_check_w235_notice_return_alignment()
 	await _release_audio_for_exit()
 	if _failures.is_empty():
 		print(
@@ -93,7 +96,8 @@ func _ready() -> void:
 			+ "father-trace-audio=w221-contexts120/results360/"
 			+ "w224-contexts30/results60/kept-result-cues8/"
 			+ "w227-contexts60/results240/anchors10/manifest-result-cues1/"
-			+ "w230-contexts80/results240/anchors25/manifest-description-cues1")
+			+ "w230-contexts80/results240/anchors25/manifest-description-cues1/"
+			+ "w235-contexts120/results120/anchors5/manifest-cues0")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -1900,6 +1904,160 @@ func _assert_w230_manifest_audio(
 		context + " replayed W230 manifest cues on a repeated paragraph bind")
 	_expect(_same(GameState.serialize(), before),
 		context + " W230 manifest audio rewrote finale receipts or game state")
+
+
+func _check_w235_notice_return_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var raw_anchor_metadata: Variant = W235_NOTICE_RETURN.get_meta("return_anchors", {})
+	_expect(raw_anchor_metadata is Dictionary,
+		"W235 notice return asset lost its return-anchor dictionary")
+	var anchors: Dictionary = raw_anchor_metadata as Dictionary \
+		if raw_anchor_metadata is Dictionary else {}
+	var anchor_languages: Array = anchors.keys()
+	anchor_languages.sort()
+	var expected_languages: Array = LocaleManager.SUPPORTED_LANGUAGES.duplicate()
+	expected_languages.sort()
+	_expect(anchor_languages == expected_languages,
+		"W235 notice return asset lost its exact five-locale inventory")
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		_expect(anchors.get(language, "") is String \
+			and not str(anchors.get(language, "")).strip_edges().is_empty(),
+			"W235 notice return has no exact %s anchor" % language)
+
+	var source_state: Dictionary = _father_trace_source_state(1)
+	var contexts := 0
+	var results := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		for life: String in ["alive", "passed"]:
+			var trace_id: String = ALIVE_EVENTS[0] if life == "alive" else PASSED_EVENTS[0]
+			for filing_choice in range(4):
+				for verdict_choice in range(3):
+					_seed_father_trace_entry(source_state, life, "records_only")
+					var trace_commit: Dictionary = GameState.record_chapter5_finale_choice(
+						trace_id, PATH_CHOICES[0])
+					GameState.turn = 224
+					var custody_commit: Dictionary = GameState.record_chapter5_finale_choice(
+						ALIVE_EVENTS[1], PATH_CHOICES[1])
+					GameState.turn = 227
+					var filing_commit: Dictionary = GameState.record_chapter5_finale_choice(
+						ALIVE_EVENTS[2], filing_choice)
+					GameState.turn = 230
+					var verdict_commit: Dictionary = GameState.record_chapter5_finale_choice(
+						W230_CAFE, verdict_choice)
+					GameState.turn = 235
+					var context := "%s W235 %s/filing%d/verdict%d" % [
+						language, life, filing_choice, verdict_choice]
+					_expect(bool(trace_commit.get("ok", false)) \
+						and bool(custody_commit.get("ok", false)) \
+						and bool(filing_commit.get("ok", false)) \
+						and bool(verdict_commit.get("ok", false)) \
+						and GameState.chapter5_finale_next_event_for_turn() == W235_NOTICE \
+						and GameState.chapter5_finale_ingress_available(W235_NOTICE) \
+						and ROUTE.selected_choice_by_event(
+							GameState.chapter5_finale_state, ALIVE_EVENTS[2]) == filing_choice \
+						and ROUTE.selected_choice_by_event(
+							GameState.chapter5_finale_state, W230_CAFE) == verdict_choice,
+						context + " lost its exact father/custody/filing/verdict ingress")
+					var raw_event: Dictionary = DataRegistry.find_event(W235_NOTICE)
+					var resolved: Dictionary = story.call(
+						"_chapter5_finale_event_with_reads", raw_event)
+					var rows: Array = (
+						raw_event.get("chapter5_finale_reads", {}) as Dictionary).get("texts", [])
+					var expected_description := str((rows[0] as Array)[filing_choice]) \
+						+ "\n\n" + str((rows[1] as Array)[verdict_choice]) \
+						+ "\n\n" + str(raw_event.get("description", ""))
+					_expect(str(resolved.get("description", "")) == expected_description \
+						and _father_trace_source_indices(
+							story, expected_description) == [0, 1, 2, 3] \
+						and str(resolved.get("background", "")) == "current_housing" \
+						and str(resolved.get("portrait", "")) == "player_tired" \
+						and not resolved.has("cg"),
+						context + " changed its four-source receipt assembly or home surface")
+					var choices: Array = resolved.get("choices", [])
+					_expect(choices.size() == 1,
+						context + " lost its one direct-progress notice choice")
+					if choices.size() != 1:
+						continue
+					var formatted_result: String = str(story.call(
+						"_fmt", str((choices[0] as Dictionary).get("result_text", ""))))
+					var result_indices: Array[int] = []
+					result_indices.assign(_father_trace_source_indices(story, formatted_result))
+					_expect(result_indices == [0, 1],
+						context + " changed its exact two-source result")
+					_check_w235_result_anchor(
+						story, anchors, language, formatted_result, context)
+					_assert_w235_manifest_audio([0, 1, 2, 3], result_indices, context)
+					contexts += 1
+					results += 1
+	_expect(contexts == 120 and results == 120,
+		"W235 notice return did not cover exact 120 contexts and 120 results")
+	_expect(_same(BGMPlayer.scene_audio_contract(W235_NOTICE), {
+		"ambience": "apartment",
+		"suppress_human_ambience": true,
+		"suppress_season_ambience": true,
+		"suppress_music": true,
+	}), "W235 changed its apartment bed or immediate people/season/music suppression")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _check_w235_result_anchor(
+		story: Node, anchors: Dictionary, language: String,
+		formatted_result: String, context: String) -> void:
+	var sources := formatted_result.split("\n\n")
+	var anchor: String = str(story.call(
+		"_fmt", str(anchors.get(language, ""))))
+	if sources.size() != 2:
+		_expect(false, context + " lost its exact two result sources")
+		return
+	var source_zero := str(sources[0])
+	var source_one := str(sources[1])
+	var anchor_at := source_one.find(anchor)
+	_expect(not anchor.is_empty() \
+		and formatted_result.count(anchor) == 1 \
+		and source_zero.count(anchor) == 0 \
+		and source_one.count(anchor) == 1 \
+		and anchor_at > 0 \
+		and anchor_at + anchor.length() == source_one.length(),
+		context + " lost its unique final source1 physical-return clause")
+
+
+func _assert_w235_manifest_audio(
+		sources: Array[int], result_sources: Array[int], context: String) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var tracked: Array[String] = [
+		"phone_notification", "page_turn", "paper_handle", "cup_set",
+		"register_scan", "traffic_pass", "pen_write", "pen_ballpoint", "door_latch",
+	]
+	var last_play: Dictionary = {}
+	for sound_id: String in tracked:
+		last_play[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)
+	AudioManager.begin_story_audio_event(W235_NOTICE)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(W235_NOTICE, "", source_index)
+	for source_index in result_sources:
+		AudioManager.play_scene_result_paragraph_cues(
+			W235_NOTICE, "", 0, source_index)
+	_expect(AudioManager._story_audio_seen.is_empty(),
+		context + " retained a paragraph-entry cue instead of the live return action")
+	for sound_id: String in tracked:
+		_expect(AudioManager._last_sfx_ms.get(sound_id, -1) == last_play[sound_id],
+			context + " played forbidden W235 manifest sound " + sound_id)
+	var timestamps: Dictionary = AudioManager._last_sfx_ms.duplicate(true)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(W235_NOTICE, "", source_index)
+	for source_index in result_sources:
+		AudioManager.play_scene_result_paragraph_cues(
+			W235_NOTICE, "", 0, source_index)
+	_expect(AudioManager._story_audio_seen.is_empty() \
+		and _same(AudioManager._last_sfx_ms, timestamps),
+		context + " replayed a W235 manifest cue on repeated paragraph binding")
+	_expect(_same(GameState.serialize(), before),
+		context + " W235 manifest audio rewrote finale receipts or game state")
 
 
 func _father_trace_source_state(meeting_choice: int) -> Dictionary:

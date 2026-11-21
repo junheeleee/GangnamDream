@@ -823,9 +823,10 @@
       "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]}
     },
     "arc_y5_property_not_executed_notice": {
-      "ambience": "current_housing",
-      "suppress_music": true,
-      "result_paragraph_cues": {"0": {"1": [{"sfx": "paper_handle", "volume_db": -8.0}]}}
+      "ambience": "apartment",
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true,
+      "suppress_music": true
     },
     "arc_y5_remaining_jaehyuk_or_self": {
       "ambience": "current_housing",

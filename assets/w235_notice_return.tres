@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/return_anchors = {
+"ko": "{name}은 대조해 본 사본과 접수 서류를 각각 보관하던 곳에 돌려놓았다.",
+"en": "{name} put the comparison copy and the filing papers back where each was kept.",
+"ja": "{name}は照合した写しと受付書類を、それぞれ元の保管場所に戻した。",
+"zh-CN": "{name}把核对过的副本和受理文件分别放回原处。",
+"zh-TW": "{name}把核對過的副本和收件文件各自放回原處。"
+}

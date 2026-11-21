@@ -46,6 +46,14 @@ All 143 current assets are recording/sample-backed: 20 real-piano scores, 50 fie
 - Normal reading can play both writers separately. The existing 650-ms cooldown is unchanged: rapid advance/skip may retain an already-playing one-second stroke rather than stack a second identical voice. Tests must verify that ongoing stream, not equate a consumed action with a new audible dispatch. Never clear cooldown timestamps, queue a late stroke after its page, or replay it on a later bind.
 - Resuming the scene restores only the admitted score, not the opening paper. File/source guards and isolated runtime tests do not establish listening, final mix taste, native pixel quality or human approval.
 
+## Nontransaction Notice Paper Return
+
+- `arc_y5_property_not_executed_notice` retains the live housing pictures and its single neutral desk close-up. The room uses the existing single-source `apartment` recording instead of the housing mixes with separately added fridge/clock or thin-wall life. Suppress human and seasonal layers immediately, including layers from the preceding scene; no score belongs to this notice. This removes added layers, not every incidental sound that may exist in the field recording.
+- `assets/w235_notice_return.tres` owns five full return-clause anchors. Only choice 0, result source 1, at the end of the physical action putting the comparison copy and filing papers back, requests the existing `paper_handle` at -8 dB. Status text at the start of that paragraph is not paper movement. No pen, camera, phone notification or stamp cue is inferred.
+- The common physical-cue page mapper is closed to this notice and the two reviewed handwriting scenes. Their independent transient consumption and original pen APIs/metadata remain separate; paper is not a ballpoint action. No new prose cut, page boundary, gameplay field or saved cue flag is added.
+- Cold resume from source 0 leaves the future source-1 action available. At source 1, a same-language unread clause can still play once; an already-read clause or uncertain cross-language current position stays silent. Legacy positions without source/locale proof are silent. Live locale/font reflow keeps the before/after side. Immediate text completion consumes the same single action without stacking or replaying it on rebind.
+- Entry and cold resume retire the preceding audio before restoring only the admitted room bed. Subsequent source pages and live reflow must not restart that bed. Wiring/source/runtime tests do not establish audible cleanliness, image-paired listening, fatigue, native pixel quality or human approval.
+
 ## Public Office Queue Cue
 
 - `story_last_payment_wait` keeps `public_office` room ambience. A queue call is a result-owned physical cue, not a substitute ambience.
