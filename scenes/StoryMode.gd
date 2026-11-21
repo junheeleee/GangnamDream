@@ -7620,11 +7620,11 @@ func _w227_pen_reveal_position(full_text: String, page_index: int = -1) -> int:
 		return -1
 	var rows: Dictionary = W227_BALLPOINT_WRITE.get_meta("write_anchors", {})
 	var anchors: Dictionary = rows.get(str(_pending_result_choice_index), {})
-	var anchor := _fmt(str(anchors.get(LocaleManager.language, "")))
+	var anchor: String = _fmt(str(anchors.get(LocaleManager.language, "")))
 	var choices: Array = _current.get("choices", [])
 	if choices.size() != 4:
 		return -1
-	var prose := _fmt(str((choices[_pending_result_choice_index] as Dictionary).get("result_text", "")))
+	var prose: String = _fmt(str((choices[_pending_result_choice_index] as Dictionary).get("result_text", "")))
 	var sources := prose.split("\n\n")
 	var expected_sources := 1 if _pending_result_choice_index == 1 else 2
 	if anchor.is_empty() or sources.size() != expected_sources \

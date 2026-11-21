@@ -921,6 +921,8 @@ W208 후속 CI 동기화: 실제 실패4(FIRST30/GAME_AUDIO_RUNTIME/MOD_LAYER/RE
 
 [~] W227 원격 정적 CI 타입 표기 수리: run44939216652/static136952496677이 `audit.py`의 두 추론 타입 계약(StoryMode7623 anchor/7627 prose)에서 실패했다. `scenes/StoryMode.gd`의 해당 두 선언만 명시 `String`으로 바꾸고 이 증거·오늘 WORK_LOG·CLAUDE 현재 한 줄만 소유한다. 원고·source/anchor·음향 시점·저장·W230·검사기 변경0. 로컬 정적 감사와 격리 컴파일·독립 diff 검수 뒤 별도 정상 commit/push·실제 CI 추적. 원 실패와 로컬 엔진 통과 이력을 서로 대체하지 않는다.
 
+[x] W227 CI 타입 표기: 위 실제 원격 실패의 두 선언만 `: String =`으로 정정했다. source `0dad524385558a7d6197669bf347d848a9b3b4818898750958fa37eb0d6aa77b`, 이전 source 역복원은 정확한2줄뿐. root·독립 `w211_asset_recon`의 실제 `audit.py` 각 exit0/ERROR0/WARNING0·write_only/inert0. `gangnam-w227-type-compile.2Kv0bj9mlL` fresh pre-autoload 격리 Compile69 exit0/stderr0/full2로그 오류0. 음원·문구·타이밍·저장·검사기와 원 실패 이력 보존. 새 전체 CI 결과는 별도이며 이전 로컬 통과를 원격 성공으로 확대하지 않는다. 일회성 타입 정합, 새 규범0.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
