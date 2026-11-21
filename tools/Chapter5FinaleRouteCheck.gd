@@ -4,6 +4,7 @@ extends Node
 const ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
 const CAUSAL_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
 const STORY_MODE := preload("res://scenes/StoryMode.gd")
+const W227_BALLPOINT_WRITE := preload("res://assets/w227_ballpoint_write.tres")
 const LEDGER_PATH := "res://content/meta/chapter5_finale_ledger.json"
 const MAIN_GAME_PATH := "res://scenes/MainGame.gd"
 const ACTIVE_TURNS: Array[int] = [221, 224, 227, 230, 235, 238, 239, 240, 240]
@@ -49,8 +50,11 @@ const GENERAL_CAFE_EVENTS: Array[String] = [
 	"arc_y5_final_week_general_people_outbound",
 ]
 const GENERAL_CHOICES: Array[int] = [1, 0, 1, 1, 1, 0]
+const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02
+const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25
 
 var _failures: Array[String] = []
+var _audio_mix_drain_timer: Timer
 
 
 func _ready() -> void:
@@ -67,6 +71,8 @@ func _ready() -> void:
 	_check_general_w211_source_contract()
 	_check_general_w220_callbacks_to_v2_route()
 	_check_father_trace_receipt_audio_alignment()
+	_check_w227_ballpoint_audio_alignment()
+	await _release_audio_for_exit()
 	if _failures.is_empty():
 		print(
 			"CHAPTER5_FINALE_ROUTE_CHECK_OK roots=11 active=9 "
@@ -82,12 +88,105 @@ func _ready() -> void:
 			+ "old-v1-closed/locked-durable "
 			+ "terminal-axes=profiles2/cases4/once-json/no-extra-wear "
 			+ "father-trace-audio=w221-contexts120/results360/"
-			+ "w224-contexts30/results60/kept-result-cues8")
+			+ "w224-contexts30/results60/kept-result-cues8/"
+			+ "w227-contexts60/results240/anchors10/manifest-result-cues1")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
 		push_error("CHAPTER5_FINALE_ROUTE_CHECK_FAIL: %s" % failure)
 	get_tree().quit(1)
+
+
+func _release_audio_for_exit() -> void:
+	for raw_tween in get_tree().get_processed_tweens():
+		if raw_tween is Tween and (raw_tween as Tween).is_valid():
+			(raw_tween as Tween).kill()
+	BGMPlayer.stop()
+	await AudioManager.drain_pending_timers_for_exit()
+	await _await_physical_sfx_completion()
+	_detach_audio_streams(get_tree().root)
+	for raw_player in AudioManager._pool:
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+	AudioManager._sounds.clear()
+	# Detach once more after all natural one-shots have crossed their real end,
+	# then cross two measured audio-mix boundaries before quitting.
+	BGMPlayer.stop()
+	_detach_audio_streams(get_tree().root)
+	for raw_player in AudioManager._pool:
+		if raw_player is AudioStreamPlayer:
+			(raw_player as AudioStreamPlayer).stop()
+			(raw_player as AudioStreamPlayer).stream = null
+	AudioManager._sounds.clear()
+	await _drain_audio_server_after_stop()
+	for _release_frame in range(4):
+		await get_tree().process_frame
+
+
+func _await_physical_sfx_completion() -> void:
+	var active: Array[AudioStreamPlayer] = []
+	var max_remaining_seconds := 0.0
+	for raw_player in AudioManager._pool:
+		if not raw_player is AudioStreamPlayer:
+			continue
+		var player := raw_player as AudioStreamPlayer
+		if not player.playing or player.stream == null:
+			continue
+		active.append(player)
+		max_remaining_seconds = maxf(max_remaining_seconds,
+			maxf(0.0, player.stream.get_length() - player.get_playback_position()))
+	if active.is_empty():
+		return
+	var mix_period_seconds := maxf(0.0,
+		float(AudioServer.get_time_since_last_mix())) + maxf(0.0,
+		float(AudioServer.get_time_to_next_mix()))
+	var deadline_msec := Time.get_ticks_msec() + ceili(1000.0 * (
+		max_remaining_seconds + minf(AUDIO_MIX_DRAIN_MAX_SECONDS,
+			2.0 * mix_period_seconds + AUDIO_MIX_DRAIN_MARGIN_SECONDS)))
+	while Time.get_ticks_msec() <= deadline_msec:
+		var still_playing := false
+		for player: AudioStreamPlayer in active:
+			if is_instance_valid(player) and player.playing:
+				still_playing = true
+				break
+		if not still_playing:
+			return
+		await get_tree().process_frame
+	_failures.append("physical SFX did not finish within its stream-length boundary")
+
+
+func _drain_audio_server_after_stop() -> void:
+	if not is_instance_valid(_audio_mix_drain_timer):
+		_audio_mix_drain_timer = Timer.new()
+		_audio_mix_drain_timer.name = "AudioMixDrainTimer"
+		_audio_mix_drain_timer.one_shot = true
+		_audio_mix_drain_timer.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(_audio_mix_drain_timer)
+	var time_since_last_mix := maxf(
+		0.0, float(AudioServer.get_time_since_last_mix()))
+	var time_to_next_mix := maxf(
+		0.0, float(AudioServer.get_time_to_next_mix()))
+	var mix_period_seconds := time_since_last_mix + time_to_next_mix
+	var drain_seconds := clampf(
+		time_to_next_mix + mix_period_seconds + AUDIO_MIX_DRAIN_MARGIN_SECONDS,
+		AUDIO_MIX_DRAIN_MARGIN_SECONDS, AUDIO_MIX_DRAIN_MAX_SECONDS)
+	_audio_mix_drain_timer.start(drain_seconds)
+	await _audio_mix_drain_timer.timeout
+
+
+func _detach_audio_streams(root: Node) -> void:
+	if root is AudioStreamPlayer:
+		(root as AudioStreamPlayer).stop()
+		(root as AudioStreamPlayer).stream = null
+	elif root is AudioStreamPlayer2D:
+		(root as AudioStreamPlayer2D).stop()
+		(root as AudioStreamPlayer2D).stream = null
+	elif root is AudioStreamPlayer3D:
+		(root as AudioStreamPlayer3D).stop()
+		(root as AudioStreamPlayer3D).stream = null
+	for child in root.get_children():
+		_detach_audio_streams(child)
 
 
 func _check_ledger_inventory_and_reads() -> void:
@@ -1413,6 +1512,185 @@ func _check_father_trace_receipt_audio_alignment() -> void:
 	story.free()
 
 
+func _check_w227_ballpoint_audio_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var source_states: Array[Dictionary] = []
+	for meeting_choice in range(3):
+		source_states.append(_father_trace_source_state(meeting_choice))
+	var raw_anchor_metadata: Variant = W227_BALLPOINT_WRITE.get_meta(
+		"write_anchors", {})
+	_expect(raw_anchor_metadata is Dictionary,
+		"W227 ballpoint asset lost its write-anchor dictionary")
+	var anchors: Dictionary = raw_anchor_metadata as Dictionary \
+		if raw_anchor_metadata is Dictionary else {}
+	_expect(anchors.size() == 2 and anchors.has("1") and anchors.has("3"),
+		"W227 ballpoint asset must own only choice1/choice3 write anchors")
+	for choice_key: String in ["1", "3"]:
+		var raw_locales: Variant = anchors.get(choice_key, {})
+		_expect(raw_locales is Dictionary,
+			"W227 choice%s write anchors are not a locale map" % choice_key)
+		if raw_locales is Dictionary:
+			var locales: Dictionary = raw_locales
+			_expect(locales.size() == LocaleManager.SUPPORTED_LANGUAGES.size(),
+				"W227 choice%s write anchors lost the exact locale inventory" % choice_key)
+			for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+				_expect(locales.get(language, "") is String \
+					and not str(locales.get(language, "")).strip_edges().is_empty(),
+					"W227 choice%s has no exact %s write anchor" % [choice_key, language])
+
+	var contexts := 0
+	var results := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		for life: String in ["alive", "passed"]:
+			var trace_id: String = ALIVE_EVENTS[0] if life == "alive" else PASSED_EVENTS[0]
+			for meeting_choice in range(3):
+				for custody_choice in range(2):
+					_seed_father_trace_entry(
+						source_states[meeting_choice], life, "records_only")
+					var trace_commit: Dictionary = GameState.record_chapter5_finale_choice(
+						trace_id, PATH_CHOICES[0])
+					_expect(bool(trace_commit.get("ok", false)),
+						"%s W227 could not commit its W221 father trace" % language)
+					GameState.turn = 224
+					var custody_commit: Dictionary = GameState.record_chapter5_finale_choice(
+						ALIVE_EVENTS[1], custody_choice)
+					_expect(bool(custody_commit.get("ok", false)),
+						"%s W227 could not commit custody choice%d" % [language, custody_choice])
+					GameState.turn = 227
+					var context := "%s W227 %s/meeting%d/custody%d" % [
+						language, life, meeting_choice, custody_choice]
+					_expect(GameState.chapter5_finale_next_event_for_turn() == ALIVE_EVENTS[2] \
+						and GameState.chapter5_finale_ingress_available(ALIVE_EVENTS[2]) \
+						and ROUTE.selected_choice_by_event(
+							GameState.chapter5_finale_state, trace_id) == PATH_CHOICES[0] \
+						and ROUTE.selected_choice_by_event(
+							GameState.chapter5_finale_state, ALIVE_EVENTS[1]) == custody_choice,
+						context + " lost its exact W219/W224 receipt ingress")
+					var raw_event: Dictionary = DataRegistry.find_event(ALIVE_EVENTS[2])
+					var resolved: Dictionary = story.call(
+						"_chapter5_finale_event_with_reads", raw_event)
+					var rows: Array = (
+						raw_event.get("chapter5_finale_reads", {}) as Dictionary).get("texts", [])
+					var expected_description := str((rows[0] as Array)[meeting_choice]) \
+						+ "\n\n" + str((rows[1] as Array)[custody_choice]) \
+						+ "\n\n" + str(raw_event.get("description", ""))
+					_expect(str(resolved.get("description", "")) == expected_description \
+						and _father_trace_source_indices(
+							story, expected_description) == [0, 1, 2, 3] \
+						and str(resolved.get("background", "")) == "finale_intake_blue_pen" \
+						and str(resolved.get("portrait", "")).is_empty() \
+						and not resolved.has("cg"),
+						context + " changed its exact receipt assembly or filing-counter art")
+					var choices: Array = resolved.get("choices", [])
+					_expect(choices.size() == 4,
+						context + " lost its four authored filing choices")
+					if choices.size() != 4:
+						continue
+					var result_sources: Array = []
+					for choice_index in range(choices.size()):
+						var formatted_result: String = str(story.call(
+							"_fmt", str((choices[choice_index] as Dictionary).get(
+								"result_text", ""))))
+						var indices := _father_trace_source_indices(story, formatted_result)
+						var expected_indices: Array[int] = []
+						expected_indices.append(0)
+						if choice_index != 1:
+							expected_indices.append(1)
+						_expect(indices == expected_indices,
+							context + " changed result source counts for choice%d" % choice_index)
+						result_sources.append(indices)
+						_check_w227_result_anchor(
+							story, anchors, language, choice_index, formatted_result, context)
+						results += 1
+					_assert_w227_manifest_audio(
+						[0, 1, 2, 3], result_sources, context)
+					contexts += 1
+	_expect(contexts == 60 and results == 240,
+		"W227 ballpoint audio did not cover exact 60 contexts and 240 results")
+	_expect(_same(BGMPlayer.scene_audio_contract(ALIVE_EVENTS[2]), {
+		"ambience": "intentional_silence",
+		"music": {"key": "reckoning", "start_paragraph": 1.0},
+		"result_paragraph_cues": {
+			"0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
+		},
+	}), "W227 changed intentional silence, reckoning entrance, or c0 paper cue")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _check_w227_result_anchor(
+		story: Node, anchors: Dictionary, language: String,
+		choice_index: int, formatted_result: String, context: String) -> void:
+	var source_paragraphs := formatted_result.split("\n\n")
+	var source_zero := str(source_paragraphs[0]) \
+		if not source_paragraphs.is_empty() else ""
+	var localized_anchors: Array[String] = []
+	for choice_key: String in ["1", "3"]:
+		var locales: Dictionary = anchors.get(choice_key, {}) \
+			if anchors.get(choice_key, {}) is Dictionary else {}
+		localized_anchors.append(str(story.call(
+			"_fmt", str(locales.get(language, "")))))
+	if choice_index in [1, 3]:
+		var expected_anchor: String = localized_anchors[0 if choice_index == 1 else 1]
+		var anchor_at := source_zero.find(expected_anchor)
+		_expect(not expected_anchor.is_empty() \
+			and formatted_result.count(expected_anchor) == 1 \
+			and source_zero.count(expected_anchor) == 1 \
+			and anchor_at > 0 \
+			and anchor_at + expected_anchor.length() <= source_zero.length(),
+			context + " choice%d lost its unique in-clause write boundary" % choice_index)
+		return
+	for anchor: String in localized_anchors:
+		_expect(anchor.is_empty() or anchor not in formatted_result,
+			context + " choice%d inherited a ballpoint write anchor" % choice_index)
+
+
+func _assert_w227_manifest_audio(
+		sources: Array[int], result_sources: Array, context: String) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var tracked: Array[String] = [
+		"phone_notification", "page_turn", "paper_handle", "cup_set",
+		"register_scan", "traffic_pass", "pen_write", "pen_ballpoint", "door_latch",
+	]
+	var last_play: Dictionary = {}
+	for sound_id: String in tracked:
+		last_play[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)
+	AudioManager.begin_story_audio_event(ALIVE_EVENTS[2])
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(ALIVE_EVENTS[2], "", source_index)
+	for choice_index in range(result_sources.size()):
+		for raw_index in result_sources[choice_index] as Array:
+			AudioManager.play_scene_result_paragraph_cues(
+				ALIVE_EVENTS[2], "", choice_index, int(raw_index))
+	var expected: Array[String] = [
+		"%s::result:0:0:0:paper_handle" % ALIVE_EVENTS[2],
+	]
+	_expect(AudioManager._story_audio_seen.keys() == expected,
+		"%s dispatched wrong W227 manifest cues: %s (expected %s)" % [
+			context, JSON.stringify(AudioManager._story_audio_seen), JSON.stringify(expected)])
+	for sound_id: String in tracked:
+		if sound_id != "paper_handle":
+			_expect(AudioManager._last_sfx_ms.get(sound_id, -1) == last_play[sound_id],
+				context + " played forbidden manifest sound " + sound_id)
+	var seen: Dictionary = AudioManager._story_audio_seen.duplicate(true)
+	var timestamps: Dictionary = AudioManager._last_sfx_ms.duplicate(true)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(ALIVE_EVENTS[2], "", source_index)
+	for choice_index in range(result_sources.size()):
+		for raw_index in result_sources[choice_index] as Array:
+			AudioManager.play_scene_result_paragraph_cues(
+				ALIVE_EVENTS[2], "", choice_index, int(raw_index))
+	_expect(_same(AudioManager._story_audio_seen, seen) \
+		and _same(AudioManager._last_sfx_ms, timestamps),
+		context + " replayed W227 manifest cues on a repeated paragraph bind")
+	_expect(_same(GameState.serialize(), before),
+		context + " W227 manifest audio rewrote the finale receipts or game state")
+
+
 func _father_trace_source_state(meeting_choice: int) -> Dictionary:
 	var locked: Dictionary = CAUSAL_ROUTE.lock_entry(
 		CAUSAL_ROUTE.default_state(), 195, "투자형", true, true, 2_000_000_000.0)
@@ -1469,7 +1747,7 @@ func _assert_father_trace_audio(
 		event_id: String, sources: Array[int], result_sources: Array,
 		result_sounds: Array[String], context: String) -> void:
 	var before: Dictionary = GameState.serialize().duplicate(true)
-	var tracked: Array[String] = ["phone_notification", "page_turn", "paper_handle", "cup_set", "register_scan", "traffic_pass", "pen_write", "door_latch"]
+	var tracked: Array[String] = ["phone_notification", "page_turn", "paper_handle", "cup_set", "register_scan", "traffic_pass", "pen_write", "pen_ballpoint", "door_latch"]
 	var last_play: Dictionary = {}
 	for sound_id: String in tracked:
 		last_play[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)

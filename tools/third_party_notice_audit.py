@@ -38,8 +38,8 @@ EXPORT_PRESETS_REL = "export_presets.cfg"
 EXPECTED_COMPONENTS = 1
 EXPECTED_FONT_FAMILIES = 5
 EXPECTED_FONT_FILES = 8
-EXPECTED_AUDIO_SOURCES = 23
-EXPECTED_AUDIO_ASSETS = 142
+EXPECTED_AUDIO_SOURCES = 24
+EXPECTED_AUDIO_ASSETS = 143
 EXPECTED_ATTRIBUTION_AUDIO_SOURCES = 1
 EXPECTED_EXPORT_PRESETS = 10
 EXPECTED_PACKAGED_NOTICE_FILES = 12
@@ -117,6 +117,29 @@ ALLOWED_AUDIO_SOURCE_TYPES = {
     "real_instrument_sample",
 }
 DOCUMENT_SCAN_LIBRARY_ID = "freesound_document_scan_cc0"
+BALLPOINT_LIBRARY_ID = "freesound_ballpoint_cc0"
+BALLPOINT_LIBRARY_RECORD = {
+    "provider": "15GPanskaZacekSamuel",
+    "title": "10_Writing.wav",
+    "source_type": "object_recording",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source_url": "https://freesound.org/s/461806/",
+    "attribution_required": False,
+}
+BALLPOINT_ASSET_RECORD = {
+    "provenance": "object_recording",
+    "sources": [
+        {
+            "pack": "freesound_ballpoint_cc0",
+            "original_file": "461806_9681705-hq.mp3",
+            "sha256": "3db7418e0f61e629d38adf55e3c6b92e3892c0fd4df864cab2debfcbd43ec465",
+            "source_type": "object_recording"
+        }
+    ],
+    "transform": "public HQ MP3 preview 1.000-2.000s; mono PCM16/44.1kHz; ffmpeg atrim=start=1:end=2,asetpts=PTS-STARTPTS,highpass=f=120,afade=t=in:st=0:d=0.015,afade=t=out:st=0.94:d=0.06,volume=20dB; no added layers",
+    "output_sha256": "88459bea210f28e0b5faf0685b5eb91caf0e356492df047b79646320ee188994"
+}
 DOCUMENT_SCAN_LIBRARY_RECORD = {
     "provider": "16F_Panska_TisonD",
     "title": "22_printer, scan.WAV",
@@ -598,6 +621,10 @@ def validate_audio(
         errors.append("document scan audio source must remain Freesound 499182 CC0")
     if assets.get("sfx_document_scan.wav") != DOCUMENT_SCAN_ASSET_RECORD:
         errors.append("document scan audio asset must remain the reviewed public-preview edit")
+    if libraries.get(BALLPOINT_LIBRARY_ID) != BALLPOINT_LIBRARY_RECORD:
+        errors.append("ballpoint audio source must remain Freesound 461806 CC0")
+    if assets.get("sfx_pen_ballpoint.wav") != BALLPOINT_ASSET_RECORD:
+        errors.append("ballpoint audio asset must remain the reviewed public-preview edit")
 
     actual_assets = {
         PurePosixPath(path).name

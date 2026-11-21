@@ -209,6 +209,15 @@
       "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
       "source_url": "https://freesound.org/s/499182/",
       "attribution_required": false
+    },
+    "freesound_ballpoint_cc0": {
+      "provider": "15GPanskaZacekSamuel",
+      "title": "10_Writing.wav",
+      "source_type": "object_recording",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_url": "https://freesound.org/s/461806/",
+      "attribution_required": false
     }
   },
   "assets": {
@@ -3583,6 +3592,19 @@
       ],
       "transform": "recorded one-shot edit; mono 44.1kHz; max 0.82s; RMS -23.0 dBFS",
       "output_sha256": "f52ca59977b20bc159a346922304e72c8f0338bd8a84268068f8aeba70094024"
+    },
+    "sfx_pen_ballpoint.wav": {
+      "provenance": "object_recording",
+      "sources": [
+        {
+          "pack": "freesound_ballpoint_cc0",
+          "original_file": "461806_9681705-hq.mp3",
+          "sha256": "3db7418e0f61e629d38adf55e3c6b92e3892c0fd4df864cab2debfcbd43ec465",
+          "source_type": "object_recording"
+        }
+      ],
+      "transform": "public HQ MP3 preview 1.000-2.000s; mono PCM16/44.1kHz; ffmpeg atrim=start=1:end=2,asetpts=PTS-STARTPTS,highpass=f=120,afade=t=in:st=0:d=0.015,afade=t=out:st=0.94:d=0.06,volume=20dB; no added layers",
+      "output_sha256": "88459bea210f28e0b5faf0685b5eb91caf0e356492df047b79646320ee188994"
     },
     "sfx_pen_write.wav": {
       "provenance": "field_recording",

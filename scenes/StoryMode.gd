@@ -126,6 +126,8 @@ const W208_REFERENCE_DELIVERY := "arc_y5_final_offer_reference_delivery"
 const W208_DOCUMENT_SCAN := preload("res://assets/w208_document_scan.tres")
 const W216_REVIEW := "arc_y5_sangchul_review_receipt"
 const W220_CONSENT_RECEIPT := "arc_y5_room_consent_receipt"
+const W227_FILING := "arc_y5_name_on_line_daeun_routed"
+const W227_BALLPOINT_WRITE := preload("res://assets/w227_ballpoint_write.tres")
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -184,6 +186,8 @@ var _typing: bool = false
 var _type_full: String = ""     # 현재 문단 전체 텍스트
 var _w208_scan_reveal_at := -1 # Transient character count; never a saved cue.
 var _w208_scan_consumed := false
+var _w227_pen_reveal_at := -1 # Transient reveal position, not a saved action.
+var _w227_pen_consumed := false
 var _type_pos: int = 0
 var _showing_choices: bool = false
 var _transitioning: bool = false
@@ -2759,6 +2763,8 @@ func _restore_story_result(context: Dictionary) -> void:
 func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_w208_scan_reveal_at = -1
 	_w208_scan_consumed = false
+	_w227_pen_reveal_at = -1
+	_w227_pen_consumed = false
 	if _paragraphs.is_empty():
 		return
 	var was_typing := bool(context.get("paragraph_was_typing", false))
@@ -2768,6 +2774,11 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 			and context.has("source_text_progress")
 	var phase := str(context.get("phase", "result" if result_phase else "prose"))
 	var saved_locale := str(context.get("story_locale", "")).strip_edges()
+	if _w227_pen_result_active() and (not has_source_position \
+			or saved_locale.is_empty() or saved_locale != LocaleManager.language):
+		# Proportional progress in another translation cannot prove this short
+		# writing action is still ahead. Restore the page, never invent a replay.
+		_w227_pen_consumed = true
 	var current_source_count := _story_source_paragraph_count()
 	var saved_source_count := int(context.get("source_paragraph_count", -1))
 	var locale_structure_changed := not saved_locale.is_empty() \
@@ -2864,6 +2875,12 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		# Finish the old screen's idle fade before restoring the held score.
 		BGMPlayer.enter_ambient_bed(0.0)
 		BGMPlayer.play_scene_paragraph_music(_current, "", 0)
+	elif str(_current.get("id", "")) == W227_FILING:
+		# The result's paper/writing happened on the original visit. A later live
+		# reveal may still own the pen when resuming before its exact clause.
+		BGMPlayer.enter_ambient_bed(0.0)
+		if result_phase or phase == "choices" or source_paragraph_index >= 1:
+			BGMPlayer.play_scene_paragraph_music(_current, "", 1)
 	elif str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		# Restore the sustained score only if the authored entrance was passed.
 		# No contact, police, or navigation one-shot belongs to resume.
@@ -2898,11 +2915,13 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_type_pos = saved_type_pos
 		_body_lbl.text = paragraph.substr(0, saved_type_pos)
 		_rebind_w208_scan_reveal()
+		_rebind_w227_pen_reveal()
 		return
 	_type_pos = paragraph.length()
 	_typing = false
 	_body_lbl.text = paragraph
 	_rebind_w208_scan_reveal()
+	_rebind_w227_pen_reveal()
 	_sync_wedding_lights_out(true)
 	_record_current_dialogue_source()
 	_refresh_continue_hint_text()
@@ -3782,6 +3801,7 @@ func _restore_localized_story_text(
 		hint_was_visible: bool,
 		beat_was_waiting: bool) -> void:
 	_w208_scan_reveal_at = -1
+	_w227_pen_reveal_at = -1
 	var old_cut := _result_location_cut_page
 	var old_after_cut := old_cut >= 0 and _para_index >= old_cut
 	var old_source := _story_source_paragraph_index(_para_index)
@@ -3797,6 +3817,13 @@ func _restore_localized_story_text(
 			# from the normal prose position alone.
 			source_page_progress = maxf(source_page_progress, scan_range.y) if _w208_scan_consumed \
 				else minf(source_page_progress, scan_range.x)
+	if source_paragraph_index == 0:
+		var pen_range := _w227_pen_progress_range()
+		if pen_range.y >= 0.0:
+			# Preserve which side of the writing clause was read when a language or
+			# font changes its page. Ordinary source progress remains the save owner.
+			source_page_progress = maxf(source_page_progress, pen_range.y) if _w227_pen_consumed \
+				else minf(source_page_progress, pen_range.x)
 	var preserve_ktx_stage := ktx_stage >= 0 and not _first_ktx_cut_pages.is_empty()
 	if preserve_ktx_stage:
 		var new_ktx_range := _first_ktx_phase_progress(ktx_stage)
@@ -3838,6 +3865,10 @@ func _restore_localized_story_text(
 		# A larger page can merge unread text into a fully revealed prior page.
 		# Keep the newly visible part unrevealed until normal typing resumes.
 		was_typing = true
+	if not was_typing and not _w227_pen_consumed and source_paragraph_index == 0 \
+			and _w227_pen_reveal_position(str(_paragraphs[_para_index])) > 0:
+		# A reflow can merge the unread writing clause into a finished prior page.
+		was_typing = true
 	_refresh_story_paragraph_presentation(
 		_story_source_paragraph_index(_para_index), true)
 	_apply_authored_result_location()
@@ -3871,6 +3902,7 @@ func _restore_localized_story_text(
 		_continue_hint.visible = hint_was_visible \
 				and not _showing_choices and not _direction_hold_active
 	_rebind_w208_scan_reveal()
+	_rebind_w227_pen_reveal()
 	_sync_wedding_lights_out(true)
 
 func _refresh_story_choice_language() -> void:
@@ -5902,6 +5934,7 @@ func _render_current():
 
 	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
 	_w208_scan_consumed = false
+	_w227_pen_consumed = false
 	_apply_story_page_data(_resolved_story_prose_pages())
 	_para_index = 0
 	if w53_network and str(_pending_restore_context.get("event_id", "")) != W53_SANGCHUL_NETWORK:
@@ -5910,7 +5943,7 @@ func _render_current():
 		_apply_w117_counter_surface(false, true)
 	if _pending_restore_context.is_empty() \
 			or (not _full_w19_reunion \
-				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW, W220_CONSENT_RECEIPT]):
+				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW, W220_CONSENT_RECEIPT, W227_FILING]):
 		_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 
@@ -7494,6 +7527,7 @@ func _complete_typing() -> void:
 	_typing = false
 	_body_lbl.text = _type_full
 	_maybe_play_w208_scan()
+	_maybe_play_w227_pen()
 	_sync_wedding_lights_out(false)
 	_record_current_dialogue_source()
 	if _should_begin_direction_hold():
@@ -7574,9 +7608,84 @@ func _maybe_play_w208_scan() -> void:
 	_w208_scan_consumed = true
 	AudioManager.play("document_scan", -5.0)
 
+func _w227_pen_result_active() -> bool:
+	return not _read_only_replay and _pending_after_result \
+		and str(_current.get("id", "")) == W227_FILING \
+		and _pending_result_choice_index in [1, 3]
+
+func _w227_pen_reveal_position(full_text: String, page_index: int = -1) -> int:
+	if page_index < 0:
+		page_index = _para_index
+	if not _w227_pen_result_active() or _story_source_paragraph_index(page_index) != 0:
+		return -1
+	var rows: Dictionary = W227_BALLPOINT_WRITE.get_meta("write_anchors", {})
+	var anchors: Dictionary = rows.get(str(_pending_result_choice_index), {})
+	var anchor := _fmt(str(anchors.get(LocaleManager.language, "")))
+	var choices: Array = _current.get("choices", [])
+	if choices.size() != 4:
+		return -1
+	var prose := _fmt(str((choices[_pending_result_choice_index] as Dictionary).get("result_text", "")))
+	var sources := prose.split("\n\n")
+	var expected_sources := 1 if _pending_result_choice_index == 1 else 2
+	if anchor.is_empty() or sources.size() != expected_sources \
+			or prose.count(anchor) != 1 or sources[0].count(anchor) != 1:
+		return -1
+	var source: String = sources[0]
+	var anchor_end := source.find(anchor) + anchor.length()
+	# Locate the clause inside existing viewport pages; do not insert a new cut.
+	var cursor := 0
+	for previous_page in range(_first_story_page_for_source(0), page_index):
+		var page := str(_paragraphs[previous_page])
+		var previous_start := source.find(page, cursor)
+		if previous_start < 0:
+			return -1
+		cursor = previous_start + page.length()
+	var page_start := source.find(full_text, cursor)
+	if page_start < 0 or anchor_end > page_start + full_text.length():
+		return -1
+	return maxi(0, anchor_end - page_start)
+
+func _w227_pen_progress_range() -> Vector2:
+	if not _w227_pen_result_active():
+		return Vector2(-1.0, -1.0)
+	for page_index in range(_paragraphs.size()):
+		if _story_source_paragraph_index(page_index) != 0:
+			continue
+		var page := str(_paragraphs[page_index])
+		var reveal_at := _w227_pen_reveal_position(page, page_index)
+		if reveal_at > 0:
+			return Vector2(
+				_story_source_page_progress(page_index, float(reveal_at - 1) / page.length()),
+				_story_source_page_progress(page_index, float(reveal_at) / page.length()))
+	return Vector2(-1.0, -1.0)
+
+func _rebind_w227_pen_reveal() -> void:
+	_w227_pen_reveal_at = -1
+	if _w227_pen_consumed or not _w227_pen_result_active():
+		return
+	if _story_source_paragraph_index(_para_index) > 0:
+		_w227_pen_consumed = true
+		return
+	var reveal_at := _w227_pen_reveal_position(_type_full)
+	if reveal_at < 0:
+		return
+	if _type_pos >= reveal_at:
+		_w227_pen_consumed = true
+	elif _typing:
+		_w227_pen_reveal_at = reveal_at
+
+func _maybe_play_w227_pen() -> void:
+	if not _w227_pen_result_active() or _w227_pen_consumed \
+			or _w227_pen_reveal_at < 0 or _type_pos < _w227_pen_reveal_at:
+		return
+	_w227_pen_reveal_at = -1
+	_w227_pen_consumed = true
+	AudioManager.play("pen_ballpoint", -5.0)
+
 func _start_typing(full_text: String, live_advance: bool = false):
 	_type_full = full_text
 	_w208_scan_reveal_at = -1
+	_w227_pen_reveal_at = -1
 	_type_pos = 0
 	_type_accum = 0.0
 	_typing = true
@@ -7585,6 +7694,7 @@ func _start_typing(full_text: String, live_advance: bool = false):
 	_continue_hint.visible = false
 	if live_advance:
 		_rebind_w208_scan_reveal()
+	_rebind_w227_pen_reveal()
 	_sync_wedding_lights_out(true)
 
 func _process(delta):
@@ -7633,6 +7743,7 @@ func _process(delta):
 	else:
 		_body_lbl.text = _type_full.substr(0, _type_pos)
 		_maybe_play_w208_scan()
+		_maybe_play_w227_pen()
 
 func _begin_advance_hold() -> void:
 	if _showing_choices or _is_chapter_card or _auto_mode \

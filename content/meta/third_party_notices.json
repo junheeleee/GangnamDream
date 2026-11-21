@@ -4,7 +4,7 @@
   "generated_from": [
     {
       "path": "res://assets/audio/AUDIO_SOURCE_MANIFEST.json",
-      "sha256": "71319d9537821804e6f291d7aa35ed4eb9679d10e1bc3770b813b0264774704c"
+      "sha256": "2bb31c6e23d26ab647cebc78ceb15a9cf92345f770019f3b89c0a1243dde5264"
     },
     {
       "path": "res://assets/fonts/FONT_LICENSE_LEDGER.md",
@@ -115,10 +115,10 @@
     "component_entries": 1,
     "font_families": 5,
     "font_files": 8,
-    "audio_sources": 23,
-    "audio_assets": 142,
+    "audio_sources": 24,
+    "audio_assets": 143,
     "attribution_required_audio_sources": 1,
-    "audio_source_assignments": 159
+    "audio_source_assignments": 160
   },
   "sections": [
     {
@@ -293,6 +293,22 @@
             "res://assets/audio/sfx_ending_stinger_good.wav",
             "res://assets/audio/sfx_ending_stinger_legend.wav",
             "res://assets/audio/sfx_publisher_sting.wav"
+          ]
+        },
+        {
+          "id": "freesound_ballpoint_cc0",
+          "kind": "audio_source",
+          "name": "10_Writing.wav",
+          "provider": "15GPanskaZacekSamuel",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source_url": "https://freesound.org/s/461806/",
+          "source_type": "object_recording",
+          "source_collection": "10_Writing.wav",
+          "notice_status": "voluntary_credit",
+          "shipping_asset_count": 1,
+          "shipping_assets": [
+            "res://assets/audio/sfx_pen_ballpoint.wav"
           ]
         },
         {

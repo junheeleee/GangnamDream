@@ -5,6 +5,7 @@ extends Node
 
 const QA_PREFIX := "GangnamDream_StoryNameplateQA_"
 const CHAPTER5_ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
+const CHAPTER5_FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
 const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
 const BURNOUT_PRIOR_CHOICES := [2, 1, 0, 1]
 const W202_EVENT := "callback_daeun_committed_gangnam_eve"
@@ -205,6 +206,12 @@ const W216_REVIEW := "arc_y5_sangchul_review_receipt"
 const W216_LANDING := "sangchul_old_office_landing_w216"
 const W219_MEETING_DECISION := "arc_y5_three_in_room_decision"
 const W220_CONSENT_RECEIPT := "arc_y5_room_consent_receipt"
+const W227_FILING := "arc_y5_name_on_line_daeun_routed"
+const W227_BACKGROUND := "finale_intake_blue_pen"
+const W227_BALLPOINT_WRITE := preload("res://assets/w227_ballpoint_write.tres")
+const W227_TRACKED_SFX := [
+	"pen_ballpoint", "paper_handle", "pen_write", "document_scan", "register_scan",
+]
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -434,6 +441,7 @@ const CASES := [
 
 const EXACT_PATHS := {
 	W216_LANDING: "res://assets/backgrounds/sangchul_old_office_landing_w216_v1.png",
+	W227_BACKGROUND: "res://assets/backgrounds/finale_intake_blue_pen_v1.png",
 	"office": "res://assets/backgrounds/office_desk.png",
 	W132_STAIRS: "res://assets/backgrounds/sangchul_cafe_stairs_v2.png",
 	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
@@ -556,6 +564,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W227_BALLPOINT_CHECK"):
+		var ballpoint_ok: bool = await _check_w227_ballpoint()
+		await _remove_story()
+		await _stop_audio()
+		if ballpoint_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w227_ballpoint")
+		get_tree().quit(0 if ballpoint_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W220_RECEIPT_CHECK"):
 		var receipt_ok: bool = await _check_w220_receipt()
 		await _remove_story()
@@ -4170,6 +4186,638 @@ func _check_w208_document_scan() -> bool:
 		_fail("W208 fixture population drifted paths=%d natural=%d skip=%d v4=%d reflow=%d" % [
 			paths, natural_cues, skip_cues, cold_restores, text_reflows])
 	return counts_ok
+
+func _check_w227_ballpoint() -> bool:
+	var contract: Dictionary = BGMPlayer.scene_audio_contract(W227_FILING)
+	if contract != {
+			"ambience": "intentional_silence",
+			"music": {"key": "reckoning", "start_paragraph": 1.0},
+			"result_paragraph_cues": {
+				"0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
+			},
+		}:
+		_fail("W227 changed its quiet-room, held-score, or c0 paper-only contract")
+		return false
+	var anchor_rows: Dictionary = W227_BALLPOINT_WRITE.get_meta("write_anchors", {})
+	if anchor_rows.keys().map(func(key: Variant) -> String: return str(key)) != ["1", "3"]:
+		_fail("W227 ballpoint metadata lost its exact c1/c3 rows")
+		return false
+	for choice_key in ["1", "3"]:
+		var anchors: Dictionary = anchor_rows.get(choice_key, {})
+		if anchors.size() != LocaleManager.SUPPORTED_LANGUAGES.size():
+			_fail("W227 c%s lost its five-locale writing anchors" % choice_key)
+			return false
+		for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+			if str(anchors.get(language, "")).strip_edges().is_empty():
+				_fail("W227 c%s lost its %s writing anchor" % [choice_key, language])
+				return false
+
+	var paths := 0
+	var live_ink := 0
+	var paper_guards := 0
+	var silent_guards := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice: int in range(4):
+			if not await _w227_open(language) or not await _w227_read_intro():
+				return false
+			_w227_clear_tracked()
+			_story.call("_on_choice", choice)
+			_story.set_process(false)
+			await _wait_stable()
+			var applied := _w227_state_bytes()
+			if not _w227_result_layout(choice) \
+					or not GameState.chapter5_finale_receipt_matches(W227_FILING, choice, 227) \
+					or not _w227_surface("W227 result entry", true) \
+					or not _w227_state_matches(applied, "W227 result entry"):
+				_fail("W227 %s c%d did not enter its exact live result" % [language, choice])
+				return false
+			if choice == 0:
+				if not _w227_audio_matches("paper", "W227 c0 source0", true) \
+						or not await _w227_finish_result(applied, "paper", -1):
+					return false
+				paper_guards += 1
+			elif choice == 2:
+				if not _w227_audio_matches("none", "W227 c2 source0") \
+						or not await _w227_finish_result(applied, "none", -1):
+					return false
+				silent_guards += 1
+			else:
+				if not await _w227_seek_pen_page(applied):
+					return false
+				var reveal := int(_story.get("_w227_pen_reveal_at"))
+				if reveal <= 0 or not _w227_type_to(reveal - 1) \
+						or not _w227_boundary_side(true) \
+						or not _w227_audio_matches("none", "W227 before writing clause"):
+					_fail("W227 %s c%d sounded before its localized writing clause" % [language, choice])
+					return false
+				if not _w227_type_to(reveal) \
+						or not _w227_audio_matches("pen", "W227 exact writing clause", true):
+					_fail("W227 %s c%d lost its exact live ballpoint crossing" % [language, choice])
+					return false
+				var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+				_story.call("_complete_typing")
+				_story.call("_complete_typing")
+				if int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != played_at \
+						or not await _w227_finish_result(applied, "pen", played_at):
+					_fail("W227 %s c%d replayed its completed writing action" % [language, choice])
+					return false
+				live_ink += 1
+			paths += 1
+
+	var skip_ink := 0
+	for choice: int in [1, 3]:
+		if not await _w227_prepare_result("ko", choice):
+			return false
+		var mapping := _w227_pen_mapping()
+		_w227_clear_tracked()
+		if int(mapping.get("page", -1)) != 0:
+			_fail("W227 c%d writing clause left initial result page0" % choice)
+			return false
+		_story.call("_complete_typing")
+		var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+		_story.call("_complete_typing")
+		if played_at < 0 or int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != played_at \
+				or not _w227_audio_matches("pen", "W227 page0 skip", true):
+			_fail("W227 c%d page0 completion did not emit one ballpoint action" % choice)
+			return false
+		skip_ink += 1
+
+	var cold_boundaries := 0
+	var cold_live_ink := 0
+	for choice: int in [1, 3]:
+		for before_pen: bool in [true, false]:
+			if not await _w227_prepare_result("ko", choice):
+				return false
+			var applied := _w227_state_bytes()
+			if not await _w227_seek_pen_page(applied):
+				return false
+			var reveal := int(_story.get("_w227_pen_reveal_at"))
+			if not _w227_type_to(reveal - 1 if before_pen else reveal):
+				return false
+			if not before_pen and not _w227_audio_matches("pen", "W227 pre-save consumed pen", true):
+				return false
+			_w227_clear_tracked()
+			if not await _w227_cold_boundary(choice, before_pen, applied, "ko"):
+				return false
+			cold_boundaries += 1
+			if before_pen:
+				cold_live_ink += 1
+
+	var reflow_boundaries := 0
+	var reflow_live_ink := 0
+	for choice: int in [1, 3]:
+		for before_pen: bool in [true, false]:
+			if not await _w227_prepare_result("ko", choice):
+				return false
+			var applied := _w227_state_bytes()
+			if not await _w227_seek_pen_page(applied):
+				return false
+			var reveal := int(_story.get("_w227_pen_reveal_at"))
+			if not _w227_type_to(reveal - 1 if before_pen else reveal):
+				return false
+			_w227_clear_tracked()
+			if not await _w227_reflow_boundary(choice, before_pen, applied):
+				return false
+			reflow_boundaries += 2
+			if before_pen:
+				reflow_live_ink += 1
+
+	var cross_locale_cold := 0
+	for choice: int in [1, 3]:
+		if not await _w227_prepare_result("ko", choice):
+			return false
+		var applied := _w227_state_bytes()
+		if not await _w227_seek_pen_page(applied):
+			return false
+		var reveal := int(_story.get("_w227_pen_reveal_at"))
+		if not _w227_type_to(reveal - 1):
+			return false
+		_w227_clear_tracked()
+		if not await _w227_cold_boundary(choice, false, applied, "en", true):
+			return false
+		cross_locale_cold += 1
+
+	if not await _w227_source1_cold_guard():
+		return false
+	print("W227_BALLPOINT_OK paths=%d live_ink=%d skip_ink=%d paper=%d silent=%d v4=%d cross_locale_v4=%d source1_v4=1 reflows=%d reflow_ink=%d cold_ink=%d" % [
+		paths, live_ink, skip_ink, paper_guards, silent_guards,
+		cold_boundaries, cross_locale_cold, reflow_boundaries,
+		reflow_live_ink, cold_live_ink])
+	var counts_ok := paths == 20 and live_ink == 10 and skip_ink == 2 \
+		and paper_guards == 5 and silent_guards == 5 and cold_boundaries == 4 \
+		and cross_locale_cold == 2 and reflow_boundaries == 8 \
+		and reflow_live_ink == 2 and cold_live_ink == 2
+	if not counts_ok:
+		_fail("W227 dynamic fixture population drifted")
+	return counts_ok
+
+func _w227_open(language: String) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W227" % language
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	if not _prepare_full_owner_history(227, []):
+		return false
+	GameState.money = 2_100_000_000.0
+	GameState.housing = "oneroom"
+	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(
+		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true,
+		GameState.get_total_asset_value())
+	if not bool(locked.get("ok", false)):
+		_fail("W227 could not lock the actual Chapter 5 causal route")
+		return false
+	var state: Dictionary = locked["state"]
+	for index: int in range(CHAPTER5_ROUTE.OWNED_EVENT_IDS.size()):
+		var event_id: String = CHAPTER5_ROUTE.OWNED_EVENT_IDS[index]
+		var choice_index := 1 if event_id == W219_MEETING_DECISION else 0
+		var at_turn: int = CHAPTER5_ROUTE.OWNED_TURNS[index]
+		if not CHAPTER5_ROUTE.choice_commit_available(state, event_id, choice_index, at_turn):
+			continue
+		var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(
+			state, event_id, choice_index, at_turn)
+		if not bool(committed.get("ok", false)):
+			_fail("W227 could not commit causal predecessor %s/c%d" % [event_id, choice_index])
+			return false
+		state = committed["state"]
+	if not CHAPTER5_ROUTE.route_complete(state) \
+			or CHAPTER5_ROUTE.selected_choice(state, W219_MEETING_DECISION) != 1:
+		_fail("W227 causal paper trail did not close on W219 c1")
+		return false
+	GameState.chapter5_causal_state = state
+	var final_calendar := [GameState.turn, GameState.age, GameState.year,
+		GameState.month, GameState.week_of_month]
+	GameState.turn = 221
+	if not GameState.prepare_chapter5_finale_route_entry():
+		_fail("W227 could not lock its real finale entry")
+		return false
+	var father_event := GameState.chapter5_finale_next_event_for_turn()
+	var father_result: Dictionary = GameState.record_chapter5_finale_choice(father_event, 0)
+	GameState.turn = 224
+	var custody_event := GameState.chapter5_finale_next_event_for_turn()
+	var custody_result: Dictionary = GameState.record_chapter5_finale_choice(custody_event, 0)
+	GameState.turn = int(final_calendar[0])
+	GameState.age = int(final_calendar[1])
+	GameState.year = int(final_calendar[2])
+	GameState.month = int(final_calendar[3])
+	GameState.week_of_month = int(final_calendar[4])
+	if father_event not in CHAPTER5_FINALE_ROUTE.OWNED_EVENT_IDS.slice(0, 2) \
+			or not bool(father_result.get("ok", false)) \
+			or custody_event != CHAPTER5_FINALE_ROUTE.OWNED_EVENT_IDS[2] \
+			or not bool(custody_result.get("ok", false)) \
+			or GameState.chapter5_finale_next_event_for_turn() != W227_FILING:
+		_fail("W227 finale predecessors did not admit the filing root")
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	ingress.set_meta("_screenshot_qa_static_surface", true)
+	var routed := bool(ingress.call("_route_chapter5_finale_week"))
+	ingress.free()
+	if not routed or GameState.pending_story_queue != [W227_FILING] \
+			or not FULL_STORY_FLOW.valid_session():
+		_fail("W227 did not route through MainGame and FullStoryFlow")
+		return false
+	BGMPlayer.set_ambience("rain")
+	BGMPlayer.set_season_ambience("winter")
+	_w227_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	return str((_story.get("_current") as Dictionary).get("id", "")) == W227_FILING \
+		and _w227_surface("W227 live opening", false) \
+		and _w227_audio_matches("none", "W227 live opening")
+
+func _w227_read_intro() -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 4 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored):
+		_fail("W227 lost its two receipt rows plus two authored prose sources")
+		return false
+	while not bool(_story.get("_showing_choices")):
+		var source := int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index"))))
+		await _finish_page()
+		if not _w227_surface("W227 opening", source >= 1) \
+				or not _w227_audio_matches("none", "W227 opening"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 4 \
+		and _w227_surface("W227 choices", true) \
+		and _w227_audio_matches("none", "W227 choices")
+
+func _w227_prepare_result(language: String, choice: int) -> bool:
+	if not await _w227_open(language) or not await _w227_read_intro():
+		return false
+	_w227_clear_tracked()
+	_story.call("_on_choice", choice)
+	_story.set_process(false)
+	await _wait_stable()
+	return _w227_result_layout(choice) \
+		and GameState.chapter5_finale_receipt_matches(W227_FILING, choice, 227) \
+		and _w227_surface("W227 prepared result", true)
+
+func _w227_result_layout(choice: int) -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choice < 0 or choice >= choices.size() or pages.is_empty():
+		return false
+	var authored := str(_story.call("_fmt", (choices[choice] as Dictionary).get("result_text", "")))
+	var expected_sources: Array = [2, 1, 2, 2]
+	if int(_story.call("_story_source_paragraph_count")) != int(expected_sources[choice]) \
+			or not _m23_same_prose(pages, authored) \
+			or int(_story.get("_result_location_cut_page")) >= 0:
+		return false
+	var mapping := _w227_pen_mapping()
+	return not mapping.is_empty() if choice in [1, 3] else mapping.is_empty()
+
+func _w227_pen_mapping() -> Dictionary:
+	var found: Array[Dictionary] = []
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		var page := str((_story.get("_paragraphs") as Array)[page_index])
+		var reveal := int(_story.call("_w227_pen_reveal_position", page, page_index))
+		if reveal > 0:
+			found.append({"page": page_index, "reveal": reveal})
+	return found[0] if found.size() == 1 else {}
+
+func _w227_seek_pen_page(applied: String) -> bool:
+	var mapping := _w227_pen_mapping()
+	var target := int(mapping.get("page", -1))
+	while int(_story.get("_para_index")) < target:
+		await _finish_page()
+		if not _w227_audio_matches("none", "W227 before writing page") \
+				or not _w227_state_matches(applied, "W227 before writing page"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		mapping = _w227_pen_mapping()
+		target = int(mapping.get("page", -1))
+	if target < 0 or int(_story.get("_para_index")) != target \
+			or int(_story.get("_w227_pen_reveal_at")) != int(mapping.get("reveal", -2)):
+		_fail("W227 did not settle on its exact writing-clause page")
+		return false
+	return true
+
+func _w227_type_to(target: int) -> bool:
+	var guard := 0
+	while int(_story.get("_type_pos")) < target and guard < 4096:
+		var before := int(_story.get("_type_pos"))
+		_story.call("_process", float(_story.call("_direction_type_interval")))
+		if int(_story.get("_type_pos")) == before:
+			_story.call("_process", 0.001)
+		guard += 1
+	if int(_story.get("_type_pos")) != target:
+		_fail("W227 typewriter skipped target=%d actual=%d" % [target, int(_story.get("_type_pos"))])
+		return false
+	return true
+
+func _w227_finish_result(applied: String, audio_mode: String, played_at: int) -> bool:
+	while true:
+		await _finish_page()
+		if not _w227_surface("W227 result", true) \
+				or not _w227_state_matches(applied, "W227 result") \
+				or not _w227_audio_matches(audio_mode, "W227 result"):
+			return false
+		if played_at >= 0 and int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != played_at:
+			_fail("W227 later result page replayed pen_ballpoint")
+			return false
+		if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+func _w227_boundary_side(before_pen: bool) -> bool:
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) not in [1, 3] \
+			or int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != 0:
+		return false
+	var pen_range: Vector2 = _story.call("_w227_pen_progress_range")
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var progress := float(context.get("source_text_progress", -1.0))
+	if pen_range.x < 0.0 or pen_range.y < pen_range.x:
+		return false
+	if before_pen:
+		return not bool(_story.get("_w227_pen_consumed")) \
+			and int(_story.get("_w227_pen_reveal_at")) > int(_story.get("_type_pos")) \
+			and progress <= pen_range.x + 0.00001
+	return bool(_story.get("_w227_pen_consumed")) \
+		and int(_story.get("_w227_pen_reveal_at")) < 0 \
+		and progress >= pen_range.y - 0.00001
+
+func _w227_cold_boundary(choice: int, before_pen: bool, applied: String,
+		target_locale: String, cross_locale: bool = false) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var saved_progress := float(context.get("source_text_progress", -1.0))
+	if context.get("event_id") != W227_FILING or context.get("phase") != "result" \
+			or int(context.get("pending_result_choice_index", -1)) != choice \
+			or int(context.get("source_paragraph_index", -1)) != 0 \
+			or not bool(context.get("paragraph_was_typing", false)) \
+			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail("W227 could not save its exact typing boundary")
+		return false
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int((disk as Dictionary).get("version", -1)) != 4:
+		_fail("W227 cold boundary lost disk schema v4")
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	LocaleManager.set_language(target_locale)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("W227 could not cold-load its typing boundary")
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	await get_tree().create_timer(0.85).timeout
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	var expected_before := before_pen and not cross_locale
+	var restored_progress := float(restored.get("source_text_progress", -2.0))
+	var side_ok := _w227_boundary_side(expected_before)
+	if cross_locale:
+		var pen_range: Vector2 = _story.call("_w227_pen_progress_range")
+		var source_characters := 0
+		for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+			if int(_story.call("_story_source_paragraph_index", page_index)) == 0:
+				source_characters += str((_story.get("_paragraphs") as Array)[page_index]).length()
+		var quantization_bound := 0.5 / float(source_characters) + 0.000001 \
+			if source_characters > 0 else -1.0
+		side_ok = bool(_story.get("_w227_pen_consumed")) \
+			and int(_story.get("_w227_pen_reveal_at")) < 0 \
+			and quantization_bound > 0.0 \
+			and absf(restored_progress - saved_progress) <= quantization_bound \
+			and (saved_progress >= pen_range.x or restored_progress < pen_range.y)
+	if LocaleManager.language != target_locale or restored.get("event_id") != W227_FILING \
+			or restored.get("phase") != "result" \
+			or int(restored.get("pending_result_choice_index", -1)) != choice \
+			or int(restored.get("source_paragraph_index", -1)) != 0 \
+			or (not cross_locale and not is_equal_approx(restored_progress, saved_progress)) \
+			or not side_ok \
+			or not _w227_state_matches(applied, "W227 cold result", cross_locale) \
+			or not _w227_surface("W227 cold result", true) \
+			or not _w227_audio_matches("none", "W227 cold result"):
+		_fail("W227 cold boundary crossed, replayed, changed state, or lost held score")
+		return false
+	if expected_before:
+		var reveal := int(_story.get("_w227_pen_reveal_at"))
+		if not _w227_type_to(reveal) \
+				or not _w227_audio_matches("pen", "W227 cold pending crossing", true):
+			_fail("W227 same-locale cold restore did not retain its future pen action")
+			return false
+		var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+		_story.call("_complete_typing")
+		if int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) != played_at:
+			_fail("W227 cold pending crossing replayed at completion")
+			return false
+	else:
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if not _w227_audio_matches("none", "W227 cold consumed completion"):
+			_fail("W227 cold consumed boundary replayed a past writing action")
+			return false
+	return _w216_score_playing() \
+		and _w227_state_matches(applied, "W227 cold final", cross_locale)
+
+func _w227_reflow_boundary(choice: int, before_pen: bool, applied: String) -> bool:
+	_story.call("_set_story_text_size", "large")
+	await _wait_stable()
+	if not _w227_boundary_side(before_pen) \
+			or not _w227_state_matches(applied, "W227 font reflow") \
+			or not _w227_surface("W227 font reflow", true) \
+			or not _w227_audio_matches("none", "W227 font reflow"):
+		_fail("W227 c%d font reflow crossed or replayed its pen boundary" % choice)
+		return false
+	_story.call("_set_story_language", "en")
+	await _wait_stable()
+	if LocaleManager.language != "en" or not _w227_boundary_side(before_pen) \
+			or not _w227_state_matches(applied, "W227 locale reflow", true) \
+			or not _w227_surface("W227 locale reflow", true) \
+			or not _w227_audio_matches("none", "W227 locale reflow"):
+		_fail("W227 c%d locale reflow crossed or replayed its pen boundary" % choice)
+		return false
+	if before_pen:
+		var reveal := int(_story.get("_w227_pen_reveal_at"))
+		if not _w227_type_to(reveal) \
+				or not _w227_audio_matches("pen", "W227 reflow pending crossing", true):
+			_fail("W227 c%d reflow lost its one remaining pen action" % choice)
+			return false
+		var played_at := int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1))
+		_story.call("_complete_typing")
+		return int(AudioManager._last_sfx_ms.get("pen_ballpoint", -1)) == played_at
+	_story.call("_complete_typing")
+	_story.call("_complete_typing")
+	return _w227_audio_matches("none", "W227 reflow consumed completion")
+
+func _w227_source1_cold_guard() -> bool:
+	if not await _w227_prepare_result("ko", 3):
+		return false
+	var applied := _w227_state_bytes()
+	if not await _w227_seek_pen_page(applied):
+		return false
+	var reveal := int(_story.get("_w227_pen_reveal_at"))
+	if not _w227_type_to(reveal):
+		return false
+	while int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) == 0:
+		await _finish_page()
+		if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+			_fail("W227 c3 lost its second result source")
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	_w227_clear_tracked()
+	var context: Dictionary = _story.call("build_save_resume_context")
+	if int(context.get("source_paragraph_index", -1)) != 1 \
+			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail("W227 c3 could not save its later source1")
+		return false
+	await _remove_story()
+	GameState.start_new_game()
+	LocaleManager.set_language("ko")
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("W227 c3 could not restore its later source1")
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	await get_tree().create_timer(0.85).timeout
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	_story.call("_complete_typing")
+	return int(restored.get("source_paragraph_index", -1)) == 1 \
+		and bool(_story.get("_w227_pen_consumed")) \
+		and _w227_state_matches(applied, "W227 source1 cold") \
+		and _w227_surface("W227 source1 cold", true) \
+		and _w227_audio_matches("none", "W227 source1 cold")
+
+func _w227_surface(label: String, expect_score: bool) -> bool:
+	var portrait := _story.get("_portrait") as TextureRect
+	var portrait_frame := _story.get("_portrait_frame") as Control
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W227_FILING \
+			or not _expect_surface(W227_BACKGROUND, "", label) \
+			or portrait.texture != null or portrait_frame.visible \
+			or not _expect_no_ambience(label):
+		_fail("%s changed W227 filing-counter surface or empty portrait" % label)
+		return false
+	if expect_score:
+		if not _w216_score_playing():
+			_fail("%s lost W227 held reckoning score" % label)
+			return false
+	elif not str(BGMPlayer.get("_current_key")).is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail("%s opened W227 score before source1" % label)
+		return false
+	return true
+
+func _w227_clear_tracked() -> void:
+	for sound_id: String in W227_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+func _w227_audio_matches(mode: String, label: String, require_stream: bool = false) -> bool:
+	var expected_sound := "paper_handle" if mode == "paper" else (
+		"pen_ballpoint" if mode == "pen" else "")
+	var cue_keys: Array = AudioManager._story_audio_seen.keys().filter(func(key: Variant) -> bool:
+		if not str(key).begins_with(W227_FILING + ":"):
+			return false
+		for sound_id: String in W227_TRACKED_SFX:
+			if str(key).ends_with(":" + sound_id):
+				return true
+		return false)
+	cue_keys.sort()
+	var expected_cues: Array = [W227_FILING + "::result:0:0:0:paper_handle"] \
+		if mode == "paper" else []
+	var invalid: Array[String] = []
+	for sound_id: String in W227_TRACKED_SFX:
+		var expected := sound_id == expected_sound
+		var streams := _w197_sfx_stream_count(sound_id)
+		if AudioManager._last_sfx_ms.has(sound_id) != expected \
+				or (not expected and streams != 0) \
+				or (expected and require_stream and streams != 1):
+			invalid.append(sound_id)
+	if cue_keys != expected_cues or not invalid.is_empty():
+		_fail("%s W227 audio mismatch mode=%s invalid=%s cues=%s" % [
+			label, mode, invalid, cue_keys])
+		return false
+	if require_stream and not expected_sound.is_empty():
+		var expected_db := float(AudioManager.call("_vol_db")) \
+			+ AudioManager.sfx_mix_trim_db(expected_sound) \
+			+ (-6.0 if mode == "paper" else -5.0)
+		for player: AudioStreamPlayer in AudioManager._pool:
+			if player.playing and player.stream == AudioManager._sounds.get(expected_sound):
+				if not is_equal_approx(player.volume_db, expected_db):
+					_fail("%s W227 %s volume expected=%s actual=%s" % [
+						label, expected_sound, expected_db, player.volume_db])
+					return false
+				return true
+		_fail("%s W227 %s stream was not active" % [label, expected_sound])
+		return false
+	return true
+
+func _w227_state_bytes() -> String:
+	# Compare every serialized field and meta value across the v4 JSON boundary.
+	# Numeric Variant widths normalize legitimately; no semantic field is omitted.
+	return JSON.stringify({
+		"game": _w177_json_state(GameState.serialize()),
+		"meta": _w177_json_state(MetaProgression.data),
+	}, "", true)
+
+func _w227_state_matches(expected: String, label: String,
+		allow_default_name_projection: bool = false) -> bool:
+	var actual_bytes := _w227_state_bytes()
+	if actual_bytes == expected:
+		return true
+	var expected_state: Variant = JSON.parse_string(expected)
+	var actual_state: Variant = JSON.parse_string(actual_bytes)
+	if allow_default_name_projection and expected_state is Dictionary \
+			and actual_state is Dictionary:
+		var expected_game: Dictionary = (expected_state as Dictionary).get("game", {})
+		var actual_game: Dictionary = (actual_state as Dictionary).get("game", {})
+		var projected_name := LocaleManager.localize_player_name(
+			str(expected_game.get("player_name", "")))
+		if str(actual_game.get("player_name", "")) == projected_name:
+			expected_game["player_name"] = projected_name
+			(expected_state as Dictionary)["game"] = expected_game
+			if expected_state == actual_state:
+				return true
+	var changed: Array[String] = []
+	var changed_flags: Array[String] = []
+	var changed_game: Array[String] = []
+	if expected_state is Dictionary and actual_state is Dictionary:
+		for key: String in expected_state:
+			if expected_state[key] != (actual_state as Dictionary).get(key):
+				changed.append(key)
+		var expected_flags: Dictionary = (expected_state as Dictionary).get("flags", {})
+		var actual_flags: Dictionary = (actual_state as Dictionary).get("flags", {})
+		var flag_keys: Array = expected_flags.keys()
+		for key: Variant in actual_flags:
+			if not flag_keys.has(key):
+				flag_keys.append(key)
+		flag_keys.sort()
+		for key: Variant in flag_keys:
+			if expected_flags.get(key, null) != actual_flags.get(key, null):
+				changed_flags.append("%s:%s->%s" % [key,
+					JSON.stringify(expected_flags.get(key, null)),
+					JSON.stringify(actual_flags.get(key, null))])
+		var expected_game: Dictionary = (expected_state as Dictionary).get("game", {})
+		var actual_game: Dictionary = (actual_state as Dictionary).get("game", {})
+		for key: Variant in expected_game:
+			if expected_game[key] != actual_game.get(key, null):
+				changed_game.append(str(key))
+	_fail("%s changed W227 route/economy/flags/receipts/gallery state keys=%s game=%s flags=%s expected=%s actual=%s" % [
+		label, changed, changed_game, changed_flags,
+		expected.sha256_text(), actual_bytes.sha256_text()])
+	return false
 
 func _check_w220_receipt() -> bool:
 	var paths: int = 0

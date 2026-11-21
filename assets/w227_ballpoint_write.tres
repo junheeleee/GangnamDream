@@ -1,0 +1,19 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/write_anchors = {
+"1": {
+"ko": "{name}이 서명하자",
+"en": "When he signed,",
+"ja": "{name}が署名すると、",
+"zh-CN": "{name}签名后，",
+"zh-TW": "{name}簽名後，"
+},
+"3": {
+"ko": "동의자 칸에 ‘해당 없음’이라고 적었다.",
+"en": "wrote NOT APPLICABLE in the consenting-party field.",
+"ja": "同意者欄に「該当なし」と書いた。",
+"zh-CN": "在同意人栏写下“不适用”。",
+"zh-TW": "在同意人欄寫下「不適用」。"
+}
+}

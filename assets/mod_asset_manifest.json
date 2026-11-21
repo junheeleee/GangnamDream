@@ -3446,6 +3446,13 @@
     },
     {
       "ids": [
+        "pen_ballpoint"
+      ],
+      "relative_path": "audio/sfx_pen_ballpoint.wav",
+      "bytes": 88278
+    },
+    {
+      "ids": [
         "pen_write"
       ],
       "relative_path": "audio/sfx_pen_write.wav",

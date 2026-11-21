@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-08-11
+Updated: 2026-11-22 (current inventory and filing-counter contract)
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -23,11 +23,19 @@ The sound must belong to the same work as the `Gangnam Ink` visual direction.
 | Class | Count | Runtime owner |
 |---|---:|---|
 | BGM | 20 | `autoloads/BGMPlayer.gd` |
-| Ambience | 49 | `autoloads/BGMPlayer.gd` (39 inert/place + 10 human-presence layers) |
-| SFX | 70 | `autoloads/AudioManager.gd` |
-| **Total** | **139** | one provenance-tracked recording/sample master each |
+| Ambience | 50 | `autoloads/BGMPlayer.gd` (40 inert/place + 10 human-presence layers) |
+| SFX | 73 | `autoloads/AudioManager.gd` |
+| **Total** | **143** | one provenance-tracked recording/sample master each |
 
-All 139 current assets are recording/sample-backed: 20 real-piano scores, 49 field-recorded ambience beds, and 70 recorded physical/UI/gameplay effects. `assets/audio/AUDIO_SOURCE_MANIFEST.json` records the exact source and transform for every file, and `tools/audio_source_audit.py` rejects synthesized provenance, code, and known source-to-scene substitutions.
+All 143 current assets are recording/sample-backed: 20 real-piano scores, 50 field-recorded ambience beds, and 73 recorded physical/UI/gameplay effects. `assets/audio/AUDIO_SOURCE_MANIFEST.json` records the exact source and transform for every file, and `tools/audio_source_audit.py` rejects synthesized provenance, code, and known source-to-scene substitutions.
+
+## Filing Counter Ballpoint
+
+- The blue chained ballpoint at `arc_y5_name_on_line_daeun_routed` uses the separate `pen_ballpoint` recording, not `pen_write` (the existing pencil-scratch master). Its public HQ MP3 source, CC0 license, trim-before-fade transform and exact source/output hashes are pinned in the source manifest. The original 24-bit WAV was not downloaded.
+- Choice 1 owns one cue only when Minjun's signature clause is revealed; choice 3 owns one cue only when he writes NOT APPLICABLE. Five-language clause anchors live in `assets/w227_ballpoint_write.tres`, without adding a prose cut or changing pagination. Both cues request -5 dB with the key's -3 dB base trim.
+- Choice 0 keeps its real paper handover at result source 0. No substitute stamp tap, automatic writing sound on choice commitment, or description pencil is admitted. The existing score enters at source 1; the counter remains otherwise quiet.
+- Read-only replay and cold resume never replay past physical actions. A same-language resume before the writing clause may still play it once when normal reading reaches it. A cross-language cold position cannot prove an unread clause and conservatively suppresses that one-shot; live language/font reflow preserves the consumed side. No new saved cue flag is added.
+- File/hash/PCM, source alignment and isolated runtime timing checks do not establish audible suitability. Image-paired listening and continuous mix approval remain separate.
 
 ## Public Office Queue Cue
 
@@ -231,7 +239,7 @@ python3 tools/generate_launch_audio.py --check
 /Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot --headless res://tools/StoryAudioSettingsCheck.tscn
 ```
 
-Latest targeted result:
+Historical targeted result (2026-08-11; not the current inventory):
 
 ```text
 AUDIO_SOURCE_AUDIT_OK assets=139 bgm=20 ambience=49 sfx=70 source_libraries=21 recordings_or_samples=139 procedural=0

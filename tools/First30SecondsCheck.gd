@@ -157,8 +157,8 @@ func _check_third_party_notices(menu: Control) -> void:
 	_expect(int(overlay.get_meta("font_families", 0)) == 5
 			and int(overlay.get_meta("font_files", 0)) == 8,
 		"Notice overlay font counts drifted from the generated ledger.")
-	_expect(int(overlay.get_meta("audio_sources", 0)) == 23
-			and int(overlay.get_meta("audio_assets", 0)) == 142
+	_expect(int(overlay.get_meta("audio_sources", 0)) == 24
+			and int(overlay.get_meta("audio_assets", 0)) == 143
 			and int(overlay.get_meta(
 				"attribution_required_audio_sources", 0)) == 1,
 		"Notice overlay audio counts drifted from the generated ledger.")
@@ -187,6 +187,8 @@ func _check_third_party_notices(menu: Control) -> void:
 		"The new Seoul subway field recording credit is not reachable in-game.")
 	_expect("16F_Panska_TisonD" in audio_text and "https://freesound.org/s/499182/" in audio_text,
 		"The document scanner recording credit is not reachable in-game.")
+	_expect("15GPanskaZacekSamuel" in audio_text and "https://freesound.org/s/461806/" in audio_text,
+		"The ballpoint-writing recording credit is not reachable in-game.")
 	_expect(not _contains_hangul(audio_text),
 		"English third-party audio notices contain Hangul.")
 	# Font notices contain the bundled full OFL bodies; return to that section

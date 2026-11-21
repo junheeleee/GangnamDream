@@ -18,7 +18,7 @@ AUDIO = ROOT / "assets" / "audio"
 MANIFEST = AUDIO / "AUDIO_SOURCE_MANIFEST.json"
 NOTICES = AUDIO / "AUDIO_THIRD_PARTY_NOTICES.md"
 
-EXPECTED_COUNTS = {"bgm": 20, "ambience": 50, "sfx": 72}
+EXPECTED_COUNTS = {"bgm": 20, "ambience": 50, "sfx": 73}
 ALLOWED_PROVENANCE = {
     "field_recording",
     "object_recording",
@@ -56,6 +56,29 @@ HORSE_GROUND_LICENSE_RECORD = {
     "attribution_required": False,
 }
 DOCUMENT_SCAN_LIBRARY_ID = "freesound_document_scan_cc0"
+BALLPOINT_LIBRARY_ID = "freesound_ballpoint_cc0"
+BALLPOINT_LIBRARY_RECORD = {
+    "provider": "15GPanskaZacekSamuel",
+    "title": "10_Writing.wav",
+    "source_type": "object_recording",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source_url": "https://freesound.org/s/461806/",
+    "attribution_required": False,
+}
+BALLPOINT_ASSET_RECORD = {
+    "provenance": "object_recording",
+    "sources": [
+        {
+            "pack": "freesound_ballpoint_cc0",
+            "original_file": "461806_9681705-hq.mp3",
+            "sha256": "3db7418e0f61e629d38adf55e3c6b92e3892c0fd4df864cab2debfcbd43ec465",
+            "source_type": "object_recording"
+        }
+    ],
+    "transform": "public HQ MP3 preview 1.000-2.000s; mono PCM16/44.1kHz; ffmpeg atrim=start=1:end=2,asetpts=PTS-STARTPTS,highpass=f=120,afade=t=in:st=0:d=0.015,afade=t=out:st=0.94:d=0.06,volume=20dB; no added layers",
+    "output_sha256": "88459bea210f28e0b5faf0685b5eb91caf0e356492df047b79646320ee188994"
+}
 DOCUMENT_SCAN_LIBRARY_RECORD = {
     "provider": "16F_Panska_TisonD",
     "title": "22_printer, scan.WAV",
@@ -131,7 +154,7 @@ sfx_document_stamp.wav sfx_door_latch.wav sfx_footsteps_hall.wav
 sfx_register_scan.wav sfx_keyboard_short.wav sfx_keyboard_phone.wav sfx_cup_set.wav
 sfx_bicycle_impact.wav sfx_traffic_pass.wav sfx_kettle_pour.wav
 sfx_bus_arrival.wav sfx_queue_chime.wav sfx_pen_write.wav
-sfx_cloth_shift.wav sfx_page_turn.wav sfx_document_scan.wav
+sfx_cloth_shift.wav sfx_page_turn.wav sfx_document_scan.wav sfx_pen_ballpoint.wav
 """.split()
 )
 
@@ -231,6 +254,8 @@ def check_libraries(payload: dict[str, Any], errors: list[str]) -> dict[str, Any
         errors.append(
             "document scan source must remain pinned to Freesound 499182 CC0"
         )
+    if libraries.get(BALLPOINT_LIBRARY_ID) != BALLPOINT_LIBRARY_RECORD:
+        errors.append("ballpoint source must remain pinned to Freesound 461806 CC0")
     return libraries
 
 
@@ -362,6 +387,8 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
         errors.append(
             "sfx_document_scan.wav: retain the reviewed 2.310-3.750s printer-scan edit"
         )
+    if assets.get("sfx_pen_ballpoint.wav") != BALLPOINT_ASSET_RECORD:
+        errors.append("sfx_pen_ballpoint.wav: retain the reviewed 1.000-2.000s ballpoint edit")
 
     required_any = {
         "amb_goshiwon_room.wav": ("apartment", "room"),
@@ -385,6 +412,7 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
         "sfx_slot_start.wav": ("slot",),
         "sfx_queue_chime.wav": ("announcement", "ding_dong", "queue_chime"),
         "sfx_document_scan.wav": ("printer", "scan", "document_scan"),
+        "sfx_pen_ballpoint.wav": ("ballpoint",),
     }
     for name, tokens in required_any.items():
         haystack = source_haystack(name)
@@ -407,6 +435,7 @@ def check_source_semantics(payload: dict[str, Any], errors: list[str]) -> None:
         "sfx_race_gate.wav": ("car door",),
         "sfx_queue_chime.wav": ("thermometer",),
         "sfx_document_scan.wav": ("barcode", "register", "thermometer", "phone"),
+        "sfx_pen_ballpoint.wav": ("pencil", "tap.wav", "printer", "keyboard"),
     }
     for name, tokens in forbidden.items():
         haystack = source_haystack(name)

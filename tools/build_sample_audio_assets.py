@@ -25,16 +25,19 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-try:
-    import numpy as np
-except ModuleNotFoundError:
-    bundled = (
-        Path.home()
-        / ".cache/codex-runtimes/codex-primary-runtime/dependencies/python"
-    )
-    if bundled.is_dir():
-        sys.path.insert(0, str(bundled))
-    import numpy as np
+def require_numpy() -> None:
+    """Array-based mixes require NumPy; direct ffmpeg-only edits do not."""
+    global np
+    try:
+        import numpy as np
+    except ModuleNotFoundError:
+        bundled = (
+            Path.home()
+            / ".cache/codex-runtimes/codex-primary-runtime/dependencies/python"
+        )
+        if bundled.is_dir():
+            sys.path.insert(0, str(bundled))
+        import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,6 +66,19 @@ DOCUMENT_SCAN_FILTER = (
 DOCUMENT_SCAN_TRANSFORM = (
     "public HQ preview 2.310-3.750s; mono PCM16/44.1kHz; "
     f"ffmpeg {DOCUMENT_SCAN_FILTER}; no added layers"
+)
+BALLPOINT_NAME = "sfx_pen_ballpoint.wav"
+BALLPOINT_LAYER = "pen_ballpoint"
+BALLPOINT_CLIP = "461806_9681705-hq.mp3"
+BALLPOINT_SOURCE_SHA = "3db7418e0f61e629d38adf55e3c6b92e3892c0fd4df864cab2debfcbd43ec465"
+BALLPOINT_OUTPUT_SHA = "88459bea210f28e0b5faf0685b5eb91caf0e356492df047b79646320ee188994"
+BALLPOINT_FILTER = (
+    "atrim=start=1:end=2,asetpts=PTS-STARTPTS,highpass=f=120,"
+    "afade=t=in:st=0:d=0.015,afade=t=out:st=0.94:d=0.06,volume=20dB"
+)
+BALLPOINT_TRANSFORM = (
+    "public HQ MP3 preview 1.000-2.000s; mono PCM16/44.1kHz; "
+    f"ffmpeg {BALLPOINT_FILTER}; no added layers"
 )
 
 
@@ -250,6 +266,9 @@ PACKS: dict[str, dict[str, Any]] = {
         499182,
         "object_recording",
     ),
+    "freesound_ballpoint_cc0": _freesound_pack(
+        "15GPanskaZacekSamuel", "10_Writing.wav", 461806, "object_recording"
+    ),
 }
 
 
@@ -258,6 +277,7 @@ def _sonniss(folder: str, filename: str) -> tuple[str, str]:
 
 
 SOURCES: dict[str, tuple[str, str]] = {
+    BALLPOINT_LAYER: ("freesound_ballpoint_cc0", BALLPOINT_CLIP),
     SEOUL_SUBWAY_ONBOARD_LAYER: ("freesound_seoul_subway_cc0", SEOUL_SUBWAY_ONBOARD_CLIP),
     "clock": ("owlish_cc0", "Ambience/loopable-ticking-clock.wav"),
     "crickets": ("owlish_cc0", "Ambience/night-crickets-ambience-on-rural-property.wav"),
@@ -1014,6 +1034,27 @@ class Builder:
             DOCUMENT_SCAN_TRANSFORM,
         )
 
+    def write_ballpoint(self, *, overwrite: bool = False) -> None:
+        source = self.source_path(BALLPOINT_LAYER)
+        if sha256(source) != BALLPOINT_SOURCE_SHA:
+            raise ValueError("ballpoint recording does not match the reviewed public HQ preview")
+        destination = self.output_root / BALLPOINT_NAME
+        if not overwrite and (destination.exists() or destination.is_symlink()):
+            raise ValueError("ballpoint output must be a new file")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        # Trim before resetting timestamps/fading. Output-side seeking would
+        # discard the entire faded interval and produce a silent one-second file.
+        subprocess.run(
+            [str(self.ffmpeg), "-nostdin", "-hide_banner", "-loglevel", "error",
+             "-i", str(source), "-af", BALLPOINT_FILTER,
+             "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le",
+             "-y" if overwrite else "-n", str(destination)],
+            check=True,
+        )
+        if sha256(destination) != BALLPOINT_OUTPUT_SHA:
+            raise ValueError("ballpoint output does not match the reviewed release edit")
+        self.record_asset(BALLPOINT_NAME, "object_recording", [L(BALLPOINT_LAYER)], BALLPOINT_TRANSFORM)
+
     def write_sparse_ambience(self, name: str, layers: list[TimedLayer]) -> None:
         duration = 18.0
         rate = 22050
@@ -1396,11 +1437,27 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         help="reproduce the single subway bed from its source under --source-root")
     parser.add_argument("--document-scan-only", action="store_true",
                         help="reproduce the reviewed document scan from its source under --source-root")
+    parser.add_argument("--ballpoint-only", action="store_true",
+                        help="reproduce the reviewed ballpoint edit from its public preview under --source-root")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.ballpoint_only:
+        if args.phone_keyboard_only or args.document_scan_only or args.seoul_subway_onboard_only or args.validate_only:
+            raise ValueError("single ballpoint build cannot be combined with another mode")
+        output_root = args.output_root.resolve()
+        output = output_root / BALLPOINT_NAME
+        if output.exists() or output.is_symlink():
+            raise ValueError("ballpoint output must be a new file")
+        builder = Builder(args.source_root.expanduser().resolve(), find_ffmpeg(), output_root)
+        try:
+            builder.write_ballpoint()
+        finally:
+            builder.close()
+        print(json.dumps(builder.provenance[BALLPOINT_NAME], ensure_ascii=False, indent=2))
+        return 0
     if args.document_scan_only:
         if args.phone_keyboard_only or args.seoul_subway_onboard_only or args.validate_only:
             raise ValueError("single document scan build cannot be combined with another mode")
@@ -1422,6 +1479,7 @@ def main(argv: list[str] | None = None) -> int:
         output = output_root / SEOUL_SUBWAY_ONBOARD_NAME
         if output.exists() or output.is_symlink():
             raise ValueError("subway output must be a new file")
+        require_numpy()
         builder = Builder(args.source_root.expanduser().resolve(), find_ffmpeg(), output_root)
         try:
             builder.write_seoul_subway_onboard()
@@ -1450,15 +1508,17 @@ def main(argv: list[str] | None = None) -> int:
         + 1  # phone-band derivative of the dry keyboard recipe
         + 1  # exact Seoul onboard field-recording edit
         + 1  # exact public document-scan recording edit
+        + 1  # exact public ballpoint-on-paper recording edit
     )
-    if expected_count != 142:
-        raise RuntimeError(f"release audio inventory must remain 142 assets, got {expected_count}")
+    if expected_count != 143:
+        raise RuntimeError(f"release audio inventory must remain 143 assets, got {expected_count}")
     if args.validate_only:
         print(
             "SAMPLE_AUDIO_SOURCES_OK "
             f"sources={len(SOURCES)} assets={expected_count} root={source_root}"
         )
         return 0
+    require_numpy()
     builder = Builder(source_root, find_ffmpeg(), args.output_root.resolve())
     try:
         for name, layers in sorted(AMBIENCE_RECIPES.items()):
@@ -1473,6 +1533,7 @@ def main(argv: list[str] | None = None) -> int:
         builder.write_phone_keyboard()
         builder.write_seoul_subway_onboard()
         builder.write_document_scan()
+        builder.write_ballpoint(overwrite=True)
         for name, spec in sorted(TRACK_SPECS.items()):
             print("MUSIC", name)
             builder.write_track(name, spec)

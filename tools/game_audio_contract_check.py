@@ -49,6 +49,8 @@ def main() -> int:
     bgm_player_source = (ROOT / "autoloads" / "BGMPlayer.gd").read_text(encoding="utf-8")
     mapped_sfx = gd_map(audio_manager_source, "_SFX_FILES")
     physical_sfx = manifest.get("physical_sfx", {})
+    if physical_sfx.get("pen_ballpoint") != "res://assets/audio/sfx_pen_ballpoint.wav":
+        errors.append("W227 ballpoint must retain its separate recorded master, not the pencil resource")
     for key, resource_path in physical_sfx.items():
         if mapped_sfx.get(key) != resource_path:
             errors.append(f"{key}: AudioManager path mismatch")

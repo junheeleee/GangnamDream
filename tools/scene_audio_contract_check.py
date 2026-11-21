@@ -88,9 +88,15 @@ W227_INTAKE_AUDIO = {
     "music": {"key": "reckoning", "start_paragraph": 1},
     "result_paragraph_cues": {
         "0": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
-        "1": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
-        "3": {"0": [{"sfx": "pen_write", "volume_db": -5.0}]},
     },
+}
+W227_WRITE_ANCHORS = {
+    "1": {"ko": "{name}이 서명하자", "en": "When he signed,",
+          "ja": "{name}が署名すると、", "zh-CN": "{name}签名后，", "zh-TW": "{name}簽名後，"},
+    "3": {"ko": "동의자 칸에 ‘해당 없음’이라고 적었다.",
+          "en": "wrote NOT APPLICABLE in the consenting-party field.",
+          "ja": "同意者欄に「該当なし」と書いた。", "zh-CN": "在同意人栏写下“不适用”。",
+          "zh-TW": "在同意人欄寫下「不適用」。"},
 }
 W230_VERDICT_EVENT = "arc_y5_people_verdict_daeun_exact"
 W230_VERDICT_AUDIO = {
@@ -370,11 +376,38 @@ def paragraph_count(text: str) -> int:
     return sum(1 for paragraph in text.split("\n\n") if paragraph.strip())
 
 
+def check_w227_write_anchors(errors: list[str]) -> None:
+    resource = ROOT / "assets/w227_ballpoint_write.tres"
+    try:
+        text = resource.read_text(encoding="utf-8")
+        match = re.fullmatch(
+            r'\[gd_resource type="Resource" format=3\]\s*\[resource\]\s*'
+            r'metadata/write_anchors\s*=\s*(\{.*\})\s*', text, re.S,
+        )
+        anchors = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError):
+        anchors = None
+    if anchors != W227_WRITE_ANCHORS:
+        errors.append("W227 ballpoint: preserve both five-language writing-clause anchors")
+    for locale in W227_WRITE_ANCHORS["1"]:
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_pre_ending.json")
+        event = next((row for row in rows if row.get("id") == W227_INTAKE_EVENT), {})
+        choices = event.get("choices", [])
+        for choice, localized in W227_WRITE_ANCHORS.items():
+            index = int(choice)
+            source = str(choices[index].get("result_text", "")) if len(choices) > index else ""
+            paragraphs = source.split("\n\n")
+            if len(paragraphs) != (1 if index == 1 else 2) or paragraphs[0].count(localized[locale]) != 1:
+                errors.append(f"W227 ballpoint: {locale} result {choice} lost its unique first-source writing clause")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
     acting = load_json(ACTING_PATH)
     events = load_events()
+    check_w227_write_anchors(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
