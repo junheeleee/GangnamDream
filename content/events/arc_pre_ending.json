@@ -999,8 +999,8 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "background": "office",
-    "portrait": "sangchul_serious",
+    "background": "sangchul_old_office_landing_w216",
+    "portrait": "",
     "conditions": {
       "min_turn": 9999
     },

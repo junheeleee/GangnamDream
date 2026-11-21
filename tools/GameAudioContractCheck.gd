@@ -4,8 +4,9 @@ extends Node
 var _failures: Array[String] = []
 var _original_vibration_enabled: bool
 var _original_vibration_intensity: float
-const PHYSICAL_SFX_COUNT := 33
+const PHYSICAL_SFX_COUNT := 34
 const PHONE_KEYBOARD_PATH := "res://assets/audio/sfx_keyboard_phone.wav"
+const DOCUMENT_SCAN_PATH := "res://assets/audio/sfx_document_scan.wav"
 
 const HAPTIC_PROFILE_IDS: Array[StringName] = [
 	&"commit_choice", &"commit_action", &"commit_wager", &"danger_impact",
@@ -90,6 +91,8 @@ func _check_manifest_assets() -> void:
 		return
 	if physical.get("keyboard_phone") != PHONE_KEYBOARD_PATH:
 		_failures.append("Hyunsu's telephone keyboard must use its exact recorded resource")
+	if physical.get("document_scan") != DOCUMENT_SCAN_PATH:
+		_failures.append("W208's scanner must use its exact recorded resource")
 	for raw_key in physical.keys():
 		var key := str(raw_key)
 		var path := str(physical[key])

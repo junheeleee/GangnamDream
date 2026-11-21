@@ -124,6 +124,7 @@ const W207_FINAL_OFFER := "arc_y5_final_offer"
 const W207_DAEUN_PAGE_TURN := preload("res://assets/w207_daeun_page_turn.tres")
 const W208_REFERENCE_DELIVERY := "arc_y5_final_offer_reference_delivery"
 const W208_DOCUMENT_SCAN := preload("res://assets/w208_document_scan.tres")
+const W216_REVIEW := "arc_y5_sangchul_review_receipt"
 const W167_DAEUN_TABLE := "arc_y4_family_partner_collision"
 const W167_UNATTACHED_TABLE := "arc_y4_family_commitment_none"
 const W167_LATE_TABLE := "arc_y4_family_table_missed"
@@ -2850,6 +2851,12 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		# The folder is a live one-shot; only the already-admitted score resumes.
 		if result_phase or phase == "choices" or source_paragraph_index >= 1:
 			BGMPlayer.play_scene_paragraph_music(_current, "", 1)
+	elif str(_current.get("id", "")) == W216_REVIEW:
+		# The papers were opened before this save. Restore the score, not the
+		# live source0 handling cue, even when resuming another prose page.
+		# Retire the prior screen's idle fade before reconstructing playback.
+		BGMPlayer.enter_ambient_bed(0.0)
+		BGMPlayer.play_scene_paragraph_music(_current, "", 0)
 	elif str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		# Restore the sustained score only if the authored entrance was passed.
 		# No contact, police, or navigation one-shot belongs to resume.
@@ -5895,7 +5902,8 @@ func _render_current():
 	if str(_current.get("id", "")) == W117_JAEHYUK_COUNTER:
 		_apply_w117_counter_surface(false, true)
 	if _pending_restore_context.is_empty() \
-			or (not _full_w19_reunion and str(_current.get("id", "")) != W57_FATHER_MEDICATION):
+			or (not _full_w19_reunion \
+				and str(_current.get("id", "")) not in [W57_FATHER_MEDICATION, W216_REVIEW]):
 		_play_current_paragraph_audio(_story_source_paragraph_index(_para_index))
 	_start_typing(_paragraphs[0])
 

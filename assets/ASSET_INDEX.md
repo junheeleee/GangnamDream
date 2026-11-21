@@ -525,6 +525,8 @@ weather, romance, and historical portraits remain fixed.
   - Use for social, relationship, date, romance, and cafe events.
 - `assets/backgrounds/sangchul_cafe_stairs_v2.png`
   - W132 상철 신고 결과에서 내려가는 문장만. 아래참에서 성인이 걸을 수 있는 오른쪽 통로로 바닥과 벽 하단선이 이어지는 무인 실내 계단; 다른 퇴장에는 재사용하지 않는다. v1은 기존 원본으로 보존한다.
+- `assets/backgrounds/sangchul_old_office_landing_w216_v1.png`
+  - W216 옛 사무실 문 밖의 무인 계단참 전용, W215의 첫 선택 뒤만. 닫힌 문·내려가는 디딤판·사람이 지날 아래참·꺼진 복합기 한 대. W132 카페나 창원 가족 계단과 별개, 초상이나 촬영 결과를 그림에 넣지 않는다.
 - `assets/backgrounds/withdrawal_corridor_w177_v1.png`
   - W177 자기 명의 검토의 철회 결과 두 번째 원문 단락 전용 1인칭 삽입 컷. 같은 층 복도의 작은 접수표와 손만; 검토실 장면·다른 결과에는 사용하지 않는다.
 

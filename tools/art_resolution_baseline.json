@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 320,
+  "inventory_count": 321,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 144,
+        "light": 145,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 144,
+        "heavy": 145,
         "severe": 0
       }
     }
@@ -1818,6 +1818,23 @@
       "kind": "Background",
       "ids": [
         "sangchul_cafe_stairs"
+      ],
+      "width": 1584,
+      "height": 990,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.2121,
+        "4k": 2.4242
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/sangchul_old_office_landing_w216_v1.png": {
+      "kind": "Background",
+      "ids": [
+        "sangchul_old_office_landing_w216"
       ],
       "width": 1584,
       "height": 990,

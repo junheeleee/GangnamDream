@@ -223,6 +223,7 @@ const BACKGROUNDS = {
 	"convenience_first_snow_exterior": "res://assets/backgrounds/convenience_store_exterior_first_snow.png",
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
 	"sangchul_cafe_stairs": "res://assets/backgrounds/sangchul_cafe_stairs_v2.png",
+	"sangchul_old_office_landing_w216": "res://assets/backgrounds/sangchul_old_office_landing_w216_v1.png",
 	"finale_cafe_rear_papers": "res://assets/backgrounds/finale_cafe_rear_papers_v1.png",
 	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
 	"family_soup_restaurant_w167": "res://assets/backgrounds/family_soup_restaurant_w167_v1.png",

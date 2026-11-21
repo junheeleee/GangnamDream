@@ -118,6 +118,7 @@ INDOOR_BACKGROUNDS = {
     "year4_rooftop_door_inside_w192",
     "seoul_station_convenience_w161",
     "sangchul_cafe_stairs",
+    "sangchul_old_office_landing_w216",
     "withdrawal_corridor_w177",
     "first_savings_bank_overview",
     "seoul_station_parents_concourse",

@@ -117,7 +117,7 @@
     {"id": "arc_y5_guarantee_protected_show_daeun", "background": "current_housing", "portrait": "daeun_normal"},
     {"id": "arc_y5_jaehyuk_guarantee_decision_reference", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_sangchul_final_door", "background": "office", "portrait": "sangchul_serious"},
-    {"id": "arc_y5_sangchul_review_receipt", "background": "office", "portrait": "sangchul_serious"},
+    {"id": "arc_y5_sangchul_review_receipt", "background": "sangchul_old_office_landing_w216", "portrait": null},
     {"id": "arc_y5_three_in_room", "background": "meeting", "portrait": null, "cg": "cg_y5_three_in_room"},
     {"id": "arc_y5_three_in_room_decision", "background": "meeting", "portrait": null, "cg": "cg_y5_three_in_room"},
     {"id": "arc_y5_room_consent_receipt", "background": "meeting", "portrait": null},

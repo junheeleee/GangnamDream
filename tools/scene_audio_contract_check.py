@@ -65,6 +65,13 @@ W197_DEADLINE_AUDIO = {
     "ambience": "current_housing",
     "music": {"key": "reckoning", "start_paragraph": 1},
 }
+W216_LANDING_EVENT = "arc_y5_sangchul_review_receipt"
+W216_LANDING_BACKGROUND = "sangchul_old_office_landing_w216"
+W216_LANDING_AUDIO = {
+    "ambience": "intentional_silence",
+    "music": {"key": "reckoning", "start_paragraph": 0},
+    "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -6.0}]},
+}
 W224_CUSTODY_EVENT = "arc_y5_father_trace_custody"
 W224_CUSTODY_AUDIO = {
     "ambience": "intentional_silence",
@@ -424,6 +431,9 @@ def main() -> int:
         elif owner == W188_DEAL_ROOM_EVENT:
             if contract != W188_DEAL_ROOM_AUDIO:
                 errors.append(f"{owner}: retain the grief score and meeting-room bed until the exact boarding cut")
+        elif owner == W216_LANDING_EVENT:
+            if contract != W216_LANDING_AUDIO:
+                errors.append(f"{owner}: only the score and actual paper handling belong on the empty landing")
         elif owner == W224_CUSTODY_EVENT:
             if contract != W224_CUSTODY_AUDIO:
                 errors.append(f"{owner}: the rear table must stay free of checkout ambience and retain its paper and score")
@@ -528,6 +538,10 @@ def main() -> int:
             '"keyboard_phone"' in json.dumps(manifest.get(field, {}))
             for field in ("background_profiles", "cg", "event_intents")):
         errors.append(f"{HYUNSU_CALL_EVENT}: dedicated telephone sound must have exactly one scene owner")
+    if (W216_LANDING_EVENT not in event_contracts
+            or events.get(W216_LANDING_EVENT, {}).get("background") != W216_LANDING_BACKGROUND
+            or manifest.get("background_profiles", {}).get(W216_LANDING_BACKGROUND) != "intentional_silence"):
+        errors.append(f"{W216_LANDING_EVENT}: missing exact quiet landing background/audio profile")
     if W224_CUSTODY_EVENT not in event_contracts:
         errors.append(f"{W224_CUSTODY_EVENT}: missing rear-table audio contract")
     if W230_VERDICT_EVENT not in event_contracts:

@@ -200,6 +200,9 @@ const W207_TRACKED_SFX := ["page_turn", "cup_set", "paper_handle"]
 const W208_DELIVERY := "arc_y5_final_offer_reference_delivery"
 const W208_DOCUMENT_SCAN := preload("res://assets/w208_document_scan.tres")
 const W208_TRACKED_SFX := ["document_scan", "register_scan", "page_turn", "paper_handle"]
+const W215_OLD_OFFICE := "arc_sangchul_final_door"
+const W216_REVIEW := "arc_y5_sangchul_review_receipt"
+const W216_LANDING := "sangchul_old_office_landing_w216"
 const W132_REPORT := "arc_sangchul_reckoning"
 const W132_CAFE_ROOT := "arc_sangchul_stairwell"
 const W132_STAIRS := "sangchul_cafe_stairs"
@@ -428,6 +431,8 @@ const CASES := [
 ]
 
 const EXACT_PATHS := {
+	W216_LANDING: "res://assets/backgrounds/sangchul_old_office_landing_w216_v1.png",
+	"office": "res://assets/backgrounds/office_desk.png",
 	W132_STAIRS: "res://assets/backgrounds/sangchul_cafe_stairs_v2.png",
 	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
 	W82_TERMINAL: "res://assets/backgrounds/seoul_bus_terminal_night.png",
@@ -523,6 +528,8 @@ var _first_ktx_capture_dir := ""
 var _w96_capture_dir := ""
 var _w112_capture_dir := ""
 var _w117_capture_dir := ""
+var _w216_cold_restored := false
+var _w216_cold_count := 0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -545,6 +552,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W216_LANDING_CHECK"):
+		var landing_ok := await _check_w216_landing()
+		await _remove_story()
+		await _stop_audio()
+		if landing_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w216_landing")
+		get_tree().quit(0 if landing_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W208_SCAN_CHECK"):
 		var scan_ok := await _check_w208_document_scan()
 		await _remove_story()
@@ -4143,6 +4158,236 @@ func _check_w208_document_scan() -> bool:
 		_fail("W208 fixture population drifted paths=%d natural=%d skip=%d v4=%d reflow=%d" % [
 			paths, natural_cues, skip_cues, cold_restores, text_reflows])
 	return counts_ok
+
+func _check_w216_landing() -> bool:
+	var capture_dir := OS.get_environment("GANGNAM_W216_CAPTURE_DIR")
+	if not capture_dir.is_empty():
+		var output := DirAccess.open(capture_dir) if capture_dir.is_absolute_path() else null
+		if output == null or not output.get_files().is_empty() or not output.get_directories().is_empty() \
+				or DisplayServer.get_name() == "headless":
+			_fail("W216 capture requires a fresh absolute output and a rendering display")
+			return false
+		OS.low_processor_usage_mode = false
+		if OS.get_environment("GANGNAM_W216_CAPTURE_COMPACT") == "1":
+			DisplayServer.window_set_size(Vector2i(960, 600))
+			await get_tree().process_frame
+	var paths := 0
+	var skips := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice in ([0, 1, 2] if language == "ko" else [0]):
+			if not await _w216_route_from_w215(language, int(choice)):
+				return false
+			if choice != 0:
+				skips += 1
+				continue
+			var current: Dictionary = _story.get("_current")
+			var choices: Array = current.get("choices", [])
+			if choices.size() != 1 or not await _w216_read_phase(false, 3, str(current.get("description", "")), capture_dir):
+				return false
+			_story.call("_on_advance")
+			await _wait_stable()
+			if bool(_story.get("_showing_choices")) or int(_story.get("_pending_result_choice_index")) != 0 \
+					or not await _w216_read_phase(true, 2, str((choices[0] as Dictionary).get("result_text", "")), capture_dir) \
+					or GameState.chapter5_causal_selected_choice(W216_REVIEW) != 0:
+				_fail("W216 lost the authored single direct-progress result")
+				return false
+			paths += 1
+	var expected_captures := 0 if capture_dir.is_empty() else paths * 2
+	if paths != 5 or skips != 2 or (not capture_dir.is_empty() \
+			and DirAccess.get_files_at(capture_dir).size() != expected_captures):
+		_fail("W216 did not cover five locales, two branch skips and both capture phases")
+		return false
+	if _failures != 0:
+		return false
+	print("W216_LANDING_OK paths=%d skips=%d captures=%d v4=%d" % [paths, skips, expected_captures, _w216_cold_count])
+	return true
+
+func _w216_route_from_w215(language: String, choice: int) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W216/W215-c%d" % [language, choice]
+	_w216_cold_restored = false
+	# The static fixture observes the real return without mounting MainGame,
+	# so clear its consumed handoff before preparing the next independent run.
+	GameState.returning_from_story = false
+	LocaleManager.set_language(language)
+	if not _prepare_full_owner_history(215, []):
+		return false
+	GameState.money = 2_100_000_000.0
+	GameState.housing = "oneroom"
+	var locked: Dictionary = CHAPTER5_ROUTE.lock_entry(
+		CHAPTER5_ROUTE.default_state(), 195, "투자형", true, true, GameState.get_total_asset_value())
+	if not bool(locked.get("ok", false)):
+		_fail("W216 fixture could not lock the actual Chapter 5 route")
+		return false
+	var state: Dictionary = locked["state"]
+	for index in range(CHAPTER5_ROUTE.OWNED_EVENT_IDS.find(W215_OLD_OFFICE)):
+		var committed: Dictionary = CHAPTER5_ROUTE.commit_choice(state,
+			CHAPTER5_ROUTE.OWNED_EVENT_IDS[index], 0, CHAPTER5_ROUTE.OWNED_TURNS[index])
+		if not bool(committed.get("ok", false)):
+			_fail("W216 fixture could not bind predecessor index %d" % index)
+			return false
+		state = committed["state"]
+	GameState.chapter5_causal_state = state
+	if not await _w216_open_owned_root(W215_OLD_OFFICE) or not await _read_phase("office", "office", false):
+		return false
+	_story.call("_on_advance")
+	await _wait_stable()
+	if not bool(_story.get("_showing_choices")):
+		_fail("W216 predecessor did not offer its three live choices")
+		return false
+	_story.call("_on_choice", choice)
+	await _wait_stable()
+	if GameState.chapter5_causal_selected_choice(W215_OLD_OFFICE) != choice \
+			or not await _read_phase("office", "office", true):
+		return false
+	_story.call("_on_advance")
+	await _wait_stable()
+	if not FULL_STORY_FLOW.ready_to_advance() or not FULL_STORY_FLOW.apply_background_for_turn(215):
+		_fail("W216 predecessor did not close its real FullStoryFlow chain")
+		return false
+	GameState.advance_calendar()
+	if GameState.turn != 216 or not FULL_STORY_FLOW.complete_turn(215):
+		_fail("W216 exact calendar advance failed")
+		return false
+	await _remove_story()
+	var expected_id := W216_REVIEW if choice == 0 else ""
+	if GameState.chapter5_causal_next_event_for_turn() != expected_id \
+			or GameState.chapter5_causal_ingress_available(W216_REVIEW) != (choice == 0):
+		_fail("W216 ingress did not read the exact W215 choice")
+		return false
+	if choice != 0:
+		return true
+	_w197_clear_paper()
+	AudioManager.stop_sound("door_latch")
+	AudioManager._last_sfx_ms.erase("door_latch")
+	BGMPlayer.set_ambience("office")
+	BGMPlayer.set_season_ambience("winter")
+	return await _w216_open_owned_root(W216_REVIEW)
+
+func _w216_open_owned_root(event_id: String) -> bool:
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	ingress.set_meta("_screenshot_qa_static_surface", true)
+	var routed := bool(ingress.call("_route_chapter5_causal_week"))
+	ingress.free()
+	if not routed or GameState.pending_story_queue != [event_id] or not FULL_STORY_FLOW.valid_session():
+		_fail("%s did not route through its normal Chapter 5 and FullStoryFlow owner" % event_id)
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	return str((_story.get("_current") as Dictionary).get("id", "")) == event_id
+
+func _w216_read_phase(result: bool, source_count: int, prose: String, capture_dir: String) -> bool:
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var label := "result" if result else "opening"
+	if int(_story.call("_story_source_paragraph_count")) != source_count \
+			or not _m23_same_prose(pages, str(_story.call("_fmt", prose))) or pages.is_empty():
+		_fail("W216 changed its authored %s prose, sources or pagination" % label)
+		return false
+	for page in range(pages.size()):
+		await _finish_page()
+		var portrait := _story.get("_portrait") as TextureRect
+		var portrait_frame := _story.get("_portrait_frame") as Control
+		var expected_cues := [] if _w216_cold_restored else [W216_REVIEW + "::description:0:0:paper_handle"]
+		if int(_story.get("_para_index")) != page or bool(_story.get("_pending_after_result")) != result \
+				or not _expect_surface(W216_LANDING, "", label) \
+				or not str(_story.call("_resolved_story_surface_portrait_id")).is_empty() \
+				or portrait.texture != null or portrait_frame.visible \
+				or not _w216_score_playing() \
+				or BGMPlayer._ambience_player.playing or BGMPlayer._human_ambience_player.playing \
+				or BGMPlayer._season_player.playing \
+				or AudioManager._story_audio_seen.keys() != expected_cues \
+				or AudioManager._last_sfx_ms.has("paper_handle") == _w216_cold_restored \
+				or AudioManager._last_sfx_ms.has("door_latch"):
+			_fail("W216 %s lost its unoccupied landing, silent room, score or source0 paper-only audio %s" % [label, {
+				"page_expected": page, "pending_result": _story.get("_pending_after_result"),
+				"portrait": _story.call("_resolved_story_surface_portrait_id"), "portrait_visible": portrait_frame.visible,
+				"score": BGMPlayer._current_key, "ambience": BGMPlayer._ambience_player.playing,
+				"human": BGMPlayer._human_ambience_player.playing, "season": BGMPlayer._season_player.playing,
+				"music_mode": BGMPlayer.get("_music_mode"), "active_score": BGMPlayer.get("_active_key"),
+				"fade_running": BGMPlayer._fade_tween != null and BGMPlayer._fade_tween.is_running(),
+				"cues": AudioManager._story_audio_seen.keys(), "paper": AudioManager._last_sfx_ms.get("paper_handle", -1),
+				"door": AudioManager._last_sfx_ms.get("door_latch", -1),
+			}])
+			return false
+		if not capture_dir.is_empty() and page == (pages.size() - 1 if result else 0) \
+				and not await _save_viewport_frame(capture_dir.path_join("%s_%s.png" % [LocaleManager.language, label])):
+			return false
+		if LocaleManager.language == "ko" and not result and page == 0 \
+				and OS.has_environment("GANGNAM_W216_COLD_SOURCE0_CHECK") \
+				and not await _w216_probe_cold_restore(false):
+			return false
+		if page + 1 < pages.size():
+			_story.call("_on_advance")
+			await _wait_stable()
+	if LocaleManager.language == "ko" and OS.has_environment("GANGNAM_W216_COLD_CHECK"):
+		return await _w216_probe_cold_restore(result)
+	return true
+
+func _w216_probe_cold_restore(result: bool) -> bool:
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var applied := _w196_applied_state()
+	var label := "result" if result else "prose"
+	if context.get("event_id") != W216_REVIEW or context.get("phase") != label \
+			or not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail("W216 could not save the live %s boundary" % label)
+		return false
+	var disk: Variant = JSON.parse_string(FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int(disk.get("version", -1)) != 4:
+		_fail("W216 cold boundary lost the existing v4 disk schema")
+		return false
+	await _remove_story()
+	_w197_clear_paper()
+	AudioManager.stop_sound("door_latch")
+	AudioManager._last_sfx_ms.erase("door_latch")
+	GameState.start_new_game()
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail("W216 cold load failed for the live %s boundary" % label)
+		return false
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	# The old-screen fade completed after 0.75 seconds and silently stopped the
+	# restored same-key score. Check beyond it, not only in the first good frame.
+	await get_tree().create_timer(0.85).timeout
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	var portrait := _story.get("_portrait") as TextureRect
+	if restored.get("event_id") != W216_REVIEW or restored.get("phase") != label \
+			or restored.get("source_paragraph_index") != context.get("source_paragraph_index") \
+			or not is_equal_approx(float(restored.get("source_text_progress", -1.0)), float(context.get("source_text_progress", -2.0))) \
+			or not _w196_state_matches(applied, "W216 cold " + label) \
+			or not _expect_surface(W216_LANDING, "", "W216 cold " + label) \
+			or portrait.texture != null or (_story.get("_portrait_frame") as Control).visible \
+			or not _w216_score_playing() or BGMPlayer._ambience_player.playing \
+			or BGMPlayer._human_ambience_player.playing or BGMPlayer._season_player.playing:
+		_fail("W216 cold %s changed source progress, state or the empty quiet landing" % label)
+		return false
+	# Keep probing the other phase after an audio-only failure; the enclosing
+	# scope still fails and emits no success marker if either replayed a cue.
+	if AudioManager._last_sfx_ms.has("paper_handle") or AudioManager._last_sfx_ms.has("door_latch"):
+		_fail("W216 cold %s replayed a past paper/door cue: %s" % [label, AudioManager._story_audio_seen.keys()])
+	_w216_cold_restored = true
+	_w216_cold_count += 1
+	print("W216_COLD_BOUNDARY_PROBED phase=%s score=%s mode=%s fade_running=%s" % [label,
+		BGMPlayer._current_key, BGMPlayer.get("_music_mode"),
+		BGMPlayer._fade_tween != null and BGMPlayer._fade_tween.is_running()])
+	return true
+
+func _w216_score_playing() -> bool:
+	if BGMPlayer._current_key != "reckoning":
+		return false
+	# Looping streams are cached duplicates with no resource_path; compare the
+	# actual playing stream to the recorded track's configured instance.
+	var expected: AudioStream = BGMPlayer.call("_load_track", "reckoning")
+	for player: AudioStreamPlayer in [BGMPlayer._player_a, BGMPlayer._player_b]:
+		if expected != null and player.playing and player.stream == expected:
+			return true
+	return false
 
 func _w208_open(language: String, producer_choice: int) -> bool:
 	await _remove_story()

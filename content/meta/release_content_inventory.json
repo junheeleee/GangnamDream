@@ -264,9 +264,9 @@
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
     "ending_content_sha256": "bc04931bb7665759dad06c3d26021740db03596d3453ebb9bfa4fecb5bba68e6",
-    "active_art_assets": 320,
-    "source_raster_assets": 380,
-    "packaged_raster_assets": 372,
+    "active_art_assets": 321,
+    "source_raster_assets": 381,
+    "packaged_raster_assets": 373,
     "registry_external_source_raster_assets": 60,
     "registry_external_packaged_raster_assets": 52,
     "source_only_gdignored_raster_assets": 8,
@@ -275,7 +275,7 @@
     "registry_external_packaged_paths_sha256": "3c41deef6b66ae46cd904b1acd5b0e0ca63789feede7ae93e12749084fa95dfc",
     "registry_external_packaged_content_sha256": "0a91fe5169b8fac97239fc7281edafab97e959e9e67c23ebb69bbbd082d99594",
     "source_only_gdignored_paths_sha256": "f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4",
-    "audio_source_assets": 141
+    "audio_source_assets": 142
   },
   "registry_external_raster_review": {
     "reviewed": "2026-08-27",
@@ -710,7 +710,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "59d6dcd18c0cb88d8c70fb0cb41c5ca35a48784aa59fecb56cd53c896edd43df"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "9eafa2a2782973ec5cd82690cc9d6b991e1e06c25005ed3a0e1ea1dd5d63862b"
       },
       "facts": [
         {

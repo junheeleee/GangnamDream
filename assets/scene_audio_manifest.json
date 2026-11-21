@@ -27,6 +27,7 @@
     "convenience_first_snow_exterior": "street",
     "cafe": "cafe",
     "sangchul_cafe_stairs": "intentional_silence",
+    "sangchul_old_office_landing_w216": "intentional_silence",
     "finale_cafe_rear_papers": "intentional_silence",
     "changwon_family_stairwell": "apartment",
     "changwon_station_arrival_gate": "intentional_silence",
@@ -764,11 +765,10 @@
       }
     },
     "arc_y5_sangchul_review_receipt": {
-      "ambience": "office",
+      "ambience": "intentional_silence",
       "music": {"key": "reckoning", "start_paragraph": 0},
       "paragraph_cues": {
-        "0": [{"sfx": "paper_handle", "volume_db": -6.0}],
-        "1": [{"sfx": "door_latch", "volume_db": -9.0}]
+        "0": [{"sfx": "paper_handle", "volume_db": -6.0}]
       }
     },
     "arc_y5_three_in_room": {

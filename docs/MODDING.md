@@ -422,6 +422,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `sangchul_cafe_stairs` | `backgrounds/sangchul_cafe_stairs_v2.png` | 1584x990 |
 | background | `sangchul_private_dining` | `backgrounds/sangchul_private_dining.png` | 1280x800 |
 | background | `scalping_room` | `backgrounds/scalping_trading_room.png` | 1280x800 |
+| background | `sangchul_old_office_landing_w216` | `backgrounds/sangchul_old_office_landing_w216_v1.png` | 1584x990 |
 | background | `street_rainy_bus_stop_wallet` | `backgrounds/seoul_bus_stop_wallet.png` | 1280x800 |
 | background | `seoul_bus_terminal_departure` | `backgrounds/seoul_bus_terminal_departure_v1.png` | 1584x990 |
 | background | `seoul_bus_terminal_night` | `backgrounds/seoul_bus_terminal_night.png` | 1280x800 |
