@@ -1124,6 +1124,8 @@ Aggressively preserve every other pixel-level visual invariant: exactly the same
 
 hot 언어/글자 크기는 전/중/후 세 단계를 보존하고 cold는 실제 복원된 현재 텍스트 커서와 일치하게 한다. cross-locale/legacy의 과거 절 전후를 정확히 재현했다고 확대하지 않는다. 읽기 전용의 선택이 증명되지 않은 위치에는 새 CG를 추정하지 않는다. 실제 Main/FullStoryFlow generic ingress, 5언어/선택별 음성·전체GameState/Meta보존, 두절직전/끝/뒤·skip·readreplay·현재주거7·디스크cold/hot, 기존 signature/outbound 오디오 회귀와 컴파일/정적계약·독립 검수를 한다. 실제 디스플레이가 있으면 격리 viewport 렌더만 추가 확인하며 사람/원어민/실청취/물리패드/출시GO로 바꾸지 않는다. strict IOConsoleLocked=No와 CUA 앱 목록 연결은 이번 실제 관측이나 화면 픽셀 성공은 아직 아니다. C1은 재실행하지 않고 실제 플레이 앱/저장/사용자244경로를 건드리지 않는다. 전체830/833 선착수0.
 
+[~] 같은 W240 소등 배선 범위 보충: 기존 음향 감사가 모든 활성 CG의 명시 계약을 요구하므로 `assets/scene_audio_manifest.json`의 새 `cg_final_week_phone_dark`/`cg_final_week_phone_green` 두 CG 메타데이터만 추가 소유한다. 실제 `arc_final_week`의 기존 `ambience=apartment`와 같은 중립 방을 그대로 명시하며 새 music/SFX/cue·사람/계절 억제·기존 사건/CG 계약 변경0이다. StoryMode 전환은 음향 재요청을 하지 않고 기존 player/stream/재생 위치를 보존한다. 감사 누락2건을 숨기거나 검사기를 완화하지 않는다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
