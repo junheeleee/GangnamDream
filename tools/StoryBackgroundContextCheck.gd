@@ -239,6 +239,9 @@ const W240_GENERAL_SACRIFICE_WRITE := preload(
 const W240_GENERAL_OUTBOUND := "arc_y5_final_week_general_people_outbound"
 const W240_GENERAL_OUTBOUND_WRITE := preload(
 	"res://assets/w240_general_outbound_write.tres")
+const W240_FINAL_WEEK := "arc_final_week"
+const W240_FINAL_WEEK_LIGHTS := preload(
+	"res://assets/w240_final_week_lights.tres")
 const W239_TRACKED_SFX := [
 	"phone_notification", "phone_vibrate", "page_turn", "paper_handle",
 	"pen_ballpoint", "pen_write", "document_scan", "register_scan",
@@ -605,6 +608,9 @@ var _w240_cold_ink := 0
 var _w240_reflow_ink := 0
 var _w240_outbound_cold_ink := 0
 var _w240_outbound_reflow_ink := 0
+var _w240_final_capture_dir := ""
+var _w240_final_capture_frames := 0
+var _w240_final_audio_probe_reported := false
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -627,6 +633,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W240_FINAL_WEEK_LIGHTS_CHECK"):
+		var w240_final_week_ok: bool = await _check_w240_final_week_lights()
+		await _remove_story()
+		await _stop_audio()
+		if w240_final_week_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w240_final_week_lights")
+		get_tree().quit(0 if w240_final_week_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W240_GENERAL_OUTBOUND_CHECK"):
 		var w240_outbound_ok: bool = await _check_w240_general_outbound()
 		await _remove_story()
@@ -6977,6 +6991,910 @@ func _w239_cold_load(context: Dictionary, target_locale: String,
 	await get_tree().create_timer(0.9).timeout
 	return _w227_state_matches(
 		applied, label, allow_default_name_projection, owner)
+
+
+func _check_w240_final_week_lights() -> bool:
+	var compact := OS.get_environment(
+		"GANGNAM_W240_FINAL_WEEK_COMPACT") == "1"
+	var expected_viewport := Vector2i(960, 600) \
+		if compact else Vector2i(1280, 800)
+	if compact:
+		# --resolution changes the OS window, but the project stretch retains its
+		# 1280 logical canvas. This isolated fixture must exercise real compact UI.
+		var root := get_tree().root
+		root.content_scale_size = expected_viewport
+		root.size = expected_viewport
+		await get_tree().process_frame
+	var actual_viewport := Vector2i(get_viewport().get_visible_rect().size)
+	print("W240_FINAL_WEEK_VIEWPORT requested=%s actual=%s compact=%s" % [
+		expected_viewport, actual_viewport, compact])
+	if actual_viewport != expected_viewport:
+		_fail("W240 final-week fixture did not obtain its requested logical viewport")
+		return false
+	if not _w240_final_capture_prepare():
+		return false
+	_w240_final_audio_probe_reported = false
+	var paths := 0
+	var dark := 0
+	var green := 0
+	var silent := 0
+	var homes: Dictionary = {}
+	for language_index in range(LocaleManager.SUPPORTED_LANGUAGES.size()):
+		var language: String = LocaleManager.SUPPORTED_LANGUAGES[language_index]
+		for choice in range(3):
+			var home_case: Dictionary = W235_HOME_CASES[
+				(language_index * 3 + choice) % W235_HOME_CASES.size()]
+			if not await _w240_final_prepare_result(
+					language, choice, home_case, choice):
+				return false
+			homes[str(home_case.get("id", ""))] = true
+			var applied := _w227_state_bytes()
+			var settings := _w240_final_settings_bytes()
+			var audio := _w240_final_audio_snapshot()
+			if choice == 2:
+				if not await _w240_final_read_two_stages(
+						language, home_case, applied, settings, audio, true):
+					return false
+				dark += 1
+				green += 1
+			else:
+				if not await _w240_final_finish_silent_result(
+						home_case, applied, settings, audio):
+					return false
+				silent += 1
+			paths += 1
+
+	if not await _w240_final_skip_case(W235_HOME_CASES[1]):
+		return false
+	var cold := await _w240_final_cold_matrix(W235_HOME_CASES[1])
+	if cold < 0:
+		return false
+	var hot := await _w240_final_hot_matrix(W235_HOME_CASES[1])
+	if hot < 0:
+		return false
+	var replay := await _w240_final_replay_guard(W235_HOME_CASES[1])
+	if replay < 0:
+		return false
+	print("W240_FINAL_WEEK_LIGHTS_OK paths=%d dark=%d green=%d silent=%d homes=%d skip=1 cold=%d hot=%d replay=%d captures=%d" % [
+		paths, dark, green, silent, homes.size(), cold, hot, replay,
+		_w240_final_capture_frames])
+	return paths == 15 and dark == 5 and green == 5 and silent == 10 \
+		and homes.size() == 7 and cold == 6 and hot == 6 and replay == 1 \
+		and _w240_final_capture_frames <= 5 and _failures == 0
+
+
+func _w240_final_open(
+		language: String, home_case: Dictionary,
+		signature_choice: int) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W240FINAL/signature%d" % [language, signature_choice]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	_w240_final_clear_tracked()
+	if not _prepare_full_owner_history(240, [
+			[240, "arc_final_countdown", signature_choice],
+		]):
+		return false
+	GameState.housing = str(home_case.get("housing", "oneroom"))
+	GameState.flags.erase("arc_daeun_wedding_day_seen")
+	GameState.flags.erase("daeun_divorced")
+	for flag: String in (home_case.get("flags", {}) as Dictionary):
+		GameState.flags[flag] = bool((home_case.get(
+			"flags", {}) as Dictionary)[flag])
+	if not await _open_full_fixture_event(W240_FINAL_WEEK):
+		return false
+	_story.set_process(false)
+	var current: Dictionary = _story.get("_current")
+	var signature_flags: Array[String] = [
+		"final_signature_owned",
+		"final_signature_collateral",
+		"final_signature_people",
+	]
+	var flags_ok := true
+	for flag_index in range(signature_flags.size()):
+		flags_ok = flags_ok and bool(GameState.flags.get(
+			signature_flags[flag_index], false)) == (flag_index == signature_choice)
+	# The signature flag selects description_if_known before pagination; compare
+	# the rendered pages to that exact resolved variant, not the raw fallback.
+	var authored := str(_story.call("_resolved_story_description", current))
+	var pages: Array = _story.get("_paragraphs")
+	if str(current.get("id", "")) != W240_FINAL_WEEK \
+			or not FULL_STORY_FLOW.valid_session() or not flags_ok \
+			or int(_story.call("_story_source_paragraph_count")) != 4 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored) \
+			or int(_story.call("_w240_final_week_lights_stage")) != -1 \
+			or not _w240_final_surface(
+				0, home_case, "W240 final-week opening", false):
+		_fail("W240 final-week exact owner mismatch id=%s session=%s flags=%s sources=%d pages=%d prose=%s stage=%d" % [
+			str(current.get("id", "")), FULL_STORY_FLOW.valid_session(),
+			flags_ok, int(_story.call("_story_source_paragraph_count")),
+			pages.size(), not pages.is_empty() and _m23_same_prose(pages, authored),
+			int(_story.call("_w240_final_week_lights_stage"))])
+		return false
+	return true
+
+
+func _w240_final_read_intro(home_case: Dictionary) -> bool:
+	if not await _w240_final_wait_audio_age("W240 final-week opening"):
+		return false
+	var untouched := _w227_state_bytes()
+	var settings := _w240_final_settings_bytes()
+	var audio := _w240_final_audio_snapshot()
+	while not bool(_story.get("_showing_choices")):
+		await _finish_page()
+		if not _w240_final_stable(
+				0, home_case, untouched, settings, audio,
+				"W240 final-week opening", false):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w240_final_stable(
+			0, home_case, untouched, settings, audio,
+			"W240 final-week choices", false)
+
+
+func _w240_final_prepare_result(
+		language: String, choice: int, home_case: Dictionary,
+		signature_choice: int = 0) -> bool:
+	if not await _w240_final_open(language, home_case, signature_choice) \
+			or not await _w240_final_read_intro(home_case):
+		return false
+	_story.call("_on_choice", choice)
+	_story.set_process(false)
+	await _wait_stable()
+	var current: Dictionary = _story.get("_current")
+	var choices: Array = current.get("choices", [])
+	var pages: Array = _story.get("_paragraphs")
+	var authored := "" if choice < 0 or choice >= choices.size() else str(
+		_story.call("_fmt", (choices[choice] as Dictionary).get("result_text", "")))
+	var active := bool(_story.call("_w240_final_week_lights_active"))
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != choice \
+			or int(_story.call("_story_source_paragraph_count")) != 3 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored) \
+			or active != (choice == 2) \
+			or int(_story.call("_w240_final_week_lights_stage")) \
+				!= (0 if choice == 2 else -1) \
+			or not _w240_final_surface(
+				0, home_case, "W240 final-week result entry", choice == 2):
+		_fail("W240 final-week c%d lost its exact three-source result" % choice)
+		return false
+	return true
+
+
+func _w240_final_read_two_stages(
+		language: String, home_case: Dictionary, applied: String,
+		settings: String, audio: Dictionary, capture: bool) -> bool:
+	var boundaries: Array = _story.call("_w240_final_week_lights_boundaries")
+	if not _w240_final_boundaries_valid(boundaries):
+		return false
+	var dark_boundary: Vector2i = boundaries[0]
+	var green_boundary: Vector2i = boundaries[1]
+	if not await _w240_final_seek_cursor(
+			dark_boundary.x, dark_boundary.y - 1) \
+			or not _w240_final_stable(
+				0, home_case, applied, settings, audio,
+				"W240 final-week before dark") \
+			or not _w227_type_to(dark_boundary.y, "W240LIGHTS") \
+			or not _w240_final_stable(
+				1, home_case, applied, settings, audio,
+				"W240 final-week dark"):
+		return false
+	if capture and not await _w240_final_capture(language, 1):
+		return false
+	boundaries = _story.call("_w240_final_week_lights_boundaries")
+	if not _w240_final_boundaries_valid(boundaries):
+		return false
+	green_boundary = boundaries[1]
+	if not await _w240_final_seek_cursor(
+			green_boundary.x, green_boundary.y - 1) \
+			or not _w240_final_stable(
+				1, home_case, applied, settings, audio,
+				"W240 final-week before green") \
+			or not _w227_type_to(green_boundary.y, "W240LIGHTS") \
+			or not _w240_final_stable(
+				2, home_case, applied, settings, audio,
+				"W240 final-week green"):
+		return false
+	if capture and not await _w240_final_capture(language, 2):
+		return false
+	return await _w240_final_finish_at_stage(
+		2, home_case, applied, settings, audio)
+
+
+func _w240_final_finish_silent_result(
+		home_case: Dictionary, applied: String,
+		settings: String, audio: Dictionary) -> bool:
+	while true:
+		await _finish_page()
+		if not _w240_final_stable(
+				0, home_case, applied, settings, audio,
+				"W240 final-week silent result", false):
+			return false
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w240_final_finish_at_stage(
+		stage: int, home_case: Dictionary, applied: String,
+		settings: String, audio: Dictionary) -> bool:
+	while true:
+		await _finish_page()
+		if not _w240_final_stable(
+				stage, home_case, applied, settings, audio,
+				"W240 final-week completed result"):
+			return false
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w240_final_seek_cursor(page_index: int, type_pos: int) -> bool:
+	for _guard in range(64):
+		var current_page := int(_story.get("_para_index"))
+		if current_page == page_index:
+			if int(_story.get("_type_pos")) > type_pos:
+				_fail("W240 final-week cursor passed its requested boundary")
+				return false
+			return _w227_type_to(type_pos, "W240LIGHTS")
+		if current_page > page_index:
+			break
+		await _finish_page()
+		_story.call("_on_advance")
+		await _wait_stable()
+	_fail("W240 final-week could not seek page%d/type%d" % [
+		page_index, type_pos])
+	return false
+
+
+func _w240_final_boundaries_valid(raw_boundaries: Array) -> bool:
+	if raw_boundaries.size() != 2 \
+			or not raw_boundaries[0] is Vector2i \
+			or not raw_boundaries[1] is Vector2i:
+		_fail("W240 final-week did not expose exactly two viewport boundaries")
+		return false
+	var dark: Vector2i = raw_boundaries[0]
+	var green: Vector2i = raw_boundaries[1]
+	var pages: Array = _story.get("_paragraphs")
+	if dark.x < 0 or green.x < dark.x or green.x >= pages.size() \
+			or dark.y <= 0 or green.y <= 0 \
+			or dark.y > str(pages[dark.x]).length() \
+			or green.y > str(pages[green.x]).length() \
+			or int(_story.call("_story_source_paragraph_index", dark.x)) != 2 \
+			or int(_story.call("_story_source_paragraph_index", green.x)) != 2 \
+			or (dark.x == green.x and dark.y >= green.y):
+		_fail("W240 final-week boundaries lost ordered source2 viewport positions")
+		return false
+	return true
+
+
+func _w240_final_skip_case(home_case: Dictionary) -> bool:
+	if not await _w240_final_prepare_result("ko", 2, home_case, 0):
+		return false
+	var applied := _w227_state_bytes()
+	var settings := _w240_final_settings_bytes()
+	var audio := _w240_final_audio_snapshot()
+	var boundaries: Array = _story.call("_w240_final_week_lights_boundaries")
+	if not _w240_final_boundaries_valid(boundaries):
+		return false
+	var dark: Vector2i = boundaries[0]
+	if not await _w240_final_seek_cursor(dark.x, dark.y - 1):
+		return false
+	var previous_stage := 0
+	while true:
+		await _finish_page()
+		var stage := int(_story.call("_w240_final_week_lights_stage"))
+		if stage < previous_stage or stage > 2 \
+				or not _w240_final_stable(
+					stage, home_case, applied, settings, audio,
+					"W240 final-week skip"):
+			_fail("W240 final-week skip reversed or escaped its light order")
+			return false
+		previous_stage = stage
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			break
+		_story.call("_on_advance")
+		await _wait_stable()
+	if previous_stage != 2:
+		_fail("W240 final-week skip did not settle on green")
+		return false
+	_story.call("_complete_typing")
+	return _w240_final_stable(
+		2, home_case, applied, settings, audio,
+		"W240 final-week repeated skip")
+
+
+func _w240_final_cold_matrix(home_case: Dictionary) -> int:
+	var specs: Array[Dictionary] = [
+		{"label": "source1", "source": 1, "stage": 0,
+			"target": "ko", "legacy": false},
+		{"label": "before", "source": 2, "stage": 0,
+			"target": "ko", "legacy": false},
+		{"label": "between", "source": 2, "stage": 1,
+			"target": "ko", "legacy": false},
+		{"label": "after", "source": 2, "stage": 2,
+			"target": "ko", "legacy": false},
+		{"label": "cross", "source": 2, "stage": 1,
+			"target": "en", "legacy": false},
+		{"label": "legacy", "source": 2, "stage": 1,
+			"target": "ko", "legacy": true},
+	]
+	var count := 0
+	for spec: Dictionary in specs:
+		if not await _w240_final_prepare_result("ko", 2, home_case, 0):
+			return -1
+		var source := int(spec["source"])
+		var expected_stage := int(spec["stage"])
+		if source == 1:
+			if not await _w240_final_seek_source(1):
+				return -1
+		else:
+			if not await _w240_final_place_stage(expected_stage):
+				return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		if bool(spec["legacy"]):
+			context.erase("story_locale")
+			context.erase("source_paragraph_index")
+			context.erase("source_text_progress")
+			context.erase("source_paragraph_count")
+		var applied := _w227_state_bytes()
+		var target_locale := str(spec["target"])
+		var label := "W240 final-week cold " + str(spec["label"])
+		if not await _w240_final_cold_load(
+				context, target_locale, home_case, applied,
+				target_locale != "ko", label):
+			return -1
+		var restored_stage := _w240_final_stage_from_cursor()
+		if restored_stage < 0:
+			return -1
+		if target_locale == "ko" and not bool(spec["legacy"]) \
+				and restored_stage != expected_stage:
+			_fail("%s moved off its same-locale current cursor" % label)
+			return -1
+		var settings := _w240_final_settings_bytes()
+		var audio := _w240_final_audio_snapshot()
+		if not _w240_final_stable(
+				restored_stage, home_case, applied, settings, audio,
+				label, true, target_locale != "ko") \
+				or not await _w240_final_finish_forward(
+					restored_stage, home_case, applied, settings, audio,
+					target_locale != "ko", label):
+			return -1
+		count += 1
+	return count
+
+
+func _w240_final_cold_load(
+		context: Dictionary, target_locale: String, home_case: Dictionary,
+		applied: String, allow_default_name_projection: bool,
+		label: String) -> bool:
+	if not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail(label + " could not write isolated v4 save")
+		return false
+	var disk: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int((disk as Dictionary).get("version", -1)) != 4:
+		_fail(label + " lost disk schema v4")
+		return false
+	await _remove_story()
+	await _stop_audio()
+	GameState.start_new_game()
+	LocaleManager.set_language(target_locale)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail(label + " could not cold-load its current text cursor")
+		return false
+	BGMPlayer.set_ambience("room")
+	BGMPlayer.set_season_ambience("winter")
+	BGMPlayer.play_punctuation("grief")
+	_w240_final_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	_story.call("_set_auto_mode", false, false, false)
+	_story.set_process(false)
+	await _wait_stable()
+	if str((_story.get("_current") as Dictionary).get("id", "")) \
+			!= W240_FINAL_WEEK \
+			or not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != 2 \
+			or int(_story.call("_story_source_paragraph_count")) != 3 \
+			or not bool(_story.call("_w240_final_week_lights_active")) \
+			or not _w227_state_matches(
+				applied, label, allow_default_name_projection, "W240LIGHTS"):
+		_fail(label + " did not restore the exact c2 result")
+		return false
+	return await _w240_final_wait_audio_age(label)
+
+
+func _w240_final_seek_source(source_index: int) -> bool:
+	for _guard in range(64):
+		var current := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		if current == source_index:
+			return true
+		if current > source_index:
+			break
+		await _finish_page()
+		_story.call("_on_advance")
+		await _wait_stable()
+	_fail("W240 final-week could not reach result source%d" % source_index)
+	return false
+
+
+func _w240_final_place_stage(stage: int) -> bool:
+	var boundaries: Array = _story.call("_w240_final_week_lights_boundaries")
+	if not _w240_final_boundaries_valid(boundaries):
+		return false
+	var target: Vector2i
+	match stage:
+		0:
+			target = boundaries[0]
+			target.y -= 1
+		1:
+			target = boundaries[1]
+			target.y -= 1
+		2:
+			target = boundaries[1]
+		_:
+			return false
+	return await _w240_final_seek_cursor(target.x, target.y) \
+		and int(_story.call("_w240_final_week_lights_stage")) == stage
+
+
+func _w240_final_stage_from_cursor() -> int:
+	var boundaries: Array = _story.call("_w240_final_week_lights_boundaries")
+	if not _w240_final_boundaries_valid(boundaries):
+		return -1
+	var page := int(_story.get("_para_index"))
+	var type_pos := int(_story.get("_type_pos"))
+	var stage := 0
+	for raw_boundary: Variant in boundaries:
+		var boundary: Vector2i = raw_boundary
+		if page > boundary.x or (page == boundary.x and type_pos >= boundary.y):
+			stage += 1
+	return stage
+
+
+func _w240_final_finish_forward(
+		initial_stage: int, home_case: Dictionary, applied: String,
+		settings: String, audio: Dictionary,
+		allow_default_name_projection: bool, label: String) -> bool:
+	var prior_stage := initial_stage
+	while true:
+		await _finish_page()
+		var stage := _w240_final_stage_from_cursor()
+		if stage < prior_stage \
+				or not _w240_final_stable(
+					stage, home_case, applied, settings, audio,
+					label + " forward", true,
+					allow_default_name_projection):
+			_fail(label + " did not follow its restored current cursor")
+			return false
+		prior_stage = stage
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			break
+		_story.call("_on_advance")
+		await _wait_stable()
+	return prior_stage == 2
+
+
+func _w240_final_hot_matrix(home_case: Dictionary) -> int:
+	var count := 0
+	for mode: String in ["font", "locale"]:
+		for stage in range(3):
+			if not await _w240_final_prepare_result("ko", 2, home_case, 0) \
+					or not await _w240_final_place_stage(stage):
+				return -1
+			var applied := _w227_state_bytes()
+			var audio := _w240_final_audio_snapshot()
+			var expected_settings: Dictionary = SaveManager._settings.duplicate(true)
+			if mode == "font":
+				expected_settings["story_text_size"] = "large"
+				_story.call("_set_story_text_size", "large")
+			else:
+				expected_settings["language"] = "en"
+				_story.call("_set_story_language", "en")
+			await _wait_stable()
+			var settings := _w240_final_settings_value_bytes(expected_settings)
+			if LocaleManager.language != ("en" if mode == "locale" else "ko") \
+					or str(_story.get("_story_text_size")) \
+						!= ("large" if mode == "font" else "standard") \
+					or _w240_final_stage_from_cursor() != stage \
+					or not _w240_final_stable(
+						stage, home_case, applied, settings, audio,
+						"W240 final-week %s stage%d" % [mode, stage],
+						true, mode == "locale"):
+				_fail("W240 final-week %s reflow crossed stage%d" % [mode, stage])
+				return -1
+			count += 1
+	return count
+
+
+func _w240_final_replay_guard(home_case: Dictionary) -> int:
+	# arc_final_week is deliberately absent from the gallery-root catalog. This
+	# is a guard-only negative on its already-owned live fixture, not a claim
+	# that the event can be launched as a frozen replay.
+	if MetaProgression.is_gallery_replay_root(W240_FINAL_WEEK) \
+			or not MetaProgression.gallery_replay_closure_ids(
+				W240_FINAL_WEEK).is_empty():
+		_fail("W240 final-week unexpectedly gained gallery-root admission")
+		return -1
+	if not await _w240_final_open("ko", home_case, 0) \
+			or not await _w240_final_wait_audio_age(
+				"W240 final-week read-only guard"):
+		return -1
+	if bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != -1:
+		_fail("W240 final-week guard fixture already had a choice proof")
+		return -1
+	var untouched := _w227_state_bytes()
+	var settings := _w240_final_settings_bytes()
+	var audio := _w240_final_audio_snapshot()
+	_story.set("_read_only_replay", true)
+	var active := bool(_story.call("_w240_final_week_lights_active"))
+	var boundaries: Array = _story.call("_w240_final_week_lights_boundaries")
+	var stage := int(_story.call("_w240_final_week_lights_stage"))
+	_story.call("_sync_w240_final_week_lights")
+	await get_tree().process_frame
+	var guarded := not active and boundaries.is_empty() and stage == -1 \
+		and not GameState.story_replay_mode \
+		and _w240_final_stable(
+			0, home_case, untouched, settings, audio,
+			"W240 final-week read-only guard", false)
+	_story.set("_read_only_replay", false)
+	if not guarded:
+		_fail("W240 final-week unproven-choice guard inferred a light state")
+		return -1
+
+	# A selected c2 has the real choice proof, so this second guard isolates the
+	# read-only exclusion itself without pretending the event is gallery-owned.
+	if not await _w240_final_prepare_result("ko", 2, home_case, 0):
+		return -1
+	untouched = _w227_state_bytes()
+	settings = _w240_final_settings_bytes()
+	audio = _w240_final_audio_snapshot()
+	_story.set("_read_only_replay", true)
+	active = bool(_story.call("_w240_final_week_lights_active"))
+	boundaries = _story.call("_w240_final_week_lights_boundaries")
+	stage = int(_story.call("_w240_final_week_lights_stage"))
+	_story.call("_sync_w240_final_week_lights")
+	await get_tree().process_frame
+	guarded = not active and boundaries.is_empty() and stage == -1 \
+		and _w240_final_stable(
+			0, home_case, untouched, settings, audio,
+			"W240 final-week selected read-only guard", false)
+	_story.set("_read_only_replay", false)
+	if not guarded:
+		_fail("W240 final-week selected read-only guard inferred a light state")
+		return -1
+	return 1
+
+
+func _w240_final_stable(
+		stage: int, home_case: Dictionary, expected_state: String,
+		expected_settings: String, audio: Dictionary, label: String,
+		expect_active: bool = true,
+		allow_default_name_projection: bool = false) -> bool:
+	return _w240_final_surface(
+			stage, home_case, label, expect_active) \
+		and _w227_state_matches(
+			expected_state, label, allow_default_name_projection,
+			"W240LIGHTS") \
+		and _w240_final_settings_match(expected_settings, label) \
+		and _w240_final_audio_matches(audio, label)
+
+
+func _w240_final_surface(
+		stage: int, home_case: Dictionary, label: String,
+		expect_active: bool = true, expect_portrait: bool = true) -> bool:
+	var actual_stage := int(_story.call("_w240_final_week_lights_stage"))
+	if actual_stage != (stage if expect_active else -1):
+		_fail("%s wrong light stage expected=%d actual=%d" % [
+			label, stage if expect_active else -1, actual_stage])
+		return false
+	var portrait_frame := _story.get("_portrait_frame") as Control
+	var portrait := _story.get("_portrait") as TextureRect
+	var hud := _story.get("_hud_panel") as Control
+	if stage == 0:
+		if not _expect_surface(
+				str(home_case.get("background", "")), "apartment", label) \
+				or not str(_story.get("_event_cg_id")).is_empty() \
+				or bool(_story.get("_current_uses_cg")) \
+				or (expect_portrait and (not portrait_frame.visible \
+					or portrait.texture == null \
+					or portrait.texture.resource_path \
+						!= ImageRegistry.get_portrait("player_normal"))):
+			_fail(label + " lost its home/player surface before lights-out")
+			return false
+		return true
+	var cg_id := str(W240_FINAL_WEEK_LIGHTS.get_meta(
+		"green_cg" if stage == 2 else "dark_cg", ""))
+	var cg_path := ImageRegistry.get_cg(cg_id)
+	var background := _story.get("_bg_img") as TextureRect
+	if cg_id.is_empty() or cg_path.is_empty() \
+			or not FileAccess.file_exists(cg_path) \
+			or str(_story.get("_event_cg_id")) != cg_id \
+			or str(_story.get("_event_cg_path")) != cg_path \
+			or not bool(_story.get("_current_uses_cg")) \
+			or background.texture == null \
+			or background.texture.resource_path != cg_path \
+			or portrait_frame.visible or (is_instance_valid(hud) and hud.visible):
+		_fail("%s lost exact stage%d CG/portrait/HUD surface" % [label, stage])
+		return false
+	return true
+
+
+func _w240_final_audio_snapshot() -> Dictionary:
+	var score := _w237_score_player()
+	if not is_instance_valid(score) or not BGMPlayer._ambience_player.playing \
+			or BGMPlayer._ambience_player.get_playback_position() <= 0.15 \
+			or score.get_playback_position() <= 0.15 \
+			or BGMPlayer._human_ambience_player.playing \
+			or BGMPlayer._season_player.playing \
+			or not str(BGMPlayer.get(
+				"_current_human_ambience_key")).is_empty() \
+			or not str(BGMPlayer.get("_current_season_key")).is_empty():
+		return {}
+	return {
+		"bed_player": BGMPlayer._ambience_player,
+		"bed_stream": BGMPlayer._ambience_player.stream,
+		"bed_position": BGMPlayer._ambience_player.get_playback_position(),
+		"score_player": score,
+		"score_stream": score.stream,
+		"score_position": score.get_playback_position(),
+		"human_player": BGMPlayer._human_ambience_player,
+		"human_playing": BGMPlayer._human_ambience_player.playing,
+		"human_stream": BGMPlayer._human_ambience_player.stream,
+		"human_position": BGMPlayer._human_ambience_player.get_playback_position(),
+		"human_key": str(BGMPlayer.get("_current_human_ambience_key")),
+		"season_player": BGMPlayer._season_player,
+		"season_playing": BGMPlayer._season_player.playing,
+		"season_stream": BGMPlayer._season_player.stream,
+		"season_position": BGMPlayer._season_player.get_playback_position(),
+		"season_key": str(BGMPlayer.get("_current_season_key")),
+	}
+
+
+func _w240_final_wait_audio_age(label: String) -> bool:
+	var started_at := Time.get_ticks_msec()
+	var early_reported := false
+	for _guard in range(120):
+		var elapsed := Time.get_ticks_msec() - started_at
+		var bed_score_aged := BGMPlayer._ambience_player.playing \
+			and BGMPlayer._ambience_player.get_playback_position() > 0.15 \
+			and is_instance_valid(_w237_score_player()) \
+			and _w237_score_player().get_playback_position() > 0.15
+		if not _w240_final_audio_probe_reported and not early_reported \
+				and bed_score_aged:
+			early_reported = true
+			print("W240_FINAL_WEEK_AUDIO_PROBE phase=aged elapsed_ms=%d human_key=%s human_playing=%s human_stream=%s human_db=%.2f human_tween=%s season_key=%s season_playing=%s season_stream=%s season_db=%.2f season_tween=%s" % [
+				elapsed, BGMPlayer.get("_current_human_ambience_key"),
+				BGMPlayer._human_ambience_player.playing,
+				BGMPlayer._human_ambience_player.stream.resource_path \
+					if BGMPlayer._human_ambience_player.stream != null else "",
+				BGMPlayer._human_ambience_player.volume_db,
+				BGMPlayer._human_ambience_tween != null \
+					and BGMPlayer._human_ambience_tween.is_running(),
+				BGMPlayer.get("_current_season_key"),
+				BGMPlayer._season_player.playing,
+				BGMPlayer._season_player.stream.resource_path \
+					if BGMPlayer._season_player.stream != null else "",
+				BGMPlayer._season_player.volume_db,
+				BGMPlayer._season_tween != null \
+					and BGMPlayer._season_tween.is_running(),
+			])
+		var snapshot := _w240_final_audio_snapshot()
+		if not snapshot.is_empty() \
+				and (_w240_final_audio_probe_reported or elapsed >= 700):
+			if not _w240_final_audio_probe_reported:
+				print("W240_FINAL_WEEK_AUDIO_PROBE phase=settled elapsed_ms=%d human_key=%s human_playing=%s human_stream=%s human_db=%.2f human_tween=%s season_key=%s season_playing=%s season_stream=%s season_db=%.2f season_tween=%s" % [
+					elapsed, BGMPlayer.get("_current_human_ambience_key"),
+					BGMPlayer._human_ambience_player.playing,
+					BGMPlayer._human_ambience_player.stream.resource_path \
+						if BGMPlayer._human_ambience_player.stream != null else "",
+					BGMPlayer._human_ambience_player.volume_db,
+					BGMPlayer._human_ambience_tween != null \
+						and BGMPlayer._human_ambience_tween.is_running(),
+					BGMPlayer.get("_current_season_key"),
+					BGMPlayer._season_player.playing,
+					BGMPlayer._season_player.stream.resource_path \
+						if BGMPlayer._season_player.stream != null else "",
+					BGMPlayer._season_player.volume_db,
+					BGMPlayer._season_tween != null \
+						and BGMPlayer._season_tween.is_running(),
+				])
+				_w240_final_audio_probe_reported = true
+			return true
+		await get_tree().process_frame
+	_fail(label + " did not establish aged apartment/reckoning audio")
+	return false
+
+
+func _w240_final_audio_matches(snapshot: Dictionary, label: String) -> bool:
+	if snapshot.is_empty():
+		_fail(label + " had no established apartment/reckoning audio")
+		return false
+	var bed_player := snapshot.get("bed_player") as AudioStreamPlayer
+	var score_player := snapshot.get("score_player") as AudioStreamPlayer
+	var human_player := snapshot.get("human_player") as AudioStreamPlayer
+	var season_player := snapshot.get("season_player") as AudioStreamPlayer
+	var current_score := _w237_score_player()
+	var expected_human_playing := bool(snapshot.get("human_playing", false))
+	var expected_season_playing := bool(snapshot.get("season_playing", false))
+	var human_continuous: bool = BGMPlayer._human_ambience_player == human_player \
+		and is_instance_valid(human_player) \
+		and human_player.playing == expected_human_playing \
+		and str(BGMPlayer.get("_current_human_ambience_key")) \
+			== str(snapshot.get("human_key", "")) \
+		and (not expected_human_playing \
+			or (human_player.stream == snapshot.get("human_stream") \
+				and human_player.get_playback_position() + 0.05 \
+					>= float(snapshot.get("human_position", 0.0))))
+	var season_continuous: bool = BGMPlayer._season_player == season_player \
+		and is_instance_valid(season_player) \
+		and season_player.playing == expected_season_playing \
+		and str(BGMPlayer.get("_current_season_key")) \
+			== str(snapshot.get("season_key", "")) \
+		and (not expected_season_playing \
+			or (season_player.stream == snapshot.get("season_stream") \
+				and season_player.get_playback_position() + 0.05 \
+					>= float(snapshot.get("season_position", 0.0))))
+	var cue_keys: Array = AudioManager._story_audio_seen.keys().filter(
+		func(key: Variant) -> bool:
+			return str(key).begins_with(W240_FINAL_WEEK + ":"))
+	var stray: Array[String] = []
+	for sound_id: String in W239_TRACKED_SFX:
+		if AudioManager._last_sfx_ms.has(sound_id) \
+				or _w197_sfx_stream_count(sound_id) != 0:
+			stray.append(sound_id)
+	if BGMPlayer._ambience_player != bed_player \
+			or not is_instance_valid(bed_player) or not bed_player.playing \
+			or bed_player.stream != snapshot.get("bed_stream") \
+			or bed_player.get_playback_position() + 0.05 \
+				< float(snapshot.get("bed_position", 0.0)) \
+			or current_score != score_player \
+			or not is_instance_valid(current_score) or not current_score.playing \
+			or current_score.stream != snapshot.get("score_stream") \
+			or current_score.get_playback_position() + 0.05 \
+				< float(snapshot.get("score_position", 0.0)) \
+			or str(BGMPlayer.get("_current_ambience_key")) != "apartment" \
+			or str(BGMPlayer.get("_current_key")) != "reckoning" \
+			or not human_continuous or not season_continuous \
+			or not cue_keys.is_empty() or not stray.is_empty() \
+			or not (_story.call(
+				"_physical_cue_contract") as Dictionary).is_empty() \
+			or not (_story.call(
+				"_ballpoint_write_contract") as Dictionary).is_empty():
+		var detail := " bedSame=%s bedValid=%s bedPlaying=%s bedStream=%s bedPos=%.3f/%.3f scoreSame=%s scoreValid=%s scorePlaying=%s scoreStream=%s scorePos=%.3f/%.3f keys=%s/%s human=%s/%s/%s season=%s/%s/%s physical=%s ballpoint=%s" % [
+				BGMPlayer._ambience_player == bed_player,
+				is_instance_valid(bed_player),
+				is_instance_valid(bed_player) and bed_player.playing,
+				is_instance_valid(bed_player) \
+					and bed_player.stream == snapshot.get("bed_stream"),
+				BGMPlayer._ambience_player.get_playback_position(),
+				float(snapshot.get("bed_position", 0.0)),
+				current_score == score_player,
+				is_instance_valid(current_score),
+				is_instance_valid(current_score) and current_score.playing,
+				is_instance_valid(current_score) \
+					and current_score.stream == snapshot.get("score_stream"),
+				current_score.get_playback_position() \
+					if is_instance_valid(current_score) else -1.0,
+				float(snapshot.get("score_position", 0.0)),
+				BGMPlayer.get("_current_ambience_key"),
+				BGMPlayer.get("_current_key"),
+				BGMPlayer._human_ambience_player.playing,
+				BGMPlayer.get("_current_human_ambience_key"),
+				human_continuous,
+				BGMPlayer._season_player.playing,
+				BGMPlayer.get("_current_season_key"),
+				season_continuous,
+				not (_story.call("_physical_cue_contract") as Dictionary).is_empty(),
+				not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty(),
+			]
+		_fail("%s restarted audio or gained a physical cue cues=%s stray=%s%s" % [
+			label, cue_keys, stray, detail])
+		return false
+	return true
+
+
+func _w240_final_clear_tracked() -> void:
+	for sound_id: String in W239_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+
+func _w240_final_settings_bytes() -> String:
+	return _w240_final_settings_value_bytes(SaveManager._settings)
+
+
+func _w240_final_settings_value_bytes(settings: Dictionary) -> String:
+	return JSON.stringify(_w177_json_state(settings), "", true)
+
+
+func _w240_final_settings_match(expected: String, label: String) -> bool:
+	var actual := _w240_final_settings_bytes()
+	if actual == expected:
+		return true
+	_fail("%s changed isolated settings expected=%s actual=%s" % [
+		label, expected.sha256_text(), actual.sha256_text()])
+	return false
+
+
+func _w240_final_capture_prepare() -> bool:
+	_w240_final_capture_dir = OS.get_environment(
+		"GANGNAM_W240_FINAL_WEEK_CAPTURE_DIR")
+	_w240_final_capture_frames = 0
+	if _w240_final_capture_dir.is_empty():
+		return true
+	var output := DirAccess.open(_w240_final_capture_dir) \
+		if _w240_final_capture_dir.is_absolute_path() else null
+	var viewport_size := Vector2i(get_viewport().get_visible_rect().size)
+	if DisplayServer.get_name() == "headless" or output == null \
+			or not output.get_files().is_empty() \
+			or not output.get_directories().is_empty() \
+			or viewport_size not in [Vector2i(1280, 800), Vector2i(960, 600)]:
+		_fail("W240 final-week capture needs a real 1280x800/960x600 display and fresh absolute output")
+		return false
+	print("W240_FINAL_WEEK_CAPTURE_READY driver=%s viewport=%s output=%s" % [
+		DisplayServer.get_name(), viewport_size, _w240_final_capture_dir])
+	return true
+
+
+func _w240_final_capture(language: String, stage: int) -> bool:
+	if _w240_final_capture_dir.is_empty() or language not in ["ko", "en"]:
+		return true
+	var viewport_size := Vector2i(get_viewport().get_visible_rect().size)
+	# Across the two admitted viewports this yields at most eight raw frames:
+	# 1280 has KO/EN dark+green plus one Black/green; 960 has KO dark+green
+	# and EN green for localized clause visibility.
+	if viewport_size == Vector2i(960, 600) and language == "en" and stage == 1:
+		return true
+	var stage_name := "green" if stage == 2 else "dark"
+	var body := _story.get("_body_lbl") as RichTextLabel
+	var anchor_map: Dictionary = W240_FINAL_WEEK_LIGHTS.get_meta(
+		"charging_green_anchors" if stage == 2 else "lights_out_anchors", {})
+	var anchor := str(_story.call("_fmt", anchor_map.get(language, "")))
+	if body == null or anchor.is_empty() or not body.text.ends_with(anchor):
+		_fail("W240 final-week capture did not expose its exact visible clause")
+		return false
+	var size_label := "%dx%d" % [viewport_size.x, viewport_size.y]
+	var path := _w240_final_capture_dir.path_join(
+		"%s_%s_%s.png" % [language, size_label, stage_name])
+	if not await _save_viewport_frame(path):
+		return false
+	_w240_final_capture_frames += 1
+	print("W240_FINAL_WEEK_CAPTURE frame=%s cg=%s clause=%s" % [
+		path, _story.get("_event_cg_id"), anchor])
+	if viewport_size == Vector2i(1280, 800) and language == "ko" and stage == 2:
+		var prior_tint := GameState.moral_tint
+		GameState.moral_tint = -100.0
+		_story.call("_on_story_moral_tint_changed", -1.0, -2)
+		var black_path := _w240_final_capture_dir.path_join(
+			"ko_%s_green_black.png" % size_label)
+		if not await _save_viewport_frame(black_path):
+			GameState.moral_tint = prior_tint
+			_story.call("_on_story_moral_tint_changed",
+				GameState.moral_tint_norm(), GameState.moral_stage())
+			return false
+		_w240_final_capture_frames += 1
+		GameState.moral_tint = prior_tint
+		_story.call("_on_story_moral_tint_changed",
+			GameState.moral_tint_norm(), GameState.moral_stage())
+		print("W240_FINAL_WEEK_CAPTURE frame=%s cg=%s grade=black" % [
+			black_path, _story.get("_event_cg_id")])
+	return _w240_final_capture_frames <= 5
 
 
 func _check_w240_general_outbound() -> bool:

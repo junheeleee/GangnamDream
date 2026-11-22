@@ -136,6 +136,8 @@ const W207_FINAL_OFFER := "arc_y5_final_offer"
 const W207_DAEUN_PAGE_TURN := preload("res://assets/w207_daeun_page_turn.tres")
 const W208_REFERENCE_DELIVERY := "arc_y5_final_offer_reference_delivery"
 const W208_DOCUMENT_SCAN := preload("res://assets/w208_document_scan.tres")
+const W240_FINAL_WEEK := "arc_final_week"
+const W240_FINAL_WEEK_LIGHTS := preload("res://assets/w240_final_week_lights.tres")
 const W216_REVIEW := "arc_y5_sangchul_review_receipt"
 const W220_CONSENT_RECEIPT := "arc_y5_room_consent_receipt"
 const W227_FILING := "arc_y5_name_on_line_daeun_routed"
@@ -3021,6 +3023,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_rebind_w239_paper_reveal()
 		_rebind_w240_general_pen_reveal()
 		_rebind_w240_outbound_pen_reveal()
+		_sync_w240_final_week_lights()
 		return
 	_type_pos = paragraph.length()
 	_typing = false
@@ -3034,6 +3037,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_rebind_w239_paper_reveal()
 	_rebind_w240_general_pen_reveal()
 	_rebind_w240_outbound_pen_reveal()
+	_sync_w240_final_week_lights()
 	_sync_wedding_lights_out(true)
 	_record_current_dialogue_source()
 	_refresh_continue_hint_text()
@@ -3925,9 +3929,29 @@ func _restore_localized_story_text(
 	var old_after_cut := old_cut >= 0 and _para_index >= old_cut
 	var old_source := _story_source_paragraph_index(_para_index)
 	var old_cut_progress := _story_source_page_progress(old_cut, 0.0) if old_cut >= 0 else 0.0
+	var old_final_lights_stage := -1
+	if _w240_final_week_lights_active() and source_paragraph_index == 2:
+		# Language has already changed, so the existing picture owns the old side.
+		var dark_cg: String = str(W240_FINAL_WEEK_LIGHTS.get_meta("dark_cg", ""))
+		var green_cg: String = str(W240_FINAL_WEEK_LIGHTS.get_meta("green_cg", ""))
+		old_final_lights_stage = 2 if _event_cg_id == green_cg else (1 if _event_cg_id == dark_cg else 0)
 	var ktx_stage := -1 if _first_ktx_cut_pages.is_empty() else _first_ktx_stage(_para_index)
 	var old_ktx_range := _first_ktx_phase_progress(ktx_stage) if ktx_stage >= 0 else Vector2.ZERO
 	_apply_story_page_data(page_data)
+	if old_final_lights_stage >= 0:
+		var off_range := _w240_final_week_lights_progress_range(1)
+		var green_range := _w240_final_week_lights_progress_range(2)
+		if off_range.y >= 0.0 and green_range.y >= 0.0:
+			# Retain all three visual sides when a translation or font moves them.
+			if old_final_lights_stage == 0:
+				source_page_progress = minf(source_page_progress, off_range.x)
+			elif old_final_lights_stage == 1:
+				source_page_progress = clampf(source_page_progress, off_range.y, green_range.x)
+			else:
+				source_page_progress = maxf(source_page_progress, green_range.y)
+			if old_final_lights_stage < 2:
+				# A merged page must not expose an unread light sentence in full.
+				was_typing = true
 	if source_paragraph_index == 1:
 		var scan_range := _w208_scan_progress_range()
 		if scan_range.y >= 0.0:
@@ -4081,6 +4105,7 @@ func _restore_localized_story_text(
 	_rebind_w239_paper_reveal()
 	_rebind_w240_general_pen_reveal()
 	_rebind_w240_outbound_pen_reveal()
+	_sync_w240_final_week_lights()
 	_sync_wedding_lights_out(true)
 
 func _refresh_story_choice_language() -> void:
@@ -7678,6 +7703,130 @@ func _begin_direction_hold() -> void:
 	_direction_hold_remaining = clampf(float(_direction.get("hold", 0.0)), 0.5, 2.0)
 	_continue_hint.visible = false
 
+func _w240_final_week_lights_active() -> bool:
+	return not _read_only_replay and _pending_after_result \
+		and str(_current.get("id", "")) == W240_FINAL_WEEK \
+		and _pending_result_choice_index == 2
+
+func _w240_final_week_lights_boundaries() -> Array[Vector2i]:
+	var boundaries: Array[Vector2i] = []
+	if not _w240_final_week_lights_active():
+		return boundaries
+	var choices: Array = _current.get("choices", [])
+	if choices.size() != 3:
+		return boundaries
+	var prose: String = _fmt(str((choices[2] as Dictionary).get("result_text", "")))
+	var sources := prose.split("\n\n")
+	if sources.size() != 3:
+		return boundaries
+	var source: String = sources[2]
+	var prior_end := -1
+	for key: String in ["lights_out_anchors", "charging_green_anchors"]:
+		var anchors: Dictionary = W240_FINAL_WEEK_LIGHTS.get_meta(key, {})
+		var anchor: String = _fmt(str(anchors.get(LocaleManager.language, "")))
+		if anchor.is_empty() or prose.count(anchor) != 1 or source.count(anchor) != 1:
+			return []
+		var anchor_end := source.find(anchor) + anchor.length()
+		if anchor_end <= prior_end:
+			return []
+		prior_end = anchor_end
+		# Locate the sentence end in existing viewport pages, never a new cut.
+		var cursor := 0
+		var boundary := Vector2i(-1, -1)
+		for page_index in range(_paragraphs.size()):
+			if _story_source_paragraph_index(page_index) != 2:
+				continue
+			var page := str(_paragraphs[page_index])
+			var page_start := source.find(page, cursor)
+			if page_start < 0:
+				return []
+			if anchor_end > page_start and anchor_end <= page_start + page.length():
+				boundary = Vector2i(page_index, anchor_end - page_start)
+				break
+			cursor = page_start + page.length()
+		if boundary.x < 0:
+			return []
+		boundaries.append(boundary)
+	return boundaries
+
+func _w240_final_week_lights_stage() -> int:
+	if not _w240_final_week_lights_active():
+		return -1
+	var boundaries := _w240_final_week_lights_boundaries()
+	if boundaries.size() != 2:
+		return 0
+	var stage := 0
+	for boundary: Vector2i in boundaries:
+		if _para_index > boundary.x or (_para_index == boundary.x and _type_pos >= boundary.y):
+			stage += 1
+	return stage
+
+func _w240_final_week_lights_progress_range(stage: int) -> Vector2:
+	var boundaries := _w240_final_week_lights_boundaries()
+	if stage not in [1, 2] or boundaries.size() != 2:
+		return Vector2(-1.0, -1.0)
+	var boundary: Vector2i = boundaries[stage - 1]
+	var length := maxi(1, str(_paragraphs[boundary.x]).length())
+	return Vector2(
+		_story_source_page_progress(boundary.x, float(boundary.y - 1) / length),
+		_story_source_page_progress(boundary.x, float(boundary.y) / length))
+
+func _sync_w240_final_week_lights() -> void:
+	var stage := _w240_final_week_lights_stage()
+	if stage < 0:
+		return
+	var dark_cg: String = str(W240_FINAL_WEEK_LIGHTS.get_meta("dark_cg", ""))
+	var green_cg: String = str(W240_FINAL_WEEK_LIGHTS.get_meta("green_cg", ""))
+	if dark_cg.is_empty() or green_cg.is_empty() or dark_cg == green_cg:
+		return
+	if stage == 0:
+		# Reflow may return from this insert, never from another scene's CG.
+		if _event_cg_id not in [dark_cg, green_cg]:
+			return
+		var home := _resolve_story_background_id("current_housing")
+		var home_texture: Texture2D = ImageRegistry.load_texture(ImageRegistry.get_background(home))
+		if home_texture == null:
+			return
+		_bg_img.texture = home_texture
+		_event_background_id = home
+		_event_cg_id = ""
+		_event_cg_path = ""
+		_event_cg_reveal_paragraph = 0
+		_current_uses_cg = false
+		_apply_story_surface_palette(false, true)
+		_configure_living_scene()
+		_show_portrait(_resolved_story_surface_portrait_id(), bool(_current.get("bg_focus", false)))
+		if is_instance_valid(_hud_panel):
+			_hud_panel.visible = not (_read_only_replay or _story_visual_override_active)
+		return
+	var cg_id := green_cg if stage == 2 else dark_cg
+	if _current_uses_cg and _event_cg_id == cg_id:
+		return
+	var path: String = ImageRegistry.get_cg(cg_id)
+	var cg_texture: Texture2D = ImageRegistry.load_texture(path) if not path.is_empty() else null
+	if cg_texture == null:
+		return
+	# These are stationary details in the same room; do not restart its audio,
+	# create gallery history, or put an opaque blackout over the phone.
+	_set_wedding_lights_out(false, true)
+	_bg_img.texture = cg_texture
+	_event_cg_id = cg_id
+	_event_cg_path = path
+	_event_cg_reveal_paragraph = 0
+	_current_uses_cg = true
+	_apply_story_surface_palette(true, true)
+	if is_instance_valid(_direction_camera_tween):
+		_direction_camera_tween.kill()
+		_direction_camera_tween = null
+	_bg_img.scale = Vector2.ONE
+	_bg_img.position = Vector2.ZERO
+	var insert_event := _current.duplicate(true)
+	insert_event["direction"] = {"camera": "none"}
+	_configure_living_scene(insert_event)
+	_show_portrait("", true)
+	if is_instance_valid(_hud_panel):
+		_hud_panel.visible = false
+
 func _is_wedding_night_result() -> bool:
 	return _pending_after_result and _pending_result_choice_index in [0, 1] \
 		and str(_current.get("id", "")) in [
@@ -7737,6 +7886,7 @@ func _complete_typing() -> void:
 	_maybe_play_w239_paper()
 	_maybe_play_w240_general_pen()
 	_maybe_play_w240_outbound_pen()
+	_sync_w240_final_week_lights()
 	_sync_wedding_lights_out(false)
 	_record_current_dialogue_source()
 	if _should_begin_direction_hold():
@@ -8235,6 +8385,7 @@ func _start_typing(full_text: String, live_advance: bool = false):
 	_rebind_w239_paper_reveal()
 	_rebind_w240_general_pen_reveal()
 	_rebind_w240_outbound_pen_reveal()
+	_sync_w240_final_week_lights()
 	_sync_wedding_lights_out(true)
 
 func _process(delta):
@@ -8291,6 +8442,7 @@ func _process(delta):
 		_maybe_play_w239_paper()
 		_maybe_play_w240_general_pen()
 		_maybe_play_w240_outbound_pen()
+		_sync_w240_final_week_lights()
 
 func _begin_advance_hold() -> void:
 	if _showing_choices or _is_chapter_card or _auto_mode \

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/dark_cg = "cg_final_week_phone_dark"
+metadata/green_cg = "cg_final_week_phone_green"
+metadata/lights_out_anchors = {
+"ko": "{name}은 휴대폰을 충전선에 꽂고 불을 껐다.",
+"en": "{name} plugged in the phone and turned off the light.",
+"ja": "{name}は携帯を充電ケーブルにつなぎ、明かりを消した。",
+"zh-CN": "{name}给手机插上充电线，关了灯。",
+"zh-TW": "{name}把手機接上充電線，關了燈。"
+}
+metadata/charging_green_anchors = {
+"ko": "어둠 속에서 충전 표시등이 초록색으로 바뀌었다.",
+"en": "In the dark, the charging light turned green.",
+"ja": "暗闇で充電の表示灯が緑色に変わった。",
+"zh-CN": "黑暗中，充电指示灯变成绿色。",
+"zh-TW": "黑暗裡，充電指示燈變成綠色。"
+}

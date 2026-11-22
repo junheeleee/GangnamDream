@@ -12,6 +12,18 @@ GPT(DALL-E / GPT-4o)에 아래 프롬프트를 순서대로 전달해서 이미�
 - **금지**: sci-fi UI, glowing orbit rings, magical effects, anime-style exaggeration, vibrant oversaturated colors
 - **해상도**: 배경 1280×800 / 캐릭터 초상화 400×600 / 아이콘 1024×1024
 
+## 2026-11-22 — 마지막 주 소등·충전등
+
+이 두 그림에는 위 역사 스타일 대신 현행
+`docs/GANGNAM_INK_ART_DIRECTION.md`의 무광 선화·먹담채를 적용했다.
+Codex built-in ImageGen으로 무인 휴대폰 근접 컷을 생성하고 안전영역,
+충전선 연속, LED-off를 세 번의 국소 편집으로 정리했다.
+정확한 프롬프트4개·제외 후보·원본 경로/해시는
+`docs/queue_archive/ORDER-830-ART-EVIDENCE.md`의
+“W240 generic 소등·초록 충전 표시등 원화 후보”가 소유한다.
+배선/연속성은 `CHAPTER5_LOCATION_VISUAL_BIBLE.md`의
+“Generic final-week charging light”를 따른다. 최초/이전 후보와 기존 원화는 보존했다.
+
 ---
 
 ## 2026-08-04 ORDER-83 — 주거복지 상담사 초상

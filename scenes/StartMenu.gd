@@ -1131,7 +1131,7 @@ func _archive_page_count() -> int:
 func _archive_item_count() -> int:
 	match _archive_tab:
 		0:
-			return ImageRegistry.CG.size()
+			return ImageRegistry.get_gallery_cg_ids().size()
 		1:
 			return ARCHIVE_SCENE_IDS.size()
 		_:
@@ -1149,7 +1149,7 @@ func _render_archive_page() -> void:
 	match _archive_tab:
 		0:
 			_archive_grid.columns = 3
-			var cg_ids: Array = ImageRegistry.CG.keys()
+			var cg_ids: Array = ImageRegistry.get_gallery_cg_ids()
 			for index in range(start, mini(start + page_size, cg_ids.size())):
 				_archive_grid.add_child(_archive_cg_card(str(cg_ids[index]), index))
 		1:
@@ -1173,13 +1173,14 @@ func _update_archive_status() -> void:
 		match _archive_tab:
 			0:
 				var unlocked := 0
-				for cg_id in ImageRegistry.CG.keys():
+				var cg_ids: Array = ImageRegistry.get_gallery_cg_ids()
+				for cg_id in cg_ids:
 					if MetaProgression.is_cg_unlocked(str(cg_id)):
 						unlocked += 1
 				_archive_progress_label.text = LocaleManager.ui_format(
 					"CG  %d / %d", "CG  %d / %d",
-					[unlocked, ImageRegistry.CG.size()],
-					[unlocked, ImageRegistry.CG.size()])
+					[unlocked, cg_ids.size()],
+					[unlocked, cg_ids.size()])
 			1:
 				var seen := 0
 				for scene_id in ARCHIVE_SCENE_IDS:

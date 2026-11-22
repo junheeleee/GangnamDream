@@ -17433,7 +17433,7 @@ func _shot_archive_surfaces(lang: String = "en", prefix: String = "archive_en_")
 	GameState.week_of_month = 4
 	GameState.moral_tint = -72.0
 	GameState.housing = "gangnam"
-	var cg_ids: Array = ImageRegistry.CG.keys()
+	var cg_ids: Array = ImageRegistry.get_gallery_cg_ids()
 	MetaProgression.data["unlocked_cgs"] = [str(cg_ids[0]), str(cg_ids[2]), str(cg_ids[3])]
 	MetaProgression.data["seen_scenes"] = []
 	MetaProgression.data["scene_replay_snapshots"] = {}
@@ -18063,7 +18063,7 @@ func _assert_archive_surface(
 	match tab:
 		0:
 			var unlocked := 0
-			for cg_id in ImageRegistry.CG.keys():
+			for cg_id in ImageRegistry.get_gallery_cg_ids():
 				if MetaProgression.is_cg_unlocked(str(cg_id)):
 					unlocked += 1
 			expected_progress = _order97_expected(

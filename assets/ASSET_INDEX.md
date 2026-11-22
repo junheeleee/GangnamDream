@@ -35,6 +35,18 @@ Updated on 2026-09-05 for the routine-vignette Seoul park and explicit SAVE/REST
 
 ## Use These Assets
 
+### Final-week charging light
+
+- `assets/cg/story/final_week_phone_{dark,green}_v1.png` are a paired one-off
+  prop close-up for `arc_final_week` choice 2, result source 2 only.
+- One unbranded phone, one connected cable exiting the frame, no character,
+  room geometry, readable screen, message, or wealth-specific object.
+- Dark follows the completed lights-out sentence; green follows the next
+  completed charging-light sentence. Earlier text retains the actual home.
+- Runtime crop, timing and acceptance are owned by
+  `CHAPTER5_LOCATION_VISUAL_BIBLE.md` and `docs/ART_AI_AUDIT.md`; registration
+  alone is not an approval. These are 1280x800 deliveries, not 4K masters.
+
 ### M01-M06 Promise Selection Scenes
 
 - `assets/ui/m1m6_promises/{survival_shift,father_call,account_risk,job_result_notice,family_signal,room_viewing,livelihood_next,work_deadline,sangchul_field_door}.png`

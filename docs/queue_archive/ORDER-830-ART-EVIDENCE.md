@@ -1128,6 +1128,77 @@ hot 언어/글자 크기는 전/중/후 세 단계를 보존하고 cold는 실�
 
 [~] 같은 W240 배선의 갤러리 소비자 보충: `scenes/StartMenu.gd`의 CG 목록/개수/진척3함수와 `tools/ScreenshotQA.gd`의 갤러리 seed/진척2부분을 추가 소유한다. 기존 `CG.keys()/size()` 소비자가 새2상태를 영구 잠금 카드로 노출하는 실제 부작용을 찾았다. `ImageRegistry.gd`에 정확히 두 전환용 ID만 제외하는 `get_gallery_cg_ids()`를 두고 기존 순서81개를 그대로 돌려주며 두 CG의 실제 로드/활성아트323 등록은 유지한다. 메타 unlock·새 저장key/수치·문구·장면·갤러리 admission을 늘리지 않는다. 잘못된 잠금 카드를 감추기 위해 아트 감사를 회피하거나 CG를 다른 자산 종류로 위장하지 않는다. 정적 검사에서 옛81개/순서/신규2제외/신규CG 로드 경로를 고정하고 다른 ScreenshotQA scope는 바꾸지 않는다.
 
+### [x] W240 일반 마지막 주 — 소등 뒤 충전 표시등
+
+2026-11-22 KST. 위 후보/배선/음향/갤러리 네 선언을 보존한다. 선언 기준
+`67f88af5e8423c8d95f80165d2627616cae4ce45`에서 `arc_final_week` c2/result source2만
+두 완결문 끝을 읽는다. 첫 끝 전 현재 거처/민준 → 첫 끝 dark → 다음 끝 green.
+나머지 선택·문단/쪽 경계·원고·게임 효과·저장 키·공개 RC·143 masters/24 sources/35 physical 불변.
+기존 음악/방 player·stream·진행 위치를 유지하고 새 SFX·Meta unlock을 쓰지 않는다.
+`ImageRegistry` 활성CG83/전체323이지만 전환용 exact2는 수집 페이지가 아니므로
+갤러리는 기존81개/순서/진척 분모 그대로다. StartMenu3함수·ScreenshotQA2소비자만 결속했다.
+
+도달 경로: 실제 Main/FullStoryFlow 준비된 W240 signature3이력 → generic root3선택,
+5언어15문맥/45결과·순서 있는10경계. 바꾸는 상태는 그림(home→dark→green)뿐;
+선택/포기 비용과 끝의 기존 라우팅은 원고/게임 정본 그대로. 새 선택/독자/플래그0.
+Runtime SHA `c854c8d32f5e4863a65fcd1e7ae5498386f15b5a00c71680456e5cbd130048ec`,
+TRES `6b49a71eb3b0bcc68e3f319700cb71a568e9d6da0976ecb817f3b9739431fc34`,
+static `c89d3e34c3cdd4ea13c680a026adef6877103135dd3bae4c441d5490998d36d1`,
+dynamic `dec0892b27ec403303363ff21c34a899e2611fd9e812c1750edf6afc86c14fe3`.
+
+최종7회/21 raw로그: actual exit0·stderr0·stdout=Godot SHA·전체 오류/경고/누수 스캔0.
+네 `/tmp/` 단위는 아래 exact 경로, 나머지는 `/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/` 아래다.
+
+| 범위 | 증거 폴더 | stdout/Godot SHA-256 |
+|---|---|---|
+| Compile69 | gangnam-w240-lights-dec089-compile.XXXXXX.nt4fEPGupA | 7ba17e5afaae054917337bab2c3b2df3ec0b8ba5bb7265ec13e0f45e998f2a30 |
+| static15/45·gallery83→81 | /tmp/gangnam-w240-lights-gallery-final-static.9Dn2zx | 05106a87e69b6da50b52f110b35df53e6f387910c2b168e10f46a3f1db5e1b3c |
+| headless1280 | /tmp/gangnam-w240-lights-dec-final-1280.ZukVS6 | 78ae6762ade90077887bfef95ada9e19d2b5af681f522de9407614fded78890e |
+| headless960compact | /tmp/gangnam-w240-lights-dec-final-960compact.8HikD6 | 7860dad0d7d4660cb8d78a47a47bf36e2f776fce64002fd8330e3d929da20c94 |
+| 기존 outbound 회귀 | /tmp/gangnam-w240-lights-dec-final-outbound.sd4Sgh | 555d983138521345afdd60a26863ac63701cf3e594647a7e23354db53d30c4f3 |
+| macOS1280/5 PNG | gangnam-w240-lights-native-final1280.XXXXXX.PMcSxuMRy8 | 764f48f8289e831ac7e2ded83b9b7a47243c89683ffa615dbead6003767a3c2a |
+| macOS960compact/3 PNG | gangnam-w240-lights-native-final960.XXXXXX.iNHYeY3YlK | d0948063a86805959592ea8a186dbfb91cb279e9e0d8230bd4c3231ee07aa0be |
+
+각 동적15경로/dark5/green5/silent10/homes7/skip1/cold6/hot6. `replay=1`은 한 검사 안의
+내부 차단2개(설명/선택2)이며 실제 generic 갤러리 replay가 아니다. cold는 복원된 현재
+텍스트 커서를 따른다. cross-locale/legacy의 과거 절 위치 재현으로 확대하지 않는다.
+hot은 언어/글자 크기 변경 전/중/후를 유지한다. 전체 GameState·Meta·설정 비교,
+원음·opaque막/카메라·초상/HUD·다음 장면 보존. 기존 발신 회귀15/필기5/무음10/
+ingress8/주거7/live2/intro2/result7/legacy2/cold1/hot4도 원 기대값 그대로 통과.
+
+비작성 `w211_asset_recon`은 동결 source/기존 함수 역복원·21로그·FINAL PNG8장을
+직접 열어 이 단위만 GO했다. 실제 PNG header5×1280×800/3×960×600;
+KO/EN 휴대폰/연결부·오른쪽 선/문장/대화창 크롭과 표시등 단계가 구별된다.
+Black은 같은 선명한 초록이 아니라 어둡게 탈색된 회녹색 점등이다. 두1280 원화만
+PASS-B(게임 화면 범위), 픽셀동일/시간축 무깜빡임·새4K/A급 master를 주장하지 않는다.
+정규화는 sips 중앙1584×990→1280×800이며 OFF의 홀수 너비는 정수1px trim과 바이트동일하지 않다.
+실제 macOS render에는 Dummy audio를 써서 청취 증거가 아니다.
+
+비최종/실패 보존: static6d59의 CJK 인접문장 사이 공백 요구(exit1/stderr3465)를
+`dark_end<=green_at`로 고쳤고 실제 두 고유 완결문/순서/choice/source2 검사는 유지했다.
+c24의 지원하지 않는 galleryroot 주입,48bc의 부족한 readonly 음성반례,
+8c831 `PXfVaD/MA43Bg`의 raw fallback 설명 기대값, a9e036의 구W207 helper 오편집은
+인정 모집단 밖이다. W207 원문을 역복원하고 실제 resolved signature 설명만 대조했다.
+db15 `DHYWMz/ijgVXt`와 `audiodiag.G1OvoH`는 입장 직후 fade를 정지로 잘못 기대했다.
+사람/계절 key는 빈 값, -80dB였고702ms 뒤 둘 다 stopped/tween없음. 제품 억제 정책을
+추가하지 않고 기존 fade가 끝난 뒤 스냅숏하며 steady 하위층 부재 검사는 유지했다.
+`settledpreflight2.gkqfD1`, 옛9aec static `cwKQEQenMM`, 구compile/회귀도 비최종이다.
+62b native1280 `a7lBTwxwBt`와 CLI960 `wNJ9a9TYsz`는 둘 다 실제1280이었다.
+최종 fixture는 COMPACT=1에서만 논리 root 크기를960으로 맞추고 requested=actual을
+검사한다. 창 크기만으로 compact 통과를 세지 않는다. 에디터 import `Eybr2RuYrq`는
+exit0/stderr1019 종료 RID/Canvas/Text/중첩프로젝트 진단을 보존하며 clean runtime GO 아님.
+별도 gallery `HmJ3HDfhRL`는 화면 CG3/81·옛 순서/신규2제외를 실제 보았지만,
+ObjectDB/2resource 종료 누수 stderr238이므로 clean7회에는 넣지 않는다(검사 완화/수리0).
+
+정본/큐·EN/한글·공개 데모5언어14사건/100leaf/125UI·시각412·연출1702/192·
+음향83CG·연기83/130·해상도323·모딩/출시 사실 원장 통과. 영향 선택25경로→99검사는
+목록만이며 전체 실행으로 세지 않는다. 원음/원본·실제 사용자244경로·저장·공개RC·업로드0.
+승격: CHAPTER5_LOCATION_VISUAL_BIBLE의 Generic final-week charging light와 정확한
+gallery 제외 계약. 실행해시/수치·실패 이력은 일회성. 자동 통과는 재미/문체/사람GO 아님.
+전체830·전구간 native/5언어 실제 렌더·실청취·원어민·물리패드·출시GO·833 선착수는 밖이다.
+다음은 PASSED W239 `arc_y5_final_father_answer_passed`의 빈 의자/서류 구도와
+c1/source2 냉장고1회다. ALIVE/다른선택으로 확대하지 않는다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.

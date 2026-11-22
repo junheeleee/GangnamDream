@@ -607,6 +607,8 @@
     "intentional_silence": []
   },
   "cg": {
+    "cg_final_week_phone_dark": {"ambience": "apartment"},
+    "cg_final_week_phone_green": {"ambience": "apartment"},
     "cg_daeun_regular_bunsik": {"ambience": "intentional_silence"},
     "cg_daeun_regular_walk": {"ambience": "intentional_silence"},
     "cg_daeun_regular_night_wait": {"ambience": "intentional_silence"},

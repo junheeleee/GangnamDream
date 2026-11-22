@@ -37,12 +37,12 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 321,
+  "inventory_count": 323,
   "counts": {
     "1080p": {
       "CG": {
         "native": 0,
-        "light": 81,
+        "light": 83,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -67,7 +67,7 @@
         "native": 0,
         "light": 0,
         "medium": 0,
-        "heavy": 81,
+        "heavy": 83,
         "severe": 0
       },
       "Portrait": {
@@ -3879,6 +3879,40 @@
       ],
       "width": 1280,
       "height": 720,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/final_week_phone_dark_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_final_week_phone_dark"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/final_week_phone_green_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_final_week_phone_green"
+      ],
+      "width": 1280,
+      "height": 800,
       "alpha": false,
       "scale": {
         "1080p": 1.5,

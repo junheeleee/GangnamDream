@@ -3,6 +3,18 @@
   "updated": "2026-11-14",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
+    "cg_final_week_phone_dark": {
+      "path": "assets/cg/story/final_week_phone_dark_v1.png",
+      "camera_role": "environment",
+      "story_action": "Only after Minjun plugs in his phone and switches the room light off in arc_final_week choice 2, result source 2, the connected single phone is seen close on the dark desk; its charging indicator is not yet green.",
+      "actors": []
+    },
+    "cg_final_week_phone_green": {
+      "path": "assets/cg/story/final_week_phone_green_v1.png",
+      "camera_role": "environment",
+      "story_action": "The same connected phone remains on the dark desk; only after the next complete sentence does its small charging indicator turn green. The screen stays inactive and no incoming message is implied.",
+      "actors": []
+    },
     "cg_daeun_regular_bunsik": {
       "path": "assets/cg/romance/daeun_regular_bunsik_v1.png",
       "camera_role": "observational_two_shot",

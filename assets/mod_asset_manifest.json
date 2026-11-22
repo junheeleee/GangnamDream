@@ -1801,6 +1801,22 @@
     {
       "kind": "cg",
       "ids": [
+        "cg_final_week_phone_dark"
+      ],
+      "relative_path": "cg/story/final_week_phone_dark_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
+        "cg_final_week_phone_green"
+      ],
+      "relative_path": "cg/story/final_week_phone_green_v1.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "cg",
+      "ids": [
         "cg_story_knee_help"
       ],
       "relative_path": "cg/story/knee_help_v1.png",

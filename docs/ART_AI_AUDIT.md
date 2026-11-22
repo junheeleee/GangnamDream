@@ -269,6 +269,8 @@
 | CG | `assets/cg/romance/wedding_morning_jiyeon_v1.png` | `cg_romance_wedding_morning_jiyeon` | 1280x800 | no | `a6407b70c350` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/seollal_sebae_family_v1.png` | `cg_seollal_sebae_family` | 1280x800 | no | `35aa01cae632` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
 | CG | `assets/cg/start.png` | `cg_start` | 1280x720 | no | `ad731564a6fe` | PASS-A | 원본 프레임의 손·눈·시선·동작·소품·안전 크롭 확인. |
+| CG | `assets/cg/story/final_week_phone_dark_v1.png` | `cg_final_week_phone_dark` | 1280x800 | no | `303e5d3959dc` | PASS-B | 독립 에이전트: 소등 완결문 뒤 dark, KO/EN 실제 viewport3컷·두 크기에서 휴대폰/연결부/대화창 크롭 대조. 시간축 무깜빡임·실청취·4K·사람 판정 아님. |
+| CG | `assets/cg/story/final_week_phone_green_v1.png` | `cg_final_week_phone_green` | 1280x800 | no | `ae90ac705dae` | PASS-B | 초록등 완결문 뒤 green, 실제 viewport5컷(Black1) 대조. Black은 회녹색 점등으로 약해짐. 두 원화의 픽셀동일·시간축 무깜빡임·실청취·사람 판정 아님. |
 | CG | `assets/cg/story/knee_witness_v1.png` | `cg_story_knee_witness` | 1280x800 | no | `10e8be6dc963` | REPAIRED-A | 문틈, 무릎·작업복, 붉은 보증서 도장·채권자 휴대폰. 맞은편 외부 현관 제거 독립 확인. |
 | CG | `assets/cg/story/knee_palm_v1.png` | `cg_story_knee_palm` | 1280x800 | no | `e1e74c10f23a` | REPAIRED-A | 같은 문틈과 인물, 바닥에 닿은 손바닥과 채권자의 종이. |
 | CG | `assets/cg/story/knee_help_v1.png` | `cg_story_knee_help` | 1280x800 | no | `7862cfd29a45` | REPAIRED-A | 붙잡은 팔꿈치와 57세 아버지가 민준을 올려다보는 결과만. |
@@ -510,4 +512,4 @@
 | Background | `assets/backgrounds/year4_rooftop_door_inside_w192_v1.png` | `year4_rooftop_door_inside_w192` | 1584x990 | no | `e6d13518d2c4` | PASS-B | W192 닫힌 단일 철문의 반대편, 동일 유리 두 장·반전 손잡이·겨울밤과 대사창 크롭 독립 확인. 실기기·청취 별도. |
 | Background | `assets/backgrounds/sangchul_old_office_landing_w216_v1.png` | `sangchul_old_office_landing_w216` | 1584x990 | no | `f801eeb7492c` | PASS-B | W216 옛 사무실 밖 계단참 원화 독립 검수. 닫힌 문·하행 계단과 열린 오른쪽 통로·꺼진 복합기; 인물·문자 없음. 실제 대사창은 별도 확인. |
 
-Inventory: 81 CG / 94 portraits / 146 backgrounds / 321 total.
+Inventory: 83 CG / 94 portraits / 146 backgrounds / 323 total.

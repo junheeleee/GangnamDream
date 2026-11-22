@@ -1,6 +1,6 @@
 # Chapter 5 Authored Location Visual Bible
 
-Updated: 2026-09-05
+Updated: 2026-11-22
 
 ## Owner and Use
 
@@ -41,6 +41,54 @@ the existing subway car respectively.
 - Doors, aisles, stairs, windows, counters, furniture, tools, and service paths
   remain physically usable. Duplicated or malformed objects are rejection
   errors.
+
+## Generic final-week charging light
+
+This is a one-off prop CG pair, not a new reusable home or a replacement for
+the six location backgrounds. It belongs only to `arc_final_week`, choice 2,
+result source 2. Until the first full lights-out sentence finishes, retain
+Minjun and his actual current home. Its two ordered full-sentence endpoints
+are owned by `assets/w240_final_week_lights.tres` in all five languages.
+These two timing inserts are not collectible gallery pages; the gallery keeps
+its existing item order and completion denominator through `get_gallery_cg_ids()`.
+
+- `cg_final_week_phone_dark`: the phone is already connected and the room
+  light is off, but the small charging indicator is not yet green.
+- `cg_final_week_phone_green`: only after the next charging-light sentence
+  completes does the same close-up show its green indicator. The screen
+  remains inactive; no clock, app, incoming message or reply is depicted.
+- Both use exactly one matte-black unbranded phone, one physically inserted
+  cable that continues out through the right edge, and a plain matte desktop.
+  No actor, hand, reflection, architecture or wealth-specific object is added.
+- These are drawn Gangnam Ink contours and wash, not photographic product
+  advertising, glossy 3D or an opaque-black substitute. Do not cover them
+  with the old lights-out ColorRect or create a synthetic UI glow instead.
+- Keep the full phone, connector and indicator above the lower dialogue
+  zone. The two 1280x800 delivery rasters are centered edge-crops to 1584x990
+  followed by downsampling of the original 1586x992 GREEN/1585x992 OFF masters.
+  This is format normalization, not new detail or a 4K production master.
+- The pair is visually close but not pixel-identical: the generated OFF state
+  has small global brightness/color differences. Raw-art conditional approval
+  does not establish flicker-free playback. Actual grading/crop/transition
+  evidence and the scoped final verdict belong in `docs/ART_AI_AUDIT.md`.
+- The existing Black palette leaves a visible but dim, desaturated gray-green
+  indicator. It does not promise the same green intensity as the neutral grade.
+- Existing source/page boundaries, prose, choices, state, save format,
+  ambience and score remain unchanged. Hot reflow preserves before/between/
+  after stages; cold follows the actual restored current-text cursor without
+  claiming historical cross-locale/legacy equivalence.
+
+Built-in generation/edit lineage and the exact four prompts are preserved in
+`docs/queue_archive/ORDER-830-ART-EVIDENCE.md`. Raw sources remain under
+`/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/`:
+GREEN `exec-54d946bc-69db-4ed7-9074-ff3c699ad383.png` SHA256
+`f55650b9d73e930aa5ba9846974499fd050a39ec69ac8924d2073aa741b785bf`;
+OFF `exec-fe08c311-22df-43a5-aea5-6b8be3aa1604.png` SHA256
+`530cf770f95b6492b4ef444ed5b6fc7a094eda33ac113749bf6e95875e3333b0`.
+Deliveries are `assets/cg/story/final_week_phone_dark_v1.png` SHA256
+`303e5d3959dc0b0766dbaa949293a42d077a6830bb2070344642e2a01699d368`
+and `final_week_phone_green_v1.png` SHA256
+`ae90ac705daec6f743207abfaf55a9ee22802c6d78779c211fcbfd4480066e09`.
 
 ## Location Locks
 

@@ -22,6 +22,9 @@ const W240_GENERAL_SACRIFICE_WRITE := preload(
 const W240_GENERAL_OUTBOUND := "arc_y5_final_week_general_people_outbound"
 const W240_GENERAL_OUTBOUND_WRITE := preload(
 	"res://assets/w240_general_outbound_write.tres")
+const W240_FINAL_WEEK := "arc_final_week"
+const W240_FINAL_WEEK_LIGHTS := preload(
+	"res://assets/w240_final_week_lights.tres")
 const LEDGER_PATH := "res://content/meta/chapter5_finale_ledger.json"
 const MAIN_GAME_PATH := "res://scenes/MainGame.gd"
 const ACTIVE_TURNS: Array[int] = [221, 224, 227, 230, 235, 238, 239, 240, 240]
@@ -97,6 +100,7 @@ func _ready() -> void:
 	_check_w239_passed_father_alignment()
 	_check_w240_general_signature_alignment()
 	_check_w240_general_outbound_alignment()
+	_check_w240_final_week_lights_alignment()
 	await _release_audio_for_exit()
 	if _failures.is_empty():
 		print(
@@ -122,7 +126,8 @@ func _ready() -> void:
 			+ "w239-contexts30/results90/anchors5/manifest-cues0/"
 			+ "w239-passed-contexts30/results90/anchors10/manifest-cues0/"
 			+ "w240-general-contexts10/results20/anchors10/manifest-cues0/"
-			+ "w240-outbound-contexts40/results120/anchors5/manifest-cues0")
+			+ "w240-outbound-contexts40/results120/anchors5/manifest-cues0/"
+			+ "w240-final-week-contexts15/results45/anchors10/manifest-cues0")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -3120,6 +3125,166 @@ func _check_w240_outbound_result_anchor(
 		and str(sources[2]).count(anchor) == 0 \
 		and source0.ends_with(anchor),
 		context + " c1 lost its unique final source0 envelope-write endpoint")
+
+
+func _check_w240_final_week_lights_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var raw_dark: Variant = W240_FINAL_WEEK_LIGHTS.get_meta(
+		"lights_out_anchors", {})
+	var raw_green: Variant = W240_FINAL_WEEK_LIGHTS.get_meta(
+		"charging_green_anchors", {})
+	_expect(raw_dark is Dictionary and raw_green is Dictionary,
+		"W240 final-week light asset lost its two locale anchor maps")
+	var dark_anchors: Dictionary = raw_dark as Dictionary \
+		if raw_dark is Dictionary else {}
+	var green_anchors: Dictionary = raw_green as Dictionary \
+		if raw_green is Dictionary else {}
+	var expected_languages: Array = LocaleManager.SUPPORTED_LANGUAGES.duplicate()
+	expected_languages.sort()
+	var dark_languages: Array = dark_anchors.keys()
+	var green_languages: Array = green_anchors.keys()
+	dark_languages.sort()
+	green_languages.sort()
+	_expect(dark_languages == expected_languages \
+		and green_languages == expected_languages,
+		"W240 final-week light asset lost its exact five-locale inventory")
+	_expect(str(W240_FINAL_WEEK_LIGHTS.get_meta("dark_cg", "")) \
+			== "cg_final_week_phone_dark" \
+		and str(W240_FINAL_WEEK_LIGHTS.get_meta("green_cg", "")) \
+			== "cg_final_week_phone_green",
+		"W240 final-week light asset changed its exact dark/green CG ids")
+	var narrative_only_cgs: Array = [
+		"cg_final_week_phone_dark", "cg_final_week_phone_green"]
+	var expected_gallery_cgs: Array = []
+	for raw_cg_id: Variant in ImageRegistry.CG.keys():
+		var cg_id := str(raw_cg_id)
+		if not narrative_only_cgs.has(cg_id):
+			expected_gallery_cgs.append(cg_id)
+	var actual_gallery_cgs: Array = ImageRegistry.get_gallery_cg_ids()
+	_expect(ImageRegistry.CG.size() == 83 \
+		and ImageRegistry.NARRATIVE_ONLY_CG_IDS == narrative_only_cgs \
+		and actual_gallery_cgs.size() == 81 \
+		and actual_gallery_cgs == expected_gallery_cgs,
+		"W240 final-week inserts changed the ordered 81-card CG gallery")
+	for cg_id: String in narrative_only_cgs:
+		var cg_path := ImageRegistry.get_cg(cg_id)
+		_expect(not actual_gallery_cgs.has(cg_id) \
+			and not cg_path.is_empty() \
+			and cg_path == str(ImageRegistry.CG.get(cg_id, "")) \
+			and FileAccess.file_exists(cg_path),
+			"W240 final-week narrative CG lost runtime-only availability: " + cg_id)
+
+	var signature_flags: Array[String] = [
+		"final_signature_owned",
+		"final_signature_collateral",
+		"final_signature_people",
+	]
+	var contexts := 0
+	var results := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		var predecessor: Dictionary = DataRegistry.find_event(
+			"arc_final_countdown")
+		var predecessor_choices: Array = predecessor.get("choices", [])
+		_expect(predecessor_choices.size() == 3,
+			language + " W240 final-week predecessor lost its three signatures")
+		if predecessor_choices.size() != 3:
+			continue
+		for signature_choice in range(3):
+			var context := "%s W240 final-week signature%d" % [
+				language, signature_choice]
+			GameState.start_new_game()
+			_expect(GameState.apply_choice(predecessor,
+				predecessor_choices[signature_choice] as Dictionary),
+				context + " could not apply its actual final signature")
+			for flag_index in range(signature_flags.size()):
+				_expect(bool(GameState.flags.get(
+					signature_flags[flag_index], false)) \
+					== (flag_index == signature_choice),
+					context + " changed its exclusive signature flag")
+
+			var raw_event: Dictionary = DataRegistry.find_event(W240_FINAL_WEEK)
+			var description: String = str(story.call(
+				"_resolved_story_description", raw_event))
+			_expect(_father_trace_source_indices(story, description) \
+					== [0, 1, 2, 3] \
+				and str(raw_event.get("background", "")) == "current_housing" \
+				and str(raw_event.get("portrait", "")) == "player_normal" \
+				and not raw_event.has("cg"),
+				context + " changed its four-source home opening")
+			var choices: Array = raw_event.get("choices", [])
+			_expect(choices.size() == 3,
+				context + " lost its three final-week choices")
+			if choices.size() != 3:
+				continue
+			var result_sources: Array = []
+			for choice_index in range(3):
+				var formatted_result: String = str(story.call(
+					"_fmt", str((choices[choice_index] as Dictionary).get(
+						"result_text", ""))))
+				var indices: Array[int] = []
+				indices.assign(_father_trace_source_indices(
+					story, formatted_result))
+				_expect(indices == [0, 1, 2],
+					context + " changed result sources for choice%d" % choice_index)
+				result_sources.append(indices)
+				_check_w240_final_week_result_lights(
+					story, dark_anchors, green_anchors, language,
+					choice_index, formatted_result, context)
+				results += 1
+			_assert_w239_manifest_audio(
+				[0, 1, 2, 3], result_sources, context, W240_FINAL_WEEK)
+			contexts += 1
+	_expect(contexts == 15 and results == 45,
+		"W240 final-week lights did not cover exact 15 contexts and 45 results")
+	_expect(_same(BGMPlayer.scene_audio_contract(W240_FINAL_WEEK), {
+		"ambience": "apartment",
+		"music": {"key": "reckoning", "start_paragraph": 0.0},
+	}), "W240 final-week lights changed the existing bed, score, or silence")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _check_w240_final_week_result_lights(
+		story: Node, dark_anchors: Dictionary, green_anchors: Dictionary,
+		language: String, choice_index: int, formatted_result: String,
+		context: String) -> void:
+	var dark_anchor: String = str(story.call(
+		"_fmt", str(dark_anchors.get(language, ""))))
+	var green_anchor: String = str(story.call(
+		"_fmt", str(green_anchors.get(language, ""))))
+	var sources := formatted_result.split("\n\n")
+	if choice_index != 2:
+		_expect(not dark_anchor.is_empty() and not green_anchor.is_empty() \
+			and formatted_result.count(dark_anchor) == 0 \
+			and formatted_result.count(green_anchor) == 0,
+			context + " choice%d gained the c2 light transition" % choice_index)
+		return
+	var source2 := str(sources[2]) if sources.size() == 3 else ""
+	var dark_at := source2.find(dark_anchor)
+	var green_at := source2.find(green_anchor)
+	var dark_end := dark_at + dark_anchor.length()
+	var green_end := green_at + green_anchor.length()
+	var gap := source2.substr(dark_end, green_at - dark_end) \
+		if dark_at >= 0 and green_at >= dark_end else "not-adjacent"
+	_expect(sources.size() == 3 \
+		and not dark_anchor.is_empty() and not green_anchor.is_empty() \
+		and formatted_result.count(dark_anchor) == 1 \
+		and formatted_result.count(green_anchor) == 1 \
+		and str(sources[0]).count(dark_anchor) == 0 \
+		and str(sources[0]).count(green_anchor) == 0 \
+		and str(sources[1]).count(dark_anchor) == 0 \
+		and str(sources[1]).count(green_anchor) == 0 \
+		and source2.count(dark_anchor) == 1 \
+		and source2.count(green_anchor) == 1 \
+		and dark_at >= 0 and dark_end <= green_at \
+		and dark_end < green_end \
+		and gap.strip_edges().is_empty() \
+		and green_end < source2.length(),
+		context + " c2 lost its ordered source2 dark-to-green sentence endpoints")
 
 
 func _assert_w239_manifest_audio(

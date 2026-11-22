@@ -6,6 +6,8 @@ extends Node
 ## 이렇게 하면 이미지가 한 장도 없어도 게임이 정상 동작한다.
 
 const CAST_VISUAL_YEARS_PATH := "res://content/meta/cast_visual_years.json"
+# These ordered prop inserts are scene timing states, not collectible CG pages.
+const NARRATIVE_ONLY_CG_IDS := ["cg_final_week_phone_dark", "cg_final_week_phone_green"]
 
 var _cast_visual_years: Dictionary = {}
 var _portrait_time_overrides: Dictionary = {}
@@ -375,6 +377,8 @@ const FALLBACK_BG = "res://assets/backgrounds/goshiwon_room.png"
 # ── CG (감정적 클라이맥스 전체화면) ────────────────────────────
 const CG = {
 	"cg_start":          "res://assets/cg/start.png",
+	"cg_final_week_phone_dark": "res://assets/cg/story/final_week_phone_dark_v1.png",
+	"cg_final_week_phone_green": "res://assets/cg/story/final_week_phone_green_v1.png",
 	"cg_story_knee_witness": "res://assets/cg/story/knee_witness_v1.png",
 	"cg_story_knee_palm": "res://assets/cg/story/knee_palm_v1.png",
 	"cg_story_knee_help": "res://assets/cg/story/knee_help_v1.png",
@@ -930,6 +934,13 @@ func _has_any(text: String, needles: Array) -> bool:
 		if text.find(str(needle).to_lower()) >= 0:
 			return true
 	return false
+
+## Preserve collectible order without exposing the two final-week timing inserts.
+func get_gallery_cg_ids() -> Array:
+	var ids: Array = CG.keys()
+	for cg_id in NARRATIVE_ONLY_CG_IDS:
+		ids.erase(cg_id)
+	return ids
 
 ## CG 경로 반환. 파일 없으면 "" (UI가 검은 화면 + 텍스트 처리)
 func get_cg(id: String) -> String:

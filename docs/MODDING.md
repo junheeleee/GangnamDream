@@ -541,6 +541,8 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_romance_wedding_morning_jiyeon` | `cg/romance/wedding_morning_jiyeon_v1.png` | 1280x800 |
 | cg | `cg_seollal_sebae_family` | `cg/seollal_sebae_family_v1.png` | 1280x800 |
 | cg | `cg_start` | `cg/start.png` | 1280x720 |
+| cg | `cg_final_week_phone_dark` | `cg/story/final_week_phone_dark_v1.png` | 1280x800 |
+| cg | `cg_final_week_phone_green` | `cg/story/final_week_phone_green_v1.png` | 1280x800 |
 | cg | `cg_story_knee_help` | `cg/story/knee_help_v1.png` | 1280x800 |
 | cg | `cg_story_knee_palm` | `cg/story/knee_palm_v1.png` | 1280x800 |
 | cg | `cg_story_knee_witness` | `cg/story/knee_witness_v1.png` | 1280x800 |
