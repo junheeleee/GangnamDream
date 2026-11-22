@@ -6,7 +6,7 @@
 `c9a9dbfdf70f8e19a47fe7d3b1360c90601aab03`. 830 구현은 마감했고 그 사양의
 실청취/사람/전수 관찰 OPEN은 그대로다. 이 파일은833의 첫 단위만 소유한다.
 
-### 정확한 파일 소유권 — 33경로
+### 정확한 파일 소유권 — 34경로
 
 - `content/events{,_en,_ja,_zh-CN,_zh-TW}/{arc_drama,arc_year_close,callback_events_42}.json` 15개.
   W188 root 우선 known2·사망 통보와 terminal2의 시간·결과, 두 콜백의 해당 사실,
@@ -19,6 +19,9 @@
   공식 source/이전target 결속 수용과 해당 생사/주거·콜백 사실만.
 - `assets/scene_audio_manifest.json`은 병실 회상을 현재 집에서 읽는 해당 콜백만.
   재사용 가능한 현행 실내 원음/무관 층 억제, 새음원/전역Audio/BGM 변경0.
+- `assets/event_visual_contracts.json`은 같은 콜백의 현재집/혼자인 민준 한 계약만.
+  새 story presentation의 expected_background에 실제 시각 계약이 필요하다는
+  서사검사1실패를 관측해 추가 선언한다. 기대값 삭제/감사 완화로 피하지 않는다.
 - `tools/{chapter4_causal_route_audit.py,ChapterFourRelationshipCheck.gd,scene_audio_contract_check.py}`는
   새 사실/생사 변형/실제 상태 토큰/원래3선택과 terminal효과 보존을 강화한다.
   옛 시간 모순을 유지시키는 기대값은 사실 경계로 정렬하되 검사 완화0.
