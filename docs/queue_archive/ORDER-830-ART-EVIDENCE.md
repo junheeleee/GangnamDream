@@ -1232,6 +1232,41 @@ MP3 규격으로 쓰지 않는다. 실제 시작/정지·잡음·청취/장면 �
 기존 기록/낭독/보관의 선택과 비용은 원고가 계속 소유한다. 후보 확보를 제품/전체830
 완료·실청취/사람/출시 승인으로 세지 않는다. 이 선언은 후보 단계 일회성이다.
 
+[~] 같은 W239의 시각 전용 제품 배선. 원화4장 조건부 검수 뒤 별도 선언한다.
+소유: `scenes/StoryMode.gd`, 새 `assets/w239_passed_empty_chair.tres`,
+새 `assets/cg/story/final_father_record_{goshiwon,general}_{open,closed}_v1.png`와
+각 `.import`(8파일), `autoloads/ImageRegistry.gd`,
+`assets/{cg_acting_manifest.json,scene_audio_manifest.json,mod_asset_manifest.json,
+ASSET_INDEX.md,IMAGE_PROMPTS.md,CHAPTER5_LOCATION_VISUAL_BIBLE.md}`,
+`tools/{art_resolution_baseline.json,StoryBackgroundContextCheck.gd,Chapter5FinaleRouteCheck.gd}`,
+`docs/{ART_AI_AUDIT,MODDING,WORK_LOG,CONTENT_RATING_INVENTORY}.md`,
+`content/meta/release_content_inventory.json`, `CLAUDE.md`, 이 증거(27경로)만.
+코드·리소스는 w209, QA두파일은 a1_test_tools, 등록/그림/원장/문서는 root가 소유한다.
+
+exact 사건은 PASSED뿐이며 조립 source0/1은 현재집, source2의 빈 의자 완결문 끝부터
+source3/선택판까지 OPEN CG다. c1결과0/1/2도 OPEN을 유지하다 source2 마지막
+수첩 닫기 완결문 끝에서만 CLOSED. c0/c2는 결과 시작 전에 현재집으로 돌아가
+접기/봉투·파일 물성을 이 CG로 오판하지 않게 한다. 고시원은 현행 실제 해석값
+`goshiwon_room` 계열에만 낮은책상/좌식의자, 나머지는 집 구조 없는 근접 일반형.
+CG IDs는 `cg_final_father_record_goshiwon_open/closed`,
+`cg_final_father_record_general_open/closed`. 이4개도 수집페이지가 아닌 전환용으로,
+기존2개와 함께 정확히6개만 gallery에서 제외하고 옛81순서/진척을 유지한다.
+새4CG 음향 metadata는 기존 사건과 같은 apartment만, 기존 사건 bed/grief/억제정책과
+paper_handle 원음/절/소비상태 변경0. 냉장고 source는 중간12.12초 디지털 무음과
+실청취 미관찰로 HOLD이며 이번에 SFX/key/음원/Audio/BGM를 추가하지 않는다.
+
+같은 원고5언어의 실제 두 완결문·sourceindex/choice를 리소스로 결속하고 기존
+타이핑 커서/쪽에 따라 화면만 계산한다. hot언어/글자크기는 전/중/후를 유지;
+cold는 복원된 현재 커서를 따르되 옛 cross-locale/legacy 경계를 새로 발명하지 않는다.
+read-only/지원되지 않은 gallery는 부친의 실제 동석/새컷/해금을 추정하지 않는다.
+opaque막·카메라팬으로 책상을 덮거나 좁은539~542px 소품끝을 아래로 내리지 않는다.
+그림은 픽셀동일하지 않으며 고시원CLOSED가 조금 더 밝음; 실제두해상도/Black·전환
+독립검수 전 무깜빡임/출시마스터를 주장하지 않는다. 원문·상태/효과·저장·공개RC·
+143원음/24sources/35physical 불변, 실제앱/C1재실행0. 새원고/833·전체830 GO0.
+기존30문맥/90결과·15동적경로/paper10과 생존·최종주 소등 회귀를 보존하고,
+새source-aware그림/선택1닫힘·주거7·현재커서cold/hot/두해상도·실화면을 검사한다.
+새PNG는 import 뒤컴파일69, art/음향계약/출시수치·현행데모/정본/큐를 확인한다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
