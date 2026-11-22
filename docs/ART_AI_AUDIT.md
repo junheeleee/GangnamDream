@@ -512,4 +512,13 @@
 | Background | `assets/backgrounds/year4_rooftop_door_inside_w192_v1.png` | `year4_rooftop_door_inside_w192` | 1584x990 | no | `e6d13518d2c4` | PASS-B | W192 닫힌 단일 철문의 반대편, 동일 유리 두 장·반전 손잡이·겨울밤과 대사창 크롭 독립 확인. 실기기·청취 별도. |
 | Background | `assets/backgrounds/sangchul_old_office_landing_w216_v1.png` | `sangchul_old_office_landing_w216` | 1584x990 | no | `f801eeb7492c` | PASS-B | W216 옛 사무실 밖 계단참 원화 독립 검수. 닫힌 문·하행 계단과 열린 오른쪽 통로·꺼진 복합기; 인물·문자 없음. 실제 대사창은 별도 확인. |
 
-Inventory: 83 CG / 94 portraits / 146 backgrounds / 323 total.
+### Late father's empty chair — scoped admission
+
+| Type | Path | Registry ID | Size | Alpha | Hash | Verdict | Notes |
+|---|---|---|---|---|---|---|---|
+| CG | `assets/cg/story/final_father_record_goshiwon_open_v1.png` | `cg_final_father_record_goshiwon_open` | 1280x800 | no | `f2c2d0ba92b4` | PASS-B | 독립 원화·1280/960 실화면: 낮은 책상·빈 이동식 좌식의자·약봉지/서류/열린 수첩. compact는 상향 구도·하단 dark matte, 의자/램프 윗부분 크롭. |
+| CG | `assets/cg/story/final_father_record_goshiwon_closed_v1.png` | `cg_final_father_record_goshiwon_closed` | 1280x800 | no | `36c83ec0734b` | PASS-B | 같은 수첩 닫힘, 두 크기에서 소품 노출. Black은 의자/침대 저대비, OPEN보다 미세하게 밝고 따뜻함. 시간적 무깜빡임·마스터 승인 아님. |
+| CG | `assets/cg/story/final_father_record_general_open_v1.png` | `cg_final_father_record_general_open` | 1280x800 | no | `5cf8d6a65e69` | PASS-B | 빈 의자/탁상 근접으로 다른 집 구조를 발명하지 않음. 독립1280/960: 수첩·두 서류·약봉지 전체 노출, EN 가독성 확인. |
+| CG | `assets/cg/story/final_father_record_general_closed_v1.png` | `cg_final_father_record_general_closed` | 1280x800 | no | `2e96abb922a2` | PASS-B | 무링 수첩 닫힘·두 서류/약봉지·빈 의자 유지. 두 크기·하단 matte 확인, 원화 사이 미세 질감/색차는 남음. |
+
+Inventory: 87 CG / 94 portraits / 146 backgrounds / 327 total.

@@ -37,12 +37,12 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 323,
+  "inventory_count": 327,
   "counts": {
     "1080p": {
       "CG": {
         "native": 0,
-        "light": 83,
+        "light": 87,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -67,7 +67,7 @@
         "native": 0,
         "light": 0,
         "medium": 0,
-        "heavy": 83,
+        "heavy": 87,
         "severe": 0
       },
       "Portrait": {
@@ -3879,6 +3879,74 @@
       ],
       "width": 1280,
       "height": 720,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/final_father_record_general_closed_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_final_father_record_general_closed"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/final_father_record_general_open_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_final_father_record_general_open"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/final_father_record_goshiwon_closed_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_final_father_record_goshiwon_closed"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/final_father_record_goshiwon_open_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_final_father_record_goshiwon_open"
+      ],
+      "width": 1280,
+      "height": 800,
       "alpha": false,
       "scale": {
         "1080p": 1.5,

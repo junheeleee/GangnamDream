@@ -35,6 +35,16 @@ Updated on 2026-09-05 for the routine-vignette Seoul park and explicit SAVE/REST
 
 ## Use These Assets
 
+### Late father's empty chair
+
+- `assets/cg/story/final_father_record_{goshiwon,general}_{open,closed}_v1.png`
+  are four one-off timing states for `arc_y5_final_father_answer_passed` only.
+- Goshiwon keeps the actual low desk/left bed; the other close-up does not
+  redefine any home's architecture. No Father/ghost is depicted.
+- Exact onset, notebook close, gallery exclusion and crop/quality boundaries:
+  `CHAPTER5_LOCATION_VISUAL_BIBLE.md` and `docs/ART_AI_AUDIT.md`.
+- Refrigerator recording remains an unadmitted outside-project candidate.
+
 ### Final-week charging light
 
 - `assets/cg/story/final_week_phone_{dark,green}_v1.png` are a paired one-off

@@ -42,6 +42,62 @@ the existing subway car respectively.
   remain physically usable. Duplicated or malformed objects are rejection
   errors.
 
+## Late father's empty chair and notebook
+
+Only `arc_y5_final_father_answer_passed` owns these four prop CGs. They are
+environment close-ups aligned to offscreen Minjun's observation, not depictions
+of Father, his ghost, a photograph or another person in the room. Current
+housing remains authoritative and no household is replaced by a new room.
+
+- The two prepended receipt sources retain the current home. In assembled
+  description source 2, the full empty-chair sentence must finish before OPEN
+  appears; source 3 and the choice surface retain it.
+- Reading choice 1 keeps OPEN throughout its three result sources. Only the
+  final full notebook-closing sentence at result source 2 switches to CLOSED.
+  Writing/envelope choice 0 and filing choice 2 restore the current home before
+  their own actions; these CGs do not stage an envelope or clear-file close.
+- `final_father_record_goshiwon_{open,closed}_v1.png` retains the canonical
+  left-wall narrow bed, right-front low desk, black task lamp and worn wall.
+  Its one portable low floor chair is implied by this scene's prose, not a
+  newly claimed permanent fixture or a reason to widen the room. Minjun is
+  offscreen near the bed/foreground, requiring no second chair.
+- `final_father_record_general_{open,closed}_v1.png` isolates the tabletop and
+  one ordinary empty chair. It shows no window, door, kitchen, skyline or wide
+  furniture layout that would redefine another current home.
+- Each OPEN frame contains one modest notebook, two partly overlapping record
+  copies and one flat folded paper medicine packet. Size terms in production
+  prompts control plausible proportions, not a new canonical paper standard.
+  No phone, pen, cup, bottle, food, memorial object, hand or readable text is
+  added. Each CLOSED counterpart closes only that same notebook; the goshiwon
+  binding is ring-bound and the general binding is not.
+- These four narrative timing inserts join the two phone-state inserts in
+  `get_gallery_cg_ids()`'s exact exclusion list. The collectible list's old
+  81 IDs, order, progress numerator and denominator remain unchanged.
+- All four deliveries are 1280x800, center-cropped to 1584x990 then downsampled
+  from built-in ImageGen sources near 1586x992; the odd-width goshiwon OPEN
+  source is 1585x992, so this is not a byte-exact integer-edge trim. It is
+  format normalization, not new detail, A/S approval or a 4K master.
+- Story-prop bottom edges are near 539–542px, not below a claimed 520px bound.
+  At compact sizes the dialogue rises into that region. Keep scale at one and
+  use only the stationary upward offset needed to leave 12 logical pixels
+  between the normalized 542/800 prop edge and the actual text-panel top.
+  Recompute on reflow; clear this insert's offset when the home returns. No
+  push, pan, zoom or downward offset may erase the prop margin. Actual
+  two-size/Black render review remains required; it is not a master-art claim.
+  A scene-local dark backing below the image must cover the uncovered lower
+  strip, never the props. Hide that backing outside this insert; do not reuse
+  the opaque wedding blackout layer or expose the default grey viewport.
+- The OPEN/CLOSED pairs are not pixel-identical: goshiwon CLOSED is slightly
+  brighter/warmer and the general pair has minor grain/color variation.
+  Raw still approval does not certify flicker-free temporal playback.
+- Existing apartment room recording, grief score, old paper-action cues and
+  save/locale cursor semantics remain separate. No refrigerator SFX is added:
+  the source candidate's internal silence and missing hearing review prevent
+  its admission in this visual-only repair.
+
+Exact prompts, source/delivery hashes, rejected candidates, audio acquisition
+and the scoped review remain in `docs/queue_archive/ORDER-830-ART-EVIDENCE.md`.
+
 ## Generic final-week charging light
 
 This is a one-off prop CG pair, not a new reusable home or a replacement for

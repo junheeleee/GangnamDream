@@ -607,6 +607,10 @@
     "intentional_silence": []
   },
   "cg": {
+    "cg_final_father_record_goshiwon_open": {"ambience": "apartment"},
+    "cg_final_father_record_goshiwon_closed": {"ambience": "apartment"},
+    "cg_final_father_record_general_open": {"ambience": "apartment"},
+    "cg_final_father_record_general_closed": {"ambience": "apartment"},
     "cg_final_week_phone_dark": {"ambience": "apartment"},
     "cg_final_week_phone_green": {"ambience": "apartment"},
     "cg_daeun_regular_bunsik": {"ambience": "intentional_silence"},

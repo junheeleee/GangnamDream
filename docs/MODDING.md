@@ -541,6 +541,10 @@ python3 tools/generate_mod_manifest.py --check
 | cg | `cg_romance_wedding_morning_jiyeon` | `cg/romance/wedding_morning_jiyeon_v1.png` | 1280x800 |
 | cg | `cg_seollal_sebae_family` | `cg/seollal_sebae_family_v1.png` | 1280x800 |
 | cg | `cg_start` | `cg/start.png` | 1280x720 |
+| cg | `cg_final_father_record_general_closed` | `cg/story/final_father_record_general_closed_v1.png` | 1280x800 |
+| cg | `cg_final_father_record_general_open` | `cg/story/final_father_record_general_open_v1.png` | 1280x800 |
+| cg | `cg_final_father_record_goshiwon_closed` | `cg/story/final_father_record_goshiwon_closed_v1.png` | 1280x800 |
+| cg | `cg_final_father_record_goshiwon_open` | `cg/story/final_father_record_goshiwon_open_v1.png` | 1280x800 |
 | cg | `cg_final_week_phone_dark` | `cg/story/final_week_phone_dark_v1.png` | 1280x800 |
 | cg | `cg_final_week_phone_green` | `cg/story/final_week_phone_green_v1.png` | 1280x800 |
 | cg | `cg_story_knee_help` | `cg/story/knee_help_v1.png` | 1280x800 |

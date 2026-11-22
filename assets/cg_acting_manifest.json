@@ -3,6 +3,30 @@
   "updated": "2026-11-14",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
+    "cg_final_father_record_goshiwon_open": {
+      "path": "assets/cg/story/final_father_record_goshiwon_open_v1.png",
+      "camera_role": "environment",
+      "story_action": "Offscreen Minjun observes the empty portable floor chair across his canonical low goshiwon desk. An open notebook, two partly overlapping record copies and one folded medicine packet are present; no living or remembered actor is depicted.",
+      "actors": []
+    },
+    "cg_final_father_record_goshiwon_closed": {
+      "path": "assets/cg/story/final_father_record_goshiwon_closed_v1.png",
+      "camera_role": "environment",
+      "story_action": "Only after the passed-father reading choice's complete final notebook-closing sentence, the same ring-bound notebook is closed. The empty portable floor chair, two copies, medicine packet and canonical goshiwon furniture remain.",
+      "actors": []
+    },
+    "cg_final_father_record_general_open": {
+      "path": "assets/cg/story/final_father_record_general_open_v1.png",
+      "camera_role": "environment",
+      "story_action": "A tight offscreen observation view shows the empty ordinary chair across a tabletop, open notebook, two record copies and folded medicine packet without inventing the current home's architecture or an extra person.",
+      "actors": []
+    },
+    "cg_final_father_record_general_closed": {
+      "path": "assets/cg/story/final_father_record_general_closed_v1.png",
+      "camera_role": "environment",
+      "story_action": "The same house-neutral record close-up shows only the notebook closed after the passed-father reading choice finishes its final closing clause. Both records, medicine packet and empty chair stay in place.",
+      "actors": []
+    },
     "cg_final_week_phone_dark": {
       "path": "assets/cg/story/final_week_phone_dark_v1.png",
       "camera_role": "environment",

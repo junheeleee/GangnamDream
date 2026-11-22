@@ -16,6 +16,7 @@ const W239_FATHER_ALIVE := "arc_y5_final_father_answer_alive"
 const W239_ALIVE_NAME_WRITE := preload("res://assets/w239_alive_name_write.tres")
 const W239_FATHER_PASSED := "arc_y5_final_father_answer_passed"
 const W239_PASSED_PAPER_ACTIONS := preload("res://assets/w239_passed_paper_actions.tres")
+const W239_PASSED_EMPTY_CHAIR := preload("res://assets/w239_passed_empty_chair.tres")
 const W240_GENERAL_SACRIFICE := "arc_final_countdown_general_near_goal_passed"
 const W240_GENERAL_SACRIFICE_WRITE := preload(
 	"res://assets/w240_general_sacrifice_write.tres")
@@ -124,7 +125,7 @@ func _ready() -> void:
 			+ "w237-contexts80/results160/anchors5/manifest-description-cues2/"
 			+ "w238-contexts30/results60/manifest-cues0/"
 			+ "w239-contexts30/results90/anchors5/manifest-cues0/"
-			+ "w239-passed-contexts30/results90/anchors10/manifest-cues0/"
+			+ "w239-passed-contexts30/results90/anchors10/visual-anchors10/manifest-cues0/"
 			+ "w240-general-contexts10/results20/anchors10/manifest-cues0/"
 			+ "w240-outbound-contexts40/results120/anchors5/manifest-cues0/"
 			+ "w240-final-week-contexts15/results45/anchors10/manifest-cues0")
@@ -2624,6 +2625,54 @@ func _check_w239_passed_father_alignment() -> void:
 		if raw_anchor_metadata is Dictionary else {}
 	_expect(anchors.size() == 2 and anchors.has("0") and anchors.has("2"),
 		"W239 passed paper asset must own only c0/c2 actions")
+	var raw_open_metadata: Variant = W239_PASSED_EMPTY_CHAIR.get_meta(
+		"open_anchors", {})
+	var raw_close_metadata: Variant = W239_PASSED_EMPTY_CHAIR.get_meta(
+		"close_anchors", {})
+	_expect(raw_open_metadata is Dictionary and raw_close_metadata is Dictionary,
+		"W239 passed empty-chair asset lost its two locale anchor maps")
+	var open_anchors: Dictionary = raw_open_metadata as Dictionary \
+		if raw_open_metadata is Dictionary else {}
+	var close_anchors: Dictionary = raw_close_metadata as Dictionary \
+		if raw_close_metadata is Dictionary else {}
+	var expected_languages: Array = LocaleManager.SUPPORTED_LANGUAGES.duplicate()
+	expected_languages.sort()
+	var open_languages: Array = open_anchors.keys()
+	var close_languages: Array = close_anchors.keys()
+	open_languages.sort()
+	close_languages.sort()
+	_expect(open_languages == expected_languages \
+		and close_languages == expected_languages,
+		"W239 passed empty-chair asset lost its exact five-locale inventory")
+	var expected_open_anchors := {
+		"ko": "맞은편 의자는 비어 있었다.",
+		"en": "The chair across from {name} was empty.",
+		"ja": "向かいの椅子は空いていた。",
+		"zh-CN": "对面的椅子空着。",
+		"zh-TW": "對面的椅子空著。",
+	}
+	var expected_close_anchors := {
+		"ko": "{name}은 더 말하지 않고 수첩을 덮었다.",
+		"en": "{name} said nothing more and closed the notebook.",
+		"ja": "{name}はそれ以上言わず、手帳を閉じた。",
+		"zh-CN": "{name}没有再说话，合上了笔记本。",
+		"zh-TW": "{name}沒有再說話，闔上筆記本。",
+	}
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		_expect(str(open_anchors.get(language, "")) \
+				== str(expected_open_anchors.get(language, "")) \
+			and str(close_anchors.get(language, "")) \
+				== str(expected_close_anchors.get(language, "")),
+			"W239 passed empty-chair asset shortened its full %s clauses" % language)
+	_expect(str(W239_PASSED_EMPTY_CHAIR.get_meta("goshiwon_open_cg", "")) \
+			== "cg_final_father_record_goshiwon_open" \
+		and str(W239_PASSED_EMPTY_CHAIR.get_meta("goshiwon_closed_cg", "")) \
+			== "cg_final_father_record_goshiwon_closed" \
+		and str(W239_PASSED_EMPTY_CHAIR.get_meta("general_open_cg", "")) \
+			== "cg_final_father_record_general_open" \
+		and str(W239_PASSED_EMPTY_CHAIR.get_meta("general_closed_cg", "")) \
+			== "cg_final_father_record_general_closed",
+		"W239 passed empty-chair asset changed its exact four CG ids")
 	var insertion_tails := {
 		"ko": ", 두 장 사이의 구분지에 오늘 날짜를 적었다.",
 		"en": " and wrote today's date on the divider between them.",
@@ -2717,6 +2766,9 @@ func _check_w239_passed_father_alignment() -> void:
 					and str(resolved.get("portrait", "")) == "player_sad" \
 					and not resolved.has("cg"),
 					context + " changed its four-source passed-father home surface")
+				_check_w239_passed_intro_visual_anchor(
+					story, open_anchors, language,
+					str(story.call("_fmt", expected_description)), context)
 				var choices: Array = resolved.get("choices", [])
 				_expect(choices.size() == 3,
 					context + " lost its three authored passed-father choices")
@@ -2736,6 +2788,9 @@ func _check_w239_passed_father_alignment() -> void:
 					_check_w239_passed_result_anchor(
 						story, anchors, insertion_tails, language, choice_index,
 						formatted_result, context)
+					_check_w239_passed_result_visual_anchor(
+						story, close_anchors, language, choice_index,
+						formatted_result, context)
 					results += 1
 				_assert_w239_manifest_audio(
 					[0, 1, 2, 3], result_sources, context, W239_FATHER_PASSED)
@@ -2751,6 +2806,45 @@ func _check_w239_passed_father_alignment() -> void:
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
 	story.free()
+
+
+func _check_w239_passed_intro_visual_anchor(
+		story: Node, anchors: Dictionary, language: String,
+		formatted_description: String, context: String) -> void:
+	var anchor: String = str(story.call(
+		"_fmt", str(anchors.get(language, ""))))
+	var sources := formatted_description.split("\n\n")
+	var source2 := str(sources[2]) if sources.size() == 4 else ""
+	_expect(sources.size() == 4 \
+		and not anchor.is_empty() \
+		and formatted_description.count(anchor) == 1 \
+		and source2.count(anchor) == 1 \
+		and str(sources[0]).count(anchor) == 0 \
+		and str(sources[1]).count(anchor) == 0 \
+		and str(sources[3]).count(anchor) == 0 \
+		and source2.ends_with(anchor),
+		context + " lost its unique full source2 empty-chair endpoint")
+
+
+func _check_w239_passed_result_visual_anchor(
+		story: Node, anchors: Dictionary, language: String,
+		choice_index: int, formatted_result: String, context: String) -> void:
+	var anchor: String = str(story.call(
+		"_fmt", str(anchors.get(language, ""))))
+	var sources := formatted_result.split("\n\n")
+	if choice_index != 1:
+		_expect(not anchor.is_empty() and formatted_result.count(anchor) == 0,
+			context + " choice%d gained the c1 closed-notebook cut" % choice_index)
+		return
+	var source2 := str(sources[2]) if sources.size() == 3 else ""
+	_expect(sources.size() == 3 \
+		and not anchor.is_empty() \
+		and formatted_result.count(anchor) == 1 \
+		and source2.count(anchor) == 1 \
+		and str(sources[0]).count(anchor) == 0 \
+		and str(sources[1]).count(anchor) == 0 \
+		and source2.ends_with(anchor),
+		context + " c1 lost its unique final source2 notebook-close endpoint")
 
 
 func _check_w239_passed_result_anchor(
@@ -3155,25 +3249,31 @@ func _check_w240_final_week_lights_alignment() -> void:
 			== "cg_final_week_phone_green",
 		"W240 final-week light asset changed its exact dark/green CG ids")
 	var narrative_only_cgs: Array = [
-		"cg_final_week_phone_dark", "cg_final_week_phone_green"]
+		"cg_final_week_phone_dark",
+		"cg_final_week_phone_green",
+		"cg_final_father_record_goshiwon_open",
+		"cg_final_father_record_goshiwon_closed",
+		"cg_final_father_record_general_open",
+		"cg_final_father_record_general_closed",
+	]
 	var expected_gallery_cgs: Array = []
 	for raw_cg_id: Variant in ImageRegistry.CG.keys():
 		var cg_id := str(raw_cg_id)
 		if not narrative_only_cgs.has(cg_id):
 			expected_gallery_cgs.append(cg_id)
 	var actual_gallery_cgs: Array = ImageRegistry.get_gallery_cg_ids()
-	_expect(ImageRegistry.CG.size() == 83 \
+	_expect(ImageRegistry.CG.size() == 87 \
 		and ImageRegistry.NARRATIVE_ONLY_CG_IDS == narrative_only_cgs \
 		and actual_gallery_cgs.size() == 81 \
 		and actual_gallery_cgs == expected_gallery_cgs,
-		"W240 final-week inserts changed the ordered 81-card CG gallery")
+		"narrative inserts changed the ordered 81-card CG gallery")
 	for cg_id: String in narrative_only_cgs:
 		var cg_path := ImageRegistry.get_cg(cg_id)
 		_expect(not actual_gallery_cgs.has(cg_id) \
 			and not cg_path.is_empty() \
 			and cg_path == str(ImageRegistry.CG.get(cg_id, "")) \
 			and FileAccess.file_exists(cg_path),
-			"W240 final-week narrative CG lost runtime-only availability: " + cg_id)
+			"narrative CG lost runtime-only availability: " + cg_id)
 
 	var signature_flags: Array[String] = [
 		"final_signature_owned",

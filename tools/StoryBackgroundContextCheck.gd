@@ -233,6 +233,9 @@ const W239_FATHER_ALIVE := "arc_y5_final_father_answer_alive"
 const W239_ALIVE_NAME_WRITE := preload("res://assets/w239_alive_name_write.tres")
 const W239_FATHER_PASSED := "arc_y5_final_father_answer_passed"
 const W239_PASSED_PAPER_ACTIONS := preload("res://assets/w239_passed_paper_actions.tres")
+const W239_PASSED_EMPTY_CHAIR := preload("res://assets/w239_passed_empty_chair.tres")
+const W239_EMPTY_CHAIR_PROP_BOTTOM_RATIO := 542.0 / 800.0
+const W239_EMPTY_CHAIR_TEXT_GAP := 12.0
 const W240_GENERAL_SACRIFICE := "arc_final_countdown_general_near_goal_passed"
 const W240_GENERAL_SACRIFICE_WRITE := preload(
 	"res://assets/w240_general_sacrifice_write.tres")
@@ -604,6 +607,8 @@ var _w239_cold_ink := 0
 var _w239_reflow_ink := 0
 var _w239_passed_cold_paper := 0
 var _w239_passed_reflow_paper := 0
+var _w239_passed_capture_dir := ""
+var _w239_passed_capture_frames := 0
 var _w240_cold_ink := 0
 var _w240_reflow_ink := 0
 var _w240_outbound_cold_ink := 0
@@ -9739,6 +9744,23 @@ func _w240_reflow_state(
 
 
 func _check_w239_father_passed() -> bool:
+	var compact := OS.get_environment(
+		"GANGNAM_W239_FATHER_PASSED_COMPACT") == "1"
+	var expected_viewport := Vector2i(960, 600) \
+		if compact else Vector2i(1280, 800)
+	if compact:
+		var root := get_tree().root
+		root.content_scale_size = expected_viewport
+		root.size = expected_viewport
+		await get_tree().process_frame
+	var actual_viewport := Vector2i(get_viewport().get_visible_rect().size)
+	print("W239_PASSED_VIEWPORT requested=%s actual=%s compact=%s" % [
+		expected_viewport, actual_viewport, compact])
+	if actual_viewport != expected_viewport:
+		_fail("W239 passed fixture did not obtain its requested logical viewport")
+		return false
+	if not _w239_passed_capture_prepare():
+		return false
 	_w239_passed_cold_paper = 0
 	_w239_passed_reflow_paper = 0
 	var default_home: Dictionary = W235_HOME_CASES[1]
@@ -9750,9 +9772,11 @@ func _check_w239_father_passed() -> bool:
 	for language_index in range(LocaleManager.SUPPORTED_LANGUAGES.size()):
 		var language: String = LocaleManager.SUPPORTED_LANGUAGES[language_index]
 		for choice in range(3):
+			var path_home: Dictionary = W235_HOME_CASES[0] \
+				if choice == 1 and language == "ko" else default_home
 			if not await _w239_passed_prepare_result(
-					language, choice, default_home,
-					language_index % 3, language_index % 2):
+					language, choice, path_home,
+					language_index % 3, language_index % 2, choice == 1):
 				return false
 			var applied := _w227_state_bytes()
 			if choice in [0, 2]:
@@ -9780,7 +9804,8 @@ func _check_w239_father_passed() -> bool:
 						language, choice])
 					return false
 				live_paper += 1
-			elif not await _w239_passed_finish_result(applied, -1):
+			elif not await _w239_passed_finish_closed_result(
+					language, path_home, applied, true):
 				return false
 			else:
 				silent_results += 1
@@ -9798,10 +9823,19 @@ func _check_w239_father_passed() -> bool:
 
 	var housing_contexts := 0
 	for home_case: Dictionary in W235_HOME_CASES:
-		if not await _w239_passed_open("ko", home_case) \
-				or not _w239_passed_surface(
-					"W239 passed housing " + str(home_case.get("id", "")),
-					str(home_case.get("background", ""))):
+		if not await _w239_passed_open("ko", home_case):
+			return false
+		var housing_state := _w227_state_bytes()
+		var housing_settings := _w240_final_settings_bytes()
+		if not _w239_passed_surface(
+				"W239 passed housing " + str(home_case.get("id", "")),
+				str(home_case.get("background", ""))) \
+				or not await _w239_passed_seek_visual_stage(
+					1, home_case, "W239 passed housing open") \
+				or not _w227_state_matches(
+					housing_state, "W239 passed housing open", false, "W239P") \
+				or not _w240_final_settings_match(
+					housing_settings, "W239 passed housing open"):
 			return false
 		housing_contexts += 1
 
@@ -9831,17 +9865,29 @@ func _check_w239_father_passed() -> bool:
 	var reflow_boundaries := await _w239_passed_reflow_matrix(default_home)
 	if reflow_boundaries < 0:
 		return false
+	var visual_cold := await _w239_passed_visual_cold_matrix(default_home)
+	if visual_cold < 0:
+		return false
+	var visual_hot := await _w239_passed_visual_hot_matrix(default_home)
+	if visual_hot < 0:
+		return false
+	var visual_guard := await _w239_passed_visual_read_only_guard(default_home)
+	if visual_guard < 0:
+		return false
 	var settings_after := [
 		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
-	print("W239_FATHER_PASSED_OK paths=%d paper=%d silent=%d ingress=%d homes=%d same_key=1 intro_v4=%d result_v4=%d legacy_v4=%d cold_paper=%d reflows=%d reflow_paper=%d" % [
+	print("W239_FATHER_PASSED_OK paths=%d paper=%d silent=%d ingress=%d homes=%d same_key=1 intro_v4=%d result_v4=%d legacy_v4=%d cold_paper=%d reflows=%d reflow_paper=%d visual_cold=%d visual_hot=%d visual_guard=%d captures=%d" % [
 		paths, live_paper, silent_results, ingress_contexts, housing_contexts,
 		intro_cold, cold_boundaries, legacy_boundaries,
-		_w239_passed_cold_paper, reflow_boundaries, _w239_passed_reflow_paper])
+		_w239_passed_cold_paper, reflow_boundaries, _w239_passed_reflow_paper,
+		visual_cold, visual_hot, visual_guard, _w239_passed_capture_frames])
 	var counts_ok := paths == 15 and live_paper == 10 and silent_results == 5 \
 		and ingress_contexts == 6 and housing_contexts == 7 \
 		and intro_cold == 2 and cold_boundaries == 7 \
 		and legacy_boundaries == 4 and _w239_passed_cold_paper == 2 \
 		and reflow_boundaries == 8 and _w239_passed_reflow_paper == 2 \
+		and visual_cold == 6 and visual_hot == 8 and visual_guard == 1 \
+		and _w239_passed_capture_frames <= 5 \
 		and settings_before == settings_after
 	if not counts_ok:
 		_fail("W239 passed fixture population or master-volume state drifted")
@@ -9882,7 +9928,8 @@ func _w239_passed_context_matches(trace_choice: int, remaining_choice: int) -> b
 	return true
 
 
-func _w239_passed_read_intro(home_background: String) -> bool:
+func _w239_passed_read_intro(
+		home_background: String, inspect_boundary: bool = false) -> bool:
 	var current: Dictionary = _story.get("_current")
 	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
 	var authored := str(_story.call("_fmt", current.get("description", "")))
@@ -9900,13 +9947,46 @@ func _w239_passed_read_intro(home_background: String) -> bool:
 	var score_position := score_player.get_playback_position()
 	var score_token := int(BGMPlayer.get("_punctuation_token"))
 	var untouched := _w227_state_bytes()
+	var inspected := false
 	while not bool(_story.get("_showing_choices")):
 		var source := int(_story.call(
 			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		var boundary: Vector2i = _story.call("_w239_empty_chair_boundary")
+		if inspect_boundary and not inspected \
+				and int(_story.get("_para_index")) == boundary.x:
+			if not _w239_passed_visual_boundary_valid(boundary) \
+					or int(_story.get("_type_pos")) > boundary.y - 1 \
+					or not _w227_type_to(boundary.y - 1, "W239P") \
+					or _w239_passed_stage_from_cursor() != 0 \
+					or not _w239_passed_surface(
+						"W239 passed before empty-chair sentence",
+						home_background, 0) \
+					or not _w227_state_matches(
+						untouched, "W239 passed before empty-chair sentence",
+						false, "W239P") \
+					or not _w239_passed_audio_matches(
+						false, "W239 passed before empty-chair sentence") \
+					or not _w227_type_to(boundary.y, "W239P") \
+					or _w239_passed_stage_from_cursor() != 1 \
+					or not _w239_passed_surface(
+						"W239 passed exact empty-chair sentence",
+						home_background, 1) \
+					or not _w227_state_matches(
+						untouched, "W239 passed exact empty-chair sentence",
+						false, "W239P") \
+					or not _w239_passed_audio_matches(
+						false, "W239 passed exact empty-chair sentence") \
+					or not await _w239_passed_capture(
+						LocaleManager.language, 1):
+				_fail("W239 passed intro lost its exact source2 OPEN boundary")
+				return false
+			inspected = true
 		await _finish_page()
 		var current_bed_position := BGMPlayer._ambience_player.get_playback_position()
+		var expected_stage := _w239_passed_stage_from_cursor()
 		if not _w239_passed_surface(
-				"W239 passed opening source%d" % source, home_background) \
+				"W239 passed opening source%d" % source,
+				home_background, expected_stage) \
 				or not _w239_passed_audio_matches(
 					false, "W239 passed opening source%d" % source) \
 				or not _w227_state_matches(
@@ -9925,8 +10005,10 @@ func _w239_passed_read_intro(home_background: String) -> bool:
 		score_position = score_player.get_playback_position()
 		_story.call("_on_advance")
 		await _wait_stable()
-	return (_story.get("_choice_box") as Control).get_child_count() == 3 \
-		and _w239_passed_surface("W239 passed choices", home_background) \
+	return (not inspect_boundary or inspected) \
+		and (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w239_passed_stage_from_cursor() == 1 \
+		and _w239_passed_surface("W239 passed choices", home_background, 1) \
 		and _w239_passed_audio_matches(false, "W239 passed choices") \
 		and _w227_state_matches(
 			untouched, "W239 passed choices", false, "W239P")
@@ -9934,20 +10016,25 @@ func _w239_passed_read_intro(home_background: String) -> bool:
 
 func _w239_passed_prepare_result(
 		language: String, choice: int, home_case: Dictionary,
-		trace_choice: int = 0, remaining_choice: int = 0) -> bool:
+		trace_choice: int = 0, remaining_choice: int = 0,
+		inspect_intro_boundary: bool = false) -> bool:
 	var home_background := str(home_case.get("background", ""))
 	if not await _w239_passed_open(
 			language, home_case, trace_choice, remaining_choice) \
-			or not await _w239_passed_read_intro(home_background):
+			or not await _w239_passed_read_intro(
+				home_background, inspect_intro_boundary):
 		return false
 	_w239_passed_clear_tracked()
 	_story.call("_on_choice", choice)
 	_story.set_process(false)
 	await _wait_stable()
+	var expected_stage := 1 if choice == 1 else 0
 	return _w239_passed_result_layout(choice) \
 		and GameState.chapter5_finale_receipt_matches(
 			W239_FATHER_PASSED, choice, 239) \
-		and _w239_passed_surface("W239 passed prepared result", home_background) \
+		and _w239_passed_stage_from_cursor() == expected_stage \
+		and _w239_passed_surface(
+			"W239 passed prepared result", home_background, expected_stage) \
 		and _w239_passed_audio_matches(false, "W239 passed prepared result")
 
 
@@ -9998,6 +10085,66 @@ func _w239_passed_paper_mapping() -> Dictionary:
 			found.append({
 				"page": page_index, "reveal": reveal, "source": source_index})
 	return found[0] if found.size() == 1 else {}
+
+
+func _w239_passed_visual_boundary_valid(boundary: Vector2i) -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var progress: Vector2 = _story.call("_w239_empty_chair_progress_range")
+	return boundary.x >= 0 and boundary.x < pages.size() \
+		and boundary.y > 0 and boundary.y <= str(pages[boundary.x]).length() \
+		and int(_story.call(
+			"_story_source_paragraph_index", boundary.x)) == 2 \
+		and progress.x >= 0.0 and progress.y >= progress.x
+
+
+func _w239_passed_stage_from_cursor() -> int:
+	if not bool(_story.call("_w239_empty_chair_active")):
+		return -1
+	if bool(_story.get("_pending_after_result")) \
+			and int(_story.get("_pending_result_choice_index")) != 1:
+		return 0
+	if bool(_story.get("_showing_choices")):
+		return 1
+	var boundary: Vector2i = _story.call("_w239_empty_chair_boundary")
+	if not _w239_passed_visual_boundary_valid(boundary):
+		return 0
+	var after := int(_story.get("_para_index")) > boundary.x \
+		or (int(_story.get("_para_index")) == boundary.x \
+			and int(_story.get("_type_pos")) >= boundary.y)
+	if bool(_story.get("_pending_after_result")):
+		return 2 if after else 1
+	return 1 if after else 0
+
+
+func _w239_passed_seek_visual_stage(
+		target_stage: int, home_case: Dictionary, label: String) -> bool:
+	var boundary: Vector2i = _story.call("_w239_empty_chair_boundary")
+	if target_stage not in [0, 1, 2] \
+			or not _w239_passed_visual_boundary_valid(boundary):
+		_fail(label + " had no exact source2 visual boundary")
+		return false
+	for _guard in range(64):
+		var page := int(_story.get("_para_index"))
+		if page == boundary.x:
+			var after_target := (
+				target_stage == 2 if bool(_story.get("_pending_after_result")) \
+				else target_stage == 1)
+			var position := boundary.y if after_target else boundary.y - 1
+			if int(_story.get("_type_pos")) > position \
+					or not _w227_type_to(position, "W239P"):
+				return false
+			var expected := _w239_passed_stage_from_cursor()
+			return expected == target_stage \
+				and _w239_passed_surface(
+					label, str(home_case.get("background", "")), target_stage) \
+				and _w239_passed_audio_matches(false, label)
+		if page > boundary.x:
+			break
+		await _finish_page()
+		_story.call("_on_advance")
+		await _wait_stable()
+	_fail(label + " could not reach its source2 visual boundary")
+	return false
 
 
 func _w239_passed_seek_paper_page(
@@ -10077,12 +10224,104 @@ func _w239_passed_finish_result(applied: String, played_at: int) -> bool:
 	return false
 
 
-func _w239_passed_surface(label: String, background_id: String) -> bool:
+func _w239_passed_finish_closed_result(
+		language: String, home_case: Dictionary,
+		applied: String, capture: bool) -> bool:
+	var boundary: Vector2i = _story.call("_w239_empty_chair_boundary")
+	if not _w239_passed_visual_boundary_valid(boundary) \
+			or _w239_passed_stage_from_cursor() != 1:
+		_fail("W239 passed c1 had no exact notebook-close boundary")
+		return false
+	var score_player := _w239_grief_player()
+	if not is_instance_valid(score_player):
+		return false
+	var score_stream: AudioStream = score_player.stream
+	var score_position := score_player.get_playback_position()
+	var score_token := int(BGMPlayer.get("_punctuation_token"))
+	for _guard in range(64):
+		var page := int(_story.get("_para_index"))
+		if page == boundary.x:
+			if int(_story.get("_type_pos")) > boundary.y - 1 \
+					or not _w227_type_to(boundary.y - 1, "W239P") \
+					or _w239_passed_stage_from_cursor() != 1 \
+					or not _w239_passed_surface(
+						"W239 passed before notebook close",
+						str(home_case.get("background", "")), 1) \
+					or not _w227_state_matches(
+						applied, "W239 passed before notebook close",
+						false, "W239P") \
+					or not _w239_passed_audio_matches(
+						false, "W239 passed before notebook close") \
+					or not _w227_type_to(boundary.y, "W239P") \
+					or _w239_passed_stage_from_cursor() != 2 \
+					or not _w239_passed_surface(
+						"W239 passed exact notebook close",
+						str(home_case.get("background", "")), 2) \
+					or not _w227_state_matches(
+						applied, "W239 passed exact notebook close",
+						false, "W239P") \
+					or not _w239_passed_audio_matches(
+						false, "W239 passed exact notebook close") \
+					or (capture and not await _w239_passed_capture(language, 2)):
+				_fail("W239 passed c1 lost its exact CLOSED boundary")
+				return false
+			break
+		if page > boundary.x:
+			_fail("W239 passed c1 passed its notebook-close boundary")
+			return false
+		await _finish_page()
+		if _w239_passed_stage_from_cursor() != 1 \
+				or not _w239_passed_surface(
+					"W239 passed c1 before final source",
+					str(home_case.get("background", "")), 1) \
+				or not _w227_state_matches(
+					applied, "W239 passed c1 before final source",
+					false, "W239P") \
+				or not _w239_passed_audio_matches(
+					false, "W239 passed c1 before final source") \
+				or not _w239_score_unchanged(
+					score_player, score_stream, score_position, score_token,
+					"W239 passed c1 before final source"):
+			return false
+		score_position = score_player.get_playback_position()
+		_story.call("_on_advance")
+		await _wait_stable()
+
+	while true:
+		await _finish_page()
+		if _w239_passed_stage_from_cursor() != 2 \
+				or not _w239_passed_surface(
+					"W239 passed closed result",
+					str(home_case.get("background", "")), 2) \
+				or not _w227_state_matches(
+					applied, "W239 passed closed result", false, "W239P") \
+				or not _w239_passed_audio_matches(
+					false, "W239 passed closed result") \
+				or not _w239_score_unchanged(
+					score_player, score_stream, score_position, score_token,
+					"W239 passed closed result"):
+			return false
+		score_position = score_player.get_playback_position()
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w239_passed_surface(
+		label: String, background_id: String,
+		expected_stage: int = 0, expect_active: bool = true) -> bool:
 	var expected_stream: AudioStream = BGMPlayer.call("_load_ambience", "apartment")
+	var actual_stage := int(_story.call("_w239_empty_chair_stage"))
+	var portrait_frame := _story.get("_portrait_frame") as Control
+	var portrait := _story.get("_portrait") as TextureRect
+	var hud := _story.get("_hud_panel") as Control
+	var background := _story.get("_bg_img") as TextureRect
+	var backing := _story.get("_w239_empty_chair_backing") as ColorRect
 	if str((_story.get("_current") as Dictionary).get("id", "")) != W239_FATHER_PASSED \
-			or background_id.is_empty() \
-			or not _expect_surface(background_id, "apartment", label) \
-			or str(_story.call("_resolved_story_surface_portrait_id")) != "player_sad" \
+			or actual_stage != (expected_stage if expect_active else -1) \
 			or expected_stream == null \
 			or BGMPlayer._ambience_player.stream != expected_stream \
 			or not BGMPlayer._ambience_player.playing \
@@ -10093,6 +10332,63 @@ func _w239_passed_surface(label: String, background_id: String) -> bool:
 			or not is_instance_valid(_w239_grief_player()) \
 			or str(BGMPlayer.get("_current_key")) != "grief":
 		_fail(label + " changed passed home, bed, portrait, layers, or grief")
+		return false
+	if expected_stage == 0:
+		if background_id.is_empty() \
+				or not _expect_surface(background_id, "apartment", label) \
+				or background == null \
+				or not is_equal_approx(background.position.y, 0.0) \
+				or backing == null or backing.visible \
+				or not str(_story.get("_event_cg_id")).is_empty() \
+				or bool(_story.get("_current_uses_cg")) \
+				or str(_story.call("_resolved_story_surface_portrait_id")) \
+					!= "player_sad" \
+				or portrait_frame == null or not portrait_frame.visible \
+				or portrait == null or portrait.texture == null \
+				or portrait.texture.resource_path \
+					!= ImageRegistry.get_portrait("player_sad"):
+			_fail(label + " lost its exact home/player surface")
+			return false
+		return true
+	var family := "goshiwon" if background_id == "goshiwon_room" else "general"
+	var expected_cg_id := "cg_final_father_record_%s_%s" % [
+		family, "closed" if expected_stage == 2 else "open"]
+	var product_cg_id := str(_story.call(
+		"_w239_empty_chair_cg_id", expected_stage))
+	var cg_id := expected_cg_id
+	var cg_path := ImageRegistry.get_cg(cg_id)
+	var text_panel := _story.get("_text_panel") as Panel
+	var panel_top := text_panel.global_position.y - (_story as Control).global_position.y \
+		if text_panel != null else -1.0
+	var expected_y := minf(0.0, panel_top - W239_EMPTY_CHAIR_TEXT_GAP \
+		- background.size.y * W239_EMPTY_CHAIR_PROP_BOTTOM_RATIO) \
+		if background != null and text_panel != null else 1.0
+	var prop_bottom := background.position.y \
+		+ background.size.y * W239_EMPTY_CHAIR_PROP_BOTTOM_RATIO \
+		if background != null else INF
+	if product_cg_id != expected_cg_id \
+			or cg_path.is_empty() \
+			or not FileAccess.file_exists(cg_path) \
+			or str(_story.get("_event_cg_id")) != cg_id \
+			or str(_story.get("_event_cg_path")) != cg_path \
+			or not bool(_story.get("_current_uses_cg")) \
+			or background == null or background.texture == null \
+			or background.texture.resource_path != cg_path \
+			or text_panel == null \
+			or backing == null or not backing.visible \
+			or not backing.color.is_equal_approx(Color("#08090d")) \
+			or backing.mouse_filter != Control.MOUSE_FILTER_IGNORE \
+			or not backing.global_position.is_equal_approx(
+				(_story as Control).global_position) \
+			or not backing.size.is_equal_approx((_story as Control).size) \
+			or not is_equal_approx(background.position.x, 0.0) \
+			or not is_equal_approx(background.position.y, expected_y) \
+			or not background.scale.is_equal_approx(Vector2.ONE) \
+			or prop_bottom > panel_top - W239_EMPTY_CHAIR_TEXT_GAP + 0.01 \
+			or (portrait_frame != null and portrait_frame.visible) \
+			or (hud != null and hud.visible):
+		_fail("%s lost exact empty-chair stage%d CG/portrait/HUD surface" % [
+			label, expected_stage])
 		return false
 	return true
 
@@ -10167,6 +10463,7 @@ func _w239_passed_intro_cold_matrix(home_case: Dictionary) -> int:
 				"W239 passed cold " + phase):
 			return -1
 		var restored: Dictionary = _story.call("build_save_resume_context")
+		var expected_stage := 1 if phase == "choices" else 0
 		if str(restored.get("phase", "")) != phase \
 				or (phase != "choices" and int(restored.get(
 					"source_paragraph_index", -1)) != source_index) \
@@ -10174,7 +10471,7 @@ func _w239_passed_intro_cold_matrix(home_case: Dictionary) -> int:
 					context, restored, source_index, cross_locale)) \
 				or not _w239_passed_surface(
 					"W239 passed cold " + phase,
-					_w235_current_home_background()) \
+					_w235_current_home_background(), expected_stage) \
 				or not _w239_passed_audio_matches(
 					false, "W239 passed cold " + phase) \
 				or not (_story.call(
@@ -10313,7 +10610,7 @@ func _w239_passed_result_cold_matrix(home_case: Dictionary) -> int:
 				"_ballpoint_write_contract") as Dictionary).is_empty() \
 			or not _w239_passed_surface(
 				"W239 passed cold silent c1",
-				_w235_current_home_background()) \
+				_w235_current_home_background(), 1) \
 			or not _w239_passed_audio_matches(
 				false, "W239 passed cold silent c1"):
 		_fail("W239 passed c1 cold result invented a physical action")
@@ -10476,6 +10773,244 @@ func _w239_passed_reflow_state(
 		_fail("W239 passed %s reflow crossed paper or restarted bed/score" % label)
 		return false
 	return true
+
+
+func _w239_passed_visual_cold_matrix(home_case: Dictionary) -> int:
+	var specs: Array[Dictionary] = [
+		{"phase": "intro", "stage": 0, "target": "ko", "legacy": false},
+		{"phase": "intro", "stage": 1, "target": "ko", "legacy": false},
+		{"phase": "result", "stage": 1, "target": "ko", "legacy": false},
+		{"phase": "result", "stage": 2, "target": "ko", "legacy": false},
+		{"phase": "result", "stage": 1, "target": "en", "legacy": false},
+		{"phase": "result", "stage": 1, "target": "ko", "legacy": true},
+	]
+	var count := 0
+	for spec: Dictionary in specs:
+		var phase := str(spec["phase"])
+		var initial_stage := int(spec["stage"])
+		if phase == "intro":
+			if not await _w239_passed_open("ko", home_case) \
+					or not await _w239_passed_seek_visual_stage(
+						initial_stage, home_case,
+						"W239 passed cold intro stage%d" % initial_stage):
+				return -1
+		else:
+			if not await _w239_passed_prepare_result(
+					"ko", 1, home_case) \
+					or not await _w239_passed_seek_visual_stage(
+						initial_stage, home_case,
+						"W239 passed cold result stage%d" % initial_stage):
+				return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		if bool(spec["legacy"]):
+			context.erase("story_locale")
+		var applied := _w227_state_bytes()
+		var target_locale := str(spec["target"])
+		var cross_locale := target_locale != LocaleManager.language
+		_w239_passed_clear_tracked()
+		var label := "W239 passed visual cold %s/stage%d/%s" % [
+			phase, initial_stage,
+			"legacy" if bool(spec["legacy"]) else target_locale]
+		if not await _w239_cold_load(
+				context, target_locale, applied, cross_locale, label, "W239P"):
+			return -1
+		var restored_stage := _w239_passed_stage_from_cursor()
+		var exact_side := not cross_locale and not bool(spec["legacy"])
+		var valid_stage := restored_stage in (
+			[0, 1] if phase == "intro" else [1, 2])
+		var settings := _w240_final_settings_bytes()
+		if not valid_stage \
+				or (exact_side and restored_stage != initial_stage) \
+				or int(_story.call("_w239_empty_chair_stage")) != restored_stage \
+				or not _w239_passed_surface(
+					label, str(home_case.get("background", "")), restored_stage) \
+				or not _w227_state_matches(
+					applied, label, cross_locale, "W239P") \
+				or not _w239_passed_audio_matches(false, label):
+			_fail(label + " did not follow its restored current cursor")
+			return -1
+		var final_stage := 1 if phase == "intro" else 2
+		if restored_stage < final_stage:
+			if not await _w239_passed_seek_visual_stage(
+					final_stage, home_case, label + " forward"):
+				return -1
+		else:
+			_story.call("_complete_typing")
+			await get_tree().process_frame
+		if _w239_passed_stage_from_cursor() != final_stage \
+				or not _w239_passed_surface(
+					label + " completed", str(home_case.get("background", "")),
+					final_stage) \
+				or not _w227_state_matches(
+					applied, label + " completed", cross_locale, "W239P") \
+				or not _w240_final_settings_match(settings, label + " completed") \
+				or not _w239_passed_audio_matches(false, label + " completed"):
+			return -1
+		count += 1
+	return count
+
+
+func _w239_passed_visual_hot_matrix(home_case: Dictionary) -> int:
+	var count := 0
+	for mode: String in ["font", "locale"]:
+		for phase: String in ["intro", "result"]:
+			var stages: Array = [0, 1] if phase == "intro" else [1, 2]
+			for stage: int in stages:
+				if phase == "intro":
+					if not await _w239_passed_open("ko", home_case) \
+							or not await _w239_passed_seek_visual_stage(
+								stage, home_case,
+								"W239 passed hot intro stage%d" % stage):
+						return -1
+				else:
+					if not await _w239_passed_prepare_result(
+							"ko", 1, home_case) \
+							or not await _w239_passed_seek_visual_stage(
+								stage, home_case,
+								"W239 passed hot result stage%d" % stage):
+						return -1
+				var applied := _w227_state_bytes()
+				var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+				var bed_position := BGMPlayer._ambience_player.get_playback_position()
+				var score_player := _w239_grief_player()
+				if not is_instance_valid(score_player):
+					return -1
+				var score_stream: AudioStream = score_player.stream
+				var score_position := score_player.get_playback_position()
+				var score_token := int(BGMPlayer.get("_punctuation_token"))
+				if mode == "font":
+					_story.call("_set_story_text_size", "large")
+				else:
+					_story.call("_set_story_language", "en")
+				await _wait_stable()
+				var settings := _w240_final_settings_bytes()
+				var label := "W239 passed hot %s/%s/stage%d" % [
+					mode, phase, stage]
+				if LocaleManager.language != ("en" if mode == "locale" else "ko") \
+						or str(_story.get("_story_text_size")) \
+							!= ("large" if mode == "font" else "standard") \
+						or _w239_passed_stage_from_cursor() != stage \
+						or not _w239_passed_surface(
+							label, str(home_case.get("background", "")), stage) \
+						or not _w227_state_matches(
+							applied, label, mode == "locale", "W239P") \
+						or BGMPlayer._ambience_player.stream != bed_stream \
+						or BGMPlayer._ambience_player.get_playback_position() + 0.05 \
+							< bed_position \
+						or not _w239_score_unchanged(
+							score_player, score_stream, score_position, score_token,
+							label) \
+						or not _w239_passed_audio_matches(false, label):
+					_fail(label + " crossed its visual boundary or restarted audio")
+					return -1
+				var final_stage := 1 if phase == "intro" else 2
+				if stage < final_stage \
+						and not await _w239_passed_seek_visual_stage(
+							final_stage, home_case, label + " forward"):
+					return -1
+				if not _w227_state_matches(
+						applied, label + " forward", mode == "locale", "W239P") \
+						or not _w240_final_settings_match(settings, label + " forward") \
+						or not _w239_passed_audio_matches(false, label + " forward"):
+					return -1
+				count += 1
+	return count
+
+
+func _w239_passed_visual_read_only_guard(home_case: Dictionary) -> int:
+	if MetaProgression.is_gallery_replay_root(W239_FATHER_PASSED) \
+			or not MetaProgression.gallery_replay_closure_ids(
+				W239_FATHER_PASSED).is_empty():
+		_fail("W239 passed unexpectedly gained gallery-root admission")
+		return -1
+	if not await _w239_passed_open("ko", home_case):
+		return -1
+	var untouched := _w227_state_bytes()
+	var settings := _w240_final_settings_bytes()
+	_story.set("_read_only_replay", true)
+	var active := bool(_story.call("_w239_empty_chair_active"))
+	var boundary: Vector2i = _story.call("_w239_empty_chair_boundary")
+	var stage := int(_story.call("_w239_empty_chair_stage"))
+	_story.call("_sync_w239_empty_chair")
+	await get_tree().process_frame
+	var guarded := not active and boundary == Vector2i(-1, -1) and stage == -1 \
+		and not GameState.story_replay_mode \
+		and _w239_passed_surface(
+			"W239 passed read-only guard",
+			str(home_case.get("background", "")), 0, false) \
+		and _w227_state_matches(
+			untouched, "W239 passed read-only guard", false, "W239P") \
+		and _w240_final_settings_match(settings, "W239 passed read-only guard") \
+		and _w239_passed_audio_matches(false, "W239 passed read-only guard")
+	_story.set("_read_only_replay", false)
+	if not guarded:
+		_fail("W239 passed read-only guard inferred an empty-chair cut")
+		return -1
+	return 1
+
+
+func _w239_passed_capture_prepare() -> bool:
+	_w239_passed_capture_dir = OS.get_environment(
+		"GANGNAM_W239_FATHER_PASSED_CAPTURE_DIR")
+	_w239_passed_capture_frames = 0
+	if _w239_passed_capture_dir.is_empty():
+		return true
+	var output := DirAccess.open(_w239_passed_capture_dir) \
+		if _w239_passed_capture_dir.is_absolute_path() else null
+	var viewport_size := Vector2i(get_viewport().get_visible_rect().size)
+	if DisplayServer.get_name() == "headless" or output == null \
+			or not output.get_files().is_empty() \
+			or not output.get_directories().is_empty() \
+			or viewport_size not in [Vector2i(1280, 800), Vector2i(960, 600)]:
+		_fail("W239 passed capture needs a real 1280x800/960x600 display and fresh absolute output")
+		return false
+	print("W239_PASSED_CAPTURE_READY driver=%s viewport=%s output=%s" % [
+		DisplayServer.get_name(), viewport_size, _w239_passed_capture_dir])
+	return true
+
+
+func _w239_passed_capture(language: String, stage: int) -> bool:
+	if _w239_passed_capture_dir.is_empty() or language not in ["ko", "en"]:
+		return true
+	var viewport_size := Vector2i(get_viewport().get_visible_rect().size)
+	var anchors: Dictionary = W239_PASSED_EMPTY_CHAIR.get_meta(
+		"close_anchors" if stage == 2 else "open_anchors", {})
+	var anchor := str(_story.call("_fmt", anchors.get(language, "")))
+	var body := _story.get("_body_lbl") as RichTextLabel
+	var cg_id := str(_story.call("_w239_empty_chair_cg_id", stage))
+	if stage not in [1, 2] or anchor.is_empty() or body == null \
+			or not body.text.ends_with(anchor) \
+			or str(_story.get("_event_cg_id")) != cg_id:
+		_fail("W239 passed capture did not expose its exact visible clause")
+		return false
+	var size_label := "%dx%d" % [viewport_size.x, viewport_size.y]
+	var family := "goshiwon" if cg_id.contains("goshiwon") else "general"
+	var stage_name := "closed" if stage == 2 else "open"
+	var path := _w239_passed_capture_dir.path_join(
+		"%s_%s_%s_%s.png" % [language, size_label, family, stage_name])
+	if not await _save_viewport_frame(path):
+		return false
+	_w239_passed_capture_frames += 1
+	print("W239_PASSED_CAPTURE frame=%s cg=%s clause=%s" % [
+		path, cg_id, anchor])
+	if viewport_size == Vector2i(1280, 800) and language == "ko" and stage == 2:
+		var prior_tint := GameState.moral_tint
+		GameState.moral_tint = -100.0
+		_story.call("_on_story_moral_tint_changed", -1.0, -2)
+		var black_path := _w239_passed_capture_dir.path_join(
+			"ko_%s_%s_closed_black.png" % [size_label, family])
+		if not await _save_viewport_frame(black_path):
+			GameState.moral_tint = prior_tint
+			_story.call("_on_story_moral_tint_changed",
+				GameState.moral_tint_norm(), GameState.moral_stage())
+			return false
+		_w239_passed_capture_frames += 1
+		GameState.moral_tint = prior_tint
+		_story.call("_on_story_moral_tint_changed",
+			GameState.moral_tint_norm(), GameState.moral_stage())
+		print("W239_PASSED_CAPTURE frame=%s cg=%s grade=black" % [
+			black_path, cg_id])
+	return _w239_passed_capture_frames <= 5
 
 
 func _check_w237_record_page_turn() -> bool:

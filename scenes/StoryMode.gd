@@ -89,6 +89,9 @@ const W239_FATHER_ALIVE := "arc_y5_final_father_answer_alive"
 const W239_ALIVE_NAME_WRITE := preload("res://assets/w239_alive_name_write.tres")
 const W239_FATHER_PASSED := "arc_y5_final_father_answer_passed"
 const W239_PASSED_PAPER_ACTIONS := preload("res://assets/w239_passed_paper_actions.tres")
+const W239_PASSED_EMPTY_CHAIR := preload("res://assets/w239_passed_empty_chair.tres")
+const W239_EMPTY_CHAIR_PROP_BOTTOM_RATIO := 542.0 / 800.0
+const W239_EMPTY_CHAIR_TEXT_GAP := 12.0
 const W240_GENERAL_SACRIFICE := "arc_final_countdown_general_near_goal_passed"
 const W240_GENERAL_SACRIFICE_WRITE := preload("res://assets/w240_general_sacrifice_write.tres")
 const W240_GENERAL_OUTBOUND := "arc_y5_final_week_general_people_outbound"
@@ -214,6 +217,7 @@ var _w239_pen_reveal_at := -1
 var _w239_pen_consumed := false
 var _w239_paper_reveal_at := -1
 var _w239_paper_consumed := false
+var _w239_empty_chair_framed := false
 var _w240_general_pen_reveal_at := -1
 var _w240_general_pen_consumed := false
 var _w240_outbound_pen_reveal_at := -1
@@ -249,6 +253,7 @@ var _first_bill_post_ledger_resume_context: Dictionary = {}
 
 # ── 노드 ──────────────────────────────────────────────────────
 var _bg_img: TextureRect
+var _w239_empty_chair_backing: ColorRect
 var _bg_dim: ColorRect
 var _story_surface_overlay: ColorRect = null
 var _story_surface_material: ShaderMaterial = null
@@ -833,6 +838,13 @@ func _story_tactile_button_to(button: Button, target_scale: Vector2, duration: f
 # ── UI 구성 ───────────────────────────────────────────────────
 func _build_ui():
 	# 1. 배경 이미지 (이벤트별 전환)
+	_w239_empty_chair_backing = ColorRect.new()
+	_w239_empty_chair_backing.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_w239_empty_chair_backing.color = Color("#08090d")
+	_w239_empty_chair_backing.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_w239_empty_chair_backing.visible = false
+	add_child(_w239_empty_chair_backing)
+
 	_bg_img = TextureRect.new()
 	_bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_bg_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
@@ -1172,6 +1184,7 @@ func _build_ui():
 func _on_story_header_resized() -> void:
 	_layout_story_header()
 	_refresh_hud()
+	_apply_w239_empty_chair_framing(_w239_empty_chair_stage())
 
 func _layout_story_header() -> void:
 	if not is_inside_tree() or not is_instance_valid(_audio_settings_button):
@@ -3024,6 +3037,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_rebind_w240_general_pen_reveal()
 		_rebind_w240_outbound_pen_reveal()
 		_sync_w240_final_week_lights()
+		_sync_w239_empty_chair()
 		return
 	_type_pos = paragraph.length()
 	_typing = false
@@ -3038,6 +3052,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_rebind_w240_general_pen_reveal()
 	_rebind_w240_outbound_pen_reveal()
 	_sync_w240_final_week_lights()
+	_sync_w239_empty_chair()
 	_sync_wedding_lights_out(true)
 	_record_current_dialogue_source()
 	_refresh_continue_hint_text()
@@ -3935,6 +3950,12 @@ func _restore_localized_story_text(
 		var dark_cg: String = str(W240_FINAL_WEEK_LIGHTS.get_meta("dark_cg", ""))
 		var green_cg: String = str(W240_FINAL_WEEK_LIGHTS.get_meta("green_cg", ""))
 		old_final_lights_stage = 2 if _event_cg_id == green_cg else (1 if _event_cg_id == dark_cg else 0)
+	var old_empty_chair_after := -1
+	if _w239_empty_chair_active() and source_paragraph_index == 2 \
+			and (not _pending_after_result or _pending_result_choice_index == 1):
+		# The old picture remains authoritative after LocaleManager switches text.
+		var boundary_cg := _w239_empty_chair_cg_id(2 if _pending_after_result else 1)
+		old_empty_chair_after = 1 if _event_cg_id == boundary_cg else 0
 	var ktx_stage := -1 if _first_ktx_cut_pages.is_empty() else _first_ktx_stage(_para_index)
 	var old_ktx_range := _first_ktx_phase_progress(ktx_stage) if ktx_stage >= 0 else Vector2.ZERO
 	_apply_story_page_data(page_data)
@@ -3951,6 +3972,13 @@ func _restore_localized_story_text(
 				source_page_progress = maxf(source_page_progress, green_range.y)
 			if old_final_lights_stage < 2:
 				# A merged page must not expose an unread light sentence in full.
+				was_typing = true
+	if old_empty_chair_after >= 0:
+		var chair_range := _w239_empty_chair_progress_range()
+		if chair_range.y >= 0.0:
+			source_page_progress = maxf(source_page_progress, chair_range.y) if old_empty_chair_after == 1 \
+				else minf(source_page_progress, chair_range.x)
+			if old_empty_chair_after == 0:
 				was_typing = true
 	if source_paragraph_index == 1:
 		var scan_range := _w208_scan_progress_range()
@@ -4106,6 +4134,7 @@ func _restore_localized_story_text(
 	_rebind_w240_general_pen_reveal()
 	_rebind_w240_outbound_pen_reveal()
 	_sync_w240_final_week_lights()
+	_sync_w239_empty_chair()
 	_sync_wedding_lights_out(true)
 
 func _refresh_story_choice_language() -> void:
@@ -7703,6 +7732,151 @@ func _begin_direction_hold() -> void:
 	_direction_hold_remaining = clampf(float(_direction.get("hold", 0.0)), 0.5, 2.0)
 	_continue_hint.visible = false
 
+func _w239_empty_chair_active() -> bool:
+	return not _read_only_replay and str(_current.get("id", "")) == W239_FATHER_PASSED
+
+func _w239_empty_chair_cg_id(stage: int) -> String:
+	if stage not in [1, 2]:
+		return ""
+	var home := _resolve_story_background_id("current_housing")
+	var family := "goshiwon" if home == "goshiwon_room" else "general"
+	return str(W239_PASSED_EMPTY_CHAIR.get_meta(
+		"%s_%s_cg" % [family, "closed" if stage == 2 else "open"], ""))
+
+func _w239_empty_chair_boundary() -> Vector2i:
+	if not _w239_empty_chair_active():
+		return Vector2i(-1, -1)
+	var choices: Array = _current.get("choices", [])
+	if choices.size() != 3 or (_pending_after_result and _pending_result_choice_index != 1):
+		return Vector2i(-1, -1)
+	var prose: String = _fmt(str((choices[1] as Dictionary).get("result_text", ""))) \
+		if _pending_after_result else _resolved_story_description(_current)
+	var sources := prose.split("\n\n")
+	if sources.size() != (3 if _pending_after_result else 4):
+		return Vector2i(-1, -1)
+	var anchors: Dictionary = W239_PASSED_EMPTY_CHAIR.get_meta(
+		"close_anchors" if _pending_after_result else "open_anchors", {})
+	var anchor: String = _fmt(str(anchors.get(LocaleManager.language, "")))
+	var source: String = sources[2]
+	if anchor.is_empty() or prose.count(anchor) != 1 or source.count(anchor) != 1:
+		return Vector2i(-1, -1)
+	var anchor_end := source.find(anchor) + anchor.length()
+	var cursor := 0
+	# Match only the existing phase's source2 pages; never insert a prose cut.
+	for page_index in range(_paragraphs.size()):
+		if _story_source_paragraph_index(page_index) != 2:
+			continue
+		var page := str(_paragraphs[page_index])
+		var page_start := source.find(page, cursor)
+		if page_start < 0:
+			return Vector2i(-1, -1)
+		if anchor_end > page_start and anchor_end <= page_start + page.length():
+			return Vector2i(page_index, anchor_end - page_start)
+		cursor = page_start + page.length()
+	return Vector2i(-1, -1)
+
+func _w239_empty_chair_stage() -> int:
+	if not _w239_empty_chair_active():
+		return -1
+	if _pending_after_result and _pending_result_choice_index != 1:
+		return 0
+	var boundary := _w239_empty_chair_boundary()
+	if boundary.x < 0:
+		return 0
+	if _showing_choices:
+		return 1
+	var after := _para_index > boundary.x or (_para_index == boundary.x and _type_pos >= boundary.y)
+	return (2 if after else 1) if _pending_after_result else (1 if after else 0)
+
+func _w239_empty_chair_progress_range() -> Vector2:
+	var boundary := _w239_empty_chair_boundary()
+	if boundary.x < 0:
+		return Vector2(-1.0, -1.0)
+	var length := maxi(1, str(_paragraphs[boundary.x]).length())
+	return Vector2(
+		_story_source_page_progress(boundary.x, float(boundary.y - 1) / length),
+		_story_source_page_progress(boundary.x, float(boundary.y) / length))
+
+func _apply_w239_empty_chair_framing(stage: int) -> void:
+	if not is_instance_valid(_bg_img):
+		return
+	if is_instance_valid(_w239_empty_chair_backing):
+		_w239_empty_chair_backing.visible = stage in [1, 2]
+	if stage not in [1, 2]:
+		if _w239_empty_chair_framed:
+			_bg_img.position = Vector2.ZERO
+			_bg_img.scale = Vector2.ONE
+			_w239_empty_chair_framed = false
+		return
+	if not is_instance_valid(_text_panel):
+		return
+	var panel_top := _text_panel.global_position.y - global_position.y
+	var prop_bottom := _bg_img.size.y * W239_EMPTY_CHAIR_PROP_BOTTOM_RATIO
+	_bg_img.position = Vector2(
+		0.0, minf(0.0, panel_top - W239_EMPTY_CHAIR_TEXT_GAP - prop_bottom))
+	_bg_img.scale = Vector2.ONE
+	_w239_empty_chair_framed = true
+
+func _sync_w239_empty_chair() -> void:
+	var stage := _w239_empty_chair_stage()
+	_apply_w239_empty_chair_framing(stage)
+	if stage < 0:
+		return
+	var own_ids: Array[String] = []
+	for key: String in ["goshiwon_open_cg", "goshiwon_closed_cg", "general_open_cg", "general_closed_cg"]:
+		var own_id: String = str(W239_PASSED_EMPTY_CHAIR.get_meta(key, ""))
+		if own_id.is_empty():
+			return
+		own_ids.append(own_id)
+	if stage == 0:
+		# Other results return from this insert, not from an unrelated CG.
+		if _event_cg_id not in own_ids:
+			return
+		var home := _resolve_story_background_id("current_housing")
+		var home_texture: Texture2D = ImageRegistry.load_texture(ImageRegistry.get_background(home))
+		if home_texture == null:
+			return
+		_bg_img.texture = home_texture
+		_event_background_id = home
+		_event_cg_id = ""
+		_event_cg_path = ""
+		_event_cg_reveal_paragraph = 0
+		_current_uses_cg = false
+		_apply_story_surface_palette(false, true)
+		_configure_living_scene()
+		_show_portrait(_resolved_story_surface_portrait_id(), bool(_current.get("bg_focus", false)))
+		if is_instance_valid(_hud_panel):
+			_hud_panel.visible = not (_read_only_replay or _story_visual_override_active)
+		return
+	var cg_id := _w239_empty_chair_cg_id(stage)
+	if _current_uses_cg and _event_cg_id == cg_id:
+		_apply_w239_empty_chair_framing(stage)
+		return
+	var path: String = ImageRegistry.get_cg(cg_id)
+	var cg_texture: Texture2D = ImageRegistry.load_texture(path) if not path.is_empty() else null
+	if cg_texture == null:
+		return
+	_clear_result_record_card()
+	_set_wedding_lights_out(false, true)
+	_bg_img.texture = cg_texture
+	_event_cg_id = cg_id
+	_event_cg_path = path
+	_event_cg_reveal_paragraph = 0
+	_current_uses_cg = true
+	_apply_story_surface_palette(true, true)
+	if is_instance_valid(_direction_camera_tween):
+		_direction_camera_tween.kill()
+		_direction_camera_tween = null
+	_bg_img.scale = Vector2.ONE
+	_bg_img.position = Vector2.ZERO
+	var insert_event := _current.duplicate(true)
+	insert_event["direction"] = {"camera": "none"}
+	_configure_living_scene(insert_event)
+	_show_portrait("", true)
+	if is_instance_valid(_hud_panel):
+		_hud_panel.visible = false
+	_apply_w239_empty_chair_framing(stage)
+
 func _w240_final_week_lights_active() -> bool:
 	return not _read_only_replay and _pending_after_result \
 		and str(_current.get("id", "")) == W240_FINAL_WEEK \
@@ -7887,6 +8061,7 @@ func _complete_typing() -> void:
 	_maybe_play_w240_general_pen()
 	_maybe_play_w240_outbound_pen()
 	_sync_w240_final_week_lights()
+	_sync_w239_empty_chair()
 	_sync_wedding_lights_out(false)
 	_record_current_dialogue_source()
 	if _should_begin_direction_hold():
@@ -8386,6 +8561,7 @@ func _start_typing(full_text: String, live_advance: bool = false):
 	_rebind_w240_general_pen_reveal()
 	_rebind_w240_outbound_pen_reveal()
 	_sync_w240_final_week_lights()
+	_sync_w239_empty_chair()
 	_sync_wedding_lights_out(true)
 
 func _process(delta):
@@ -8443,6 +8619,7 @@ func _process(delta):
 		_maybe_play_w240_general_pen()
 		_maybe_play_w240_outbound_pen()
 		_sync_w240_final_week_lights()
+		_sync_w239_empty_chair()
 
 func _begin_advance_hold() -> void:
 	if _showing_choices or _is_chapter_card or _auto_mode \
@@ -8755,6 +8932,7 @@ func _show_choices():
 		return
 	_apply_story_surface_palette(_current_uses_cg)
 	_showing_choices = true
+	_sync_w239_empty_chair()
 	if str(_current.get("id", "")) == M23_PARENTS:
 		_apply_m23_parents_surface()
 	if _full_w19_reunion:

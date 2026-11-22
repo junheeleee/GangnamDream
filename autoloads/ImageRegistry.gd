@@ -7,7 +7,11 @@ extends Node
 
 const CAST_VISUAL_YEARS_PATH := "res://content/meta/cast_visual_years.json"
 # These ordered prop inserts are scene timing states, not collectible CG pages.
-const NARRATIVE_ONLY_CG_IDS := ["cg_final_week_phone_dark", "cg_final_week_phone_green"]
+const NARRATIVE_ONLY_CG_IDS := [
+	"cg_final_week_phone_dark", "cg_final_week_phone_green",
+	"cg_final_father_record_goshiwon_open", "cg_final_father_record_goshiwon_closed",
+	"cg_final_father_record_general_open", "cg_final_father_record_general_closed",
+]
 
 var _cast_visual_years: Dictionary = {}
 var _portrait_time_overrides: Dictionary = {}
@@ -379,6 +383,10 @@ const CG = {
 	"cg_start":          "res://assets/cg/start.png",
 	"cg_final_week_phone_dark": "res://assets/cg/story/final_week_phone_dark_v1.png",
 	"cg_final_week_phone_green": "res://assets/cg/story/final_week_phone_green_v1.png",
+	"cg_final_father_record_goshiwon_open": "res://assets/cg/story/final_father_record_goshiwon_open_v1.png",
+	"cg_final_father_record_goshiwon_closed": "res://assets/cg/story/final_father_record_goshiwon_closed_v1.png",
+	"cg_final_father_record_general_open": "res://assets/cg/story/final_father_record_general_open_v1.png",
+	"cg_final_father_record_general_closed": "res://assets/cg/story/final_father_record_general_closed_v1.png",
 	"cg_story_knee_witness": "res://assets/cg/story/knee_witness_v1.png",
 	"cg_story_knee_palm": "res://assets/cg/story/knee_palm_v1.png",
 	"cg_story_knee_help": "res://assets/cg/story/knee_help_v1.png",
@@ -935,7 +943,7 @@ func _has_any(text: String, needles: Array) -> bool:
 			return true
 	return false
 
-## Preserve collectible order without exposing the two final-week timing inserts.
+## Preserve collectible order without exposing non-collectible narrative timing inserts.
 func get_gallery_cg_ids() -> Array:
 	var ids: Array = CG.keys()
 	for cg_id in NARRATIVE_ONLY_CG_IDS:

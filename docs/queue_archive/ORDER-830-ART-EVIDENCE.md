@@ -1267,6 +1267,180 @@ opaque막·카메라팬으로 책상을 덮거나 좁은539~542px 소품끝을 �
 새source-aware그림/선택1닫힘·주거7·현재커서cold/hot/두해상도·실화면을 검사한다.
 새PNG는 import 뒤컴파일69, art/음향계약/출시수치·현행데모/정본/큐를 확인한다.
 
+#### W239 후보 실물·원음 미수용 기록
+
+built-in ImageGen 원본은 `/Users/junheelee/.codex/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/` 아래 그대로 보존했다.
+
+| 후보 | 원본 파일 | SHA256 |
+|---|---|---|
+| 초기고시원/HOLD | exec-01dfab89-a6d5-41ea-895a-03d1286defc9.png | f25c4fdd59ab70ffbf97e56ee02fcf7ab1bd3f792e6aba1182abc9287e94145b |
+| 고시원 재구도/HOLD | exec-b1a03fb9-312d-4507-bd06-b01cb358511a.png | 918730ee0e075d04ca30d91735078e8d5c2bdf5000908e91c83a1a0dbed25e5f |
+| 고시원 OPEN | exec-d9996bab-be90-4d66-898a-00dcf4cf2655.png | b1377e1e4d2f4a6d45fded443b65199c26956b711a95ffff52387b51014365fa |
+| 고시원 CLOSED | exec-853e6f07-e9de-4888-b331-7b99a2baa7f9.png | 7c15bd5060f35936a4b8f7be0eb8c67c500fea404d21c70c699a26a3fcbc51ce |
+| 일반 OPEN | exec-dda2feb6-91b0-4927-9650-001da55fcc6c.png | 4f50c18c9a1ada55061c22f0857049c7804f1e40677fc3f985c7a214b94e1766 |
+| 일반 CLOSED | exec-16812fda-231e-4a2b-8802-509b0a23bbf5.png | ae3f1e39180899f542368917247a9a386278c5c866a3c86ad5eadc83dd74d296 |
+
+첫2장은 약봉지/서류가 대사창 밑에 있어 HOLD했다. 최종4장은 sips 중앙1584×990 뒤1280×800;
+고시원OPEN 원본1585×992, 나머지1586×992이므로 정수1px trim/픽셀동일 쌍이 아니다.
+정규화4장의 독립 원화 검수는 조건부GO: 빈 의자1/약봉지1/문서2/수첩1·무인·무문자·
+고시원 구조/일반형 집 비특정. 서류 하단539~542px로550px대사창과8~11px만 남는다.
+520px 안전영역이라고 쓰지 않는다. 수첩 밖 평균절대RGB차는 고시원5.62/4.04/2.99,
+일반3.26/2.49/2.54(255기준); 고시원CLOSED가 조금 더 밝고 따뜻해 시간축 검수는 별도다.
+
+**냉장고 제품 통합 철회/보류** — 최신 사용자 '끝내거나 선언철회'에 따라 음원 확보만
+보존하고 실제SFX/key/manifest 등록은 하지 않는다. 공개 HQMP3 sourceSHA
+`87abdfc2a4f54ec2c754ba461ba2342373ecc6810d380ad73bebdbc696583608`,7,353,888B,
+MP3/LAME3.100·48kHz stereo·약177kbps VBR, 실제decode331.2892917s이다.
+원본FLAC/로그인/인증우회0. 기존FFmpeg7.1로만 대조했으며 ffprobe는 없어 미실행이다.
+[kyles 원음](https://freesound.org/people/kyles/sounds/635553/)과
+[CC0표시](https://creativecommons.org/publicdomain/zero/1.0/)를 실제 확인했고,
+받은파일/원문페이지/제약은 `/tmp/gangnam-w239-fridge-source.FwagHF/SOURCE.md`
+SHA`00f8619964fa97cd842cc932b6806602f988fe84848ce33358babb031360db5f`에 있다.
+180.480083~192.601333에12.12125초 디지털무음이 있어 검증된 연속자연cycle 아님.
+시작/정지로 추정되는3.5s/296s 변화는 신호RMS 관찰이지 청취/잡음분류 승인이 아니다.
+밖의12.55s 편집PREVIEW는 같은take2.8~9.3+292.8~299.0을0.15s crossfade한 조사본
+SHA`8b2063a556bea8df2e70504259811b9093090d474845c19a9fcb52f43fc4a8a9`이며
+중간을 줄인 편집임을 명시한다. 원본한주기/반복hum fade/청취GO로 위장하지 않는다.
+실청취·적합 take확보/유한1회재생·그림과믹스 판정은 OPEN으로 남긴다.
+
+#### W239 최초 통합 검사와 compact 크롭 반려
+
+초기 QA의 `expected_stage` 오배치로 native 실행에서 parse error가 났다.
+`gangnam-w239-chair-native1280.XXXXXX.8EDMY7m2EE`는 원실패 그대로 보존,
+정확한 QA PID만 종료한 exit143이며 합격이 아니다. 구 W240 함수는 원래대로
+복원하고 새 W239 함수 안에서만 변수를 선언했다. 독립 검수에서 기대 CG를 제품
+helper로 다시 읽는 순환 판정과 짧은 suffix 앵커도 잡아, 네 CG ID와 다섯 언어의
+전체 완결절10개를 독립 기대값으로 고정했다. 검사 기준 완화0.
+
+첫 frozen `StoryMode7104ba1a`/TRES`e72232e7`/정적`e425b807`/동적`61df992e`의
+정적·headless1280/960·W240회귀는 각 exit0/stderr0/오류·경고·누수0이다.
+그러나 native 실화면9컷에서 독립 검수자가 **1280의5컷만 PASS-B,
+960의4컷은 HOLD**했다. 960 패널상단350px 아래로 서류/수첩 하단385~405px가
+가려졌다. 자동 검사가 이 결함을 상쇄하지 않는다. 두 native 로그는 stdout=Godot,
+stderr0·오류스캔0·captures5/4이나 shell종료값은 회수하지 못해 unknown이다.
+1280 `gangnam-w239-chair-final-native1280.XXXXXX.3ia04TRtIM` 로그SHA
+`ede37b84fbe89490fe00e93ab35b4202bdbf4487c559cb57a374eedd522e315e`,
+960 `gangnam-w239-chair-final-native960.XXXXXX.s7hq8CHYxd` 로그SHA
+`08985a7d242faccd5f38139a91aecefaa70a0cbcbd8c6e28cc69955bd6fa1952`.
+원화와 이9컷/로그는 보존하고, 작은 창에서만 소품끝과 실제 패널 사이 여백을
+회복하는 고정 상향 프레이밍을 같은 제품 범위에서 수리·재검수한다.
+
+상향 프레이밍 첫 수정 `StoryMode770785bc`/동적`263a099a`도 native9컷에서
+HOLD했다. 소품 가림은 해결됐지만 이미지 아래의 기본 회색 바탕이1280에서4px,
+960에서약68px 노출됐다. `gangnam-w239-framing-native1280.CT7Sxe`와
+`gangnam-w239-framing-native960.Sn5oPU`의 그림/로그를 이 부작용의 원자료로
+보존한다. 이때1280−4/960−68.5의 고정 오프셋은 임의 확대나 카메라 팬이 아니다.
+후속은 해당 CG 아래에만 `#08090d` 밑바탕을 두고 다른 장면에서는 숨기는 수리다.
+상향 구도의960에서는 의자/램프 꼭대기 일부가 잘리지만 빈 의자·작업등은 식별된다.
+과거1280의 여백만 보고 작은 창까지 합격 처리하지 않는다.
+
+#### [x] W239 빈 의자 최종 시각 수리 — 2026-11-22
+
+선언 `ae1720621e45754fd3aea8f93b0e986763e774bb`의27경로를 완료했다.
+최종 StoryModeSHA `8728dd903600f4692a5f91ff334277f7a539ce63ef936d2c4e8db99fe0590c7d`,
+동적QA `6fcadf0e8ef5f8e9e9270984baf1018edf2508a71e7ff128ad5239e3a0aa274b`,
+정적QA `e425b807eefb9bfb8542239279914f1004150ccc4f6ff4f8c1725f0184a104df`,
+TRES `e72232e71136e7b396c383f27b409371cc792dfa78b3a3d6b617d050f63ea5af`.
+원화4장은 앞의 후보/정규화 계보와 동일하고 추가 생성0이다.
+
+완결절 앞은 집, 빈 의자 완결절 뒤는OPEN, c1의 수첩 닫기 완결절 뒤만CLOSED;
+c0/c2는 해당 결과 전 현재집으로 복귀한다. cold6/hot8/read-only guard1,
+기존15경로·paper10/silent5·실제입장6/주거7·intro2/result7/legacy4/재배치8과
+종이 소비를 보존했다. 판정은 현재 커서·실제 주거만 읽으며 새 저장/Meta필드0이다.
+CG87/수집제외6/기존gallery81순서·진척 유지. 활성이미지323→327,
+현재원본383→387/패키지대상375→379, 공개역사팩 수치 불변(새export실행0).
+
+native1280 `gangnam-w239-framing-backed-native1280.JudPBe`5컷/exit0,
+stdout=Godot `33107dbc3c88c1f6e1fc528656f6900460a3ef872964220dda56e235bc46b28d`;
+native960 `gangnam-w239-framing-backed-native960.tA8xxh`4컷/exit0,
+최종stdout=Godot `f182c18f814502a59d2fa7d4498dc32b4d17c211f4e1dcb1715f56f309620689`.
+두 stderr0, 전체로그의 parse/script/engine error·warning·leak0.
+9PNG의 basename+SHA 행을 정렬한 집합SHA
+`b8ea588574c83babd38431b30db66f06e38062ed532f0bfe04ba2535b646c4a2`.
+한국어2줄/영어OPEN3줄·CLOSED2줄(compact)에서 본문 잘림0.
+검수자w211_asset_recon이 원화4/두실패군18컷/최종9컷과동결코드를 직접 읽어
+현재두크기만 scoped PASS-B/조건부채택GO했다. 960의 의자/등 꼭대기 일부 크롭,
+하단 dark matte, Black의 의자/침대 저대비와 쌍의 미세 노출·색차는 남는다.
+정지9컷으로 시간적무깜빡임·연속청취·원어민·사람/물리패드·전구간GO를 발급하지 않는다.
+
+최종Compile69 `gangnam-w239-backing-compile.AOejX1` exit0/stderr0,
+stdout=Godot `686f12af2ec4ec4f8f4e037cfe94fa42bc71c7812da8cef2ca28b12b352bda2f`,
+전체오류/경고/누수0. 같은 최종소스의 정적 종막
+`gangnam-w239-backed-static.QeHJsJ`도 exit0/stderr0,
+stdout=Godot `86abadd9f157afcea411c7bab6735a951a49048ae531d5c14c3e78e674f003eb`;
+기존 소등 회귀 `gangnam-w239-backed-w240.JPum6x`는15경로/7주거/cold6/hot6/replay1,
+exit0/stderr0·stdout=Godot `bcdeb8d8276c624b912dbc3c4b5bb43f7a114f6a0db5f765a9602252f9a1e232`.
+두 실행의 전체오류/경고/누수0. 정적audit0/0·EN/한글·보호데모5언어14/100/125·시각412·
+연출1702/192·음향87CG/카탈로그1702·143녹음/24출처·physical35·연기87/130·
+해상도327·모딩327/146·현행출시1813/역사1806/1696/110·정본/큐·차분 통과.
+ART감사 편의점 기존16:10크기경고3은 보존했다. 영향선택27경로→91검사는 목록이며
+전부실행/새대표완주가 아니다. 원문5언어·Audio/BGM·실제저장·원본사용자244경로·
+공개RC·외부업로드0. 최신전체CI는 정적성공/엔진진행중으로 전체성공 미관측이다.
+승격: `CHAPTER5_LOCATION_VISUAL_BIBLE.md`의 Late father's empty chair and notebook.
+실행 해시·오더 소유권·이번 수치는 일회성. 냉장고 제품 통합은 위 사유로 철회,
+실청취/적합원음/한주기 재생·믹스는 OPEN이다. 자동게이트는 재미·문체·사람GO가 아니다.
+
+#### W239 정확한 생성·교정 프롬프트6개
+
+##### 고시원초기
+
+```text
+Use case: illustration-story.
+Asset type: one-off full-screen narrative prop CG for Gangnam Dream, 16:10 landscape, preferably 2560x1600.
+Primary request: NEW close observer-POV composition inside the exact cramped goshiwon room from the two references, on the late father's final-record night. Image 1 is the authoritative room-layout/style reference. Image 2 is the low desk's material, scale and angle reference only; do not copy its phone, water glass, receipt pile or pen. Keep the left-wall single bed running front to back, the right-front low desk at its foot, aged gray wall, original black task lamp and narrow aisle. Do NOT widen, rotate or redesign the room.
+Subject: in the middle/upper frame, on this modest low desk, one OPEN modest A5-size notebook, exactly TWO partly overlapping ordinary A4-size document copies and one SMALL flat folded paper medicine packet with no readable print. The two copies are old guarantee paper and newer nontransaction notice, represented only by sparse faint abstract rules, no readable glyphs. Notebook spread has thin blank rules and no writing. Everything is normal human scale; the book must not be enormous or lie on the floor.
+Across the desk, ONE EMPTY very small portable Japanese/Korean-style FLOOR CHAIR: dark charcoal cloth low backrest and a thin seat resting directly on the floor, no long chair legs, no second chair. This is one scene's portable seat, not replacement permanent furniture. It must physically fit in the existing narrow aisle, face toward the offscreen Minjun/foreground, and leave the original room's structure plausible. Minjun is offscreen near the bed foot; camera_role=Minjun observation POV; gaze_source=offscreen Minjun; gaze_target=empty floor chair and the records. No person is visible.
+Composition: shift to a close, slightly elevated viewpoint from the front/bed-foot side of this exact low desk so the empty floor chair is immediately legible behind its far edge and the edge of the canonical bed still anchors the LEFT. Do not show an invented dining area. Keep notebook, both document copies, medicine packet, and EMPTY seat/back relationship above about y=520 on a 1280x800 crop. Lower roughly35percent quiet dark foreground under the dialogue panel. Full-frame16:10, no borders, panels, captions or UI. No mirror/reflections/ghost.
+Style: unmistakably DRAWN contemporary Korean manhwa/visual-novel background art: confident thin hand-inked contour lines, matte paper grain, dry-brush/ink-wash value blocks, simplified painted wood and cloth, restrained charcoal/concrete-gray palette with faint lived-in warm lamp light. Match references' geometry but emphasize illustrated edges, NOT photoreal stock interior photography, NOT glossy3D, NOT blurry watercolor, NOT generic anime.
+Constraints: Exactly one notebook, two document copies, one folded medicine PAPER packet, one empty floor chair. Existing black task lamp permitted. No pen, phone, laptop, water glass, cup, meal, bottles, medicine blister, envelope, plastic file, memorial portrait, father, mother, Minjun body/hands, ghost, human shadow or silhouette. No visible refrigerator needed, no skyline, no large window, no luxury. No readable letters/numbers/brands/logos/fake text/watermark. Preserve 16:10 and practical normal-size objects.
+```
+
+##### 고시원UI재구도
+
+```text
+Use case: precise-object-edit (UI-safe reframing).
+Image1 is the sole target, an existing illustrated goshiwon prop CG. Keep exactly this room/left-wall bed, small portable FLOOR CHAIR with thin floor seat, low desk, right black task lamp, and exactly the same FOUR story props: open modest notebook1, old guarantee copy1, newer notice copy1, flat folded medicine paper packet1. No person or other object.
+Change ONLY camera/framing and placement of the same four desk props to solve the visual-novel dialogue crop: currently every object is too low, especially the medicine packet. Raise the camera and tilt slightly further downward, viewing from the SAME front/bed-foot direction, so the DESK FAR EDGE is around40percent imageheight (not halfway), with the empty floorchair back/seat still clearly EMPTY behind it in the upperhalf. Cluster the open notebook, the two overlapping copies and small folded medicine packet together on the BACK HALF of the desk. ALL four complete objects, including medicine packet and lower notebook corners, must fit in y=35percent to y=62percent of the frame (on1280x800, every meaningful prop above y=500). Keep the LOWER35percent almost-empty dim near tabletop, no story props there. This is a full16:10 screen composition, no simulated dialogue panel.
+Do not enlarge desk, book, room, or floorchair to achieve this. Normal-scale notebook and A4-likecopies partlyoverlap; packet remains small/flat. Keep original room geometry: narrow left-wall singlebed with sameplaid cover, low desk alongRIGHTfront atbedfoot, smallaisle, wornwalls, sameblacklamp/rightswitch and mutedlamp mood. Portable floorseat has NO tall chair legs. Keep all object types/counts and room orientation exact. No phone, waterglass, pen, bottle, food, envelope, plasticfile, readabletext/glyphs/numbers, brand, father, ghost, shadowperson, reflection, UIorwatermark. Emphasize existing hand-ink contours/drybrush/paintedshapes/mattegrain, no photograph/glossy3D. The ONLY goal is a slightly higher close-POV composition with the four props moved deeper on the SAME lowdesk so no crucialitem will be hidden under bottom35percent UI.
+```
+
+##### 약봉지상단이동
+
+```text
+Use case: precise-object-edit.
+Image1 is the sole edit target. Change ONLY the position of the SMALL folded paper medicine packet. It is currently near the FRONT of the desk, below the notebook; it would be hidden by the game's dialogue panel. Remove it from that front position and place the SAME SINGLE packet much farther back: resting flat over the TOP EDGE of the OLD YELLOWED document, close to the desk's far edge, around image x=58percent,y=46percent. It may overlap only that old document, and must NOT cover the open notebook. Its entire tiny shape should fit between y=43percent and y=51percent. The WHITE notice stays separately readable as a blank formshape. After this local move there is still exactly one packet, two papers, one OPEN notebook.
+Preserve EVERYTHING ELSE exactly: camera, complete16:10framing, empty floorchair, bed, desk size/height, rightblacklamp/switch, tabletop texture, object shapes/counts, open notebook/pages, document positions, wornwall, and light. Reconstruct the now-vacated small front area with the same ordinary tabletop; no duplicate medicinepacket or newobject. Keep drawn hand-ink contour/mattepaper/paintedgrain style. No photography, no human/father/ghost/body/hand/reflection, no phone/pen/cup/bottle/envelope/plasticfile, no text/glyphs/logos/UI. One small packet repositioning only.
+```
+
+##### 일반주거OPEN
+
+```text
+Use case: illustration-story.
+Asset type: one-off full-screen visual-novel prop CG for Gangnam Dream, textless16:10 landscape, prefer2560x1600.
+Primary request: NEW image, a CLOSE house-neutral observer-POV of records on a small matte wooden tabletop and ONE EMPTY ordinary wooden chair on the opposite side, on the late father's final-record night. Image1(oneroom) and Image2(Daeun home) are STYLE/MATERIAL references only. Do NOT copy either room layout, furniture set, kitchen, door, bed, plant or skyline. This must work as a tight insert within different current homes without inventing a new dining room.
+Subject: one OPEN modest notebook with blank thin lined pages, TWO partly overlapping ordinary document copies (one subtly yellowed old guarantee, one newer off-white notice, both with only sparse abstract form rules, no readable letters/glyphs), and one SMALL FLAT FOLDED MEDICINE PAPER PACKET resting over the upper edge of the older paper. These FOUR story objects must be complete and clearly distinguishable. Actual everyday sizes, not giant book: an open pocket/A5-like notebook spread about the width of an A4-like sheet; overlapping papers fit naturally on a modest surface. Those size terms are visualscale instructions, not words toprint. No phone, pen, cup, meal, bottle, candle, envelope or plasticfile.
+Camera/space: close slightly elevated view from the offscreen Minjun's side toward the opposite EMPTY chair, with no visible person/hands/body/shadow/reflection. camera_role=Minjun observation POV, gaze_source=offscreen Minjun, gaze_target=emptychair/records. Chair is plain modest darkwood with a muted dark fabric seat; ONE emptychair only, nothing on it. Avoid tall fancy highback, gamingchair, luxury upholstery, extra chairs, large diningroom. Crop room architecture almost entirely out: only low-detail dim neutral wall above the chair, no doors/windows/luxury/recognizable house furnishings. Table legs/floor heights mostly outofframe; physical table/chair perspective remains plausible.
+Composition hard gate: emptychair back/seat relationship in UPPER30percent; table's FAR EDGE at~35percentheight. Cluster ALL FOUR desk objects on BACK HALF, entirely within y=37percent–61percent. Their full bottomedges must stay ABOVE y=500 on1280x800; no object in lower35percent. Lower35percent is quiet almost-empty dark tabletop foreground for the game's dialoguepanel, but DO NOT draw any UI/panel. Make the empty chair and absence immediately readable without making the chair huge. Full16:10, no borders.
+Style: DRAWN Gangnam Ink contemporary Korean manhwa/visual-novel realism, confident restrained hand-ink contourlines, visible drybrush/ink-wash tonalshapes, matte papergrain and subtly simplified painted wood/cloth, charcoal/concretegray with very restrained neutral-warm roomlight. Quiet social-reality grief, not cinematic memorial staging. NOT a stock photograph, NOT photoreal DSLR, NOT glossy3D/architecturalrender, NOT blurry watercolor, NOT animegloss.
+Constraints: no visible actor/father/ghost/portrait/familyphoto/incense/shadowperson; no refrigerator added, no skyline or house-wide view; exactlyoneopenbook/twocopies/onefoldedpacket/oneemptychair; no readable names, dates, sendtimes, text, randomglyphs, logos, brands, UI, watermark.
+```
+
+##### 고시원CLOSED
+
+```text
+Use case: precise-object-edit.
+Image1 is the sole edit target. Produce the immediate following still of the SAME composition by changing ONLY the OPEN RING-BOUND NOTEBOOK to its CLOSED state. The notebook has a dark charcoal outer cover already visible at its edges. Fold its LEFT cover/pageblock over to the RIGHT side of the same ringbinding; the now-closed small notebook occupies only the original RIGHT PAGE's footprint. Its ring-bound spine stays at the exact original central binding position and the closed right edge stays at the original right page edge. Show the blank matte dark cover, a small authentic side pageblock, and the same ringbinding construction. Do NOT leave open lined pages, do NOT turn it into a second book, envelope, folio or tablet, do NOT make it larger.
+Aggressively preserve EVERYTHING ELSE: exact16:10 camera/frame/crop and exposure, LEFT narrow bed/plaid/pillow, one EMPTY low floorchair and its position, table/wall geometry, right black tasklamp and switch, small folded medicine packet above the old document, both overlapping documentcopies in identical positions, allshadows except local notebookclosure shadow, unchanged matte hand-ink/drybrush/paintedgrain style. This is one local object-state change, not a relighting/recomposition. Add no person/hand/father/ghost/reflection/extraobjects, no phone/pen/cup/bottle/lettering/logos/UI/watermarks. The lowmargin whitepaper must NOT move evenoneedge downward. Preserve all vacantchair and lower dialogue-safe tabletop areas.
+```
+
+##### 일반주거CLOSED
+
+```text
+Use case: precise-object-edit.
+Image1 is the sole edit target. Make the immediate next still by changing ONLY its OPEN NOTEBOOK into the physically CLOSED state. This is a modest non-ring bound notebook with a dark charcoal outer cover already visible around the page edges. Fold the LEFT cover/pageblock onto the RIGHT half: the closed book's SPINE stays at the exact current centerbinding, its rightedge stays at the existing rightpage edge, and it occupies just the original RIGHTPAGE footprint, about half the open width. Show a blank matte charcoal cover and thin real pageblock on its side. NO ringbinding added, no visible linedopenpages, no newlettering, no second book/tablet/envelope/folio.
+Preserve EVERYTHING ELSE as closely as possible: exact16:10frame/camera, one EMPTY ordinary woodenchair/back/seat, wall/tablegeometry, woodgrain, light/exposure/colors/shadows, two partlyoverlapping blank documentcopies, and one small folded medicinepaperpacket over the upper oldcopy. No paper/packet/chair/camera movement atall, especially no paperedge downward into bottomdialogzone. Keep illustrated hand-ink/drybrush/mattepaintedgrain rendering, NOT photographic/glossy3D. No person/hand/father/ghost/reflection/shadowperson, no phone/pen/cup/bottle/extraobject, no readabletext/glyphs/logo/UI/watermark. One local notebookclosure only; all otherobject counts/placements and the quiet lower35percent tabletop stay identical.
+```
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.

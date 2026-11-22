@@ -12,6 +12,15 @@ GPT(DALL-E / GPT-4o)에 아래 프롬프트를 순서대로 전달해서 이미�
 - **금지**: sci-fi UI, glowing orbit rings, magical effects, anime-style exaggeration, vibrant oversaturated colors
 - **해상도**: 배경 1280×800 / 캐릭터 초상화 400×600 / 아이콘 1024×1024
 
+## 2026-11-22 — 사망 부친 앞 빈 의자
+
+`final_father_record_{goshiwon,general}_{open,closed}_v1.png`는 built-in ImageGen
+원화6개 중 소품이 가린 초기2개를 보존·제외하고 정규화한4개다. 현행 Gangnam Ink
+선화/먹담채와 실제 고시원 정본을 따른다. 실제 사용은 PASSED 장면에 한정하며
+아버지·추모사진·새 집·읽히는 글자를 그리지 않았다. 정확한6프롬프트·원본/납품
+해시·거절 사유는 `docs/queue_archive/ORDER-830-ART-EVIDENCE.md`, 영구 공간/타이밍
+계약은 `CHAPTER5_LOCATION_VISUAL_BIBLE.md`의 “Late father's empty chair and notebook”에 있다.
+
 ## 2026-11-22 — 마지막 주 소등·충전등
 
 이 두 그림에는 위 역사 스타일 대신 현행

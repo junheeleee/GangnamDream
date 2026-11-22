@@ -1,0 +1,21 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/goshiwon_open_cg = "cg_final_father_record_goshiwon_open"
+metadata/goshiwon_closed_cg = "cg_final_father_record_goshiwon_closed"
+metadata/general_open_cg = "cg_final_father_record_general_open"
+metadata/general_closed_cg = "cg_final_father_record_general_closed"
+metadata/open_anchors = {
+"ko": "맞은편 의자는 비어 있었다.",
+"en": "The chair across from {name} was empty.",
+"ja": "向かいの椅子は空いていた。",
+"zh-CN": "对面的椅子空着。",
+"zh-TW": "對面的椅子空著。"
+}
+metadata/close_anchors = {
+"ko": "{name}은 더 말하지 않고 수첩을 덮었다.",
+"en": "{name} said nothing more and closed the notebook.",
+"ja": "{name}はそれ以上言わず、手帳を閉じた。",
+"zh-CN": "{name}没有再说话，合上了笔记本。",
+"zh-TW": "{name}沒有再說話，闔上筆記本。"
+}
