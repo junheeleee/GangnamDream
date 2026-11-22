@@ -12,6 +12,8 @@ const W235_NOTICE := "arc_y5_property_not_executed_notice"
 const W237_RECORD_PAGE_TURN := preload("res://assets/w237_record_page_turn.tres")
 const W237_RECORD := "arc_y5_general_final_record_seal"
 const W238_REMAINING := "arc_y5_remaining_jaehyuk_or_self"
+const W239_FATHER_ALIVE := "arc_y5_final_father_answer_alive"
+const W239_ALIVE_NAME_WRITE := preload("res://assets/w239_alive_name_write.tres")
 const LEDGER_PATH := "res://content/meta/chapter5_finale_ledger.json"
 const MAIN_GAME_PATH := "res://scenes/MainGame.gd"
 const ACTIVE_TURNS: Array[int] = [221, 224, 227, 230, 235, 238, 239, 240, 240]
@@ -83,6 +85,7 @@ func _ready() -> void:
 	_check_w235_notice_return_alignment()
 	_check_w237_final_record_alignment()
 	_check_w238_remaining_silence_alignment()
+	_check_w239_father_answer_alignment()
 	await _release_audio_for_exit()
 	if _failures.is_empty():
 		print(
@@ -104,7 +107,8 @@ func _ready() -> void:
 			+ "w230-contexts80/results240/anchors25/manifest-description-cues1/"
 			+ "w235-contexts120/results120/anchors5/manifest-cues0/"
 			+ "w237-contexts80/results160/anchors5/manifest-description-cues2/"
-			+ "w238-contexts30/results60/manifest-cues0")
+			+ "w238-contexts30/results60/manifest-cues0/"
+			+ "w239-contexts30/results90/anchors5/manifest-cues0")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -2414,6 +2418,219 @@ func _check_w238_remaining_silence_alignment() -> void:
 	LocaleManager.set_language(original_language)
 	DataRegistry.reload()
 	story.free()
+
+
+func _check_w239_father_answer_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var raw_anchor_metadata: Variant = W239_ALIVE_NAME_WRITE.get_meta(
+		"write_anchors", {})
+	_expect(raw_anchor_metadata is Dictionary,
+		"W239 alive name-write asset lost its locale anchor dictionary")
+	var anchors: Dictionary = raw_anchor_metadata as Dictionary \
+		if raw_anchor_metadata is Dictionary else {}
+	_expect(anchors.size() == LocaleManager.SUPPORTED_LANGUAGES.size(),
+		"W239 alive name-write asset lost the exact locale inventory")
+	var pen_lay_tails := {
+		"ko": " 펜을 놓았다.",
+		"en": " and set down the pen.",
+		"ja": "、ペンを置いた。",
+		"zh-CN": "，放下笔。",
+		"zh-TW": "，放下筆。",
+	}
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		_expect(anchors.get(language, "") is String \
+			and not str(anchors.get(language, "")).strip_edges().is_empty() \
+			and pen_lay_tails.has(language),
+			"W239 alive name-write asset has no exact %s clause/tail" % language)
+
+	var contexts := 0
+	var results := 0
+	var source_state: Dictionary = _father_trace_source_state(1, 0)
+	var expected_remaining_receipts: Array[Dictionary] = [
+		{
+			"receipt_ids": ["m60_guarantee_result_channel_state_preserved"],
+			"document_ids": ["Y5-GUARANTEE-RESULT-CHANNEL-STATE"],
+		},
+		{
+			"receipt_ids": ["m60_guarantee_result_self_custody"],
+			"document_ids": ["Y5-GUARANTEE-RESULT-SELF-COPY"],
+		},
+	]
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		for trace_choice in range(3):
+			for remaining_choice in range(2):
+				_seed_father_trace_entry(source_state, "alive", "records_only")
+				var trace_commit: Dictionary = GameState.record_chapter5_finale_choice(
+					ALIVE_EVENTS[0], trace_choice)
+				GameState.turn = 224
+				var custody_commit: Dictionary = GameState.record_chapter5_finale_choice(
+					ALIVE_EVENTS[1], PATH_CHOICES[1])
+				GameState.turn = 227
+				var filing_commit: Dictionary = GameState.record_chapter5_finale_choice(
+					ALIVE_EVENTS[2], PATH_CHOICES[2])
+				GameState.turn = 230
+				var verdict_commit: Dictionary = GameState.record_chapter5_finale_choice(
+					W230_CAFE, PATH_CHOICES[3])
+				GameState.turn = 235
+				var notice_commit: Dictionary = GameState.record_chapter5_finale_choice(
+					W235_NOTICE, PATH_CHOICES[4])
+				GameState.turn = 238
+				var remaining_commit: Dictionary = GameState.record_chapter5_finale_choice(
+					W238_REMAINING, remaining_choice)
+				GameState.turn = 239
+				var context := "%s W239 trace%d/remaining%d" % [
+					language, trace_choice, remaining_choice]
+				var remaining_receipt: Dictionary = ROUTE.receipt_snapshot_for_event(
+					GameState.chapter5_finale_state, W238_REMAINING)
+				var expected_remaining: Dictionary = expected_remaining_receipts[
+					remaining_choice]
+				_expect(bool(trace_commit.get("ok", false)) \
+					and bool(custody_commit.get("ok", false)) \
+					and bool(filing_commit.get("ok", false)) \
+					and bool(verdict_commit.get("ok", false)) \
+					and bool(notice_commit.get("ok", false)) \
+					and bool(remaining_commit.get("ok", false)) \
+					and ROUTE.selected_choice_by_event(
+						GameState.chapter5_finale_state, ALIVE_EVENTS[0]) == trace_choice \
+					and int(remaining_receipt.get("choice_index", -1)) == remaining_choice \
+					and _same(remaining_receipt.get("receipt_ids", []),
+						expected_remaining["receipt_ids"]) \
+					and _same(remaining_receipt.get("document_ids", []),
+						expected_remaining["document_ids"]) \
+					and _same(remaining_receipt.get("economic_outcome", {}), {}) \
+					and ROUTE.selected_choice_for_stage(
+						GameState.chapter5_finale_state, "nontransaction") == 0 \
+					and str(GameState.chapter5_finale_entry_snapshot().get(
+						"father", {}).get("life", "")) == "alive" \
+					and GameState.chapter5_finale_next_event_for_turn() == W239_FATHER_ALIVE \
+					and GameState.chapter5_finale_ingress_available(W239_FATHER_ALIVE) \
+					and not GameState.chapter5_finale_ingress_available(
+						PASSED_EVENTS[6]),
+					context + " lost its actual father/W238 receipt ingress")
+
+				var raw_event: Dictionary = DataRegistry.find_event(W239_FATHER_ALIVE)
+				var resolved: Dictionary = story.call(
+					"_chapter5_finale_event_with_reads", raw_event)
+				var reads: Dictionary = raw_event.get(
+					"chapter5_finale_reads", {}) as Dictionary
+				var rows: Array = reads.get("texts", [])
+				var expected_description := ""
+				if rows.size() == 2 and rows[0] is Array and rows[1] is Array:
+					expected_description = str((rows[0] as Array)[trace_choice]) \
+						+ "\n\n" + str((rows[1] as Array)[0]) \
+						+ "\n\n" + str(raw_event.get("description", ""))
+				_expect(str(reads.get("mode", "")) == "prepend" \
+					and rows.size() == 2 \
+					and (rows[0] as Array).size() == 3 \
+					and (rows[1] as Array).size() == 1 \
+					and str(resolved.get("description", "")) == expected_description \
+					and _father_trace_source_indices(
+						story, expected_description) == [0, 1, 2, 3] \
+					and str(resolved.get("background", "")) == "current_housing" \
+					and str(resolved.get("portrait", "")) == "player_tired" \
+					and not resolved.has("cg"),
+					context + " changed its four-source alive-father home surface")
+				var choices: Array = resolved.get("choices", [])
+				_expect(choices.size() == 3,
+					context + " lost its three authored father-answer choices")
+				if choices.size() != 3:
+					continue
+				var result_sources: Array = []
+				for choice_index in range(3):
+					var formatted_result: String = str(story.call(
+						"_fmt", str((choices[choice_index] as Dictionary).get(
+							"result_text", ""))))
+					var indices: Array[int] = []
+					indices.assign(_father_trace_source_indices(story, formatted_result))
+					var expected_indices: Array[int] = []
+					expected_indices.assign([0] if choice_index == 1 else [0, 1])
+					_expect(indices == expected_indices,
+						context + " changed result sources for choice%d" % choice_index)
+					result_sources.append(indices)
+					_check_w239_result_anchor(
+						story, anchors, pen_lay_tails, language, choice_index,
+						formatted_result, context)
+					results += 1
+				_assert_w239_manifest_audio([0, 1, 2, 3], result_sources, context)
+				contexts += 1
+	_expect(contexts == 30 and results == 90,
+		"W239 father answer did not cover exact 30 contexts and 90 results")
+	_expect(_same(BGMPlayer.scene_audio_contract(W239_FATHER_ALIVE), {
+		"ambience": "apartment",
+		"suppress_human_ambience": true,
+		"suppress_season_ambience": true,
+		"music": {"key": "grief", "start_paragraph": 1.0},
+	}), "W239 changed its neutral bed, lower-layer suppression, grief entrance, or manifest silence")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _check_w239_result_anchor(
+		story: Node, anchors: Dictionary, pen_lay_tails: Dictionary,
+		language: String, choice_index: int, formatted_result: String,
+		context: String) -> void:
+	var anchor: String = str(story.call(
+		"_fmt", str(anchors.get(language, ""))))
+	var tail: String = str(pen_lay_tails.get(language, ""))
+	var sources := formatted_result.split("\n\n")
+	if choice_index != 2:
+		_expect(not anchor.is_empty() and formatted_result.count(anchor) == 0,
+			context + " choice%d gained the c2 name-writing clause" % choice_index)
+		return
+	var anchor_at := str(sources[0]).find(anchor) if sources.size() == 2 else -1
+	_expect(sources.size() == 2 \
+		and not anchor.is_empty() and not tail.is_empty() \
+		and formatted_result.count(anchor) == 1 \
+		and str(sources[0]).count(anchor) == 1 \
+		and str(sources[1]).count(anchor) == 0 \
+		and anchor_at >= 0 \
+		and anchor_at + anchor.length() < str(sources[0]).length() \
+		and str(sources[0]).ends_with(anchor + tail) \
+		and not str(sources[0]).ends_with(anchor),
+		context + " c2 lost the unique name-write boundary before pen lay")
+
+
+func _assert_w239_manifest_audio(
+		sources: Array[int], result_sources: Array, context: String) -> void:
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var tracked: Array[String] = [
+		"phone_notification", "phone_vibrate", "page_turn", "paper_handle",
+		"pen_ballpoint", "pen_write", "document_scan", "register_scan",
+		"cup_set", "traffic_pass", "door_latch",
+	]
+	var last_play: Dictionary = {}
+	for sound_id: String in tracked:
+		last_play[sound_id] = AudioManager._last_sfx_ms.get(sound_id, -1)
+	AudioManager.begin_story_audio_event(W239_FATHER_ALIVE)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(
+			W239_FATHER_ALIVE, "", source_index)
+	for choice_index in range(result_sources.size()):
+		for raw_index in result_sources[choice_index] as Array:
+			AudioManager.play_scene_result_paragraph_cues(
+				W239_FATHER_ALIVE, "", choice_index, int(raw_index))
+	_expect(AudioManager._story_audio_seen.is_empty(),
+		context + " retained a paragraph-entry cue before the name-write boundary")
+	for sound_id: String in tracked:
+		_expect(AudioManager._last_sfx_ms.get(sound_id, -1) == last_play[sound_id],
+			context + " played forbidden W239 manifest sound " + sound_id)
+	var timestamps: Dictionary = AudioManager._last_sfx_ms.duplicate(true)
+	for source_index in sources:
+		AudioManager.play_scene_paragraph_cues(
+			W239_FATHER_ALIVE, "", source_index)
+	for choice_index in range(result_sources.size()):
+		for raw_index in result_sources[choice_index] as Array:
+			AudioManager.play_scene_result_paragraph_cues(
+				W239_FATHER_ALIVE, "", choice_index, int(raw_index))
+	_expect(AudioManager._story_audio_seen.is_empty() \
+		and _same(AudioManager._last_sfx_ms, timestamps),
+		context + " replayed a W239 manifest cue on repeated paragraph binding")
+	_expect(_same(GameState.serialize(), before),
+		context + " W239 manifest audio rewrote finale receipts or game state")
 
 
 func _assert_w238_manifest_audio(

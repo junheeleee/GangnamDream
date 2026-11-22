@@ -229,6 +229,13 @@ const W238_TRACKED_SFX := [
 	"pen_ballpoint", "pen_write", "document_scan", "register_scan",
 	"cup_set", "traffic_pass", "door_latch",
 ]
+const W239_FATHER_ALIVE := "arc_y5_final_father_answer_alive"
+const W239_ALIVE_NAME_WRITE := preload("res://assets/w239_alive_name_write.tres")
+const W239_TRACKED_SFX := [
+	"phone_notification", "phone_vibrate", "page_turn", "paper_handle",
+	"pen_ballpoint", "pen_write", "document_scan", "register_scan",
+	"cup_set", "traffic_pass", "door_latch",
+]
 const W235_HOME_CASES: Array[Dictionary] = [
 	{"id": "gosiwon", "housing": "gosiwon", "background": "goshiwon_room"},
 	{"id": "oneroom", "housing": "oneroom", "background": "apartment"},
@@ -582,6 +589,8 @@ var _w235_reflow_paper := 0
 var _w237_cold_pages := 0
 var _w237_future_pages := 0
 var _w237_reflow_pages := 0
+var _w239_cold_ink := 0
+var _w239_reflow_ink := 0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -604,6 +613,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W239_FATHER_ALIVE_CHECK"):
+		var w239_ok: bool = await _check_w239_father_alive()
+		await _remove_story()
+		await _stop_audio()
+		if w239_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w239_father_alive")
+		get_tree().quit(0 if w239_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W238_REMAINING_CHECK"):
 		var w238_ok: bool = await _check_w238_remaining()
 		await _remove_story()
@@ -4441,14 +4458,23 @@ func _w238_open(language: String, home_case: Dictionary,
 		language, W238_REMAINING, 238, home_case, prime_same_key,
 		guarantee_choice, life)
 
+func _w239_open(language: String, home_case: Dictionary,
+		father_trace_choice: int = 0, remaining_choice: int = 0,
+		prime_same_key: bool = false) -> bool:
+	return await _open_finale_ink_event(
+		language, W239_FATHER_ALIVE, 239, home_case, prime_same_key,
+		0, "alive", father_trace_choice, remaining_choice)
+
 func _open_finale_ink_event(language: String, target_event_id: String, turn: int,
 		home_case: Dictionary = {}, prime_same_key: bool = false,
-		guarantee_choice: int = 0, father_life: String = "alive") -> bool:
+		guarantee_choice: int = 0, father_life: String = "alive",
+		father_trace_choice: int = 0, remaining_choice: int = 0) -> bool:
 	await _remove_story()
 	await _stop_audio()
-	var label := "W227" if target_event_id == W227_FILING else (
+	var label := "W239" if target_event_id == W239_FATHER_ALIVE else (
+		"W227" if target_event_id == W227_FILING else (
 		"W230" if target_event_id == W230_CAFE else (
-			"W235" if target_event_id == W235_NOTICE else "W238"))
+			"W235" if target_event_id == W235_NOTICE else "W238")))
 	_context = "%s/%s" % [language, label]
 	LocaleManager.set_language(language)
 	SaveManager.clear_loaded_resume_context()
@@ -4457,8 +4483,9 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 		return false
 	GameState.money = 2_100_000_000.0
 	GameState.housing = str(home_case.get("housing", "oneroom")) \
-		if target_event_id in [W235_NOTICE, W238_REMAINING] else "oneroom"
-	if target_event_id in [W235_NOTICE, W238_REMAINING]:
+		if target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE] \
+		else "oneroom"
+	if target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE]:
 		GameState.flags.erase("arc_daeun_wedding_day_seen")
 		GameState.flags.erase("daeun_divorced")
 		var home_flags: Dictionary = home_case.get("flags", {})
@@ -4505,28 +4532,36 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 		_fail("%s could not lock its real finale entry" % label)
 		return false
 	var father_event := GameState.chapter5_finale_next_event_for_turn()
-	var father_result: Dictionary = GameState.record_chapter5_finale_choice(father_event, 0)
+	var father_result: Dictionary = GameState.record_chapter5_finale_choice(
+		father_event, father_trace_choice)
 	GameState.turn = 224
 	var custody_event := GameState.chapter5_finale_next_event_for_turn()
 	var custody_result: Dictionary = GameState.record_chapter5_finale_choice(custody_event, 0)
 	var filing_event := ""
 	var filing_result: Dictionary = {}
-	if target_event_id in [W230_CAFE, W235_NOTICE, W238_REMAINING]:
+	if target_event_id in [W230_CAFE, W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE]:
 		GameState.turn = 227
 		filing_event = GameState.chapter5_finale_next_event_for_turn()
 		filing_result = GameState.record_chapter5_finale_choice(filing_event, 0)
 	var verdict_event := ""
 	var verdict_result: Dictionary = {}
-	if target_event_id in [W235_NOTICE, W238_REMAINING]:
+	if target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE]:
 		GameState.turn = 230
 		verdict_event = GameState.chapter5_finale_next_event_for_turn()
 		verdict_result = GameState.record_chapter5_finale_choice(verdict_event, 0)
 	var notice_event := ""
 	var notice_result: Dictionary = {}
-	if target_event_id == W238_REMAINING:
+	if target_event_id in [W238_REMAINING, W239_FATHER_ALIVE]:
 		GameState.turn = 235
 		notice_event = GameState.chapter5_finale_next_event_for_turn()
 		notice_result = GameState.record_chapter5_finale_choice(notice_event, 0)
+	var remaining_event := ""
+	var remaining_result: Dictionary = {}
+	if target_event_id == W239_FATHER_ALIVE:
+		GameState.turn = 238
+		remaining_event = GameState.chapter5_finale_next_event_for_turn()
+		remaining_result = GameState.record_chapter5_finale_choice(
+			remaining_event, remaining_choice)
 	GameState.turn = int(final_calendar[0])
 	GameState.age = int(final_calendar[1])
 	GameState.year = int(final_calendar[2])
@@ -4536,12 +4571,14 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 			or not bool(father_result.get("ok", false)) \
 			or custody_event != CHAPTER5_FINALE_ROUTE.OWNED_EVENT_IDS[2] \
 			or not bool(custody_result.get("ok", false)) \
-			or (target_event_id in [W230_CAFE, W235_NOTICE, W238_REMAINING] and (filing_event != W227_FILING \
+			or (target_event_id in [W230_CAFE, W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE] and (filing_event != W227_FILING \
 				or not bool(filing_result.get("ok", false)))) \
-			or (target_event_id in [W235_NOTICE, W238_REMAINING] and (verdict_event != W230_CAFE \
+			or (target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE] and (verdict_event != W230_CAFE \
 				or not bool(verdict_result.get("ok", false)))) \
-			or (target_event_id == W238_REMAINING and (notice_event != W235_NOTICE \
+			or (target_event_id in [W238_REMAINING, W239_FATHER_ALIVE] and (notice_event != W235_NOTICE \
 				or not bool(notice_result.get("ok", false)))) \
+			or (target_event_id == W239_FATHER_ALIVE and (remaining_event != W238_REMAINING \
+				or not bool(remaining_result.get("ok", false)))) \
 			or GameState.chapter5_finale_next_event_for_turn() != target_event_id:
 		_fail("%s finale predecessors did not admit its exact root" % label)
 		return false
@@ -4555,7 +4592,7 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 			or not FULL_STORY_FLOW.valid_session():
 		_fail("%s did not route through MainGame and FullStoryFlow" % label)
 		return false
-	if target_event_id in [W235_NOTICE, W238_REMAINING]:
+	if target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE]:
 		BGMPlayer.set_ambience("room")
 		BGMPlayer.set_season_ambience("winter")
 		BGMPlayer.play_punctuation("reckoning")
@@ -4582,6 +4619,8 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 		BGMPlayer.set_season_ambience("winter")
 	if target_event_id == W238_REMAINING:
 		_w238_clear_tracked()
+	elif target_event_id == W239_FATHER_ALIVE:
+		_w239_clear_tracked()
 	else:
 		_w227_clear_tracked()
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
@@ -4601,6 +4640,12 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 	if target_event_id == W235_NOTICE:
 		return _w235_surface("W235 live opening", str(home_case.get("background", ""))) \
 			and _w235_audio_matches("none", "W235 live opening")
+	if target_event_id == W239_FATHER_ALIVE:
+		return _w239_surface(
+			"W239 live opening", str(home_case.get("background", "")), false) \
+			and (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+			and (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+			and _w239_audio_matches(false, "W239 live opening")
 	return _w238_surface(
 		"W238 live opening", str(home_case.get("background", "")), false) \
 		and _w238_audio_matches("W238 live opening")
@@ -6045,6 +6090,834 @@ func _w238_audio_matches(label: String) -> bool:
 			label, invalid, cue_keys])
 		return false
 	return true
+
+
+func _check_w239_father_alive() -> bool:
+	_w239_cold_ink = 0
+	_w239_reflow_ink = 0
+	var default_home: Dictionary = W235_HOME_CASES[1]
+	var settings_before := [
+		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
+	var paths := 0
+	var live_ink := 0
+	var silent_results := 0
+	for language_index in range(LocaleManager.SUPPORTED_LANGUAGES.size()):
+		var language: String = LocaleManager.SUPPORTED_LANGUAGES[language_index]
+		for choice in range(3):
+			if not await _w239_prepare_result(
+					language, choice, default_home,
+					language_index % 3, language_index % 2):
+				return false
+			var applied := _w227_state_bytes()
+			if choice == 2:
+				if not await _w239_seek_pen_page(applied):
+					return false
+				var reveal := int(_story.get("_w239_pen_reveal_at"))
+				if reveal <= 0 or not _w227_type_to(reveal - 1, "W239") \
+						or not _w239_boundary_side(true) \
+						or not _w239_audio_matches(
+							false, "W239 before name-write clause"):
+					_fail("W239 %s sounded before its localized name-write clause" % language)
+					return false
+				if not _w227_type_to(reveal, "W239"):
+					return false
+				var played_at := int(AudioManager._last_sfx_ms.get(
+					"pen_ballpoint", -1))
+				if played_at < 0 or not _w239_boundary_side(false) \
+						or not _w239_audio_matches(
+							true, "W239 exact name-write clause", true) \
+						or not await _w239_finish_result(applied, played_at) \
+						or not await _w239_wait_ballpoint_completion(played_at):
+					_fail("W239 %s lost its one exact ballpoint action" % language)
+					return false
+				live_ink += 1
+			elif not await _w239_finish_result(applied, -1):
+				return false
+			else:
+				silent_results += 1
+			paths += 1
+
+	var ingress_contexts := 0
+	for trace_choice in range(3):
+		for remaining_choice in range(2):
+			if not await _w239_open(
+					"ko", default_home, trace_choice, remaining_choice) \
+					or not _w239_context_matches(trace_choice, remaining_choice):
+				return false
+			ingress_contexts += 1
+
+	var housing_contexts := 0
+	for home_case: Dictionary in W235_HOME_CASES:
+		if not await _w239_open("ko", home_case) \
+				or not _w239_surface(
+					"W239 housing " + str(home_case.get("id", "")),
+					str(home_case.get("background", "")), false):
+			return false
+		housing_contexts += 1
+
+	var apartment_case: Dictionary = W235_HOME_CASES[3]
+	if not await _w239_open("ko", apartment_case, 0, 0, true):
+		return false
+	await get_tree().create_timer(1.5).timeout
+	if not _w239_surface("W239 same-key settled bed", "gangnam_apartment", false) \
+			or BGMPlayer._ambience_tween != null \
+			and BGMPlayer._ambience_tween.is_running() \
+			or not is_equal_approx(
+				BGMPlayer._ambience_player.volume_db,
+				float(BGMPlayer.call("_ambience_target_db"))):
+		_fail("W239 inherited same-key fade stopped or kept ducking its fresh bed")
+		return false
+
+	var intro_cold := await _w239_intro_cold_matrix(default_home)
+	if intro_cold < 0:
+		return false
+	var cold_boundaries := await _w239_result_cold_matrix(default_home)
+	if cold_boundaries < 0:
+		return false
+	var legacy_boundaries := await _w239_legacy_cold_matrix(default_home)
+	if legacy_boundaries < 0:
+		return false
+	var reflow_boundaries := await _w239_reflow_matrix(default_home)
+	if reflow_boundaries < 0:
+		return false
+	var settings_after := [
+		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
+	print("W239_FATHER_ALIVE_OK paths=%d ballpoint=%d silent=%d ingress=%d homes=%d same_key=1 intro_v4=%d result_v4=%d legacy_v4=%d cold_ink=%d reflows=%d reflow_ink=%d" % [
+		paths, live_ink, silent_results, ingress_contexts, housing_contexts,
+		intro_cold, cold_boundaries, legacy_boundaries, _w239_cold_ink,
+		reflow_boundaries, _w239_reflow_ink])
+	var counts_ok := paths == 15 and live_ink == 5 and silent_results == 10 \
+		and ingress_contexts == 6 and housing_contexts == 7 \
+		and intro_cold == 3 and cold_boundaries == 6 \
+		and legacy_boundaries == 2 and _w239_cold_ink == 1 \
+		and reflow_boundaries == 4 and _w239_reflow_ink == 1 \
+		and settings_before == settings_after
+	if not counts_ok:
+		_fail("W239 dynamic fixture population or master-volume state drifted")
+	return counts_ok
+
+
+func _w239_context_matches(trace_choice: int, remaining_choice: int) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var raw_event: Dictionary = DataRegistry.find_event(W239_FATHER_ALIVE)
+	var rows: Array = (
+		raw_event.get("chapter5_finale_reads", {}) as Dictionary).get("texts", [])
+	var sources := str(_story.call("_fmt", current.get("description", ""))).split("\n\n")
+	var entry: Dictionary = GameState.chapter5_finale_entry_snapshot()
+	var father: Dictionary = entry.get("father", {})
+	var trace_receipt: Dictionary = CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
+		GameState.chapter5_finale_state, "arc_y5_father_trace_alive_exact")
+	var remaining_receipt: Dictionary = CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
+		GameState.chapter5_finale_state, W238_REMAINING)
+	if rows.size() != 2 or not rows[0] is Array or not rows[1] is Array \
+			or (rows[0] as Array).size() != 3 or (rows[1] as Array).size() != 1 \
+			or sources.size() != 4 \
+			or str(sources[0]).strip_edges() != str(_story.call(
+				"_fmt", (rows[0] as Array)[trace_choice])).strip_edges() \
+			or str(sources[1]).strip_edges() != str(_story.call(
+				"_fmt", (rows[1] as Array)[0])).strip_edges() \
+			or int(trace_receipt.get("choice_index", -1)) != trace_choice \
+			or int(remaining_receipt.get("choice_index", -1)) != remaining_choice \
+			or str(father.get("life", "")) != "alive" \
+			or GameState.chapter5_finale_next_event_for_turn() != W239_FATHER_ALIVE \
+			or not GameState.chapter5_finale_ingress_available(W239_FATHER_ALIVE) \
+			or not (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+			or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+			or not _w239_surface(
+				"W239 exact ingress", _w235_current_home_background(), false) \
+			or not _w239_audio_matches(false, "W239 exact ingress"):
+		_fail("W239 lost its selected father/W238 receipts or real finale ingress")
+		return false
+	return true
+
+
+func _w239_read_intro(home_background: String) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 4 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored):
+		_fail("W239 lost its father/nontransaction rows plus two authored sources")
+		return false
+	var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+	var bed_position := BGMPlayer._ambience_player.get_playback_position()
+	var untouched := _w227_state_bytes()
+	var score_player: AudioStreamPlayer = null
+	var score_stream: AudioStream = null
+	var score_position := -1.0
+	var score_token := -1
+	while not bool(_story.get("_showing_choices")):
+		var source := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		await _finish_page()
+		var expect_score := source >= 1
+		var current_bed_position := BGMPlayer._ambience_player.get_playback_position()
+		if not _w239_surface(
+				"W239 opening source%d" % source, home_background, expect_score) \
+				or not _w239_audio_matches(false, "W239 opening source%d" % source) \
+				or not _w227_state_matches(
+					untouched, "W239 opening source%d" % source, false, "W239") \
+				or BGMPlayer._ambience_player.stream != bed_stream \
+				or current_bed_position + 0.05 < bed_position \
+				or not (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+				or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty():
+			_fail("W239 source%d restarted its bed or gained an early physical action" % source)
+			return false
+		bed_position = current_bed_position
+		if expect_score:
+			var current_score := _w239_grief_player()
+			if not is_instance_valid(current_score):
+				_fail("W239 source%d has no actual grief stream" % source)
+				return false
+			if score_player == null:
+				score_player = current_score
+				score_stream = current_score.stream
+				score_position = current_score.get_playback_position()
+				score_token = int(BGMPlayer.get("_punctuation_token"))
+			elif not _w239_score_unchanged(
+					score_player, score_stream, score_position, score_token,
+					"W239 source%d" % source):
+				return false
+			else:
+				score_position = current_score.get_playback_position()
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w239_surface("W239 choices", home_background, true) \
+		and _w239_audio_matches(false, "W239 choices") \
+		and _w227_state_matches(untouched, "W239 choices", false, "W239")
+
+
+func _w239_prepare_result(
+		language: String, choice: int, home_case: Dictionary,
+		trace_choice: int = 0, remaining_choice: int = 0) -> bool:
+	var home_background := str(home_case.get("background", ""))
+	if not await _w239_open(
+			language, home_case, trace_choice, remaining_choice) \
+			or not await _w239_read_intro(home_background):
+		return false
+	_w239_clear_tracked()
+	_story.call("_on_choice", choice)
+	_story.set_process(false)
+	await _wait_stable()
+	return _w239_result_layout(choice) \
+		and GameState.chapter5_finale_receipt_matches(
+			W239_FATHER_ALIVE, choice, 239) \
+		and _w239_surface("W239 prepared result", home_background, true) \
+		and _w239_audio_matches(false, "W239 prepared result")
+
+
+func _w239_result_layout(choice: int) -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choice < 0 or choice >= choices.size() or pages.is_empty():
+		return false
+	var authored := str(_story.call(
+		"_fmt", (choices[choice] as Dictionary).get("result_text", "")))
+	var expected_sources: Array[int] = [2, 1, 2]
+	var mapping := _w239_pen_mapping()
+	var action_ok := mapping.is_empty()
+	if choice == 2 and not mapping.is_empty():
+		var page_index := int(mapping.get("page", -1))
+		var contract: Dictionary = _story.call(
+			"_physical_cue_contract", page_index)
+		var expected_anchor := str(_story.call("_fmt", str(
+			W239_ALIVE_NAME_WRITE.get_meta(
+				"write_anchors", {}).get(LocaleManager.language, ""))))
+		action_ok = int(mapping.get("source", -1)) == 0 \
+			and int(contract.get("source_index", -1)) == 0 \
+			and str(contract.get("anchor", "")) == expected_anchor \
+			and is_equal_approx(float(contract.get("volume_db", 0.0)), -7.0) \
+			and str(contract.get("sfx", "")) == "pen_ballpoint"
+	if choices.size() != 3 \
+			or int(_story.call("_story_source_paragraph_count")) != expected_sources[choice] \
+			or not _m23_same_prose(pages, authored) \
+			or int(_story.get("_result_location_cut_page")) >= 0 \
+			or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+			or not action_ok:
+		_fail("W239 choice%d lost its exact c2/source0 physical contract" % choice)
+		return false
+	return true
+
+
+func _w239_pen_mapping() -> Dictionary:
+	var found: Array[Dictionary] = []
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		var source_index := int(_story.call(
+			"_story_source_paragraph_index", page_index))
+		var page := str((_story.get("_paragraphs") as Array)[page_index])
+		var reveal := int(_story.call(
+			"_w239_pen_reveal_position", page, page_index))
+		if reveal > 0:
+			found.append({
+				"page": page_index, "reveal": reveal, "source": source_index})
+	return found[0] if found.size() == 1 else {}
+
+
+func _w239_seek_pen_page(
+		applied: String, allow_default_name_projection: bool = false) -> bool:
+	var mapping := _w239_pen_mapping()
+	var target := int(mapping.get("page", -1))
+	while int(_story.get("_para_index")) < target:
+		await _finish_page()
+		if not _w227_state_matches(
+				applied, "W239 before name-write page",
+				allow_default_name_projection, "W239") \
+				or not _w239_audio_matches(false, "W239 before name-write page"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		mapping = _w239_pen_mapping()
+		target = int(mapping.get("page", -1))
+	if target < 0 or int(_story.get("_para_index")) != target \
+			or int(_story.get("_w239_pen_reveal_at")) != int(
+				mapping.get("reveal", -2)):
+		_fail("W239 did not settle on its exact name-write clause page")
+		return false
+	return true
+
+
+func _w239_boundary_side(before_pen: bool) -> bool:
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != 2 \
+			or int(_story.call(
+				"_story_source_paragraph_index", int(_story.get("_para_index")))) != 0:
+		return false
+	var pen_range: Vector2 = _story.call("_w239_pen_progress_range")
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var progress := float(context.get("source_text_progress", -1.0))
+	if pen_range.x < 0.0 or pen_range.y < pen_range.x:
+		return false
+	if before_pen:
+		return not bool(_story.get("_w239_pen_consumed")) \
+			and int(_story.get("_w239_pen_reveal_at")) > int(
+				_story.get("_type_pos")) \
+			and progress <= pen_range.x + 0.00001
+	return bool(_story.get("_w239_pen_consumed")) \
+		and int(_story.get("_w239_pen_reveal_at")) < 0 \
+		and progress >= pen_range.y - 0.00001
+
+
+func _w239_finish_result(applied: String, played_at: int) -> bool:
+	var score_player := _w239_grief_player()
+	if not is_instance_valid(score_player):
+		_fail("W239 result started without its held grief score")
+		return false
+	var score_stream: AudioStream = score_player.stream
+	var score_position := score_player.get_playback_position()
+	var score_token := int(BGMPlayer.get("_punctuation_token"))
+	while true:
+		await _finish_page()
+		if not _w239_surface(
+				"W239 result", _w235_current_home_background(), true) \
+				or not _w227_state_matches(
+					applied, "W239 result", false, "W239") \
+				or not _w239_audio_matches(
+					played_at >= 0, "W239 result") \
+				or int(AudioManager._last_sfx_ms.get(
+					"pen_ballpoint", -1)) != played_at \
+				or not _w239_score_unchanged(
+					score_player, score_stream, score_position, score_token,
+					"W239 result"):
+			_fail("W239 result replayed an action or restarted its score")
+			return false
+		score_position = score_player.get_playback_position()
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w239_surface(label: String, background_id: String, expect_score: bool) -> bool:
+	var expected_stream: AudioStream = BGMPlayer.call("_load_ambience", "apartment")
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W239_FATHER_ALIVE \
+			or background_id.is_empty() \
+			or not _expect_surface(background_id, "apartment", label) \
+			or str(_story.call("_resolved_story_surface_portrait_id")) != "player_tired" \
+			or expected_stream == null \
+			or BGMPlayer._ambience_player.stream != expected_stream \
+			or not BGMPlayer._ambience_player.playing \
+			or not str(BGMPlayer.get("_current_human_ambience_key")).is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
+			or not str(BGMPlayer.get("_current_season_key")).is_empty() \
+			or BGMPlayer._season_player.playing:
+		_fail(label + " changed the W239 home, apartment bed, portrait, or lower-layer silence")
+		return false
+	if expect_score:
+		if not is_instance_valid(_w239_grief_player()) \
+				or str(BGMPlayer.get("_current_key")) != "grief":
+			_fail(label + " lost the W239 held grief score")
+			return false
+	elif not str(BGMPlayer.get("_current_key")).is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail(label + " opened W239 grief before source1")
+		return false
+	return true
+
+
+func _w239_grief_player() -> AudioStreamPlayer:
+	var expected: AudioStream = BGMPlayer.call("_load_track", "grief")
+	for player: AudioStreamPlayer in [BGMPlayer._player_a, BGMPlayer._player_b]:
+		if expected != null and player.playing and player.stream == expected:
+			return player
+	return null
+
+
+func _w239_score_unchanged(player: AudioStreamPlayer, stream: AudioStream,
+		previous_position: float, token: int, label: String) -> bool:
+	var current := _w239_grief_player()
+	if current != player or not is_instance_valid(current) \
+			or current.stream != stream \
+			or int(BGMPlayer.get("_punctuation_token")) != token \
+			or current.get_playback_position() + 0.05 < previous_position:
+		_fail(label + " restarted or replaced the held grief stream")
+		return false
+	return true
+
+
+func _w239_clear_tracked() -> void:
+	for sound_id: String in W239_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+
+func _w239_audio_matches(
+		expect_pen: bool, label: String, require_stream: bool = false) -> bool:
+	var cue_keys: Array = AudioManager._story_audio_seen.keys().filter(
+		func(key: Variant) -> bool:
+			return str(key).begins_with(W239_FATHER_ALIVE + ":"))
+	var invalid: Array[String] = []
+	for sound_id: String in W239_TRACKED_SFX:
+		var expected := expect_pen and sound_id == "pen_ballpoint"
+		var stream_count := _w197_sfx_stream_count(sound_id)
+		if AudioManager._last_sfx_ms.has(sound_id) != expected \
+				or (not expected and stream_count != 0) \
+				or (expected and require_stream and stream_count != 1):
+			invalid.append(sound_id)
+	if not cue_keys.is_empty() or not invalid.is_empty():
+		_fail("%s W239 audio mismatch pen=%s invalid=%s cues=%s" % [
+			label, expect_pen, invalid, cue_keys])
+		return false
+	if require_stream and expect_pen:
+		var expected_db := float(AudioManager.call("_vol_db")) \
+			+ AudioManager.sfx_mix_trim_db("pen_ballpoint") - 7.0
+		for player: AudioStreamPlayer in AudioManager._pool:
+			if player.playing \
+					and player.stream == AudioManager._sounds.get("pen_ballpoint"):
+				if is_equal_approx(player.volume_db, expected_db):
+					return true
+				_fail("%s W239 ballpoint volume expected=%s actual=%s" % [
+					label, expected_db, player.volume_db])
+				return false
+		_fail(label + " W239 ballpoint stream was not active")
+		return false
+	return true
+
+
+func _w239_wait_ballpoint_completion(played_at: int) -> bool:
+	var stream: AudioStream = AudioManager._sounds.get("pen_ballpoint")
+	if stream == null or played_at < 0:
+		_fail("W239 cannot derive the recorded ballpoint completion boundary")
+		return false
+	var duration_msec := int(ceil(stream.get_length() * 1000.0))
+	var deadline := Time.get_ticks_msec() + maxi(250, duration_msec + 250)
+	while _w197_sfx_stream_count("pen_ballpoint") > 0 \
+			and Time.get_ticks_msec() < deadline:
+		await get_tree().process_frame
+	if _w197_sfx_stream_count("pen_ballpoint") != 0 \
+			or int(AudioManager._last_sfx_ms.get(
+				"pen_ballpoint", -1)) != played_at:
+		_fail("W239 ballpoint did not finish naturally without replay")
+		return false
+	return true
+
+
+func _w239_intro_cold_matrix(home_case: Dictionary) -> int:
+	var restored_cases := 0
+	for spec: Dictionary in [
+		{"phase": "prose", "source": 0, "locale": "ko"},
+		{"phase": "prose", "source": 1, "locale": "en"},
+		{"phase": "choices", "source": 3, "locale": "ko"},
+	]:
+		if not await _w239_open("ko", home_case):
+			return -1
+		var phase := str(spec.get("phase", ""))
+		var source_index := int(spec.get("source", -1))
+		if phase == "choices":
+			if not await _w239_read_intro(str(home_case.get("background", ""))):
+				return -1
+		elif not await _w239_advance_to_source(source_index):
+			return -1
+		if phase == "prose":
+			var page_length := str(_story.get("_type_full")).length()
+			if not _w227_type_to(
+					maxi(1, floori(float(page_length) / 2.0)), "W239"):
+				return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		var applied := _w227_state_bytes()
+		var target_locale := str(spec.get("locale", "ko"))
+		var cross_locale := target_locale != LocaleManager.language
+		_w239_clear_tracked()
+		if not await _w239_cold_load(
+				context, target_locale, applied, cross_locale,
+				"W239 cold " + phase):
+			return -1
+		var restored: Dictionary = _story.call("build_save_resume_context")
+		var expect_score := phase != "prose" or source_index >= 1
+		if str(restored.get("phase", "")) != phase \
+				or (phase != "choices" and int(restored.get(
+					"source_paragraph_index", -1)) != source_index) \
+				or (phase != "choices" and not _w238_progress_matches(
+					context, restored, source_index, cross_locale)) \
+				or not _w239_surface(
+					"W239 cold " + phase,
+					_w235_current_home_background(), expect_score) \
+				or not _w239_audio_matches(false, "W239 cold " + phase) \
+				or not (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+				or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty():
+			_fail("W239 cold %s changed source progress, score, or action silence" % phase)
+			return -1
+		if phase == "prose" and source_index == 0:
+			if not await _w239_advance_to_source(1) \
+					or not _w239_surface(
+						"W239 cold future grief",
+						_w235_current_home_background(), true) \
+					or not _w239_audio_matches(
+						false, "W239 cold future grief") \
+					or not _w227_state_matches(
+						applied, "W239 cold future grief",
+						cross_locale, "W239"):
+				_fail("W239 cold source0 did not retain its future source1 grief entrance")
+				return -1
+		restored_cases += 1
+	return restored_cases
+
+
+func _w239_result_cold_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for before_pen: bool in [true, false]:
+		if not await _w239_prepare_result("ko", 2, home_case):
+			return -1
+		var applied := _w227_state_bytes()
+		if not await _w239_seek_pen_page(applied):
+			return -1
+		var reveal := int(_story.get("_w239_pen_reveal_at"))
+		if not _w227_type_to(reveal - 1 if before_pen else reveal, "W239"):
+			return -1
+		if not before_pen:
+			var played_at := int(AudioManager._last_sfx_ms.get(
+				"pen_ballpoint", -1))
+			if played_at < 0 or not await _w239_wait_ballpoint_completion(played_at):
+				return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		_w239_clear_tracked()
+		if not await _w239_cold_load(
+				context, "ko", applied, false, "W239 cold result"):
+			return -1
+		var restored: Dictionary = _story.call("build_save_resume_context")
+		if str(restored.get("phase", "")) != "result" \
+				or int(restored.get("pending_result_choice_index", -1)) != 2 \
+				or int(restored.get("source_paragraph_index", -1)) != 0 \
+				or not _w238_progress_matches(context, restored, 0, false) \
+				or not _w239_boundary_side(before_pen) \
+				or not _w239_surface(
+					"W239 cold result", _w235_current_home_background(), true) \
+				or not _w239_audio_matches(false, "W239 cold result"):
+			_fail("W239 same-locale cold result crossed or replayed its name boundary")
+			return -1
+		if before_pen:
+			var restored_reveal := int(_story.get("_w239_pen_reveal_at"))
+			if not _w227_type_to(restored_reveal, "W239") \
+					or not _w239_audio_matches(
+						true, "W239 cold remaining name-write", true):
+				_fail("W239 cold unread same-locale clause lost its one ballpoint")
+				return -1
+			var cold_played_at := int(AudioManager._last_sfx_ms.get(
+				"pen_ballpoint", -1))
+			if not await _w239_wait_ballpoint_completion(cold_played_at):
+				return -1
+			_w239_cold_ink += 1
+		else:
+			_story.call("_complete_typing")
+			_story.call("_complete_typing")
+			if not _w239_audio_matches(false, "W239 cold consumed completion"):
+				return -1
+		boundaries += 1
+
+	if not await _w239_prepare_result("ko", 2, home_case):
+		return -1
+	var cross_state := _w227_state_bytes()
+	if not await _w239_seek_pen_page(cross_state):
+		return -1
+	var cross_reveal := int(_story.get("_w239_pen_reveal_at"))
+	if not _w227_type_to(cross_reveal - 1, "W239"):
+		return -1
+	var cross_context: Dictionary = _story.call("build_save_resume_context")
+	_w239_clear_tracked()
+	if not await _w239_cold_load(
+			cross_context, "en", cross_state, true, "W239 cross-locale result"):
+		return -1
+	var cross_restored: Dictionary = _story.call("build_save_resume_context")
+	if int(cross_restored.get("source_paragraph_index", -1)) != 0 \
+			or not _w238_progress_matches(
+				cross_context, cross_restored, 0, true) \
+			or not bool(_story.get("_w239_pen_consumed")) \
+			or int(_story.get("_w239_pen_reveal_at")) >= 0 \
+			or not _w239_audio_matches(false, "W239 cross-locale result"):
+		_fail("W239 cross-locale current result replayed an unprovable name action")
+		return -1
+	_story.call("_complete_typing")
+	_story.call("_complete_typing")
+	if not _w239_audio_matches(false, "W239 cross-locale completion"):
+		return -1
+	boundaries += 1
+
+	if not await _w239_prepare_result("ko", 2, home_case):
+		return -1
+	var source1_state := _w227_state_bytes()
+	if not await _w239_advance_to_source(1, true):
+		return -1
+	var source1_played_at := int(AudioManager._last_sfx_ms.get(
+		"pen_ballpoint", -1))
+	if source1_played_at < 0 \
+			or not await _w239_wait_ballpoint_completion(source1_played_at):
+		return -1
+	var source1_length := str(_story.get("_type_full")).length()
+	if not _w227_type_to(
+			maxi(1, floori(float(source1_length) / 2.0)), "W239"):
+		return -1
+	var source1_context: Dictionary = _story.call("build_save_resume_context")
+	_w239_clear_tracked()
+	if not await _w239_cold_load(
+			source1_context, "ko", source1_state, false, "W239 cold source1 result"):
+		return -1
+	var source1_restored: Dictionary = _story.call("build_save_resume_context")
+	if int(source1_restored.get("source_paragraph_index", -1)) != 1 \
+			or not _w238_progress_matches(
+				source1_context, source1_restored, 1, false) \
+			or not bool(_story.get("_w239_pen_consumed")) \
+			or int(_story.get("_w239_pen_reveal_at")) >= 0 \
+			or not _w239_audio_matches(false, "W239 cold source1 result"):
+		_fail("W239 cold source1 replayed its completed source0 name action")
+		return -1
+	boundaries += 1
+
+	for silent_choice in [0, 1]:
+		if not await _w239_prepare_result("ko", silent_choice, home_case):
+			return -1
+		var silent_state := _w227_state_bytes()
+		var silent_length := str(_story.get("_type_full")).length()
+		if not _w227_type_to(
+				maxi(1, floori(float(silent_length) / 2.0)), "W239"):
+			return -1
+		var silent_context: Dictionary = _story.call("build_save_resume_context")
+		_w239_clear_tracked()
+		if not await _w239_cold_load(
+				silent_context, "ko", silent_state, false,
+				"W239 cold silent c%d" % silent_choice):
+			return -1
+		if int((_story.call("build_save_resume_context") as Dictionary).get(
+				"pending_result_choice_index", -1)) != silent_choice \
+				or not (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+				or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+				or not _w239_audio_matches(
+					false, "W239 cold silent c%d" % silent_choice):
+			_fail("W239 cold c%d invented a physical action" % silent_choice)
+			return -1
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if not _w239_audio_matches(
+				false, "W239 cold silent completion c%d" % silent_choice):
+			return -1
+		boundaries += 1
+	return boundaries
+
+
+func _w239_legacy_cold_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for before_pen: bool in [true, false]:
+		if not await _w239_prepare_result("ko", 2, home_case):
+			return -1
+		var applied := _w227_state_bytes()
+		if not await _w239_seek_pen_page(applied):
+			return -1
+		var reveal := int(_story.get("_w239_pen_reveal_at"))
+		if not _w227_type_to(reveal - 1 if before_pen else reveal, "W239"):
+			return -1
+		if not before_pen:
+			var played_at := int(AudioManager._last_sfx_ms.get(
+				"pen_ballpoint", -1))
+			if played_at < 0 or not await _w239_wait_ballpoint_completion(played_at):
+				return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		if before_pen:
+			context.erase("story_locale")
+		else:
+			context.erase("source_paragraph_index")
+			context.erase("source_text_progress")
+		_w239_clear_tracked()
+		if not await _w239_cold_load(
+				context, "ko", applied, false,
+				"W239 legacy %s" % ("before" if before_pen else "after")):
+			return -1
+		if not bool(_story.get("_w239_pen_consumed")) \
+				or int(_story.get("_w239_pen_reveal_at")) >= 0 \
+				or not _w239_surface(
+					"W239 legacy result", _w235_current_home_background(), true) \
+				or not _w239_audio_matches(false, "W239 legacy result"):
+			_fail("W239 legacy result replayed an action without source/locale proof")
+			return -1
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if not _w239_audio_matches(false, "W239 legacy completion"):
+			return -1
+		boundaries += 1
+	return boundaries
+
+
+func _w239_reflow_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for before_pen: bool in [true, false]:
+		if not await _w239_prepare_result("ko", 2, home_case):
+			return -1
+		var applied := _w227_state_bytes()
+		if not await _w239_seek_pen_page(applied):
+			return -1
+		var reveal := int(_story.get("_w239_pen_reveal_at"))
+		if not _w227_type_to(reveal - 1 if before_pen else reveal, "W239"):
+			return -1
+		if not before_pen:
+			var played_at := int(AudioManager._last_sfx_ms.get(
+				"pen_ballpoint", -1))
+			if played_at < 0 or not await _w239_wait_ballpoint_completion(played_at):
+				return -1
+		_w239_clear_tracked()
+		var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+		var bed_position := BGMPlayer._ambience_player.get_playback_position()
+		var score_player := _w239_grief_player()
+		if not is_instance_valid(score_player):
+			return -1
+		var score_stream: AudioStream = score_player.stream
+		var score_position := score_player.get_playback_position()
+		var score_token := int(BGMPlayer.get("_punctuation_token"))
+		_story.call("_set_story_text_size", "large")
+		await _wait_stable()
+		if not _w239_reflow_state(
+				before_pen, applied, false, bed_stream, bed_position,
+				score_player, score_stream, score_position, score_token,
+				"font"):
+			return -1
+		boundaries += 1
+		bed_position = BGMPlayer._ambience_player.get_playback_position()
+		score_position = score_player.get_playback_position()
+		_story.call("_set_story_language", "en")
+		await _wait_stable()
+		if LocaleManager.language != "en" \
+				or not _w239_reflow_state(
+					before_pen, applied, true, bed_stream, bed_position,
+					score_player, score_stream, score_position, score_token,
+					"locale"):
+			return -1
+		boundaries += 1
+		if before_pen:
+			var localized_reveal := int(_story.get("_w239_pen_reveal_at"))
+			if localized_reveal <= 0 \
+					or not _w227_type_to(localized_reveal, "W239") \
+					or not _w239_audio_matches(
+						true, "W239 reflow remaining name-write", true):
+				_fail("W239 hot reflow lost its remaining localized ballpoint")
+				return -1
+			var reflow_played_at := int(AudioManager._last_sfx_ms.get(
+				"pen_ballpoint", -1))
+			if not await _w239_wait_ballpoint_completion(reflow_played_at):
+				return -1
+			_w239_reflow_ink += 1
+		else:
+			_story.call("_complete_typing")
+			_story.call("_complete_typing")
+			if not _w239_audio_matches(false, "W239 reflow consumed completion"):
+				return -1
+	return boundaries
+
+
+func _w239_reflow_state(
+		before_pen: bool, applied: String, allow_default_name_projection: bool,
+		bed_stream: AudioStream, bed_position: float,
+		score_player: AudioStreamPlayer, score_stream: AudioStream,
+		score_position: float, score_token: int, label: String) -> bool:
+	if not _w239_boundary_side(before_pen) \
+			or BGMPlayer._ambience_player.stream != bed_stream \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < bed_position \
+			or not _w227_state_matches(
+				applied, "W239 " + label + " reflow",
+				allow_default_name_projection, "W239") \
+			or not _w239_surface(
+				"W239 " + label + " reflow",
+				_w235_current_home_background(), true) \
+			or not _w239_audio_matches(false, "W239 " + label + " reflow") \
+			or not _w239_score_unchanged(
+				score_player, score_stream, score_position, score_token,
+				"W239 " + label + " reflow"):
+		_fail("W239 %s reflow crossed its action or restarted bed/score" % label)
+		return false
+	return true
+
+
+func _w239_advance_to_source(
+		target_source: int, result_phase: bool = false) -> bool:
+	for _guard in range(64):
+		if bool(_story.get("_showing_choices")) and not result_phase:
+			break
+		var source := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		if source == target_source:
+			return true
+		if source > target_source:
+			break
+		await _finish_page()
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			break
+		_story.call("_on_advance")
+		await _wait_stable()
+	_fail("W239 could not advance to %s source%d" % [
+		"result" if result_phase else "prose", target_source])
+	return false
+
+
+func _w239_cold_load(context: Dictionary, target_locale: String,
+		applied: String, allow_default_name_projection: bool,
+		label: String) -> bool:
+	if not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		_fail(label + " could not write isolated v4 save")
+		return false
+	var disk: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(SaveManager.slot_path(W8_QA_SLOT)))
+	if not disk is Dictionary or int((disk as Dictionary).get("version", -1)) != 4:
+		_fail(label + " lost disk schema v4")
+		return false
+	await _remove_story()
+	await _stop_audio()
+	GameState.start_new_game()
+	LocaleManager.set_language(target_locale)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		_fail(label + " could not cold-load its source position")
+		return false
+	BGMPlayer.set_ambience("room")
+	BGMPlayer.set_season_ambience("winter")
+	BGMPlayer.play_punctuation("reckoning")
+	_w239_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	await get_tree().create_timer(0.9).timeout
+	return _w227_state_matches(
+		applied, label, allow_default_name_projection, "W239")
 
 
 func _check_w237_record_page_turn() -> bool:

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/write_anchors = {
+"ko": "오늘 날짜 아래에 자기 이름을 쓰고",
+"en": "Beneath today's date, he wrote his own name",
+"ja": "今日の日付の下に自分の名前を書き",
+"zh-CN": "今天的日期下面，写上自己的名字",
+"zh-TW": "今天的日期下方，寫上自己的名字"
+}

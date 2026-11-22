@@ -193,6 +193,27 @@ W238_REMAINING_AUDIO = {
     "suppress_season_ambience": True,
     "music": {"key": "reckoning", "start_paragraph": 1},
 }
+W239_ALIVE_EVENT = "arc_y5_final_father_answer_alive"
+W239_ALIVE_AUDIO = {
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "music": {"key": "grief", "start_paragraph": 1},
+}
+W239_NAME_WRITE_ANCHORS = {
+    "ko": "오늘 날짜 아래에 자기 이름을 쓰고",
+    "en": "Beneath today's date, he wrote his own name",
+    "ja": "今日の日付の下に自分の名前を書き",
+    "zh-CN": "今天的日期下面，写上自己的名字",
+    "zh-TW": "今天的日期下方，寫上自己的名字",
+}
+W239_PEN_LAY_TAILS = {
+    "ko": " 펜을 놓았다.",
+    "en": " and set down the pen.",
+    "ja": "、ペンを置いた。",
+    "zh-CN": "，放下笔。",
+    "zh-TW": "，放下筆。",
+}
 W240_OUTDOOR_SIGNATURE_EVENT = "arc_final_countdown_property_not_executed"
 W240_OUTDOOR_SIGNATURE_AUDIO = {
     "ambience": "intentional_silence",
@@ -570,6 +591,41 @@ def check_w238_record_structure(errors: list[str]) -> None:
             errors.append(f"W238 record: {locale} lost its guarantee3/notice1 reads or exact prose/result sources")
 
 
+def check_w239_name_write_anchors(errors: list[str]) -> None:
+    resource = ROOT / "assets/w239_alive_name_write.tres"
+    try:
+        text = resource.read_text(encoding="utf-8")
+        match = re.fullmatch(
+            r'\[gd_resource type="Resource" format=3\]\s*\[resource\]\s*'
+            r'metadata/write_anchors\s*=\s*(\{.*\})\s*', text, re.S,
+        )
+        anchors = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError):
+        anchors = None
+    if anchors != W239_NAME_WRITE_ANCHORS:
+        errors.append("W239 alive name: preserve all five complete name-writing clauses before the pen is set down")
+    for locale, anchor in W239_NAME_WRITE_ANCHORS.items():
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_year3_drama.json")
+        event = next((row for row in rows if row.get("id") == W239_ALIVE_EVENT), {})
+        choices = event.get("choices", [])
+        reads = event.get("chapter5_finale_reads", {}).get("texts", [])
+        if (len(choices) != 3 or len(reads) != 2
+                or [len(row) for row in reads] != [3, 1]
+                or len(str(event.get("description", "")).split("\n\n")) != 2
+                or [len(str(choice.get("result_text", "")).split("\n\n"))
+                    for choice in choices] != [2, 1, 2]):
+            errors.append(f"W239 alive name: {locale} lost its trace3/notice1 or exact prose/result sources")
+            continue
+        prose = str(choices[2].get("result_text", ""))
+        paragraphs = prose.split("\n\n")
+        if (prose.count(anchor) != 1 or paragraphs[0].count(anchor) != 1
+                or not paragraphs[0].endswith(anchor + W239_PEN_LAY_TAILS[locale])
+                or any(anchor in str(choice.get("result_text", ""))
+                       for choice in choices[:2])):
+            errors.append(f"W239 alive name: {locale} lost its unique c2/source0 writing-before-pen-lay action")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
@@ -580,6 +636,7 @@ def main() -> int:
     check_w235_return_anchors(errors)
     check_w237_page_turn_anchors(errors)
     check_w238_record_structure(errors)
+    check_w239_name_write_anchors(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
@@ -786,6 +843,19 @@ def main() -> int:
             or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
                    for choice in remaining.get("choices", []))):
         errors.append(f"{W238_REMAINING_EVENT}: retain current home, exact channel reads and source1 score; unspecified writing medium must not infer a physical cue")
+    father_alive = events.get(W239_ALIVE_EVENT, {})
+    if (event_contracts.get(W239_ALIVE_EVENT) != W239_ALIVE_AUDIO
+            or father_alive.get("background") != "current_housing"
+            or father_alive.get("portrait") != "player_tired" or father_alive.get("cg")
+            or father_alive.get("chapter5_finale_reads", {}).get("mode") != "prepend"
+            or father_alive.get("chapter5_finale_reads", {}).get("sources") != [
+                {"kind": "finale_stage", "id": "father_trace"},
+                {"kind": "finale_stage", "id": "nontransaction"},
+            ]
+            or any(key in father_alive for key in ("result_background", "result_ambience", "result_cg"))
+            or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
+                   for choice in father_alive.get("choices", []))):
+        errors.append(f"{W239_ALIVE_EVENT}: retain live home, neutral bed, exact reads and grief source1; only c2's revealed name-write clause may sound")
     if W240_OUTDOOR_SIGNATURE_EVENT not in event_contracts:
         errors.append(f"{W240_OUTDOOR_SIGNATURE_EVENT}: missing outdoor signature audio contract")
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO

@@ -985,6 +985,30 @@ WORK_LOG는 main11-22와 PR11-19/20 기록을 함께 보존했고 11-07 원문25
 
 [~] 2026-11-22 W239 생존 아버지 · 이름 쓰기/방/재개: `scenes/StoryMode.gd`, 새 `assets/w239_alive_name_write.tres`, `assets/scene_audio_manifest.json`의 `arc_y5_final_father_answer_alive` 한 계약, `tools/{scene_audio_contract_check.py,StoryBackgroundContextCheck.gd,Chapter5FinaleRouteCheck.gd}`, `docs/{AUDIO_QA,WORK_LOG}.md`, `CLAUDE.md`, 이 증거만. c2/result source0의 문단 입구 pencil pen_write−7을 제거하고 실제 이름을 쓰는 5언어 절 끝에 기존 일반 필기 pen_ballpoint−7을 한 번만 결속한다. 연락처 닫기/빈 종이 끼우기/펜 내려놓기는 필기 시작이 아니며 c0 전송·c1 연락처 메모에는 펜/수신 알림/통화음0. 새 physical mapper가 아니라 기존 exact4사건 core를 이 한 사건만 추가한 closed5로 쓰고 기존 pen API/4TRES는 보존한다. 독립 transient reveal/consumed만 추가하며 새 저장 필드/플래그/원문 컷/페이지 경계/효과/수치/경제/채널/라우팅/공개 RC 변경0. 실제 주거 그림·혼자인 player_tired를 유지하고 기존 single apartment 원음+사람/계절 억제를 결속한다. 새 방문 source0은 이전 score/같은-key 방 fade를 정리하고 기존 grief source1(회수 접두 문단)을 보존한다. cold는 위치별 곡만 복원하며 c2 같은 언어 미독 필기만 미래에 한 번 허용, 읽은/current cross-language/위치 없는 legacy는 억제한다. hot 언어·글자크기는 절의 전후와 방/곡 연속을 유지한다. 노출 원장에 audio pin이 없어 추가0. 원음143/출처24/physical35·공용Audio/BGM/실제 저장 불변. 준비된 정상 종막의5언어×father_trace3×W238두 영수증=30가시 문맥/90결과를 목표로 실제 Main/FullStoryFlow 입장·주거7·두 요청 해상도·v4/cross/reflow·기존 물리음 회귀/반례와 독립 검수 후 정상 commit/push·최신 두 CI를 추적한다. 사망 아버지 변형은 이 묶음 소유가 아니며 실제 펼침/정리·단발 냉장고는 별도 수리한다. 현재 worktree는 e4ee84f 원격main과 일치하며 원본244미커밋 경로는 건드리지 않는다. 833 P0/애도1장면은 830 뒤다. 실제 청취·native/원어민/사람·출시 GO 아님.
 
+[x] 2026-11-22 W239 생존 아버지 필기·방·재개 표적. 선언 `2b1a27dddb66adef38efc87fded6ce24a4f19295` 뒤 c2/result source0의 옛 문단 입구 연필음을 제거하고 이름을 실제로 쓰는 절 끝, 별도의 펜 내려놓기 앞에서만 기존 일반 pen_ballpoint−7을 한 번 요청한다. c0 전송·c1 연락처 메모는 펜/통화/수신 알림0이다. single apartment+사람/계절 억제·새 방문의 이전 score/같은-key 방 fade 정리·실제 조립 source1 grief를 유지한다. cold는 위치별 곡만 복원하며 같은 언어 source0의 미독 필기만 미래에 한 번 남긴다. current cross-language/읽은 동작/source1/위치 없는 legacy는 소비하고 hot는 절의 전후와 곡/방 연속을 보존한다. 새 저장 key/원문 컷/페이지/효과0; 기존4TRES/pen API·원음143/출처24/physical35·전체5언어 원고/사망 변형·주거 그림·공용Audio/BGM·경제/라우팅/실제 저장/공개 RC 불변.
+
+동결 SHA256: StoryMode `3dcbbc2e904af6785271f73f7ef7c5a86447264a6aaf70a24928948c16a628a5`, 새 TRES `0a7501d7a4b95710889d880102fb1a19a63fc2646e21d709bcb58ebc78d9257f`, manifest `9dbfd864819bdae8b7cdda7f424b09aedcc60e9511e3420b1f6298c7894aed4b`, Python 계약 `575d164980c3dc1f2778db68839cb66307c163937a3ea93607408d2c656ce7b2`, 정적 fixture `5550a1c86739269ad988f139fbdb20905dcc39fd328716efa3d099a19f70be24`, 동적 fixture `1af77507fdafaf6e3dc21f154a2bca17c98d2f4d2452b67b96c955d5696564f9`. father_trace3×W238 영수증2×5언어=30가시 문맥/90결과·prefix2+본문2=4source·결과[2,1,2] 통과(과거 모든 연락 방식의 전체 곱집합 아님). 각 요청 headless1280×800/960×600에서 15결과/필기5/무필기10·Main/FullStoryFlow 입장6·주거7·같은-key1·격리 디스크 intro3/result6/legacy2·cold필기1·hot4/필기1과 전체 GameState/Meta·설정 보존을 확인했다. 교차 언어 기본 이름 투영만 명시 허용했다.
+
+외부 증거 공통 접두 `/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/`; 아래는 stdout=Godot SHA256, 각 실제 exit0/stderr0/전체 오류·경고·leak0이다.
+
+| 범위 | 폴더 | SHA256 |
+|---|---|---|
+| Compile69 | gangnam-w239-alive-frozen-compile.XXXXXX.CJjWv5i9qH | 0fd2f7f250a59737cbfbaea8ccea9e00889bb3b704bfd1ff83ae1a0356fc655c |
+| 정적30/90 | gangnam-w239-alive-static.XXXXXX.7YfLJuOeVm | 1d224ceeba4bd57c8ffe35076750d2123d1f32b4d021d978ed493dfee9d64467 |
+| 1280 | gangnam-w239-dynamic-1280-final.awk4hWNcWu | c0e139f91286536b7b7c7f88b9d88ad3897b3051ba5ba2d37144c1cf82e96a29 |
+| 960 | gangnam-w239-dynamic-960.MgH7C5skzg | 1c81cd7c5c67c4c5d9146b3b5283c25d3b371b2934a619e56b8db2342d84b012 |
+| W227 원 기대값 | gangnam-w239-regression-w227.raFowUG0LU | a8994055917960664f0eb8ace3e741352df12a9964ed21d029dbc48dab0a05fd |
+| W230 원 기대값 | gangnam-w239-regression-w230.xKnHPYXPaj | 083e622476c4178a5bd852f64eb4533d15bfc7b960871f25bad0ea18a8e844a9 |
+| W235 원 기대값 | gangnam-w239-regression-w235.fUCcuAUu85 | 1a35267264e552160598ce08ffaeefba2a06a9033d604b3f1b06ced5d50ed351 |
+| W237 원 기대값 | gangnam-w239-regression-w237.76fU8OaEJv | 9121b3b9ba8b6f5f67c8691e8de8f550a0151369f3b5341343f65aa596be2bd1 |
+| W238 원 기대값 | gangnam-w239-regression-w238.C7zkB2UlCE | f756c2ce83285b7fc3a132a6f54976e5046c9dcb0a87959a0e14e9c402d858bd |
+
+첫1280 `gangnam-w239-dynamic-1280.VXJ9hlX5cb`는 엔진 로그는 깨끗하나 zsh 예약 변수 status를 쓴 래퍼 오류여서 보존만 하고 성공 모집단에서 제외했다. root의 CLI 이름 착오2건은 실존 scene_audio_catalog.py/exposed_state_consistency_audit.py로 정정 실행했다. 실제 명령명·pre-autoload 주의는 AUDIO_QA에 승격했다. audit.py0/0·EN/한글·종막2종·데모5언어/밀도·시각/노출 상태·음향/카탈로그/출처/게임음향·정본/큐·scope186 통과. 영향 선택77개는 목록일 뿐 전부 실행한 수가 아니다.
+
+독립 w211_asset_recon은 런타임 byte/Python 구 AST/전체 manifest 역복원·보호18경로/원음143/전체5언어/기존4TRES 불변, baseline1+메모리 반례30거부, 정적/동결 컴파일·최종7실행21로그를 직접 대조해 선언된 source/headless 통합만 GO했다. formal 전체 후보 HOLD·사람 OPEN·실청취/피로/native/출시 판정은 별도다. 원본 사용자244경로는 tracked diff `ad91ab6e5fe62134230f6a7f9e5cc359002f6d575ed4ba68e25f22c8ed0dbb86`/untracked 집합 `e5b3043d3937ab087ea67311e124ce2494531674186d0b58194e9c41a98db116` 그대로다. 마지막 실제 선언 CI44964705035는 static137030988936 success/engine137030988661 전체 감사 진행 중이며 최신 제품 성공으로 대체하지 않는다.
+
+다음 사망 분기의 펼침/정리·투명 파일 닫기·한 번만 도는 냉장고는 별도다. [CC0 kyles635553](https://freesound.org/people/kyles/sounds/635553/)는 실제 compressor start/stop 표기·5:31.288·공개 HQ MP3 존재만 확인했으며 다운로드/청취/제품 수용0이다. 실제 빈 의자 공간도 모든 주거에서 exact라고 세지 않는다. 이후 W240 일반 종막의 과거 회상 위 종이/디지털 삭제 앞 연필·명시된 볼펜·cold 복원, 일반 마지막 방 소등이 수리 후보로 남았다. author_only 종막은 출시 부채와 분리한다. M03 마찰 원음·전구간 경로별 정합·연속 청취도 미완이라 830 전체 완료/833 선착수0이다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.

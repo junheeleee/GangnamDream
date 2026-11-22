@@ -835,11 +835,10 @@
       "music": {"key": "reckoning", "start_paragraph": 1}
     },
     "arc_y5_final_father_answer_alive": {
-      "ambience": "current_housing",
-      "music": {"key": "grief", "start_paragraph": 1},
-      "result_paragraph_cues": {
-        "2": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]}
-      }
+      "ambience": "apartment",
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true,
+      "music": {"key": "grief", "start_paragraph": 1}
     },
     "arc_y5_final_father_answer_passed": {
       "ambience": "current_housing",

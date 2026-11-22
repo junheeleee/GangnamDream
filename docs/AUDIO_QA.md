@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-11-22 (current inventory and filing-counter contract)
+Updated: 2026-11-22 (current inventory and explicit physical-action contracts)
 
 Production gate: an audio file existing and loading is not the same as launch approval. Every asset must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md`: commercial provenance, clean head/tail, mix balance, semantic runtime mapping, image-paired listening, and 30-minute fatigue QA.
 
@@ -70,6 +70,14 @@ All 143 current assets are recording/sample-backed: 20 real-piano scores, 50 fie
 - Use the existing single-source `apartment` bed with human and seasonal suppression, without changing the housing picture. This removes separately added machinery, neighbour and weather layers, not every incidental sound in the original recording. A distinct visit clears inherited fades and score once; current description source 1 admits `reckoning`.
 - Cold resume restores the admitted room and score only: source-0 prose remains unscored, later prose/choices/results restore the score without replaying an action. Live paragraph, font and locale reflow keeps playback continuous. No physical-cue mapper, writing resource, consumed state, gameplay field or saved flag is added.
 - Source checks and isolated route/resume tests are integration evidence, not audible suitability, native image-paired listening, fatigue, human or release approval.
+
+## Living Father's Name on Paper
+
+- `arc_y5_final_father_answer_alive` keeps the current home picture and solitary tired Minjun. Choice 0 sends a message; choice 1 keeps a contact note. Neither owns a pen, call, notification or inferred reply sound. Choice 2 closes the contact, inserts blank paper, writes his name below the date, then sets down the pen.
+- `assets/w239_alive_name_write.tres` binds the complete name-writing clause in each of the five languages, before the separate pen-laying tail. Only choice 2, result source 0, requests the existing ordinary `pen_ballpoint` recording at -7 dB when that clause is revealed. Remove the old paragraph-entry pencil request. Do not move the action to contact-closing, paper insertion, the date alone or pen-laying, and do not imply the chained counter pen is present here.
+- Use the single-source `apartment` bed with human/season suppression, preserving the housing picture. A distinct visit clears inherited score/room fades once; description source 0 is unscored and the actual assembled source 1 admits `grief`. This removes added machinery, neighbour and weather layers, not every incidental sound in the recording. Later pages and live font/locale reflow retain playback continuity.
+- Cold resume restores only the position-appropriate score, never an old one-shot. A same-language source-0 result before the writing clause can still play it once. Read, uncertain cross-language current, later-source and unlocated legacy actions remain consumed. Live font/locale reflow preserves the current clause's before/after side without a saved sound flag, prose cut or page-boundary change.
+- Exact source/route, isolated timing and whole-state checks establish this integration only. Listening, native image-paired mix, fatigue, human and release approval remain separate.
 
 ## Public Office Queue Cue
 
@@ -260,10 +268,14 @@ Focus traversal is a last resort. Gameplay scenes use direct state machines and 
 
 ## Automated Gates
 
+Use the actual CLI filenames below. Route every Godot example through `StoryNameplateBootstrap.gd` with a fresh `STORY_NAMEPLATE_QA_NAMESPACE` before autoload, never the player's ordinary save/settings namespace.
+
 ```bash
 python3 tools/audio_source_audit.py
 python3 tools/build_sample_audio_assets.py --validate-only
 python3 tools/scene_audio_contract_check.py
+python3 tools/scene_audio_catalog.py
+python3 tools/exposed_state_consistency_audit.py
 python3 tools/game_audio_contract_check.py
 python3 tools/generate_launch_audio.py --check
 /Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot --headless res://tools/AudioAssetCheck.tscn
