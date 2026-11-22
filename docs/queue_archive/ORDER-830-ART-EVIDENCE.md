@@ -1126,6 +1126,8 @@ hot 언어/글자 크기는 전/중/후 세 단계를 보존하고 cold는 실�
 
 [~] 같은 W240 소등 배선 범위 보충: 기존 음향 감사가 모든 활성 CG의 명시 계약을 요구하므로 `assets/scene_audio_manifest.json`의 새 `cg_final_week_phone_dark`/`cg_final_week_phone_green` 두 CG 메타데이터만 추가 소유한다. 실제 `arc_final_week`의 기존 `ambience=apartment`와 같은 중립 방을 그대로 명시하며 새 music/SFX/cue·사람/계절 억제·기존 사건/CG 계약 변경0이다. StoryMode 전환은 음향 재요청을 하지 않고 기존 player/stream/재생 위치를 보존한다. 감사 누락2건을 숨기거나 검사기를 완화하지 않는다.
 
+[~] 같은 W240 배선의 갤러리 소비자 보충: `scenes/StartMenu.gd`의 CG 목록/개수/진척3함수와 `tools/ScreenshotQA.gd`의 갤러리 seed/진척2부분을 추가 소유한다. 기존 `CG.keys()/size()` 소비자가 새2상태를 영구 잠금 카드로 노출하는 실제 부작용을 찾았다. `ImageRegistry.gd`에 정확히 두 전환용 ID만 제외하는 `get_gallery_cg_ids()`를 두고 기존 순서81개를 그대로 돌려주며 두 CG의 실제 로드/활성아트323 등록은 유지한다. 메타 unlock·새 저장key/수치·문구·장면·갤러리 admission을 늘리지 않는다. 잘못된 잠금 카드를 감추기 위해 아트 감사를 회피하거나 CG를 다른 자산 종류로 위장하지 않는다. 정적 검사에서 옛81개/순서/신규2제외/신규CG 로드 경로를 고정하고 다른 ScreenshotQA scope는 바꾸지 않는다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
