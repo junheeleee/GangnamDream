@@ -16,6 +16,9 @@ const W239_FATHER_ALIVE := "arc_y5_final_father_answer_alive"
 const W239_ALIVE_NAME_WRITE := preload("res://assets/w239_alive_name_write.tres")
 const W239_FATHER_PASSED := "arc_y5_final_father_answer_passed"
 const W239_PASSED_PAPER_ACTIONS := preload("res://assets/w239_passed_paper_actions.tres")
+const W240_GENERAL_SACRIFICE := "arc_final_countdown_general_near_goal_passed"
+const W240_GENERAL_SACRIFICE_WRITE := preload(
+	"res://assets/w240_general_sacrifice_write.tres")
 const LEDGER_PATH := "res://content/meta/chapter5_finale_ledger.json"
 const MAIN_GAME_PATH := "res://scenes/MainGame.gd"
 const ACTIVE_TURNS: Array[int] = [221, 224, 227, 230, 235, 238, 239, 240, 240]
@@ -89,6 +92,7 @@ func _ready() -> void:
 	_check_w238_remaining_silence_alignment()
 	_check_w239_father_answer_alignment()
 	_check_w239_passed_father_alignment()
+	_check_w240_general_signature_alignment()
 	await _release_audio_for_exit()
 	if _failures.is_empty():
 		print(
@@ -112,7 +116,8 @@ func _ready() -> void:
 			+ "w237-contexts80/results160/anchors5/manifest-description-cues2/"
 			+ "w238-contexts30/results60/manifest-cues0/"
 			+ "w239-contexts30/results90/anchors5/manifest-cues0/"
-			+ "w239-passed-contexts30/results90/anchors10/manifest-cues0")
+			+ "w239-passed-contexts30/results90/anchors10/manifest-cues0/"
+			+ "w240-general-contexts10/results20/anchors10/manifest-cues0")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -2765,6 +2770,183 @@ func _check_w239_passed_result_anchor(
 			and source0.count(anchor) == 1 \
 			and anchor_at >= 0 and position_ok,
 			context + " c%d lost its unique paper-action boundary" % choice_index)
+
+
+func _check_w240_general_signature_alignment() -> void:
+	var original_language: String = LocaleManager.language
+	var story: Node = STORY_MODE.new()
+	var raw_anchor_metadata: Variant = W240_GENERAL_SACRIFICE_WRITE.get_meta(
+		"write_anchors", {})
+	_expect(raw_anchor_metadata is Dictionary,
+		"W240 general write asset lost its choice/locale anchor dictionary")
+	var anchors: Dictionary = raw_anchor_metadata as Dictionary \
+		if raw_anchor_metadata is Dictionary else {}
+	_expect(anchors.size() == 2 and anchors.has("0") and anchors.has("1"),
+		"W240 general write asset must own exactly c0/c1")
+	var later_signature_clauses := {
+		"ko": "그 시각을 적고 아래에 자기 이름을 썼다.",
+		"en": "He wrote the time and signed his name beneath it.",
+		"ja": "その時刻を書き、下に自分の名前を書いた。",
+		"zh-CN": "记下那个时间，在下面写上自己的名字。",
+		"zh-TW": "他記下那個時間，在下面寫上自己的名字。",
+	}
+	for choice_key: String in ["0", "1"]:
+		var raw_locales: Variant = anchors.get(choice_key, {})
+		_expect(raw_locales is Dictionary,
+			"W240 general c%s write anchors are not a locale map" % choice_key)
+		if raw_locales is Dictionary:
+			var locales: Dictionary = raw_locales
+			_expect(locales.size() == LocaleManager.SUPPORTED_LANGUAGES.size(),
+				"W240 general c%s lost the exact locale inventory" % choice_key)
+			for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+				_expect(locales.get(language, "") is String \
+					and not str(locales.get(language, "")).strip_edges().is_empty() \
+					and later_signature_clauses.has(language),
+					"W240 general c%s has no exact %s write clause" % [
+						choice_key, language])
+
+	var contexts := 0
+	var results := 0
+	var expected_record_receipts: Array[Dictionary] = [
+		{
+			"receipt_ids": ["m60_general_record_disposition_people_night"],
+			"document_ids": ["Y5-GENERAL-RECORD-DISPOSITION-PEOPLE-NIGHT"],
+		},
+		{
+			"receipt_ids": ["m60_general_record_disposition_price_night"],
+			"document_ids": ["Y5-GENERAL-RECORD-DISPOSITION-PRICE-NIGHT"],
+		},
+	]
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		LocaleManager.set_language(language)
+		DataRegistry.reload()
+		for record_choice in range(2):
+			var context := "%s W240 general record%d" % [language, record_choice]
+			var locked: Dictionary = _general_lock(0)
+			var state: Dictionary = (locked.get(
+				"state", {}) as Dictionary).duplicate(true)
+			var events := _general_events(0)
+			for stage_index in range(3):
+				var committed: Dictionary = ROUTE.commit_choice(
+					state, events[stage_index], GENERAL_CHOICES[stage_index],
+					GENERAL_TURNS[stage_index])
+				_expect(bool(committed.get("ok", false)),
+					context + " could not commit " + events[stage_index])
+				if not bool(committed.get("ok", false)):
+					break
+				state = (committed.get("state", state) as Dictionary).duplicate(true)
+			var record_commit: Dictionary = ROUTE.commit_choice(
+				state, events[3], record_choice, GENERAL_TURNS[3])
+			_expect(bool(locked.get("ok", false)) \
+				and bool(record_commit.get("ok", false)),
+				context + " could not commit its actual W237 record receipt")
+			if not bool(record_commit.get("ok", false)):
+				continue
+			state = (record_commit.get("state", state) as Dictionary).duplicate(true)
+			GameState.start_new_game()
+			GameState.chapter5_finale_state = state
+			GameState.turn = 240
+			var record_receipt: Dictionary = ROUTE.receipt_snapshot_for_event(
+				state, W237_RECORD)
+			var expected_receipt: Dictionary = expected_record_receipts[record_choice]
+			_expect(ROUTE.selected_choice_for_stage(
+					state, "record_disposition") == record_choice \
+				and int(record_receipt.get("choice_index", -1)) == record_choice \
+				and _same(record_receipt.get("receipt_ids", []),
+					expected_receipt["receipt_ids"]) \
+				and _same(record_receipt.get("document_ids", []),
+					expected_receipt["document_ids"]) \
+				and _same(record_receipt.get("economic_outcome", {}), {}) \
+				and GameState.chapter5_finale_next_event_for_turn() \
+					== W240_GENERAL_SACRIFICE \
+				and GameState.chapter5_finale_ingress_available(
+					W240_GENERAL_SACRIFICE),
+				context + " lost its actual general-profile W237 receipt ingress")
+
+			var raw_event: Dictionary = DataRegistry.find_event(
+				W240_GENERAL_SACRIFICE)
+			var resolved: Dictionary = story.call(
+				"_chapter5_finale_event_with_reads", raw_event)
+			var reads: Dictionary = raw_event.get(
+				"chapter5_finale_reads", {}) as Dictionary
+			var rows: Array = reads.get("texts", [])
+			var expected_description := ""
+			if rows.size() == 1 and rows[0] is Array:
+				expected_description = str((rows[0] as Array)[record_choice]) \
+					+ "\n\n" + str(raw_event.get("description", ""))
+			_expect(str(reads.get("mode", "")) == "prepend" \
+				and rows.size() == 1 and rows[0] is Array \
+				and (rows[0] as Array).size() == 2 \
+				and str(resolved.get("description", "")) == expected_description \
+				and _father_trace_source_indices(
+					story, expected_description) == [0, 1, 2, 3] \
+				and str(resolved.get("background", "")) == "current_housing" \
+				and str(resolved.get("portrait", "")) == "player_tired" \
+				and not resolved.has("cg"),
+				context + " changed its one receipt, four sources, or home surface")
+			var choices: Array = resolved.get("choices", [])
+			_expect(choices.size() == 2,
+				context + " lost its two general sacrifice choices")
+			if choices.size() != 2:
+				continue
+			var result_sources: Array = []
+			for choice_index in range(2):
+				var formatted_result: String = str(story.call(
+					"_fmt", str((choices[choice_index] as Dictionary).get(
+						"result_text", ""))))
+				var indices: Array[int] = []
+				indices.assign(_father_trace_source_indices(story, formatted_result))
+				_expect(indices == [0, 1],
+					context + " changed result sources for choice%d" % choice_index)
+				result_sources.append(indices)
+				_check_w240_general_result_anchor(
+					story, anchors, later_signature_clauses, language,
+					choice_index, formatted_result, context)
+				results += 1
+			_assert_w239_manifest_audio(
+				[0, 1, 2, 3], result_sources, context,
+				W240_GENERAL_SACRIFICE)
+			contexts += 1
+	_expect(contexts == 10 and results == 20,
+		"W240 general signature did not cover exact 10 contexts and 20 results")
+	_expect(_same(BGMPlayer.scene_audio_contract(W240_GENERAL_SACRIFICE), {
+		"ambience": "apartment",
+		"suppress_human_ambience": true,
+		"suppress_season_ambience": true,
+		"music": {"key": "reckoning", "start_paragraph": 1.0},
+	}), "W240 general changed its neutral bed, suppression, score entrance, or silence")
+	LocaleManager.set_language(original_language)
+	DataRegistry.reload()
+	story.free()
+
+
+func _check_w240_general_result_anchor(
+		story: Node, anchors: Dictionary, later_signature_clauses: Dictionary,
+		language: String, choice_index: int, formatted_result: String,
+		context: String) -> void:
+	var sources := formatted_result.split("\n\n")
+	for action_choice in [0, 1]:
+		var locale_anchors: Dictionary = anchors.get(str(action_choice), {})
+		var anchor: String = str(story.call(
+			"_fmt", str(locale_anchors.get(language, ""))))
+		if choice_index != action_choice:
+			_expect(not anchor.is_empty() and formatted_result.count(anchor) == 0,
+				context + " choice%d gained c%d write action" % [
+					choice_index, action_choice])
+			continue
+		var source0 := str(sources[0]) if sources.size() == 2 else ""
+		var source1 := str(sources[1]) if sources.size() == 2 else ""
+		var anchor_at := source0.find(anchor)
+		var endpoint_ok := source0.ends_with(anchor) if choice_index == 0 else (
+			anchor_at >= 0 and anchor_at + anchor.length() < source0.length() \
+			and source0.find(str(later_signature_clauses.get(language, "")),
+				anchor_at + anchor.length()) >= anchor_at + anchor.length())
+		_expect(sources.size() == 2 \
+			and not anchor.is_empty() \
+			and formatted_result.count(anchor) == 1 \
+			and source0.count(anchor) == 1 and source1.count(anchor) == 0 \
+			and anchor_at >= 0 and endpoint_ok,
+			context + " c%d lost its exact write endpoint" % choice_index)
 
 
 func _assert_w239_manifest_audio(

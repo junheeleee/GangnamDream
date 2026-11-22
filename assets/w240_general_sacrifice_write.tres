@@ -1,0 +1,19 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/write_anchors = {
+"0": {
+"ko": "빈 화면의 시각을 수첩에 옮기고 그 아래에 자기 이름을 썼다.",
+"en": "He copied the time from the empty screen into the notebook and wrote his name beneath it.",
+"ja": "空の画面の時刻を手帳に写し、その下に自分の名前を書いた。",
+"zh-CN": "将空白屏幕上的时间抄进笔记本，在下面写下自己的名字。",
+"zh-TW": "把空白畫面上的時間抄進筆記本，再在下面寫上自己的名字。"
+},
+"1": {
+"ko": "{name}은 수첩 첫 장을 펴고 30억 위에 검은 줄을 두 번 그었다.",
+"en": "{name} opened the notebook's first page and drew two black lines through three billion won.",
+"ja": "{name}は手帳の最初のページを開き、30億ウォンの上に黒い線を二度引いた。",
+"zh-CN": "{name}翻开笔记本第一页，在30亿韩元上画了两次黑线。",
+"zh-TW": "{name}翻開筆記本第一頁，在30億韓元上畫了兩道黑線。"
+}
+}

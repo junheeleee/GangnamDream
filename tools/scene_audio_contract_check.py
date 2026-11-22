@@ -244,6 +244,29 @@ W239_PAPER_FOLLOWING_DATE = {
     "zh-CN": "，在两张纸之间的分隔页上写下今天的日期。",
     "zh-TW": "，在兩張紙之間的分隔頁寫下今天的日期。",
 }
+W240_GENERAL_SACRIFICE_EVENT = "arc_final_countdown_general_near_goal_passed"
+W240_GENERAL_SACRIFICE_AUDIO = {
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "music": {"key": "reckoning", "start_paragraph": 1},
+}
+W240_GENERAL_WRITE_ANCHORS = {
+    "0": {
+        "ko": "빈 화면의 시각을 수첩에 옮기고 그 아래에 자기 이름을 썼다.",
+        "en": "He copied the time from the empty screen into the notebook and wrote his name beneath it.",
+        "ja": "空の画面の時刻を手帳に写し、その下に自分の名前を書いた。",
+        "zh-CN": "将空白屏幕上的时间抄进笔记本，在下面写下自己的名字。",
+        "zh-TW": "把空白畫面上的時間抄進筆記本，再在下面寫上自己的名字。",
+    },
+    "1": {
+        "ko": "{name}은 수첩 첫 장을 펴고 30억 위에 검은 줄을 두 번 그었다.",
+        "en": "{name} opened the notebook's first page and drew two black lines through three billion won.",
+        "ja": "{name}は手帳の最初のページを開き、30億ウォンの上に黒い線を二度引いた。",
+        "zh-CN": "{name}翻开笔记本第一页，在30亿韩元上画了两次黑线。",
+        "zh-TW": "{name}翻開筆記本第一頁，在30億韓元上畫了兩道黑線。",
+    },
+}
 W240_OUTDOOR_SIGNATURE_EVENT = "arc_final_countdown_property_not_executed"
 W240_OUTDOOR_SIGNATURE_AUDIO = {
     "ambience": "intentional_silence",
@@ -697,6 +720,45 @@ def check_w239_passed_paper_anchors(errors: list[str]) -> None:
                 errors.append(f"W239 passed paper: {locale} insertion must precede date-writing and clear-file closing")
 
 
+def check_w240_general_write_anchors(errors: list[str]) -> None:
+    resource = ROOT / "assets/w240_general_sacrifice_write.tres"
+    try:
+        text = resource.read_text(encoding="utf-8")
+        match = re.fullmatch(
+            r'\[gd_resource type="Resource" format=3\]\s*\[resource\]\s*'
+            r'metadata/write_anchors\s*=\s*(\{.*\})\s*', text, re.S,
+        )
+        anchors = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError):
+        anchors = None
+    if anchors != W240_GENERAL_WRITE_ANCHORS:
+        errors.append("W240 general pen: preserve both five-language time/name and strikeout clauses")
+    for locale in W240_GENERAL_WRITE_ANCHORS["0"]:
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_pre_ending.json")
+        event = next((row for row in rows if row.get("id") == W240_GENERAL_SACRIFICE_EVENT), {})
+        choices = event.get("choices", [])
+        reads = event.get("chapter5_finale_reads", {}).get("texts", [])
+        if (len(choices) != 2 or [len(row) for row in reads] != [2]
+                or len(str(event.get("description", "")).split("\n\n")) != 3
+                or [len(str(choice.get("result_text", "")).split("\n\n"))
+                    for choice in choices] != [2, 2]):
+            errors.append(f"W240 general pen: {locale} lost its exact record2/prose3/results2x2")
+            continue
+        for choice_key, localized in W240_GENERAL_WRITE_ANCHORS.items():
+            index = int(choice_key)
+            anchor = localized[locale]
+            prose = str(choices[index].get("result_text", ""))
+            first = prose.split("\n\n")[0]
+            if (prose.count(anchor) != 1 or first.count(anchor) != 1
+                    or anchor in str(choices[1 - index].get("result_text", ""))):
+                errors.append(f"W240 general pen: {locale} c{index} lost its unique source0 physical action")
+            if index == 0 and not first.endswith(anchor):
+                errors.append(f"W240 general pen: {locale} writing must follow phone deletions and finish source0")
+            if index == 1 and (not first.startswith(anchor) or first.endswith(anchor)):
+                errors.append(f"W240 general pen: {locale} strikeout must precede its later time/name writing")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
@@ -709,6 +771,7 @@ def main() -> int:
     check_w238_record_structure(errors)
     check_w239_name_write_anchors(errors)
     check_w239_passed_paper_anchors(errors)
+    check_w240_general_write_anchors(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
@@ -941,6 +1004,18 @@ def main() -> int:
             or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
                    for choice in father_passed.get("choices", []))):
         errors.append(f"{W239_PASSED_EVENT}: retain home, neutral bed, exact reads and grief source0; only revealed fold/insertion clauses own generic paper handling")
+    general_sacrifice = events.get(W240_GENERAL_SACRIFICE_EVENT, {})
+    if (event_contracts.get(W240_GENERAL_SACRIFICE_EVENT) != W240_GENERAL_SACRIFICE_AUDIO
+            or general_sacrifice.get("background") != "current_housing"
+            or general_sacrifice.get("portrait") != "player_tired" or general_sacrifice.get("cg")
+            or general_sacrifice.get("chapter5_finale_reads", {}).get("mode") != "prepend"
+            or general_sacrifice.get("chapter5_finale_reads", {}).get("sources") != [
+                {"kind": "finale_stage", "id": "record_disposition"},
+            ]
+            or any(key in general_sacrifice for key in ("result_background", "result_ambience", "result_cg"))
+            or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
+                   for choice in general_sacrifice.get("choices", []))):
+        errors.append(f"{W240_GENERAL_SACRIFICE_EVENT}: retain home, neutral bed and reckoning source1; old receipt/phone deletion must not play paper or pen")
     if W240_OUTDOOR_SIGNATURE_EVENT not in event_contracts:
         errors.append(f"{W240_OUTDOOR_SIGNATURE_EVENT}: missing outdoor signature audio contract")
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO

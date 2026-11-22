@@ -233,6 +233,9 @@ const W239_FATHER_ALIVE := "arc_y5_final_father_answer_alive"
 const W239_ALIVE_NAME_WRITE := preload("res://assets/w239_alive_name_write.tres")
 const W239_FATHER_PASSED := "arc_y5_final_father_answer_passed"
 const W239_PASSED_PAPER_ACTIONS := preload("res://assets/w239_passed_paper_actions.tres")
+const W240_GENERAL_SACRIFICE := "arc_final_countdown_general_near_goal_passed"
+const W240_GENERAL_SACRIFICE_WRITE := preload(
+	"res://assets/w240_general_sacrifice_write.tres")
 const W239_TRACKED_SFX := [
 	"phone_notification", "phone_vibrate", "page_turn", "paper_handle",
 	"pen_ballpoint", "pen_write", "document_scan", "register_scan",
@@ -595,6 +598,8 @@ var _w239_cold_ink := 0
 var _w239_reflow_ink := 0
 var _w239_passed_cold_paper := 0
 var _w239_passed_reflow_paper := 0
+var _w240_cold_ink := 0
+var _w240_reflow_ink := 0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -617,6 +622,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W240_GENERAL_SIGNATURE_CHECK"):
+		var w240_ok: bool = await _check_w240_general_signature()
+		await _remove_story()
+		await _stop_audio()
+		if w240_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w240_general_signature")
+		get_tree().quit(0 if w240_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W239_FATHER_PASSED_CHECK"):
 		var w239_passed_ok: bool = await _check_w239_father_passed()
 		await _remove_story()
@@ -6922,7 +6935,7 @@ func _w239_advance_to_source(
 
 func _w239_cold_load(context: Dictionary, target_locale: String,
 		applied: String, allow_default_name_projection: bool,
-		label: String) -> bool:
+		label: String, owner: String = "W239") -> bool:
 	if not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
 		_fail(label + " could not write isolated v4 save")
 		return false
@@ -6950,7 +6963,879 @@ func _w239_cold_load(context: Dictionary, target_locale: String,
 	await _wait_stable()
 	await get_tree().create_timer(0.9).timeout
 	return _w227_state_matches(
-		applied, label, allow_default_name_projection, "W239")
+		applied, label, allow_default_name_projection, owner)
+
+
+func _check_w240_general_signature() -> bool:
+	_w240_cold_ink = 0
+	_w240_reflow_ink = 0
+	var default_home: Dictionary = W235_HOME_CASES[1]
+	var settings_before := [
+		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
+	var paths := 0
+	var live_ink := 0
+	var outbound_continuity := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for choice in range(2):
+			if not await _w240_prepare_result(
+					language, choice, default_home, choice):
+				return false
+			var applied := _w227_state_bytes()
+			if not await _w240_seek_pen_page(applied):
+				return false
+			var reveal := int(_story.get("_w240_general_pen_reveal_at"))
+			if reveal <= 0 or not _w227_type_to(reveal - 1, "W240") \
+					or not _w240_boundary_side(true) \
+					or not _w240_audio_matches(
+						false, "W240 before exact write clause"):
+				_fail("W240 %s/c%d sounded before its exact clause" % [
+					language, choice])
+				return false
+			if not _w227_type_to(reveal, "W240"):
+				return false
+			var played_at := int(AudioManager._last_sfx_ms.get(
+				"pen_ballpoint", -1))
+			if played_at < 0 or not _w240_boundary_side(false) \
+					or not _w240_audio_matches(
+						true, "W240 exact write clause", true) \
+					or not await _w240_finish_result(applied, played_at) \
+					or not await _w237_wait_sfx_completion(
+						"pen_ballpoint", played_at, "W240 live write"):
+				_fail("W240 %s/c%d lost its one exact pen action" % [
+					language, choice])
+				return false
+			if outbound_continuity == 0:
+				if not await _w240_outbound_continuity():
+					return false
+				outbound_continuity += 1
+			live_ink += 1
+			paths += 1
+
+	var ingress_receipts := 0
+	for record_choice in range(2):
+		if not await _w240_open("ko", default_home, record_choice) \
+				or not _w240_context_matches(record_choice):
+			return false
+		ingress_receipts += 1
+
+	var housing_contexts := 0
+	for home_case: Dictionary in W235_HOME_CASES:
+		if not await _w240_open("ko", home_case) \
+				or not _w240_surface(
+					"W240 housing " + str(home_case.get("id", "")),
+					str(home_case.get("background", "")), false):
+			return false
+		housing_contexts += 1
+
+	var apartment_case: Dictionary = W235_HOME_CASES[3]
+	if not await _w240_open("ko", apartment_case, 0, true):
+		return false
+	await get_tree().create_timer(1.5).timeout
+	if not _w240_surface(
+			"W240 same-key settled bed", "gangnam_apartment", false) \
+			or BGMPlayer._ambience_tween != null \
+			and BGMPlayer._ambience_tween.is_running() \
+			or not is_equal_approx(
+				BGMPlayer._ambience_player.volume_db,
+				float(BGMPlayer.call("_ambience_target_db"))):
+		_fail("W240 inherited fade stopped or kept ducking its fresh bed")
+		return false
+
+	var intro_cold := await _w240_intro_cold_matrix(default_home)
+	if intro_cold < 0:
+		return false
+	var cold_boundaries := await _w240_result_cold_matrix(default_home)
+	if cold_boundaries < 0:
+		return false
+	var legacy_boundaries := await _w240_legacy_cold_matrix(default_home)
+	if legacy_boundaries < 0:
+		return false
+	var reflow_boundaries := await _w240_reflow_matrix(default_home)
+	if reflow_boundaries < 0:
+		return false
+	var settings_after := [
+		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
+	print("W240_GENERAL_SIGNATURE_OK paths=%d ink=%d ingress=%d homes=%d same_key=1 intro_v4=%d result_v4=%d legacy_v4=%d cold_ink=%d reflows=%d reflow_ink=%d outbound=%d" % [
+		paths, live_ink, ingress_receipts, housing_contexts, intro_cold,
+		cold_boundaries, legacy_boundaries, _w240_cold_ink,
+		reflow_boundaries, _w240_reflow_ink, outbound_continuity])
+	var counts_ok := paths == 10 and live_ink == 10 \
+		and ingress_receipts == 2 and housing_contexts == 7 \
+		and intro_cold == 3 and cold_boundaries == 8 \
+		and legacy_boundaries == 4 and _w240_cold_ink == 2 \
+		and reflow_boundaries == 8 and _w240_reflow_ink == 2 \
+		and outbound_continuity == 1 and settings_before == settings_after
+	if not counts_ok:
+		_fail("W240 fixture population or master-volume state drifted")
+	return counts_ok
+
+
+func _w240_open(language: String, home_case: Dictionary,
+		record_choice: int = 0, prime_same_key: bool = false) -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W240/%s/r%d" % [
+		language, str(home_case.get("id", "home")), record_choice]
+	LocaleManager.set_language(language)
+	SaveManager.clear_loaded_resume_context()
+	SaveManager.set_setting("story_text_size", "standard")
+	if not _prepare_full_owner_history(240, [
+			[203, "arc_minseo_03_arrival", 1],
+			[211, "arc_y5_general_name_boundary_exact", 0],
+			[220, "arc_y5_general_debt_memory_reconnect", 0],
+		]):
+		return false
+	GameState.money = 2_500_000_000.0
+	GameState.housing = str(home_case.get("housing", "oneroom"))
+	for flag_id: String in ["arc_daeun_wedding_day_seen", "daeun_divorced"]:
+		GameState.flags.erase(flag_id)
+	var home_flags: Dictionary = home_case.get("flags", {})
+	for flag_id: String in home_flags:
+		GameState.flags[flag_id] = bool(home_flags[flag_id])
+	GameState.flags["father_passed"] = true
+	GameState.flags["arc_endgame_sixmonths_seen"] = true
+	var final_calendar := [GameState.turn, GameState.age, GameState.year,
+		GameState.month, GameState.week_of_month]
+	GameState.turn = 224
+	if not GameState.prepare_chapter5_finale_route_entry():
+		_fail("W240 could not lock its real general finale entry")
+		return false
+	var predecessors: Array = [
+		["arc_y5_general_father_legacy_voice_exact", 1, 224],
+		["arc_y5_general_debt_memory_voice_exact", 0, 229],
+		["arc_y5_general_pre_ending_summit_exact", 1, 234],
+		[W237_RECORD, record_choice, 237],
+	]
+	for predecessor: Array in predecessors:
+		GameState.turn = int(predecessor[2])
+		if GameState.chapter5_finale_next_event_for_turn() != str(predecessor[0]):
+			_fail("W240 lost predecessor ingress %s" % predecessor[0])
+			return false
+		var committed: Dictionary = GameState.record_chapter5_finale_choice(
+			str(predecessor[0]), int(predecessor[1]))
+		if not bool(committed.get("ok", false)):
+			_fail("W240 could not commit predecessor %s/c%d" % [
+				predecessor[0], predecessor[1]])
+			return false
+	GameState.turn = int(final_calendar[0])
+	GameState.age = int(final_calendar[1])
+	GameState.year = int(final_calendar[2])
+	GameState.month = int(final_calendar[3])
+	GameState.week_of_month = int(final_calendar[4])
+	if GameState.chapter5_finale_next_event_for_turn() != W240_GENERAL_SACRIFICE \
+			or not GameState.chapter5_finale_ingress_available(
+				W240_GENERAL_SACRIFICE):
+		_fail("W240 predecessor receipts did not admit the exact signature root")
+		return false
+	EventManager.pending_events.clear()
+	EventManager.current_event = {}
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	ingress.set_meta("_screenshot_qa_static_surface", true)
+	var routed := bool(ingress.call("_route_chapter5_finale_week"))
+	ingress.free()
+	if not routed or GameState.pending_story_queue != [W240_GENERAL_SACRIFICE] \
+			or not FULL_STORY_FLOW.valid_session():
+		_fail("W240 did not route through MainGame and FullStoryFlow")
+		return false
+	BGMPlayer.set_ambience("room")
+	BGMPlayer.set_season_ambience("winter")
+	BGMPlayer.play_punctuation("reckoning")
+	if prime_same_key:
+		BGMPlayer.set_ambience("apartment")
+		BGMPlayer.duck_ambience(-12.0, 1.4)
+		if str(BGMPlayer.get("_current_ambience_key")) != "apartment" \
+				or not BGMPlayer._ambience_player.playing \
+				or BGMPlayer._ambience_tween == null \
+				or not BGMPlayer._ambience_tween.is_running():
+			_fail("W240 same-key fixture did not seed its apartment fade")
+			return false
+	elif str(BGMPlayer.get("_current_ambience_key")) != "room" \
+			or str(BGMPlayer.get("_current_human_ambience_key")) != "thin_wall" \
+			or str(BGMPlayer.get("_current_season_key")) != "winter" \
+			or not BGMPlayer._ambience_player.playing \
+			or not BGMPlayer._human_ambience_player.playing \
+			or not BGMPlayer._season_player.playing \
+			or not _w216_score_playing():
+		_fail("W240 fixture did not seed old room/layers/reckoning")
+		return false
+	_w240_clear_tracked()
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	return _w240_context_matches(record_choice) \
+		and _w240_surface(
+			"W240 live opening", str(home_case.get("background", "")), false) \
+		and (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+		and (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+		and _w240_audio_matches(false, "W240 live opening")
+
+
+func _w240_context_matches(record_choice: int) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var raw_event: Dictionary = DataRegistry.find_event(W240_GENERAL_SACRIFICE)
+	var rows: Array = (raw_event.get(
+		"chapter5_finale_reads", {}) as Dictionary).get("texts", [])
+	var sources := str(_story.call(
+		"_fmt", current.get("description", ""))).split("\n\n")
+	var receipt: Dictionary = CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
+		GameState.chapter5_finale_state, W237_RECORD)
+	if rows.size() != 1 or not rows[0] is Array \
+			or (rows[0] as Array).size() != 2 or sources.size() != 4 \
+			or str(sources[0]).strip_edges() != str(_story.call(
+				"_fmt", (rows[0] as Array)[record_choice])).strip_edges() \
+			or int(receipt.get("choice_index", -1)) != record_choice \
+			or str(GameState.chapter5_finale_entry_snapshot().get(
+				"profile_id", "")) \
+				!= CHAPTER5_FINALE_ROUTE.GENERAL_PROFILE_ID \
+			or GameState.chapter5_finale_next_event_for_turn() \
+				!= W240_GENERAL_SACRIFICE \
+			or not GameState.chapter5_finale_ingress_available(
+				W240_GENERAL_SACRIFICE) \
+			or not FULL_STORY_FLOW.valid_session():
+		_fail("W240 lost its actual record receipt or general-profile ingress")
+		return false
+	return true
+
+
+func _w240_read_intro(home_background: String) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 4 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored):
+		_fail("W240 lost its record receipt plus three authored sources")
+		return false
+	var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+	var bed_position := BGMPlayer._ambience_player.get_playback_position()
+	var untouched := _w227_state_bytes()
+	var score_player: AudioStreamPlayer = null
+	var score_stream: AudioStream = null
+	var score_position := -1.0
+	var score_token := -1
+	while not bool(_story.get("_showing_choices")):
+		var source := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		await _finish_page()
+		var expect_score := source >= 1
+		var current_bed_position := BGMPlayer._ambience_player.get_playback_position()
+		if not _w240_surface(
+				"W240 opening source%d" % source, home_background, expect_score) \
+				or not _w240_audio_matches(
+					false, "W240 opening source%d" % source) \
+				or not _w227_state_matches(
+					untouched, "W240 opening source%d" % source, false, "W240") \
+				or BGMPlayer._ambience_player.stream != bed_stream \
+				or current_bed_position + 0.05 < bed_position \
+				or not (_story.call(
+					"_physical_cue_contract") as Dictionary).is_empty() \
+				or not (_story.call(
+					"_ballpoint_write_contract") as Dictionary).is_empty():
+			_fail("W240 source%d restarted bed or gained an early action" % source)
+			return false
+		bed_position = current_bed_position
+		if expect_score:
+			var current_score := _w237_score_player()
+			if not is_instance_valid(current_score):
+				_fail("W240 source%d has no actual reckoning stream" % source)
+				return false
+			if score_player == null:
+				score_player = current_score
+				score_stream = current_score.stream
+				score_position = current_score.get_playback_position()
+				score_token = int(BGMPlayer.get("_punctuation_token"))
+			elif not _w237_score_unchanged(
+					score_player, score_stream, score_position, score_token,
+					"W240 source%d" % source):
+				return false
+			else:
+				score_position = current_score.get_playback_position()
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 2 \
+		and _w240_surface("W240 choices", home_background, true) \
+		and _w240_audio_matches(false, "W240 choices") \
+		and _w227_state_matches(untouched, "W240 choices", false, "W240")
+
+
+func _w240_prepare_result(
+		language: String, choice: int, home_case: Dictionary,
+		record_choice: int = 0) -> bool:
+	var home_background := str(home_case.get("background", ""))
+	if not await _w240_open(language, home_case, record_choice) \
+			or not await _w240_read_intro(home_background):
+		return false
+	_w240_clear_tracked()
+	_story.call("_on_choice", choice)
+	_story.set_process(false)
+	await _wait_stable()
+	return _w240_result_layout(choice) \
+		and GameState.chapter5_finale_receipt_matches(
+			W240_GENERAL_SACRIFICE, choice, 240) \
+		and _w240_surface("W240 prepared result", home_background, true) \
+		and _w240_audio_matches(false, "W240 prepared result")
+
+
+func _w240_result_layout(choice: int) -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choice < 0 or choice >= choices.size() or pages.is_empty():
+		return false
+	var authored := str(_story.call(
+		"_fmt", (choices[choice] as Dictionary).get("result_text", "")))
+	var mapping := _w240_pen_mapping()
+	var page_index := int(mapping.get("page", -1))
+	var contract: Dictionary = _story.call("_physical_cue_contract", page_index)
+	var rows: Dictionary = W240_GENERAL_SACRIFICE_WRITE.get_meta(
+		"write_anchors", {})
+	var locales: Dictionary = rows.get(str(choice), {})
+	var expected_anchor := str(_story.call(
+		"_fmt", str(locales.get(LocaleManager.language, ""))))
+	var expected_gain := -5.0 if choice == 0 else -6.0
+	if choices.size() != 2 \
+			or int(_story.call("_story_source_paragraph_count")) != 2 \
+			or not _m23_same_prose(pages, authored) \
+			or int(mapping.get("source", -1)) != 0 \
+			or int(contract.get("source_index", -1)) != 0 \
+			or str(contract.get("anchor", "")) != expected_anchor \
+			or not is_equal_approx(
+				float(contract.get("volume_db", 0.0)), expected_gain) \
+			or str(contract.get("sfx", "")) != "pen_ballpoint" \
+			or not (_story.call(
+				"_ballpoint_write_contract") as Dictionary).is_empty():
+		_fail("W240 choice%d lost its exact source0 write contract" % choice)
+		return false
+	return true
+
+
+func _w240_pen_mapping() -> Dictionary:
+	var found: Array[Dictionary] = []
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		var source_index := int(_story.call(
+			"_story_source_paragraph_index", page_index))
+		var page := str((_story.get("_paragraphs") as Array)[page_index])
+		var reveal := int(_story.call(
+			"_w240_general_pen_reveal_position", page, page_index))
+		if reveal > 0:
+			found.append({
+				"page": page_index, "reveal": reveal, "source": source_index})
+	return found[0] if found.size() == 1 else {}
+
+
+func _w240_seek_pen_page(
+		applied: String, allow_default_name_projection: bool = false) -> bool:
+	var mapping := _w240_pen_mapping()
+	var target := int(mapping.get("page", -1))
+	while int(_story.get("_para_index")) < target:
+		await _finish_page()
+		if not _w227_state_matches(
+				applied, "W240 before write page",
+				allow_default_name_projection, "W240") \
+				or not _w240_audio_matches(false, "W240 before write page"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		mapping = _w240_pen_mapping()
+		target = int(mapping.get("page", -1))
+	if target < 0 or int(_story.get("_para_index")) != target \
+			or int(_story.get("_w240_general_pen_reveal_at")) != int(
+				mapping.get("reveal", -2)):
+		_fail("W240 did not settle on its exact write-clause page")
+		return false
+	return true
+
+
+func _w240_boundary_side(before_pen: bool) -> bool:
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) not in [0, 1] \
+			or int(_story.call(
+				"_story_source_paragraph_index", int(_story.get("_para_index")))) != 0:
+		return false
+	var pen_range: Vector2 = _story.call("_w240_general_pen_progress_range")
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var progress := float(context.get("source_text_progress", -1.0))
+	if pen_range.x < 0.0 or pen_range.y < pen_range.x:
+		return false
+	if before_pen:
+		return not bool(_story.get("_w240_general_pen_consumed")) \
+			and int(_story.get("_w240_general_pen_reveal_at")) > int(
+				_story.get("_type_pos")) \
+			and progress <= pen_range.x + 0.00001
+	return bool(_story.get("_w240_general_pen_consumed")) \
+		and int(_story.get("_w240_general_pen_reveal_at")) < 0 \
+		and progress >= pen_range.y - 0.00001
+
+
+func _w240_finish_result(applied: String, played_at: int) -> bool:
+	var score_player := _w237_score_player()
+	if not is_instance_valid(score_player):
+		_fail("W240 result started without held reckoning")
+		return false
+	var score_stream: AudioStream = score_player.stream
+	var score_position := score_player.get_playback_position()
+	var score_token := int(BGMPlayer.get("_punctuation_token"))
+	while true:
+		await _finish_page()
+		if not _w240_surface(
+				"W240 result", _w235_current_home_background(), true) \
+				or not _w227_state_matches(
+					applied, "W240 result", false, "W240") \
+				or not _w240_audio_matches(true, "W240 result") \
+				or int(AudioManager._last_sfx_ms.get(
+					"pen_ballpoint", -1)) != played_at \
+				or not _w237_score_unchanged(
+					score_player, score_stream, score_position, score_token,
+					"W240 result"):
+			_fail("W240 result replayed pen or restarted reckoning")
+			return false
+		score_position = score_player.get_playback_position()
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w240_outbound_continuity() -> bool:
+	var score_player := _w237_score_player()
+	if not is_instance_valid(score_player):
+		return false
+	var score_stream: AudioStream = score_player.stream
+	var score_position := score_player.get_playback_position()
+	if score_position <= 0.15:
+		_fail("W240 outbound proof did not observe established reckoning playback")
+		return false
+	_story.call("_on_advance")
+	await _wait_stable()
+	var current: Dictionary = _story.get("_current")
+	var current_score := _w237_score_player()
+	var transition: Dictionary = _story.get_meta(
+		"story_transition_contract", {}) as Dictionary
+	if str(current.get("id", "")) != "arc_y5_final_week_general_people_outbound" \
+			or str(_story.get_meta("story_transition_mode", "")) != "same_location" \
+			or str(transition.get("audio_policy", "")) != "continue" \
+			or current_score != score_player \
+			or not is_instance_valid(current_score) \
+			or current_score.stream != score_stream \
+			or current_score.get_playback_position() + 0.05 < score_position:
+		_fail("W240 signature-to-outbound edge restarted its held score")
+		return false
+	return true
+
+
+func _w240_surface(
+		label: String, background_id: String, expect_score: bool) -> bool:
+	var expected_stream: AudioStream = BGMPlayer.call("_load_ambience", "apartment")
+	if str((_story.get("_current") as Dictionary).get("id", "")) \
+			!= W240_GENERAL_SACRIFICE \
+			or background_id.is_empty() \
+			or not _expect_surface(background_id, "apartment", label) \
+			or str(_story.call("_resolved_story_surface_portrait_id")) \
+				!= "player_tired" \
+			or expected_stream == null \
+			or BGMPlayer._ambience_player.stream != expected_stream \
+			or not BGMPlayer._ambience_player.playing \
+			or not str(BGMPlayer.get("_current_human_ambience_key")).is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
+			or not str(BGMPlayer.get("_current_season_key")).is_empty() \
+			or BGMPlayer._season_player.playing:
+		_fail(label + " changed W240 home, bed, portrait, or lower layers")
+		return false
+	if expect_score:
+		if not is_instance_valid(_w237_score_player()) \
+				or str(BGMPlayer.get("_current_key")) != "reckoning":
+			_fail(label + " lost W240 held reckoning")
+			return false
+	elif not str(BGMPlayer.get("_current_key")).is_empty() \
+			or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing:
+		_fail(label + " opened W240 reckoning before source1")
+		return false
+	return true
+
+
+func _w240_clear_tracked() -> void:
+	for sound_id: String in W239_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+
+func _w240_audio_matches(
+		expect_pen: bool, label: String, require_stream: bool = false) -> bool:
+	var cue_keys: Array = AudioManager._story_audio_seen.keys().filter(
+		func(key: Variant) -> bool:
+			return str(key).begins_with(W240_GENERAL_SACRIFICE + ":"))
+	var invalid: Array[String] = []
+	for sound_id: String in W239_TRACKED_SFX:
+		var expected := expect_pen and sound_id == "pen_ballpoint"
+		var stream_count := _w197_sfx_stream_count(sound_id)
+		if AudioManager._last_sfx_ms.has(sound_id) != expected \
+				or (not expected and stream_count != 0) \
+				or (expected and require_stream and stream_count != 1):
+			invalid.append(sound_id)
+	if not cue_keys.is_empty() or not invalid.is_empty():
+		_fail("%s W240 audio mismatch pen=%s invalid=%s cues=%s" % [
+			label, expect_pen, invalid, cue_keys])
+		return false
+	if require_stream and expect_pen:
+		var gain := -5.0 if int(_story.get(
+			"_pending_result_choice_index")) == 0 else -6.0
+		var expected_db := float(AudioManager.call("_vol_db")) \
+			+ AudioManager.sfx_mix_trim_db("pen_ballpoint") + gain
+		for player: AudioStreamPlayer in AudioManager._pool:
+			if player.playing \
+					and player.stream == AudioManager._sounds.get("pen_ballpoint"):
+				if is_equal_approx(player.volume_db, expected_db):
+					return true
+				_fail("%s W240 ballpoint volume expected=%s actual=%s" % [
+					label, expected_db, player.volume_db])
+				return false
+		_fail(label + " W240 ballpoint stream was not active")
+		return false
+	return true
+
+
+func _w240_intro_cold_matrix(home_case: Dictionary) -> int:
+	var restored_cases := 0
+	for spec: Dictionary in [
+		{"phase": "prose", "source": 0, "locale": "ko"},
+		{"phase": "prose", "source": 1, "locale": "en"},
+		{"phase": "choices", "source": 3, "locale": "ko"},
+	]:
+		if not await _w240_open("ko", home_case):
+			return -1
+		var phase := str(spec.get("phase", ""))
+		var source_index := int(spec.get("source", -1))
+		if phase == "choices":
+			if not await _w240_read_intro(str(home_case.get("background", ""))):
+				return -1
+		elif not await _w239_advance_to_source(source_index):
+			return -1
+		if phase == "prose":
+			var page_length := str(_story.get("_type_full")).length()
+			if not _w227_type_to(
+					maxi(1, floori(float(page_length) / 2.0)), "W240"):
+				return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		var applied := _w227_state_bytes()
+		var target_locale := str(spec.get("locale", "ko"))
+		var cross_locale := target_locale != LocaleManager.language
+		_w240_clear_tracked()
+		if not await _w239_cold_load(
+				context, target_locale, applied, cross_locale,
+				"W240 cold " + phase, "W240"):
+			return -1
+		var restored: Dictionary = _story.call("build_save_resume_context")
+		var expect_score := phase != "prose" or source_index >= 1
+		if str(restored.get("phase", "")) != phase \
+				or (phase != "choices" and int(restored.get(
+					"source_paragraph_index", -1)) != source_index) \
+				or (phase != "choices" and not _w238_progress_matches(
+					context, restored, source_index, cross_locale)) \
+				or not _w240_surface(
+					"W240 cold " + phase,
+					_w235_current_home_background(), expect_score) \
+				or not _w240_audio_matches(false, "W240 cold " + phase) \
+				or not (_story.call(
+					"_physical_cue_contract") as Dictionary).is_empty() \
+				or not (_story.call(
+					"_ballpoint_write_contract") as Dictionary).is_empty():
+			_fail("W240 cold %s changed source progress, score, or silence" % phase)
+			return -1
+		if phase == "prose" and source_index == 0:
+			if not await _w239_advance_to_source(1) \
+					or not _w240_surface(
+						"W240 cold future reckoning",
+						_w235_current_home_background(), true) \
+					or not _w240_audio_matches(
+						false, "W240 cold future reckoning") \
+					or not _w227_state_matches(
+						applied, "W240 cold future reckoning",
+						cross_locale, "W240"):
+				_fail("W240 cold source0 lost its future source1 score")
+				return -1
+		restored_cases += 1
+	return restored_cases
+
+
+func _w240_result_cold_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for choice: int in [0, 1]:
+		for before_pen: bool in [true, false]:
+			if not await _w240_prepare_result("ko", choice, home_case):
+				return -1
+			var applied := _w227_state_bytes()
+			if not await _w240_seek_pen_page(applied):
+				return -1
+			var reveal := int(_story.get("_w240_general_pen_reveal_at"))
+			if not _w227_type_to(
+					reveal - 1 if before_pen else reveal, "W240"):
+				return -1
+			if not before_pen:
+				var played_at := int(AudioManager._last_sfx_ms.get(
+					"pen_ballpoint", -1))
+				if played_at < 0 or not await _w237_wait_sfx_completion(
+						"pen_ballpoint", played_at,
+						"W240 before cold save"):
+					return -1
+			var context: Dictionary = _story.call("build_save_resume_context")
+			_w240_clear_tracked()
+			if not await _w239_cold_load(
+					context, "ko", applied, false,
+					"W240 cold c%d result" % choice, "W240"):
+				return -1
+			var restored: Dictionary = _story.call("build_save_resume_context")
+			if str(restored.get("phase", "")) != "result" \
+					or int(restored.get(
+						"pending_result_choice_index", -1)) != choice \
+					or int(restored.get(
+						"source_paragraph_index", -1)) != 0 \
+					or not _w238_progress_matches(context, restored, 0, false) \
+					or not _w240_boundary_side(before_pen) \
+					or not _w240_surface(
+						"W240 cold result",
+						_w235_current_home_background(), true) \
+					or not _w240_audio_matches(false, "W240 cold result"):
+				_fail("W240 same-locale cold c%d crossed its pen boundary" % choice)
+				return -1
+			if before_pen:
+				var restored_reveal := int(_story.get(
+					"_w240_general_pen_reveal_at"))
+				if not _w227_type_to(restored_reveal, "W240") \
+						or not _w240_audio_matches(
+							true, "W240 cold remaining write", true):
+					_fail("W240 cold c%d lost its unread write action" % choice)
+					return -1
+				var cold_played_at := int(AudioManager._last_sfx_ms.get(
+					"pen_ballpoint", -1))
+				if not await _w237_wait_sfx_completion(
+						"pen_ballpoint", cold_played_at,
+						"W240 cold remaining write"):
+					return -1
+				_w240_cold_ink += 1
+			else:
+				_story.call("_complete_typing")
+				_story.call("_complete_typing")
+				if not _w240_audio_matches(
+						false, "W240 cold consumed completion"):
+					return -1
+			boundaries += 1
+
+	for choice: int in [0, 1]:
+		if not await _w240_prepare_result("ko", choice, home_case):
+			return -1
+		var applied := _w227_state_bytes()
+		if not await _w240_seek_pen_page(applied):
+			return -1
+		var reveal := int(_story.get("_w240_general_pen_reveal_at"))
+		if not _w227_type_to(reveal - 1, "W240"):
+			return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		_w240_clear_tracked()
+		if not await _w239_cold_load(
+				context, "en", applied, true,
+				"W240 cross-locale c%d" % choice, "W240"):
+			return -1
+		var restored: Dictionary = _story.call("build_save_resume_context")
+		if int(restored.get("pending_result_choice_index", -1)) != choice \
+				or int(restored.get("source_paragraph_index", -1)) != 0 \
+				or not _w238_progress_matches(context, restored, 0, true) \
+				or not bool(_story.get("_w240_general_pen_consumed")) \
+				or int(_story.get("_w240_general_pen_reveal_at")) >= 0 \
+				or not _w240_surface(
+					"W240 cross-locale result",
+					_w235_current_home_background(), true) \
+				or not _w240_audio_matches(
+					false, "W240 cross-locale result"):
+			_fail("W240 cross-locale c%d replayed an unprovable write" % choice)
+			return -1
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if not _w240_audio_matches(false, "W240 cross-locale completion"):
+			return -1
+		boundaries += 1
+
+	for choice: int in [0, 1]:
+		if not await _w240_prepare_result("ko", choice, home_case):
+			return -1
+		var applied := _w227_state_bytes()
+		if not await _w239_advance_to_source(1, true):
+			return -1
+		var played_at := int(AudioManager._last_sfx_ms.get(
+			"pen_ballpoint", -1))
+		if played_at < 0 or not await _w237_wait_sfx_completion(
+				"pen_ballpoint", played_at, "W240 before source1 save"):
+			return -1
+		var source_length := str(_story.get("_type_full")).length()
+		if not _w227_type_to(
+				maxi(1, floori(float(source_length) / 2.0)), "W240"):
+			return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		_w240_clear_tracked()
+		if not await _w239_cold_load(
+				context, "ko", applied, false,
+				"W240 cold source1 c%d" % choice, "W240"):
+			return -1
+		var restored: Dictionary = _story.call("build_save_resume_context")
+		if int(restored.get("pending_result_choice_index", -1)) != choice \
+				or int(restored.get("source_paragraph_index", -1)) != 1 \
+				or not _w238_progress_matches(context, restored, 1, false) \
+				or not bool(_story.get("_w240_general_pen_consumed")) \
+				or int(_story.get("_w240_general_pen_reveal_at")) >= 0 \
+				or not _w240_surface(
+					"W240 cold source1",
+					_w235_current_home_background(), true) \
+				or not _w240_audio_matches(false, "W240 cold source1"):
+			_fail("W240 cold source1 c%d replayed source0 write" % choice)
+			return -1
+		boundaries += 1
+	return boundaries
+
+
+func _w240_legacy_cold_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for choice: int in [0, 1]:
+		for before_pen: bool in [true, false]:
+			if not await _w240_prepare_result("ko", choice, home_case):
+				return -1
+			var applied := _w227_state_bytes()
+			if not await _w240_seek_pen_page(applied):
+				return -1
+			var reveal := int(_story.get("_w240_general_pen_reveal_at"))
+			if not _w227_type_to(
+					reveal - 1 if before_pen else reveal, "W240"):
+				return -1
+			if not before_pen:
+				var played_at := int(AudioManager._last_sfx_ms.get(
+					"pen_ballpoint", -1))
+				if played_at < 0 or not await _w237_wait_sfx_completion(
+						"pen_ballpoint", played_at,
+						"W240 before legacy save"):
+					return -1
+			var context: Dictionary = _story.call("build_save_resume_context")
+			if before_pen:
+				context.erase("story_locale")
+			else:
+				context.erase("source_paragraph_index")
+				context.erase("source_text_progress")
+			_w240_clear_tracked()
+			if not await _w239_cold_load(
+					context, "ko", applied, false,
+					"W240 legacy c%d/%s" % [
+						choice, "before" if before_pen else "after"], "W240"):
+				return -1
+			if not bool(_story.get("_w240_general_pen_consumed")) \
+					or int(_story.get("_w240_general_pen_reveal_at")) >= 0 \
+					or not _w240_surface(
+						"W240 legacy result",
+						_w235_current_home_background(), true) \
+					or not _w240_audio_matches(false, "W240 legacy result"):
+				_fail("W240 legacy c%d replayed without source/locale proof" % choice)
+				return -1
+			_story.call("_complete_typing")
+			_story.call("_complete_typing")
+			if not _w240_audio_matches(false, "W240 legacy completion"):
+				return -1
+			boundaries += 1
+	return boundaries
+
+
+func _w240_reflow_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for choice: int in [0, 1]:
+		for before_pen: bool in [true, false]:
+			if not await _w240_prepare_result("ko", choice, home_case):
+				return -1
+			var applied := _w227_state_bytes()
+			if not await _w240_seek_pen_page(applied):
+				return -1
+			var reveal := int(_story.get("_w240_general_pen_reveal_at"))
+			if not _w227_type_to(
+					reveal - 1 if before_pen else reveal, "W240"):
+				return -1
+			if not before_pen:
+				var played_at := int(AudioManager._last_sfx_ms.get(
+					"pen_ballpoint", -1))
+				if played_at < 0 or not await _w237_wait_sfx_completion(
+						"pen_ballpoint", played_at, "W240 before reflow"):
+					return -1
+			_w240_clear_tracked()
+			var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+			var bed_position := BGMPlayer._ambience_player.get_playback_position()
+			var score_player := _w237_score_player()
+			if not is_instance_valid(score_player):
+				return -1
+			var score_stream: AudioStream = score_player.stream
+			var score_position := score_player.get_playback_position()
+			var score_token := int(BGMPlayer.get("_punctuation_token"))
+			_story.call("_set_story_text_size", "large")
+			await _wait_stable()
+			if not _w240_reflow_state(
+					before_pen, applied, false, bed_stream, bed_position,
+					score_player, score_stream, score_position, score_token,
+					"font"):
+				return -1
+			boundaries += 1
+			bed_position = BGMPlayer._ambience_player.get_playback_position()
+			score_position = score_player.get_playback_position()
+			_story.call("_set_story_language", "en")
+			await _wait_stable()
+			if LocaleManager.language != "en" \
+					or not _w240_reflow_state(
+						before_pen, applied, true, bed_stream, bed_position,
+						score_player, score_stream, score_position, score_token,
+						"locale"):
+				return -1
+			boundaries += 1
+			if before_pen:
+				var localized_reveal := int(_story.get(
+					"_w240_general_pen_reveal_at"))
+				if localized_reveal <= 0 \
+						or not _w227_type_to(localized_reveal, "W240") \
+						or not _w240_audio_matches(
+							true, "W240 reflow remaining write", true):
+					_fail("W240 hot reflow lost c%d remaining write" % choice)
+					return -1
+				var reflow_played_at := int(AudioManager._last_sfx_ms.get(
+					"pen_ballpoint", -1))
+				if not await _w237_wait_sfx_completion(
+						"pen_ballpoint", reflow_played_at,
+						"W240 reflow remaining write"):
+					return -1
+				_w240_reflow_ink += 1
+			else:
+				_story.call("_complete_typing")
+				_story.call("_complete_typing")
+				if not _w240_audio_matches(
+						false, "W240 reflow consumed completion"):
+					return -1
+	return boundaries
+
+
+func _w240_reflow_state(
+		before_pen: bool, applied: String,
+		allow_default_name_projection: bool,
+		bed_stream: AudioStream, bed_position: float,
+		score_player: AudioStreamPlayer, score_stream: AudioStream,
+		score_position: float, score_token: int, label: String) -> bool:
+	if not _w240_boundary_side(before_pen) \
+			or BGMPlayer._ambience_player.stream != bed_stream \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < bed_position \
+			or not _w227_state_matches(
+				applied, "W240 " + label + " reflow",
+				allow_default_name_projection, "W240") \
+			or not _w240_surface(
+				"W240 " + label + " reflow",
+				_w235_current_home_background(), true) \
+			or not _w240_audio_matches(false, "W240 " + label + " reflow") \
+			or not _w237_score_unchanged(
+				score_player, score_stream, score_position, score_token,
+				"W240 " + label + " reflow"):
+		_fail("W240 %s reflow crossed pen or restarted bed/score" % label)
+		return false
+	return true
 
 
 func _check_w239_father_passed() -> bool:
