@@ -13,6 +13,10 @@
 - `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_drama.json` 5개: platform/deal_room
   도입2·새 index2 text/result 각2만5언어. 옛0/1 객체와 기존kind/edge/값 불변.
   새2는 기존 non-expression 기록으로 terminal만 잇고 효과/flag/예약은 넣지 않는다.
+- 추가 선언: root choice1의 `text_if_moral.white` 한 leaf도5언어로 정정한다.
+  ‘아직 결정을 미룰 수 있다’는 중간 재선택 제거와 충돌하므로 실제 거래진행과
+  거래 뒤 병동연락 의도로 맞춘다. root기본text/kind/edge·효과/저장역사 불변.
+  공식review2 6×3은 이미수용완료라 다시검사하지 않고 새1leaf×3만 별도교환한다.
 - `content/meta/full_game_localization.json`: KO독립6leaf×3 공식 교환·현재/옛수용.
   CJK 배열에는 빈object1만 먼저 확장해 정식export한다. 임시번역·검증기수정0.
 - `tools/{chapter4_causal_route_audit.py,peak_scene_chain_audit.py,scene_audio_contract_check.py,
@@ -39,6 +43,9 @@ GameState, SaveManager, savekey/형식·의료2-of-3·deathwriter/terminal효과
 공식6leaf×3 수용·독립 전수·EN/한글/JA/zh·서사/정점/컴파일·정본큐·차분을 확인한다.
 순번/길이가 늘었다고 게이트를 완화하지 않는다. 실제runtime 계약과 구호환 경계를
 같이 잠그고 기존검사·실패증거는 보존한다.
+
+단일 선택 수리 전에는 root의 분기별 버튼 의도도 함께 읽는다. 옛 저장 보존을
+이유로 새 플레이어에게 재선택할 수 있다는 거짓 기대를 남기지 않는다(이번 단위 지시).
 
 W190 전용 유품그림·direction/cue는 별도 자산단위 OPEN이다. 이 단위가 끝나도
 임종P0 전체/원어민·사람·실화면·청취·출시GO로 확대하지 않는다. 실제저장·공개RC·
