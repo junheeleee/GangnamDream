@@ -1,0 +1,19 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/paper_anchors = {
+"0": {
+"ko": "그 아래에 오늘 날짜를 적고 종이를 한 번 접었다.",
+"en": "Beneath it he put today's date and folded the sheet once.",
+"ja": "その下に今日の日付を書き、紙を一度折った。",
+"zh-CN": "下面记上今天的日期，把纸折了一次。",
+"zh-TW": "下面寫上今天的日期，把紙折了一次。"
+},
+"2": {
+"ko": "{name}은 아버지 보증 사본 뒤에 무이체 통지를 넣고",
+"en": "{name} placed the non-transfer notice behind Father's guarantee",
+"ja": "{name}は父の保証書のコピーの後ろに、振込をしなかったという通知を入れ",
+"zh-CN": "{name}把未转账通知放在父亲的担保副本后",
+"zh-TW": "{name}把未轉帳通知放到父親的保證副本後面"
+}
+}

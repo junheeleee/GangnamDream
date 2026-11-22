@@ -841,13 +841,10 @@
       "music": {"key": "grief", "start_paragraph": 1}
     },
     "arc_y5_final_father_answer_passed": {
-      "ambience": "current_housing",
-      "music": {"key": "grief", "start_paragraph": 0},
-      "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -8.0}]},
-      "result_paragraph_cues": {
-        "0": {"0": [{"sfx": "pen_write", "volume_db": -7.0}]},
-        "2": {"0": [{"sfx": "page_turn", "volume_db": -8.0}]}
-      }
+      "ambience": "apartment",
+      "suppress_human_ambience": true,
+      "suppress_season_ambience": true,
+      "music": {"key": "grief", "start_paragraph": 0}
     },
     "arc_final_countdown_property_not_executed": {
       "ambience": "intentional_silence",

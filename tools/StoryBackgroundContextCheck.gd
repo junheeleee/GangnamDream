@@ -231,6 +231,8 @@ const W238_TRACKED_SFX := [
 ]
 const W239_FATHER_ALIVE := "arc_y5_final_father_answer_alive"
 const W239_ALIVE_NAME_WRITE := preload("res://assets/w239_alive_name_write.tres")
+const W239_FATHER_PASSED := "arc_y5_final_father_answer_passed"
+const W239_PASSED_PAPER_ACTIONS := preload("res://assets/w239_passed_paper_actions.tres")
 const W239_TRACKED_SFX := [
 	"phone_notification", "phone_vibrate", "page_turn", "paper_handle",
 	"pen_ballpoint", "pen_write", "document_scan", "register_scan",
@@ -591,6 +593,8 @@ var _w237_future_pages := 0
 var _w237_reflow_pages := 0
 var _w239_cold_ink := 0
 var _w239_reflow_ink := 0
+var _w239_passed_cold_paper := 0
+var _w239_passed_reflow_paper := 0
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -613,6 +617,14 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W239_FATHER_PASSED_CHECK"):
+		var w239_passed_ok: bool = await _check_w239_father_passed()
+		await _remove_story()
+		await _stop_audio()
+		if w239_passed_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=w239_father_passed")
+		get_tree().quit(0 if w239_passed_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W239_FATHER_ALIVE_CHECK"):
 		var w239_ok: bool = await _check_w239_father_alive()
 		await _remove_story()
@@ -4465,16 +4477,24 @@ func _w239_open(language: String, home_case: Dictionary,
 		language, W239_FATHER_ALIVE, 239, home_case, prime_same_key,
 		0, "alive", father_trace_choice, remaining_choice)
 
+func _w239_passed_open(language: String, home_case: Dictionary,
+		father_trace_choice: int = 0, remaining_choice: int = 0,
+		prime_same_key: bool = false) -> bool:
+	return await _open_finale_ink_event(
+		language, W239_FATHER_PASSED, 239, home_case, prime_same_key,
+		0, "passed", father_trace_choice, remaining_choice)
+
 func _open_finale_ink_event(language: String, target_event_id: String, turn: int,
 		home_case: Dictionary = {}, prime_same_key: bool = false,
 		guarantee_choice: int = 0, father_life: String = "alive",
 		father_trace_choice: int = 0, remaining_choice: int = 0) -> bool:
 	await _remove_story()
 	await _stop_audio()
-	var label := "W239" if target_event_id == W239_FATHER_ALIVE else (
+	var label := "W239P" if target_event_id == W239_FATHER_PASSED else (
+		"W239" if target_event_id == W239_FATHER_ALIVE else (
 		"W227" if target_event_id == W227_FILING else (
 		"W230" if target_event_id == W230_CAFE else (
-			"W235" if target_event_id == W235_NOTICE else "W238")))
+			"W235" if target_event_id == W235_NOTICE else "W238"))))
 	_context = "%s/%s" % [language, label]
 	LocaleManager.set_language(language)
 	SaveManager.clear_loaded_resume_context()
@@ -4483,9 +4503,11 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 		return false
 	GameState.money = 2_100_000_000.0
 	GameState.housing = str(home_case.get("housing", "oneroom")) \
-		if target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE] \
+		if target_event_id in [W235_NOTICE, W238_REMAINING,
+			W239_FATHER_ALIVE, W239_FATHER_PASSED] \
 		else "oneroom"
-	if target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE]:
+	if target_event_id in [W235_NOTICE, W238_REMAINING,
+			W239_FATHER_ALIVE, W239_FATHER_PASSED]:
 		GameState.flags.erase("arc_daeun_wedding_day_seen")
 		GameState.flags.erase("daeun_divorced")
 		var home_flags: Dictionary = home_case.get("flags", {})
@@ -4539,25 +4561,27 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 	var custody_result: Dictionary = GameState.record_chapter5_finale_choice(custody_event, 0)
 	var filing_event := ""
 	var filing_result: Dictionary = {}
-	if target_event_id in [W230_CAFE, W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE]:
+	if target_event_id in [W230_CAFE, W235_NOTICE, W238_REMAINING,
+			W239_FATHER_ALIVE, W239_FATHER_PASSED]:
 		GameState.turn = 227
 		filing_event = GameState.chapter5_finale_next_event_for_turn()
 		filing_result = GameState.record_chapter5_finale_choice(filing_event, 0)
 	var verdict_event := ""
 	var verdict_result: Dictionary = {}
-	if target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE]:
+	if target_event_id in [W235_NOTICE, W238_REMAINING,
+			W239_FATHER_ALIVE, W239_FATHER_PASSED]:
 		GameState.turn = 230
 		verdict_event = GameState.chapter5_finale_next_event_for_turn()
 		verdict_result = GameState.record_chapter5_finale_choice(verdict_event, 0)
 	var notice_event := ""
 	var notice_result: Dictionary = {}
-	if target_event_id in [W238_REMAINING, W239_FATHER_ALIVE]:
+	if target_event_id in [W238_REMAINING, W239_FATHER_ALIVE, W239_FATHER_PASSED]:
 		GameState.turn = 235
 		notice_event = GameState.chapter5_finale_next_event_for_turn()
 		notice_result = GameState.record_chapter5_finale_choice(notice_event, 0)
 	var remaining_event := ""
 	var remaining_result: Dictionary = {}
-	if target_event_id == W239_FATHER_ALIVE:
+	if target_event_id in [W239_FATHER_ALIVE, W239_FATHER_PASSED]:
 		GameState.turn = 238
 		remaining_event = GameState.chapter5_finale_next_event_for_turn()
 		remaining_result = GameState.record_chapter5_finale_choice(
@@ -4571,13 +4595,13 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 			or not bool(father_result.get("ok", false)) \
 			or custody_event != CHAPTER5_FINALE_ROUTE.OWNED_EVENT_IDS[2] \
 			or not bool(custody_result.get("ok", false)) \
-			or (target_event_id in [W230_CAFE, W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE] and (filing_event != W227_FILING \
+			or (target_event_id in [W230_CAFE, W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE, W239_FATHER_PASSED] and (filing_event != W227_FILING \
 				or not bool(filing_result.get("ok", false)))) \
-			or (target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE] and (verdict_event != W230_CAFE \
+			or (target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE, W239_FATHER_PASSED] and (verdict_event != W230_CAFE \
 				or not bool(verdict_result.get("ok", false)))) \
-			or (target_event_id in [W238_REMAINING, W239_FATHER_ALIVE] and (notice_event != W235_NOTICE \
+			or (target_event_id in [W238_REMAINING, W239_FATHER_ALIVE, W239_FATHER_PASSED] and (notice_event != W235_NOTICE \
 				or not bool(notice_result.get("ok", false)))) \
-			or (target_event_id == W239_FATHER_ALIVE and (remaining_event != W238_REMAINING \
+			or (target_event_id in [W239_FATHER_ALIVE, W239_FATHER_PASSED] and (remaining_event != W238_REMAINING \
 				or not bool(remaining_result.get("ok", false)))) \
 			or GameState.chapter5_finale_next_event_for_turn() != target_event_id:
 		_fail("%s finale predecessors did not admit its exact root" % label)
@@ -4592,7 +4616,8 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 			or not FULL_STORY_FLOW.valid_session():
 		_fail("%s did not route through MainGame and FullStoryFlow" % label)
 		return false
-	if target_event_id in [W235_NOTICE, W238_REMAINING, W239_FATHER_ALIVE]:
+	if target_event_id in [W235_NOTICE, W238_REMAINING,
+			W239_FATHER_ALIVE, W239_FATHER_PASSED]:
 		BGMPlayer.set_ambience("room")
 		BGMPlayer.set_season_ambience("winter")
 		BGMPlayer.play_punctuation("reckoning")
@@ -4621,6 +4646,8 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 		_w238_clear_tracked()
 	elif target_event_id == W239_FATHER_ALIVE:
 		_w239_clear_tracked()
+	elif target_event_id == W239_FATHER_PASSED:
+		_w239_passed_clear_tracked()
 	else:
 		_w227_clear_tracked()
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
@@ -4646,6 +4673,12 @@ func _open_finale_ink_event(language: String, target_event_id: String, turn: int
 			and (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
 			and (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
 			and _w239_audio_matches(false, "W239 live opening")
+	if target_event_id == W239_FATHER_PASSED:
+		return _w239_passed_surface(
+			"W239 passed live opening", str(home_case.get("background", ""))) \
+			and (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+			and (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+			and _w239_passed_audio_matches(false, "W239 passed live opening")
 	return _w238_surface(
 		"W238 live opening", str(home_case.get("background", "")), false) \
 		and _w238_audio_matches("W238 live opening")
@@ -6918,6 +6951,746 @@ func _w239_cold_load(context: Dictionary, target_locale: String,
 	await get_tree().create_timer(0.9).timeout
 	return _w227_state_matches(
 		applied, label, allow_default_name_projection, "W239")
+
+
+func _check_w239_father_passed() -> bool:
+	_w239_passed_cold_paper = 0
+	_w239_passed_reflow_paper = 0
+	var default_home: Dictionary = W235_HOME_CASES[1]
+	var settings_before := [
+		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
+	var paths := 0
+	var live_paper := 0
+	var silent_results := 0
+	for language_index in range(LocaleManager.SUPPORTED_LANGUAGES.size()):
+		var language: String = LocaleManager.SUPPORTED_LANGUAGES[language_index]
+		for choice in range(3):
+			if not await _w239_passed_prepare_result(
+					language, choice, default_home,
+					language_index % 3, language_index % 2):
+				return false
+			var applied := _w227_state_bytes()
+			if choice in [0, 2]:
+				if not await _w239_passed_seek_paper_page(applied):
+					return false
+				var reveal := int(_story.get("_w239_paper_reveal_at"))
+				if reveal <= 0 or not _w227_type_to(reveal - 1, "W239P") \
+						or not _w239_passed_boundary_side(true) \
+						or not _w239_passed_audio_matches(
+							false, "W239 passed before paper clause"):
+					_fail("W239 passed %s/c%d sounded before its paper clause" % [
+						language, choice])
+					return false
+				if not _w227_type_to(reveal, "W239P"):
+					return false
+				var played_at := int(AudioManager._last_sfx_ms.get(
+					"paper_handle", -1))
+				if played_at < 0 or not _w239_passed_boundary_side(false) \
+						or not _w239_passed_audio_matches(
+							true, "W239 passed exact paper clause", true) \
+						or not await _w239_passed_finish_result(applied, played_at) \
+						or not await _w237_wait_sfx_completion(
+							"paper_handle", played_at, "W239 passed live paper"):
+					_fail("W239 passed %s/c%d lost its one exact paper action" % [
+						language, choice])
+					return false
+				live_paper += 1
+			elif not await _w239_passed_finish_result(applied, -1):
+				return false
+			else:
+				silent_results += 1
+			paths += 1
+
+	var ingress_contexts := 0
+	for trace_choice in range(3):
+		for remaining_choice in range(2):
+			if not await _w239_passed_open(
+					"ko", default_home, trace_choice, remaining_choice) \
+					or not _w239_passed_context_matches(
+						trace_choice, remaining_choice):
+				return false
+			ingress_contexts += 1
+
+	var housing_contexts := 0
+	for home_case: Dictionary in W235_HOME_CASES:
+		if not await _w239_passed_open("ko", home_case) \
+				or not _w239_passed_surface(
+					"W239 passed housing " + str(home_case.get("id", "")),
+					str(home_case.get("background", ""))):
+			return false
+		housing_contexts += 1
+
+	var apartment_case: Dictionary = W235_HOME_CASES[3]
+	if not await _w239_passed_open("ko", apartment_case, 0, 0, true):
+		return false
+	await get_tree().create_timer(1.5).timeout
+	if not _w239_passed_surface(
+			"W239 passed same-key settled bed", "gangnam_apartment") \
+			or BGMPlayer._ambience_tween != null \
+			and BGMPlayer._ambience_tween.is_running() \
+			or not is_equal_approx(
+				BGMPlayer._ambience_player.volume_db,
+				float(BGMPlayer.call("_ambience_target_db"))):
+		_fail("W239 passed inherited fade stopped or kept ducking its fresh bed")
+		return false
+
+	var intro_cold := await _w239_passed_intro_cold_matrix(default_home)
+	if intro_cold < 0:
+		return false
+	var cold_boundaries := await _w239_passed_result_cold_matrix(default_home)
+	if cold_boundaries < 0:
+		return false
+	var legacy_boundaries := await _w239_passed_legacy_cold_matrix(default_home)
+	if legacy_boundaries < 0:
+		return false
+	var reflow_boundaries := await _w239_passed_reflow_matrix(default_home)
+	if reflow_boundaries < 0:
+		return false
+	var settings_after := [
+		AudioManager.master_volume, AudioManager.bgm_volume, BGMPlayer.volume]
+	print("W239_FATHER_PASSED_OK paths=%d paper=%d silent=%d ingress=%d homes=%d same_key=1 intro_v4=%d result_v4=%d legacy_v4=%d cold_paper=%d reflows=%d reflow_paper=%d" % [
+		paths, live_paper, silent_results, ingress_contexts, housing_contexts,
+		intro_cold, cold_boundaries, legacy_boundaries,
+		_w239_passed_cold_paper, reflow_boundaries, _w239_passed_reflow_paper])
+	var counts_ok := paths == 15 and live_paper == 10 and silent_results == 5 \
+		and ingress_contexts == 6 and housing_contexts == 7 \
+		and intro_cold == 2 and cold_boundaries == 7 \
+		and legacy_boundaries == 4 and _w239_passed_cold_paper == 2 \
+		and reflow_boundaries == 8 and _w239_passed_reflow_paper == 2 \
+		and settings_before == settings_after
+	if not counts_ok:
+		_fail("W239 passed fixture population or master-volume state drifted")
+	return counts_ok
+
+
+func _w239_passed_context_matches(trace_choice: int, remaining_choice: int) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var raw_event: Dictionary = DataRegistry.find_event(W239_FATHER_PASSED)
+	var rows: Array = (
+		raw_event.get("chapter5_finale_reads", {}) as Dictionary).get("texts", [])
+	var sources := str(_story.call("_fmt", current.get("description", ""))).split("\n\n")
+	var entry: Dictionary = GameState.chapter5_finale_entry_snapshot()
+	var trace_receipt: Dictionary = CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
+		GameState.chapter5_finale_state, "arc_y5_father_trace_passed_exact")
+	var remaining_receipt: Dictionary = CHAPTER5_FINALE_ROUTE.receipt_snapshot_for_event(
+		GameState.chapter5_finale_state, W238_REMAINING)
+	if rows.size() != 2 or not rows[0] is Array or not rows[1] is Array \
+			or (rows[0] as Array).size() != 3 or (rows[1] as Array).size() != 1 \
+			or sources.size() != 4 \
+			or str(sources[0]).strip_edges() != str(_story.call(
+				"_fmt", (rows[0] as Array)[trace_choice])).strip_edges() \
+			or str(sources[1]).strip_edges() != str(_story.call(
+				"_fmt", (rows[1] as Array)[0])).strip_edges() \
+			or int(trace_receipt.get("choice_index", -1)) != trace_choice \
+			or int(remaining_receipt.get("choice_index", -1)) != remaining_choice \
+			or str(entry.get("father", {}).get("life", "")) != "passed" \
+			or GameState.chapter5_finale_next_event_for_turn() != W239_FATHER_PASSED \
+			or not GameState.chapter5_finale_ingress_available(W239_FATHER_PASSED) \
+			or not (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+			or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+			or not _w239_passed_surface(
+				"W239 passed exact ingress", _w235_current_home_background()) \
+			or not _w239_passed_audio_matches(
+				false, "W239 passed exact ingress"):
+		_fail("W239 passed lost selected father/W238 receipts or real ingress")
+		return false
+	return true
+
+
+func _w239_passed_read_intro(home_background: String) -> bool:
+	var current: Dictionary = _story.get("_current")
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	var authored := str(_story.call("_fmt", current.get("description", "")))
+	if int(_story.call("_story_source_paragraph_count")) != 4 \
+			or pages.is_empty() or not _m23_same_prose(pages, authored):
+		_fail("W239 passed lost its receipt rows plus two authored sources")
+		return false
+	var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+	var bed_position := BGMPlayer._ambience_player.get_playback_position()
+	var score_player := _w239_grief_player()
+	if not is_instance_valid(score_player):
+		_fail("W239 passed opening has no source0 grief stream")
+		return false
+	var score_stream: AudioStream = score_player.stream
+	var score_position := score_player.get_playback_position()
+	var score_token := int(BGMPlayer.get("_punctuation_token"))
+	var untouched := _w227_state_bytes()
+	while not bool(_story.get("_showing_choices")):
+		var source := int(_story.call(
+			"_story_source_paragraph_index", int(_story.get("_para_index"))))
+		await _finish_page()
+		var current_bed_position := BGMPlayer._ambience_player.get_playback_position()
+		if not _w239_passed_surface(
+				"W239 passed opening source%d" % source, home_background) \
+				or not _w239_passed_audio_matches(
+					false, "W239 passed opening source%d" % source) \
+				or not _w227_state_matches(
+					untouched, "W239 passed opening source%d" % source,
+					false, "W239P") \
+				or BGMPlayer._ambience_player.stream != bed_stream \
+				or current_bed_position + 0.05 < bed_position \
+				or not _w239_score_unchanged(
+					score_player, score_stream, score_position, score_token,
+					"W239 passed source%d" % source) \
+				or not (_story.call("_physical_cue_contract") as Dictionary).is_empty() \
+				or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty():
+			_fail("W239 passed source%d restarted or gained an early action" % source)
+			return false
+		bed_position = current_bed_position
+		score_position = score_player.get_playback_position()
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w239_passed_surface("W239 passed choices", home_background) \
+		and _w239_passed_audio_matches(false, "W239 passed choices") \
+		and _w227_state_matches(
+			untouched, "W239 passed choices", false, "W239P")
+
+
+func _w239_passed_prepare_result(
+		language: String, choice: int, home_case: Dictionary,
+		trace_choice: int = 0, remaining_choice: int = 0) -> bool:
+	var home_background := str(home_case.get("background", ""))
+	if not await _w239_passed_open(
+			language, home_case, trace_choice, remaining_choice) \
+			or not await _w239_passed_read_intro(home_background):
+		return false
+	_w239_passed_clear_tracked()
+	_story.call("_on_choice", choice)
+	_story.set_process(false)
+	await _wait_stable()
+	return _w239_passed_result_layout(choice) \
+		and GameState.chapter5_finale_receipt_matches(
+			W239_FATHER_PASSED, choice, 239) \
+		and _w239_passed_surface("W239 passed prepared result", home_background) \
+		and _w239_passed_audio_matches(false, "W239 passed prepared result")
+
+
+func _w239_passed_result_layout(choice: int) -> bool:
+	var pages: Array = _story.get("_paragraphs")
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	if choice < 0 or choice >= choices.size() or pages.is_empty():
+		return false
+	var authored := str(_story.call(
+		"_fmt", (choices[choice] as Dictionary).get("result_text", "")))
+	var expected_sources: Array[int] = [2, 3, 1]
+	var mapping := _w239_passed_paper_mapping()
+	var action_ok := mapping.is_empty()
+	if choice in [0, 2] and not mapping.is_empty():
+		var page_index := int(mapping.get("page", -1))
+		var contract: Dictionary = _story.call(
+			"_physical_cue_contract", page_index)
+		var rows: Dictionary = W239_PASSED_PAPER_ACTIONS.get_meta(
+			"paper_anchors", {})
+		var locales: Dictionary = rows.get(str(choice), {})
+		var expected_anchor := str(_story.call(
+			"_fmt", str(locales.get(LocaleManager.language, ""))))
+		action_ok = int(mapping.get("source", -1)) == 0 \
+			and int(contract.get("source_index", -1)) == 0 \
+			and str(contract.get("anchor", "")) == expected_anchor \
+			and is_equal_approx(float(contract.get("volume_db", 0.0)), -8.0) \
+			and str(contract.get("sfx", "")) == "paper_handle"
+	if choices.size() != 3 \
+			or int(_story.call("_story_source_paragraph_count")) != expected_sources[choice] \
+			or not _m23_same_prose(pages, authored) \
+			or int(_story.get("_result_location_cut_page")) >= 0 \
+			or not (_story.call("_ballpoint_write_contract") as Dictionary).is_empty() \
+			or not action_ok:
+		_fail("W239 passed choice%d lost its exact paper contract" % choice)
+		return false
+	return true
+
+
+func _w239_passed_paper_mapping() -> Dictionary:
+	var found: Array[Dictionary] = []
+	for page_index: int in range((_story.get("_paragraphs") as Array).size()):
+		var source_index := int(_story.call(
+			"_story_source_paragraph_index", page_index))
+		var page := str((_story.get("_paragraphs") as Array)[page_index])
+		var reveal := int(_story.call(
+			"_w239_paper_reveal_position", page, page_index))
+		if reveal > 0:
+			found.append({
+				"page": page_index, "reveal": reveal, "source": source_index})
+	return found[0] if found.size() == 1 else {}
+
+
+func _w239_passed_seek_paper_page(
+		applied: String, allow_default_name_projection: bool = false) -> bool:
+	var mapping := _w239_passed_paper_mapping()
+	var target := int(mapping.get("page", -1))
+	while int(_story.get("_para_index")) < target:
+		await _finish_page()
+		if not _w227_state_matches(
+				applied, "W239 passed before paper page",
+				allow_default_name_projection, "W239P") \
+				or not _w239_passed_audio_matches(
+					false, "W239 passed before paper page"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+		mapping = _w239_passed_paper_mapping()
+		target = int(mapping.get("page", -1))
+	if target < 0 or int(_story.get("_para_index")) != target \
+			or int(_story.get("_w239_paper_reveal_at")) != int(
+				mapping.get("reveal", -2)):
+		_fail("W239 passed did not settle on its exact paper-action page")
+		return false
+	return true
+
+
+func _w239_passed_boundary_side(before_paper: bool) -> bool:
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) not in [0, 2] \
+			or int(_story.call(
+				"_story_source_paragraph_index", int(_story.get("_para_index")))) != 0:
+		return false
+	var paper_range: Vector2 = _story.call("_w239_paper_progress_range")
+	var context: Dictionary = _story.call("build_save_resume_context")
+	var progress := float(context.get("source_text_progress", -1.0))
+	if paper_range.x < 0.0 or paper_range.y < paper_range.x:
+		return false
+	if before_paper:
+		return not bool(_story.get("_w239_paper_consumed")) \
+			and int(_story.get("_w239_paper_reveal_at")) > int(
+				_story.get("_type_pos")) \
+			and progress <= paper_range.x + 0.00001
+	return bool(_story.get("_w239_paper_consumed")) \
+		and int(_story.get("_w239_paper_reveal_at")) < 0 \
+		and progress >= paper_range.y - 0.00001
+
+
+func _w239_passed_finish_result(applied: String, played_at: int) -> bool:
+	var score_player := _w239_grief_player()
+	if not is_instance_valid(score_player):
+		_fail("W239 passed result started without its held grief score")
+		return false
+	var score_stream: AudioStream = score_player.stream
+	var score_position := score_player.get_playback_position()
+	var score_token := int(BGMPlayer.get("_punctuation_token"))
+	while true:
+		await _finish_page()
+		if not _w239_passed_surface(
+				"W239 passed result", _w235_current_home_background()) \
+				or not _w227_state_matches(
+					applied, "W239 passed result", false, "W239P") \
+				or not _w239_passed_audio_matches(
+					played_at >= 0, "W239 passed result") \
+				or int(AudioManager._last_sfx_ms.get(
+					"paper_handle", -1)) != played_at \
+				or not _w239_score_unchanged(
+					score_player, score_stream, score_position, score_token,
+					"W239 passed result"):
+			_fail("W239 passed result replayed paper or restarted grief")
+			return false
+		score_position = score_player.get_playback_position()
+		if int(_story.get("_para_index")) >= (
+				_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await _wait_stable()
+	return false
+
+
+func _w239_passed_surface(label: String, background_id: String) -> bool:
+	var expected_stream: AudioStream = BGMPlayer.call("_load_ambience", "apartment")
+	if str((_story.get("_current") as Dictionary).get("id", "")) != W239_FATHER_PASSED \
+			or background_id.is_empty() \
+			or not _expect_surface(background_id, "apartment", label) \
+			or str(_story.call("_resolved_story_surface_portrait_id")) != "player_sad" \
+			or expected_stream == null \
+			or BGMPlayer._ambience_player.stream != expected_stream \
+			or not BGMPlayer._ambience_player.playing \
+			or not str(BGMPlayer.get("_current_human_ambience_key")).is_empty() \
+			or BGMPlayer._human_ambience_player.playing \
+			or not str(BGMPlayer.get("_current_season_key")).is_empty() \
+			or BGMPlayer._season_player.playing \
+			or not is_instance_valid(_w239_grief_player()) \
+			or str(BGMPlayer.get("_current_key")) != "grief":
+		_fail(label + " changed passed home, bed, portrait, layers, or grief")
+		return false
+	return true
+
+
+func _w239_passed_clear_tracked() -> void:
+	for sound_id: String in W239_TRACKED_SFX:
+		AudioManager.stop_sound(sound_id)
+		AudioManager._last_sfx_ms.erase(sound_id)
+
+
+func _w239_passed_audio_matches(
+		expect_paper: bool, label: String, require_stream: bool = false) -> bool:
+	var cue_keys: Array = AudioManager._story_audio_seen.keys().filter(
+		func(key: Variant) -> bool:
+			return str(key).begins_with(W239_FATHER_PASSED + ":"))
+	var invalid: Array[String] = []
+	for sound_id: String in W239_TRACKED_SFX:
+		var expected := expect_paper and sound_id == "paper_handle"
+		var stream_count := _w197_sfx_stream_count(sound_id)
+		if AudioManager._last_sfx_ms.has(sound_id) != expected \
+				or (not expected and stream_count != 0) \
+				or (expected and require_stream and stream_count != 1):
+			invalid.append(sound_id)
+	if not cue_keys.is_empty() or not invalid.is_empty():
+		_fail("%s W239 passed audio mismatch paper=%s invalid=%s cues=%s" % [
+			label, expect_paper, invalid, cue_keys])
+		return false
+	if require_stream and expect_paper:
+		var expected_db := float(AudioManager.call("_vol_db")) \
+			+ AudioManager.sfx_mix_trim_db("paper_handle") - 8.0
+		for player: AudioStreamPlayer in AudioManager._pool:
+			if player.playing \
+					and player.stream == AudioManager._sounds.get("paper_handle"):
+				if is_equal_approx(player.volume_db, expected_db):
+					return true
+				_fail("%s W239 passed paper volume expected=%s actual=%s" % [
+					label, expected_db, player.volume_db])
+				return false
+		_fail(label + " W239 passed paper stream was not active")
+		return false
+	return true
+
+
+func _w239_passed_intro_cold_matrix(home_case: Dictionary) -> int:
+	var restored_cases := 0
+	for spec: Dictionary in [
+		{"phase": "prose", "source": 0, "locale": "ko"},
+		{"phase": "choices", "source": 3, "locale": "en"},
+	]:
+		if not await _w239_passed_open("ko", home_case):
+			return -1
+		var phase := str(spec.get("phase", ""))
+		var source_index := int(spec.get("source", -1))
+		if phase == "choices":
+			if not await _w239_passed_read_intro(
+					str(home_case.get("background", ""))):
+				return -1
+		elif not await _w239_advance_to_source(source_index):
+			return -1
+		if phase == "prose":
+			var page_length := str(_story.get("_type_full")).length()
+			if not _w227_type_to(
+					maxi(1, floori(float(page_length) / 2.0)), "W239P"):
+				return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		var applied := _w227_state_bytes()
+		var target_locale := str(spec.get("locale", "ko"))
+		var cross_locale := target_locale != LocaleManager.language
+		_w239_passed_clear_tracked()
+		if not await _w239_cold_load(
+				context, target_locale, applied, cross_locale,
+				"W239 passed cold " + phase):
+			return -1
+		var restored: Dictionary = _story.call("build_save_resume_context")
+		if str(restored.get("phase", "")) != phase \
+				or (phase != "choices" and int(restored.get(
+					"source_paragraph_index", -1)) != source_index) \
+				or (phase != "choices" and not _w238_progress_matches(
+					context, restored, source_index, cross_locale)) \
+				or not _w239_passed_surface(
+					"W239 passed cold " + phase,
+					_w235_current_home_background()) \
+				or not _w239_passed_audio_matches(
+					false, "W239 passed cold " + phase) \
+				or not (_story.call(
+					"_physical_cue_contract") as Dictionary).is_empty() \
+				or not (_story.call(
+					"_ballpoint_write_contract") as Dictionary).is_empty():
+			_fail("W239 passed cold %s changed source progress, grief, or silence" % phase)
+			return -1
+		restored_cases += 1
+	return restored_cases
+
+
+func _w239_passed_result_cold_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for choice: int in [0, 2]:
+		for before_paper: bool in [true, false]:
+			if not await _w239_passed_prepare_result("ko", choice, home_case):
+				return -1
+			var applied := _w227_state_bytes()
+			if not await _w239_passed_seek_paper_page(applied):
+				return -1
+			var reveal := int(_story.get("_w239_paper_reveal_at"))
+			if not _w227_type_to(
+					reveal - 1 if before_paper else reveal, "W239P"):
+				return -1
+			if not before_paper:
+				var played_at := int(AudioManager._last_sfx_ms.get(
+					"paper_handle", -1))
+				if played_at < 0 or not await _w237_wait_sfx_completion(
+						"paper_handle", played_at,
+						"W239 passed before cold save"):
+					return -1
+			var context: Dictionary = _story.call("build_save_resume_context")
+			_w239_passed_clear_tracked()
+			if not await _w239_cold_load(
+					context, "ko", applied, false,
+					"W239 passed cold c%d result" % choice):
+				return -1
+			var restored: Dictionary = _story.call("build_save_resume_context")
+			if str(restored.get("phase", "")) != "result" \
+					or int(restored.get(
+						"pending_result_choice_index", -1)) != choice \
+					or int(restored.get(
+						"source_paragraph_index", -1)) != 0 \
+					or not _w238_progress_matches(context, restored, 0, false) \
+					or not _w239_passed_boundary_side(before_paper) \
+					or not _w239_passed_surface(
+						"W239 passed cold result",
+						_w235_current_home_background()) \
+					or not _w239_passed_audio_matches(
+						false, "W239 passed cold result"):
+				_fail("W239 passed same-locale cold c%d crossed its paper boundary" % choice)
+				return -1
+			if before_paper:
+				var restored_reveal := int(_story.get("_w239_paper_reveal_at"))
+				if not _w227_type_to(restored_reveal, "W239P") \
+						or not _w239_passed_audio_matches(
+							true, "W239 passed cold remaining paper", true):
+					_fail("W239 passed cold c%d lost its unread paper action" % choice)
+					return -1
+				var cold_played_at := int(AudioManager._last_sfx_ms.get(
+					"paper_handle", -1))
+				if not await _w237_wait_sfx_completion(
+						"paper_handle", cold_played_at,
+						"W239 passed cold remaining paper"):
+					return -1
+				_w239_passed_cold_paper += 1
+			else:
+				_story.call("_complete_typing")
+				_story.call("_complete_typing")
+				if not _w239_passed_audio_matches(
+						false, "W239 passed cold consumed completion"):
+					return -1
+			boundaries += 1
+
+	for choice: int in [0, 2]:
+		if not await _w239_passed_prepare_result("ko", choice, home_case):
+			return -1
+		var applied := _w227_state_bytes()
+		if not await _w239_passed_seek_paper_page(applied):
+			return -1
+		var reveal := int(_story.get("_w239_paper_reveal_at"))
+		if not _w227_type_to(reveal - 1, "W239P"):
+			return -1
+		var context: Dictionary = _story.call("build_save_resume_context")
+		_w239_passed_clear_tracked()
+		if not await _w239_cold_load(
+				context, "en", applied, true,
+				"W239 passed cross-locale c%d" % choice):
+			return -1
+		var restored: Dictionary = _story.call("build_save_resume_context")
+		if str(restored.get("phase", "")) != "result" \
+				or int(restored.get(
+					"pending_result_choice_index", -1)) != choice \
+				or int(restored.get("source_paragraph_index", -1)) != 0 \
+				or not _w238_progress_matches(context, restored, 0, true) \
+				or not bool(_story.get("_w239_paper_consumed")) \
+				or int(_story.get("_w239_paper_reveal_at")) >= 0 \
+				or not _w239_passed_surface(
+					"W239 passed cross-locale result",
+					_w235_current_home_background()) \
+				or not _w239_passed_audio_matches(
+					false, "W239 passed cross-locale result"):
+			_fail("W239 passed cross-locale c%d replayed an unprovable paper action" % choice)
+			return -1
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if not _w239_passed_audio_matches(
+				false, "W239 passed cross-locale completion"):
+			return -1
+		boundaries += 1
+
+	if not await _w239_passed_prepare_result("ko", 1, home_case):
+		return -1
+	var silent_state := _w227_state_bytes()
+	var silent_length := str(_story.get("_type_full")).length()
+	if not _w227_type_to(
+			maxi(1, floori(float(silent_length) / 2.0)), "W239P"):
+		return -1
+	var silent_context: Dictionary = _story.call("build_save_resume_context")
+	_w239_passed_clear_tracked()
+	if not await _w239_cold_load(
+			silent_context, "ko", silent_state, false,
+			"W239 passed cold silent c1"):
+		return -1
+	var silent_restored: Dictionary = _story.call("build_save_resume_context")
+	if str(silent_restored.get("phase", "")) != "result" \
+			or int(silent_restored.get(
+				"pending_result_choice_index", -1)) != 1 \
+			or int(silent_restored.get("source_paragraph_index", -1)) != 0 \
+			or not _w238_progress_matches(
+				silent_context, silent_restored, 0, false) \
+			or not (_story.call(
+				"_physical_cue_contract") as Dictionary).is_empty() \
+			or not (_story.call(
+				"_ballpoint_write_contract") as Dictionary).is_empty() \
+			or not _w239_passed_surface(
+				"W239 passed cold silent c1",
+				_w235_current_home_background()) \
+			or not _w239_passed_audio_matches(
+				false, "W239 passed cold silent c1"):
+		_fail("W239 passed c1 cold result invented a physical action")
+		return -1
+	_story.call("_complete_typing")
+	_story.call("_complete_typing")
+	if not _w239_passed_audio_matches(
+			false, "W239 passed cold silent c1 completion"):
+		return -1
+	boundaries += 1
+	return boundaries
+
+
+func _w239_passed_legacy_cold_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for choice: int in [0, 2]:
+		for before_paper: bool in [true, false]:
+			if not await _w239_passed_prepare_result("ko", choice, home_case):
+				return -1
+			var applied := _w227_state_bytes()
+			if not await _w239_passed_seek_paper_page(applied):
+				return -1
+			var reveal := int(_story.get("_w239_paper_reveal_at"))
+			if not _w227_type_to(
+					reveal - 1 if before_paper else reveal, "W239P"):
+				return -1
+			if not before_paper:
+				var played_at := int(AudioManager._last_sfx_ms.get(
+					"paper_handle", -1))
+				if played_at < 0 or not await _w237_wait_sfx_completion(
+						"paper_handle", played_at,
+						"W239 passed before legacy save"):
+					return -1
+			var context: Dictionary = _story.call("build_save_resume_context")
+			if before_paper:
+				context.erase("story_locale")
+			else:
+				context.erase("source_paragraph_index")
+				context.erase("source_text_progress")
+			_w239_passed_clear_tracked()
+			if not await _w239_cold_load(
+					context, "ko", applied, false,
+					"W239 passed legacy c%d/%s" % [
+						choice, "before" if before_paper else "after"]):
+				return -1
+			var restored: Dictionary = _story.call("build_save_resume_context")
+			if str(restored.get("phase", "")) != "result" \
+					or int(restored.get(
+						"pending_result_choice_index", -1)) != choice \
+					or not bool(_story.get("_w239_paper_consumed")) \
+					or int(_story.get("_w239_paper_reveal_at")) >= 0 \
+					or not _w239_passed_surface(
+						"W239 passed legacy result",
+						_w235_current_home_background()) \
+					or not _w239_passed_audio_matches(
+						false, "W239 passed legacy result"):
+				_fail("W239 passed legacy c%d replayed without source/locale proof" % choice)
+				return -1
+			_story.call("_complete_typing")
+			_story.call("_complete_typing")
+			if not _w239_passed_audio_matches(
+					false, "W239 passed legacy completion"):
+				return -1
+			boundaries += 1
+	return boundaries
+
+
+func _w239_passed_reflow_matrix(home_case: Dictionary) -> int:
+	var boundaries := 0
+	for choice: int in [0, 2]:
+		for before_paper: bool in [true, false]:
+			if not await _w239_passed_prepare_result("ko", choice, home_case):
+				return -1
+			var applied := _w227_state_bytes()
+			if not await _w239_passed_seek_paper_page(applied):
+				return -1
+			var reveal := int(_story.get("_w239_paper_reveal_at"))
+			if not _w227_type_to(
+					reveal - 1 if before_paper else reveal, "W239P"):
+				return -1
+			if not before_paper:
+				var played_at := int(AudioManager._last_sfx_ms.get(
+					"paper_handle", -1))
+				if played_at < 0 or not await _w237_wait_sfx_completion(
+						"paper_handle", played_at,
+						"W239 passed before reflow"):
+					return -1
+			_w239_passed_clear_tracked()
+			var bed_stream: AudioStream = BGMPlayer._ambience_player.stream
+			var bed_position := BGMPlayer._ambience_player.get_playback_position()
+			var score_player := _w239_grief_player()
+			if not is_instance_valid(score_player):
+				return -1
+			var score_stream: AudioStream = score_player.stream
+			var score_position := score_player.get_playback_position()
+			var score_token := int(BGMPlayer.get("_punctuation_token"))
+			_story.call("_set_story_text_size", "large")
+			await _wait_stable()
+			if not _w239_passed_reflow_state(
+					before_paper, applied, false, bed_stream, bed_position,
+					score_player, score_stream, score_position, score_token,
+					"font"):
+				return -1
+			boundaries += 1
+			bed_position = BGMPlayer._ambience_player.get_playback_position()
+			score_position = score_player.get_playback_position()
+			_story.call("_set_story_language", "en")
+			await _wait_stable()
+			if LocaleManager.language != "en" \
+					or not _w239_passed_reflow_state(
+						before_paper, applied, true, bed_stream, bed_position,
+						score_player, score_stream, score_position, score_token,
+						"locale"):
+				return -1
+			boundaries += 1
+			if before_paper:
+				var localized_reveal := int(_story.get("_w239_paper_reveal_at"))
+				if localized_reveal <= 0 \
+						or not _w227_type_to(localized_reveal, "W239P") \
+						or not _w239_passed_audio_matches(
+							true, "W239 passed reflow remaining paper", true):
+					_fail("W239 passed hot reflow lost c%d remaining paper" % choice)
+					return -1
+				var reflow_played_at := int(AudioManager._last_sfx_ms.get(
+					"paper_handle", -1))
+				if not await _w237_wait_sfx_completion(
+						"paper_handle", reflow_played_at,
+						"W239 passed reflow remaining paper"):
+					return -1
+				_w239_passed_reflow_paper += 1
+			else:
+				_story.call("_complete_typing")
+				_story.call("_complete_typing")
+				if not _w239_passed_audio_matches(
+						false, "W239 passed reflow consumed completion"):
+					return -1
+	return boundaries
+
+
+func _w239_passed_reflow_state(
+		before_paper: bool, applied: String,
+		allow_default_name_projection: bool,
+		bed_stream: AudioStream, bed_position: float,
+		score_player: AudioStreamPlayer, score_stream: AudioStream,
+		score_position: float, score_token: int, label: String) -> bool:
+	if not _w239_passed_boundary_side(before_paper) \
+			or BGMPlayer._ambience_player.stream != bed_stream \
+			or BGMPlayer._ambience_player.get_playback_position() + 0.05 < bed_position \
+			or not _w227_state_matches(
+				applied, "W239 passed " + label + " reflow",
+				allow_default_name_projection, "W239P") \
+			or not _w239_passed_surface(
+				"W239 passed " + label + " reflow",
+				_w235_current_home_background()) \
+			or not _w239_passed_audio_matches(
+				false, "W239 passed " + label + " reflow") \
+			or not _w239_score_unchanged(
+				score_player, score_stream, score_position, score_token,
+				"W239 passed " + label + " reflow"):
+		_fail("W239 passed %s reflow crossed paper or restarted bed/score" % label)
+		return false
+	return true
 
 
 func _check_w237_record_page_turn() -> bool:

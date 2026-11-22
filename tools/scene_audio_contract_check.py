@@ -214,6 +214,36 @@ W239_PEN_LAY_TAILS = {
     "zh-CN": "，放下笔。",
     "zh-TW": "，放下筆。",
 }
+W239_PASSED_EVENT = "arc_y5_final_father_answer_passed"
+W239_PASSED_AUDIO = {
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "music": {"key": "grief", "start_paragraph": 0},
+}
+W239_PAPER_ACTION_ANCHORS = {
+    "0": {
+        "ko": "그 아래에 오늘 날짜를 적고 종이를 한 번 접었다.",
+        "en": "Beneath it he put today's date and folded the sheet once.",
+        "ja": "その下に今日の日付を書き、紙を一度折った。",
+        "zh-CN": "下面记上今天的日期，把纸折了一次。",
+        "zh-TW": "下面寫上今天的日期，把紙折了一次。",
+    },
+    "2": {
+        "ko": "{name}은 아버지 보증 사본 뒤에 무이체 통지를 넣고",
+        "en": "{name} placed the non-transfer notice behind Father's guarantee",
+        "ja": "{name}は父の保証書のコピーの後ろに、振込をしなかったという通知を入れ",
+        "zh-CN": "{name}把未转账通知放在父亲的担保副本后",
+        "zh-TW": "{name}把未轉帳通知放到父親的保證副本後面",
+    },
+}
+W239_PAPER_FOLLOWING_DATE = {
+    "ko": ", 두 장 사이의 구분지에 오늘 날짜를 적었다.",
+    "en": " and wrote today's date on the divider between them.",
+    "ja": "、二枚の間の仕切り紙に今日の日付を書いた。",
+    "zh-CN": "，在两张纸之间的分隔页上写下今天的日期。",
+    "zh-TW": "，在兩張紙之間的分隔頁寫下今天的日期。",
+}
 W240_OUTDOOR_SIGNATURE_EVENT = "arc_final_countdown_property_not_executed"
 W240_OUTDOOR_SIGNATURE_AUDIO = {
     "ambience": "intentional_silence",
@@ -626,6 +656,47 @@ def check_w239_name_write_anchors(errors: list[str]) -> None:
             errors.append(f"W239 alive name: {locale} lost its unique c2/source0 writing-before-pen-lay action")
 
 
+def check_w239_passed_paper_anchors(errors: list[str]) -> None:
+    resource = ROOT / "assets/w239_passed_paper_actions.tres"
+    try:
+        text = resource.read_text(encoding="utf-8")
+        match = re.fullmatch(
+            r'\[gd_resource type="Resource" format=3\]\s*\[resource\]\s*'
+            r'metadata/paper_anchors\s*=\s*(\{.*\})\s*', text, re.S,
+        )
+        anchors = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError):
+        anchors = None
+    if anchors != W239_PAPER_ACTION_ANCHORS:
+        errors.append("W239 passed paper: preserve both five-language fold/insertion actions")
+    for locale in W239_PAPER_ACTION_ANCHORS["0"]:
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_year3_drama.json")
+        event = next((row for row in rows if row.get("id") == W239_PASSED_EVENT), {})
+        choices = event.get("choices", [])
+        reads = event.get("chapter5_finale_reads", {}).get("texts", [])
+        if (len(choices) != 3 or len(reads) != 2
+                or [len(row) for row in reads] != [3, 1]
+                or len(str(event.get("description", "")).split("\n\n")) != 2
+                or [len(str(choice.get("result_text", "")).split("\n\n"))
+                    for choice in choices] != [2, 3, 1]):
+            errors.append(f"W239 passed paper: {locale} lost its trace3/notice1 or exact prose/result sources")
+            continue
+        for choice_key, localized in W239_PAPER_ACTION_ANCHORS.items():
+            index = int(choice_key)
+            anchor = localized[locale]
+            prose = str(choices[index].get("result_text", ""))
+            first = prose.split("\n\n")[0]
+            if (prose.count(anchor) != 1 or first.count(anchor) != 1
+                    or any(anchor in str(choice.get("result_text", ""))
+                           for other, choice in enumerate(choices) if other != index)):
+                errors.append(f"W239 passed paper: {locale} c{index} lost its unique source0 physical action")
+            if index == 0 and not first.endswith(anchor):
+                errors.append(f"W239 passed paper: {locale} fold must finish source0, not sound over writing")
+            if index == 2 and not first.startswith(anchor + W239_PAPER_FOLLOWING_DATE[locale]):
+                errors.append(f"W239 passed paper: {locale} insertion must precede date-writing and clear-file closing")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
@@ -637,6 +708,7 @@ def main() -> int:
     check_w237_page_turn_anchors(errors)
     check_w238_record_structure(errors)
     check_w239_name_write_anchors(errors)
+    check_w239_passed_paper_anchors(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
@@ -856,6 +928,19 @@ def main() -> int:
             or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
                    for choice in father_alive.get("choices", []))):
         errors.append(f"{W239_ALIVE_EVENT}: retain live home, neutral bed, exact reads and grief source1; only c2's revealed name-write clause may sound")
+    father_passed = events.get(W239_PASSED_EVENT, {})
+    if (event_contracts.get(W239_PASSED_EVENT) != W239_PASSED_AUDIO
+            or father_passed.get("background") != "current_housing"
+            or father_passed.get("portrait") != "player_sad" or father_passed.get("cg")
+            or father_passed.get("chapter5_finale_reads", {}).get("mode") != "prepend"
+            or father_passed.get("chapter5_finale_reads", {}).get("sources") != [
+                {"kind": "finale_stage", "id": "father_trace"},
+                {"kind": "finale_stage", "id": "nontransaction"},
+            ]
+            or any(key in father_passed for key in ("result_background", "result_ambience", "result_cg"))
+            or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
+                   for choice in father_passed.get("choices", []))):
+        errors.append(f"{W239_PASSED_EVENT}: retain home, neutral bed, exact reads and grief source0; only revealed fold/insertion clauses own generic paper handling")
     if W240_OUTDOOR_SIGNATURE_EVENT not in event_contracts:
         errors.append(f"{W240_OUTDOOR_SIGNATURE_EVENT}: missing outdoor signature audio contract")
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO
