@@ -1206,6 +1206,32 @@ gallery 제외 계약. 실행해시/수치·실패 이력은 일회성. 자동 �
 다음은 PASSED W239 `arc_y5_final_father_answer_passed`의 빈 의자/서류 구도와
 c1/source2 냉장고1회다. ALIVE/다른선택으로 확대하지 않는다.
 
+[~] 2026-11-22 W239 사망 부친 앞 빈 의자/냉장고 후보 제작·확보만. 소유는 이 증거,
+`docs/WORK_LOG.md` 같은 날짜 한 항목과 `CLAUDE.md` 마지막 갱신 한 줄이다.
+제품 기준 `df97e6d193fb1910699e8c12f8e2806092d3e41c`에서
+`arc_y5_final_father_answer_passed` raw description0(실제 prepend 뒤 source2),
+c1/result0~2만 조사한다. 고시원 정본의 낮은 책상/왼쪽 침대/좁은 통로를 바꾸지
+않는 별도 근접 구도와 다른 주거의 집 구조를 특정하지 않는 책상/의자 근접 구도를
+먼저 독립 검수한다. 적합한 경우만 열린 수첩→닫힌 수첩 대응 후보를 만든다.
+camera_role=Minjun observation POV, gaze_source=offscreen Minjun,
+gaze_target=empty chair/records. 아버지·유령·사진·추가 동석자/읽히는 문서·새 거처0.
+약봉지·옛 보증 사본·무이체 통지·수첩은 실제 크기로, 대화창 위에 남겨야 한다.
+빈 의자라는 원문만으로 영구 가구/구조를 발명하지 않으며 후보의 공간 정합이
+성립하지 않으면 원화 HOLD로 남긴다. 생성 원본/거절본은 기본 generated_images에
+보존하고 채택 전 프로젝트에 복사/등록하지 않는다. 후속 제품 배선은 별도 선언한다.
+
+음원 후보는 실제 공개 페이지에서 확인한 kyles/Freesound635553의 공개 HQ MP3
+`https://cdn.freesound.org/previews/635/635553_612689-hq.mp3`만 새 프로젝트 밖 폴더에
+확보·해시/ffprobe·시작/중간/정지 구간을 조사한다. 원본 FLAC 접근/인증 우회0.
+CC0 원음 페이지/라이선스/실제 받은 MP3 규격·출처를 보존하며 원본 FLAC 규격을
+MP3 규격으로 쓰지 않는다. 실제 시작/정지·잡음·청취/장면 적합 미관찰을 구분한다.
+자연 한 주기의 중간을 줄일 경우 같은 실제 take의 편집임을 적고 원본 한 주기나
+반복 hum fade로 위장하지 않는다. 현재143 masters/24sources/35physical·Audio/BGM·
+본문5언어·선택효과·저장/실제 앱·공개RC 변경0. ALIVE·다른 선택으로 확대0.
+깊이3문: 원문의 부재/사물 행동 판독을 복구하는 표현 수리이며 새 선택이 아니다;
+기존 기록/낭독/보관의 선택과 비용은 원고가 계속 소유한다. 후보 확보를 제품/전체830
+완료·실청취/사람/출시 승인으로 세지 않는다. 이 선언은 후보 단계 일회성이다.
+
 [~] W132 계단 오른쪽 통로 원화 후보만 재검수. 기존 `sangchul_cafe_stairs_v1.png`의 계단·난간·시점·카페 마감은 유지하고, 아래참 오른쪽이 막힌 벽감이 아닌 성인 폭 L자 통로로 읽히도록 국소 편집한다. 새 계단·외부·문·소리 0. 독립 원화 통과 뒤 제품 배선을 별도 선언한다.
 
 [~] W132 원화 교체 한정: 독립 검수에서 후보의 아래참·오른쪽 길과 대사창 위 여백 통과(`5b5dbbc85fad…`, 1586×992). 네 변 1px 중앙 크롭만 한 `assets/backgrounds/sangchul_cafe_stairs_v2.png`와 import, `autoloads/ImageRegistry.gd`의 기존 ID 경로, `assets/{ASSET_INDEX.md,IMAGE_PROMPTS.md,mod_asset_manifest.json}`, `tools/{StoryBackgroundContextCheck.gd,art_resolution_baseline.json}`, `docs/{ART_AI_AUDIT,MODDING,CONTENT_RATING_INVENTORY,WORK_LOG}.md`, `content/meta/release_content_inventory.json`, 현황과 이 증거. v1 원본 바이트 및 패키지 판정 보존. 원문·게임 분기·발걸음·음악·기존 저장·공개 RC는 변경0.
