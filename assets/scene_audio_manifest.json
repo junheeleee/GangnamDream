@@ -1846,6 +1846,7 @@
     "anxiety_child_cost_calc": {"ambience": "current_housing", "suppress_music": true},
     "callback_child_cost_grind": {"ambience": "current_housing", "suppress_music": true},
     "callback_chose_money_father_echo": {"ambience": "current_housing", "suppress_music": true},
+    "callback_tried_to_go_father_echo": {"ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
     "callback_daeun_breakup_begged_echo": {"ambience": "current_housing", "suppress_music": true},
     "callback_daeun_daily_life_echo": {"ambience": "current_housing", "suppress_music": true},
     "callback_father_confession_echo": {"ambience": "cafe", "music": {"key": "reckoning", "start_paragraph": 2}},

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import re
 import sys
@@ -25,6 +26,63 @@ YEAR3_EN = EN_DIR / "arc_year3_drama.json"
 PERSON_DEAL_ID = "arc_36_unexpected_hand_person_deal"
 PERSON_DEAL_LOCALES = ("ko", "en", "ja", "zh-CN", "zh-TW")
 PERSON_DEAL_KEYS = ("daeun_divorced", "daeun_romance_started")
+
+FATHER_P0_LOCALES = ("ko", "en", "ja", "zh-CN", "zh-TW")
+FATHER_P0_ROOT = "arc_father_passing"
+FATHER_P0_TERMINALS = (
+    "arc_father_passing_hospital_room",
+    "arc_father_passing_deal_morning",
+)
+FATHER_P0_KNOWN_KEYS = (
+    "called_father_on_ktx",
+    "did_not_call_father_on_ktx",
+    "father_heard_gangnam_reason",
+    "father_knew_i_came",
+    "father_calls_often",
+    "apologized_for_ignoring",
+    "father_debt_felt",
+)
+FATHER_P0_CALLBACK = "callback_tried_to_go_father_echo"
+FATHER_P0_YEAR_CLOSE = (
+    "arc_y4_year_close_daeun",
+    "arc_y4_year_close_unattached",
+)
+
+# The P0 unit may add only description_if_known.father_passed to these two
+# localized W190 rows.  These fingerprints pin the original location, portrait,
+# base prose, existing memory prefixes, three choices, effects, and results.
+W190_PRESERVED_SHA256 = {
+    "ko": {
+        "arc_y4_year_close_daeun": "1cf2262deba8ce521b7efe7d97a81f93417b116b476c3eaed09c12d70dccc4d0",
+        "arc_y4_year_close_unattached": "19a9abf51425bc2e11c52d86cad4e9cf383c2e6ad960d722c139b4bedad3dae7",
+    },
+    "en": {
+        "arc_y4_year_close_daeun": "d21486841305cd7e5bf836e96fa7db2e74542c01ead20f435651aa078280d93e",
+        "arc_y4_year_close_unattached": "7c34e21e676329e1a4be86192468467d057e27dfe98b7728b44f0063f44e98b5",
+    },
+    "ja": {
+        "arc_y4_year_close_daeun": "a1d233746b280721ce777772a925fc8fd66127610e0b5ea0997f480c9d02da0b",
+        "arc_y4_year_close_unattached": "ea99ba03c05ca70ad43faf01cd5b73933dda1995d8899ee8abaf673465839f2f",
+    },
+    "zh-CN": {
+        "arc_y4_year_close_daeun": "6dc42817453f819b2ce43e8ec519d009144e02d1a1ef12bac8b6891f5265933e",
+        "arc_y4_year_close_unattached": "1caeaca8d131313180734e32e336dc04db1cf7a295d2fad461f5a7ace2644a03",
+    },
+    "zh-TW": {
+        "arc_y4_year_close_daeun": "1e9df176cec9ea97d911ec060f2927e0472d00b60777c0ed29d635e32e266cf3",
+        "arc_y4_year_close_unattached": "0ade994149964945fac1bc9e13c56465cbb24fa57a1c2381e33d4b80684280c6",
+    },
+}
+
+# Only the first two known branches change.  The default, both moral variants,
+# and the five older recollections remain the accepted originals in every file.
+W188_PRESERVED_PROSE_SHA256 = {
+    "ko": "b96336b211c7b9527ae3e04f177fbf3a7a87179f1aba8c02bb8050a2c1bdf139",
+    "en": "5e0e093224bdd155fa379d900390393b8d3c333f483b554031dfcae060ddcec7",
+    "ja": "c8fec88cfb56229142f7c4e5e8647e53a64a5f260323917d0d55f35313192df1",
+    "zh-CN": "52373e8916ebc4cbb52c74a7584f19699703fddf813decd7946d020a5671d8a0",
+    "zh-TW": "52cc4db306d51f10e9eeef8cb36d82e8f73663322c92cf4cadf7351f6042050e",
+}
 
 SANGCHUL_LIVE_ID = "arc_sangchul_year3"
 SANGCHUL_PASSED_ID = "arc_sangchul_year3_father_passed"
@@ -128,6 +186,53 @@ def load_event_order(path: Path) -> list[str]:
         for row in rows
         if isinstance(row, dict) and row.get("id")
     ]
+
+
+def canonical_sha256(value: Any) -> str:
+    payload = json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def load_father_p0_events() -> dict[str, dict[str, dict[str, Any]]]:
+    """Read the three exact owning files for every shipping locale."""
+    result: dict[str, dict[str, dict[str, Any]]] = {}
+    wanted_by_file = {
+        "arc_drama.json": {
+            FATHER_P0_ROOT,
+            "arc_father_passing_platform",
+            "arc_father_passing_deal_room",
+            *FATHER_P0_TERMINALS,
+        },
+        "arc_year_close.json": set(FATHER_P0_YEAR_CLOSE),
+        "callback_events_42.json": {
+            FATHER_P0_CALLBACK,
+            "callback_chose_money_father_echo",
+        },
+    }
+    for locale in FATHER_P0_LOCALES:
+        directory = "events" if locale == "ko" else "events_" + locale
+        locale_events: dict[str, dict[str, Any]] = {}
+        for filename, wanted in wanted_by_file.items():
+            path = ROOT / "content" / directory / filename
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            rows = payload.get("events", []) if isinstance(payload, dict) else payload
+            if not isinstance(rows, list):
+                raise ValueError(f"{locale}/{filename}: event root is not a list")
+            for row in rows:
+                if isinstance(row, dict) and str(row.get("id", "")) in wanted:
+                    event_id = str(row["id"])
+                    if event_id in locale_events:
+                        raise ValueError(f"{locale}: duplicate P0 event {event_id}")
+                    locale_events[event_id] = row
+        expected = set().union(*wanted_by_file.values())
+        if set(locale_events) != expected:
+            raise ValueError(
+                f"{locale}: P0 event set drifted: {sorted(locale_events)}"
+            )
+        result[locale] = locale_events
+    return result
 
 
 def choice_flags(choice: dict[str, Any]) -> set[str]:
@@ -598,6 +703,208 @@ def validate_story_queue_hard_state(
     ):
         if marker not in loader:
             errors.append(f"StoryMode hard-state queue guard missing {marker}")
+    return errors
+
+
+def validate_father_p0_content(
+        localized: dict[str, dict[str, dict[str, Any]]],
+        main_source: str) -> list[str]:
+    """Pin the W188 fact repair without changing its old route or state writes."""
+    errors: list[str] = []
+    old_hour_markers = {
+        "ko": ("한 시간 전에", "한 시간만 빨랐"),
+        "en": ("an hour ago", "one hour earlier", "one hour before"),
+        "ja": ("一時間前", "一時間でも早"),
+        "zh-CN": ("一个小时前", "早一个小时"),
+        "zh-TW": ("一個小時前", "早一個小時"),
+    }
+    gameplay_fields = {
+        "flags", "effects", "cast_effects", "follow_up_event",
+        "choice_kind", "items_add", "items_remove", "set_flag",
+        "deferred_follow_up", "deferred_delay",
+    }
+
+    def choice_contract(choice: dict[str, Any]) -> dict[str, Any]:
+        return {
+            key: choice[key]
+            for key in gameplay_fields
+            if key in choice
+        }
+
+    expected_ko_choice_contracts = {
+        FATHER_P0_ROOT: [
+            {"choice_kind": "decision",
+             "follow_up_event": "arc_father_passing_platform"},
+            {"choice_kind": "decision",
+             "follow_up_event": "arc_father_passing_deal_room"},
+        ],
+        "arc_father_passing_platform": [
+            {"follow_up_event": "arc_father_passing_hospital_room"},
+            {"follow_up_event": "arc_father_passing_deal_morning"},
+        ],
+        "arc_father_passing_deal_room": [
+            {"follow_up_event": "arc_father_passing_hospital_room"},
+            {"follow_up_event": "arc_father_passing_deal_morning"},
+        ],
+        "arc_father_passing_hospital_room": [{
+            "effects": {"mental": -40, "tint": 10},
+            "cast_effects": {"father": {"stage": "passed"}},
+            "flags": [
+                "arc_father_passing_seen", "father_passed",
+                "tried_to_go_to_father",
+            ],
+        }],
+        "arc_father_passing_deal_morning": [{
+            "effects": {"mental": -25, "money": 5_000_000, "tint": -8},
+            "cast_effects": {"father": {"stage": "passed"}},
+            "flags": [
+                "arc_father_passing_seen", "father_passed",
+                "chose_money_over_father",
+            ],
+            "deferred_follow_up": "callback_chose_money_father_echo",
+            "deferred_delay": 12,
+        }],
+        FATHER_P0_CALLBACK: [
+            {"effects": {"mental": 6}, "flags": [], "follow_up_event": ""},
+            {"effects": {"mental": -8}, "flags": [], "follow_up_event": ""},
+        ],
+    }
+
+    if set(localized) != set(FATHER_P0_LOCALES):
+        errors.append("father P0: exact five-locale population required")
+        return errors
+    for locale in FATHER_P0_LOCALES:
+        events = localized.get(locale, {})
+        root = events.get(FATHER_P0_ROOT, {})
+        known = root.get("description_if_known", {})
+        if not isinstance(known, dict) or tuple(known) != FATHER_P0_KNOWN_KEYS:
+            errors.append(
+                f"father P0/{locale}: W188 known order/population drifted"
+            )
+            continue
+        preserved_known = {
+            key: value for key, value in known.items()
+            if key not in FATHER_P0_KNOWN_KEYS[:2]
+        }
+        preserved = {
+            "description": root.get("description"),
+            "description_if_moral": root.get("description_if_moral"),
+            "other_known": preserved_known,
+        }
+        if canonical_sha256(preserved) != W188_PRESERVED_PROSE_SHA256[locale]:
+            errors.append(
+                f"father P0/{locale}: W188 default/moral/older-known prose changed"
+            )
+        for key in FATHER_P0_KNOWN_KEYS[:2]:
+            body = known.get(key)
+            if not isinstance(body, str) or not body.strip():
+                errors.append(f"father P0/{locale}/{key}: missing death-notice body")
+            elif any(marker.casefold() in body.casefold()
+                     for marker in old_hour_markers[locale]):
+                errors.append(
+                    f"father P0/{locale}/{key}: obsolete preventable-hour fact remains"
+                )
+        if known.get(FATHER_P0_KNOWN_KEYS[0]) == known.get(FATHER_P0_KNOWN_KEYS[1]):
+            errors.append(f"father P0/{locale}: the two KTX receipts collapsed")
+
+        callback = events.get(FATHER_P0_CALLBACK, {})
+        callback_text = json.dumps(callback, ensure_ascii=False)
+        if any(marker.casefold() in callback_text.casefold()
+               for marker in old_hour_markers[locale]):
+            errors.append(
+                f"father P0/{locale}: current-home callback still rewinds one hour"
+            )
+        hospital = events.get(FATHER_P0_TERMINALS[0], {})
+        if any(marker.casefold() in json.dumps(hospital, ensure_ascii=False).casefold()
+               for marker in old_hour_markers[locale]):
+            errors.append(
+                f"father P0/{locale}: hospital terminal still invents one-hour causality"
+            )
+        money_terminal = events.get(FATHER_P0_TERMINALS[1], {})
+        money_body = str(money_terminal.get("description", ""))
+        if money_body.count("{assets}") != 1:
+            errors.append(
+                f"father P0/{locale}: money terminal must compare one live assets token"
+            )
+
+        for event_id in FATHER_P0_YEAR_CLOSE:
+            event = events.get(event_id, {})
+            preserved_w190 = {
+                key: event.get(key)
+                for key in (
+                    "background", "portrait", "description",
+                    "description_memory_if_known", "choices",
+                )
+            }
+            if canonical_sha256(preserved_w190) \
+                    != W190_PRESERVED_SHA256[locale][event_id]:
+                errors.append(
+                    f"father P0/{locale}/{event_id}: old location/memory/three choices changed"
+                )
+            passed_map = event.get("description_if_known")
+            if not isinstance(passed_map, dict) or tuple(passed_map) != ("father_passed",):
+                errors.append(
+                    f"father P0/{locale}/{event_id}: expected only father_passed DIK"
+                )
+                continue
+            passed_body = passed_map.get("father_passed")
+            if not isinstance(passed_body, str) or not passed_body.strip() \
+                    or passed_body == event.get("description"):
+                errors.append(
+                    f"father P0/{locale}/{event_id}: missing distinct belongings body"
+                )
+            elif passed_body.count("\n\n") != 1 \
+                    or placeholders(passed_body) != {"{name}"}:
+                errors.append(
+                    f"father P0/{locale}/{event_id}: passed body must be two paragraphs with name"
+                )
+
+        if locale == "ko":
+            for event_id, expected in expected_ko_choice_contracts.items():
+                actual = [
+                    choice_contract(choice)
+                    for choice in events.get(event_id, {}).get("choices", [])
+                    if isinstance(choice, dict)
+                ]
+                if actual != expected:
+                    errors.append(
+                        f"father P0/ko/{event_id}: choice kind/effect/edge contract changed"
+                    )
+        else:
+            for event_id, expected in expected_ko_choice_contracts.items():
+                localized_choices = events.get(event_id, {}).get("choices", [])
+                if not isinstance(localized_choices, list) \
+                        or len(localized_choices) != len(expected):
+                    errors.append(
+                        f"father P0/{locale}/{event_id}: choice population drifted"
+                    )
+                for index, choice in enumerate(
+                        localized_choices if isinstance(localized_choices, list) else []):
+                    leaked = gameplay_fields & set(choice) \
+                        if isinstance(choice, dict) else set()
+                    if leaked:
+                        errors.append(
+                            f"father P0/{locale}/{event_id}[{index}]: "
+                            f"overlay owns gameplay fields {sorted(leaked)}"
+                        )
+
+    ending = source_function_block(main_source, "_ending_cast_epilogue")
+    for obsolete in (
+        "아버지가 떠나던 밤, 나는 딜을 했다.",
+        "The night Father passed, I closed a deal.",
+        "마지막 기차를 탔지만 한 시간 늦었다.",
+        "I caught the last train but was an hour too late.",
+    ):
+        if obsolete in ending:
+            errors.append(f"father P0 ending still carries obsolete fact: {obsolete}")
+    for required in (
+        "사망 소식을 듣고도 그날은 거래를 택했다.",
+        "I chose the deal even after I heard that Father had died.",
+        "사망 소식을 들은 뒤 창원행 열차를 탔다.",
+        "I took the train to Changwon after I heard that Father had died.",
+    ):
+        if required not in ending:
+            errors.append(f"father P0 ending missing exact chronology: {required}")
     return errors
 
 
@@ -1556,6 +1863,8 @@ def main() -> int:
             event_manager_source, ko_year3_order, en_year3_order)
         errors.extend(validate_person_deal_content(load_person_deal_events()))
         errors.extend(validate_person_deal_source(source, story_source))
+        errors.extend(validate_father_p0_content(
+            load_father_p0_events(), source))
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"CHAPTER4_CAUSAL_ROUTE_AUDIT_FAIL {exc}", file=sys.stderr)
         return 1
@@ -1567,7 +1876,8 @@ def main() -> int:
     print(
         "CHAPTER4_CAUSAL_ROUTE_AUDIT_OK "
         "promoted_events=19 direct=15 owners=12 "
-        "medical=2-of-3 contact_life_writers=0 person_deal_locales=5"
+        "medical=2-of-3 contact_life_writers=0 person_deal_locales=5 "
+        "father_p0_locales=5 w190_passed_variants=10"
     )
     return 0
 

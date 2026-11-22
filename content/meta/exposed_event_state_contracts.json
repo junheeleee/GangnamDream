@@ -1427,10 +1427,12 @@
       "location"
     ],
     "arc_y4_year_close_daeun": [
+      "father_life",
       "location",
       "relationship"
     ],
     "arc_y4_year_close_unattached": [
+      "father_life",
       "housing",
       "location"
     ],

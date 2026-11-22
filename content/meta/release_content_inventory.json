@@ -554,7 +554,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present", "arc_final_week"],
-        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "046560fcecd05095c881d49b0677aa44a60e8f0713a7010ee4b998081d8da135"
+        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "9e615b4f8ae9a30a98064253dfcb782a13b9c181d7985d6e62bb17a2cf47d0cd"
       },
       "facts": [
         {
@@ -640,7 +640,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 140, "expected_file_count": 50, "expected_ids_sha256": "da1905da4c772a4b047bab1afe63e224d46cc4ccb2715ea7e2cae2d14720cf02", "expected_content_sha256": "6c1593f49f485824836ab65e4ace5d8497ddbff3f5d87464d06bedc2afe60a91"
+        "expected_event_count": 142, "expected_file_count": 51, "expected_ids_sha256": "725e90eb386a0456f33c6c285545e88f0430e52b0a08eaa7934248557eceb7fb", "expected_content_sha256": "f16f8fbf660d20f97410b8ff5612f5b5e9902d275c2143e84f6614c410c3e1d0"
       },
       "facts": [
         {
@@ -709,8 +709,8 @@
         "categories": ["crime"], "tags": ["crime", "illegal"],
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
-        "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "0f43955f423a01d9c62b390dc84be2744c7ed4f58c7f2a8c3ad392cb617d898e"
+        "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon", "callback_tried_to_go_father_echo"],
+        "expected_event_count": 74, "expected_file_count": 41, "expected_ids_sha256": "078def701a69641b48f1ca1f8a05f05c34a0da6f5ec675ac948650d15b28be1a", "expected_content_sha256": "7d909ce08d48c8d0be1d303ae4a959954f87fc6133ebcf734741abbeb679f21b"
       },
       "facts": [
         {

@@ -22748,9 +22748,9 @@ func _ending_cast_epilogue(parent: Control, ending_id: String, compact: bool = f
 			lines.append(_tr("아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "I call Father twice a month now. Not long, but never broken off."))
 	elif fs == "passed":
 		if GameState.flags.get("chose_money_over_father", false):
-			lines.append(_tr("아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.", "The night Father passed, I closed a deal. The number in my account went up — and every time I see it, I see the version of me who didn't board the train to Changwon."))
+			lines.append(_tr("사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.", "I chose the deal even after I heard that Father had died. I checked the deposit of 5 million won, then looked up the ward's number again."))
 		elif GameState.flags.get("tried_to_go_to_father", false):
-			lines.append(_tr("마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.", "I caught the last train but was an hour too late. Still, I've chosen to believe the time spent in that empty hospital room was better than not going at all."))
+			lines.append(_tr("사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.", "I took the train to Changwon after I heard that Father had died. I sat in the empty hospital room for a long time before I came back."))
 		else:
 			lines.append(_tr("아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.", "After Father passed, I went down to Changwon once. I sat for a long time in an empty room."))
 	elif fs in ["worried", "health_crisis", "quiet"]:

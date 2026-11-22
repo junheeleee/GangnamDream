@@ -4254,6 +4254,17 @@
         "expected_ambience": "current_housing"
       }
     },
+    "callback_tried_to_go_father_echo": {
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "apartment"
+      }
+    },
     "callback_chose_money_father_echo": {
       "presentation": {
         "channel": "internal",

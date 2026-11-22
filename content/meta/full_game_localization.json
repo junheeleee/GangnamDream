@@ -37652,6 +37652,428 @@
           }
         }
       }
+    },
+    {
+      "order": "ORDER-833-FATHER-P0",
+      "group": "events",
+      "kind": "source_correction_with_mourning_variant",
+      "roots": [
+        "arc_father_passing",
+        "arc_father_passing_deal_morning",
+        "arc_father_passing_hospital_room",
+        "arc_y4_year_close_daeun",
+        "arc_y4_year_close_unattached",
+        "callback_tried_to_go_father_echo"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 15,
+        "zh-CN": 15,
+        "zh-TW": 15
+      },
+      "new_coverage_by_locale": {
+        "ja": 2,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "source_review": "Each locale directly authored from Korean; all 15 event leaves plus two ending UI lines independently compared. New W190 father_passed variants remain T1 art/direction/cue HOLD; repeated dilemma/legacy chain repair is a separate unfinished unit.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "a9d56d28f8031c83f3307e77205fc24e470e2c50",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "60e54c3422fffbad076613c3c87de4b6df0652695ac29f49093cdeb9a2806187",
+          "selection_sha256": "a4a6be3337a71fcd1dc61db9a748d4c62d3f465d18a6ccb4ce5be3e35aa5c90f",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "195718d1c0f4c0c1f9f64f545d6c073cd6f8288fa107759ec1f3e2b2cfe8e5cc"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a9d56d28f8031c83f3307e77205fc24e470e2c50",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "60e54c3422fffbad076613c3c87de4b6df0652695ac29f49093cdeb9a2806187",
+          "selection_sha256": "96d3add1cdd6d043d54ad2213c4c55f010faea83d12eabfca1f75fbacb1d39fb",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c4d6b804449c3a51bad8b21c88175e76a75460a92be9595dffc176ff02b73448"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a9d56d28f8031c83f3307e77205fc24e470e2c50",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "60e54c3422fffbad076613c3c87de4b6df0652695ac29f49093cdeb9a2806187",
+          "selection_sha256": "36bbdb0a44768e96d5a1be3dbb04c9278e978e31ca182a889240c3af2b3ec5dc",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "61f3c233c47af262f3a210b12c5659807a6f9c6934e13ebedc1709c4ef3f0088"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "b72e01f53147f73c8efed9bfb76400e6bb83d2003356b299e1834f8a4c8e48c5",
+        "zh-CN": "a797128463830844dbe5a82ee9899d2b2ab8e6769c429b3ef1c8f6d82b03ef90",
+        "zh-TW": "7ce5a9c3c69c7b0106d18e1cb4b0704aa1acc8516760d4d61433f8141ac76d8b"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": "0cfc49a17624f7527056b7cce0c238f4ce1e3f95e1223effc10b02590c78e174",
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": "911fca841a21bc5d0f11ac234af3a9790881adfd7cfb4c730873490874e47640",
+          "events:arc_father_passing_deal_morning:/choices/0/result_text": "c7fe8dcdcff58b750c2c79b0971617ddac859389d431176af72e85ff743cc1d6",
+          "events:arc_father_passing_deal_morning:/description": "d00fff20758de53a2714ca5d5f42fc0179a3c6ada07cfcc9451c4c0b81dac754",
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": "b7c3134eed76b0db2687c5658febfa1f89978fb9369f0e982d88dbffab5b1c5e",
+          "events:arc_father_passing_hospital_room:/description": "b105f34f80c3eea3b8fc953d2b71add1fe5a64aa2703881029e39a8383cbde24",
+          "events:arc_father_passing_hospital_room:/title": "65bc5df6e33f94e7d251ecf07385a98ebbff94ee05d6c82ef992147089c81c89",
+          "events:arc_y4_year_close_daeun:/description_if_known/father_passed": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:arc_y4_year_close_unattached:/description_if_known/father_passed": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:callback_tried_to_go_father_echo:/choices/0/result_text": "bac8611a3c6073c729caf9bd2369b59bfa204f769b3fcf839f4a6d088855f535",
+          "events:callback_tried_to_go_father_echo:/choices/0/text": "7944d7b5056cb03d88121efdfc20b989a08407b26814d6766f7c407158f5b759",
+          "events:callback_tried_to_go_father_echo:/choices/1/result_text": "28d274bedba6175bd24687852eb7b6a627bec547c286924d08083a1c98237f16",
+          "events:callback_tried_to_go_father_echo:/choices/1/text": "796f62017ee92fd8acebe8fe45eb5fe1b50a53319967917edd86c6c40a310c8a",
+          "events:callback_tried_to_go_father_echo:/description": "306a080da882f5c02e1ba2e031600a549a0ff53f96c289c7042aa11f8f0ea30d",
+          "events:callback_tried_to_go_father_echo:/title": "eb644afae4f1495bc954b29b6db7844b7bdf1781310db4923821394716b79bcf"
+        },
+        "zh-CN": {
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": "0e98fd3509605b7e599f00b47c33c787290a01513c545ed44bafb04f4472d0d2",
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": "21a76c7174a34430abbcbabf3bf7910979632c6f86b400d1114528456cec31be",
+          "events:arc_father_passing_deal_morning:/choices/0/result_text": "bc394123764c4ebf441377a7474394994c99ab77f8cf9245a2fd155ff8501aa7",
+          "events:arc_father_passing_deal_morning:/description": "f0aefbba0f6663f7670fcde8c9c15c0b844defcd3bcd36bd7cb06fe673d402e8",
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": "7e8b21d1c85e4d91c712eb2c1a09370345396043230ed4e2a7386c4391edeb27",
+          "events:arc_father_passing_hospital_room:/description": "7a05a8b74e1ee7ccdb670c751ae44510d1cd5dbaf7cf4fe83c7b4e1023610747",
+          "events:arc_father_passing_hospital_room:/title": "0f4f411f3bf5451fa02c87347de7c640ad26d606566001053620a32bb46ec352",
+          "events:arc_y4_year_close_daeun:/description_if_known/father_passed": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:arc_y4_year_close_unattached:/description_if_known/father_passed": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:callback_tried_to_go_father_echo:/choices/0/result_text": "51bdf60db2009599c6fa6d82de10bf09e2b0c18b07274af398999f19993753a1",
+          "events:callback_tried_to_go_father_echo:/choices/0/text": "3649732c0893d1e27e05b72dbb4771330bf5652a2f1d4200c9ecee20afddeb21",
+          "events:callback_tried_to_go_father_echo:/choices/1/result_text": "266fee8fa9c13a2881c213e1d18097526fc5550d23204cde63b922e13ee2cdd7",
+          "events:callback_tried_to_go_father_echo:/choices/1/text": "b34319af5dac2fd56f862d404cc0b4293fdc3b74774f1aab228bd1bc4bc9041a",
+          "events:callback_tried_to_go_father_echo:/description": "3659aa87c55202d94d50aaf04d8cb5f4304d8ddc3a2069a15949ed60176a2b7a",
+          "events:callback_tried_to_go_father_echo:/title": "6f907578c37989504af7a916949149338cca604c78b4a70295671445a098beb9"
+        },
+        "zh-TW": {
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": "f452dd01cc438a66562f1012ddee76eaf7f81d81fd0cf61712e9f8a5de233ebf",
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": "1a156b99fed835ebc77a366b2b1d6d2fe1837e7fc592c2f935fb83fd67926ebb",
+          "events:arc_father_passing_deal_morning:/choices/0/result_text": "e1268cedada9e4611939a4d80093a289c0b6df99f4cf294bc49662569ccd1c1f",
+          "events:arc_father_passing_deal_morning:/description": "7eac2d383d2a6ade41b1df284261733b0a95fd9679e11c628e699e90993a5c47",
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": "0a69228dac1ff7be50bf295c7c5a405a7911377c44b30976f6f23a597574b580",
+          "events:arc_father_passing_hospital_room:/description": "011d013e28bb9ee956a7f7757f5f1d4be1ff6cfba7203597dfaf4a937d695124",
+          "events:arc_father_passing_hospital_room:/title": "a152e6fb46897c392158854a5b1866baaee2b7dfb03ac46656d9ecae54cbc129",
+          "events:arc_y4_year_close_daeun:/description_if_known/father_passed": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:arc_y4_year_close_unattached:/description_if_known/father_passed": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "events:callback_tried_to_go_father_echo:/choices/0/result_text": "8ceaa01941a523619bf1cec70f6de3440e3d8a4051c7a9a4d6abcefbc36ff475",
+          "events:callback_tried_to_go_father_echo:/choices/0/text": "baa449caf4a319d5eddc9e3de46727ebdd1845e3b09d01c9c5a46518d96e797f",
+          "events:callback_tried_to_go_father_echo:/choices/1/result_text": "6acba9d402b2522ef471ff0a87ae5db2a3340cb9b94a011b17d2839f1ec2bcda",
+          "events:callback_tried_to_go_father_echo:/choices/1/text": "49879d6ff01811f405f874b0c7524368d253ba0c7e48e5e919d473f8207f839d",
+          "events:callback_tried_to_go_father_echo:/description": "45166dabc36898bcdfdea9fc0fbdc039ca6b013735571d6ad30824c7f68b9243",
+          "events:callback_tried_to_go_father_echo:/title": "4e48682c9c7f482633361eb6445fa05b8007902693beba348106cf6ab032f61f"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
+            "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
+            "target_sha256": "0cfc49a17624f7527056b7cce0c238f4ce1e3f95e1223effc10b02590c78e174"
+          },
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
+            "target_sha256": "911fca841a21bc5d0f11ac234af3a9790881adfd7cfb4c730873490874e47640"
+          },
+          "events:arc_father_passing_deal_morning:/choices/0/result_text": {
+            "source_sha256": "b8911230de269e815e56c7f1e3d3dc885a7148b3ca0c8622917f64c37a6cdc7e",
+            "target_sha256": "c7fe8dcdcff58b750c2c79b0971617ddac859389d431176af72e85ff743cc1d6"
+          },
+          "events:arc_father_passing_deal_morning:/description": {
+            "source_sha256": "2ebd79d709d72d0c4eb6ef968afbdc35796e101981ba3d8e72da33e0d60cda79",
+            "target_sha256": "d00fff20758de53a2714ca5d5f42fc0179a3c6ada07cfcc9451c4c0b81dac754"
+          },
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": {
+            "source_sha256": "32f0d11cd68cff99af014cf21922ab6bdf160a877ec752baf8cf66fd20500e51",
+            "target_sha256": "b7c3134eed76b0db2687c5658febfa1f89978fb9369f0e982d88dbffab5b1c5e"
+          },
+          "events:arc_father_passing_hospital_room:/description": {
+            "source_sha256": "199e0db18a21206f2867806cba632963ebd6efc020b356bc6a776e1b1ac902f9",
+            "target_sha256": "b105f34f80c3eea3b8fc953d2b71add1fe5a64aa2703881029e39a8383cbde24"
+          },
+          "events:arc_father_passing_hospital_room:/title": {
+            "source_sha256": "f4d417479d20954be9f98ea24a0e1f9bb0e81387eab9e9e547ef3fd3208f9dea",
+            "target_sha256": "65bc5df6e33f94e7d251ecf07385a98ebbff94ee05d6c82ef992147089c81c89"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/0/result_text": {
+            "source_sha256": "7c6026cdf117ec3d87b9eaf2efc66c8e0246a2b9a62beb134bed6976de7716bc",
+            "target_sha256": "bac8611a3c6073c729caf9bd2369b59bfa204f769b3fcf839f4a6d088855f535"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/0/text": {
+            "source_sha256": "9adb00cc1a27c5e55bb36fef78704f2996d74ee8232864f3c89d1e466d66d8ce",
+            "target_sha256": "7944d7b5056cb03d88121efdfc20b989a08407b26814d6766f7c407158f5b759"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/1/result_text": {
+            "source_sha256": "97237609b8185ce7ff43fcd03c2040c2301bec99151dc21337d43597a8b5d46a",
+            "target_sha256": "28d274bedba6175bd24687852eb7b6a627bec547c286924d08083a1c98237f16"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/1/text": {
+            "source_sha256": "4fb651f68ca292c89477c5632715381ee0b5ea06b9894b2e628f49d8daf4ce5f",
+            "target_sha256": "796f62017ee92fd8acebe8fe45eb5fe1b50a53319967917edd86c6c40a310c8a"
+          },
+          "events:callback_tried_to_go_father_echo:/description": {
+            "source_sha256": "674979426b14d6f6beb25359fe9599021e4c2371a306e5cb3225144861971977",
+            "target_sha256": "306a080da882f5c02e1ba2e031600a549a0ff53f96c289c7042aa11f8f0ea30d"
+          },
+          "events:callback_tried_to_go_father_echo:/title": {
+            "source_sha256": "e964bd4522b358f9572777ac15198186a9ca3cb3ddd02fb7794e3bf4a9e6cd2e",
+            "target_sha256": "eb644afae4f1495bc954b29b6db7844b7bdf1781310db4923821394716b79bcf"
+          }
+        },
+        "zh-CN": {
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
+            "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
+            "target_sha256": "0e98fd3509605b7e599f00b47c33c787290a01513c545ed44bafb04f4472d0d2"
+          },
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
+            "target_sha256": "21a76c7174a34430abbcbabf3bf7910979632c6f86b400d1114528456cec31be"
+          },
+          "events:arc_father_passing_deal_morning:/choices/0/result_text": {
+            "source_sha256": "b8911230de269e815e56c7f1e3d3dc885a7148b3ca0c8622917f64c37a6cdc7e",
+            "target_sha256": "bc394123764c4ebf441377a7474394994c99ab77f8cf9245a2fd155ff8501aa7"
+          },
+          "events:arc_father_passing_deal_morning:/description": {
+            "source_sha256": "2ebd79d709d72d0c4eb6ef968afbdc35796e101981ba3d8e72da33e0d60cda79",
+            "target_sha256": "f0aefbba0f6663f7670fcde8c9c15c0b844defcd3bcd36bd7cb06fe673d402e8"
+          },
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": {
+            "source_sha256": "32f0d11cd68cff99af014cf21922ab6bdf160a877ec752baf8cf66fd20500e51",
+            "target_sha256": "7e8b21d1c85e4d91c712eb2c1a09370345396043230ed4e2a7386c4391edeb27"
+          },
+          "events:arc_father_passing_hospital_room:/description": {
+            "source_sha256": "199e0db18a21206f2867806cba632963ebd6efc020b356bc6a776e1b1ac902f9",
+            "target_sha256": "7a05a8b74e1ee7ccdb670c751ae44510d1cd5dbaf7cf4fe83c7b4e1023610747"
+          },
+          "events:arc_father_passing_hospital_room:/title": {
+            "source_sha256": "f4d417479d20954be9f98ea24a0e1f9bb0e81387eab9e9e547ef3fd3208f9dea",
+            "target_sha256": "0f4f411f3bf5451fa02c87347de7c640ad26d606566001053620a32bb46ec352"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/0/result_text": {
+            "source_sha256": "7c6026cdf117ec3d87b9eaf2efc66c8e0246a2b9a62beb134bed6976de7716bc",
+            "target_sha256": "51bdf60db2009599c6fa6d82de10bf09e2b0c18b07274af398999f19993753a1"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/0/text": {
+            "source_sha256": "9adb00cc1a27c5e55bb36fef78704f2996d74ee8232864f3c89d1e466d66d8ce",
+            "target_sha256": "3649732c0893d1e27e05b72dbb4771330bf5652a2f1d4200c9ecee20afddeb21"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/1/result_text": {
+            "source_sha256": "97237609b8185ce7ff43fcd03c2040c2301bec99151dc21337d43597a8b5d46a",
+            "target_sha256": "266fee8fa9c13a2881c213e1d18097526fc5550d23204cde63b922e13ee2cdd7"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/1/text": {
+            "source_sha256": "4fb651f68ca292c89477c5632715381ee0b5ea06b9894b2e628f49d8daf4ce5f",
+            "target_sha256": "b34319af5dac2fd56f862d404cc0b4293fdc3b74774f1aab228bd1bc4bc9041a"
+          },
+          "events:callback_tried_to_go_father_echo:/description": {
+            "source_sha256": "674979426b14d6f6beb25359fe9599021e4c2371a306e5cb3225144861971977",
+            "target_sha256": "3659aa87c55202d94d50aaf04d8cb5f4304d8ddc3a2069a15949ed60176a2b7a"
+          },
+          "events:callback_tried_to_go_father_echo:/title": {
+            "source_sha256": "e964bd4522b358f9572777ac15198186a9ca3cb3ddd02fb7794e3bf4a9e6cd2e",
+            "target_sha256": "6f907578c37989504af7a916949149338cca604c78b4a70295671445a098beb9"
+          }
+        },
+        "zh-TW": {
+          "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
+            "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
+            "target_sha256": "f452dd01cc438a66562f1012ddee76eaf7f81d81fd0cf61712e9f8a5de233ebf"
+          },
+          "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
+            "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
+            "target_sha256": "1a156b99fed835ebc77a366b2b1d6d2fe1837e7fc592c2f935fb83fd67926ebb"
+          },
+          "events:arc_father_passing_deal_morning:/choices/0/result_text": {
+            "source_sha256": "b8911230de269e815e56c7f1e3d3dc885a7148b3ca0c8622917f64c37a6cdc7e",
+            "target_sha256": "e1268cedada9e4611939a4d80093a289c0b6df99f4cf294bc49662569ccd1c1f"
+          },
+          "events:arc_father_passing_deal_morning:/description": {
+            "source_sha256": "2ebd79d709d72d0c4eb6ef968afbdc35796e101981ba3d8e72da33e0d60cda79",
+            "target_sha256": "7eac2d383d2a6ade41b1df284261733b0a95fd9679e11c628e699e90993a5c47"
+          },
+          "events:arc_father_passing_hospital_room:/choices/0/result_text": {
+            "source_sha256": "32f0d11cd68cff99af014cf21922ab6bdf160a877ec752baf8cf66fd20500e51",
+            "target_sha256": "0a69228dac1ff7be50bf295c7c5a405a7911377c44b30976f6f23a597574b580"
+          },
+          "events:arc_father_passing_hospital_room:/description": {
+            "source_sha256": "199e0db18a21206f2867806cba632963ebd6efc020b356bc6a776e1b1ac902f9",
+            "target_sha256": "011d013e28bb9ee956a7f7757f5f1d4be1ff6cfba7203597dfaf4a937d695124"
+          },
+          "events:arc_father_passing_hospital_room:/title": {
+            "source_sha256": "f4d417479d20954be9f98ea24a0e1f9bb0e81387eab9e9e547ef3fd3208f9dea",
+            "target_sha256": "a152e6fb46897c392158854a5b1866baaee2b7dfb03ac46656d9ecae54cbc129"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/0/result_text": {
+            "source_sha256": "7c6026cdf117ec3d87b9eaf2efc66c8e0246a2b9a62beb134bed6976de7716bc",
+            "target_sha256": "8ceaa01941a523619bf1cec70f6de3440e3d8a4051c7a9a4d6abcefbc36ff475"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/0/text": {
+            "source_sha256": "9adb00cc1a27c5e55bb36fef78704f2996d74ee8232864f3c89d1e466d66d8ce",
+            "target_sha256": "baa449caf4a319d5eddc9e3de46727ebdd1845e3b09d01c9c5a46518d96e797f"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/1/result_text": {
+            "source_sha256": "97237609b8185ce7ff43fcd03c2040c2301bec99151dc21337d43597a8b5d46a",
+            "target_sha256": "6acba9d402b2522ef471ff0a87ae5db2a3340cb9b94a011b17d2839f1ec2bcda"
+          },
+          "events:callback_tried_to_go_father_echo:/choices/1/text": {
+            "source_sha256": "4fb651f68ca292c89477c5632715381ee0b5ea06b9894b2e628f49d8daf4ce5f",
+            "target_sha256": "49879d6ff01811f405f874b0c7524368d253ba0c7e48e5e919d473f8207f839d"
+          },
+          "events:callback_tried_to_go_father_echo:/description": {
+            "source_sha256": "674979426b14d6f6beb25359fe9599021e4c2371a306e5cb3225144861971977",
+            "target_sha256": "45166dabc36898bcdfdea9fc0fbdc039ca6b013735571d6ad30824c7f68b9243"
+          },
+          "events:callback_tried_to_go_father_echo:/title": {
+            "source_sha256": "e964bd4522b358f9572777ac15198186a9ca3cb3ddd02fb7794e3bf4a9e6cd2e",
+            "target_sha256": "4e48682c9c7f482633361eb6445fa05b8007902693beba348106cf6ab032f61f"
+          }
+        }
+      }
+    },
+    {
+      "order": "ORDER-833-FATHER-P0",
+      "group": "ui",
+      "kind": "source_ui_replacement",
+      "roots": [
+        "사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.",
+        "사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다."
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Each locale directly authored from Korean; all 15 event leaves plus two ending UI lines independently compared. New W190 father_passed variants remain T1 art/direction/cue HOLD; repeated dilemma/legacy chain repair is a separate unfinished unit.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "a9d56d28f8031c83f3307e77205fc24e470e2c50",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "60e54c3422fffbad076613c3c87de4b6df0652695ac29f49093cdeb9a2806187",
+          "selection_sha256": "bc6b9e38c38a6c69bd202bc42bca6c7a896b679f32fe5af03b735187dec580d8",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f949bdb1711380cb57676e4fac5b29f3e32cebd0c348faa9810ba5a4591eb95c"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a9d56d28f8031c83f3307e77205fc24e470e2c50",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "60e54c3422fffbad076613c3c87de4b6df0652695ac29f49093cdeb9a2806187",
+          "selection_sha256": "801604df5e0ab941cab60245773fdf0164979a8b013d7bd16cda7fe55d240a1b",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "069111c576963aeea69aa4a7f92f2afd720fb59ccca419f4e249c5a736c50dd5"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a9d56d28f8031c83f3307e77205fc24e470e2c50",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "60e54c3422fffbad076613c3c87de4b6df0652695ac29f49093cdeb9a2806187",
+          "selection_sha256": "5f258892eb94a83df8ada45be3c9f06f852475f72b459acf979fe7003fca3db2",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2bdb73021b3400a9186f91bc11dc10fdc7d03d60dda6f56aea73645e76327d94"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "2bdc858f7a499585397744fdf631605b4dad2f51012eb11b2ab1caa40f0849fd",
+        "zh-CN": "04d57b3afe2959a3228560d3f04233820980a5f4554b028cf8afe4e64cf891f4",
+        "zh-TW": "b74d1b140f0637fb674ecb03865cf6e24cae5ed5219b8209e9b8bbe52b69e1ee"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "ui:사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.:/사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        "zh-CN": {
+          "ui:사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.:/사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        },
+        "zh-TW": {
+          "ui:사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.:/사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": {
+            "source_sha256": "a5ecd69ddcafd2b0926a241c4cdb3791843c7c4690b7c05d6f19aaac7ee84ced",
+            "target_sha256": "23eb57fb2ced82e7816c912e961a703d19d1cd2e3283bec84295544f281013c6"
+          },
+          "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": {
+            "source_sha256": "737e81a179693f2e0e0af0f3b9c5f1c2d01483c244cef4141d2e3bef2c79fefb",
+            "target_sha256": "14ffa5712e90bd07f2c0deac8b7dd9eba5e43dc6bec91e1b84b3ea739d22585f"
+          }
+        },
+        "zh-CN": {
+          "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": {
+            "source_sha256": "a5ecd69ddcafd2b0926a241c4cdb3791843c7c4690b7c05d6f19aaac7ee84ced",
+            "target_sha256": "cad600abf4ce28bd6aae889ca1f1cc90fdca292fbdd430d8b2835e9fa104666d"
+          },
+          "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": {
+            "source_sha256": "737e81a179693f2e0e0af0f3b9c5f1c2d01483c244cef4141d2e3bef2c79fefb",
+            "target_sha256": "7592cb4a239d94aa3d8d311db06ece4c85fba65681ffcf0891b703b48cbe714e"
+          }
+        },
+        "zh-TW": {
+          "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": {
+            "source_sha256": "a5ecd69ddcafd2b0926a241c4cdb3791843c7c4690b7c05d6f19aaac7ee84ced",
+            "target_sha256": "40e6a2653c64d4082b65a6e88c292e1192d5e73efbeb00c3879fce992ec41d69"
+          },
+          "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": {
+            "source_sha256": "737e81a179693f2e0e0af0f3b9c5f1c2d01483c244cef4141d2e3bef2c79fefb",
+            "target_sha256": "3a723aa82ed732881353035792ace02c963e9cdc5abcac1daf77be48d90c4e74"
+          }
+        }
+      },
+      "replacement_boundary": "Two old UI keys and their six actual target texts/receipts are retired into this historical batch. Current locale dictionaries contain only the two replacement surfaces; no new UI feature coverage.",
+      "retired_target_text_by_locale": {
+        "ja": {
+          "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": "終電に乗ったが、一時間遅れた。それでも、あの空っぽの病室に座っていた時間は、行かないよりはよかったのだと信じることにした。",
+          "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": "父が亡くなった夜、私は取引をした。通帳の数字は増えた――その数字を見るたび、チャンウォン行きの電車に乗らなかった自分が目に浮かぶ。"
+        },
+        "zh-CN": {
+          "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": "搭上了末班火车，却还是晚到一个小时。可我决定相信，在那间空病房里坐着的那段时间，总比根本没去好。",
+          "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": "父亲去世那晚，我做了一笔交易。银行账户里的数字增加了 — 每次看到那个数字，我都会看见那个没有登上开往昌原的火车的自己。"
+        },
+        "zh-TW": {
+          "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": "搭上末班火車，卻晚了一個小時。即使如此，我決定相信，坐在那間空病房裡的時間，還是比沒去好。",
+          "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": "父親離世的那晚，我做了一筆交易。銀行帳戶裡的數字上升了——每次看見那數字，我就看見那個沒有搭上前往昌原火車的自己。"
+        }
+      }
     }
   ],
   "accepted": {
@@ -46021,12 +46443,12 @@
         "target_sha256": "1e9b15d846f718063901c87204545bd57534727195459041d09cc87c9b02804f"
       },
       "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
-        "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
-        "target_sha256": "0cfc49a17624f7527056b7cce0c238f4ce1e3f95e1223effc10b02590c78e174"
+        "source_sha256": "eedbfc766322229811bc431cabf4e99eb5157b4553a4a2f6fe4c991a768921d8",
+        "target_sha256": "813b72339301aa34781a0b4dfb47edc48a6c03a4de73e1ac5580feae83fbe3b1"
       },
       "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
-        "target_sha256": "911fca841a21bc5d0f11ac234af3a9790881adfd7cfb4c730873490874e47640"
+        "source_sha256": "7e57c46710671efdb3b0a68c968dd728c6093de1030fd2229f046c72cb072e5c",
+        "target_sha256": "c19fb8b3f25d8a8d0b933d1fe7829712a9bfea3898ad47227ea6372f84040614"
       },
       "events:arc_father_passing:/description_if_known/father_calls_often": {
         "source_sha256": "0e4e9755b9c14ee8675ebd76e778e7ed75c975dc1a84ac70eefeb3d3bfe4dece",
@@ -46057,16 +46479,16 @@
         "target_sha256": "93441f14629f2138242f3eb53b3ad7c2cf59650eed797447e327fa02e50b18b3"
       },
       "events:arc_father_passing_deal_morning:/choices/0/result_text": {
-        "source_sha256": "b8911230de269e815e56c7f1e3d3dc885a7148b3ca0c8622917f64c37a6cdc7e",
-        "target_sha256": "c7fe8dcdcff58b750c2c79b0971617ddac859389d431176af72e85ff743cc1d6"
+        "source_sha256": "6eb06dc08079623f023b5e84e1a6367b2c834a28e0e1ac8d2681b9b837414b7f",
+        "target_sha256": "668cec11ae3cfe4f0377fd179f582dfc41ab9b8d8879cec740c45a95e4cde651"
       },
       "events:arc_father_passing_deal_morning:/choices/0/text": {
         "source_sha256": "556110fcdb6910b73e4e104596de5bb09584776bda58d2bb590e6d40fcc769e3",
         "target_sha256": "6cd91f72d48e65f803c16d475a065465adb1a4adc6ba4f8af6e7c2912eb1e53c"
       },
       "events:arc_father_passing_deal_morning:/description": {
-        "source_sha256": "2ebd79d709d72d0c4eb6ef968afbdc35796e101981ba3d8e72da33e0d60cda79",
-        "target_sha256": "d00fff20758de53a2714ca5d5f42fc0179a3c6ada07cfcc9451c4c0b81dac754"
+        "source_sha256": "02f7872d120c57db586ff3bbbd199bae485b11d9b9538018da01c4b852aab16e",
+        "target_sha256": "56cdd6351bd0a43c09f7ff961571666848fa85138074c41efbcd36b267c317d1"
       },
       "events:arc_father_passing_deal_morning:/title": {
         "source_sha256": "85da8f878302c658499441ed9ace5ab01bdf118fd766930366a7a9cbe4f7cb44",
@@ -46113,20 +46535,20 @@
         "target_sha256": "3dda1bc2d0d6d57d2c1ed247b82e9808995be489d625840a93df54d519c122cb"
       },
       "events:arc_father_passing_hospital_room:/choices/0/result_text": {
-        "source_sha256": "32f0d11cd68cff99af014cf21922ab6bdf160a877ec752baf8cf66fd20500e51",
-        "target_sha256": "b7c3134eed76b0db2687c5658febfa1f89978fb9369f0e982d88dbffab5b1c5e"
+        "source_sha256": "5d86836617845de4688b499e22276e78289ed5ee92c2d1f3fdd843fa5bc128b1",
+        "target_sha256": "d35e2adb0082f6274ab7e64e6c378584021274a16ccc7128cedaebec458e4c54"
       },
       "events:arc_father_passing_hospital_room:/choices/0/text": {
         "source_sha256": "b75ce786fe93baba1423b7f5f69ea521f7cc949d296cb1e272754befb602d53f",
         "target_sha256": "b88daaf4f8418ea652a7a8ad7b437fb3011472762667016526559f8c2dcf5a1e"
       },
       "events:arc_father_passing_hospital_room:/description": {
-        "source_sha256": "199e0db18a21206f2867806cba632963ebd6efc020b356bc6a776e1b1ac902f9",
-        "target_sha256": "b105f34f80c3eea3b8fc953d2b71add1fe5a64aa2703881029e39a8383cbde24"
+        "source_sha256": "24fb68d6f1ab257c66ddb90a4217f03ff931c3e1a72162ed6835080d6abf5ef8",
+        "target_sha256": "7b5dca4c9e0cf2931ccee04e721f5e71472bc0e6e14c6fc0f8fa38b33ea9e8c6"
       },
       "events:arc_father_passing_hospital_room:/title": {
-        "source_sha256": "f4d417479d20954be9f98ea24a0e1f9bb0e81387eab9e9e547ef3fd3208f9dea",
-        "target_sha256": "65bc5df6e33f94e7d251ecf07385a98ebbff94ee05d6c82ef992147089c81c89"
+        "source_sha256": "f1e7c74b6d4c92858d699dfbf0b59af88d791f498fb723ad36967542c910a24e",
+        "target_sha256": "788601af6ee58b371db3ce7f108f39b56286a2e203f8d2f1f7d12953d8418131"
       },
       "events:arc_father_passing_platform:/choices/0/result_text": {
         "source_sha256": "2bdf86df87b9cc0cad71db2be07b44ec7af83421ed1eb9caeca1cee953fa241a",
@@ -71557,28 +71979,28 @@
         "target_sha256": "7f055755df5af6b760e49362e23efce2faa42aa7ca29ee66127768b9817d4852"
       },
       "events:callback_tried_to_go_father_echo:/choices/0/result_text": {
-        "source_sha256": "7c6026cdf117ec3d87b9eaf2efc66c8e0246a2b9a62beb134bed6976de7716bc",
-        "target_sha256": "bac8611a3c6073c729caf9bd2369b59bfa204f769b3fcf839f4a6d088855f535"
+        "source_sha256": "f6095eb03f93926a3309c9722ced1c4b00b7df0a8b1e8c057937d320254776e0",
+        "target_sha256": "1fd3b91b222b6d2576ccd134b39e8d851448bf698d428d09922cc9186cf42d62"
       },
       "events:callback_tried_to_go_father_echo:/choices/0/text": {
-        "source_sha256": "9adb00cc1a27c5e55bb36fef78704f2996d74ee8232864f3c89d1e466d66d8ce",
-        "target_sha256": "7944d7b5056cb03d88121efdfc20b989a08407b26814d6766f7c407158f5b759"
+        "source_sha256": "b0fdca0a38a3be78754497f90de9de0c2f25f7584c918c1f5059186c5b70a866",
+        "target_sha256": "e921ed65fd183c60e5b88c8d98e807081121bd85e3c43796d17cc13d5379d64a"
       },
       "events:callback_tried_to_go_father_echo:/choices/1/result_text": {
-        "source_sha256": "97237609b8185ce7ff43fcd03c2040c2301bec99151dc21337d43597a8b5d46a",
-        "target_sha256": "28d274bedba6175bd24687852eb7b6a627bec547c286924d08083a1c98237f16"
+        "source_sha256": "0cc92f4b4d94d679e7dafb0050b103b9eac7ebde6b041ddbb49bd512fc690db7",
+        "target_sha256": "828c5e0c95922534194cade94b1ab243523b411bec16162bf7eb42fcc16cb67c"
       },
       "events:callback_tried_to_go_father_echo:/choices/1/text": {
-        "source_sha256": "4fb651f68ca292c89477c5632715381ee0b5ea06b9894b2e628f49d8daf4ce5f",
-        "target_sha256": "796f62017ee92fd8acebe8fe45eb5fe1b50a53319967917edd86c6c40a310c8a"
+        "source_sha256": "9ce0e7341da72863e92dc90d636fff03e5c1e8cdd302a70ba6d78ce40faf609d",
+        "target_sha256": "a5dfb59cfdf092cfe584e12cc7031210b97d7839f2cbf497699d090c0678418b"
       },
       "events:callback_tried_to_go_father_echo:/description": {
-        "source_sha256": "674979426b14d6f6beb25359fe9599021e4c2371a306e5cb3225144861971977",
-        "target_sha256": "306a080da882f5c02e1ba2e031600a549a0ff53f96c289c7042aa11f8f0ea30d"
+        "source_sha256": "f4e9f40d366f1563aac138edee30de2091598ecad9ec4aefeb058f459c3a2229",
+        "target_sha256": "4951fba03adb03e8f90411149f4de8f641f067c7e3a00313bc01298945d5d3fa"
       },
       "events:callback_tried_to_go_father_echo:/title": {
-        "source_sha256": "e964bd4522b358f9572777ac15198186a9ca3cb3ddd02fb7794e3bf4a9e6cd2e",
-        "target_sha256": "eb644afae4f1495bc954b29b6db7844b7bdf1781310db4923821394716b79bcf"
+        "source_sha256": "89598248c4ca0a0af706bcd71779c6b8bb7a226891be21669325da8a6591ab53",
+        "target_sha256": "6c04d8ecb7c1dfabec5540997c34faeb347039456c503aa74ae2f9e218954ff9"
       },
       "events:callback_birthday_rest_echo:/choices/0/result_text": {
         "source_sha256": "86e23c51a0a1d282cbcfe2a4f480eb2d1f1e008751a6ace3c7055d7f4cc6823e",
@@ -90284,14 +90706,6 @@
         "source_sha256": "9d3961b4f3376bf4b656dbf4fe52ccaa94ec6cfd8961b6114a30e1cac0fb4b7e",
         "target_sha256": "f9319de18f4603da5b65eaa7d9667e54d66b512a602a09a32037eaba796908ac"
       },
-      "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": {
-        "source_sha256": "a5ecd69ddcafd2b0926a241c4cdb3791843c7c4690b7c05d6f19aaac7ee84ced",
-        "target_sha256": "23eb57fb2ced82e7816c912e961a703d19d1cd2e3283bec84295544f281013c6"
-      },
-      "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": {
-        "source_sha256": "737e81a179693f2e0e0af0f3b9c5f1c2d01483c244cef4141d2e3bef2c79fefb",
-        "target_sha256": "14ffa5712e90bd07f2c0deac8b7dd9eba5e43dc6bec91e1b84b3ea739d22585f"
-      },
       "ui:아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.:/아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.": {
         "source_sha256": "cb2fc30a937726a74ef04e2e31cc5dd80a3f1d02bb5a05a16f173954b72399b1",
         "target_sha256": "c4c5e3f10fc6d23a406bf3ff35346965fffdb34ce3d814d99af82a0cb1c30ea0"
@@ -90551,6 +90965,22 @@
       "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
         "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
         "target_sha256": "086de55b387f2e73a4821137345c57767215b490e8cde6fc71d8cfaa3d50b173"
+      },
+      "events:arc_y4_year_close_daeun:/description_if_known/father_passed": {
+        "source_sha256": "7ebf254ed185b814609dbf11331996642d0e83c467a3bcef5e909863158039c2",
+        "target_sha256": "a48dd61ea463b03e47b16faa4c452ec0662f9399890d54c6a44385d2e26fe792"
+      },
+      "events:arc_y4_year_close_unattached:/description_if_known/father_passed": {
+        "source_sha256": "db3918d72b3e3cd7234e3a92b493829d99205875c381a835e603eebcc3a93057",
+        "target_sha256": "98cca807170a62934a2b7687a90111f0dd0dd99ae048e6cb3b8ad579cd5232ac"
+      },
+      "ui:사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.:/사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.": {
+        "source_sha256": "1f869b0af073ec51073f425938b49d9b7016ef3b0af38b52c4616408707a79c0",
+        "target_sha256": "a1707fe5380bec32bd0079fb7533e8478008d2e097dd88c79cc26f7994eec65c"
+      },
+      "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": {
+        "source_sha256": "5c87e4b9f032c4618a465100e5f139979ee491c4faab81cc51a88642395f1e10",
+        "target_sha256": "8e4b39c725033903c06b2fe0e58877407edfeb9fa75f64adcd76c5c8f9e28415"
       }
     },
     "zh-CN": {
@@ -98919,12 +99349,12 @@
         "target_sha256": "4aed6151b429e622311696064b2502ad38953903c27c9388b6a646a4c1d7926f"
       },
       "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
-        "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
-        "target_sha256": "0e98fd3509605b7e599f00b47c33c787290a01513c545ed44bafb04f4472d0d2"
+        "source_sha256": "eedbfc766322229811bc431cabf4e99eb5157b4553a4a2f6fe4c991a768921d8",
+        "target_sha256": "3e2db76bc8e939ee866beb0dbbadb6ea8b939198437dc8ee0efe152aac0d03b1"
       },
       "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
-        "target_sha256": "21a76c7174a34430abbcbabf3bf7910979632c6f86b400d1114528456cec31be"
+        "source_sha256": "7e57c46710671efdb3b0a68c968dd728c6093de1030fd2229f046c72cb072e5c",
+        "target_sha256": "572f09ac6ca593a768cead687a46616a1abf94064cb45f2efb003c21b0d0e7c7"
       },
       "events:arc_father_passing:/description_if_known/father_calls_often": {
         "source_sha256": "0e4e9755b9c14ee8675ebd76e778e7ed75c975dc1a84ac70eefeb3d3bfe4dece",
@@ -98955,16 +99385,16 @@
         "target_sha256": "db0009fe9c3b23330ef79ef3258739d58688bbf19098260e87f1dd30be71b5c7"
       },
       "events:arc_father_passing_deal_morning:/choices/0/result_text": {
-        "source_sha256": "b8911230de269e815e56c7f1e3d3dc885a7148b3ca0c8622917f64c37a6cdc7e",
-        "target_sha256": "bc394123764c4ebf441377a7474394994c99ab77f8cf9245a2fd155ff8501aa7"
+        "source_sha256": "6eb06dc08079623f023b5e84e1a6367b2c834a28e0e1ac8d2681b9b837414b7f",
+        "target_sha256": "bea960a61d13e8725caf5973db03fb3681eaeac6b779b3f05eea5efea34f6dce"
       },
       "events:arc_father_passing_deal_morning:/choices/0/text": {
         "source_sha256": "556110fcdb6910b73e4e104596de5bb09584776bda58d2bb590e6d40fcc769e3",
         "target_sha256": "d2215f2133f3531c9374a9a5554990fc64f5c8310bb6fc9981778bad2ca52157"
       },
       "events:arc_father_passing_deal_morning:/description": {
-        "source_sha256": "2ebd79d709d72d0c4eb6ef968afbdc35796e101981ba3d8e72da33e0d60cda79",
-        "target_sha256": "f0aefbba0f6663f7670fcde8c9c15c0b844defcd3bcd36bd7cb06fe673d402e8"
+        "source_sha256": "02f7872d120c57db586ff3bbbd199bae485b11d9b9538018da01c4b852aab16e",
+        "target_sha256": "5bd405ba9852b1fa9b059d268e2a1660030198eae10683cb388580c94ce30082"
       },
       "events:arc_father_passing_deal_morning:/title": {
         "source_sha256": "85da8f878302c658499441ed9ace5ab01bdf118fd766930366a7a9cbe4f7cb44",
@@ -99011,20 +99441,20 @@
         "target_sha256": "d3083f642c0179bc1e07cbe5d71365eba0cc4257e826d13b4189d0ba953a0df7"
       },
       "events:arc_father_passing_hospital_room:/choices/0/result_text": {
-        "source_sha256": "32f0d11cd68cff99af014cf21922ab6bdf160a877ec752baf8cf66fd20500e51",
-        "target_sha256": "7e8b21d1c85e4d91c712eb2c1a09370345396043230ed4e2a7386c4391edeb27"
+        "source_sha256": "5d86836617845de4688b499e22276e78289ed5ee92c2d1f3fdd843fa5bc128b1",
+        "target_sha256": "dfd0ca51115899f95544150c2f27c1b759eacfb2c6a5965b5309ff5cc135cda9"
       },
       "events:arc_father_passing_hospital_room:/choices/0/text": {
         "source_sha256": "b75ce786fe93baba1423b7f5f69ea521f7cc949d296cb1e272754befb602d53f",
         "target_sha256": "366f06496d34485e00b4b2157fff5158ef04a19df2209ee02828e62b67afb9b2"
       },
       "events:arc_father_passing_hospital_room:/description": {
-        "source_sha256": "199e0db18a21206f2867806cba632963ebd6efc020b356bc6a776e1b1ac902f9",
-        "target_sha256": "7a05a8b74e1ee7ccdb670c751ae44510d1cd5dbaf7cf4fe83c7b4e1023610747"
+        "source_sha256": "24fb68d6f1ab257c66ddb90a4217f03ff931c3e1a72162ed6835080d6abf5ef8",
+        "target_sha256": "31411ff7fb62f9aff7c3879ff3697a7260efb6d25556375e488669e053f180ad"
       },
       "events:arc_father_passing_hospital_room:/title": {
-        "source_sha256": "f4d417479d20954be9f98ea24a0e1f9bb0e81387eab9e9e547ef3fd3208f9dea",
-        "target_sha256": "0f4f411f3bf5451fa02c87347de7c640ad26d606566001053620a32bb46ec352"
+        "source_sha256": "f1e7c74b6d4c92858d699dfbf0b59af88d791f498fb723ad36967542c910a24e",
+        "target_sha256": "f1a5ce954441c7e4cff4d7666d4e1aca3c8f9f5aea49c6134f0465a5d44f7485"
       },
       "events:arc_father_passing_platform:/choices/0/result_text": {
         "source_sha256": "2bdf86df87b9cc0cad71db2be07b44ec7af83421ed1eb9caeca1cee953fa241a",
@@ -124455,28 +124885,28 @@
         "target_sha256": "0d67a396ee962301797ded8d56aab0596b418410fe2e3710b1c392432cf28ccb"
       },
       "events:callback_tried_to_go_father_echo:/choices/0/result_text": {
-        "source_sha256": "7c6026cdf117ec3d87b9eaf2efc66c8e0246a2b9a62beb134bed6976de7716bc",
-        "target_sha256": "51bdf60db2009599c6fa6d82de10bf09e2b0c18b07274af398999f19993753a1"
+        "source_sha256": "f6095eb03f93926a3309c9722ced1c4b00b7df0a8b1e8c057937d320254776e0",
+        "target_sha256": "d7182d703f395fba0623e43d89d951be4b62a550f4bddaefa6c53d2632d706f4"
       },
       "events:callback_tried_to_go_father_echo:/choices/0/text": {
-        "source_sha256": "9adb00cc1a27c5e55bb36fef78704f2996d74ee8232864f3c89d1e466d66d8ce",
-        "target_sha256": "3649732c0893d1e27e05b72dbb4771330bf5652a2f1d4200c9ecee20afddeb21"
+        "source_sha256": "b0fdca0a38a3be78754497f90de9de0c2f25f7584c918c1f5059186c5b70a866",
+        "target_sha256": "c5e108ccbdd9a1c42e3a639c9deb0f83be708f2e4638a8bbbce61db10daecf1e"
       },
       "events:callback_tried_to_go_father_echo:/choices/1/result_text": {
-        "source_sha256": "97237609b8185ce7ff43fcd03c2040c2301bec99151dc21337d43597a8b5d46a",
-        "target_sha256": "266fee8fa9c13a2881c213e1d18097526fc5550d23204cde63b922e13ee2cdd7"
+        "source_sha256": "0cc92f4b4d94d679e7dafb0050b103b9eac7ebde6b041ddbb49bd512fc690db7",
+        "target_sha256": "f00494fac9741663e8e64826cbe7099f67d44b20bdbcda0db7cec9a7158a8dd0"
       },
       "events:callback_tried_to_go_father_echo:/choices/1/text": {
-        "source_sha256": "4fb651f68ca292c89477c5632715381ee0b5ea06b9894b2e628f49d8daf4ce5f",
-        "target_sha256": "b34319af5dac2fd56f862d404cc0b4293fdc3b74774f1aab228bd1bc4bc9041a"
+        "source_sha256": "9ce0e7341da72863e92dc90d636fff03e5c1e8cdd302a70ba6d78ce40faf609d",
+        "target_sha256": "c08dbf1607f7ce774d3a42e8122fc5aa3cbb79ae70068f22082797fd4f4d4421"
       },
       "events:callback_tried_to_go_father_echo:/description": {
-        "source_sha256": "674979426b14d6f6beb25359fe9599021e4c2371a306e5cb3225144861971977",
-        "target_sha256": "3659aa87c55202d94d50aaf04d8cb5f4304d8ddc3a2069a15949ed60176a2b7a"
+        "source_sha256": "f4e9f40d366f1563aac138edee30de2091598ecad9ec4aefeb058f459c3a2229",
+        "target_sha256": "bc7f3cff2235dd34a44f30bb8740969f878b82bc353dd26ab069190114dd3efe"
       },
       "events:callback_tried_to_go_father_echo:/title": {
-        "source_sha256": "e964bd4522b358f9572777ac15198186a9ca3cb3ddd02fb7794e3bf4a9e6cd2e",
-        "target_sha256": "6f907578c37989504af7a916949149338cca604c78b4a70295671445a098beb9"
+        "source_sha256": "89598248c4ca0a0af706bcd71779c6b8bb7a226891be21669325da8a6591ab53",
+        "target_sha256": "af9da6f59974c131ca7111fe7edcf9b48283bf5dcd611ce3a8945ddbd267dbcf"
       },
       "events:callback_birthday_rest_echo:/choices/0/result_text": {
         "source_sha256": "86e23c51a0a1d282cbcfe2a4f480eb2d1f1e008751a6ace3c7055d7f4cc6823e",
@@ -148854,14 +149284,6 @@
         "source_sha256": "dd18f2c9fb51f6dd5d44f7a0326e4b6caaf2aa8632c121d6a6c3a92627e3b868",
         "target_sha256": "0e2906cd83cc94411c9e8cbb4a6aa3e0f52cb76c547b6bd955108b218982e209"
       },
-      "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": {
-        "source_sha256": "a5ecd69ddcafd2b0926a241c4cdb3791843c7c4690b7c05d6f19aaac7ee84ced",
-        "target_sha256": "cad600abf4ce28bd6aae889ca1f1cc90fdca292fbdd430d8b2835e9fa104666d"
-      },
-      "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": {
-        "source_sha256": "737e81a179693f2e0e0af0f3b9c5f1c2d01483c244cef4141d2e3bef2c79fefb",
-        "target_sha256": "7592cb4a239d94aa3d8d311db06ece4c85fba65681ffcf0891b703b48cbe714e"
-      },
       "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.": {
         "source_sha256": "b30f5cd8456a6b3659cff90e3a79ec3bbbecbdf3e9b7de407517296e08f97a55",
         "target_sha256": "8a94537a737289cafeb3444757bb302546b1e9f4475e3f8d4b11324f561ab06b"
@@ -150233,6 +150655,22 @@
       "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
         "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
         "target_sha256": "678dfdcfdc16d20da20965ee1c5e83fe791bd5a32ff0cee2f654db4fa58750b8"
+      },
+      "events:arc_y4_year_close_daeun:/description_if_known/father_passed": {
+        "source_sha256": "7ebf254ed185b814609dbf11331996642d0e83c467a3bcef5e909863158039c2",
+        "target_sha256": "7aeac98733e8b92e140c5c2093d51042679a46e8821ec0946e09c97693dfa84b"
+      },
+      "events:arc_y4_year_close_unattached:/description_if_known/father_passed": {
+        "source_sha256": "db3918d72b3e3cd7234e3a92b493829d99205875c381a835e603eebcc3a93057",
+        "target_sha256": "ccc2655f7acef0ecc1021979e01e0c46f8f37ea7253b8d476be4933dc67b3b07"
+      },
+      "ui:사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.:/사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.": {
+        "source_sha256": "1f869b0af073ec51073f425938b49d9b7016ef3b0af38b52c4616408707a79c0",
+        "target_sha256": "25fd1b16c680680a3c4cc6d40ebcb2b03a9cb6a54b1cb0854e0b83f2d023b19b"
+      },
+      "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": {
+        "source_sha256": "5c87e4b9f032c4618a465100e5f139979ee491c4faab81cc51a88642395f1e10",
+        "target_sha256": "f6f51d94b1b122c278799b3f694538d2a82a3bda8b3d1eddad1d4fd2d8bf61fd"
       }
     },
     "zh-TW": {
@@ -158601,12 +159039,12 @@
         "target_sha256": "3974263ff5e16997a8d48b00d593010ff79d18ca31d8a3ffb71d434d545fe9d7"
       },
       "events:arc_father_passing:/description_if_known/called_father_on_ktx": {
-        "source_sha256": "bd2e60b3fcbcea8043d9b32ca5212e6a4b7133934a2e9e162d8691f50124da4b",
-        "target_sha256": "f452dd01cc438a66562f1012ddee76eaf7f81d81fd0cf61712e9f8a5de233ebf"
+        "source_sha256": "eedbfc766322229811bc431cabf4e99eb5157b4553a4a2f6fe4c991a768921d8",
+        "target_sha256": "cd3d7de614f9aabaebaa42f8f6d026a2b617b40bd1001145242f41caac2a4742"
       },
       "events:arc_father_passing:/description_if_known/did_not_call_father_on_ktx": {
-        "source_sha256": "441c08a698cab8411259b0b892f78084aec46a9a08ab3b59ea15dfd042f2a596",
-        "target_sha256": "1a156b99fed835ebc77a366b2b1d6d2fe1837e7fc592c2f935fb83fd67926ebb"
+        "source_sha256": "7e57c46710671efdb3b0a68c968dd728c6093de1030fd2229f046c72cb072e5c",
+        "target_sha256": "280cc5ba8286b008198ffa071364acd8d60f5bafad19a41ce7e5c4a08dd51236"
       },
       "events:arc_father_passing:/description_if_known/father_calls_often": {
         "source_sha256": "0e4e9755b9c14ee8675ebd76e778e7ed75c975dc1a84ac70eefeb3d3bfe4dece",
@@ -158637,16 +159075,16 @@
         "target_sha256": "8c37e59c09a32e1548efee46b2fc8b7bf2d0aacafac8284282ab506200928893"
       },
       "events:arc_father_passing_deal_morning:/choices/0/result_text": {
-        "source_sha256": "b8911230de269e815e56c7f1e3d3dc885a7148b3ca0c8622917f64c37a6cdc7e",
-        "target_sha256": "e1268cedada9e4611939a4d80093a289c0b6df99f4cf294bc49662569ccd1c1f"
+        "source_sha256": "6eb06dc08079623f023b5e84e1a6367b2c834a28e0e1ac8d2681b9b837414b7f",
+        "target_sha256": "2c558543623a8147155155dc8cf024f4fd0157ac8013404907f2e2c620edab4a"
       },
       "events:arc_father_passing_deal_morning:/choices/0/text": {
         "source_sha256": "556110fcdb6910b73e4e104596de5bb09584776bda58d2bb590e6d40fcc769e3",
         "target_sha256": "a06fb5314b33a44c38f15c8d20c7be3ccfe0396af2cd9f659d70587c1721c1a0"
       },
       "events:arc_father_passing_deal_morning:/description": {
-        "source_sha256": "2ebd79d709d72d0c4eb6ef968afbdc35796e101981ba3d8e72da33e0d60cda79",
-        "target_sha256": "7eac2d383d2a6ade41b1df284261733b0a95fd9679e11c628e699e90993a5c47"
+        "source_sha256": "02f7872d120c57db586ff3bbbd199bae485b11d9b9538018da01c4b852aab16e",
+        "target_sha256": "f882ef2abc2dfb7f885611f4c3eac265719c3da3fda8c8623a902f7ca0bf5e32"
       },
       "events:arc_father_passing_deal_morning:/title": {
         "source_sha256": "85da8f878302c658499441ed9ace5ab01bdf118fd766930366a7a9cbe4f7cb44",
@@ -158693,20 +159131,20 @@
         "target_sha256": "68c1098b49f61a700b5b91d27e994cc125463cac33f6dbc9a80875501e607db2"
       },
       "events:arc_father_passing_hospital_room:/choices/0/result_text": {
-        "source_sha256": "32f0d11cd68cff99af014cf21922ab6bdf160a877ec752baf8cf66fd20500e51",
-        "target_sha256": "0a69228dac1ff7be50bf295c7c5a405a7911377c44b30976f6f23a597574b580"
+        "source_sha256": "5d86836617845de4688b499e22276e78289ed5ee92c2d1f3fdd843fa5bc128b1",
+        "target_sha256": "bee9504d4101b3a502980bfbe8ff73938431fefdcc71d022bf5c81ee9d63e001"
       },
       "events:arc_father_passing_hospital_room:/choices/0/text": {
         "source_sha256": "b75ce786fe93baba1423b7f5f69ea521f7cc949d296cb1e272754befb602d53f",
         "target_sha256": "654d73c1fdda4091ea6b575f3e5bca79ab0ef47853f458ffe88971d45f21e55b"
       },
       "events:arc_father_passing_hospital_room:/description": {
-        "source_sha256": "199e0db18a21206f2867806cba632963ebd6efc020b356bc6a776e1b1ac902f9",
-        "target_sha256": "011d013e28bb9ee956a7f7757f5f1d4be1ff6cfba7203597dfaf4a937d695124"
+        "source_sha256": "24fb68d6f1ab257c66ddb90a4217f03ff931c3e1a72162ed6835080d6abf5ef8",
+        "target_sha256": "3d258b18090cd48a7ed1b016702921564c99feb431727861f6c37fb1e4becaa3"
       },
       "events:arc_father_passing_hospital_room:/title": {
-        "source_sha256": "f4d417479d20954be9f98ea24a0e1f9bb0e81387eab9e9e547ef3fd3208f9dea",
-        "target_sha256": "a152e6fb46897c392158854a5b1866baaee2b7dfb03ac46656d9ecae54cbc129"
+        "source_sha256": "f1e7c74b6d4c92858d699dfbf0b59af88d791f498fb723ad36967542c910a24e",
+        "target_sha256": "f1a5ce954441c7e4cff4d7666d4e1aca3c8f9f5aea49c6134f0465a5d44f7485"
       },
       "events:arc_father_passing_platform:/choices/0/result_text": {
         "source_sha256": "2bdf86df87b9cc0cad71db2be07b44ec7af83421ed1eb9caeca1cee953fa241a",
@@ -184137,28 +184575,28 @@
         "target_sha256": "edf760d147b5da8fbfcd6a95f17a84b38235abc3fc9cc6af3509765e8cf08b52"
       },
       "events:callback_tried_to_go_father_echo:/choices/0/result_text": {
-        "source_sha256": "7c6026cdf117ec3d87b9eaf2efc66c8e0246a2b9a62beb134bed6976de7716bc",
-        "target_sha256": "8ceaa01941a523619bf1cec70f6de3440e3d8a4051c7a9a4d6abcefbc36ff475"
+        "source_sha256": "f6095eb03f93926a3309c9722ced1c4b00b7df0a8b1e8c057937d320254776e0",
+        "target_sha256": "36cef1613b3e28814a97a7de73df0b617b2fd37d664ae924695e13a9e19485bb"
       },
       "events:callback_tried_to_go_father_echo:/choices/0/text": {
-        "source_sha256": "9adb00cc1a27c5e55bb36fef78704f2996d74ee8232864f3c89d1e466d66d8ce",
-        "target_sha256": "baa449caf4a319d5eddc9e3de46727ebdd1845e3b09d01c9c5a46518d96e797f"
+        "source_sha256": "b0fdca0a38a3be78754497f90de9de0c2f25f7584c918c1f5059186c5b70a866",
+        "target_sha256": "3333c79dd07f22f2b98887e38dab83f2a0d54c103621e01b4dc00ceef387ff94"
       },
       "events:callback_tried_to_go_father_echo:/choices/1/result_text": {
-        "source_sha256": "97237609b8185ce7ff43fcd03c2040c2301bec99151dc21337d43597a8b5d46a",
-        "target_sha256": "6acba9d402b2522ef471ff0a87ae5db2a3340cb9b94a011b17d2839f1ec2bcda"
+        "source_sha256": "0cc92f4b4d94d679e7dafb0050b103b9eac7ebde6b041ddbb49bd512fc690db7",
+        "target_sha256": "5a18091925cc9e03f07a4023db44d8ff0181da3716f985b2cd732e37ff5a4d4c"
       },
       "events:callback_tried_to_go_father_echo:/choices/1/text": {
-        "source_sha256": "4fb651f68ca292c89477c5632715381ee0b5ea06b9894b2e628f49d8daf4ce5f",
-        "target_sha256": "49879d6ff01811f405f874b0c7524368d253ba0c7e48e5e919d473f8207f839d"
+        "source_sha256": "9ce0e7341da72863e92dc90d636fff03e5c1e8cdd302a70ba6d78ce40faf609d",
+        "target_sha256": "696fb610148c8bb5fb6437abd60600133002d5436aa009048944f470a784789c"
       },
       "events:callback_tried_to_go_father_echo:/description": {
-        "source_sha256": "674979426b14d6f6beb25359fe9599021e4c2371a306e5cb3225144861971977",
-        "target_sha256": "45166dabc36898bcdfdea9fc0fbdc039ca6b013735571d6ad30824c7f68b9243"
+        "source_sha256": "f4e9f40d366f1563aac138edee30de2091598ecad9ec4aefeb058f459c3a2229",
+        "target_sha256": "376999523850e6f6e8785a03d3a4c77de0b87244206d69162a6bf2883082555c"
       },
       "events:callback_tried_to_go_father_echo:/title": {
-        "source_sha256": "e964bd4522b358f9572777ac15198186a9ca3cb3ddd02fb7794e3bf4a9e6cd2e",
-        "target_sha256": "4e48682c9c7f482633361eb6445fa05b8007902693beba348106cf6ab032f61f"
+        "source_sha256": "89598248c4ca0a0af706bcd71779c6b8bb7a226891be21669325da8a6591ab53",
+        "target_sha256": "865b3f71e4cde87dfff92032cfd84ada8d57e975c19a8386612a4842c700b937"
       },
       "events:callback_birthday_rest_echo:/choices/0/result_text": {
         "source_sha256": "86e23c51a0a1d282cbcfe2a4f480eb2d1f1e008751a6ace3c7055d7f4cc6823e",
@@ -208536,14 +208974,6 @@
         "source_sha256": "dd18f2c9fb51f6dd5d44f7a0326e4b6caaf2aa8632c121d6a6c3a92627e3b868",
         "target_sha256": "39885287dc181467cc923a02bb728853095e14b833e6311c824b82cc9639d261"
       },
-      "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.": {
-        "source_sha256": "a5ecd69ddcafd2b0926a241c4cdb3791843c7c4690b7c05d6f19aaac7ee84ced",
-        "target_sha256": "40e6a2653c64d4082b65a6e88c292e1192d5e73efbeb00c3879fce992ec41d69"
-      },
-      "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.": {
-        "source_sha256": "737e81a179693f2e0e0af0f3b9c5f1c2d01483c244cef4141d2e3bef2c79fefb",
-        "target_sha256": "3a723aa82ed732881353035792ace02c963e9cdc5abcac1daf77be48d90c4e74"
-      },
       "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.": {
         "source_sha256": "b30f5cd8456a6b3659cff90e3a79ec3bbbecbdf3e9b7de407517296e08f97a55",
         "target_sha256": "74ec13f025172453a6d7c96bad37ba6b6df2cd5611887340ec8c8d3a29d2d918"
@@ -209915,10 +210345,26 @@
       "ui:한국 사회의 현실을 그린 드라마:/한국 사회의 현실을 그린 드라마": {
         "source_sha256": "a67317d30901b8e8591d9ea0cbbd68c1bff1cd514fc54d45704089fec8eab0d4",
         "target_sha256": "6468579ec06a20832f475c0e5501ad2cebd1ee2a26d8a569bdfc1f4a554f6040"
+      },
+      "events:arc_y4_year_close_daeun:/description_if_known/father_passed": {
+        "source_sha256": "7ebf254ed185b814609dbf11331996642d0e83c467a3bcef5e909863158039c2",
+        "target_sha256": "1c7889585423c22903aae65ede330575ab18d46f3922213cda960578c44a4950"
+      },
+      "events:arc_y4_year_close_unattached:/description_if_known/father_passed": {
+        "source_sha256": "db3918d72b3e3cd7234e3a92b493829d99205875c381a835e603eebcc3a93057",
+        "target_sha256": "2ee83bd1a8590a77f701cefb6c4b95890a731747f5de2eca7d2c89933c01e9b0"
+      },
+      "ui:사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.:/사망 소식을 듣고도 그날은 거래를 택했다. 입금된 5백만원을 확인하고 병동 번호를 다시 찾았다.": {
+        "source_sha256": "1f869b0af073ec51073f425938b49d9b7016ef3b0af38b52c4616408707a79c0",
+        "target_sha256": "0b4b4dd6303387f04439894e6acebf0023328577d644f793d438e3591ccbc5d0"
+      },
+      "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": {
+        "source_sha256": "5c87e4b9f032c4618a465100e5f139979ee491c4faab81cc51a88642395f1e10",
+        "target_sha256": "655d9a4bc8f269ed8a68127b4297eb256d4940bd7f7da515ce5abb6865ae85b9"
       }
     }
   },
-  "accepted_sha256": "b08180d69961feb64a22ca24f8f2d4dd53a9c1537c051b83fb9821f1f7e63702",
+  "accepted_sha256": "5d22f71b5ca91fc408ea54635aaeca4ee6c71d85c17633dd3ff9a705390d51a7",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

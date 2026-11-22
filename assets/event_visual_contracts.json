@@ -1,5 +1,5 @@
 {
-  "version": 40,
+  "version": 41,
   "tag_coverage": [
     "climate",
     "season",
@@ -335,6 +335,7 @@
     {"id": "anxiety_child_cost_calc", "background": "current_housing", "portrait": "player_normal"},
     {"id": "callback_child_cost_grind", "background": "current_housing", "portrait": "player_normal"},
     {"id": "callback_chose_money_father_echo", "background": "current_housing", "portrait": "player_tired"},
+    {"id": "callback_tried_to_go_father_echo", "background": "current_housing", "portrait": "player_tired"},
     {"id": "callback_daeun_breakup_begged_echo", "background": "current_housing", "portrait": "player_tired"},
     {"id": "callback_daeun_daily_life_echo", "background": "current_housing", "portrait": "daeun_smile"},
     {"id": "callback_father_confession_echo", "background": "cafe", "portrait": "player_shocked"},

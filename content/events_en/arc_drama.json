@@ -306,8 +306,8 @@
       "white": "The ward called.\nThe nurse said Father had suffered an acute deterioration before dawn. The staff had continued treatment, but his father had died. The word father reached {name} before the time of death.\n\n\"Please come to the ward when you are able.\"\n\nNo train could arrive before that time. But where he went from here was still his to choose."
     },
     "description_if_known": {
-      "called_father_on_ktx": "The ward called.\n\n{name} remembered calling Father on the Seoul-bound KTX out of Changwon. That day, between short breaths, Father had listened.\n\nHis grip tightened on the phone.",
-      "did_not_call_father_on_ktx": "The ward called.\n\n{name} remembered opening Father's number on the Seoul-bound KTX out of Changwon and not calling. No missed call had come in that day. There had only been a button he did not press.",
+      "called_father_on_ktx": "The ward called.\nThe nurse said Father's condition had worsened sharply before dawn and that he had died.\n\n{name} remembered calling Father on the Seoul-bound KTX out of Changwon. That day, between short breaths, Father had listened to what Minjun said.\n\nHis grip tightened on the phone.",
+      "did_not_call_father_on_ktx": "The ward called.\nThe nurse said Father's condition had worsened sharply before dawn and that he had died.\n\n{name} remembered opening Father's number on the Seoul-bound KTX out of Changwon and not calling. No missed call had come in that day. There had only been a button he did not press.",
       "father_heard_gangnam_reason": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nThere had been one conversation in which {name} spoke without hiding his life. Father listened and said he hoped things would work out. His father's voice saying he hoped things would work out came back, layered over the nurse's voice on the line.",
       "father_knew_i_came": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nThe ticket and the medicine-bag photo he had saved in the family album came back to him. That day, instead of saying thank you, Father had put another piece of fish in his bowl.",
       "father_calls_often": "The ward called.\n\nFather had not survived the acute deterioration before dawn.\n\nAt some point, he had started calling first. \"Hey, Minjun. Doing all right?\" Today, the screen showed not Father's name but the ward's number.",
@@ -381,23 +381,23 @@
   },
   {
     "id": "arc_father_passing_hospital_room",
-    "title": "One Hour",
-    "description": "By the time he reached Changwon Station, Father was already gone.\nThe nurse said, \"An hour ago.\" Exactly one hour.\n\nThe door to the room stood open. The sheet had been pulled tight again and the bedside cabinet was bare. The traces of someone having been removed were clearer than the traces of anyone having stayed.",
+    "title": "The Empty Hospital Room",
+    "description": "When {name} arrived at the ward in Changwon, the nurse confirmed the time of death he had been given in Seoul. He nodded instead of answering.\n\nThe door to the room stood open. The sheet had been pulled tight again and the bedside cabinet was bare. The room showed clearer signs of being tidied than of anyone having stayed there.",
     "choices": [
       {
         "text": "Sit beside the empty bed.",
-        "result_text": "Minjun sat beside the empty hospital bed. He stayed like that a long time. Nothing was left but the smell of antiseptic.\nHe'd wanted to show him. That the number in the bankbook had climbed this high, that his son had made it this far. Now there was one fewer person in the world to show it to.\nIn his pocket, the phone still had \"Father\" saved in its contacts."
+        "result_text": "{name} sat beside the empty hospital bed. He stayed there a long time. The room smelled of antiseptic.\nHe took his phone from his pocket. In his contacts, the name 'Father' was still there. He held the phone without tapping it until the screen went dark."
       }
     ]
   },
   {
     "id": "arc_father_passing_deal_morning",
     "title": "Five Million Won",
-    "description": "The next morning, the ward's bereavement desk called the empty meeting room.\n\n\"I am calling to reconfirm your father's time of death and the procedures that follow.\"\n\nThe time the coordinator read overlapped the hour Minjun had made five million won. The contract had been cleared away, but the deposit alert remained on his screen. After the call ended, the number and the ward call sat side by side.",
+    "description": "After the deal was over, {name} called the ward again from the meeting room. The person across the table put the contract in a bag and left.\n\nThe coordinator repeated the time of death from the earlier call. Father had died before {name} entered this meeting room.\n\nThe asset statement showed his current net worth: {assets}. He compared it with the fee of 5 million won on the settlement sheet. When the coordinator asked his name again, he opened his mouth to answer.",
     "choices": [
       {
         "text": "Check the deposit in the banking app.",
-        "result_text": "Minjun ended the call and checked the deposit in the banking app. The number had gone up. Five million won, exactly.\nHe looked at it a long time. He'd thought he'd feel nothing; he was wrong. For the rest of his life, this number would be priced at the same value as this morning."
+        "result_text": "{name} ended the call and opened the banking app. A deposit of 5 million won was listed.\nHe closed the app and found the ward's number again. His thumb rested below the time the call had ended. With his other hand, he held the cold bottle of water."
       }
     ]
   },

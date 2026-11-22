@@ -214,6 +214,7 @@
       "father_crisis_contact_missed": "The text he'd sent — \"I can't come to Changwon or call today\" — was still in the ward's thread."
     },
     "description": "The cafe had played its year-end closing announcement twice, but Daeun still sat across from {name} in her coat. On the table lay the notebook of what he had finished and missed this year, the hospital's follow-up notice, and the bill from his family's side.\n\n\"Minjun, don't decide it with a promise this time. Do one thing now. Show me the time you are setting aside for it too.\"",
+    "description_if_known": {"father_passed": "After the funeral, {name} returned to Seoul and met Daeun. The cafe's closing announcement played, but they stayed at the table in their coats. He took out Father's medicine bag, which the hospital had returned. Inside were no pills, only folded medication instructions. He found Father's name on the paper and kept his hand on it.\n\nDaeun did not ask whether he would throw it away. She moved her cup beside the bag and waited. {name} folded the paper again. Beside it he set his notebook, his own follow-up appointment notice, and a bill from his family's side. Daeun asked, \"How much of this are you going to do today?\""},
     "choices": [
       {
         "text": "Confirm Saturday evening with Daeun and keep that time free of other plans",
@@ -262,6 +263,7 @@
       "father_crisis_contact_missed": "The text he'd sent — \"I can't come to Changwon or call today\" — was still in the ward's thread."
     },
     "description": "Late at night, {name} opened the year's records at the desk in his current room. The notebook of what he had finished and missed, the follow-up notice, and the bill from his family's side lay open. The chair across from him was empty.",
+    "description_if_known": {"father_passed": "For days after he returned to Seoul from the funeral, the bag stayed closed. {name} sat at the desk in his current room and opened the zip. Inside Father's medicine bag, which the hospital had returned, were folded medication instructions. He spread the paper out. It listed Father's name and the times to take the medication.\n\nHe lifted the empty bag toward the bin, then set it on the desk. He pressed the folded line flat with his thumb, but the crease remained. Beside it lay the year's notebook, his own follow-up appointment notice, and a bill from his family's side. {name} took his hand out of the bag and stayed seated for a while."},
     "choices": [
       {
         "text": "Leave one hour next week for another person and keep it free of new plans",

@@ -46,16 +46,16 @@
   },
   {
     "id": "callback_tried_to_go_father_echo",
-    "title": "One Hour Before",
-    "description": "'One hour before.'\n\nThat sentence shows up in dreams.\n\nThe empty hospital bed. Don't remember if it was still warm.\n\nToday, mid-work — the train window came back. Rice fields passing in the dark.",
+    "title": "The Saved Number",
+    "description": "The hospital room had been empty when he arrived in Changwon.\n\nHe had heard the news in Seoul, before he bought the train ticket.\n\nHe remembered the chair beside the empty bed and the smell of antiseptic.\n\n{name} found 'Father' in his phone's contacts. The number was still there.",
     "choices": [
       {
-        "text": "Going is still a comfort",
-        "result_text": "Late. But went.\n\nWhat that choice means exactly — unclear.\nBut not going would have been worse. That's clear.\n\nWanted to prove something to Dad. That reason is still alive."
+        "text": "Remember the visit to the empty hospital room.",
+        "result_text": "That day, {name} had sat in the chair beside the empty bed.\n\nHe had rested both hands on his knees and stayed there long after the nurse went out and shut the door.\n\nHe closed the contacts list. His face was reflected in the dark screen."
       },
       {
-        "text": "Still think about that one hour",
-        "result_text": "One earlier train.\n\nThat thought hasn't fully left.\n\nBut went. Arrived. Sat by the empty bed.\nThat's what was possible. That was all."
+        "text": "Think back to hearing that Father had died.",
+        "result_text": "The nurse had said Father had already died. {name} had bought the ticket only after that.\n\nHe tried to speak the words he'd wanted to say in the hospital room, then stopped.\n\nHe moved his thumb away from the call button and looked at the name once more."
       }
     ]
   },

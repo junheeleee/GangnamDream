@@ -47,6 +47,13 @@ W188_DEAL_ROOM_BACKGROUND = "meeting"
 W188_HOSPITAL_EVENT = "arc_father_passing_hospital_room"
 W188_DEAL_MORNING_EVENT = "arc_father_passing_deal_morning"
 W188_CABIN_BACKGROUND = "ktx_changwon_winter_night_w188"
+W188_HOSPITAL_MEMORY_CALLBACK = "callback_tried_to_go_father_echo"
+W188_HOSPITAL_MEMORY_AUDIO = {
+    "ambience": "apartment",
+    "suppress_music": True,
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+}
 W188_PLATFORM_AUDIO = {
     "ambience": "intentional_silence",
     "music": {"key": "grief", "start_paragraph": 0},
@@ -885,6 +892,11 @@ def main() -> int:
                     or contract.get("paragraph_cues")
                     or contract.get("result_paragraph_cues") != M14_BANK_RESULT_CUES):
                 errors.append(f"{owner}: keep the bank beds quiet and use only the four result cues")
+        elif owner == W188_HOSPITAL_MEMORY_CALLBACK:
+            if contract != W188_HOSPITAL_MEMORY_AUDIO:
+                errors.append(
+                    f"{owner}: current-home ward memory must use only the quiet apartment bed"
+                )
         elif owner == W188_PLATFORM_EVENT:
             if contract != W188_PLATFORM_AUDIO:
                 errors.append(f"{owner}: retain the grief score without subway, cabin or added platform cues")
@@ -1152,6 +1164,18 @@ def main() -> int:
             errors.append(
                 f"{event_id}: keep both result locations runtime-staged; only choice 0 reaches the cabin and hospital"
             )
+    hospital_memory = events.get(W188_HOSPITAL_MEMORY_CALLBACK, {})
+    if (event_contracts.get(W188_HOSPITAL_MEMORY_CALLBACK) != W188_HOSPITAL_MEMORY_AUDIO
+            or hospital_memory.get("background") != "current_housing"
+            or any(key in hospital_memory for key in
+                   ("result_background", "result_ambience", "result_cg"))
+            or any(any(key in choice for key in
+                       ("result_background", "result_ambience", "result_cg"))
+                   for choice in hospital_memory.get("choices", [])
+                   if isinstance(choice, dict))):
+        errors.append(
+            f"{W188_HOSPITAL_MEMORY_CALLBACK}: keep the recollection in the actual quiet home without new cues or cuts"
+        )
     hospital_visit = events.get(W96_HOSPITAL_VISIT_EVENT, {})
     hospital_choices = hospital_visit.get("choices", [])
     hospital_visit_profiles = manifest.get("background_profiles", {})
