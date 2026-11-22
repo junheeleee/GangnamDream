@@ -267,6 +267,34 @@ W240_GENERAL_WRITE_ANCHORS = {
         "zh-TW": "{name}翻開筆記本第一頁，在30億韓元上畫了兩道黑線。",
     },
 }
+W240_GENERAL_OUTBOUND_EVENT = "arc_y5_final_week_general_people_outbound"
+W240_GENERAL_OUTBOUND_AUDIO = {
+    "ambience": "apartment",
+    "suppress_human_ambience": True,
+    "suppress_season_ambience": True,
+    "music": {"key": "reckoning", "start_paragraph": 0},
+}
+W240_GENERAL_ENVELOPE_ANCHORS = {
+    "ko": "그 아래에 오늘 지운 것의 이름을 적었다.",
+    "en": "Beneath it, he wrote the name of what he had erased today.",
+    "ja": "その下に、今日消したものの名前を書いた。",
+    "zh-CN": "他在下面记下今天删掉的东西叫什么。",
+    "zh-TW": "接著在下方寫下今天刪掉的東西的名稱。",
+}
+W240_GENERAL_ENVELOPE_PREFIXES = {
+    "ko": "{name}은 빈 의자 앞에서 했던 일을 아버지 봉투 겉면에 한 번 더 썼다. ",
+    "en": "On the outside of his father's envelope, {name} wrote once more what he had done in front of the empty chair. ",
+    "ja": "{name}は空の椅子の前でしたことを、父の封筒の表にもう一度書いた。",
+    "zh-CN": "{name}把自己在空椅子前做过的事，又在父亲的信封正面写了一遍。",
+    "zh-TW": "{name}在父親信封的正面，把自己在空椅子前做過的事又寫了一遍。",
+}
+W240_GENERAL_ENVELOPE_PRESSURE = {
+    "ko": "볼펜 자국",
+    "en": "The pen marks",
+    "ja": "ボールペンの筆圧",
+    "zh-CN": "圆珠笔压出的字迹",
+    "zh-TW": "原子筆壓出的筆痕",
+}
 W240_OUTDOOR_SIGNATURE_EVENT = "arc_final_countdown_property_not_executed"
 W240_OUTDOOR_SIGNATURE_AUDIO = {
     "ambience": "intentional_silence",
@@ -759,6 +787,41 @@ def check_w240_general_write_anchors(errors: list[str]) -> None:
                 errors.append(f"W240 general pen: {locale} strikeout must precede its later time/name writing")
 
 
+def check_w240_general_envelope_anchors(errors: list[str]) -> None:
+    resource = ROOT / "assets/w240_general_outbound_write.tres"
+    try:
+        text = resource.read_text(encoding="utf-8")
+        match = re.fullmatch(
+            r'\[gd_resource type="Resource" format=3\]\s*\[resource\]\s*'
+            r'metadata/write_anchors\s*=\s*(\{.*\})\s*', text, re.S,
+        )
+        anchors = json.loads(match.group(1)) if match else None
+    except (OSError, ValueError):
+        anchors = None
+    if anchors != W240_GENERAL_ENVELOPE_ANCHORS:
+        errors.append("W240 general envelope: preserve all five complete source0 writing clauses")
+    for locale, anchor in W240_GENERAL_ENVELOPE_ANCHORS.items():
+        folder = "events" if locale == "ko" else f"events_{locale}"
+        rows = load_json(ROOT / "content" / folder / "arc_drama.json")
+        event = next((row for row in rows if row.get("id") == W240_GENERAL_OUTBOUND_EVENT), {})
+        choices = event.get("choices", [])
+        reads = event.get("chapter5_finale_reads", {}).get("texts", [])
+        if (len(choices) != 3 or [len(row) for row in reads] != [2, 2, 2]
+                or len(str(event.get("description", "")).split("\n\n")) != 3
+                or [len(str(choice.get("result_text", "")).split("\n\n"))
+                    for choice in choices] != [3, 3, 3]):
+            errors.append(f"W240 general envelope: {locale} lost its exact three read domains/body/result sources")
+            continue
+        prose = str(choices[1].get("result_text", ""))
+        paragraphs = prose.split("\n\n")
+        if (prose.count(anchor) != 1
+                or paragraphs[0] != W240_GENERAL_ENVELOPE_PREFIXES[locale] + anchor
+                or W240_GENERAL_ENVELOPE_PRESSURE[locale] not in paragraphs[2]
+                or any(anchor in str(choices[index].get("result_text", ""))
+                       for index in (0, 2))):
+            errors.append(f"W240 general envelope: {locale} lost its unique physical c1/source0 clause or later ballpoint fact")
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
@@ -772,6 +835,7 @@ def main() -> int:
     check_w239_name_write_anchors(errors)
     check_w239_passed_paper_anchors(errors)
     check_w240_general_write_anchors(errors)
+    check_w240_general_envelope_anchors(errors)
     cg_contracts = manifest.get("cg", {})
     event_contracts = manifest.get("events", {})
     policy = manifest.get("policy", {})
@@ -1016,6 +1080,20 @@ def main() -> int:
             or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
                    for choice in general_sacrifice.get("choices", []))):
         errors.append(f"{W240_GENERAL_SACRIFICE_EVENT}: retain home, neutral bed and reckoning source1; old receipt/phone deletion must not play paper or pen")
+    general_outbound = events.get(W240_GENERAL_OUTBOUND_EVENT, {})
+    if (event_contracts.get(W240_GENERAL_OUTBOUND_EVENT) != W240_GENERAL_OUTBOUND_AUDIO
+            or general_outbound.get("background") != "current_housing"
+            or general_outbound.get("portrait") != "player_tired" or general_outbound.get("cg")
+            or general_outbound.get("chapter5_finale_reads", {}).get("mode") != "prepend"
+            or general_outbound.get("chapter5_finale_reads", {}).get("sources") != [
+                {"kind": "finale_stage", "id": "sacrifice"},
+                {"kind": "entry_value", "path": "source_choices.m51_minseo_arrival", "values": [0, 1]},
+                {"kind": "finale_stage", "id": "father_legacy"},
+            ]
+            or any(key in general_outbound for key in ("result_background", "result_ambience", "result_cg"))
+            or any(any(key in choice for key in ("result_background", "result_ambience", "result_cg"))
+                   for choice in general_outbound.get("choices", []))):
+        errors.append(f"{W240_GENERAL_OUTBOUND_EVENT}: retain home, neutral bed and reckoning0; only revealed c1 envelope writing may sound")
     if W240_OUTDOOR_SIGNATURE_EVENT not in event_contracts:
         errors.append(f"{W240_OUTDOOR_SIGNATURE_EVENT}: missing outdoor signature audio contract")
     if (event_contracts.get(M23_MOTHER_CALL_EVENT) != NEUTRAL_HOME_AUDIO

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/write_anchors = {
+"ko": "그 아래에 오늘 지운 것의 이름을 적었다.",
+"en": "Beneath it, he wrote the name of what he had erased today.",
+"ja": "その下に、今日消したものの名前を書いた。",
+"zh-CN": "他在下面记下今天删掉的东西叫什么。",
+"zh-TW": "接著在下方寫下今天刪掉的東西的名稱。"
+}

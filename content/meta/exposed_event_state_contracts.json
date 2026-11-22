@@ -2407,7 +2407,7 @@
     "arc_y5_final_week_general_people_outbound": {
       "scene_location": "current_housing",
       "visual_background": "current_housing",
-      "audio_ambience": "current_housing"
+      "audio_ambience": "apartment"
     },
     "arc_invest_guidance": {
       "scene_location": "realestate_office",
