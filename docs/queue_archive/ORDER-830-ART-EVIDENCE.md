@@ -1130,6 +1130,13 @@ hot 언어/글자 크기는 전/중/후 세 단계를 보존하고 cold는 실�
 
 ### [x] W240 일반 마지막 주 — 소등 뒤 충전 표시등
 
+제품 `bc96cdfb7e1ebbb7794e815c6618dd812d050646`, tree
+`02190dddbb4129adbef85833ebcd5ec79e109969` 정상 commit/push·clean 확인.
+FINAL PNG8의 SHA256+basename 행을 LC_ALL=C 정렬한 집합 SHA256은
+`af76d7ca9ccb0ae22fde75bb6365b9202dbb2cd90a75e2455cc333de30a064b5`다.
+[제품 CI44983951267](https://github.com/junheeleee/GangnamDream/actions/runs/44983951267)는
+마지막 in_progress/conclusion null이며 전체 성공으로 세지 않는다.
+
 2026-11-22 KST. 위 후보/배선/음향/갤러리 네 선언을 보존한다. 선언 기준
 `67f88af5e8423c8d95f80165d2627616cae4ce45`에서 `arc_final_week` c2/result source2만
 두 완결문 끝을 읽는다. 첫 끝 전 현재 거처/민준 → 첫 끝 dark → 다음 끝 green.
