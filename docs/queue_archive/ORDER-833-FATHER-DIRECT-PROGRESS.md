@@ -50,3 +50,10 @@ GameState, SaveManager, savekey/형식·의료2-of-3·deathwriter/terminal효과
 W190 전용 유품그림·direction/cue는 별도 자산단위 OPEN이다. 이 단위가 끝나도
 임종P0 전체/원어민·사람·실화면·청취·출시GO로 확대하지 않는다. 실제저장·공개RC·
 project.godot·외부업로드 변경0. 범위 지시는 일회성, 규범은 기존정본을 따른다.
+
+## 2026-11-23 Claude 인수 — main CI 표지 1줄 (사용자 승인)
+
+Codex 부재(약 1주) 동안 main CI `MANUAL_SAVE_EXIT`만 해소한다. `tools/ManualSaveCheck.gd`
+terminal_cases의 `arc_father_passing_deal_morning` `result_marker`를 `c77d2a67` 이전 결과 문구
+"정확히 5백만원"에서 현재 결과에만 있는 "입금 내역에 5백만원이 찍혀 있었다"로 맞췄다. 단언·경로·
+재개 조건은 그대로다. 위 19경로의 나머지(단일 딜레마·구저장 호환·StoryMode·산문)는 Codex 소유로 남는다.
