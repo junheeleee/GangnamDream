@@ -216,7 +216,7 @@
     "choices": [
       {
         "text": "Something came back",
-        "result_text": "It came back.\nNot right away — but it came."
+        "result_text": "It came back.\nNot right away, but it came."
       },
       {
         "text": "Still nothing yet",

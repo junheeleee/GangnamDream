@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "Congratulate him",
-        "result_text": "\"Wait, seriously? For real?\"\n\n{name}'s voice got loud first. Only then did Hyunsu smile. A kind of smile {name} hadn't seen before — the kind that comes out when what's been held in finally gives way.\n\nHe clapped Hyunsu's shoulder awkwardly in the narrow hallway. The 2 AM ramyeon, the washed cup left to dry, the worn administrative law book. All of it had been leading to today.\n\n{name} felt good, as if it were his own.\nWhen someone else's success brings this much joy — maybe that's the sign of a real connection."
+        "result_text": "\"Wait, seriously? For real?\"\n\n{name}'s voice got loud first. Only then did Hyunsu smile. A smile {name} hadn't seen before, the kind that comes out when everything held in gives way at once.\n\nHe clapped Hyunsu's shoulder awkwardly in the narrow hallway. The 2 AM ramyeon, the washed cup left to dry, the worn administrative law book. All of it had been leading to today.\n\n{name} was as happy as if it were his own news, and didn't let go of Hyunsu's shoulder until the hallway light clicked off."
       }
     ]
   },
@@ -106,7 +106,7 @@
     "choices": [
       {
         "text": "Tell him it'll work out",
-        "result_text": "\"You'll do great.\"\n\nHyunsu smiled. A firmer smile this time. Not the face of a man folding up four years — the face of a man starting something.\n\nThe last thing into the box was the calendar, the exam date still circled on it. Hyunsu didn't throw that away.\n\nChoosing a different road and giving up are not the same thing.\n{name} learned that from Hyunsu."
+        "result_text": "\"You'll do great.\"\n\nHyunsu smiled. A firmer smile this time. Not the face of a man folding up four years — the face of a man starting something.\n\nThe last thing into the box was the calendar, the exam date still circled on it. Hyunsu didn't throw that away.\n\n{name} tore off a strip of tape and handed it over. On the box, in marker, Hyunsu wrote not 'STUDY' but 'NEXT'."
       }
     ]
   },

@@ -481,7 +481,7 @@
         "expected_event_count": 135,
         "expected_file_count": 43,
         "expected_ids_sha256": "f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0",
-        "expected_content_sha256": "93986f6194259e107b8b7647aa1534d033992401ec467a38a7e2707669fe32fa"
+        "expected_content_sha256": "c7fd18834de8535e371b3c1bc3a2dfd6f66f8a84a61a5f68e26ec873c17e4559"
       },
       "facts": [
         {
@@ -554,7 +554,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present", "arc_final_week"],
-        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "9e615b4f8ae9a30a98064253dfcb782a13b9c181d7985d6e62bb17a2cf47d0cd"
+        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "e0e7da6d72a623f69de8235c64d79807800e766640acb1e8166237991a0ee4c6"
       },
       "facts": [
         {
@@ -613,7 +613,7 @@
         "tokens_ko": ["폭행", "폭력", "구타", "뺨", "주먹", "피투성이", "선혈", "살해", "칼로 찔", "목을 졸", "무릎에 피", "앞바퀴를 쳤", "충돌"],
         "tokens_en": ["assault", "violence", "beaten", "slapped", "punched", "bloodied", "murder", "stabbed", "strangled", "knee was bleeding", "clipped the front wheel"],
         "reviewed_search_noise_ids": ["amb_coin_00", "arc_daeun_first_night", "arc_sangchul_confrontation", "cafe_bluff_caught", "callback_ignored_hyunsu_warning_echo", "callback_recommitted_to_job_echo", "inv_portfolio_review", "job_colleague_conflict", "kx_coin_noraebang", "startup_team_conflict", "story_knee_choice", "story_knee_witness"],
-        "expected_event_count": 16, "expected_file_count": 13, "expected_ids_sha256": "fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91", "expected_content_sha256": "3c85b52e84318c841a165f6e058b3df7897833bcb1882ab7d56ac0954f92627e"
+        "expected_event_count": 16, "expected_file_count": 13, "expected_ids_sha256": "fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91", "expected_content_sha256": "f9815cb043c331efa9f519f8a3753b65e967731369cae7faddc09972292139b5"
       },
       "facts": [
         {
@@ -640,7 +640,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 142, "expected_file_count": 51, "expected_ids_sha256": "725e90eb386a0456f33c6c285545e88f0430e52b0a08eaa7934248557eceb7fb", "expected_content_sha256": "f16f8fbf660d20f97410b8ff5612f5b5e9902d275c2143e84f6614c410c3e1d0"
+        "expected_event_count": 139, "expected_file_count": 49, "expected_ids_sha256": "d79ad1a511238a01133dc73864bf406be605dd8fc948cc1af42cc5cf43ef530d", "expected_content_sha256": "9426228509f7ab6b7a25a353afaffadbe1e78807bc661973b9918adc750c509c"
       },
       "facts": [
         {
@@ -768,7 +768,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal", "arc_year3_close"],
-        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "ebed49428a80856dab756f5c568a6dea3df0b82b28b3e03cbd0bd2866b612118"
+        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "dcfb2e01e93071a1e0419bd52007f320a02c86510de2fd6f300b13bdea03084f"
       },
       "facts": [
         {

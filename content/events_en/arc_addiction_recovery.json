@@ -2,7 +2,7 @@
   {
     "id": "gambling_rock_bottom",
     "title": "Rock Bottom",
-    "description": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet — {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nThis was the bottom.\nNowhere left to fall. The real bottom.\n\nHere there were two roads. Reach out a hand, or dig deeper.",
+    "description": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.",
     "choices": [
       {
         "text": "Ask for help — call a gambling recovery group",
@@ -14,15 +14,15 @@
       },
       {
         "text": "One more hand — win it all back with this",
-        "result_text": "{name} didn't ask for help.\n\n'Just one hand. I've got a good feeling this time.'\n\nHe scraped together the last of his money and bet it.\n\nThe result — I won't bother writing it down.\nBelow the place he thought was bottom, there was another bottom.\n\nAddiction keeps renewing the floor like that.\n{name} was learning this fact the most expensive way possible."
+        "result_text": "{name} didn't ask for help.\n\n'Just one hand. I've got a good feeling this time.'\n\nHe scraped together the last of his money and bet it.\n\nThe number on the screen flickered and became 0.\nBelow the place he thought was bottom, there was another bottom."
       }
     ],
     "description_if_known": {
-      "tried_to_quit_gambling": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet — {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nThis was the bottom.\nNowhere left to fall. The real bottom.\n\nHere there were two roads. Reach out a hand, or dig deeper.\n\nHe remembered the day he deleted every app, standing in front of the mirror.\nBack then he thought that was the end of it.\nDeleted apps get reinstalled — it was never a matter of willpower — he knew that now.\nWhich made it more frightening.",
-      "ignored_gambling_warning": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet — {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nThis was the bottom.\nNowhere left to fall. The real bottom.\n\nHere there were two roads. Reach out a hand, or dig deeper.\n\nHe remembered the day he looked away from the mirror.\n'I'm still fine.'\nHow many months it took for those words to carry him here — {name} decided not to count.",
-      "ng_gambling_entered_again": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet — {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nThis was the bottom.\nNowhere left to fall. The real bottom.\n\nHere there were two roads. Reach out a hand, or dig deeper.\n\nHe had seen this floor in his last life too.\nA bottom you return to knowingly is colder than the first.",
-      "addiction_relapsed": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet — {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nThis was the bottom.\nNowhere left to fall. The real bottom.\n\nHere there were two roads. Reach out a hand, or dig deeper.\n\n'Just this once is fine.'\nA man who had held the line crossed back over on that single sentence.\n'Just once' — the shortest shortcut to this floor.",
-      "gambling_memory_relapsed": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet — {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nThis was the bottom.\nNowhere left to fall. The real bottom.\n\nHere there were two roads. Reach out a hand, or dig deeper.\n\nIt began with that payday comparison. One month versus two minutes.\nThe weekends that lost to the comparison stacked up — into here."
+      "tried_to_quit_gambling": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\nHe remembered the day he deleted every app, standing in front of the mirror.\nBack then he thought that was the end of it.\nNow, on the bottom row of that screen, the app he had deleted was installed again.",
+      "ignored_gambling_warning": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\nHe remembered the day he looked away from the mirror.\n'I'm still fine.'\n{name} didn't count how many months it took those words to carry him here.",
+      "ng_gambling_entered_again": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\nHe had seen this floor in his last life too.\nA bottom you return to knowingly is colder than the first.",
+      "addiction_relapsed": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\n'Just this once is fine.'\nA man who had held the line crossed back over on that single sentence.",
+      "gambling_memory_relapsed": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\nIt began with that payday comparison. One month versus two minutes.\nThe weekends that lost to the comparison stacked up until they led here."
     }
   },
   {
@@ -36,7 +36,7 @@
       },
       {
         "text": "Work the body — go running every dawn",
-        "result_text": "Whenever he wanted to bet, {name} put on running shoes.\n\nHe ran the dawn Han River. Breathless, legs aching.\nBut that pain was honest. Different from the pain of gambling.\n\nReturning drenched in sweat, the urge to bet faded a little.\n\nCovering addiction with something else wasn't a perfect solution, but —\nat least tonight, he didn't turn on the phone."
+        "result_text": "Whenever he wanted to bet, {name} put on running shoes.\n\nHe ran the dawn Han River. Breathless, legs aching.\nBut that pain was honest. Different from the pain of gambling.\n\nReturning drenched in sweat, the urge to bet faded a little.\n\nThat night {name} fell asleep without turning on the phone."
       }
     ]
   },
@@ -47,7 +47,7 @@
     "choices": [
       {
         "text": "Refuse — 'Sorry, I don't do that anymore'",
-        "result_text": "{name} sent the reply.\n\n'Sorry. I don't do that anymore. You should ease up too.'\n\nAfter sending, he stared at the phone a while.\nHis heart still raced, but this time — he won.\n\nQuitting wasn't one resolution, but a choice every time.\nToday, {name} won that choice.\n\nWin once, and the next time gets a little easier.\nBelieving that, he set the phone down."
+        "result_text": "{name} sent the reply.\n\n'Sorry. I don't do that anymore. You should ease up too.'\n\nAfter sending, he stared at the phone a while.\nHis heart was still racing. No reply came back.\n\n{name} went as far as tapping 'leave chat', then set the phone down."
       },
       {
         "text": "Just once — 'I can control it'",
@@ -58,7 +58,7 @@
   {
     "id": "recovery_one_month_clean",
     "title": "Thirty Circles",
-    "description": "He looked at the calendar.\n\nThe circles passed thirty.\nDays spent without gambling were crossing from one month to two.\n\n{name} stared at those circles a long time.\n\nThe lost money won't come back. That's a fact.\nBut what he almost lost — himself, family, the rest of his life — that, he reclaimed.\n\nGambling was the most expensive lesson for {name}.\nThe tuition hurt, but he graduated.\n\nNow Gangnam had to be reached another way — not by betting.",
+    "description": "He looked at the calendar.\n\nThe circles passed thirty.\nDays spent without gambling were crossing from one month to two.\n\n{name} stared at those circles a long time.\n\nThe lost money did not come back. The list of debts written next to the account balance was still long.\n\n{name} drew a circle on today's date too, in red pen.",
     "choices": [
       {
         "text": "Make this experience a foundation",

@@ -67,6 +67,10 @@
 3. 기존 사건의 조건(`has_portfolio`, `min_addiction` 등) 중 새 이야기에서 만족할 수 없는 것은 실제 생산자를 붙이거나
    조건을 갈래 플래그로 바꾼다. 영어 오버레이·CJK는 text-only로 유지한다.
 4. 사건 생명주기 원장과 `release_content_inventory` 등급 축(도박·투자)을 같은 커밋에서 갱신한다.
+5. **아버지 생사 정합(재사용 풀 점검 2026-11-24 실측).** 선택지 단위 생사 가드는 런타임에 없다
+   (`StoryMode._choice_visible`은 아이템·의무만 본다). `gambling_rock_bottom`의 "아버지에게 모든 걸 털어놓는다"는
+   `father_passed` 뒤에도 보인다. 배선 시 `FATHER_PASSED_EVENT_VARIANTS` 변형 사건(5언어)을 만들거나 4년 차 바닥 beat 진입을
+   생존 구간으로 묶는다. `drama_addiction_warning`은 이미 `requires_living_father` 태그로 막혀 있다.
 
 ## 밸런스 실측 (구현 전 1회)
 

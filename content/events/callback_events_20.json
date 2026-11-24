@@ -338,7 +338,7 @@
     "choices": [
       {
         "text": "돌아온 것이 있다",
-        "result_text": "돌아왔다.\n바로 오지 않았지만—왔다.",
+        "result_text": "돌아왔다.\n바로는 아니었지만, 돌아왔다.",
         "effects": {"mental": 5, "reputation": 2}
       },
       {

@@ -10,7 +10,7 @@
       },
       {
         "text": "Watch the river, steady the heart again",
-        "result_text": "The river reaches the sea without rushing.\n\n{name} leaned on the railing and watched it a long while."
+        "result_text": "{name} leaned on the railing and watched the river a long while. The water wasn't fast, yet the branch drifting by earlier had already passed under the bridge."
       }
     ]
   },
@@ -66,7 +66,7 @@
     "choices": [
       {
         "text": "\"I wasn't ashamed. That's where I started.\"",
-        "result_text": "Dad was quiet for a long time.\n\n'...Right. Nothing to be ashamed of.'\n\nThe choice not to hide that narrow room had shown his parents who their son really was."
+        "result_text": "Dad was quiet for a long time.\n\n'...Right. Nothing to be ashamed of.'\n\nDad said he still hadn't deleted the photo of that narrow room from his phone."
       },
       {
         "text": "\"I've moved somewhere better now. Come see it.\"",
@@ -171,7 +171,7 @@
     "choices": [
       {
         "text": "Not putting it off this time — go to the hospital",
-        "result_text": "The price of putting it off came back as a bigger signal.\n\nThis time {name} didn't delay.\nLearned the body is like debt — put it off and the interest compounds."
+        "result_text": "The price of putting it off came back as a bigger signal.\n\nThis time {name} didn't delay.\nTook the afternoon off and pulled a waiting-number ticket at the clinic."
       },
       {
         "text": "Just a little more — rest properly when it's over",

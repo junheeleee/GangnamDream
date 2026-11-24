@@ -10,7 +10,7 @@
       },
       {
         "text": "Just 500,000 won — test the waters",
-        "result_text": "Decided to go in small."
+        "result_text": "Decided to try just a little.\n500,000 won. An amount that could be lost. How this moved, it seemed, could only be learned by putting money in."
       },
       {
         "text": "Stare at the chart. Close it.",
@@ -582,7 +582,7 @@
   {
     "id": "drama_addiction_mirror",
     "title": "Mirror",
-    "description": "2 a.m. again. Checking betting results, and it got this late.\n\nTurned off the screen and sat blankly — then happened to look in the mirror.\nAn unfamiliar face was there.\n\nWhen did this start. That 'just one more time' has\nconsumed this many nights.",
+    "description": "2 a.m. again. Checking betting results, and it got this late.\n\nTurned off the screen and sat blankly, then happened to look in the mirror.\nAn unfamiliar face was there.\n\nWhen did this start. That 'just one more time' has\nconsumed this many nights.",
     "choices": [
       {
         "text": "Admit it — \"I think something's off with me lately\"",
@@ -597,15 +597,15 @@
   {
     "id": "drama_addiction_debt",
     "title": "The Hole",
-    "description": "Opened the banking app and checked the balance.\n\nMuch lower than expected.\n\nLooked back over the last two months. The bets.\nThe days of big losses. The days of betting more to try to recover.\n\n{name} stared at the numbers for a long time, then put down the phone.\nWhat scared more wasn't how much had been lost — but how much more seemed likely to go.",
+    "description": "Opened the banking app and checked the balance.\n\nMuch lower than expected.\n\nLooked back over the last two months. The bets.\nThe days of big losses. The days of betting more to try to recover.\n\n{name} stared at the numbers for a long time, then put down the phone.\nA few minutes later, {name} picked the phone back up.",
     "choices": [
       {
         "text": "Stop for now — delete every betting and gambling app",
-        "result_text": "The hands trembled a little. Didn't know deleting would be this hard.\nBut someone once said — the one who can stop is the strong one.\n{name}, right now, stopped."
+        "result_text": "The hands trembled a little. Didn't know deleting would be this hard.\n{name} looked down for a long while at the empty slot on the home screen."
       },
       {
         "text": "Can recover — just one more big bet",
-        "result_text": "{name} turned the screen back on.\nThinking this was really the last time.\nThe eleventh 'last time' — that only came to light later."
+        "result_text": "{name} turned the screen back on.\nThinking this was really the last time.\nIt was the eleventh 'last' date jotted in the notes app."
       },
       {
         "text": "Call Hyunsu — not to talk, just to hear a voice",
@@ -616,7 +616,7 @@
   {
     "id": "drama_addiction_warning",
     "title": "Dad Notices",
-    "description": "Had a call with Dad after a long time.\nWhile catching up, Dad said quietly:\n\n\"Minjun. What's going on with you lately?\nI've been worried since I saw you last time.\nYou're not sick anywhere, right?\"\n\n{name} couldn't say anything.\nDad is someone who chooses every word carefully.\n'You're not sick anywhere, right?' — that can also mean: I already know.",
+    "description": "Had a call with Dad after a long time.\nWhile catching up, Dad said quietly:\n\n\"Son. What's going on with you lately?\nI've been worried since I saw you last time.\nYou're not sick anywhere, right?\"\n\n{name} couldn't say anything.\nDad is someone who chooses every word carefully.\nAfter that short question, Dad asked nothing more for a long while.",
     "choices": [
       {
         "text": "\"I'm fine. Just been pushing too hard lately.\" — deflect",

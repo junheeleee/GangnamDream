@@ -2,7 +2,7 @@
   {
     "id": "casino_chip_exchange",
     "title": "The Moment It Becomes Chips",
-    "description": "The cashier's cage at Jeongseon Casino.\n\n{name} slid the cash across. The clerk counted it, then pushed back a stack of chips.\n\nGreen, black, purple. They had weight.\n\nStrange. What was money a second ago felt like toys in his hand.\n50,000 won per chip. The fact that a chip WAS 50,000 won — it didn't register.\n\nThat was the game's first trick, {name} would realize later.",
+    "description": "The cashier's cage at Jeongseon Casino.\n\n{name} slid the cash across. The clerk counted it, then pushed back a stack of chips.\n\nGreen, black, purple. They had weight.\n\nStrange. What was money a second ago felt like toys in his hand.\n50,000 won per chip. {name} rolled one between his fingers and gave up counting how many days of meals it was.",
     "choices": [
       {
         "text": "Exchange only what he decided beforehand",
@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "Check the time on his phone and get up",
-        "result_text": "4:17 AM.\n\n{name} gathered his chips and stood. His legs were numb. He'd been sitting six hours.\n\nThe cold air hit his face when he stepped out. Dawn in the mountains.\nHe welcomed that cold. Time had started flowing again.\n\nWalking out of a room with no clocks on your own two feet — that was a skill too."
+        "result_text": "4:17 AM.\n\n{name} gathered his chips and stood. His legs were numb. He'd been sitting six hours.\n\nThe cold air hit his face when he stepped out. Dawn in the mountains.\nHe welcomed that cold. Time had started flowing again.\n\n{name} took out the phone and checked the time again. 4:19."
       },
       {
         "text": "One more game — the time to quit is after a win",

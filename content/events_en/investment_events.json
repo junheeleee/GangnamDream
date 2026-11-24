@@ -511,7 +511,7 @@
       },
       {
         "text": "Cut the FOMO and actually study it.",
-        "result_text": "Read a blockchain whitepaper. The technology was interesting.\nA principle emerged: don't put money into what {name} doesn't understand.\nThat one principle would end up saving {name} more than once."
+        "result_text": "Read a blockchain whitepaper. The technology was interesting.\n{name} wrote one line on the notebook's first page: 'If I don't understand it, I don't put money in.'\nUnderlined it twice."
       }
     ]
   },
@@ -760,7 +760,7 @@
   {
     "id": "sangchul_tip_redev",
     "title": "Sangchul's Tip — A Distress Sale",
-    "description": "Pushed open the real estate office door. Sangchul waved {name} over.\n\n\"Minjun, this isn't something I tell just anyone.\"\n\nStation-adjacent commercial building share, distress sale. Owner needs cash fast — listed way below market.\n\n\"In 30 years of looking, this is one I can count on my fingers. But money — nothing's certain. Know that before you go in.\"\n\nInformation only a trusted person hears. The decision is still yours to make.",
+    "description": "Pushed open the real estate office door. Sangchul waved {name} over.\n\n\"This isn't something I tell just anyone.\"\n\nStation-adjacent commercial building share, distress sale. Owner needs cash fast — listed way below market.\n\n\"In 30 years of looking, this is one I can count on my fingers. But money — nothing's certain. Know that before you go in.\"\n\nSangchul said only that much and drank his coffee. He didn't say buy, and he didn't say don't.",
     "choices": [
       {
         "text": "Trust Sangchul's eye. Go in big.",
@@ -783,7 +783,7 @@
     "choices": [
       {
         "text": "Take the advice. Review the risk exposure.",
-        "result_text": "Went back through the portfolio that night.\nSaw the places too heavily loaded.\nAn old man's words are 30 years of tuition, given for free."
+        "result_text": "Went back through the portfolio that night.\nSaw the places too heavily loaded.\nNext to that position, {name} penciled a small note: 'Sangchul.'"
       },
       {
         "text": "\"This time is different\" — go with my own judgment.",

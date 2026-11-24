@@ -131,13 +131,13 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 135 / 43 | `f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0` | `93986f6194259e107b8b7647aa1534d033992401ec467a38a7e2707669fe32fa` | strong, moderate |
-| 선정성·성적 내용 | 125 / 26 | `6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a` | `9e615b4f8ae9a30a98064253dfcb782a13b9c181d7985d6e62bb17a2cf47d0cd` | moderate, mild |
-| 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `3c85b52e84318c841a165f6e058b3df7897833bcb1882ab7d56ac0954f92627e` | mild |
-| 공포 | 142 / 51 | `725e90eb386a0456f33c6c285545e88f0430e52b0a08eaa7934248557eceb7fb` | `f16f8fbf660d20f97410b8ff5612f5b5e9902d275c2143e84f6614c410c3e1d0` | moderate |
+| 사행성·도박 | 135 / 43 | `f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0` | `c7fd18834de8535e371b3c1bc3a2dfd6f66f8a84a61a5f68e26ec873c17e4559` | strong, moderate |
+| 선정성·성적 내용 | 125 / 26 | `6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a` | `e0e7da6d72a623f69de8235c64d79807800e766640acb1e8166237991a0ee4c6` | moderate, mild |
+| 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `f9815cb043c331efa9f519f8a3753b65e967731369cae7faddc09972292139b5` | mild |
+| 공포 | 139 / 49 | `d79ad1a511238a01133dc73864bf406be605dd8fc948cc1af42cc5cf43ef530d` | `9426228509f7ab6b7a25a353afaffadbe1e78807bc661973b9918adc750c509c` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `9483360716d35eb3f28c7d93baf091c6c8f2cd377d37a9e3a4b75252a5cfb64f` | mild |
 | 범죄 | 74 / 41 | `078def701a69641b48f1ca1f8a05f05c34a0da6f5ec675ac948650d15b28be1a` | `7d909ce08d48c8d0be1d303ae4a959954f87fc6133ebcf734741abbeb679f21b` | moderate, strong |
-| 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `ebed49428a80856dab756f5c568a6dea3df0b82b28b3e03cbd0bd2866b612118` | moderate, mild |
+| 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `dcfb2e01e93071a1e0419bd52007f320a02c86510de2fd6f300b13bdea03084f` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 

@@ -70,11 +70,11 @@
     "choices": [
       {
         "text": "Collect and leave immediately",
-        "result_text": "50,000 won bet, 900,000 won back.\nWalking to Gyeongmagongwon Station, steps felt light.\nThat lightness wouldn't last long — that was something to learn later."
+        "result_text": "50,000 won bet, 900,000 won back.\nWalking to Gyeongmagongwon Station, steps felt light.\n{name} folded the payout slip into the innermost pocket of the wallet."
       },
       {
         "text": "Ride the momentum for one more race",
-        "result_text": "Put in another 50,000 won.\nThe horses ran. Nothing.\n\nLeft with 400,000 won in hand.\nMore than before, but the 50,000 won lost kept coming back.\nThis is how gambling catches people — learned it firsthand."
+        "result_text": "Put in another 50,000 won.\nThe horses ran. Nothing.\n\nLeft with 850,000 won in hand.\nStill, the 50,000 won just lost kept coming back.\nAll the way to the station, {name} was looking up the next race time on the phone."
       }
     ]
   },
@@ -134,7 +134,7 @@
       },
       {
         "text": "Mumble something and slip away",
-        "result_text": "You didn't take the racing paper he held out.\nWhat would've happened if you had — you wondered, for a moment."
+        "result_text": "You didn't take the racing paper he held out.\nFor a moment, you wondered what would have happened if you had."
       }
     ]
   },
