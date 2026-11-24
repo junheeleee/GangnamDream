@@ -1,0 +1,1454 @@
+{
+  "schema_version": 1,
+  "trace_schema_version": 1,
+  "scope": {
+    "purpose": "ORDER-838 D1 policy runs; measurement only",
+    "product_go": "HOLD",
+    "human_density_gate": "OPEN"
+  },
+  "profiles": [
+    {
+      "id": "diligent_s01",
+      "description": "성실: 직장·저축, 위험과 중독 회피",
+      "seed": 2026112400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "money": 0.3,
+          "health": 0.5,
+          "mental": 0.3,
+          "reputation": 0.5,
+          "intelligence": 0.3,
+          "work_performance": 1.0,
+          "social_skill": 0.2,
+          "tint": 0.2,
+          "addiction_tendency": -3.0,
+          "gambling_tendency": -3.0
+        },
+        "keyword_weights": {
+          "출근": 1.0,
+          "저축": 2.0,
+          "베팅": -3.0,
+          "대출": -2.0,
+          "코인": -1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "apply",
+        "resume",
+        "side_shift",
+        "save",
+        "study",
+        "rest",
+        "contact",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_save_money",
+        "_ap_study",
+        "_ap_free_time",
+        "_ap_contact_person",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "diligent_s02",
+      "description": "성실: 직장·저축, 위험과 중독 회피",
+      "seed": 2026112401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "money": 0.3,
+          "health": 0.5,
+          "mental": 0.3,
+          "reputation": 0.5,
+          "intelligence": 0.3,
+          "work_performance": 1.0,
+          "social_skill": 0.2,
+          "tint": 0.2,
+          "addiction_tendency": -3.0,
+          "gambling_tendency": -3.0
+        },
+        "keyword_weights": {
+          "출근": 1.0,
+          "저축": 2.0,
+          "베팅": -3.0,
+          "대출": -2.0,
+          "코인": -1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "apply",
+        "resume",
+        "side_shift",
+        "save",
+        "study",
+        "rest",
+        "contact",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_save_money",
+        "_ap_study",
+        "_ap_free_time",
+        "_ap_contact_person",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "diligent_s03",
+      "description": "성실: 직장·저축, 위험과 중독 회피",
+      "seed": 2026112402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "money": 0.3,
+          "health": 0.5,
+          "mental": 0.3,
+          "reputation": 0.5,
+          "intelligence": 0.3,
+          "work_performance": 1.0,
+          "social_skill": 0.2,
+          "tint": 0.2,
+          "addiction_tendency": -3.0,
+          "gambling_tendency": -3.0
+        },
+        "keyword_weights": {
+          "출근": 1.0,
+          "저축": 2.0,
+          "베팅": -3.0,
+          "대출": -2.0,
+          "코인": -1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "apply",
+        "resume",
+        "side_shift",
+        "save",
+        "study",
+        "rest",
+        "contact",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_save_money",
+        "_ap_study",
+        "_ap_free_time",
+        "_ap_contact_person",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "invest_s01",
+      "description": "투자: 834 A 결정 일관",
+      "seed": 2026113400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "invest_s02",
+      "description": "투자: 834 A 결정 일관",
+      "seed": 2026113401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "invest_s03",
+      "description": "투자: 834 A 결정 일관",
+      "seed": 2026113402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "gamble_s01",
+      "description": "도박: 834 B 결정 일관",
+      "seed": 2026114400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "addiction_tendency": 1.0,
+          "gambling_tendency": 2.0,
+          "luck": 0.5,
+          "money": 0.3
+        },
+        "keyword_weights": {
+          "베팅": 3.0,
+          "경마": 3.0,
+          "카지노": 3.0,
+          "홀덤": 3.0,
+          "칩": 2.0,
+          "한 판": 2.0,
+          "한 번만": 2.0,
+          "race": 2.0,
+          "casino": 2.0,
+          "gambl": 2.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "side_shift",
+        "invest",
+        "contact",
+        "rest",
+        "apply",
+        "resume",
+        "study",
+        "save"
+      ],
+      "main_function_priority": [
+        "_ap_side_job",
+        "_ap_invest",
+        "_ap_contact_person",
+        "_ap_free_time",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_study",
+        "_ap_save_money"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "gamble_s02",
+      "description": "도박: 834 B 결정 일관",
+      "seed": 2026114401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "addiction_tendency": 1.0,
+          "gambling_tendency": 2.0,
+          "luck": 0.5,
+          "money": 0.3
+        },
+        "keyword_weights": {
+          "베팅": 3.0,
+          "경마": 3.0,
+          "카지노": 3.0,
+          "홀덤": 3.0,
+          "칩": 2.0,
+          "한 판": 2.0,
+          "한 번만": 2.0,
+          "race": 2.0,
+          "casino": 2.0,
+          "gambl": 2.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "side_shift",
+        "invest",
+        "contact",
+        "rest",
+        "apply",
+        "resume",
+        "study",
+        "save"
+      ],
+      "main_function_priority": [
+        "_ap_side_job",
+        "_ap_invest",
+        "_ap_contact_person",
+        "_ap_free_time",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_study",
+        "_ap_save_money"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "gamble_s03",
+      "description": "도박: 834 B 결정 일관",
+      "seed": 2026114402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "addiction_tendency": 1.0,
+          "gambling_tendency": 2.0,
+          "luck": 0.5,
+          "money": 0.3
+        },
+        "keyword_weights": {
+          "베팅": 3.0,
+          "경마": 3.0,
+          "카지노": 3.0,
+          "홀덤": 3.0,
+          "칩": 2.0,
+          "한 판": 2.0,
+          "한 번만": 2.0,
+          "race": 2.0,
+          "casino": 2.0,
+          "gambl": 2.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "side_shift",
+        "invest",
+        "contact",
+        "rest",
+        "apply",
+        "resume",
+        "study",
+        "save"
+      ],
+      "main_function_priority": [
+        "_ap_side_job",
+        "_ap_invest",
+        "_ap_contact_person",
+        "_ap_free_time",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_study",
+        "_ap_save_money"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "people_s01",
+      "description": "관계 우선: 사람 갈래 결정 우선",
+      "seed": 2026115400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "social_skill": 0.8,
+          "mental": 0.5,
+          "reputation": 0.3,
+          "tint": 0.3,
+          "money": 0.1
+        },
+        "keyword_weights": {
+          "아버지": 2.0,
+          "다은": 2.0,
+          "지연": 2.0,
+          "현수": 2.0,
+          "재혁": 1.0,
+          "만나": 2.0,
+          "연락": 2.0,
+          "전화": 2.0,
+          "같이": 1.0,
+          "함께": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "contact",
+        "rest",
+        "apply",
+        "resume",
+        "side_shift",
+        "study",
+        "save",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_contact_person",
+        "_ap_free_time",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "people_s02",
+      "description": "관계 우선: 사람 갈래 결정 우선",
+      "seed": 2026115401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "social_skill": 0.8,
+          "mental": 0.5,
+          "reputation": 0.3,
+          "tint": 0.3,
+          "money": 0.1
+        },
+        "keyword_weights": {
+          "아버지": 2.0,
+          "다은": 2.0,
+          "지연": 2.0,
+          "현수": 2.0,
+          "재혁": 1.0,
+          "만나": 2.0,
+          "연락": 2.0,
+          "전화": 2.0,
+          "같이": 1.0,
+          "함께": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "contact",
+        "rest",
+        "apply",
+        "resume",
+        "side_shift",
+        "study",
+        "save",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_contact_person",
+        "_ap_free_time",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "people_s03",
+      "description": "관계 우선: 사람 갈래 결정 우선",
+      "seed": 2026115402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "social_skill": 0.8,
+          "mental": 0.5,
+          "reputation": 0.3,
+          "tint": 0.3,
+          "money": 0.1
+        },
+        "keyword_weights": {
+          "아버지": 2.0,
+          "다은": 2.0,
+          "지연": 2.0,
+          "현수": 2.0,
+          "재혁": 1.0,
+          "만나": 2.0,
+          "연락": 2.0,
+          "전화": 2.0,
+          "같이": 1.0,
+          "함께": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "contact",
+        "rest",
+        "apply",
+        "resume",
+        "side_shift",
+        "study",
+        "save",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_contact_person",
+        "_ap_free_time",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "overreach_s01",
+      "description": "무리한 상승: 레버리지·밤샘·대출 수락",
+      "seed": 2026116400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "money": 1.0,
+          "investment_skill": 0.3,
+          "work_performance": 0.5
+        },
+        "keyword_weights": {
+          "대출": 3.0,
+          "레버리지": 3.0,
+          "올인": 3.0,
+          "밤샘": 2.0,
+          "야근": 2.0,
+          "수락": 2.0,
+          "받는다": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "side_shift",
+        "invest",
+        "apply",
+        "resume",
+        "study",
+        "save",
+        "contact",
+        "rest"
+      ],
+      "main_function_priority": [
+        "_ap_side_job",
+        "_ap_invest",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_contact_person",
+        "_ap_free_time"
+      ],
+      "survival_policy": null,
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "overreach_s02",
+      "description": "무리한 상승: 레버리지·밤샘·대출 수락",
+      "seed": 2026116401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "money": 1.0,
+          "investment_skill": 0.3,
+          "work_performance": 0.5
+        },
+        "keyword_weights": {
+          "대출": 3.0,
+          "레버리지": 3.0,
+          "올인": 3.0,
+          "밤샘": 2.0,
+          "야근": 2.0,
+          "수락": 2.0,
+          "받는다": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "side_shift",
+        "invest",
+        "apply",
+        "resume",
+        "study",
+        "save",
+        "contact",
+        "rest"
+      ],
+      "main_function_priority": [
+        "_ap_side_job",
+        "_ap_invest",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_contact_person",
+        "_ap_free_time"
+      ],
+      "survival_policy": null,
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "overreach_s03",
+      "description": "무리한 상승: 레버리지·밤샘·대출 수락",
+      "seed": 2026116402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "money": 1.0,
+          "investment_skill": 0.3,
+          "work_performance": 0.5
+        },
+        "keyword_weights": {
+          "대출": 3.0,
+          "레버리지": 3.0,
+          "올인": 3.0,
+          "밤샘": 2.0,
+          "야근": 2.0,
+          "수락": 2.0,
+          "받는다": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "side_shift",
+        "invest",
+        "apply",
+        "resume",
+        "study",
+        "save",
+        "contact",
+        "rest"
+      ],
+      "main_function_priority": [
+        "_ap_side_job",
+        "_ap_invest",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_contact_person",
+        "_ap_free_time"
+      ],
+      "survival_policy": null,
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "recovery_s01",
+      "description": "회복: 836 회복 결정 우선",
+      "seed": 2026117400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "health": 1.0,
+          "mental": 1.0,
+          "addiction_tendency": -3.0,
+          "gambling_tendency": -3.0,
+          "money": 0.1
+        },
+        "keyword_weights": {
+          "쉬": 2.0,
+          "병원": 3.0,
+          "상담": 3.0,
+          "끊": 3.0,
+          "잠": 2.0,
+          "산책": 2.0,
+          "거절": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "rest",
+        "contact",
+        "study",
+        "apply",
+        "resume",
+        "save",
+        "side_shift",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_free_time",
+        "_ap_contact_person",
+        "_ap_study",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_save_money",
+        "_ap_side_job",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "recovery_s02",
+      "description": "회복: 836 회복 결정 우선",
+      "seed": 2026117401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "health": 1.0,
+          "mental": 1.0,
+          "addiction_tendency": -3.0,
+          "gambling_tendency": -3.0,
+          "money": 0.1
+        },
+        "keyword_weights": {
+          "쉬": 2.0,
+          "병원": 3.0,
+          "상담": 3.0,
+          "끊": 3.0,
+          "잠": 2.0,
+          "산책": 2.0,
+          "거절": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "rest",
+        "contact",
+        "study",
+        "apply",
+        "resume",
+        "save",
+        "side_shift",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_free_time",
+        "_ap_contact_person",
+        "_ap_study",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_save_money",
+        "_ap_side_job",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "recovery_s03",
+      "description": "회복: 836 회복 결정 우선",
+      "seed": 2026117402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "health": 1.0,
+          "mental": 1.0,
+          "addiction_tendency": -3.0,
+          "gambling_tendency": -3.0,
+          "money": 0.1
+        },
+        "keyword_weights": {
+          "쉬": 2.0,
+          "병원": 3.0,
+          "상담": 3.0,
+          "끊": 3.0,
+          "잠": 2.0,
+          "산책": 2.0,
+          "거절": 1.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "main_action_priority": [
+        "rest",
+        "contact",
+        "study",
+        "apply",
+        "resume",
+        "save",
+        "side_shift",
+        "invest"
+      ],
+      "main_function_priority": [
+        "_ap_free_time",
+        "_ap_contact_person",
+        "_ap_study",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_save_money",
+        "_ap_side_job",
+        "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    }
+  ]
+}
