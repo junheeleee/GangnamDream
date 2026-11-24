@@ -2,7 +2,7 @@
   {
     "id": "amb_coin_00",
     "title": "Inside Information",
-    "description": "Taeho gets in touch after a long silence. Voice buzzing with excitement.\n\"Hyung, this one is real. Inside info.\nThis coin's listing catalyst drops next week. I pulled my jeonse deposit.\nGet in now — let's change our lives together.\"\n\n{name}'s account balance surfaces in the mind. And with it — the original goal of 3 billion won.",
+    "description": "Taeho gets in touch after a long silence. Voice buzzing with excitement.\n\"Hyung, this one is real. Inside info.\nThis coin's listing catalyst drops next week. I pulled my jeonse deposit.\nGet in now — let's change our lives together.\"\n\n{name} thought of the account balance, and of the 3 billion won written on the notebook's first page.",
     "choices": [
       {
         "text": "Trust Taeho. Bet what's on hand.  (jackpot or bust)",
@@ -10,7 +10,7 @@
       },
       {
         "text": "Decline. Won't gamble.  (discipline / FOMO + relationship)",
-        "result_text": "{name} said no. Taeho called it cowardice and hung up.\nFor days after, kept secretly checking the coin's price. It stung every time it went up.\nWhether {name} dodged a loss or missed a gain — FOMO lingered."
+        "result_text": "{name} said no. Taeho called it cowardice and hung up.\nFor days after, kept secretly checking the coin's price. It stung every time it went up.\nUnsure whether it was a loss dodged or a gain missed, {name} left the coin on the watchlist for weeks."
       },
       {
         "text": "Try to stop Taeho. \"That's dangerous.\"  (friendship / conflict)",

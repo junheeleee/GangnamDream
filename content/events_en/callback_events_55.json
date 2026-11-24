@@ -17,15 +17,15 @@
   {
     "id": "callback_called_father_first_echo",
     "title": "The One Who Calls First",
-    "description": "This time, Father called first.\n\n\"Oh, Minjun. You doing okay?\"\n\nAnswering the call, {name} remembered — there was a time when he'd called first.\nNo reason. Sunday morning.\n\nThat seems to have changed something.",
+    "description": "This time, Father called first.\n\n\"Hey, son. You doing okay?\"\n\nAnswering the call, {name} remembered calling first once.\nNo reason. Sunday morning.\n\nOn the other end, Father laughed first.",
     "choices": [
       {
         "text": "\"Yes, Father. I'm good.\" — short and warm",
-        "result_text": "The call ended.\n\nFather calling first seemed like nothing at first — but after hanging up, it was something.\n\nOne call made first. And now this."
+        "result_text": "The call ended.\n\n{name} looked down at the ended call for a long while. 'Father' sat at the top of the recent calls."
       },
       {
         "text": "The conversation ran long",
-        "result_text": "An hour passed.\n\nUsually ten minutes. Weather, food, Seoul rent, hometown news.\n\nOne Sunday call for no reason — it made this conversation."
+        "result_text": "An hour passed.\n\nUsually ten minutes. Weather, food, Seoul rent, hometown news.\n\n{name} stared at the length in the call log for a while."
       }
     ]
   },

@@ -111,7 +111,7 @@
     "choices": [
       {
         "text": "Take it naturally",
-        "result_text": "You took it in stride.\n\"We\" — it means more when the other person says it first."
+        "result_text": "You took it in stride.\nDaeun said \"we\" without a second thought, and {name} didn't correct it."
       },
       {
         "text": "Hold onto that moment",
@@ -201,11 +201,11 @@
     "choices": [
       {
         "text": "Say hello warmly",
-        "result_text": "You greeted them warmly.\nThey were glad to see you too.\nEven if you left early — you shared time there."
+        "result_text": "You greeted them warmly.\nThey were glad to see you too.\nFor a minute you talked about the espresso machine you used to clean together."
       },
       {
         "text": "Walk past awkwardly",
-        "result_text": "You walked past awkwardly.\nLeaving early was still sitting with you."
+        "result_text": "You walked past awkwardly.\nMaybe leaving early still bothered you; your steps quickened first."
       }
     ]
   }
