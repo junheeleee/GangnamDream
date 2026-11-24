@@ -4718,6 +4718,18 @@
       ]
     },
     {
+      "tool": "tools/YearSceneReceiptReorderCheck.tscn",
+      "godot": true,
+      "why": "W236 연차 장면 영수증이 W240 재정렬 뒤에도 유효(엔딩 직전 정지 회귀)",
+      "paths": [
+        "systems/FullStoryFlow.gd",
+        "autoloads/GameState.gd",
+        "content/events/arc_year_close.json",
+        "tools/YearSceneReceiptReorderCheck.gd",
+        "tools/YearSceneReceiptReorderCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/audit_select.py --verify",
       "why": "감사 인프라 자체를 바꾸면 등록 누락부터 확인한다",
       "paths": [

@@ -1017,19 +1017,21 @@ static func _valid_read_record(raw: Variant, at_turn: int) -> bool:
 		return false
 	var choice_index := int(record["choice_index"])
 	if is_full_run() and event.has("year_scene_year"):
-		var year_scene: Variant = choices[choice_index].get("year_scene", null)
+		# The curated rows are rebuilt from the scenes seen in that year so far.
+		# Scenes still played after the curation (W237~W240 for year 5, always
+		# arc_final_countdown) can reorder them, so the live row at the old index
+		# is not the receipt's identity. Bind the receipt to the selection the
+		# choice recorded; wrong year, type, scene or extra fields still fail.
 		var saved_year_scene: Variant = record.get("year_scene", null)
-		if not year_scene is Dictionary or (year_scene as Dictionary).size() != 2 \
+		if not _bounded_integer(event.get("year_scene_year", null), 1, 5) \
 				or not saved_year_scene is Dictionary \
 				or (saved_year_scene as Dictionary).size() != 2 \
-				or not _bounded_integer((year_scene as Dictionary).get("year", null), 1, 5) \
 				or not _integer_equals((saved_year_scene as Dictionary).get("year", null),
-					int((year_scene as Dictionary)["year"])) \
+					int(event["year_scene_year"])) \
 				or not (saved_year_scene as Dictionary).get("scene_id", null) is String \
-				or (saved_year_scene as Dictionary)["scene_id"] \
-					!= (year_scene as Dictionary).get("scene_id", null) \
+				or str((saved_year_scene as Dictionary)["scene_id"]).is_empty() \
 				or GameState.get_year_scene_selection(int(event["year_scene_year"])) \
-					!= str((year_scene as Dictionary).get("scene_id", "")):
+					!= str((saved_year_scene as Dictionary)["scene_id"]):
 			return false
 	return GameState.is_expression_choice(choices[choice_index]) == record["expression"] \
 		and _read_application_valid(record, at_turn)
