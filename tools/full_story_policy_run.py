@@ -187,6 +187,7 @@ def read_trace(path: Path) -> dict:
     errors: list[str] = []
     events = Counter()
     final: dict = {}
+    last_body: dict = {}
     with path.open(encoding="utf-8") as fh:
         for line in fh:
             try:
@@ -208,13 +209,16 @@ def read_trace(path: Path) -> dict:
                 if isinstance(state, dict) and "total_assets" in state:
                     assets_by_week[week] = float(state["total_assets"])
                     money_by_week[week] = float(state.get("money", 0))
+                    last_body = {"health": state.get("health"), "mental": state.get("mental"),
+                                 "money": state.get("money")}
             elif kind == "ending_open":
                 ending = str(payload.get("ending_id", "")) or ending
             elif kind == "run_end":
                 fs = payload.get("final_state") or {}
                 if isinstance(fs, dict):
-                    final = {k: fs.get(k) for k in ("total_assets", "money", "health", "mental",
-                                                    "player_route", "tendency_realized")}
+                    final = {k: fs.get(k) for k in ("total_assets", "player_route", "tendency",
+                                                    "tendency_realized")}
+                    ending = ending or str(fs.get("ending_id", "") or "")
             elif kind == "trace_error":
                 errors.append(str(payload.get("message", payload))[:160])
     def at(week: int) -> float | None:
@@ -237,7 +241,7 @@ def read_trace(path: Path) -> dict:
             "last_week": last_week, "m24": at(96), "m48": at(192), "m60": at(240),
             "gaps_ge4": gaps, "longest_gap": max(gaps) if gaps else 0,
             "months_no_decision": months_no_decision, "story_events": sum(events.values()),
-            "final": final, "errors": errors[:2]}
+            "final": {**final, **last_body}, "errors": errors[:2]}
 
 
 def fmt_won(v: float | None) -> str:
@@ -295,7 +299,7 @@ def main() -> int:
     r.add_argument("--out", type=Path, required=True)
     r.add_argument("--only", default="", help="comma-separated profile ids or policy names")
     r.add_argument("--jobs", type=int, default=3)
-    r.add_argument("--timeout", type=int, default=5400)
+    r.add_argument("--timeout", type=int, default=6000)
     s = sub.add_parser("summary")
     s.add_argument("--out", type=Path, required=True)
     args = ap.parse_args()
