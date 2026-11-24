@@ -137,7 +137,7 @@
     "choices": [
       {
         "text": "\"I'm going. I'm keeping that promise.\"",
-        "result_text": "A laugh came through the receiver.\n\n\"Alright. But don't overdo it. To me, you—\"\n\nThe words cut off. Long silence.\n\n\"...Stay healthy. Hanging up.\"\n\nListening to the dial tone, {name} held the phone for a long while.\nThe unfinished sentence hung somewhere in the line.\nTo hear the rest of it — he had to go. Gangnam or Changwon."
+        "result_text": "A laugh came through the receiver.\n\n\"Alright. But don't overdo it. To me, you—\"\n\nThe words cut off. Long silence.\n\n\"...Stay healthy. Hanging up.\"\n\nListening to the dial tone, {name} held the phone for a long while.\nThe unfinished sentence hung somewhere in the line.\n{name} had to go and hear the rest of it. Gangnam or Changwon."
       },
       {
         "text": "\"Father. Even if I never make Gangnam — I'm taking care of you.\"",

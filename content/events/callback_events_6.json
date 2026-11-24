@@ -691,7 +691,7 @@
   {
     "id": "callback_father_going_soon_visit",
     "title": "아버지 시간",
-    "description": "아버지 몸이 많이 안 좋다는 걸 알게 됐다.\n지금이 좋을 때 자주 봐야 한다고 — 고모한테 그런 말을 들었다.\n고향 가는 버스 시간표를 검색했다.",
+    "description": "아버지 몸이 많이 안 좋다는 걸 알게 됐다.\n지금이 좋을 때 자주 봐야 한다고, 고모한테 그런 말을 들었다.\n고향 가는 버스 시간표를 검색했다.",
     "category": "family",
     "rarity": "uncommon",
     "weight": 0.8,

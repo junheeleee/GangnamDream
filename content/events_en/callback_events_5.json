@@ -164,7 +164,7 @@
       },
       {
         "text": "This tiredness is part of the process. Keep going.",
-        "result_text": "You kept going.\nTired, but not stopped.\nWhether that's right or not — you'll know later."
+        "result_text": "You kept going.\nTired, but not stopped.\n{name} set the alarm 30 minutes earlier."
       }
     ]
   },

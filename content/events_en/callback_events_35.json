@@ -61,16 +61,16 @@
   },
   {
     "id": "callback_envy_fuel_echo",
-    "title": "Running on the Wrong Fuel",
-    "description": "Running on envy had worked. Until it didn't.\n\nToday at the investment screen, {name} caught themselves not seeing opportunity — just seeing what other people had.\n\nEnvy had been the engine. But at some point, all it burned was the driver.",
+    "title": "Burned Through the Fuel",
+    "description": "At first, it stung.\n'Just watch.' Those words got {name} up every morning.\n\nMonths passed. It still stung, but the body was tired first.\nAnger was not a fuel that burned for long.\n\nSome days, {name} wasn't sure anymore what all this was for.",
     "choices": [
       {
-        "text": "Acknowledge the shift — find a different reason",
-        "result_text": "'I started this because I wanted to prove something. That's not enough anymore.'\n\nReasons that come from fear run out. Reasons that come from vision don't.\nThis was harder to articulate. But it lasted longer."
+        "text": "Set envy aside and find my own reason again",
+        "result_text": "{name} thought again that this was for {name}, not because of anyone else.\n\n{name} struck a line through the classmate's name in the notebook and wrote a new reason of {name}'s own beneath it."
       },
       {
-        "text": "Push through — the results don't care about the motivation",
-        "result_text": "True. The market doesn't care why you make a good trade.\n\nBut the body does. And the mind does. And the people around you eventually notice.\nThe results kept coming. The cost kept accumulating."
+        "text": "This tiredness will pass — keep going",
+        "result_text": "Kept going. Tired, but kept going.\n\nJust watch. Those words were still there.\nThat night {name} slept badly, shoulders knotted."
       }
     ]
   }

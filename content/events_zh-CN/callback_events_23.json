@@ -76,7 +76,7 @@
     "title": "放Daeun离开之后",
     "description": "让Daeun离开已经两个月了。\n是自己做出的选择。\n今天，偶然遇见了Daeun。",
     "choices": [
-      {"text": "自然地打个招呼", "result_text": "自然地打了招呼。\nDaeun也是。\n正因为放了手——才有了现在这份自然。"},
+      {"text": "自然地打个招呼", "result_text": "自然地打了招呼。\nDaeun也是。\n两人各自朝原来的方向走去。"},
       {"text": "目光相遇，却没有停下脚步", "result_text": "没有停留，就这样走了过去。\n觉得那样也许更好。"}
     ]
   },

@@ -66,7 +66,7 @@
     "choices": [
       {
         "text": "This is the right distance",
-        "result_text": "You passed.\nBeing close wasn't always the right thing with a good person."
+        "result_text": "You passed.\n{name} didn't look back until Daeun had turned the corner."
       },
       {
         "text": "Maybe I could at least say hello",
@@ -96,7 +96,7 @@
     "choices": [
       {
         "text": "Leave it uncertain",
-        "result_text": "Not every feeling needed to be named.\nLeaving a feeling uncertain — could be a form of respect for the other person."
+        "result_text": "Not every feeling needed to be named.\n{name} deleted the message about to be sent and set the phone face down."
       },
       {
         "text": "Try moving a little closer",

@@ -242,7 +242,7 @@
   {
     "id": "callback_father_going_soon_visit",
     "title": "Father's Time",
-    "description": "You found out your father's health had gotten much worse.\nYou should see him often while it's still a good time — your aunt told you something like that.\nYou searched the bus schedule to your hometown.",
+    "description": "You found out your father's health had gotten much worse.\nYour aunt told you to see him often while he was still doing all right.\nYou searched the bus schedule to your hometown.",
     "choices": [
       {
         "text": "Go down this week",

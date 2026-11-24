@@ -216,7 +216,7 @@
     "choices": [
       {
         "text": "Reply right away",
-        "result_text": "You replied immediately.\nA short text — but different from before."
+        "result_text": "You replied immediately.\nA short text, but this time it ended with a question mark instead of a period."
       },
       {
         "text": "Think carefully about what to say",

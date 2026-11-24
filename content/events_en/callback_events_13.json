@@ -51,7 +51,7 @@
     "choices": [
       {
         "text": "Call him",
-        "result_text": "You called.\nHe said 'Been a while.'\nA text was him thinking of his son."
+        "result_text": "You called.\nHe said 'Been a while.'\nAt the end of the call, he added that you should come down sometime."
       },
       {
         "text": "Text back \"I'm good\"",

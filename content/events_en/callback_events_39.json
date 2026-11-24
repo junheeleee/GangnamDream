@@ -1,12 +1,12 @@
 [
   {
     "id": "callback_daeun_knows_struggle_echo",
-    "title": "Being Difficult Together",
-    "description": "Another hard day.\n\nDae-un came in and didn't ask. Just sat.\n\n'How are you doing today?'\n\nThe night {name} had said it out loud for the first time. 'Honestly — things have been hard lately.'\nHer: 'I know. I just want to be difficult with you.'",
+    "title": "Hard Times, Together",
+    "description": "Another hard day.\n\nDaeun came in and sat down beside {name} without asking anything.\n\n\"How was today?\"\n\nThose few words brought back the day {name} first said it out loud.\n\"Honestly, things have been really hard lately.\"",
     "choices": [
       {
         "text": "\"Still hard. But better with you here.\"",
-        "result_text": "She laughed a little, then said nothing.\nJust stayed.\n\nThat offer to share the difficulty — it was still valid.\nThat said a lot."
+        "result_text": "Daeun laughed a little, then said nothing.\nShe just stayed beside {name}.\n\n\"I want to go through the hard part with you.\" {name} didn't bring up what she had said that day. Her shoulder was there again today."
       },
       {
         "text": "\"It got better. Don't worry.\"",
@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "Genuinely glad for her",
-        "result_text": "Took a while to land. But today it was real.\n\nDifferent destinations. She reached hers.\n{name} is still moving toward theirs."
+        "result_text": "{name} had kept asking whether it was sincere. Today it seemed to be.\n\nDifferent destinations. She reached hers.\n{name} is still moving toward theirs."
       },
       {
         "text": "Just close the app",
