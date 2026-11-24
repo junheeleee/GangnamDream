@@ -122,7 +122,7 @@
   {
     "id": "callback_rushed_to_father_moment",
     "title": "After Running There",
-    "description": "The day you rushed there after hearing the news.\nYour father was better than expected.\nOn the way home — the fact that you'd rushed felt slightly odd.",
+    "description": "The day you rushed there after hearing the news.\nYour father was better than expected.\nOn the bus home, {name} finally retied a shoelace that had come undone.",
     "choices": [
       {
         "text": "Decide to go more often",
@@ -130,7 +130,7 @@
       },
       {
         "text": "Going often is a burden",
-        "result_text": "It was a burden.\nBut you should go sometimes.\nThe memory of that run — made the next visit a little easier."
+        "result_text": "It was a burden.\nBut you should go sometimes.\n{name} screenshotted the bus times home ahead of time."
       }
     ]
   },

@@ -334,7 +334,7 @@
   {
     "id": "callback_rushed_to_father_moment",
     "title": "달려간 뒤",
-    "description": "소식 듣고 무작정 달려갔던 그날.\n아버지는 예상보다 괜찮으셨다.\n집으로 돌아오는 길에 — 달려갔던 자신이 조금 이상하게 느껴졌다.",
+    "description": "소식 듣고 무작정 달려갔던 그날.\n아버지는 예상보다 괜찮으셨다.\n집으로 돌아오는 버스에서, {name}은 풀려 있던 신발 끈을 그제야 다시 묶었다.",
     "category": "family",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -366,7 +366,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "부담이었다.\n그래도 가끔은 가야 한다.\n달려갔던 기억이 — 다음 방문을 조금 쉽게 만들었다."
+        "result_text": "부담이었다.\n그래도 가끔은 가야 한다.\n{name}은 고향 가는 버스 시간을 미리 캡처해 두었다."
       }
     ]
   },

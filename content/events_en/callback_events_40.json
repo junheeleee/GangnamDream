@@ -6,7 +6,7 @@
     "choices": [
       {
         "text": "\"That line is still in mine too.\"",
-        "result_text": "Hyun-su nodded. Both still going, still not there.\n\nSomething said in a late-night kitchen had become a shared anchor.\nHaving someone who keeps the same words — that was unexpected support."
+        "result_text": "Hyunsu nodded. Neither had made it yet; both were still at it.\n\nNeither had expected that dawn ramyeon to stay with them like this.\nIn Seoul, someone holding on alongside was right there."
       },
       {
         "text": "\"You still keeping at it? The exams?\"",
@@ -17,26 +17,26 @@
   {
     "id": "callback_midpoint_bet_echo",
     "title": "Same Fork Again",
-    "description": "Similar situation. Again.\n\nChecking numbers — push harder, or pull back?\n\nAt the halfway point, said: 'Have to bet bigger.'\nThe result of that choice is what brought this moment.",
+    "description": "Similar situation. Again.\n\nChecking the numbers, weighing it again: push harder, or pull back?\n\nAt the halfway point, said: 'Have to bet bigger.'\nThe result of that choice is what brought this moment.",
     "choices": [
       {
         "text": "That call was right. Same logic applies.",
-        "result_text": "Less hand-trembling this time. Done it before.\n\nFear exists — but it's a familiar fear now.\nResult unknown. That's always the answer until it isn't."
+        "result_text": "Less hand-trembling this time. Done it before.\n\nThe fear was the same, but this time it was a known one.\nNo result yet."
       },
       {
         "text": "Learned something that day. Different play this time.",
-        "result_text": "Remembered what big bets felt like from the inside.\nThe wins and the waiting.\n\nThis approach was different. Growth — or overcorrection? Results will say."
+        "result_text": "Something had been learned last time. Big bets brought big results, but the shaking hands lasted longer too.\n\nThis time the money went in split up."
       }
     ]
   },
   {
     "id": "callback_midpoint_steady_echo",
     "title": "People Who Cashed Out",
-    "description": "Word of people who got out fast.\nBig trades. Crypto. Startup exits.\n\nAt the halfway point: 'This method is right. Hold.'\n\nThat conviction is being tested again.",
+    "description": "Word of people who got out fast.\nBig trades. Crypto. Startup exits.\n\n'This method is right. Don't waver.' {name} opened the notebook again to the line written at the halfway point.",
     "choices": [
       {
         "text": "Still believe the method is right",
-        "result_text": "Other people's speed isn't the benchmark.\n\nThe halfway decision built the current stance.\nIf the reasoning holds, the destination holds too."
+        "result_text": "Other people's numbers were bigger. {name} closed someone's profit-bragging post and tapped this month's auto-invest button."
       },
       {
         "text": "Shaken — what if this pace is too slow?",
@@ -47,7 +47,7 @@
   {
     "id": "callback_sangchul_personal_echo",
     "title": "If You Keep Going",
-    "description": "A quiet day.\n\nSangchul's words surfaced:\n\n'I just kept going. Eventually you start to see things.'\n\nThirty years. That's what the patience looked like.",
+    "description": "A quiet day.\n\nSangchul's words surfaced:\n\n'I just kept going. Eventually you start to see things.'\n\nThe words of a man who had held on for 30 years sounded different today.",
     "choices": [
       {
         "text": "Hold onto that — get through today",
@@ -55,7 +55,7 @@
       },
       {
         "text": "His method might not be the right one for this",
-        "result_text": "Endurance is a method. So is changing course.\n\nSangchul's way isn't automatically {name}'s way.\nKnowing that — that's actually what the conversation gave."
+        "result_text": "Endurance is a method. So is changing course.\n\nSangchul's way isn't automatically {name}'s way.\nNext to the page with Sangchul's words, {name} wrote one line about doing it differently."
       }
     ]
   },

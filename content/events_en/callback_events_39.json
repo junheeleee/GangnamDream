@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "\"Yes. But I learned things from him.\"",
-        "result_text": "Dad thought about it, then:\n'Even a flawed person teaches something.'\n\nAn unexpected kind of comfort.\nWhat Sangchul gave {name} — that was separate from who Sangchul was."
+        "result_text": "Dad thought about it, then:\n'Even a flawed person teaches something.'\n\nAn unexpected kind of comfort.\nThat night, {name} still kept the books the way Sangchul had taught."
       },
       {
         "text": "\"That chapter's over, Dad.\"",
-        "result_text": "'Right,' Dad said. Moved on.\n\nHis name in a newspaper. Then just a name.\n{name} felt the weight shift. Slightly lighter."
+        "result_text": "'Right,' Dad said. Moved on.\n\nIt was in the past. Im Sangchul had become a name in the newspaper.\n{name} closed the article without reading to the end."
       }
     ]
   },
@@ -66,7 +66,7 @@
     "choices": [
       {
         "text": "Accept both — that's the most honest framing",
-        "result_text": "People you can't thank and can't blame — there are a few of those in every life.\n\nHolding both without resolving them. That's actually closer to real.\nA little less stuck."
+        "result_text": "Someone you can neither repay nor resent.\n{name} neither deleted Sangchul's number nor kept it in favorites."
       },
       {
         "text": "Still not resolved — more time needed",

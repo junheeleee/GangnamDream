@@ -141,7 +141,7 @@
     "choices": [
       {
         "text": "Keep building these connections",
-        "result_text": "You met again.\nSangchul's network was his — and now, just a little, yours too.\nAn introduction makes a relationship. A relationship makes an opportunity."
+        "result_text": "You met again.\nTwo new business cards went into {name}'s wallet."
       },
       {
         "text": "Say you're busy this time",

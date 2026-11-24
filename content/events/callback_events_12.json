@@ -367,7 +367,7 @@
   {
     "id": "callback_sangchul_invited_echo",
     "title": "상철의 초대 이후",
-    "description": "상철이 자리에 초대했던 게 한 달 전이다.\n그 자리에서 만난 사람들이 — 오늘 다시 연락을 해왔다.",
+    "description": "상철이 자리에 초대했던 게 한 달 전이다.\n그 자리에서 만난 사람들이 오늘 다시 연락을 해왔다.",
     "category": "social",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -393,7 +393,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "다시 만났다.\n상철의 네트워크는 — 상철의 것이면서 이제 조금은 내 것이기도 했다."
+        "result_text": "다시 만났다.\n명함 두 장이 {name}의 지갑에 새로 들어갔다."
       },
       {
         "text": "이번엔 시간이 없다고 한다",

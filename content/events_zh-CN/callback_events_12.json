@@ -137,11 +137,11 @@
   {
     "id": "callback_sangchul_invited_echo",
     "title": "Sangchul的邀请之后",
-    "description": "Sangchul邀请我参加那次聚会，是一个月前的事。\n在场认识的人——今天又联系了过来。",
+    "description": "Sangchul发出那次聚会的邀请，是一个月前的事。\n在场认识的人，今天又联系了过来。",
     "choices": [
       {
         "text": "继续来往",
-        "result_text": "又见面了。\nSangchul的人脉——既是他的，如今也有一点属于我了。"
+        "result_text": "又见面了。\n两张名片新放进了{name}的钱包。"
       },
       {
         "text": "说这次没时间",

@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "It was right to hold it",
-        "result_text": "Holding out had been right.\nStaying clean isn't losing an opportunity — it's waiting for a better one."
+        "result_text": "Holding out had been right.\nOnly now did {name} delete the offer message from back then."
       },
       {
         "text": "Partly feels like luck",
-        "result_text": "Partly luck.\nBut that luck only became luck because you'd held the line."
+        "result_text": "Partly luck.\nBut it was {name}'s own hand that pressed decline back then."
       }
     ]
   },
