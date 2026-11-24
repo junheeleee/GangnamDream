@@ -109,11 +109,11 @@
 
 **판정 순서 때문에 생기는 문제(사용자 승인 사항, `finish_run` 라우팅)**
 
-- **R1 `late_call` 가림**: 아버지 화해가 16/18런에서 켜지는데 `late_call`은 0이다. 바로 위의 `healthy_retirement`가 "체력·정신 70+ + 관계"를
+- **R1 `late_call` 가림** (사용자 결정: 836 뒤 재측정 후 판단): 아버지 화해가 16/18런에서 켜지는데 `late_call`은 0이다. 바로 위의 `healthy_retirement`가 "체력·정신 70+ + 관계"를
   묻고, 지금 루틴은 마지막 주까지 둘을 거의 100으로 회복시켜 사실상 항상 참이다. 836이 몸·마음에 대가를 붙이면 일부 풀리지만, 화해한 아버지가
   있는 런의 결말이 "건강한 은퇴"로 덮이는 구조는 남는다. **권고:** 836 구현 뒤 D1을 다시 돌려 `healthy_retirement`가 35%를 넘으면
   `late_call`을 `healthy_retirement` 위로 올린다. 안 하면 아버지 서사를 끝까지 지킨 런이 계속 일반 결말로 끝난다.
-- **R2 결혼했는데 다은이 없는 결말**: `daeun_married`가 켜졌지만 `daeun_romance_started`가 없는 런 3/18이 `healthy_retirement`·
+- **R2 결혼했는데 다은이 없는 결말** (사용자 승인, 2026-11-24 반영 — `EndingRouteIdentityCheck` 회귀): `daeun_married`가 켜졌지만 `daeun_romance_started`가 없는 런 3/18이 `healthy_retirement`·
   `sangchul_reckoning`으로 끝났다. 38세 판정은 연애 시작만 묻고 결혼은 30억 분기만 읽는다. **권고:** 38세 판정의 `with_daeun` 조건에
   `daeun_married`(이혼 아님)를 더한다. `with_daeun` 본문에는 이미 `daeun_married` 변주가 있고 `healthy_retirement`에는 없다. 안 하면 다은과 결혼한 플레이어의 마지막 화면에 배우자가 빠진다.
 

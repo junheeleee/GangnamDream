@@ -94,6 +94,7 @@ func _ready() -> void:
 	_check_full_circle_waits_for_final_week()
 	_check_father_passed_gangnam_is_empty_house()
 	_check_father_passed_blocks_late_call()
+	_check_married_daeun_time_limit()
 	_check_daeun_reckoning_blocks_instant_gangnam()
 	_check_failure_stays_immediate_after_goal()
 	_check_committed_investor_before_career()
@@ -112,7 +113,7 @@ func _ready() -> void:
 		return
 	_stop_fixture_audio()
 	await get_tree().create_timer(0.5).timeout
-	print("ENDING_ROUTE_IDENTITY_CHECK_OK routes=15+finale4 coda_apply=72 coda_excluded=33 finale_coda=6 general_sacrifice_coda=2 failure_priority=10 w240_canonical_once=4 instant_legend=preserved")
+	print("ENDING_ROUTE_IDENTITY_CHECK_OK routes=17+finale4 coda_apply=72 coda_excluded=33 finale_coda=6 general_sacrifice_coda=2 failure_priority=10 w240_canonical_once=4 instant_legend=preserved")
 	get_tree().quit(0)
 
 func _stop_fixture_audio() -> void:
@@ -670,6 +671,21 @@ func _check_father_passed_blocks_late_call() -> void:
 	GameState.flags["father_reconciled"] = true
 	GameState.flags["father_passed"] = true
 	_expect_route("reconciled father already passed", "ordinary_life")
+
+func _check_married_daeun_time_limit() -> void:
+	# D1 2026-11-24: married runs without the romance flag ended without her
+	# (healthy_retirement/sangchul_reckoning). Marriage owns with_daeun too.
+	_prepare_case()
+	GameState.health = 95
+	GameState.mental = 95
+	GameState.flags["daeun_married"] = true
+	GameState.flags["father_reconciled"] = true
+	GameState.flags["cleared_father_debt_from_sangchul"] = true
+	_expect_route("married to Daeun without the romance flag", "with_daeun")
+	_prepare_case()
+	GameState.flags["daeun_married"] = true
+	GameState.flags["daeun_divorced"] = true
+	_expect_route("divorced from Daeun under the goal", "ordinary_life")
 
 func _check_daeun_reckoning_blocks_instant_gangnam() -> void:
 	_prepare_case(34)

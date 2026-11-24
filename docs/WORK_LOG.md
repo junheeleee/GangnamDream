@@ -2,6 +2,7 @@
 
 ## 2026-11-24
 
+- 엔딩 라우팅 R2(사용자 승인): 38세 결산에서 다은과 결혼(이혼 아님)한 런도 `with_daeun`. `EndingRouteIdentityCheck`에 결혼/이혼 2경로 추가(수리 전 실패·후 통과). R1 `late_call` 순서는 836 뒤 재측정으로 보류([결정](DECISIONS.md)).
 - 838 엔딩 도달 지도: 35개 판정 조건·생산 사건·D1 관측·막힌 오더를 [ORDER-838](queue_active/ORDER-838.md) 한 표로. 판정 순서 문제 2건을 승인 사항으로 기록 — R1 아버지 화해 16/18런인데 `late_call` 0(`healthy_retirement`가 루틴 회복으로 거의 항상 참이라 가림), R2 다은과 결혼했으나 연애 플래그가 없는 3런이 배우자 없는 결말.
 - 838 D1 첫 실행(6정책×3시드, 18런): 전략과 무관하게 M60 4,846만~7,963만·엔딩 5종(최다 44%)·`player_route` 전부 none·도박 실제 베팅 5년 1회·4주+ 공백 런당 5~7·경고 없는 번아웃 2런(음수 현금 76주 무결과 포함). 시드 50은 이 장비로 약 80시간이라 N을 `[첫 실행 재조정]`. 표는 [ORDER-838](queue_active/ORDER-838.md), 요약은 SYSTEMS_DESIGN 기준선. `audit_select`는 ManualSaveCheck를 QA 이름공간 없이 불러 미리보기 단언이 늘 실패한다(audit.sh 경로는 통과) — 검사 설정이라 손대지 않음.
 - **엔딩 직전 정지 수리(출시 차단 버그)**: 838 D1 정책 런 6판 중 3판이 W240 `arc_final_countdown` 결과에서 멈춤. 원인은 W236 연차 장면 영수증 검증이 살아 있는 후보 목록의 같은 칸과 비교한 것. W240에 늘 보는 카운트다운이 후보를 재정렬하면 정당한 영수증이 위조로 읽혀 `valid_session` 거짓 → `close_result` 거부 → 엔딩 미도달. 저장 로드로도 재현(실제 플레이어 경로). `FullStoryFlow._valid_read_record`를 기록된 선택(`year_scenes`)과 대조하도록 고치고 잘못된 연도·타입·장면·추가 필드 거부는 유지. 실제 정지 저장 3개 모두 W241 통과, 회귀 검사 [YearSceneReceiptReorderCheck](../tools/YearSceneReceiptReorderCheck.gd)(수리 전 실패/후 통과, 실제 런의 5년 차 목록 고정).

@@ -4494,9 +4494,10 @@ func check_game_over():
 		# 이혼(강남 미달 엣지 — 서명했으나 끝내 못 닿음): 버렸는데 얻지도 못한 결말
 		if flags.get("daeun_divorced", false):
 			finish_run(_divorce_ending_for_assets(total)); return
-		# 연인 엔딩
-		if flags.get("daeun_romance_started", false):
-			finish_run("with_daeun"); return          # 다은과 연인 (Y5 고백)
+		# 연인 엔딩. 결혼(이혼은 위에서 분기)도 같은 사람의 결말이다. 결혼 경로가
+		# 연애 플래그 없이 도착해도 배우자를 지우지 않는다(with_daeun의 daeun_married 변주).
+		if flags.get("daeun_romance_started", false) or flags.get("daeun_married", false):
+			finish_run("with_daeun"); return          # 다은과 연인·부부
 		# 지연이 떠남(안주를 견디지 못함) = 자기를 지키고 그녀를 잃음. ordinary에 jiyeon_left 변주.
 		if flags.get("jiyeon_left", false):
 			finish_run("ordinary_life"); return       # dik: jiyeon_left 변주
