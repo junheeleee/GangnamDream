@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import gzip
 import hashlib
 import json
 import os
@@ -191,7 +192,9 @@ def read_trace(path: Path) -> dict:
     events = Counter()
     final: dict = {}
     last_body: dict = {}
-    with path.open(encoding="utf-8") as fh:
+    low = {"health": None, "mental": None, "money": None}
+    opener = gzip.open if path.suffix == ".gz" else open
+    with opener(path, "rt", encoding="utf-8") as fh:
         for line in fh:
             try:
                 row = json.loads(line)
@@ -214,6 +217,10 @@ def read_trace(path: Path) -> dict:
                     money_by_week[week] = float(state.get("money", 0))
                     last_body = {"health": state.get("health"), "mental": state.get("mental"),
                                  "money": state.get("money")}
+                    for key in low:
+                        value = state.get(key)
+                        if isinstance(value, (int, float)) and (low[key] is None or value < low[key]):
+                            low[key] = float(value)
             elif kind == "ending_open":
                 ending = str(payload.get("ending_id", "")) or ending
             elif kind == "run_end":
@@ -244,6 +251,7 @@ def read_trace(path: Path) -> dict:
             "last_week": last_week, "m24": at(96), "m48": at(192), "m60": at(240),
             "gaps_ge4": gaps, "longest_gap": max(gaps) if gaps else 0,
             "months_no_decision": months_no_decision, "story_events": sum(events.values()),
+            "health_min": low["health"], "mental_min": low["mental"], "cash_min": low["money"],
             "final": {**final, **last_body}, "errors": errors[:2]}
 
 
@@ -257,18 +265,23 @@ def fmt_won(v: float | None) -> str:
 
 def summary(out_dir: Path) -> str:
     by_policy: dict[str, list[dict]] = defaultdict(list)
+    # Re-read every trace (plain or gzip) so new metrics apply to old runs;
+    # fall back to the stored summary only when the trace is gone.
+    seen: set[str] = set()
+    for path in sorted([*out_dir.glob("*.jsonl"), *out_dir.glob("*.jsonl.gz")]):
+        run_id = path.name.split(".jsonl")[0]
+        if run_id in seen:
+            continue
+        seen.add(run_id)
+        by_policy[run_id.rsplit("_s", 1)[0]].append({"id": run_id, **read_trace(path)})
     for path in sorted(out_dir.glob("*.summary.json")):
         row = json.loads(path.read_text(encoding="utf-8"))
-        by_policy[row["id"].rsplit("_s", 1)[0]].append(row)
-    for path in sorted(out_dir.glob("*.jsonl")):
-        if (out_dir / f"{path.stem}.summary.json").exists():
-            continue
-        name = path.stem.rsplit("_s", 1)[0]
-        by_policy[name].append({"id": path.stem, **read_trace(path)})
-    lines = ["| 정책 | 런 | 엔딩 분포 | M24 중앙 | M48 중앙 | M60 중앙 | 4주+ 공백(평균 개수/최장) | 결정 없는 달(평균) |",
-             "|---|---:|---|---:|---:|---:|---:|---:|"]
-    detail = ["", "| 런 | 마지막 주 | 엔딩 | M24 | M48 | M60 | 최장 공백 | 결정 없는 달 | 오류 |",
-              "|---|---:|---|---:|---:|---:|---:|---:|---|"]
+        if row["id"] not in seen:
+            by_policy[row["id"].rsplit("_s", 1)[0]].append(row)
+    lines = ["| 정책 | 런 | 엔딩 분포 | M24 중앙 | M48 중앙 | M60 중앙 | 4주+ 공백(평균 개수/최장) | 결정 없는 달(평균) | 체력/정신 최저(중앙) | 현금 최저(중앙) |",
+             "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|"]
+    detail = ["", "| 런 | 마지막 주 | 엔딩 | M24 | M48 | M60 | 최장 공백 | 결정 없는 달 | 체력/정신 최저 | 현금 최저 | 오류 |",
+              "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---|"]
     for name, rows in sorted(by_policy.items()):
         endings = Counter(r["ending"] for r in rows)
         def med(key: str) -> str:
@@ -278,12 +291,17 @@ def summary(out_dir: Path) -> str:
         gap_max = max(r["longest_gap"] for r in rows)
         nodec = statistics.mean(r["months_no_decision"] for r in rows)
         dist = ", ".join(f"{k} {v}" for k, v in endings.most_common())
+        def med_num(key: str) -> str:
+            vals = [r[key] for r in rows if r.get(key) is not None]
+            return f"{statistics.median(vals):.0f}" if vals else "—"
         lines.append(f"| {name} | {len(rows)} | {dist} | {med('m24')} | {med('m48')} | {med('m60')} | "
-                     f"{gap_n:.1f}/{gap_max} | {nodec:.1f} |")
+                     f"{gap_n:.1f}/{gap_max} | {nodec:.1f} | {med_num('health_min')}/{med_num('mental_min')} | "
+                     f"{med('cash_min') if any(r.get('cash_min') is not None for r in rows) else '—'} |")
         for r in rows:
             detail.append(f"| {r['id']} | {r['last_week']} | {r['ending']} | {fmt_won(r['m24'])} | "
                           f"{fmt_won(r['m48'])} | {fmt_won(r['m60'])} | {r['longest_gap']} | "
-                          f"{r['months_no_decision']} | {'; '.join(r['errors'])} |")
+                          f"{r['months_no_decision']} | {r.get('health_min')}/{r.get('mental_min')} | "
+                          f"{fmt_won(r.get('cash_min'))} | {'; '.join(r['errors'])} |")
     total = Counter(r["ending"] for rows in by_policy.values() for r in rows)
     n = sum(total.values()) or 1
     top = total.most_common(1)[0] if total else ("—", 0)
