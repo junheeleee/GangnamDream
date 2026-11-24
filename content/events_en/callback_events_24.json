@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Feel the trust was justified",
-        "result_text": "Jaehyuk had kept the trust.\nSomeone who fully honors complete trust — they're rare."
+        "result_text": "Jaehyuk had kept the trust.\nJaehyuk got in touch exactly on the promised day."
       },
       {
         "text": "Realize the trust was misplaced",
-        "result_text": "Jaehyuk had been using that trust for his own gain.\nGiving everything — had meant losing everything."
+        "result_text": "Jaehyuk had been using that trust for his own gain.\n{name} went back over the list of everything handed to Jaehyuk, from the top."
       }
     ]
   },

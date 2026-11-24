@@ -107,7 +107,7 @@
   {
     "id": "callback_jaehyuk_felt_kindness_echo",
     "title": "Jaehyuk 的另一面",
-    "description": "Choi Jaehyuk 曾出乎意料地幫過忙。\n從那之後，看待 Jaehyuk 的眼光有了些變化。\n今天，又碰見了 Jaehyuk。\n還是個讓人不自在的人——卻有些不一樣了。",
+    "description": "Choi Jaehyuk 曾出乎意料地幫過忙。\n從那之後，看待 Jaehyuk 的眼光有了些變化。\n今天，又碰見了 Jaehyuk。\n還是個讓人不自在的人，但這次是他先點了點頭。",
     "choices": [
       {
         "text": "先開口搭話",
@@ -115,7 +115,7 @@
       },
       {
         "text": "直接走過去",
-        "result_text": "走了過去。\nJaehyuk 也走了過去。\n和複雜的人相處——也許這才是適當的距離。"
+        "result_text": "走了過去。\nJaehyuk 也走了過去。\n{name}沒有回頭看 Jaehyuk 的背影。"
       }
     ]
   },
@@ -141,7 +141,7 @@
     "choices": [
       {
         "text": "再問問，發生了什麼事",
-        "result_text": "對方說，他當初勉強鋪開的事業卡住了。\n要是一起做，我也會跟著卡住吧。\n拒絕——當時是勇氣，現在成了判斷力。"
+        "result_text": "對方說，他當初勉強鋪開的事業卡住了。\n要是一起做，自己也會跟著卡住吧。\n{name}沒有刪掉那天掛斷的通話紀錄。"
       },
       {
         "text": "說聲「喔」就帶過",

@@ -65,10 +65,10 @@
   {
     "id": "callback_jaehyuk_felt_kindness_echo",
     "title": "Jaehyuk 的另一面",
-    "description": "Choi Jaehyuk 意外帮了忙的那件事。\n此后，看 Jaehyuk 的眼光有了一点变化。\n今天，又碰到了 Jaehyuk。\n他还是让人不自在——但有什么不一样了。",
+    "description": "Choi Jaehyuk 意外帮了忙的那件事。\n此后，看 Jaehyuk 的眼光有了一点变化。\n今天，又碰到了 Jaehyuk。\n他还是让人不自在，但这次是他先点了点头。",
     "choices": [
       {"text": "先开口打招呼", "result_text": "Jaehyuk 简短地应了一声。还是别扭。\n但现在知道了，那不是他的全部。\n不再只看一个人的一面。"},
-      {"text": "直接走过去", "result_text": "走了过去。\nJaehyuk 也走了过去。\n和复杂的人相处——也许，这就是合适的距离。"}
+      {"text": "直接走过去", "result_text": "走了过去。\nJaehyuk 也走了过去。\n{name}没有回头看Jaehyuk的背影。"}
     ]
   },
   {
@@ -85,7 +85,7 @@
     "title": "Jaehyuk 的消息",
     "description": "拒绝 Choi Jaehyuk 的请求，是半年前的事了。\n今天，业内的熟人联系了过来。\n“哎，你认识 Choi Jaehyuk 吗？听说他最近不太好过。”",
     "choices": [
-      {"text": "继续问，出了什么事", "result_text": "说是勉强铺开的生意，陷入了困境。\n要是当时一起做，我也会一起陷进去。\n拒绝——当时是勇气，如今是判断力。"},
+      {"text": "继续问，出了什么事", "result_text": "说是勉强铺开的生意，陷入了困境。\n要是当时一起做，自己也会一起陷进去。\n{name}没有删掉那天挂断的通话记录。"},
       {"text": "说声“嗯”，带过去", "result_text": "转开了话题。\nJaehyuk 日子难过，并不是我的问题。\n拒绝，早就是很久以前的事了。"}
     ]
   },

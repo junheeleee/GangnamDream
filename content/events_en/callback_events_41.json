@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "That was the right call — it helped him",
-        "result_text": "Didn't say much. Just showed up.\n\nSometimes showing up is the entire thing.\nNow {name}'s the one who could use a knock — and knows what it means."
+        "result_text": "When Hyunsu opened the door that day, {name} said nothing and just held out two convenience-store drinks.\n\nNow {name} was the one having a hard time. Even so, there was no regret about standing at that door."
       },
       {
         "text": "Today I'm the one who needs someone to knock",
-        "result_text": "Could've used that, right now.\n\nBought one drink. Drank it alone.\n\nThat day, knocking was the right move. Still is."
+        "result_text": "{name} had done it for Hyunsu.\nSome days there's no one to do it for you.\n\nBought one drink at the convenience store. Drank it alone.\n\nThrowing the empty can away, {name} remembered the hand that had knocked on Hyunsu's door that day."
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "\"Nice. Keep going out there.\"",
-        "result_text": "'Will do, hyung haha.'\n\nFive years in Seoul. Some days end like this.\n\nHyun-su went a different direction. {name} is still here.\nBoth are still moving. That's enough."
+        "result_text": "'Will do, hyung haha.'\n\nFive years in Seoul. Some days end like this.\n\nHyunsu went a different direction. {name} is still here.\n{name} tapped Hyunsu's profile picture and closed the chat."
       },
       {
         "text": "Think: I'll get out too — my own way",
-        "result_text": "Sent a short reply.\n\nHyun-su dropped the public service exam, found a new path, and made it.\n{name} is still finding.\n\nStill looking. That's not the same as lost."
+        "result_text": "Sent Hyunsu a short reply.\n\nPutting the phone down, {name} thought it over.\nHyunsu dropped the public service exam, found a new path, and made it out in the end.\n{name} was still looking. A half-finished job application was still open on the phone."
       }
     ]
   }

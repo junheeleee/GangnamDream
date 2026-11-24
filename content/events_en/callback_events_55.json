@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Does he know I made it?",
-        "result_text": "Even if he's gone, {name} got here on what he gave.\n\nIt wasn't revenge. It was proof.\n\"I did it\" — that single line is what all of this was running toward."
+        "result_text": "Even if he's gone, {name} got here on what he gave.\n\n{name} turned the words \"I did it\" over once, silently."
       },
       {
         "text": "The first thought was right",
-        "result_text": "It was never just about the money.\nSomewhere along the way it felt like it became about that — but it had always been the same reason.\n\n{name} understood that wasn't confusion. It was growth."
+        "result_text": "It was never just about the money.\nSomewhere along the way, what began for Father had come to feel like it was about the money.\n\n{name} opened the notebook to its first page and looked for a long while at the handwriting from the day 3 billion was first written down."
       }
     ]
   },

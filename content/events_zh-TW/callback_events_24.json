@@ -31,8 +31,8 @@
     "title": "曾經完全信任Jaehyuk之後",
     "description": "完全信任Jaehyuk、把一切都與他分享，已經兩個月了。\n那之後，關係變了。\n今天，看到了Jaehyuk如何回應那份信任。",
     "choices": [
-      {"text": "覺得自己沒有信錯人", "result_text": "Jaehyuk守住了那份信任。\n能完整回應一份全然信任的人——並不多。"},
-      {"text": "覺得自己信錯了人", "result_text": "Jaehyuk正利用那份信任，為自己謀利。\n完全相信——原來就是被徹底利用。"}
+      {"text": "覺得自己沒有信錯人", "result_text": "Jaehyuk守住了那份信任。\nJaehyuk在約好的那天準時聯絡了。"},
+      {"text": "覺得自己信錯了人", "result_text": "Jaehyuk正利用那份信任，為自己謀利。\n{name}把交給 Jaehyuk 的資料清單從頭又看了一遍。"}
     ]
   },
   {

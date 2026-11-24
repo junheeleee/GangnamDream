@@ -107,11 +107,11 @@
   {
     "id": "callback_jaehyuk_heard_his_story_echo",
     "title": "After Hearing Jaehyuk's Story",
-    "description": "Two months since you heard Jaehyuk's story.\nEveryone has a reason — you were reminded of that then.\nToday you ran into Jaehyuk.",
+    "description": "Two months since you heard Jaehyuk's story.\nWhat you heard that day was still in a corner of {name}'s notebook, in a few words.\nToday you ran into Jaehyuk.",
     "choices": [
       {
         "text": "\"Thanks for telling me back then.\"",
-        "result_text": "Jaehyuk said '...It was nothing.'\nNo words — but his expression was different."
+        "result_text": "Jaehyuk said '...It was nothing.'\nHe said nothing more, but he didn't look away."
       },
       {
         "text": "Just say hello naturally",
@@ -126,7 +126,7 @@
     "choices": [
       {
         "text": "Wonder if pushing him made a difference",
-        "result_text": "The causation wasn't clear.\nBut — it might have been the final push."
+        "result_text": "The causation wasn't clear.\nBut it might have been the final push."
       },
       {
         "text": "It was probably the right move for him",
@@ -216,7 +216,7 @@
     "choices": [
       {
         "text": "Silence was also a response",
-        "result_text": "Saying nothing was also a kind of answer.\nThe fact that Jiyeon went quiet — meant she heard it."
+        "result_text": "Jiyeon hadn't said anything then, but she hadn't gotten up and left either."
       },
       {
         "text": "She might not have accepted it yet",

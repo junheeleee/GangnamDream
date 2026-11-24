@@ -6,7 +6,7 @@
     "choices": [
       {
         "text": "Don't answer",
-        "result_text": "You didn't pick up.\nBeing used once had sharpened your judgment."
+        "result_text": "You didn't pick up.\nHaving been used once, your thumb hit decline first this time."
       },
       {
         "text": "Hear what he has to say",
@@ -40,7 +40,7 @@
       },
       {
         "text": "Don't give it a second thought",
-        "result_text": "You let it go.\nHowever things turned out on Jaehyuk's side—that's the story after you said no."
+        "result_text": "You let it go.\nHowever things turned out on Jaehyuk's side, {name} didn't search his name."
       }
     ]
   },
@@ -186,7 +186,7 @@
     "choices": [
       {
         "text": "Keep going",
-        "result_text": "You kept going.\nAs long as the money comes in—you keep going."
+        "result_text": "You kept going.\nWhile the numbers kept landing in the account, you couldn't see a reason to stop."
       },
       {
         "text": "You can still stop here",

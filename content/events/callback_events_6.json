@@ -734,7 +734,7 @@
   {
     "id": "callback_father_reconciled_started_progress",
     "title": "화해의 속도",
-    "description": "아버지와 화해를 시작한 지 8개월이 됐다.\n처음엔 어색했는데 — 이제 전화하는 게 자연스러워졌다.\n오늘 아버지가 먼저 전화하셨다.\n아무 이유 없이.",
+    "description": "아버지와 화해를 시작한 지 8개월이 됐다.\n처음엔 어색했는데, 이제 통화 기록에 '아버지'가 자주 보였다.\n오늘 아버지가 먼저 전화하셨다.\n아무 이유 없이.",
     "category": "family",
     "rarity": "uncommon",
     "weight": 1.0,

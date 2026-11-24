@@ -107,11 +107,11 @@
   {
     "id": "callback_jaehyuk_heard_his_story_echo",
     "title": "听过Jaehyuk的故事之后",
-    "description": "听Jaehyuk讲自己的事，是两个月前。\n那时再次明白——每个人都有自己的理由。\n今天遇见了Jaehyuk。",
+    "description": "听Jaehyuk讲自己的事，是两个月前。\n那天听到的话，还以几个词的样子留在{name}的笔记本角落里。\n今天遇见了Jaehyuk。",
     "choices": [
       {
         "text": "“谢谢你那时跟我说那些”",
-        "result_text": "Jaehyuk说：“……谢什么。”\n没再说话——但表情不一样了。"
+        "result_text": "Jaehyuk说：“……谢什么。”\n没再说话，但Jaehyuk没有移开视线。"
       },
       {
         "text": "自然地打个招呼",
@@ -126,7 +126,7 @@
     "choices": [
       {
         "text": "想想是不是自己那次逼问产生了影响",
-        "result_text": "因果关系并不明确。\n但——那也可能成了最后的契机。"
+        "result_text": "因果关系并不明确。\n但那也可能成了最后的契机。"
       },
       {
         "text": "那应该是个正确的决定",
@@ -216,7 +216,7 @@
     "choices": [
       {
         "text": "觉得沉默也是一种反应",
-        "result_text": "什么也不说——也是一种表达。\nJiyeon的沉默——意味着她听到了。"
+        "result_text": "那时Jiyeon什么也没说，但也没有起身离开。"
       },
       {
         "text": "她似乎还没有接受",

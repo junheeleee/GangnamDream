@@ -107,7 +107,7 @@
   {
     "id": "callback_jaehyuk_felt_kindness_echo",
     "title": "A Different Side of Jaehyuk",
-    "description": "After Jaehyuk unexpectedly helped you that time, you've been seeing him differently.\nToday you ran into him again.\nStill a complicated person — but somehow different.",
+    "description": "After Jaehyuk unexpectedly helped you that time, you've been seeing him differently.\nToday you ran into him again.\nStill an uncomfortable person, but this time he nodded first.",
     "choices": [
       {
         "text": "Start a conversation",
@@ -115,7 +115,7 @@
       },
       {
         "text": "Keep walking",
-        "result_text": "You walked past.\nSo did Jaehyuk.\nFor a complicated person — maybe this is the right distance."
+        "result_text": "You walked past.\nSo did Jaehyuk.\n{name} didn't look back to watch him go."
       }
     ]
   },
@@ -141,7 +141,7 @@
     "choices": [
       {
         "text": "Ask what happened",
-        "result_text": "A business he'd stretched too far had stalled.\nIf you'd gone in with him, you'd have stalled too.\nThe refusal — was courage then and judgment now."
+        "result_text": "A business he'd stretched too far had stalled.\nIf you'd gone in with him, you'd have stalled too.\n{name} kept the record of the call cut short that day."
       },
       {
         "text": "\"Yeah\" and move on",
