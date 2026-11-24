@@ -11,7 +11,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 17 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 출시 후 보류 · 실기기 표본 · L3 OPEN |
-| 18 | [~] | ORDER-188 · 관계·투자 후속 번역 | [188](queue_active/ORDER-188.md) | 출시 후 보류 · 600번역 L1/L2 · L3 OPEN |
-| 19 | [~] | ORDER-184 · 후반 이정표와 돈·직장 갈림길 번역 | [184](queue_active/ORDER-184.md) | 출시 후 보류 · 567번역 L1/L2 · L3 OPEN |
-| 20 | [~] | ORDER-166 · 마지막 해 번역 | [166](queue_active/ORDER-166.md) | 출시 후 보류 · L1/L2 PASS · L3 OPEN |
+| 21 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 출시 후 보류 · 실기기 표본 · L3 OPEN |
+| 22 | [~] | ORDER-188 · 관계·투자 후속 번역 | [188](queue_active/ORDER-188.md) | 출시 후 보류 · 600번역 L1/L2 · L3 OPEN |
+| 23 | [~] | ORDER-184 · 후반 이정표와 돈·직장 갈림길 번역 | [184](queue_active/ORDER-184.md) | 출시 후 보류 · 567번역 L1/L2 · L3 OPEN |
+| 24 | [~] | ORDER-166 · 마지막 해 번역 | [166](queue_active/ORDER-166.md) | 출시 후 보류 · L1/L2 PASS · L3 OPEN |
