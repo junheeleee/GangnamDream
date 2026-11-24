@@ -43259,6 +43259,153 @@
           }
         }
       }
+    },
+    {
+      "order": "CLAUDE-ENDING-TONE-3",
+      "group": "endings",
+      "kind": "existing_target_correction",
+      "roots": [
+        "guardian",
+        "jiyeon_man",
+        "ordinary_life"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 4,
+        "zh-CN": 4,
+        "zh-TW": 4
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "838 D4 3차: 줄 정렬이 EN만 다른 엔딩 변형 4잎. 서술 대시는 쉼표(EN 문중 유지), guardian의 '이번 생의 방어선' 류 해설 마무리 2줄은 5언어 삭제",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "ef26b748f00f51b5c44603e7b8dad120156ee579",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "403f6b5599e9a4ed3ff207fc3c27dbe68fdcaf8f5f58b1a94b57dae803f36566",
+          "selection_sha256": "5272cb07c4b1f59ebb597585bc05e2db91d0dcb0bd427663c94d438cdf09c413",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6cbfb68ae78ca1eea39119a6cf41c3678b1f23cc20e541cf598d5d8684b6d96d"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "ef26b748f00f51b5c44603e7b8dad120156ee579",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "403f6b5599e9a4ed3ff207fc3c27dbe68fdcaf8f5f58b1a94b57dae803f36566",
+          "selection_sha256": "e63c5c068b77079ab76e674c352332d909849db464d5e7fade8ef0ee0b776c05",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c919f10690aa890d1a60a3cba63ae08206d018714bfa485bf348016e73493388"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ef26b748f00f51b5c44603e7b8dad120156ee579",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "403f6b5599e9a4ed3ff207fc3c27dbe68fdcaf8f5f58b1a94b57dae803f36566",
+          "selection_sha256": "c72dabc2b24d33c6c9d03626362414f73657ef62e7b1b64bf8d54cea89c6f64b",
+          "count": 4,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "657084ca4e5ac5ff96d88600b673db786a7747f0291365ab8cb56b3ca2640c4f"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "65bf8958ac6700c20f3bb501948fe72df2302d7bc4819ba1210bb7c484c45121",
+        "zh-CN": "d5fc80d0def75c0550e0fe3c3641413a7d845ca2b0664f29754a5f1406162962",
+        "zh-TW": "12fdc0ed99a2fe5f9ad43e28b241201c434d750bf416defb729d680ef01167c4"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "endings:guardian:/description_if_known/father_appointment_set": "26f1fdf12aead86ede222df55f5d4255a265b9ad305b396ddab560cc3c17a26b",
+          "endings:guardian:/description_if_known/father_health_checked": "8f1db2295630e24595afde9aec6a243a3849b1de7b7108b01c1d35a264a59488",
+          "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": "a2d6d62b27367deec7e62f85a3a470060c05c206459acb52dc8f51bf8ddac2ef",
+          "endings:ordinary_life:/description_if_known/cut_sangchul_network": "edf924a25a3872a3ccd1f2c7176769c0959018458b8e767e800074c4ab86518c"
+        },
+        "zh-CN": {
+          "endings:guardian:/description_if_known/father_appointment_set": "b6587d0e3083c0aade943a2755991e9904fb23b8905f5c2494f9f10d3aa1bad8",
+          "endings:guardian:/description_if_known/father_health_checked": "644f455acd7a5b47e4df6fe91779383f1df4a29fb4388b2612e40e61db1828ce",
+          "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": "a11e3c052643a4d1261e4087f2aa8fefa99e8cc523e417b67ff78ad841e0c4fd",
+          "endings:ordinary_life:/description_if_known/cut_sangchul_network": "c22a5d7adab969916fbb1cf22d6843b4a60ac39078e2fd436c9c2ca5821734ef"
+        },
+        "zh-TW": {
+          "endings:guardian:/description_if_known/father_appointment_set": "33ba643ed0ecf962b8cdb1e5e27ea68da3c5082bbbae07df21d3287a99e051cd",
+          "endings:guardian:/description_if_known/father_health_checked": "fa6c7c9a2b99830e971f44eea1cce6e46a0ffeb893c2139e1a796f753aa1ae98",
+          "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": "8167888f7605fd3b38d78c7836e67409b9f4ac13e192d67673c5373320fe15af",
+          "endings:ordinary_life:/description_if_known/cut_sangchul_network": "c421307124d08c340e8892b9f2a66f06e5ccb0eca18db150432b458f8eaab2f8"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "endings:guardian:/description_if_known/father_appointment_set": {
+            "source_sha256": "f1288c84992b565a771a76ee3d42a99029cd7906f2c26e2347cbd945aa523933",
+            "target_sha256": "b1e0055e6c2da4decf5f1b7e42ae48c8dcf996544995dd6a297df723636a027e"
+          },
+          "endings:guardian:/description_if_known/father_health_checked": {
+            "source_sha256": "42fae429dd288883657c3954c0d4f6de70cbd916e080fffb0a0977ce479c01fd",
+            "target_sha256": "0b292a52f5f728e2dec1425d7cf916401543c3b8b34a0f608acd00bca8144634"
+          },
+          "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": {
+            "source_sha256": "62b9bae33c4b789591480925855a01296fd257f1392b4d03584e4e7b919363c0",
+            "target_sha256": "5ca62d7b4290cf238cfa59cb36b5ea80aa39cedeee4304a6749cd23b8bcf3d46"
+          },
+          "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
+            "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
+            "target_sha256": "bfba7a2dfc6f600cd6a2afeb92f03489c88f91f90f0e7e51f99e1b0b159e2c3c"
+          }
+        },
+        "zh-CN": {
+          "endings:guardian:/description_if_known/father_appointment_set": {
+            "source_sha256": "f1288c84992b565a771a76ee3d42a99029cd7906f2c26e2347cbd945aa523933",
+            "target_sha256": "54173bbe59c2f143643da78d8ceb528edddcd5f0db01a97a5ad3e378ab090487"
+          },
+          "endings:guardian:/description_if_known/father_health_checked": {
+            "source_sha256": "42fae429dd288883657c3954c0d4f6de70cbd916e080fffb0a0977ce479c01fd",
+            "target_sha256": "3ed88b3a05b8f64074f5a64f4d2ad50be4bdb0545b7f8e39880de6f1af391777"
+          },
+          "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": {
+            "source_sha256": "62b9bae33c4b789591480925855a01296fd257f1392b4d03584e4e7b919363c0",
+            "target_sha256": "6d7dde9b463971244a38fb5a5d0588828aeba352edd8085e35d30ebbbd81a3be"
+          },
+          "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
+            "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
+            "target_sha256": "296b9bf98b042b75f792dc7571837171bd00670da08c3d16ca5b5d1970e16b33"
+          }
+        },
+        "zh-TW": {
+          "endings:guardian:/description_if_known/father_appointment_set": {
+            "source_sha256": "f1288c84992b565a771a76ee3d42a99029cd7906f2c26e2347cbd945aa523933",
+            "target_sha256": "d6d44b2b2dbe631a86f9e7e5c7a3093256bf835d1497892428a1ef1f3bb4d3a1"
+          },
+          "endings:guardian:/description_if_known/father_health_checked": {
+            "source_sha256": "42fae429dd288883657c3954c0d4f6de70cbd916e080fffb0a0977ce479c01fd",
+            "target_sha256": "5d443707392b6ded373615c9e508528ba83b2b3e2df61929ddada30085794dff"
+          },
+          "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": {
+            "source_sha256": "62b9bae33c4b789591480925855a01296fd257f1392b4d03584e4e7b919363c0",
+            "target_sha256": "faf3cbad1e7e38b42e24269d6e75150bdc9389e04a685ec644c6bb314f072c4b"
+          },
+          "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
+            "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
+            "target_sha256": "5233f99df29e89c44a2f5259bfcd6507ab4c57807c93446f1fdf2afc1ac145fd"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -43812,8 +43959,8 @@
         "target_sha256": "ea0e98fd0d7088cc14f8a3f048877524b3fa47acaeb0d23e089bed455ec6d0e6"
       },
       "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
-        "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
-        "target_sha256": "bfba7a2dfc6f600cd6a2afeb92f03489c88f91f90f0e7e51f99e1b0b159e2c3c"
+        "source_sha256": "fa4db80c6d930681a13512660f49df5520ed2b8a666cf5890d2dfda8cdd0cb83",
+        "target_sha256": "edf924a25a3872a3ccd1f2c7176769c0959018458b8e767e800074c4ab86518c"
       },
       "endings:ordinary_life:/description_if_known/daeun_divorced": {
         "source_sha256": "3dff866e2a2f02f04ee0f5276f947bed80d9c70d19028e2c883adf0a65a35325",
@@ -44020,12 +44167,12 @@
         "target_sha256": "eb6bbe1bed7da189d740394acd34dcdc2e2c9d0a150b233fd43a49c31e41d28c"
       },
       "endings:guardian:/description_if_known/father_appointment_set": {
-        "source_sha256": "f1288c84992b565a771a76ee3d42a99029cd7906f2c26e2347cbd945aa523933",
-        "target_sha256": "b1e0055e6c2da4decf5f1b7e42ae48c8dcf996544995dd6a297df723636a027e"
+        "source_sha256": "34d4026be0bf3322d02ba9246ac19387e82bcfbf256f5da5df7b51ecf9f639cb",
+        "target_sha256": "26f1fdf12aead86ede222df55f5d4255a265b9ad305b396ddab560cc3c17a26b"
       },
       "endings:guardian:/description_if_known/father_health_checked": {
-        "source_sha256": "42fae429dd288883657c3954c0d4f6de70cbd916e080fffb0a0977ce479c01fd",
-        "target_sha256": "0b292a52f5f728e2dec1425d7cf916401543c3b8b34a0f608acd00bca8144634"
+        "source_sha256": "53a4c0d788ff5f95dc547e9b03570ad4a4258d32e01beca9382edb249d492463",
+        "target_sha256": "8f1db2295630e24595afde9aec6a243a3849b1de7b7108b01c1d35a264a59488"
       },
       "endings:guardian:/title": {
         "source_sha256": "80bc442e04d37b88e8f9e665728113384175ce63682c754056b843c7d0a99c70",
@@ -44236,8 +44383,8 @@
         "target_sha256": "9e6b364aac23038cdcf0e94d017c87698b58a710a42932f24e5266524b0ec7ef"
       },
       "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": {
-        "source_sha256": "62b9bae33c4b789591480925855a01296fd257f1392b4d03584e4e7b919363c0",
-        "target_sha256": "5ca62d7b4290cf238cfa59cb36b5ea80aa39cedeee4304a6749cd23b8bcf3d46"
+        "source_sha256": "cda48159797ee6f274d8957e3f835eb2f77aa51051013662c1b0af495a105eae",
+        "target_sha256": "a2d6d62b27367deec7e62f85a3a470060c05c206459acb52dc8f51bf8ddac2ef"
       },
       "endings:jiyeon_man:/description_if_known/jiyeon_kept_by_diminishing": {
         "source_sha256": "1c5ca8e9cf41169b4a2f5cb0cc76f35cde5975b0249cc0a9831d1d094e0f0e53",
@@ -96718,8 +96865,8 @@
         "target_sha256": "3718e2d72a8cef57d230f8c563af052b4d9b88305fb5dbf651fdf76516ba80a6"
       },
       "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
-        "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
-        "target_sha256": "296b9bf98b042b75f792dc7571837171bd00670da08c3d16ca5b5d1970e16b33"
+        "source_sha256": "fa4db80c6d930681a13512660f49df5520ed2b8a666cf5890d2dfda8cdd0cb83",
+        "target_sha256": "c22a5d7adab969916fbb1cf22d6843b4a60ac39078e2fd436c9c2ca5821734ef"
       },
       "endings:ordinary_life:/description_if_known/daeun_divorced": {
         "source_sha256": "3dff866e2a2f02f04ee0f5276f947bed80d9c70d19028e2c883adf0a65a35325",
@@ -96926,12 +97073,12 @@
         "target_sha256": "5167f51dcf30cf11eaa4d8e877d61d5dc18836e1e053b871160f0875d954edee"
       },
       "endings:guardian:/description_if_known/father_appointment_set": {
-        "source_sha256": "f1288c84992b565a771a76ee3d42a99029cd7906f2c26e2347cbd945aa523933",
-        "target_sha256": "54173bbe59c2f143643da78d8ceb528edddcd5f0db01a97a5ad3e378ab090487"
+        "source_sha256": "34d4026be0bf3322d02ba9246ac19387e82bcfbf256f5da5df7b51ecf9f639cb",
+        "target_sha256": "b6587d0e3083c0aade943a2755991e9904fb23b8905f5c2494f9f10d3aa1bad8"
       },
       "endings:guardian:/description_if_known/father_health_checked": {
-        "source_sha256": "42fae429dd288883657c3954c0d4f6de70cbd916e080fffb0a0977ce479c01fd",
-        "target_sha256": "3ed88b3a05b8f64074f5a64f4d2ad50be4bdb0545b7f8e39880de6f1af391777"
+        "source_sha256": "53a4c0d788ff5f95dc547e9b03570ad4a4258d32e01beca9382edb249d492463",
+        "target_sha256": "644f455acd7a5b47e4df6fe91779383f1df4a29fb4388b2612e40e61db1828ce"
       },
       "endings:guardian:/title": {
         "source_sha256": "80bc442e04d37b88e8f9e665728113384175ce63682c754056b843c7d0a99c70",
@@ -97142,8 +97289,8 @@
         "target_sha256": "915fb272ee1c682a803308e8158658d6a08e730d58dcb1bb0409b4678d2d952c"
       },
       "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": {
-        "source_sha256": "62b9bae33c4b789591480925855a01296fd257f1392b4d03584e4e7b919363c0",
-        "target_sha256": "6d7dde9b463971244a38fb5a5d0588828aeba352edd8085e35d30ebbbd81a3be"
+        "source_sha256": "cda48159797ee6f274d8957e3f835eb2f77aa51051013662c1b0af495a105eae",
+        "target_sha256": "a11e3c052643a4d1261e4087f2aa8fefa99e8cc523e417b67ff78ad841e0c4fd"
       },
       "endings:jiyeon_man:/description_if_known/jiyeon_kept_by_diminishing": {
         "source_sha256": "1c5ca8e9cf41169b4a2f5cb0cc76f35cde5975b0249cc0a9831d1d094e0f0e53",
@@ -156408,8 +156555,8 @@
         "target_sha256": "8767c85091ea1a52e979249e8d01c3f6772d37313b819b901046fecdf7ed76ac"
       },
       "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
-        "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
-        "target_sha256": "5233f99df29e89c44a2f5259bfcd6507ab4c57807c93446f1fdf2afc1ac145fd"
+        "source_sha256": "fa4db80c6d930681a13512660f49df5520ed2b8a666cf5890d2dfda8cdd0cb83",
+        "target_sha256": "c421307124d08c340e8892b9f2a66f06e5ccb0eca18db150432b458f8eaab2f8"
       },
       "endings:ordinary_life:/description_if_known/daeun_divorced": {
         "source_sha256": "3dff866e2a2f02f04ee0f5276f947bed80d9c70d19028e2c883adf0a65a35325",
@@ -156616,12 +156763,12 @@
         "target_sha256": "03293b556e7aa9f4035df71701ffc91448e72a2b7404ceade2663f703d0c7174"
       },
       "endings:guardian:/description_if_known/father_appointment_set": {
-        "source_sha256": "f1288c84992b565a771a76ee3d42a99029cd7906f2c26e2347cbd945aa523933",
-        "target_sha256": "d6d44b2b2dbe631a86f9e7e5c7a3093256bf835d1497892428a1ef1f3bb4d3a1"
+        "source_sha256": "34d4026be0bf3322d02ba9246ac19387e82bcfbf256f5da5df7b51ecf9f639cb",
+        "target_sha256": "33ba643ed0ecf962b8cdb1e5e27ea68da3c5082bbbae07df21d3287a99e051cd"
       },
       "endings:guardian:/description_if_known/father_health_checked": {
-        "source_sha256": "42fae429dd288883657c3954c0d4f6de70cbd916e080fffb0a0977ce479c01fd",
-        "target_sha256": "5d443707392b6ded373615c9e508528ba83b2b3e2df61929ddada30085794dff"
+        "source_sha256": "53a4c0d788ff5f95dc547e9b03570ad4a4258d32e01beca9382edb249d492463",
+        "target_sha256": "fa6c7c9a2b99830e971f44eea1cce6e46a0ffeb893c2139e1a796f753aa1ae98"
       },
       "endings:guardian:/title": {
         "source_sha256": "80bc442e04d37b88e8f9e665728113384175ce63682c754056b843c7d0a99c70",
@@ -156832,8 +156979,8 @@
         "target_sha256": "ca3abb147bcbc41a360b578aa6bc0d105f9fe97db3b3f494e798491a686208c0"
       },
       "endings:jiyeon_man:/description_if_known/jiyeon_gangnam_together": {
-        "source_sha256": "62b9bae33c4b789591480925855a01296fd257f1392b4d03584e4e7b919363c0",
-        "target_sha256": "faf3cbad1e7e38b42e24269d6e75150bdc9389e04a685ec644c6bb314f072c4b"
+        "source_sha256": "cda48159797ee6f274d8957e3f835eb2f77aa51051013662c1b0af495a105eae",
+        "target_sha256": "8167888f7605fd3b38d78c7836e67409b9f4ac13e192d67673c5373320fe15af"
       },
       "endings:jiyeon_man:/description_if_known/jiyeon_kept_by_diminishing": {
         "source_sha256": "1c5ca8e9cf41169b4a2f5cb0cc76f35cde5975b0249cc0a9831d1d094e0f0e53",
@@ -215549,7 +215696,7 @@
       }
     }
   },
-  "accepted_sha256": "37293ed42a2b66740db8b472815ee533fabd08f046da61e6c7d469c461c15152",
+  "accepted_sha256": "4c26e0426091f47903277b60c95c46dce016c6c371e694f3fd780726e46dd4e9",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

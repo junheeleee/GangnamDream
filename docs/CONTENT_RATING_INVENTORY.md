@@ -123,7 +123,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 - 게임 pack 대상 raster: 379장 · ImageRegistry 외부 pack 대상: 52장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 143개
 - 사건 ID SHA-256: `4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b`
-- KO/EN 엔딩 본문 SHA-256: `a28f1bb3fc7dee4f790a2c11130d251f8e28c498b0a72e2a061628a1e8aecac8`
+- KO/EN 엔딩 본문 SHA-256: `94784d44dcab10943183368ddbdf84bb1d8d5656fc296f75379bdf93119357ea`
 
 아래 current-source fingerprint는 표현의 최종 등급이 아니라 개발 코퍼스가 조용히 바뀌는 것을
 막는 자동검색 래칫이다. fact의 사건 ID는 결정적 증거 앵커이지 후보 전부의 1:1
