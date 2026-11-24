@@ -201,8 +201,11 @@ def read_trace(path: Path) -> dict:
             except json.JSONDecodeError:
                 continue
             week = int(row.get("week", 0) or 0)
-            last_week = max(last_week, week)
             kind = row.get("record_type")
+            if kind == "week_close":
+                # An early ending (burnout at W68, say) still stamps run_end
+                # with W240; only closed weeks count as played.
+                last_week = max(last_week, week)
             payload = row.get("payload", {}) or {}
             if kind == "story_enter":
                 weeks_story.add(week)
