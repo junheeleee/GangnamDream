@@ -78,6 +78,45 @@
 - **도구가 찾은 제품 결함**: W240 카운트다운 결과에서 엔딩에 못 가는 정지(6런 중 3) → `FullStoryFlow` 연차 장면 영수증 수리·회귀 검사.
 - 남은 도구 한계: 바탕 드라이버가 W240 이전 엔딩을 오류로 기록한다(엔딩 자체는 요약에 남음). 수치 독자 도달 수는 아직 세지 않는다.
 
+#### 엔딩 도달 지도 — 2026-11-24 (판정 `GameState.check_game_over`, 관측 D1 18런)
+
+"생산자"는 그 엔딩이 읽는 플래그를 켜는 사건이고, 괄호는 D1 18런 중 그 사건을 본 런 수다. 수치는 트레이스에 없어 "미관측"으로 둔다.
+판정은 위에서 아래로 첫 일치가 이긴다.
+
+| 순서 | 엔딩 | 판정 조건(요약) | 새 이야기 생산자(D1 본 런) | D1 | 막힌 곳 → 오더 |
+|---|---|---|---|---:|---|
+| 즉시 | `burnout` `mental_break` | 체력/정신 0 | 루틴·선택 감소 | 2/0 | 경고 장면 없음 → 836 |
+| 즉시 | `debt_spiral` `bankruptcy` | 순자산 −2억/−1억 미만 | 빚·대출 없음(최저 −768만) | 0 | 835 |
+| 즉시 | `crypto_ghost` | 중독 성향 90+ | 올리는 사건 28개, 본 런 0 | 0 | 834 |
+| NG+ | `full_circle` `second_love` `guardian` | 메타 기록 + `ng_*` | `arc_daeun_ng_meet`(0)·`arc_father_ng_call`(0) | 0 | 2회차 측정 필요 → D3 |
+| 특수 | `startup_exit` | `startup_exit` | 인수 사건 2개(0) | 0 | 835 |
+| 특수 | `instant_legend` | 33세에 순자산 30억 | — | 0 | 의도적 비도달 후보 |
+| 30억 | `empty_house` `lonely_rich` `gangnam_dream` `jaehyuk_way` `gangnam_dream_white` | 최고 자산 30억 + 마지막 주 뒤 관계·도덕 분기 | 분기 플래그는 생산됨(`fell_to_darkness` 11, `crossed_line` 11) | 0 | 30억 경로 없음 → 834·835 |
+| 특수 | `creator_success` `political_fix` | `creator_viral`+3억 / `political_winner` | 각 1개(0) | 0 | 의도적 비도달 |
+| 38세 | `with_daeun` | `daeun_romance_started` | `arc_daeun_04b_future`(11)·`arc_daeun_y5_feelings`(4) | 5 | 도달 |
+| 38세 | `ordinary_life`(지연 변주) `jiyeon_man` | `jiyeon_left` / `jiyeon_romance_started` | `arc_jiyeon_verdict_decision`(0)·`arc_jiyeon_year5_return`(2) | 0 | 지연 5년 차 진입 드묾 → 837 |
+| 38세 | `gambling_recovery` | `beat_addiction` | `recovery_one_month_clean`(0) | 0 | 834 |
+| 38세 | `sangchul_reckoning` | 상철 신고/빚 회수 + 아버지 생존 | `arc_sangchul_reckoning`(8) | 2 | 도달 |
+| 38세 | `reputation_legend` | 평판 80+ | 올리는 사건 314개 중 본 것 17(합 +53) | 0 | 미관측 → 836 수치 독자 |
+| 38세 | `orthodox_pinnacle` `unorthodox_legend` `early_retirement` `investment_master` `stable_success` | 순자산 5억~10억 + 경로/직업/투자감각 | 자산 최대 8,329만 | 0 | 835 |
+| 38세 | `balanced_life` `career_climber` | 1억 + 경로 균형 / 이직·직급 4 | `max_job_tier` 18런 모두 1, 직장 사건 `work_*`·`callback_job_change_outcome`(0) | 0 | 835 |
+| 38세 | `healthy_retirement` | 체력·정신 70+ + 가까운 관계 | 루틴이 끝까지 회복시켜 거의 항상 참 | 8 | 과점 → 아래 R1 |
+| 38세 | `orthodox_hollow` | 정석 20+ + 3억 미만 | 미관측 | 0 | 경로 점수 9뿐 → 834~836 |
+| 38세 | `late_call` | 아버지 화해 + 생존 | `arc_father_05_after_visit`(16) | 0 | `healthy_retirement`에 가려짐 → R1 |
+| 38세 | `career_burnout` | 직장 + 번아웃 자각/이직 시도 | `work_burnout_monday`(0)·`work_year_review`(0) | 0 | 835·836 |
+| 38세 | `writer` | 사건 90+ + 지능 65+ + 고시원 + 3억 미만 | — | 1 | 도달(우연) |
+| 끝 | `ordinary_life` | 나머지 | — | 0 | — |
+
+**판정 순서 때문에 생기는 문제(사용자 승인 사항, `finish_run` 라우팅)**
+
+- **R1 `late_call` 가림**: 아버지 화해가 16/18런에서 켜지는데 `late_call`은 0이다. 바로 위의 `healthy_retirement`가 "체력·정신 70+ + 관계"를
+  묻고, 지금 루틴은 마지막 주까지 둘을 거의 100으로 회복시켜 사실상 항상 참이다. 836이 몸·마음에 대가를 붙이면 일부 풀리지만, 화해한 아버지가
+  있는 런의 결말이 "건강한 은퇴"로 덮이는 구조는 남는다. **권고:** 836 구현 뒤 D1을 다시 돌려 `healthy_retirement`가 35%를 넘으면
+  `late_call`을 `healthy_retirement` 위로 올린다. 안 하면 아버지 서사를 끝까지 지킨 런이 계속 일반 결말로 끝난다.
+- **R2 결혼했는데 다은이 없는 결말**: `daeun_married`가 켜졌지만 `daeun_romance_started`가 없는 런 3/18이 `healthy_retirement`·
+  `sangchul_reckoning`으로 끝났다. 38세 판정은 연애 시작만 묻고 결혼은 30억 분기만 읽는다. **권고:** 38세 판정의 `with_daeun` 조건에
+  `daeun_married`(이혼 아님)를 더한다. `with_daeun` 본문에는 이미 `daeun_married` 변주가 있고 `healthy_retirement`에는 없다. 안 하면 다은과 결혼한 플레이어의 마지막 화면에 배우자가 빠진다.
+
 ### D2. 분포 기준 `[첫 실행 재조정]`
 
 - 전 정책 합산에서 **한 엔딩이 35%를 넘지 않는다.**
