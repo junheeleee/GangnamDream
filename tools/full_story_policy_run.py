@@ -18,6 +18,7 @@ import concurrent.futures
 import hashlib
 import json
 import os
+import shutil
 import statistics
 import subprocess
 import sys
@@ -108,6 +109,7 @@ def build_profiles(seeds: int, explore: float) -> dict:
                     "keyword_weights": spec["keyword_weights"],
                 },
                 "modal_policy": {"study_type": 0},
+                "race_bets_per_visit": 3 if name == "gamble" else 1,
                 "main_action_priority": actions,
                 "main_function_priority": [ACTION_FUNCS[a] for a in actions],
                 "survival_policy": None if name == "overreach" else {
@@ -152,6 +154,7 @@ def git(*args: str) -> str:
 def run_one(profile_id: str, out_dir: Path, timeout: int) -> tuple[str, int, str]:
     godot = os.environ.get("GODOT", "godot")
     home = out_dir / "home" / profile_id
+    shutil.rmtree(home, ignore_errors=True)  # a fresh title needs fresh user data
     home.mkdir(parents=True, exist_ok=True)
     trace = out_dir / f"{profile_id}.jsonl"
     if trace.exists():

@@ -42,6 +42,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "apply",
         "resume",
@@ -126,6 +127,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "apply",
         "resume",
@@ -210,6 +212,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "apply",
         "resume",
@@ -293,6 +296,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "invest",
         "study",
@@ -376,6 +380,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "invest",
         "study",
@@ -459,6 +464,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "invest",
         "study",
@@ -542,6 +548,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 3,
       "main_action_priority": [
         "side_shift",
         "invest",
@@ -625,6 +632,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 3,
       "main_action_priority": [
         "side_shift",
         "invest",
@@ -708,6 +716,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 3,
       "main_action_priority": [
         "side_shift",
         "invest",
@@ -792,6 +801,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "contact",
         "rest",
@@ -876,6 +886,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "contact",
         "rest",
@@ -960,6 +971,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "contact",
         "rest",
@@ -1039,6 +1051,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "side_shift",
         "invest",
@@ -1105,6 +1118,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "side_shift",
         "invest",
@@ -1171,6 +1185,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "side_shift",
         "invest",
@@ -1239,6 +1254,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "rest",
         "contact",
@@ -1320,6 +1336,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "rest",
         "contact",
@@ -1401,6 +1418,7 @@
       "modal_policy": {
         "study_type": 0
       },
+      "race_bets_per_visit": 1,
       "main_action_priority": [
         "rest",
         "contact",

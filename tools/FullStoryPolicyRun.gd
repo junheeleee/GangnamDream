@@ -108,3 +108,40 @@ func _drive_story_direct_choice(
 		}
 		_profile["choice_overrides"] = overrides
 	await super(story, current, direct_choice_index)
+
+
+# ── Racetrack activity (keyboard only, like a pad player) ─────────────────
+# The base driver presses the first focusable button inside an activity; the
+# racetrack betting board is pad/keyboard driven and exposes no focused button,
+# so the base stalls there. Drive it with the same ui_accept/ui_cancel keys a
+# player uses: accept picks the cursor horse, accept again places the smallest
+# stake, accept on the result screen runs another race, cancel leaves.
+const RACE_PHASE_BETTING := 0
+const RACE_PHASE_RESULT := 2
+
+
+func _drive_main(main: Node) -> bool:
+	if bool(main.get("_minigame_overlay_active")) \
+			and str(main.get("_active_activity_id")) == "racetrack" \
+			and _active_main_tutorial_overlay(main) == null:
+		var track := main.get("racetrack") as Node
+		if is_instance_valid(track) and bool(track.get("visible")):
+			await _drive_racetrack(track)
+			return false
+	return await super(main)
+
+
+func _drive_racetrack(track: Node) -> void:
+	var limit := int(_profile.get("race_bets_per_visit", 1))
+	var completed := int(track.get("_completed_races"))
+	var phase := int(track.get("_phase"))
+	var min_stake := 10000.0
+	if phase == RACE_PHASE_BETTING:
+		if completed >= limit or float(GameState.money) < min_stake:
+			await _send_key(KEY_ESCAPE)
+		else:
+			await _send_key(KEY_ENTER)
+	elif phase == RACE_PHASE_RESULT:
+		await _send_key(KEY_ESCAPE if completed >= limit else KEY_ENTER)
+	# RACE phase: the product animates the race; wait.
+	await get_tree().create_timer(0.05).timeout
