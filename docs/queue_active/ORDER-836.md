@@ -63,6 +63,29 @@
 
 - 도달 경로를 문서화한다: `burnout`·`mental_break`(경고 보장 후), `healthy_retirement`(5년 내내 회복 결정을 지킨 경우), `career_burnout`(835 야근·부업 누적).
 
+## B1-M1 결과 — 2026-11-25 (Claude)
+
+- 구현: `systems/BodyBandScenes.gd`(구간·하락 감지·장면 선택, 상태는 `flags.body_band_state` 하나), `MainGame` 주간 라우팅에서 아크·마일스톤 뒤 빈 주에만 1장면. 정식 런 전용.
+- 장면 표(기존 5언어 사건 8개, 숫자 대신 몸의 사실):
+
+| 구간 | 건강 | 정신 |
+|---|---|---|
+| 주의 | `health_sleep_debt` `health_checkup_reminder` | `health_insomnia` |
+| 위험 | `work_burnout_monday`(직장 있을 때만) `drama_burnout_warning` `health_checkup_00` | `health_mental_burnout_signal` `health_burnout_signal` |
+
+  사양 초안의 `arc_money_loneliness`(1억 이정표 전용 본문)는 구간 장면으로 맞지 않아 뺐다. 재사용 사건의 `min_stress`·`max_health`는 강제 진입이라 우회하며 원본 조건은 바꾸지 않았다.
+- 규칙: 아래 구간으로 내려간 뒤 첫 빈 주에 1회, 장·수치·구간마다 1회, 같은 장면 재사용 없음, 회복하면 다시 무장. 위험이 주의보다, 건강이 정신보다 먼저.
+- 검증: `BodyBandScenesCheck`(구간·전이 6·직장 전제·JSON 왕복·D1 모양 하강 2개에서 붕괴 전 위험 장면). D1 재실행(커밋 `cf56d1b3`):
+
+| 런 | 전 | 후 |
+|---|---|---|
+| 관계 우선 s03 | 경고 없이 W91 번아웃 | W7 수면 부채에서 쉼 → 240주 완주 `with_daeun` |
+| 무리한 상승 s01 | 경고 없이 W67 번아웃 | W7·W33(위험)·W51 경고마다 밀어붙임 → W79 번아웃 |
+| 무리한 상승 s03 | 240주 `healthy_retirement` | 경고 4회 모두 밀어붙임 → W48 번아웃 |
+
+- 판정: 경고 없는 붕괴 0을 실측으로 확인. 남은 밸런스 질문은 B2·835 몫이다 — `drama_burnout_warning` "밀어붙인다"(건강 −12·정신 −16·돈 +30만)가 위험 구간에서 사실상 번아웃 확정이 된다. 밀어붙임의 대가가 다음 장의 문(M2)으로 돌아오기 전까지는 벌만 있다.
+- 남은 일(Codex): M2 선택 조건 키(`StoryMode`), 회복 결정 장면(위험→회복), M3 수치 독자, M4 엔딩 경로, B2 재측정.
+
 ## 배치
 
 - **B1** M1 임계 장면 배치·경고 보장 + M2 선택 조건 키(엔진) + 장마다 기회·차단 각 1개
