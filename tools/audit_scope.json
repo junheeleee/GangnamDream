@@ -4718,6 +4718,21 @@
       ]
     },
     {
+      "tool": "tools/BodyBandScenesCheck.tscn",
+      "godot": true,
+      "why": "836 M1 몸·마음 구간 장면: 하락 시 1회·장별 반복 금지·직장 전제·저장 왕복·붕괴 전 위험 장면 보장",
+      "paths": [
+        "systems/BodyBandScenes.gd",
+        "scenes/MainGame.gd",
+        "content/events/life_events.json",
+        "content/events/life_events2.json",
+        "content/events/work_events.json",
+        "content/events/drama_events.json",
+        "tools/BodyBandScenesCheck.gd",
+        "tools/BodyBandScenesCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/YearSceneReceiptReorderCheck.tscn",
       "godot": true,
       "why": "W236 연차 장면 영수증이 W240 재정렬 뒤에도 유효(엔딩 직전 정지 회귀)",

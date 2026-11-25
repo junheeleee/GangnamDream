@@ -8,6 +8,7 @@ const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam
 const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
 const FULL_STORY_FLOW = preload("res://systems/FullStoryFlow.gd")
+const BODY_BAND_SCENES = preload("res://systems/BodyBandScenes.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
@@ -6886,6 +6887,11 @@ func _begin_month_story_and_render():
 		if ms_id != "":
 			_go_story_mode([ms_id])
 			return
+		# 몸·마음이 한 구간 아래로 내려간 뒤 처음 비는 주에 몸의 장면 하나(836 M1).
+		var body_id := _full_story_body_band_scene_id()
+		if body_id != "":
+			_go_story_mode([body_id])
+			return
 	if _full_story_route_week():
 		return
 	# 데모 편성기는 보장 아크와 마일스톤을 모두 확인한 뒤에만 저위험 주를 흘린다.
@@ -6990,6 +6996,19 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 		SceneTransition.go_covered("res://scenes/StoryMode.tscn")
 	else:
 		SceneTransition.go("res://scenes/StoryMode.tscn")
+
+func _full_story_body_band_scene_id() -> String:
+	# Full run only: the demo and AP surfaces keep their bytes and pools.
+	if not FULL_STORY_FLOW.is_full_run() or GameState.turn <= 1:
+		return ""
+	return BODY_BAND_SCENES.take_scene(
+		GameState.flags,
+		{"health": GameState.health, "mental": GameState.mental},
+		int(GameState.turn),
+		not GameState.current_job.is_empty(),
+		func(event_id: String) -> bool:
+			return not DataRegistry.find_event(event_id).is_empty())
+
 
 func _foreground_story_consumed_this_week() -> bool:
 	return int(GameState.flags.get("foreground_story_turn", -1)) == GameState.turn
