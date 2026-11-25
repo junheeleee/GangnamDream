@@ -70,7 +70,7 @@
 | 1 | [~] | ORDER-833 · 본편 원고 | [833](queue_active/ORDER-833.md) | W188 중복선택/구저장→W190 유품T1 자산·연출 |
 | 2 | [ ] | ORDER-834 · 투자·도박 갈래 챕터 연결 | [834](queue_active/ORDER-834.md) | 833 뒤 착수 · C6 · 설계 확정 |
 | 3 | [ ] | ORDER-835 · 경제 순환 | [835](queue_active/ORDER-835.md) | 834 B1 뒤 · SYSTEMS_DESIGN §1 |
-| 4 | [ ] | ORDER-836 · 몸·마음 독자 | [836](queue_active/ORDER-836.md) | 833 뒤 · SYSTEMS_DESIGN §3 |
+| 4 | [~] | ORDER-836 · 몸·마음 독자 | [836](queue_active/ORDER-836.md) | 833 뒤 · SYSTEMS_DESIGN §3 · Claude B1-M1 착수 |
 | 5 | [ ] | ORDER-837 · 공백 주 리듬 | [837](queue_active/ORDER-837.md) | 834·835 뒤 · SYSTEMS_DESIGN §4 |
 | 6 | [ ] | ORDER-838 · 엔딩 도달·재플레이 | [838](queue_active/ORDER-838.md) | 834~837 뒤 · SYSTEMS_DESIGN §5 |
 | 7 | [~] | ORDER-829 · 체험판 M01~M06 품질 | [829](queue_active/ORDER-829.md) | 830 뒤 체험판 사람 1명 1시간 |

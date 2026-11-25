@@ -1,6 +1,8 @@
 # ORDER-836 — 몸과 마음: 임계 장면과 보이는 수치의 독자
 
-#### [ ] ORDER-836 · C1 · 몸·마음 독자
+#### [~] ORDER-836 · C1 · 몸·마음 독자
+
+> 2026-11-25 Claude 착수(사용자 지시, Codex 부재) — **B1의 M1 경고 보장만**. 만지는 파일: `systems/BodyBandScenes.gd`(신규), `scenes/MainGame.gd`의 주간 라우팅 한 곳(`_full_story_body_band_scene_id`·preload), `tools/BodyBandScenesCheck.*`(신규), `tools/audit_scope.json`, 이 사양·큐·WORK_LOG. M2 선택 조건 키(엔진, `StoryMode`)와 B2는 Codex 몫으로 남긴다(W188 `StoryMode.gd` 충돌 회피).
 
 2026-11-24 사용자 결정(풀프라이스 짜임새·일정 연기). 기준은 [SYSTEMS_DESIGN §3](../SYSTEMS_DESIGN.md)이 소유한다.
 설계: Claude(이 사양). 구현·연출·번역: Codex. 833 뒤 착수한다(834와 병행 가능, 파일 소유 분리).
