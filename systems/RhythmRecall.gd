@@ -10,8 +10,9 @@ extends RefCounted
 ##   - oldest decision first (ledger order), one recall per decision, never twice;
 ##   - every required flag set and EventManager's deferred eligibility (event
 ##     conditions plus living-father contracts) satisfied;
-##   - scenes whose prose names an elapsed time ("두 달 전") only inside a window
-##     after the latest choice of their decision event;
+##   - scenes whose prose names an elapsed time ("두 달 전", "그만둔 지 석 달",
+##     "1년째") only inside a window after the latest choice of their decision
+##     event (vague "몇 주/몇 달" get a wider window);
 ##   - not during mourning (W189-192 after the father died) or the finale (W238+).
 ## Deterministic: no RNG, so a reload of the same week picks the same scene.
 ## State lives in one flag read and written only here:
@@ -65,6 +66,9 @@ static func in_elapsed_window(row: Dictionary, turn: int, event_log: Array) -> b
 	if decided < 0:
 		return false
 	var since := turn - decided
+	if bool(row.get("elapsed_vague", false)):
+		# "몇 주/몇 달" names no exact span: a wider window around it.
+		return since >= ceili(elapsed * 0.5) and since <= elapsed * 2
 	return since >= ceili(elapsed * 0.75) and since <= int(elapsed * 1.5)
 
 

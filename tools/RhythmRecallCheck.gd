@@ -28,7 +28,7 @@ func _ready() -> void:
 			push_error("RHYTHM_RECALL_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("RHYTHM_RECALL_CHECK_OK recalls=%d anchored=%d gap=4 rest=3 order=3 window=4 json=1 locales=5" % [
+	print("RHYTHM_RECALL_CHECK_OK recalls=%d anchored=%d gap=4 rest=3 order=3 window=6 json=1 locales=5" % [
 		_rows.size(), _rows.filter(func(r: Dictionary) -> bool: return r.has("elapsed_weeks")).size()])
 	get_tree().quit(0)
 
@@ -118,6 +118,20 @@ func _check_elapsed_window() -> void:
 		"'two months ago' spoke thirteen weeks after the decision")
 	_expect(RECALL.take_scene({"seed": true}, 28, 10, [], _always, rows) == "",
 		"time-anchored recall spoke without its decision in the log")
+	var vague := [{"event_id": "callback_some_months", "requires_flags": ["seed"],
+		"decision_events": ["decision_x"], "elapsed_weeks": 16, "elapsed_vague": true}]
+	_expect(RECALL.take_scene({"seed": true}, 29, 10, log, _always, vague) == "callback_some_months"
+			and RECALL.take_scene({"seed": true}, 27, 10, log, _always, vague) == ""
+			and RECALL.take_scene({"seed": true}, 53, 10, log, _always, vague) == "",
+		"'some months ago' ignored its wide window")
+	# Every recall whose prose says "...지 두 달" or "석 달 전" carries a window.
+	for raw in _rows:
+		var row: Dictionary = raw
+		var event: Dictionary = DataRegistry.find_event(str(row["event_id"]))
+		var text := str(event.get("description", ""))
+		for phrase in ["지 두 달", "게 두 달 전", "석 달 전", "게 한 달 전"]:
+			if text.contains(phrase):
+				_expect(row.has("elapsed_weeks"), "time-anchored prose lacks a window: " + str(row["event_id"]))
 
 
 func _check_json_round_trip() -> void:
