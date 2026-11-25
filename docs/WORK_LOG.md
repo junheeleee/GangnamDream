@@ -2,7 +2,7 @@
 
 ## 2026-11-25
 
-- 836 B1-M1(Claude): 건강·정신이 한 구간 아래로 내려가면 다음 빈 주에 기존 5언어 몸 장면 1개(장·구간마다 1회, 재사용 없음). D1 재실행에서 경고 없는 번아웃 0, 관계 우선 s03은 W7 휴식으로 완주, 무리한 상승 2런은 경고마다 밀어붙여 W48·W79 번아웃 — 밀어붙임 대가 과중 여부는 B2·835. 상세 [836](queue_active/ORDER-836.md). 로컬 `audit_select`는 `tools/run_new_run_log_locale_qa.sh` 실행 권한 없음으로 중간에 멈춘다(기존 환경 문제, CI 경로 별도).
+- 836 B1-M1(Claude): 건강·정신이 한 구간 아래로 내려가면 다음 빈 주에 기존 5언어 몸 장면 1개(장·구간마다 1회, 재사용 없음). D1 재실행에서 경고 없는 번아웃 0, 관계 우선 s03은 W7 휴식으로 완주, 무리한 상승 2런은 경고마다 밀어붙여 W48·W79 번아웃 — 밀어붙임 대가 과중 여부는 B2·835. 상세 [836](queue_active/ORDER-836.md). 로컬 `audit_select`는 `tools/run_new_run_log_locale_qa.sh` 실행 권한 없음으로 중간에 멈춘다(기존 환경 문제, CI 경로 별도). 90검사 CI 방식 재실행: `ManualSaveCheck`·나머지 통과, 실패는 화면 없는 입력 QA 5와 `run_new_run_log_locale_qa.sh`(44)·`run_choice_preview_locale_qa.sh`(16) — 둘 다 변경 전 MainGame에서도 같은 실패 목록(CI 미포함, 기존 zh 표면 미완).
 
 ## 2026-11-24
 
