@@ -4718,6 +4718,19 @@
       ]
     },
     {
+      "tool": "tools/RhythmRecallCheck.tscn",
+      "godot": true,
+      "why": "837 B1 회수 스케줄러: 원장 무결성·3주 공백 뒤 1장면·쉼표 주·오래된 결정 우선·재사용 금지·시간 창·저장 왕복·5언어",
+      "paths": [
+        "systems/RhythmRecall.gd",
+        "content/meta/rhythm_recall_ledger.json",
+        "scenes/MainGame.gd",
+        "content/events/callback_*.json",
+        "tools/RhythmRecallCheck.gd",
+        "tools/RhythmRecallCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/BodyBandScenesCheck.tscn",
       "godot": true,
       "why": "836 M1 몸·마음 구간 장면: 하락 시 1회·장별 반복 금지·직장 전제·저장 왕복·붕괴 전 위험 장면 보장",

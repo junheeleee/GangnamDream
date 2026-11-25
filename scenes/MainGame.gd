@@ -9,6 +9,7 @@ const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
 const FULL_STORY_FLOW = preload("res://systems/FullStoryFlow.gd")
 const BODY_BAND_SCENES = preload("res://systems/BodyBandScenes.gd")
+const RHYTHM_RECALL = preload("res://systems/RhythmRecall.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
@@ -6898,6 +6899,11 @@ func _begin_month_story_and_render():
 		if body_id != "":
 			_go_story_mode([body_id])
 			return
+		# 네 번째 빈 주가 되기 전, 이미 한 결정의 회수 장면 하나(837 B1).
+		var recall_id := _full_story_rhythm_recall_id()
+		if recall_id != "":
+			_go_story_mode([recall_id])
+			return
 	if _full_story_route_week():
 		return
 	# 데모 편성기는 보장 아크와 마일스톤을 모두 확인한 뒤에만 저위험 주를 흘린다.
@@ -7014,6 +7020,18 @@ func _full_story_body_band_scene_id() -> String:
 		not GameState.current_job.is_empty(),
 		func(event_id: String) -> bool:
 			return not DataRegistry.find_event(event_id).is_empty())
+
+
+func _full_story_rhythm_recall_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return RHYTHM_RECALL.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		int(GameState.flags.get("foreground_story_turn", -1)),
+		GameState.event_log,
+		func(event_id: String) -> bool:
+			return EventManager.deferred_event_is_eligible(event_id))
 
 
 func _foreground_story_consumed_this_week() -> bool:
