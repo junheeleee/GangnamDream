@@ -43406,6 +43406,322 @@
           }
         }
       }
+    },
+    {
+      "order": "CLAUDE-BODY-TONE-1",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "drama_burnout_warning",
+        "health_burnout_signal",
+        "health_checkup_00",
+        "health_checkup_reminder",
+        "health_mental_burnout_signal",
+        "health_sleep_debt",
+        "work_burnout_monday"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 15,
+        "zh-CN": 15,
+        "zh-TW": 15
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Claude 2026-11-25 KO source tone review (836 body scenes: dashes, lessons, aphorisms, meta labels, EN POV)",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "5254d6540949f1d8805455fc8483debe80fa26b3",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "482e5b0d3fad40ffd3ecb9dab4ac93f1ca5b9edc6c53ba0635344989f576e271",
+          "selection_sha256": "7a33c53a5b01a692c7f4f0c6b42202abaebdf3bf20a5cad20e375012e0717082",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "08ea0034038b2886e6380e68b34d7c168887a3b57cc8cf6ffdf8323e1293a054"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "5254d6540949f1d8805455fc8483debe80fa26b3",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "482e5b0d3fad40ffd3ecb9dab4ac93f1ca5b9edc6c53ba0635344989f576e271",
+          "selection_sha256": "fd02351a60bdb3fabb41f4070d708994117654397ab44f344eb4406aad8746c3",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "aa73083182eb9ed716365890b3f65f49bc4ffbd8fc1c5a9ec210faba87ba9de7"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "5254d6540949f1d8805455fc8483debe80fa26b3",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "482e5b0d3fad40ffd3ecb9dab4ac93f1ca5b9edc6c53ba0635344989f576e271",
+          "selection_sha256": "7f3b512b356826e51f1dbdc0ce2a34d73ab0da21d227f8cfac1cfdb8ae8e793c",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b681a3c552065363fa4d54ff22aad8da4120b51434eef427c624432dd43046d0"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "f80f5b524edbc843c0dac82aa02a5820669d644a773749377a181568d2b7987b",
+        "zh-CN": "bbb6c25d27f45160726c3f82346266801b8959fafc839c0c20d5a539df0bda7a",
+        "zh-TW": "245283a06f09088587aa48393421967bc6247f467cda79b012455d8a9d8d0cb6"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:drama_burnout_warning:/choices/1/result_text": "17e1b6b53ecafc9488c7d4e322f3e9b16f0ddbeab9dbfae461bc33c583760792",
+          "events:drama_burnout_warning:/choices/2/result_text": "b41491dc99bc5b2c1ed7c0f01609cc2d1b26529bb7896dda680dc8002446c18a",
+          "events:health_burnout_signal:/choices/1/result_text": "c14304e17a0d99e6e8de655cb6f2d21a78554fe6e18db25a4543a4a9fd0db0c1",
+          "events:health_checkup_00:/choices/0/result_text": "321f572744cad87ca7a95531bde0cc9831c3cb2af693d874fd325b4ec8a0b313",
+          "events:health_checkup_00:/choices/0/text": "83359e2c6431404c662b205da3d9e59d8e1fc36e0f04ddc00f4d606812317dcf",
+          "events:health_checkup_00:/choices/1/text": "67d6126be9903daa27c272e7e1ee56a700c57aeda625ef8d24f1d73f971a10c4",
+          "events:health_checkup_00:/choices/2/result_text": "f856c9984c67313895a632d3810623047ecd757b8646e33bc7c9cf3b78c46192",
+          "events:health_checkup_00:/choices/2/text": "6764518e526b4b5b1268c725b5c9645cef0689c8eaff70064f391d4db52ab530",
+          "events:health_checkup_00:/description": "f0b6f625f9df47aedae382673bfc85f4aa44c2c8b0f2b3bed3b6f574da9d47cb",
+          "events:health_checkup_reminder:/choices/1/result_text": "02800589334696135daef5f6251fde4f31886760aae1111eae0fb0cd9b8bee32",
+          "events:health_mental_burnout_signal:/choices/0/text": "e93589c902284fd7b9d7de29a203ecd89a52a1d3f064690a8440d0194a754f19",
+          "events:health_mental_burnout_signal:/description": "3313b6f4fa8fad0b106bd7112e43b27353e4de30744693f56df619e9819b69d4",
+          "events:health_sleep_debt:/choices/1/result_text": "33431ee3e54a7405cfad2dacd3b1c1075ab81847b2b3a9f8b8dfb504ac1eb82d",
+          "events:health_sleep_debt:/choices/1/text": "36960b4f8dec850d0cc74f835649f6d3018007ce3387b54150a59e78b639a688",
+          "events:work_burnout_monday:/choices/0/result_text": "badb7f8f0717033e1d98a91cad8972bbe8cf026157b12c65a5bd23e2d4b24847"
+        },
+        "zh-CN": {
+          "events:drama_burnout_warning:/choices/1/result_text": "6f958fb84bdf4101b00db5f2d830ab6753d3a9da8215d75aa85acc2c7255f2d7",
+          "events:drama_burnout_warning:/choices/2/result_text": "5a5ead8fa534d1a1b67d0be845f75d172c3c921d0c60ece9dd9ace366488c320",
+          "events:health_burnout_signal:/choices/1/result_text": "4b9aecd4953f8d6c6909654da022d285a989bfdbf6a96d1f4d3d80efa52ef2de",
+          "events:health_checkup_00:/choices/0/result_text": "a64e090106a4b12e89d7d28d284a0f45ff4a1d98cac9514ad23db0f97fe4b75f",
+          "events:health_checkup_00:/choices/0/text": "74abc62759d0fbabeee23b0a71e7e9efa61922e8d20929a52c86429c7a803bae",
+          "events:health_checkup_00:/choices/1/text": "b50bed880cd0dbfbc4bbc23f1ca51514a62fd053df7d540538d5229437d892f2",
+          "events:health_checkup_00:/choices/2/result_text": "d29b28768b5f5eb7efb093dfe8dd1068d4158fd5563e63ae4fb2da99812c415f",
+          "events:health_checkup_00:/choices/2/text": "32ad5502d814825f5ac94de7898ede2b259d7253f492208dd4e6f2c25ebc1f4b",
+          "events:health_checkup_00:/description": "91b332dad2a136a7b450ed7b0b98f76885911fa06ea0fc8c445ef52ffc746d73",
+          "events:health_checkup_reminder:/choices/1/result_text": "0562ad9879ac1ffdfb57cacaa1c7ba7329864ebc1bbd95e497ace8810aa79c4c",
+          "events:health_mental_burnout_signal:/choices/0/text": "d0fcc03282bef81a26f5376122ccf8cf22dbd4d4f5e78adf1626c8d71600db2e",
+          "events:health_mental_burnout_signal:/description": "b5f6bb918bc9f78c8f0253845e2a011593474dc712db8f0497c539106b475b08",
+          "events:health_sleep_debt:/choices/1/result_text": "dc1dbd65b0499498e61675ca9257877845bfdfaab9faa606352f7ee133f5f6cb",
+          "events:health_sleep_debt:/choices/1/text": "7390f2247ca04502840d1fe178c3840c57f9097807e97ae671878ca0f01cd76e",
+          "events:work_burnout_monday:/choices/0/result_text": "1873582867fb0ad08d395b2c6d25c699c26e47a12745aff48c612d3241cf5199"
+        },
+        "zh-TW": {
+          "events:drama_burnout_warning:/choices/1/result_text": "8f9ed257b69a34bfe661e747de4e3e0052d37c3fd0c5bab4a46a6b2e69ab5a49",
+          "events:drama_burnout_warning:/choices/2/result_text": "694a2244ccd1c077037f60707699c06d7943f483a9e244ed573e11e14f6ad1c6",
+          "events:health_burnout_signal:/choices/1/result_text": "aa435390367ea9da961d6809a1ce4b6a9cc16e9464ffd2863973b135ede21a87",
+          "events:health_checkup_00:/choices/0/result_text": "0c995bc61fe1402996e220bc9b848e4b03bbf11f808af8c6aab674f7458dc47e",
+          "events:health_checkup_00:/choices/0/text": "44a06fd6514665224699729589d086027f996d77abef9b926ed80ed1576e87b3",
+          "events:health_checkup_00:/choices/1/text": "4d672e5c6c9eb2904d118807221470fa6b5b16bf6edb766d22b830f259c1a248",
+          "events:health_checkup_00:/choices/2/result_text": "5dcb3d8272e58ddd4e44650c9d7221dea0613215f010cb3d804c3a06fe121e2d",
+          "events:health_checkup_00:/choices/2/text": "84a070a2a2992b75045a57603c0ceef12cbb46297b02c397d5f2fbadf34599d5",
+          "events:health_checkup_00:/description": "d5c8f684bfbde333bfc08a47a3632401768e94b0cffc68adb0e514082cb932c1",
+          "events:health_checkup_reminder:/choices/1/result_text": "31e2c74c3aafef1c257792bc994136f8c3356c540cbaacf0e1418013727a9926",
+          "events:health_mental_burnout_signal:/choices/0/text": "e02cae8801e9c4333f10e953b2b7fccbda2f646519763771b2930dbc545dd63e",
+          "events:health_mental_burnout_signal:/description": "2e72e53cff8b6d2eba596c5c2beca5d5bd14668a4cf805e549f8fa723e90f144",
+          "events:health_sleep_debt:/choices/1/result_text": "ac786cd79758294a962a57ff1480ee5f8cca798f9b371fbce816ffad1ed20f8a",
+          "events:health_sleep_debt:/choices/1/text": "7c2edbd199f4936a840039070ea0f884fd8c3d35d8d85ccc587664ec07328cde",
+          "events:work_burnout_monday:/choices/0/result_text": "70aa22a2b69f5ca307157a34ae2167957fee571b84fe93280f6c1b61372ffafc"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:drama_burnout_warning:/choices/1/result_text": {
+            "source_sha256": "b3981302133442408e7d5dfd38ee15dabc1b2e8cc1b7645bb7f085e91e50e6e7",
+            "target_sha256": "5081d6d734080513ae3750ffc0ed15352bc2668d51e9b046292178599825d742"
+          },
+          "events:drama_burnout_warning:/choices/2/result_text": {
+            "source_sha256": "226275cf33550a83100e80ef4283410706e9ed569809b45cf7f2540e59f0c577",
+            "target_sha256": "c1696091fb98082baa18505d949361ee23de3ecbb5582cac1dfa2908a05db501"
+          },
+          "events:health_burnout_signal:/choices/1/result_text": {
+            "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
+            "target_sha256": "bc5f4d339a280ed29d79f5b3f994599006a32fb109fa10cdf9990e5a82b93361"
+          },
+          "events:health_checkup_00:/choices/0/result_text": {
+            "source_sha256": "5f119a276084df900abbe8d40ea3f9d1f731d9caf5b62054ddca93545439bb32",
+            "target_sha256": "0e8d11d459e26b63537e41e3fef9c1468ba29948871718ac142265fc29007b87"
+          },
+          "events:health_checkup_00:/choices/0/text": {
+            "source_sha256": "9de8ed284c6e836eb9e482c2440fcb43740521b8bfc30a373d7f29292422616b",
+            "target_sha256": "617ac4acab1b69d60eb0ed0545445f50ac912a7940568c3c4a6ac3c91d0035c9"
+          },
+          "events:health_checkup_00:/choices/1/text": {
+            "source_sha256": "6451c028941c03ddaea70dd940da23263ce282fc7401908a96e44195c6d3959e",
+            "target_sha256": "1b9e9cf00e6ba53b598df1b249f623b701ed14b0cb13abd787a814f97b58802b"
+          },
+          "events:health_checkup_00:/choices/2/result_text": {
+            "source_sha256": "94294a36f5fbbb0382bdb961924b0e29ab603567a4d99c5bdd561570acfa50c6",
+            "target_sha256": "f5a05329237bb624a81f92267c6a2331a1f4933d48f9c7e2c15f6e02ec9e75da"
+          },
+          "events:health_checkup_00:/choices/2/text": {
+            "source_sha256": "bd360dc3b8bb34be7bd50c50d449ec0ff5285804a395915e99a059cf6a0a2687",
+            "target_sha256": "0be49df7a0efe5adf215c8a6f77de577fca3201696edf926f9805450cebb99ef"
+          },
+          "events:health_checkup_00:/description": {
+            "source_sha256": "0b8f1a928d85506667788529e77c1570761164f6bfe5c35f4cfbb55e592af710",
+            "target_sha256": "4d95bf5772816490ae1b7b0189a7830817cccfd70aec076c8eb077a012269373"
+          },
+          "events:health_checkup_reminder:/choices/1/result_text": {
+            "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
+            "target_sha256": "d8776166486ec6c1dc3a7352a70f8094d8097aad5a43197132f2a4dd468cf612"
+          },
+          "events:health_mental_burnout_signal:/choices/0/text": {
+            "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
+            "target_sha256": "5862b326568e708066d6b7104d2661b4b1a1d35daa492c6e8b45e874fec6ecd8"
+          },
+          "events:health_mental_burnout_signal:/description": {
+            "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
+            "target_sha256": "bfabca1132109b3fb7616769e84b3adb068540ef8ee31e5204e58eb6f188d271"
+          },
+          "events:health_sleep_debt:/choices/1/result_text": {
+            "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
+            "target_sha256": "7656e530a403c23bb8f7853303c606a29259bd83caed08093792760f822c1e04"
+          },
+          "events:health_sleep_debt:/choices/1/text": {
+            "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
+            "target_sha256": "9a2dad164078798b26b88a1b7505e833eb1346e48f7c56eb53b04c7fffff96de"
+          },
+          "events:work_burnout_monday:/choices/0/result_text": {
+            "source_sha256": "8c963c8bea3ddddf7cfc046b702b5683f5f92275dd1d5175c16a5a57bf5fc8b9",
+            "target_sha256": "208aef9cf0e64652c85f0a3d85214e9ff10f8a6c4cda89a73dde6eab2895f7ba"
+          }
+        },
+        "zh-CN": {
+          "events:drama_burnout_warning:/choices/1/result_text": {
+            "source_sha256": "b3981302133442408e7d5dfd38ee15dabc1b2e8cc1b7645bb7f085e91e50e6e7",
+            "target_sha256": "565937088c0081ad05988d7d7ff4183b3cd88e32c978c36d016aa7056b3939fe"
+          },
+          "events:drama_burnout_warning:/choices/2/result_text": {
+            "source_sha256": "226275cf33550a83100e80ef4283410706e9ed569809b45cf7f2540e59f0c577",
+            "target_sha256": "c0515e8ce44765d1a04cf10c336aedb9478c24aa3a68801627a792d445fb3cb6"
+          },
+          "events:health_burnout_signal:/choices/1/result_text": {
+            "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
+            "target_sha256": "3929c5acdf51456e68ad78cccdf11bb49440e92cd83c3d65de894a4b99245581"
+          },
+          "events:health_checkup_00:/choices/0/result_text": {
+            "source_sha256": "5f119a276084df900abbe8d40ea3f9d1f731d9caf5b62054ddca93545439bb32",
+            "target_sha256": "00591d399f648fb7238322e360106cc27ca9a191355e745fd5ef4fec69e3a4b8"
+          },
+          "events:health_checkup_00:/choices/0/text": {
+            "source_sha256": "9de8ed284c6e836eb9e482c2440fcb43740521b8bfc30a373d7f29292422616b",
+            "target_sha256": "2efadc7830daac9994f30e5e43320857aa5b0035500fd04c6cfe42cbf0e85d9f"
+          },
+          "events:health_checkup_00:/choices/1/text": {
+            "source_sha256": "6451c028941c03ddaea70dd940da23263ce282fc7401908a96e44195c6d3959e",
+            "target_sha256": "512a40389b942d17c5cb54defc8de2fb8f661d9995f1a28f888fe0513914a121"
+          },
+          "events:health_checkup_00:/choices/2/result_text": {
+            "source_sha256": "94294a36f5fbbb0382bdb961924b0e29ab603567a4d99c5bdd561570acfa50c6",
+            "target_sha256": "5d0f96618ad9b74a114b1b68ede15c8a75b46c0ba50d30fb0340f88c583c8d45"
+          },
+          "events:health_checkup_00:/choices/2/text": {
+            "source_sha256": "bd360dc3b8bb34be7bd50c50d449ec0ff5285804a395915e99a059cf6a0a2687",
+            "target_sha256": "488caba3b9f9058de2a50b798ec8c54add5639f501c60494f663520b34b8a68b"
+          },
+          "events:health_checkup_00:/description": {
+            "source_sha256": "0b8f1a928d85506667788529e77c1570761164f6bfe5c35f4cfbb55e592af710",
+            "target_sha256": "4348492139a48bf68a362eaed1abad70f3402ac4651d973b1870e12f7e38bb08"
+          },
+          "events:health_checkup_reminder:/choices/1/result_text": {
+            "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
+            "target_sha256": "e663c7afe2981118d7273426e2dd0bec51b60b3131d622e65c82274ec9783a6a"
+          },
+          "events:health_mental_burnout_signal:/choices/0/text": {
+            "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
+            "target_sha256": "faa267cc792cbeafd71186710703852032afdcfbdd1f92d9392b783dfa4127f9"
+          },
+          "events:health_mental_burnout_signal:/description": {
+            "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
+            "target_sha256": "4b386faf69973919d97d76f647f2c76d42ec64713a539e7cacb89333ef4e335a"
+          },
+          "events:health_sleep_debt:/choices/1/result_text": {
+            "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
+            "target_sha256": "68483ea6c9327a8ce5a5e8baf163f646960b66119adce6900bcc56c207f83394"
+          },
+          "events:health_sleep_debt:/choices/1/text": {
+            "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
+            "target_sha256": "1ebf7e876144ccd81176c4cfadb9e782063d31abb08307e98c20352a6fabb854"
+          },
+          "events:work_burnout_monday:/choices/0/result_text": {
+            "source_sha256": "8c963c8bea3ddddf7cfc046b702b5683f5f92275dd1d5175c16a5a57bf5fc8b9",
+            "target_sha256": "ebc9f602b30f358a755d426da370b52def2bd757863f03f9697bf3d1e85c34ae"
+          }
+        },
+        "zh-TW": {
+          "events:drama_burnout_warning:/choices/1/result_text": {
+            "source_sha256": "b3981302133442408e7d5dfd38ee15dabc1b2e8cc1b7645bb7f085e91e50e6e7",
+            "target_sha256": "bc2ef7bfc657c909536ae5f8f540fac3bc9e595cf04d5d5e51b78afbc3abdc6f"
+          },
+          "events:drama_burnout_warning:/choices/2/result_text": {
+            "source_sha256": "226275cf33550a83100e80ef4283410706e9ed569809b45cf7f2540e59f0c577",
+            "target_sha256": "8b8694da1c7f58a46587637d4de6c848d83b3b2219536458b8e87a8068e95ffb"
+          },
+          "events:health_burnout_signal:/choices/1/result_text": {
+            "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
+            "target_sha256": "8b512de1ab8d4f943d5d9ac34317921062057bc0c75344a52b03df1a0bd7dc6f"
+          },
+          "events:health_checkup_00:/choices/0/result_text": {
+            "source_sha256": "5f119a276084df900abbe8d40ea3f9d1f731d9caf5b62054ddca93545439bb32",
+            "target_sha256": "9503ba8c19cba606398ba2af817b03d21cf375701edc491f9745166e71843b1b"
+          },
+          "events:health_checkup_00:/choices/0/text": {
+            "source_sha256": "9de8ed284c6e836eb9e482c2440fcb43740521b8bfc30a373d7f29292422616b",
+            "target_sha256": "8b535fc709ab14ca25db8beddb126d2ce2e2164f9007589e0cebb5c18164c357"
+          },
+          "events:health_checkup_00:/choices/1/text": {
+            "source_sha256": "6451c028941c03ddaea70dd940da23263ce282fc7401908a96e44195c6d3959e",
+            "target_sha256": "394084da70e846efc755fb2a34b9808f4c5b4d8c745cca2723bfbf34df3fb5b5"
+          },
+          "events:health_checkup_00:/choices/2/result_text": {
+            "source_sha256": "94294a36f5fbbb0382bdb961924b0e29ab603567a4d99c5bdd561570acfa50c6",
+            "target_sha256": "a3a264ca2cffc55137266efbdc727178be123646f15e00a46aed05d1f6a855dd"
+          },
+          "events:health_checkup_00:/choices/2/text": {
+            "source_sha256": "bd360dc3b8bb34be7bd50c50d449ec0ff5285804a395915e99a059cf6a0a2687",
+            "target_sha256": "badd8cb4fabb12118d025e477faa1e21d466cfb148045484d9e76a0219ec6608"
+          },
+          "events:health_checkup_00:/description": {
+            "source_sha256": "0b8f1a928d85506667788529e77c1570761164f6bfe5c35f4cfbb55e592af710",
+            "target_sha256": "8ee91c9ac17b7e0478bc77215299eb58f201eeca10481e20e1b6cb58f7749dcb"
+          },
+          "events:health_checkup_reminder:/choices/1/result_text": {
+            "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
+            "target_sha256": "0e4fcf503239322dbea45d6ba9f62edf4c3b5d62c1b8997af4d430267bc7e48b"
+          },
+          "events:health_mental_burnout_signal:/choices/0/text": {
+            "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
+            "target_sha256": "72608526fca9545f9c8d999ee1d3d9a72eaf83b2b5cabbe1099ca66f00c9d526"
+          },
+          "events:health_mental_burnout_signal:/description": {
+            "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
+            "target_sha256": "f8aea5a5a512adbdc71346d78a35ba409876cacc4db67745f869b36ad47ee289"
+          },
+          "events:health_sleep_debt:/choices/1/result_text": {
+            "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
+            "target_sha256": "5995c81403b8c0976aa9b86784eefc429055c5d506c937f2a6bfdc917829d7fa"
+          },
+          "events:health_sleep_debt:/choices/1/text": {
+            "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
+            "target_sha256": "ef0017144887c0a003c0e138c61341d1c73efab6315e7443612aa0a3d1aaa038"
+          },
+          "events:work_burnout_monday:/choices/0/result_text": {
+            "source_sha256": "8c963c8bea3ddddf7cfc046b702b5683f5f92275dd1d5175c16a5a57bf5fc8b9",
+            "target_sha256": "789e3d3fee7097025d07bfc2997932b8a14f87b7a882a6bbec726131c81f6de0"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -59223,32 +59539,32 @@
         "target_sha256": "120cd11682617659b11d6befae014af433237d23ddb3749f32d2ccd665597c71"
       },
       "events:health_checkup_00:/choices/0/result_text": {
-        "source_sha256": "5f119a276084df900abbe8d40ea3f9d1f731d9caf5b62054ddca93545439bb32",
-        "target_sha256": "0e8d11d459e26b63537e41e3fef9c1468ba29948871718ac142265fc29007b87"
+        "source_sha256": "cd3f73e5bac55c428ee2f042d935c4297a9a2c9ea661b4e906298ec7c4ca7642",
+        "target_sha256": "321f572744cad87ca7a95531bde0cc9831c3cb2af693d874fd325b4ec8a0b313"
       },
       "events:health_checkup_00:/choices/0/text": {
-        "source_sha256": "9de8ed284c6e836eb9e482c2440fcb43740521b8bfc30a373d7f29292422616b",
-        "target_sha256": "617ac4acab1b69d60eb0ed0545445f50ac912a7940568c3c4a6ac3c91d0035c9"
+        "source_sha256": "aa9445fb79d1b95e8a6b26d889fbcdf01c04741dd4fdbdf09eb743dfc4fc1355",
+        "target_sha256": "83359e2c6431404c662b205da3d9e59d8e1fc36e0f04ddc00f4d606812317dcf"
       },
       "events:health_checkup_00:/choices/1/result_text": {
         "source_sha256": "25f743658e86cad9d0905f0d99c8fabe80a4c26ebf05eb6b502ffeae4523b4ae",
         "target_sha256": "f0a0b3474a0d2f93fbcf3313e6be5241ac56f00c013c13931424b8f5f8cd35e2"
       },
       "events:health_checkup_00:/choices/1/text": {
-        "source_sha256": "6451c028941c03ddaea70dd940da23263ce282fc7401908a96e44195c6d3959e",
-        "target_sha256": "1b9e9cf00e6ba53b598df1b249f623b701ed14b0cb13abd787a814f97b58802b"
+        "source_sha256": "663fd78424471096321af4a0735794e5f165bb984c8b25666964e658b5314a86",
+        "target_sha256": "67d6126be9903daa27c272e7e1ee56a700c57aeda625ef8d24f1d73f971a10c4"
       },
       "events:health_checkup_00:/choices/2/result_text": {
-        "source_sha256": "94294a36f5fbbb0382bdb961924b0e29ab603567a4d99c5bdd561570acfa50c6",
-        "target_sha256": "f5a05329237bb624a81f92267c6a2331a1f4933d48f9c7e2c15f6e02ec9e75da"
+        "source_sha256": "4ad7120fad73778bf6bf6e4e0c3841b13a3fc5fb189cb7a86bbfbe97869cfe26",
+        "target_sha256": "f856c9984c67313895a632d3810623047ecd757b8646e33bc7c9cf3b78c46192"
       },
       "events:health_checkup_00:/choices/2/text": {
-        "source_sha256": "bd360dc3b8bb34be7bd50c50d449ec0ff5285804a395915e99a059cf6a0a2687",
-        "target_sha256": "0be49df7a0efe5adf215c8a6f77de577fca3201696edf926f9805450cebb99ef"
+        "source_sha256": "e51b5e86d0bcbd3aeea2594177a4b28a435bdf0a148be07891b979dafedce70f",
+        "target_sha256": "6764518e526b4b5b1268c725b5c9645cef0689c8eaff70064f391d4db52ab530"
       },
       "events:health_checkup_00:/description": {
-        "source_sha256": "0b8f1a928d85506667788529e77c1570761164f6bfe5c35f4cfbb55e592af710",
-        "target_sha256": "4d95bf5772816490ae1b7b0189a7830817cccfd70aec076c8eb077a012269373"
+        "source_sha256": "a9da93eb03bcc6542531641d311c64eaebe2e35963feb5a21768ed6b9c26ab2b",
+        "target_sha256": "f0b6f625f9df47aedae382673bfc85f4aa44c2c8b0f2b3bed3b6f574da9d47cb"
       },
       "events:health_checkup_00:/title": {
         "source_sha256": "cddc962db61c1bf0819db45f827cc37d82a5b41b07bf35d697e8562cbc2d6d73",
@@ -59919,8 +60235,8 @@
         "target_sha256": "3889e5723156dd4c61e9054891abf93fe65d7347e60b4d3107dc956eb3d88cef"
       },
       "events:health_burnout_signal:/choices/1/result_text": {
-        "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
-        "target_sha256": "bc5f4d339a280ed29d79f5b3f994599006a32fb109fa10cdf9990e5a82b93361"
+        "source_sha256": "45c8b9ea7ff23282d65a1f5a8eb3c0aacab24bb56965c62f5426a56a0ec91a75",
+        "target_sha256": "c14304e17a0d99e6e8de655cb6f2d21a78554fe6e18db25a4543a4a9fd0db0c1"
       },
       "events:health_burnout_signal:/choices/1/text": {
         "source_sha256": "f5ce1c1a3ee3a47ed79ca95de6a9a38295865f70575155af23d93a0c17a2d6c2",
@@ -59951,8 +60267,8 @@
         "target_sha256": "b4b5764864e95e3de086a4a4de39a0bab0c07a4654d4792c72a4a45fcb08fd70"
       },
       "events:health_checkup_reminder:/choices/1/result_text": {
-        "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
-        "target_sha256": "d8776166486ec6c1dc3a7352a70f8094d8097aad5a43197132f2a4dd468cf612"
+        "source_sha256": "4616fb32d0981112709bfbc56268095a5adf20b9d2729f545168737de0cd9223",
+        "target_sha256": "02800589334696135daef5f6251fde4f31886760aae1111eae0fb0cd9b8bee32"
       },
       "events:health_checkup_reminder:/choices/1/text": {
         "source_sha256": "07a772f9f47c12cf9ee371069f6953d7a7a1381d780ad4802f1cdd5cc81ecc12",
@@ -60155,8 +60471,8 @@
         "target_sha256": "8e70b622caad8e4fe4d5b2caea9c8aa813b8253f82faff6917de2daa5265ea2b"
       },
       "events:health_mental_burnout_signal:/choices/0/text": {
-        "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
-        "target_sha256": "5862b326568e708066d6b7104d2661b4b1a1d35daa492c6e8b45e874fec6ecd8"
+        "source_sha256": "5f663c6210fb16bab6e6e0293154e1a1f3b067400123d47b8777ee71ef4d0bcf",
+        "target_sha256": "e93589c902284fd7b9d7de29a203ecd89a52a1d3f064690a8440d0194a754f19"
       },
       "events:health_mental_burnout_signal:/choices/1/result_text": {
         "source_sha256": "6c2d83d37047baefc8240e16aa270066ee916bf9247b18875f483bd5099c00ec",
@@ -60167,8 +60483,8 @@
         "target_sha256": "6d858cbacdda6574a26539037a9ba8a44de08ed6cb7f15b9e0abdc1dcb804b89"
       },
       "events:health_mental_burnout_signal:/description": {
-        "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
-        "target_sha256": "bfabca1132109b3fb7616769e84b3adb068540ef8ee31e5204e58eb6f188d271"
+        "source_sha256": "e3730130dd2407b30e96084f2172235fa3d18a76a095d6d6cc38d049364ab89e",
+        "target_sha256": "3313b6f4fa8fad0b106bd7112e43b27353e4de30744693f56df619e9819b69d4"
       },
       "events:health_mental_burnout_signal:/title": {
         "source_sha256": "664eac6a82bd1b0ce1dbaaf1c3f5dd17a8ec0141bdafc7aee08f47d464756329",
@@ -60183,12 +60499,12 @@
         "target_sha256": "85010adeb2a7123cfaaaca534a13c6337f61dccd1ae9e17fb4e55feac2bfe287"
       },
       "events:health_sleep_debt:/choices/1/result_text": {
-        "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
-        "target_sha256": "7656e530a403c23bb8f7853303c606a29259bd83caed08093792760f822c1e04"
+        "source_sha256": "7a0d15a6f26a82e3623a735d2fe730975c7fb8f3b2f7e246070b946721295b74",
+        "target_sha256": "33431ee3e54a7405cfad2dacd3b1c1075ab81847b2b3a9f8b8dfb504ac1eb82d"
       },
       "events:health_sleep_debt:/choices/1/text": {
-        "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
-        "target_sha256": "9a2dad164078798b26b88a1b7505e833eb1346e48f7c56eb53b04c7fffff96de"
+        "source_sha256": "db50163ce198af33ee239f0c1373fe4458d40a5936c06f7d09b2d7820cb34157",
+        "target_sha256": "36960b4f8dec850d0cc74f835649f6d3018007ce3387b54150a59e78b639a688"
       },
       "events:health_sleep_debt:/description": {
         "source_sha256": "338cc0df50650977ee18b19a4783de15ced2039296c4cd5ed97806921cb95d7d",
@@ -64771,16 +65087,16 @@
         "target_sha256": "fb0be05405d156b57b72f4149fb2bdef0987fc3d9410600d34a2aeb0695abeda"
       },
       "events:drama_burnout_warning:/choices/1/result_text": {
-        "source_sha256": "b3981302133442408e7d5dfd38ee15dabc1b2e8cc1b7645bb7f085e91e50e6e7",
-        "target_sha256": "5081d6d734080513ae3750ffc0ed15352bc2668d51e9b046292178599825d742"
+        "source_sha256": "2c0e7304fb68a6348709e5aa9ed07a2b36b6d98578847be9d9159a118f2cbdb3",
+        "target_sha256": "17e1b6b53ecafc9488c7d4e322f3e9b16f0ddbeab9dbfae461bc33c583760792"
       },
       "events:drama_burnout_warning:/choices/1/text": {
         "source_sha256": "8a783ca566ef593d7f5190c102653384f722708d379ba0ce5faf8a36a79f9b7c",
         "target_sha256": "fa70ed2ed0c7d4f5cd42d7ac8d06c6ecbe993a23f36ec41d67904d8e1dcc2ce7"
       },
       "events:drama_burnout_warning:/choices/2/result_text": {
-        "source_sha256": "226275cf33550a83100e80ef4283410706e9ed569809b45cf7f2540e59f0c577",
-        "target_sha256": "c1696091fb98082baa18505d949361ee23de3ecbb5582cac1dfa2908a05db501"
+        "source_sha256": "b18f2ea09ca72033b9e7ac42390ac289f25c98c7a636293732a3c05ad6a940a3",
+        "target_sha256": "b41491dc99bc5b2c1ed7c0f01609cc2d1b26529bb7896dda680dc8002446c18a"
       },
       "events:drama_burnout_warning:/choices/2/text": {
         "source_sha256": "1213e1311e87248cb327b14bb239f7d942795fbb06b65e29b6f7eec2b33d322a",
@@ -82071,8 +82387,8 @@
         "target_sha256": "b797774c19d4e12373123ef36c7246c3b345f875c7823c24adc71d39cf5c43ed"
       },
       "events:work_burnout_monday:/choices/0/result_text": {
-        "source_sha256": "8c963c8bea3ddddf7cfc046b702b5683f5f92275dd1d5175c16a5a57bf5fc8b9",
-        "target_sha256": "208aef9cf0e64652c85f0a3d85214e9ff10f8a6c4cda89a73dde6eab2895f7ba"
+        "source_sha256": "efd5ca5cf831216ae63db7e33b0506b092ac533bb767eef3673242c0fcc66efc",
+        "target_sha256": "badb7f8f0717033e1d98a91cad8972bbe8cf026157b12c65a5bd23e2d4b24847"
       },
       "events:work_burnout_monday:/choices/0/text": {
         "source_sha256": "b3adb022447050ed9894a9ee91fece5754a8734add5953c1abda2fd593434291",
@@ -112129,32 +112445,32 @@
         "target_sha256": "f4d716e5f034570bd6c12a563a69019ca7d15e1ce08221452647e8432416bc08"
       },
       "events:health_checkup_00:/choices/0/result_text": {
-        "source_sha256": "5f119a276084df900abbe8d40ea3f9d1f731d9caf5b62054ddca93545439bb32",
-        "target_sha256": "00591d399f648fb7238322e360106cc27ca9a191355e745fd5ef4fec69e3a4b8"
+        "source_sha256": "cd3f73e5bac55c428ee2f042d935c4297a9a2c9ea661b4e906298ec7c4ca7642",
+        "target_sha256": "a64e090106a4b12e89d7d28d284a0f45ff4a1d98cac9514ad23db0f97fe4b75f"
       },
       "events:health_checkup_00:/choices/0/text": {
-        "source_sha256": "9de8ed284c6e836eb9e482c2440fcb43740521b8bfc30a373d7f29292422616b",
-        "target_sha256": "2efadc7830daac9994f30e5e43320857aa5b0035500fd04c6cfe42cbf0e85d9f"
+        "source_sha256": "aa9445fb79d1b95e8a6b26d889fbcdf01c04741dd4fdbdf09eb743dfc4fc1355",
+        "target_sha256": "74abc62759d0fbabeee23b0a71e7e9efa61922e8d20929a52c86429c7a803bae"
       },
       "events:health_checkup_00:/choices/1/result_text": {
         "source_sha256": "25f743658e86cad9d0905f0d99c8fabe80a4c26ebf05eb6b502ffeae4523b4ae",
         "target_sha256": "b225637d5a97f8d66b355cac9db745b9e4f85b4594d0096e4dfbf9641cd9a6af"
       },
       "events:health_checkup_00:/choices/1/text": {
-        "source_sha256": "6451c028941c03ddaea70dd940da23263ce282fc7401908a96e44195c6d3959e",
-        "target_sha256": "512a40389b942d17c5cb54defc8de2fb8f661d9995f1a28f888fe0513914a121"
+        "source_sha256": "663fd78424471096321af4a0735794e5f165bb984c8b25666964e658b5314a86",
+        "target_sha256": "b50bed880cd0dbfbc4bbc23f1ca51514a62fd053df7d540538d5229437d892f2"
       },
       "events:health_checkup_00:/choices/2/result_text": {
-        "source_sha256": "94294a36f5fbbb0382bdb961924b0e29ab603567a4d99c5bdd561570acfa50c6",
-        "target_sha256": "5d0f96618ad9b74a114b1b68ede15c8a75b46c0ba50d30fb0340f88c583c8d45"
+        "source_sha256": "4ad7120fad73778bf6bf6e4e0c3841b13a3fc5fb189cb7a86bbfbe97869cfe26",
+        "target_sha256": "d29b28768b5f5eb7efb093dfe8dd1068d4158fd5563e63ae4fb2da99812c415f"
       },
       "events:health_checkup_00:/choices/2/text": {
-        "source_sha256": "bd360dc3b8bb34be7bd50c50d449ec0ff5285804a395915e99a059cf6a0a2687",
-        "target_sha256": "488caba3b9f9058de2a50b798ec8c54add5639f501c60494f663520b34b8a68b"
+        "source_sha256": "e51b5e86d0bcbd3aeea2594177a4b28a435bdf0a148be07891b979dafedce70f",
+        "target_sha256": "32ad5502d814825f5ac94de7898ede2b259d7253f492208dd4e6f2c25ebc1f4b"
       },
       "events:health_checkup_00:/description": {
-        "source_sha256": "0b8f1a928d85506667788529e77c1570761164f6bfe5c35f4cfbb55e592af710",
-        "target_sha256": "4348492139a48bf68a362eaed1abad70f3402ac4651d973b1870e12f7e38bb08"
+        "source_sha256": "a9da93eb03bcc6542531641d311c64eaebe2e35963feb5a21768ed6b9c26ab2b",
+        "target_sha256": "91b332dad2a136a7b450ed7b0b98f76885911fa06ea0fc8c445ef52ffc746d73"
       },
       "events:health_checkup_00:/title": {
         "source_sha256": "cddc962db61c1bf0819db45f827cc37d82a5b41b07bf35d697e8562cbc2d6d73",
@@ -112825,8 +113141,8 @@
         "target_sha256": "b1edc2e681d0c69a45b6a8a54989ce13e554febb9285cf1171b20e648557db97"
       },
       "events:health_burnout_signal:/choices/1/result_text": {
-        "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
-        "target_sha256": "3929c5acdf51456e68ad78cccdf11bb49440e92cd83c3d65de894a4b99245581"
+        "source_sha256": "45c8b9ea7ff23282d65a1f5a8eb3c0aacab24bb56965c62f5426a56a0ec91a75",
+        "target_sha256": "4b9aecd4953f8d6c6909654da022d285a989bfdbf6a96d1f4d3d80efa52ef2de"
       },
       "events:health_burnout_signal:/choices/1/text": {
         "source_sha256": "f5ce1c1a3ee3a47ed79ca95de6a9a38295865f70575155af23d93a0c17a2d6c2",
@@ -112857,8 +113173,8 @@
         "target_sha256": "5e44fa81f2878782c050bbe0d76c8ca344946c88c2dd69ac9898795123b8ca2d"
       },
       "events:health_checkup_reminder:/choices/1/result_text": {
-        "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
-        "target_sha256": "e663c7afe2981118d7273426e2dd0bec51b60b3131d622e65c82274ec9783a6a"
+        "source_sha256": "4616fb32d0981112709bfbc56268095a5adf20b9d2729f545168737de0cd9223",
+        "target_sha256": "0562ad9879ac1ffdfb57cacaa1c7ba7329864ebc1bbd95e497ace8810aa79c4c"
       },
       "events:health_checkup_reminder:/choices/1/text": {
         "source_sha256": "07a772f9f47c12cf9ee371069f6953d7a7a1381d780ad4802f1cdd5cc81ecc12",
@@ -113061,8 +113377,8 @@
         "target_sha256": "5314e1669619ae9e041b3c33fec7b6bfeb6d98b2e15b78bfd3f652d4b8025bf5"
       },
       "events:health_mental_burnout_signal:/choices/0/text": {
-        "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
-        "target_sha256": "faa267cc792cbeafd71186710703852032afdcfbdd1f92d9392b783dfa4127f9"
+        "source_sha256": "5f663c6210fb16bab6e6e0293154e1a1f3b067400123d47b8777ee71ef4d0bcf",
+        "target_sha256": "d0fcc03282bef81a26f5376122ccf8cf22dbd4d4f5e78adf1626c8d71600db2e"
       },
       "events:health_mental_burnout_signal:/choices/1/result_text": {
         "source_sha256": "6c2d83d37047baefc8240e16aa270066ee916bf9247b18875f483bd5099c00ec",
@@ -113073,8 +113389,8 @@
         "target_sha256": "dd8ccb63889e5561091ec4d40bcaef5e4e7251a3e8867ac81941826dd2d6d0c7"
       },
       "events:health_mental_burnout_signal:/description": {
-        "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
-        "target_sha256": "4b386faf69973919d97d76f647f2c76d42ec64713a539e7cacb89333ef4e335a"
+        "source_sha256": "e3730130dd2407b30e96084f2172235fa3d18a76a095d6d6cc38d049364ab89e",
+        "target_sha256": "b5f6bb918bc9f78c8f0253845e2a011593474dc712db8f0497c539106b475b08"
       },
       "events:health_mental_burnout_signal:/title": {
         "source_sha256": "664eac6a82bd1b0ce1dbaaf1c3f5dd17a8ec0141bdafc7aee08f47d464756329",
@@ -113089,12 +113405,12 @@
         "target_sha256": "34b1dafe149be444f50ffd0a09db0301b279e3fd38c007444dd1995ea8a2e675"
       },
       "events:health_sleep_debt:/choices/1/result_text": {
-        "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
-        "target_sha256": "68483ea6c9327a8ce5a5e8baf163f646960b66119adce6900bcc56c207f83394"
+        "source_sha256": "7a0d15a6f26a82e3623a735d2fe730975c7fb8f3b2f7e246070b946721295b74",
+        "target_sha256": "dc1dbd65b0499498e61675ca9257877845bfdfaab9faa606352f7ee133f5f6cb"
       },
       "events:health_sleep_debt:/choices/1/text": {
-        "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
-        "target_sha256": "1ebf7e876144ccd81176c4cfadb9e782063d31abb08307e98c20352a6fabb854"
+        "source_sha256": "db50163ce198af33ee239f0c1373fe4458d40a5936c06f7d09b2d7820cb34157",
+        "target_sha256": "7390f2247ca04502840d1fe178c3840c57f9097807e97ae671878ca0f01cd76e"
       },
       "events:health_sleep_debt:/description": {
         "source_sha256": "338cc0df50650977ee18b19a4783de15ced2039296c4cd5ed97806921cb95d7d",
@@ -117677,16 +117993,16 @@
         "target_sha256": "7c075b7b3278046827f1792afcc444bb06ece2d7a3ec8448b6b9013f709ce08c"
       },
       "events:drama_burnout_warning:/choices/1/result_text": {
-        "source_sha256": "b3981302133442408e7d5dfd38ee15dabc1b2e8cc1b7645bb7f085e91e50e6e7",
-        "target_sha256": "565937088c0081ad05988d7d7ff4183b3cd88e32c978c36d016aa7056b3939fe"
+        "source_sha256": "2c0e7304fb68a6348709e5aa9ed07a2b36b6d98578847be9d9159a118f2cbdb3",
+        "target_sha256": "6f958fb84bdf4101b00db5f2d830ab6753d3a9da8215d75aa85acc2c7255f2d7"
       },
       "events:drama_burnout_warning:/choices/1/text": {
         "source_sha256": "8a783ca566ef593d7f5190c102653384f722708d379ba0ce5faf8a36a79f9b7c",
         "target_sha256": "9b148bef3219660327e56f4ca44019e8f8a67ec76a8e7e037d4b61b09b0806f7"
       },
       "events:drama_burnout_warning:/choices/2/result_text": {
-        "source_sha256": "226275cf33550a83100e80ef4283410706e9ed569809b45cf7f2540e59f0c577",
-        "target_sha256": "c0515e8ce44765d1a04cf10c336aedb9478c24aa3a68801627a792d445fb3cb6"
+        "source_sha256": "b18f2ea09ca72033b9e7ac42390ac289f25c98c7a636293732a3c05ad6a940a3",
+        "target_sha256": "5a5ead8fa534d1a1b67d0be845f75d172c3c921d0c60ece9dd9ace366488c320"
       },
       "events:drama_burnout_warning:/choices/2/text": {
         "source_sha256": "1213e1311e87248cb327b14bb239f7d942795fbb06b65e29b6f7eec2b33d322a",
@@ -134977,8 +135293,8 @@
         "target_sha256": "f7ae6393cc59049c17b68541fa54c2199bb8c567bdfe0faa4f58a520cb64ed50"
       },
       "events:work_burnout_monday:/choices/0/result_text": {
-        "source_sha256": "8c963c8bea3ddddf7cfc046b702b5683f5f92275dd1d5175c16a5a57bf5fc8b9",
-        "target_sha256": "ebc9f602b30f358a755d426da370b52def2bd757863f03f9697bf3d1e85c34ae"
+        "source_sha256": "efd5ca5cf831216ae63db7e33b0506b092ac533bb767eef3673242c0fcc66efc",
+        "target_sha256": "1873582867fb0ad08d395b2c6d25c699c26e47a12745aff48c612d3241cf5199"
       },
       "events:work_burnout_monday:/choices/0/text": {
         "source_sha256": "b3adb022447050ed9894a9ee91fece5754a8734add5953c1abda2fd593434291",
@@ -171819,32 +172135,32 @@
         "target_sha256": "177b6d36d9d414432e9937d6c41fd337ab9fdcbf30d381c9644c979ae28c2723"
       },
       "events:health_checkup_00:/choices/0/result_text": {
-        "source_sha256": "5f119a276084df900abbe8d40ea3f9d1f731d9caf5b62054ddca93545439bb32",
-        "target_sha256": "9503ba8c19cba606398ba2af817b03d21cf375701edc491f9745166e71843b1b"
+        "source_sha256": "cd3f73e5bac55c428ee2f042d935c4297a9a2c9ea661b4e906298ec7c4ca7642",
+        "target_sha256": "0c995bc61fe1402996e220bc9b848e4b03bbf11f808af8c6aab674f7458dc47e"
       },
       "events:health_checkup_00:/choices/0/text": {
-        "source_sha256": "9de8ed284c6e836eb9e482c2440fcb43740521b8bfc30a373d7f29292422616b",
-        "target_sha256": "8b535fc709ab14ca25db8beddb126d2ce2e2164f9007589e0cebb5c18164c357"
+        "source_sha256": "aa9445fb79d1b95e8a6b26d889fbcdf01c04741dd4fdbdf09eb743dfc4fc1355",
+        "target_sha256": "44a06fd6514665224699729589d086027f996d77abef9b926ed80ed1576e87b3"
       },
       "events:health_checkup_00:/choices/1/result_text": {
         "source_sha256": "25f743658e86cad9d0905f0d99c8fabe80a4c26ebf05eb6b502ffeae4523b4ae",
         "target_sha256": "4a516c865e360b909b9e62d09b383c131b38a6f4977316e47fd1e76844cac111"
       },
       "events:health_checkup_00:/choices/1/text": {
-        "source_sha256": "6451c028941c03ddaea70dd940da23263ce282fc7401908a96e44195c6d3959e",
-        "target_sha256": "394084da70e846efc755fb2a34b9808f4c5b4d8c745cca2723bfbf34df3fb5b5"
+        "source_sha256": "663fd78424471096321af4a0735794e5f165bb984c8b25666964e658b5314a86",
+        "target_sha256": "4d672e5c6c9eb2904d118807221470fa6b5b16bf6edb766d22b830f259c1a248"
       },
       "events:health_checkup_00:/choices/2/result_text": {
-        "source_sha256": "94294a36f5fbbb0382bdb961924b0e29ab603567a4d99c5bdd561570acfa50c6",
-        "target_sha256": "a3a264ca2cffc55137266efbdc727178be123646f15e00a46aed05d1f6a855dd"
+        "source_sha256": "4ad7120fad73778bf6bf6e4e0c3841b13a3fc5fb189cb7a86bbfbe97869cfe26",
+        "target_sha256": "5dcb3d8272e58ddd4e44650c9d7221dea0613215f010cb3d804c3a06fe121e2d"
       },
       "events:health_checkup_00:/choices/2/text": {
-        "source_sha256": "bd360dc3b8bb34be7bd50c50d449ec0ff5285804a395915e99a059cf6a0a2687",
-        "target_sha256": "badd8cb4fabb12118d025e477faa1e21d466cfb148045484d9e76a0219ec6608"
+        "source_sha256": "e51b5e86d0bcbd3aeea2594177a4b28a435bdf0a148be07891b979dafedce70f",
+        "target_sha256": "84a070a2a2992b75045a57603c0ceef12cbb46297b02c397d5f2fbadf34599d5"
       },
       "events:health_checkup_00:/description": {
-        "source_sha256": "0b8f1a928d85506667788529e77c1570761164f6bfe5c35f4cfbb55e592af710",
-        "target_sha256": "8ee91c9ac17b7e0478bc77215299eb58f201eeca10481e20e1b6cb58f7749dcb"
+        "source_sha256": "a9da93eb03bcc6542531641d311c64eaebe2e35963feb5a21768ed6b9c26ab2b",
+        "target_sha256": "d5c8f684bfbde333bfc08a47a3632401768e94b0cffc68adb0e514082cb932c1"
       },
       "events:health_checkup_00:/title": {
         "source_sha256": "cddc962db61c1bf0819db45f827cc37d82a5b41b07bf35d697e8562cbc2d6d73",
@@ -172515,8 +172831,8 @@
         "target_sha256": "44b10d779352aabcf858576ebaf570edb973e9fb24b334114af9861027651fba"
       },
       "events:health_burnout_signal:/choices/1/result_text": {
-        "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
-        "target_sha256": "8b512de1ab8d4f943d5d9ac34317921062057bc0c75344a52b03df1a0bd7dc6f"
+        "source_sha256": "45c8b9ea7ff23282d65a1f5a8eb3c0aacab24bb56965c62f5426a56a0ec91a75",
+        "target_sha256": "aa435390367ea9da961d6809a1ce4b6a9cc16e9464ffd2863973b135ede21a87"
       },
       "events:health_burnout_signal:/choices/1/text": {
         "source_sha256": "f5ce1c1a3ee3a47ed79ca95de6a9a38295865f70575155af23d93a0c17a2d6c2",
@@ -172547,8 +172863,8 @@
         "target_sha256": "36884280b9141a758c83912da6f14366f74d87aa1ac8e283006954e42b1ed684"
       },
       "events:health_checkup_reminder:/choices/1/result_text": {
-        "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
-        "target_sha256": "0e4fcf503239322dbea45d6ba9f62edf4c3b5d62c1b8997af4d430267bc7e48b"
+        "source_sha256": "4616fb32d0981112709bfbc56268095a5adf20b9d2729f545168737de0cd9223",
+        "target_sha256": "31e2c74c3aafef1c257792bc994136f8c3356c540cbaacf0e1418013727a9926"
       },
       "events:health_checkup_reminder:/choices/1/text": {
         "source_sha256": "07a772f9f47c12cf9ee371069f6953d7a7a1381d780ad4802f1cdd5cc81ecc12",
@@ -172751,8 +173067,8 @@
         "target_sha256": "bd126694c1392efe32521bf93325822fd2edcea21de916c4c1caab11da1d8657"
       },
       "events:health_mental_burnout_signal:/choices/0/text": {
-        "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
-        "target_sha256": "72608526fca9545f9c8d999ee1d3d9a72eaf83b2b5cabbe1099ca66f00c9d526"
+        "source_sha256": "5f663c6210fb16bab6e6e0293154e1a1f3b067400123d47b8777ee71ef4d0bcf",
+        "target_sha256": "e02cae8801e9c4333f10e953b2b7fccbda2f646519763771b2930dbc545dd63e"
       },
       "events:health_mental_burnout_signal:/choices/1/result_text": {
         "source_sha256": "6c2d83d37047baefc8240e16aa270066ee916bf9247b18875f483bd5099c00ec",
@@ -172763,8 +173079,8 @@
         "target_sha256": "d3e30adbeae4fd688e62753b1360ba7deeec7744239b4f30fa4edc0c97945d49"
       },
       "events:health_mental_burnout_signal:/description": {
-        "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
-        "target_sha256": "f8aea5a5a512adbdc71346d78a35ba409876cacc4db67745f869b36ad47ee289"
+        "source_sha256": "e3730130dd2407b30e96084f2172235fa3d18a76a095d6d6cc38d049364ab89e",
+        "target_sha256": "2e72e53cff8b6d2eba596c5c2beca5d5bd14668a4cf805e549f8fa723e90f144"
       },
       "events:health_mental_burnout_signal:/title": {
         "source_sha256": "664eac6a82bd1b0ce1dbaaf1c3f5dd17a8ec0141bdafc7aee08f47d464756329",
@@ -172779,12 +173095,12 @@
         "target_sha256": "af4d52ac22422f06e308870e14cfb9c3a0c2f5cead0ae2ea947fa58df748fa9a"
       },
       "events:health_sleep_debt:/choices/1/result_text": {
-        "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
-        "target_sha256": "5995c81403b8c0976aa9b86784eefc429055c5d506c937f2a6bfdc917829d7fa"
+        "source_sha256": "7a0d15a6f26a82e3623a735d2fe730975c7fb8f3b2f7e246070b946721295b74",
+        "target_sha256": "ac786cd79758294a962a57ff1480ee5f8cca798f9b371fbce816ffad1ed20f8a"
       },
       "events:health_sleep_debt:/choices/1/text": {
-        "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
-        "target_sha256": "ef0017144887c0a003c0e138c61341d1c73efab6315e7443612aa0a3d1aaa038"
+        "source_sha256": "db50163ce198af33ee239f0c1373fe4458d40a5936c06f7d09b2d7820cb34157",
+        "target_sha256": "7c2edbd199f4936a840039070ea0f884fd8c3d35d8d85ccc587664ec07328cde"
       },
       "events:health_sleep_debt:/description": {
         "source_sha256": "338cc0df50650977ee18b19a4783de15ced2039296c4cd5ed97806921cb95d7d",
@@ -177367,16 +177683,16 @@
         "target_sha256": "fed634bca80facae88f722f0b84f478a29fa5fefaf4f6fabf25eb40dfe9e8437"
       },
       "events:drama_burnout_warning:/choices/1/result_text": {
-        "source_sha256": "b3981302133442408e7d5dfd38ee15dabc1b2e8cc1b7645bb7f085e91e50e6e7",
-        "target_sha256": "bc2ef7bfc657c909536ae5f8f540fac3bc9e595cf04d5d5e51b78afbc3abdc6f"
+        "source_sha256": "2c0e7304fb68a6348709e5aa9ed07a2b36b6d98578847be9d9159a118f2cbdb3",
+        "target_sha256": "8f9ed257b69a34bfe661e747de4e3e0052d37c3fd0c5bab4a46a6b2e69ab5a49"
       },
       "events:drama_burnout_warning:/choices/1/text": {
         "source_sha256": "8a783ca566ef593d7f5190c102653384f722708d379ba0ce5faf8a36a79f9b7c",
         "target_sha256": "11443916b21c26067150699a2d1033396db6b9cb987628ede448304072e12b21"
       },
       "events:drama_burnout_warning:/choices/2/result_text": {
-        "source_sha256": "226275cf33550a83100e80ef4283410706e9ed569809b45cf7f2540e59f0c577",
-        "target_sha256": "8b8694da1c7f58a46587637d4de6c848d83b3b2219536458b8e87a8068e95ffb"
+        "source_sha256": "b18f2ea09ca72033b9e7ac42390ac289f25c98c7a636293732a3c05ad6a940a3",
+        "target_sha256": "694a2244ccd1c077037f60707699c06d7943f483a9e244ed573e11e14f6ad1c6"
       },
       "events:drama_burnout_warning:/choices/2/text": {
         "source_sha256": "1213e1311e87248cb327b14bb239f7d942795fbb06b65e29b6f7eec2b33d322a",
@@ -194667,8 +194983,8 @@
         "target_sha256": "ca7b2ee0ff8139c9919b065c98e8e87af6ba8c1d4bad5bed55696300dc3ab15c"
       },
       "events:work_burnout_monday:/choices/0/result_text": {
-        "source_sha256": "8c963c8bea3ddddf7cfc046b702b5683f5f92275dd1d5175c16a5a57bf5fc8b9",
-        "target_sha256": "789e3d3fee7097025d07bfc2997932b8a14f87b7a882a6bbec726131c81f6de0"
+        "source_sha256": "efd5ca5cf831216ae63db7e33b0506b092ac533bb767eef3673242c0fcc66efc",
+        "target_sha256": "70aa22a2b69f5ca307157a34ae2167957fee571b84fe93280f6c1b61372ffafc"
       },
       "events:work_burnout_monday:/choices/0/text": {
         "source_sha256": "b3adb022447050ed9894a9ee91fece5754a8734add5953c1abda2fd593434291",
@@ -215696,7 +216012,7 @@
       }
     }
   },
-  "accepted_sha256": "4c26e0426091f47903277b60c95c46dce016c6c371e694f3fd780726e46dd4e9",
+  "accepted_sha256": "ef9c954c5b7cfdee0737e2084e886d37a2804f31739634eca8d40230552fc83c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

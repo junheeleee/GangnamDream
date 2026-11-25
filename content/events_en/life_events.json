@@ -1094,7 +1094,7 @@
       },
       {
         "text": "Push through the to-do list anyway",
-        "result_text": "You forced your way through. The tasks got done, but there was no joy in it. So this is what burning out feels like."
+        "result_text": "{name} forced it. The tasks got done, but there was no joy in it. After crossing off the last line, the pen stayed in his hand a long time."
       },
       {
         "text": "Write this feeling down in a journal",
@@ -1992,8 +1992,8 @@
         "text": "Tonight I sleep early, no excuses"
       },
       {
-        "result_text": "Two coffees. Pushed through. The work got done.\nBut the body remembered.",
-        "text": "Push through on coffee — I have things to do"
+        "result_text": "Two coffees. Pushed through. The work got done.\nBy evening his eyelids felt full of sand.",
+        "text": "Push through on coffee. There's work to do"
       }
     ]
   },
@@ -2071,7 +2071,7 @@
         "text": "Make an appointment"
       },
       {
-        "result_text": "Thought, later.\nLater will come. When, you don't know.",
+        "result_text": "Thought, later.\nThe text slid down beneath the ads.",
         "text": "Later"
       }
     ]
@@ -2124,11 +2124,11 @@
   {
     "id": "health_mental_burnout_signal",
     "title": "A Signal",
-    "description": "One of those days you didn't want to do anything.\n\nThere were things to do. But your body wouldn't move.\nOutside the blanket felt too far.\n\n{name} thought — is this burnout?",
+    "description": "One of those days he didn't want to do anything.\n\nThere were things to do. But his body wouldn't move.\nOutside the blanket felt too far.\n\n{name} thought: is this burnout?",
     "choices": [
       {
         "result_text": "Spent the whole day under the blanket.\nGuilt at first, then after a while it was okay.\nTomorrow felt like it'd be different.",
-        "text": "Take the day off — for real"
+        "text": "Take the day off. For real"
       },
       {
         "result_text": "Forced yourself up. Did something.\nThe body moved but the head was gone.\nEfficiency was under half.",
