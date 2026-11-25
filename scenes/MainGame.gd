@@ -6751,6 +6751,12 @@ func _run_week_start_economy() -> void:
 	GameState.flags["monthly_economy_turn"] = GameState.turn
 	if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
 		var crisis = _roll_monthly_crisis()
+		# The full story has no action board: "one more task this week" or "drop
+		# one planned task" would promise a mechanic that does not exist there.
+		# The roll still happens so the RNG stream stays the same.
+		if FULL_STORY_FLOW.is_full_run() \
+				and str(crisis.get("type", "")) in ["bonus_ap", "ap_penalty"]:
+			crisis = {}
 		if not crisis.is_empty():
 			var crisis_type := str(crisis.get("type", ""))
 			if _demo_pressure_enabled() and crisis_type in [
