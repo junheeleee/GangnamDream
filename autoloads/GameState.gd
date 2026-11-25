@@ -4547,15 +4547,16 @@ func check_game_over():
 		if not current_job.is_empty() and total >= 100_000_000 \
 				and (flags.get("job_changed_success", false) or int(flags.get("max_job_tier", 0)) >= 4):
 			finish_run("career_climber"); return
+		# 아버지 화해 — 살아 계신 아버지와 화해한 런의 결산(사용자 승인 2026-11-25).
+		# 건강한 삶보다 먼저: 루틴이 건강·정신을 거의 늘 70+로 유지해 그 아래에선 가려졌다.
+		if flags.get("father_reconciled", false) and not flags.get("father_passed", false):
+			finish_run("late_call"); return           # 늦은 전화 (화해)
 		# 건강한 삶 (건강+정신 양호, 관계 있음)
 		if health >= 70 and mental >= 70 and has_any_close_relationship():
 			finish_run("healthy_retirement"); return
 		# 공허한 성공 (정석 많이 쌓았는데 자산 없음 — 허탈한 결말)
 		if route_orthodox >= 20 and total < 300_000_000:
 			finish_run("orthodox_hollow"); return
-		# 아버지 화해
-		if flags.get("father_reconciled", false) and not flags.get("father_passed", false):
-			finish_run("late_call"); return           # 늦은 전화 (화해)
 		# 버텨온 것들 (직장 유지 + 번아웃 경험 or 이직 시도 — 낮은 자산의 직장인 결산)
 		# career_climber(A)는 위에서 1억+ 잡음 → 여기 오면 1억 미만의 직장인
 		if not current_job.is_empty() \

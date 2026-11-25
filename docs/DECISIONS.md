@@ -2,6 +2,10 @@
 
 > [정본] 이 문서의 담당 범위에 한한다. 출시 결정·실행 우선순위는 [DECISIONS](DECISIONS.md)와 [실행 큐](CODEX_QUEUE.md).
 
+## 2026-11-25 (살아 계신 아버지와 화해한 런은 건강한 은퇴보다 늦은 전화로 간다 — 사용자 승인)
+
+836 M1·837 B1 뒤 D1 6정책 재측정에서 `healthy_retirement`가 4/6, 그중 3런은 아버지 화해·생존이었다. 루틴이 건강·정신을 거의 늘 70+로 유지해 바로 아래의 `late_call`이 가려졌다. 38세 결산에서 `late_call`(화해·생존)을 `healthy_retirement` 위로 올린다. 별세한 아버지는 기존대로 `late_call`에 가지 않는다. `convergence_sim` 순서도 같이 맞췄고 밸런스 래칫(우세 엔딩 5종)은 유지, 평균 JSD 0.989→0.995.
+
 ## 2026-11-24 (다은과 결혼한 런은 38세 결산에서 다은의 결말로 간다 — 사용자 승인)
 
 838 D1 18런 중 3런이 `daeun_married`(이혼 아님)인데 `daeun_romance_started`가 없어 `healthy_retirement`·`sangchul_reckoning`으로 끝났다. 38세 판정은 연애 시작만 읽고 결혼은 30억 분기에서만 읽었기 때문이다. 결혼도 `with_daeun`을 소유한다(본문의 `daeun_married` 변주가 이미 있다). 이혼은 위의 기존 분기가 그대로 먼저 판정한다. 같은 날 `late_call`이 `healthy_retirement`에 가려지는 문제(아버지 화해 16/18런, `late_call` 0)는 순서를 지금 바꾸지 않고, 836 몸·마음 대가 구현 뒤 D1을 다시 재서 `healthy_retirement`가 35%를 넘으면 `late_call`을 그 위로 올린다.
