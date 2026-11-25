@@ -6,8 +6,9 @@ extends RefCounted
 ## collapse <20. When a stat drops into a lower band, the next free full-story
 ## week (no arc/milestone owns it) plays one existing scene that shows the body,
 ## never the number. Each band fires at most once per chapter per stat, and a
-## scene is never reused, so a slide toward burnout/mental_break always passes
-## through a danger scene first (D1 2026-11-24: two burnout runs had none).
+## caution scene is never reused, so a slide toward burnout/mental_break always
+## passes through a danger scene first (D1 2026-11-24: two burnout runs had none).
+## Danger scenes repeat only after every eligible one was seen (oldest first).
 ##
 ## State lives in one flag, read and written only here:
 ##   flags["body_band_state"] = {"last": {"health": int, "mental": int},
@@ -24,15 +25,17 @@ const BAND_COLLAPSE := 3
 const SCENES := {
 	"health": {
 		BAND_CAUTION: ["health_sleep_debt", "health_checkup_reminder"],
-		BAND_DANGER: ["work_burnout_monday", "drama_burnout_warning", "health_checkup_00"],
+		BAND_DANGER: ["work_burnout_monday", "drama_burnout_warning", "health_checkup_00",
+				"health_burnout_signal"],
 	},
 	"mental": {
 		BAND_CAUTION: ["health_insomnia"],
 		BAND_DANGER: ["health_mental_burnout_signal", "health_burnout_signal"],
 	},
 }
-# Scenes whose prose assumes a workplace.
-const NEEDS_JOB: Array[String] = ["work_burnout_monday"]
+# Scenes whose prose assumes a workplace (drama_burnout_warning's push result
+# reads "월말 실적은 나왔다" and pays overtime money).
+const NEEDS_JOB: Array[String] = ["work_burnout_monday", "drama_burnout_warning"]
 
 
 static func band_of(value: Variant) -> int:
@@ -64,12 +67,21 @@ static func _state(flags: Dictionary) -> Dictionary:
 
 static func _pick(stat: String, band: int, used: Array, has_job: bool) -> String:
 	var key := BAND_DANGER if band >= BAND_DANGER else BAND_CAUTION
+	var eligible: Array[String] = []
 	for event_id: String in (SCENES[stat] as Dictionary).get(key, []):
-		if used.has(event_id):
-			continue
 		if event_id in NEEDS_JOB and not has_job:
 			continue
-		return event_id
+		eligible.append(event_id)
+		if not used.has(event_id):
+			return event_id
+	# Every scene for this band was already seen. A danger band still speaks
+	# (the warning guarantee outranks novelty); a caution band stays quiet.
+	if key == BAND_DANGER and not eligible.is_empty():
+		var oldest := eligible[0]
+		for event_id in eligible:
+			if used.find(event_id) < used.find(oldest):
+				oldest = event_id
+		return oldest
 	return ""
 
 
@@ -104,6 +116,7 @@ static func take_scene(flags: Dictionary, values: Dictionary, turn: int,
 			if not event_id.is_empty() and bool(event_exists.call(event_id)):
 				chosen = event_id
 				fired.append(fired_key)
+				used.erase(event_id)  # a reused danger scene moves to the back
 				used.append(event_id)
 				last[stat] = band
 			elif event_id.is_empty():

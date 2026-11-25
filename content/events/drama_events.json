@@ -629,8 +629,8 @@
       {
         "text": "그냥 밀어붙인다",
         "effects": {
-          "health": -12,
-          "mental": -16,
+          "health": -6,
+          "mental": -8,
           "money": 300000,
           "tint": -2
         },

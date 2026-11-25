@@ -21,7 +21,7 @@ func _ready() -> void:
 			push_error("BODY_BAND_SCENES_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("BODY_BAND_SCENES_CHECK_OK bands=4 transitions=6 job=2 json=1 slides=2 events=8")
+	print("BODY_BAND_SCENES_CHECK_OK bands=4 transitions=8 job=7 json=1 slides=2 events=9")
 	get_tree().quit(0)
 
 
@@ -52,13 +52,18 @@ func _check_transitions() -> void:
 	_expect(_take(flags, 65, 60, 2) == "", "stable start played a scene")
 	_expect(_take(flags, 55, 60, 3) == "health_sleep_debt", "health caution did not speak")
 	_expect(_take(flags, 55, 60, 4) == "", "same band spoke twice")
-	_expect(_take(flags, 35, 60, 5) == "drama_burnout_warning", "health danger did not speak")
+	_expect(_take(flags, 35, 60, 5) == "health_checkup_00", "unemployed health danger did not speak")
 	# Recover and fall again inside the same chapter: no second danger scene.
 	_expect(_take(flags, 70, 60, 6) == "" and _take(flags, 35, 60, 7) == "",
 		"danger repeated within one chapter")
 	# Next chapter: the band speaks again with an unused scene.
-	_expect(_take(flags, 70, 60, 50) == "" and _take(flags, 35, 60, 51) == "health_checkup_00",
+	_expect(_take(flags, 70, 60, 50) == "" and _take(flags, 35, 60, 51) == "health_burnout_signal",
 		"next chapter did not use a fresh danger scene")
+	# Danger scenes exhausted: the warning still speaks, oldest first, then rotates.
+	_expect(_take(flags, 70, 60, 98) == "" and _take(flags, 35, 60, 99) == "health_checkup_00",
+		"exhausted danger band went silent or reused the newest scene")
+	_expect(_take(flags, 70, 60, 146) == "" and _take(flags, 35, 60, 147) == "health_burnout_signal",
+		"reused danger scene did not rotate")
 
 
 func _check_job_premise() -> void:
@@ -66,10 +71,13 @@ func _check_job_premise() -> void:
 	_take(with_job, 65, 60, 2, true)
 	_expect(_take(with_job, 35, 60, 3, true) == "work_burnout_monday",
 		"employed danger skipped the workplace scene")
+	_expect(_take(with_job, 70, 60, 50, true) == "" and _take(with_job, 35, 60, 51, true) == "drama_burnout_warning",
+		"employed second danger skipped the overtime scene")
 	var no_job := {}
-	_take(no_job, 65, 60, 2, false)
-	_expect(_take(no_job, 35, 60, 3, false) != "work_burnout_monday",
-		"unemployed run got a workplace scene")
+	for week in range(2, 240, 47):
+		_take(no_job, 70, 60, week, false)
+		var scene := _take(no_job, 35, 60, week + 1, false)
+		_expect(not scene in BODY.NEEDS_JOB, "unemployed run got a workplace scene: " + scene)
 
 
 func _check_json_round_trip() -> void:
@@ -77,7 +85,7 @@ func _check_json_round_trip() -> void:
 	_take(flags, 65, 60, 2)
 	_take(flags, 55, 60, 3)
 	var loaded: Dictionary = JSON.parse_string(JSON.stringify(flags))
-	_expect(_take(loaded, 55, 60, 4) == "" and _take(loaded, 35, 60, 5) == "drama_burnout_warning",
+	_expect(_take(loaded, 55, 60, 4) == "" and _take(loaded, 35, 60, 5) == "health_checkup_00",
 		"state lost its meaning after a JSON save/load")
 
 
@@ -110,4 +118,4 @@ func _check_events_resolve() -> void:
 				var event: Dictionary = DataRegistry.find_event(event_id)
 				_expect(not event.is_empty() and (event.get("choices", []) as Array).size() >= 2,
 					"body scene %s is missing or has no decision" % event_id)
-	_expect(count == 8, "body scene table changed size (%d)" % count)
+	_expect(count == 9, "body scene table changed size (%d)" % count)
