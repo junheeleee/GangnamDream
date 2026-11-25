@@ -61,7 +61,7 @@ static func in_elapsed_window(row: Dictionary, turn: int, event_log: Array) -> b
 	if not row.has("elapsed_weeks"):
 		return true
 	var elapsed := int(row["elapsed_weeks"])
-	var decided := decision_turn(row.get("decision_events", []), event_log)
+	var decided: int = decision_turn(row.get("decision_events", []), event_log)
 	if decided < 0:
 		return false
 	var since := turn - decided
