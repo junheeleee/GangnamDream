@@ -65,12 +65,12 @@
     "description": "The first time {name} went to Gangnam alone, they got honest: 'you don't know if this is really your goal.'\n\nThey carried that doubt and still made it this far.\n\nToday the question surfaced again. Found an answer?",
     "choices": [
       {
-        "text": "Now I know — this is my goal",
-        "result_text": "Pushing a doubted goal all the way through.\n\nIn that process {name} confirmed it was truly theirs.\nA goal made stronger precisely because it had been shaken."
+        "text": "Now I know. This is my goal",
+        "result_text": "{name} still remembered the exit he took the first day he got off at Gangnam Station.\n\nToday he walked past that exit without slowing down."
       },
       {
-        "text": "Still don't always know — but keep going",
-        "result_text": "You can walk without certainty.\n\nDecided not to erase the doubt, but to carry it."
+        "text": "Still don't always know. But keep going",
+        "result_text": "Climbing the station stairs, no answer came.\n\nHe decided not to erase the doubt, but to carry it."
       }
     ]
   },

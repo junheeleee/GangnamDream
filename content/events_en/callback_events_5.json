@@ -145,11 +145,11 @@
     "choices": [
       {
         "text": "Say honestly: \"I hated the comparison.\"",
-        "result_text": "The friend was quiet for a moment, then said '...Same for me actually.'\nAfter that, things felt easier with that friend.\nOne honest sentence can shift a relationship."
+        "result_text": "The friend was quiet for a moment, then said '...Same for me actually.'\nAfter that, things felt easier with that friend.\nA few days later, the friend called first about dinner."
       },
       {
         "text": "\"Just.\" Let it go.",
-        "result_text": "'Just.' That was it.\nThe friend didn't push.\nThis decision doesn't need an explanation."
+        "result_text": "'Just.' That was it.\nThe friend didn't push.\n{name} put the phone back in his pocket."
       }
     ]
   },

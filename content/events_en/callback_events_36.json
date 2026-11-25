@@ -2,11 +2,11 @@
   {
     "id": "callback_asked_father_more_echo",
     "title": "Dad Spoke First",
-    "description": "It was a Sunday evening call.\n\nDad brought it up himself.\n\n'Minjun-ah. Last time you asked how I was doing — really asked.'\n\nA pause.\n\n'That meant something.'",
+    "description": "It was a Sunday evening call.\n\nDad brought it up himself.\n\n'Son. Last time you asked how I was doing — really asked.'\n\nA pause.\n\n'That meant something.'",
     "choices": [
       {
         "text": "\"I worry about you, Dad.\"",
-        "result_text": "'...Yeah.'\n\nNot many words. But this call was different.\nAsking a little more the last time had come back around like this.\n\n{name} hung up and sat still for a while."
+        "result_text": "'...Yeah.'\n\nNot many words. But this call ran a little longer before it ended.\n\n{name} hung up and sat still for a while."
       },
       {
         "text": "\"Don't mention it. I was just curious.\"",

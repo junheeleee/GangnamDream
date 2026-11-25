@@ -20,12 +20,12 @@
     "description": "At some early point, {name} crossed a line they shouldn't have, telling themselves 'just once.'\n\nThe weight of that choice comes back sometimes.\n\nToday they stand before a similar gray zone.",
     "choices": [
       {
-        "text": "I learned then — 'just once' is the most dangerous phrase",
-        "result_text": "'Just once' was a spell that summoned the second time.\n\n{name} remembers the unease of crossing that line.\nThey decided never to fool themselves with those words again."
+        "text": "I learned then. 'Just once' is the most dangerous phrase",
+        "result_text": "{name} typed 'just once' into the phone's notes app, then deleted it.\n\n{name} remembers the unease of crossing that line.\nHe decided never to fool himself with those words again."
       },
       {
-        "text": "Repay that debt — the clean way",
-        "result_text": "A line once crossed can't be undone, but the life after can be lived differently.\n\n{name} decided to fill that choice with honest effort."
+        "text": "Repay that debt the clean way",
+        "result_text": "{name} wrote down, on a separate page, the money that came from it.\n\nHe decided to cross it off, bit by bit, with money earned honestly."
       }
     ]
   },
