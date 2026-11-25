@@ -43722,6 +43722,106 @@
           }
         }
       }
+    },
+    {
+      "order": "CLAUDE-BODY-TONE-2",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "work_burnout_monday"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Claude 2026-11-25 KO source tone review (work_burnout_monday future tell; zh audit witness updated with user approval)",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "ae9c3b2b66386dd05e2ab7006e1be8e78862e617",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4fe9710c47d6cfa46f7fc39ea45e0e5525dc2a52edaca04784c22384e9c82d16",
+          "selection_sha256": "58a061b873b3c8f8af806bed888be3a2443bfbaf9cae6d6d089bdffe137d3d7e",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f2016f4c68958e5ece6b6e4da70452b01b03ed7668660172c1f8d2d1bec976e1"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "ae9c3b2b66386dd05e2ab7006e1be8e78862e617",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4fe9710c47d6cfa46f7fc39ea45e0e5525dc2a52edaca04784c22384e9c82d16",
+          "selection_sha256": "fb4bdc11d88a25c2f5abafa0a87242cb00aa8c8210e4690b1750367420924ac7",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7bf64daac6aa42855819b61902602252bb97e635bf348318147e0b929beaa124"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ae9c3b2b66386dd05e2ab7006e1be8e78862e617",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "4fe9710c47d6cfa46f7fc39ea45e0e5525dc2a52edaca04784c22384e9c82d16",
+          "selection_sha256": "0de8ba4d6b787bca79ef9989a7a1b507d4cfdb88a4a3f8f801384b0f5420ff66",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "4e390291fa5bd938e35d0636d7939044308d4b29f3123d91d3518ae3cbf8d3fa"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "4d4f07cb9f9c5c2d52a9016b0c3449f4d88762819e8c8de99dc3c6a404ac38a5",
+        "zh-CN": "d46b6617e4c387c2bf8a7b8251ec9972aa84aa64f1b9942e3071303609addea2",
+        "zh-TW": "125cc744c53298000e4e0575efaa35604fd1c57d61c2b64795f675f67e5da901"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:work_burnout_monday:/choices/1/result_text": "dcfcf7662d2ddd5a0d83a4ce969081ab502268330f144734d3c0e0f527731d90"
+        },
+        "zh-CN": {
+          "events:work_burnout_monday:/choices/1/result_text": "e2aacd6ebed92e13e839d32b3ae8cc63df1f404e429327d4da772789c50b5aa5"
+        },
+        "zh-TW": {
+          "events:work_burnout_monday:/choices/1/result_text": "19bca87273a29863ef074241fe27c406f274d6775508e3ea1628cae87a44fce5"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:work_burnout_monday:/choices/1/result_text": {
+            "source_sha256": "bb405cb19e7ae5445dbbaaf496f6751557d64ccd99779c218e72fca185742e9a",
+            "target_sha256": "a9ceccfeed4a261d74300a01af6f5bb4d4e332f016c8850a34d58414118646ca"
+          }
+        },
+        "zh-CN": {
+          "events:work_burnout_monday:/choices/1/result_text": {
+            "source_sha256": "bb405cb19e7ae5445dbbaaf496f6751557d64ccd99779c218e72fca185742e9a",
+            "target_sha256": "4f3b23a3cab8450704c59d23455fc0a42736964d1e03b5d16aa27f420047c111"
+          }
+        },
+        "zh-TW": {
+          "events:work_burnout_monday:/choices/1/result_text": {
+            "source_sha256": "bb405cb19e7ae5445dbbaaf496f6751557d64ccd99779c218e72fca185742e9a",
+            "target_sha256": "00d9fc69ea69e621d38d88323c702cc9357696f63ebbac6a62c57e01abcf63d5"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -82395,8 +82495,8 @@
         "target_sha256": "93e3c38616d48e3ca17beb9f26a5dbf5f1424f8387bfc4cd1937e1f42020be87"
       },
       "events:work_burnout_monday:/choices/1/result_text": {
-        "source_sha256": "bb405cb19e7ae5445dbbaaf496f6751557d64ccd99779c218e72fca185742e9a",
-        "target_sha256": "a9ceccfeed4a261d74300a01af6f5bb4d4e332f016c8850a34d58414118646ca"
+        "source_sha256": "bec23f879c029c7dd5bb6be5d6be0464b7aedd8b7008d5bb1b811a1ec723572f",
+        "target_sha256": "dcfcf7662d2ddd5a0d83a4ce969081ab502268330f144734d3c0e0f527731d90"
       },
       "events:work_burnout_monday:/choices/1/text": {
         "source_sha256": "dd6f234121774c993ef4a37c5ca119b90b0d998645d924408862bbc218d82632",
@@ -135301,8 +135401,8 @@
         "target_sha256": "acd3f9946a944177824f4acb69780b688ff1bc0c4fff535381e2122e8b6510f6"
       },
       "events:work_burnout_monday:/choices/1/result_text": {
-        "source_sha256": "bb405cb19e7ae5445dbbaaf496f6751557d64ccd99779c218e72fca185742e9a",
-        "target_sha256": "4f3b23a3cab8450704c59d23455fc0a42736964d1e03b5d16aa27f420047c111"
+        "source_sha256": "bec23f879c029c7dd5bb6be5d6be0464b7aedd8b7008d5bb1b811a1ec723572f",
+        "target_sha256": "e2aacd6ebed92e13e839d32b3ae8cc63df1f404e429327d4da772789c50b5aa5"
       },
       "events:work_burnout_monday:/choices/1/text": {
         "source_sha256": "dd6f234121774c993ef4a37c5ca119b90b0d998645d924408862bbc218d82632",
@@ -194991,8 +195091,8 @@
         "target_sha256": "b62687b583ec7a4f736e2014d084ac486617d9ab807fb77fcad791d88c556785"
       },
       "events:work_burnout_monday:/choices/1/result_text": {
-        "source_sha256": "bb405cb19e7ae5445dbbaaf496f6751557d64ccd99779c218e72fca185742e9a",
-        "target_sha256": "00d9fc69ea69e621d38d88323c702cc9357696f63ebbac6a62c57e01abcf63d5"
+        "source_sha256": "bec23f879c029c7dd5bb6be5d6be0464b7aedd8b7008d5bb1b811a1ec723572f",
+        "target_sha256": "19bca87273a29863ef074241fe27c406f274d6775508e3ea1628cae87a44fce5"
       },
       "events:work_burnout_monday:/choices/1/text": {
         "source_sha256": "dd6f234121774c993ef4a37c5ca119b90b0d998645d924408862bbc218d82632",
@@ -216012,7 +216112,7 @@
       }
     }
   },
-  "accepted_sha256": "ef9c954c5b7cfdee0737e2084e886d37a2804f31739634eca8d40230552fc83c",
+  "accepted_sha256": "5db8a8e8f04838ca0f026997ffd685af12b4989ec492e3f284ec891be5383ebc",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
