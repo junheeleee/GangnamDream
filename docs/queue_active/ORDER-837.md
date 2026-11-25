@@ -1,6 +1,8 @@
 # ORDER-837 — 리듬: 공백 주 회수 장면과 월별 결정 보장
 
-#### [ ] ORDER-837 · C1 · 공백 주 리듬
+#### [~] ORDER-837 · C1 · 공백 주 리듬
+
+> 2026-11-25 Claude 착수(사용자 지시 "스스로 할 일", Codex 부재) — **B1의 회수 원장·스케줄러만**. 834·835보다 먼저인 이유: 같은 빈 주 라우팅 자리에 836 M1(`BodyBandScenes`)을 이미 두어 소유 충돌이 가장 적다. 만지는 파일: `content/meta/rhythm_recall_ledger.json`(신규), `systems/RhythmRecall.gd`(신규), `scenes/MainGame.gd`의 빈 주 라우팅 한 곳, `tools/RhythmRecallCheck.*`(신규), `tools/audit_scope.json`, 이 사양·큐·WORK_LOG. 콜백 산문 문체 손질·월별 결정 보장(B2)은 별도.
 
 2026-11-24 사용자 결정(풀프라이스 짜임새·일정 연기). 기준은 [SYSTEMS_DESIGN §4](../SYSTEMS_DESIGN.md)이 소유한다.
 설계: Claude(이 사양). 구현·연출·번역: Codex. 834·835 B1 뒤 착수한다.
