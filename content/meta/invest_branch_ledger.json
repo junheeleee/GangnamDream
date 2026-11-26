@@ -1,12 +1,44 @@
 {
-  "_doc": "ORDER-834 B1 investment branch, years 1-2. Read only by systems/InvestBranchBeats.gd. A beat plays on a free full-story week, in ledger order, at most one per MIN_GAP_WEEKS, only for a run that opened the branch (gate flag) and only inside its window. `portfolio`: true needs a holding, \"loss\" needs the holdings under water. `housing` matches GameState.housing. `after` names a beat that must already have played. Money moves only through each event's market_buy/market_sell choices.",
+  "_doc": "ORDER-834 B1 investment branch, years 1-2. Read only by systems/InvestBranchBeats.gd. A beat plays on a free full-story week, in ledger order, at most one per min_gap_weeks, only for a run that opened the branch (gate flag) and only inside its window. `portfolio`: true needs a holding, \"loss\" needs the holdings under water. `housing` matches GameState.housing. `after` names a beat that must already have played. Money moves only through each event's market_buy/market_sell choices.",
   "gate_flag": "investment_lesson_1",
   "beats": [
-    {"event_id": "arc_ch1_invest_first_chart", "min_week": 17, "max_week": 34, "housing": "gosiwon"},
-    {"event_id": "arc_ch1_theme_invest_deep", "min_week": 20, "max_week": 48, "housing": "gosiwon", "after": "arc_ch1_invest_first_chart"},
-    {"event_id": "arc_invest_first_loss", "min_week": 24, "max_week": 60, "portfolio": "loss"},
-    {"event_id": "goshiwon_invest_night", "min_week": 22, "max_week": 60, "housing": "gosiwon", "portfolio": true},
-    {"event_id": "leverage_temptation", "min_week": 40, "max_week": 84, "portfolio": true},
-    {"event_id": "inv_crypto_mania", "min_week": 49, "max_week": 96}
-  ]
+    {
+      "event_id": "arc_ch1_invest_first_chart",
+      "min_week": 17,
+      "max_week": 34,
+      "housing": "gosiwon"
+    },
+    {
+      "event_id": "arc_ch1_theme_invest_deep",
+      "min_week": 20,
+      "max_week": 48,
+      "housing": "gosiwon",
+      "after": "arc_ch1_invest_first_chart"
+    },
+    {
+      "event_id": "arc_invest_first_loss",
+      "min_week": 24,
+      "max_week": 60,
+      "portfolio": "loss"
+    },
+    {
+      "event_id": "goshiwon_invest_night",
+      "min_week": 22,
+      "max_week": 60,
+      "housing": "gosiwon",
+      "portfolio": true
+    },
+    {
+      "event_id": "leverage_temptation",
+      "min_week": 40,
+      "max_week": 84,
+      "portfolio": true
+    },
+    {
+      "event_id": "inv_crypto_mania",
+      "min_week": 49,
+      "max_week": 96
+    }
+  ],
+  "min_gap_weeks": 3
 }

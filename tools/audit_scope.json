@@ -4758,11 +4758,28 @@
       ]
     },
     {
+      "tool": "tools/GambleBranchBeatsCheck.tscn",
+      "godot": true,
+      "why": "834 B2 도박 1~2년 차: 플레이어가 만든 사실(경마 방문·멘토·정선·네트워크) 뒤에만, 원장 순서·창·간격·직장 전제·멈춤 출구·저장 왕복",
+      "paths": [
+        "systems/GambleBranchBeats.gd",
+        "systems/BranchBeats.gd",
+        "content/meta/gamble_branch_ledger.json",
+        "scenes/MainGame.gd",
+        "content/events/racetrack_events.json",
+        "content/events/gambling_narrative.json",
+        "content/events/holdem_events.json",
+        "tools/GambleBranchBeatsCheck.gd",
+        "tools/GambleBranchBeatsCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/InvestBranchBeatsCheck.tscn",
       "godot": true,
       "why": "834 B1 투자 1~2년 차: 상철 첫 수업에서만 열리고, 원장 순서·창·주거·간격·실제 손실·저장 왕복, 선택이 실제로 매매",
       "paths": [
         "systems/InvestBranchBeats.gd",
+        "systems/BranchBeats.gd",
         "systems/InvestmentSystem.gd",
         "content/meta/invest_branch_ledger.json",
         "autoloads/GameState.gd",

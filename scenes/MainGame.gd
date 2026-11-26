@@ -11,6 +11,7 @@ const FULL_STORY_FLOW = preload("res://systems/FullStoryFlow.gd")
 const BODY_BAND_SCENES = preload("res://systems/BodyBandScenes.gd")
 const RHYTHM_RECALL = preload("res://systems/RhythmRecall.gd")
 const INVEST_BRANCH_BEATS = preload("res://systems/InvestBranchBeats.gd")
+const GAMBLE_BRANCH_BEATS = preload("res://systems/GambleBranchBeats.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
@@ -6905,6 +6906,11 @@ func _begin_month_story_and_render():
 		if invest_id != "":
 			_go_story_mode([invest_id])
 			return
+		# 경마·정선·홀덤에 발을 들인 런의 1~2년 차 도박 장면 하나(834 B2).
+		var gamble_id := _full_story_gamble_beat_id()
+		if gamble_id != "":
+			_go_story_mode([gamble_id])
+			return
 		# 네 번째 빈 주가 되기 전, 이미 한 결정의 회수 장면 하나(837 B1).
 		var recall_id := _full_story_rhythm_recall_id()
 		if recall_id != "":
@@ -7038,14 +7044,27 @@ func _full_story_invest_beat_id() -> String:
 		str(GameState.housing),
 		GameState.portfolio,
 		GameState.market_prices,
-		func(event_id: String) -> bool:
-			# Older routes (prologue route/theme) may already have played a beat.
-			if DataRegistry.find_event(event_id).is_empty():
-				return false
-			for raw in GameState.event_log:
-				if raw is Dictionary and str((raw as Dictionary).get("event_id", "")) == event_id:
-					return false
-			return true)
+		_full_story_branch_event_open)
+
+
+func _full_story_branch_event_open(event_id: String) -> bool:
+	# Older routes and the random pool may already have played a beat.
+	if DataRegistry.find_event(event_id).is_empty():
+		return false
+	for raw in GameState.event_log:
+		if raw is Dictionary and str((raw as Dictionary).get("event_id", "")) == event_id:
+			return false
+	return true
+
+
+func _full_story_gamble_beat_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return GAMBLE_BRANCH_BEATS.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		not GameState.current_job.is_empty(),
+		_full_story_branch_event_open)
 
 
 func _full_story_rhythm_recall_id() -> String:
