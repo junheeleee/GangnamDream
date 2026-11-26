@@ -47,15 +47,15 @@
   {
     "id": "callback_gangnam_vow_echo",
     "title": "The Vow That Day",
-    "description": "The first time {name} went to Gangnam alone, they made a silent vow: 'I'll definitely make it here.'\n\nToday they passed that street again.\n\nA little closer than back then. Not arrived yet, but closer.",
+    "description": "The first time {name} went to Gangnam alone, he made a silent vow: 'I'll definitely make it here.'\n\nToday he passed that street again.\n\nA little closer than back then. Not arrived yet, but closer.",
     "choices": [
       {
         "text": "Renew the vow once more",
-        "result_text": "That day's vow wasn't empty.\n\nA vow made only in words is different from one backed by months of accumulated time.\n{name} paused on that street, then kept walking."
+        "result_text": "That day's vow wasn't empty.\n\n{name} paused on that street, then kept walking."
       },
       {
-        "text": "Know a vow isn't enough — audit the actions",
-        "result_text": "A vow is a starting line, not a finish.\n\n{name} coldly retraced what had actually been done since that day."
+        "text": "A vow wasn't enough. Audit the actions",
+        "result_text": "{name} coldly retraced what had actually been done since that day."
       }
     ]
   },

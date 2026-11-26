@@ -47,15 +47,15 @@
   {
     "id": "callback_sangchul_deflected_echo",
     "title": "Deflecting into Investing Talk",
-    "description": "When Sangchul brought up his life story, {name} deflected into investing — 'How much was that place?'\n\nAvoiding the deeper conversation comes back sometimes.\n\nToday they sat across from Sangchul again.",
+    "description": "When Sangchul brought up his life story, {name} deflected into investing — 'How much was that place?'\n\nAvoiding the deeper conversation comes back sometimes.\n\nToday he sat across from Sangchul again.",
     "choices": [
       {
         "text": "This time, listen to his story",
-        "result_text": "The conversation deflected last time, this time heard to the end.\n\nSangchul unexpectedly opened up about a lot.\n{name} learned belatedly that relationships don't deepen on information exchange alone."
+        "result_text": "The conversation he'd deflected last time, he heard to the end this time.\n\nSangchul unexpectedly opened up about a lot.\n{name} didn't bring up investing that day."
       },
       {
-        "text": "I'm comfortable with a transactional bond — keep the line",
-        "result_text": "Not every relationship has to be deep.\n\n{name} decided to keep a measured distance from Sangchul."
+        "text": "I'm comfortable with a transactional bond. Keep the line",
+        "result_text": "{name} decided to keep a measured distance from Sangchul."
       }
     ]
   },
@@ -107,15 +107,15 @@
   {
     "id": "callback_demo_resolved_echo",
     "title": "Saying I'll Go Anyway",
-    "description": "Four months into Seoul, stuck in a sense of stagnation on a Han River bridge, {name} started walking again — 'you'll go anyway.'\n\nThat one step carried all the way here.\n\nToday is another similar moment of stagnation.",
+    "description": "Four months into Seoul, stuck in a sense of stagnation on a Han River bridge, {name} started walking again: 'I'll go anyway.'\n\nThat one step carried all the way here.\n\nToday is another similar moment of stagnation.",
     "choices": [
       {
-        "text": "Like then — even stopped, I walk again",
-        "result_text": "Stagnation isn't an end but a brief pause.\n\nLike walking again on that bridge four months in, they decided to walk again today.\n{name} knows that stopping and going again is stronger than giving up."
+        "text": "Like then: even if I stop, I walk again",
+        "result_text": "Stagnation isn't an end but a brief pause.\n\nLike walking again on that bridge four months in, he decided to walk again today.\n{name} knows that stopping and going again is stronger than giving up."
       },
       {
         "text": "This time, change the method and go again",
-        "result_text": "If the same method fails, change the method.\n\nInstead of blindly enduring, {name} redrew the path."
+        "result_text": "Instead of blindly enduring, {name} opened the notebook and redrew the path."
       }
     ]
   },
@@ -125,12 +125,12 @@
     "description": "Four months into Seoul, stuck in stagnation, {name} thought 'there has to be another way' and considered a shortcut.\n\nThat temptation still visits sometimes.\n\nToday 'a faster way' crossed the mind again.",
     "choices": [
       {
-        "text": "I know the temptation of shortcuts — so I guard more",
-        "result_text": "Fast roads usually hide traps.\n\nThe mind seeking shortcuts then could have led to scams or gambling.\nBecause {name} knows that temptation, they paused a beat each time."
+        "text": "I know the pull of shortcuts. So I stay on guard",
+        "result_text": "The mind seeking shortcuts then could have led to scams or gambling.\nBecause {name} knew that temptation, he paused a beat each time."
       },
       {
-        "text": "Seek legitimate shortcuts — but keep the principles",
-        "result_text": "Raising efficiency and breaking principles are different.\n\n{name} sought smarter paths but held the lines not to cross."
+        "text": "Seek legitimate shortcuts, but keep the principles",
+        "result_text": "{name} sought smarter paths but held the lines not to cross."
       }
     ]
   },

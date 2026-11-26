@@ -104,7 +104,7 @@
       },
       {
         "text": "Just say hi and catch the bus",
-        "result_text": "'Hello.' And he got on the bus.\nThrough the window he could see them. They waved briefly.\nSometimes it helps just knowing people like that exist."
+        "result_text": "'Hello.' And he got on the bus.\nThrough the window he could see them. They waved briefly.\nThe bus pulled away, and {name} kept looking out the window for a while."
       }
     ]
   },

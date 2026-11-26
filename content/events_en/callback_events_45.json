@@ -126,25 +126,25 @@
     "choices": [
       {
         "text": "Those dawns weren't wasted",
-        "result_text": "A light left on while others slept.\n\nThose hours built an invisible gap.\n{name} knows they owe a lot to the dawn self."
+        "result_text": "A light left on while others slept.\n\nThose hours built an invisible gap.\nTonight too, {name} left the desk lamp on and opened the book."
       },
       {
-        "text": "Cut the reckless all-nighters now — watch efficiency",
-        "result_text": "All-nighters powered by desperation were needed, but can't last forever.\n\n{name} began to value quality of time over quantity."
+        "text": "Cut the reckless all-nighters and watch efficiency",
+        "result_text": "All-nighters powered by desperation were needed, but can't last forever.\n\nWhen midnight came, {name} closed the book and switched off the desk lamp."
       }
     ]
   },
   {
     "id": "callback_keeps_records_echo",
     "title": "The Day I Organized a Year's Records",
-    "description": "In the first year in Seoul, {name} organized a year of records to 'confirm in numbers how far I'd come.'\n\nThat habit continued.\n\nToday they opened those records again.",
+    "description": "In the first year in Seoul, {name} organized a year of records to 'confirm in numbers how far I'd come.'\n\nThat habit continued.\n\nToday he opened those records again.",
     "choices": [
       {
         "text": "Records steady me when I waver",
-        "result_text": "Emotion lies that 'nothing has changed,' but records don't lie.\n\nThe numbers compared to a year ago gave {name} objective comfort.\nSeeing how far he's come shows how much farther to go."
+        "result_text": "The numbers compared to a year ago gave {name} objective comfort.\n{name} folded down the corner of that page."
       },
       {
-        "text": "Beyond records — design the next year",
+        "text": "Beyond records, design the next year",
         "result_text": "Didn't stop at writing down the road traveled.\n\n{name} used that data to plan the next year's strategy."
       }
     ]
@@ -159,7 +159,7 @@
         "result_text": "Even the year called a warm-up was a full sprint to someone.\n\nPushing that hard produced a speed unlike others'.\n{name} didn't regret the ferocity."
       },
       {
-        "text": "Ferocity alone won't last — pace it sustainably",
+        "text": "Ferocity alone won't last. Pace it sustainably",
         "result_text": "Early explosive drive was needed. But five years isn't a sprint.\n\n{name} converted ferocity into a sustainable pace."
       }
     ]

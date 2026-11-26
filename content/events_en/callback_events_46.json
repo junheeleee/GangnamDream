@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "\"Because I believed you'd get back up.\"",
-        "result_text": "'...That helped more than comfort would have.'\n\nWhat a fallen person needs is sometimes not pity but the premise that they'll rise again.\n{name} knew that instinctively."
+        "result_text": "'...That helped more than comfort would have.'\n\nInstead of answering, {name} asked when the next exam was."
       },
       {
         "text": "\"I wished someone had asked me that too.\"",
-        "result_text": "When Hyun-su fell, 'what now' had lifted him more than 'it's okay.'\n\n{name} had offered Hyun-su the words he'd wanted to hear."
+        "result_text": "{name} had offered Hyun-su the words he'd wanted to hear."
       }
     ]
   },
@@ -47,15 +47,15 @@
   {
     "id": "callback_hyunsu_drift_ignored_echo",
     "title": "Just Walking Past",
-    "description": "While Hyun-su was drifting, {name} was too busy with their own affairs and just walked past.\n\nToday they heard about Hyun-su by chance. He'd more or less landed on his feet.\n\nWalking past that time nags sometimes.",
+    "description": "While Hyun-su was drifting, {name} was too busy with his own affairs and just walked past.\n\nToday he heard about Hyun-su by chance. He'd more or less landed on his feet.\n\nWalking past that time nags sometimes.",
     "choices": [
       {
         "text": "Reach out now, even late",
-        "result_text": "Late, but reached out.\n\nHyun-su was unexpectedly glad. 'Hyung, long time.'\nDoing now what couldn't be done then beat not doing it at all."
+        "result_text": "Late, but he reached out.\n\nHyun-su was unexpectedly glad. 'Hyung, long time.'\nThe call ran longer than he expected."
       },
       {
-        "text": "I had no room then either — accept it",
-        "result_text": "A drowning person can hardly save another.\n\n{name} could barely keep themselves afloat then too."
+        "text": "I had no room then either. Accept it",
+        "result_text": "{name} could barely keep himself afloat then too."
       }
     ]
   },
@@ -107,7 +107,7 @@
   {
     "id": "callback_called_about_medication_echo",
     "title": "Calling Dad Directly",
-    "description": "When {name} heard about Dad's medication, they called Dad directly instead of going through Mom.\n\nToday Dad brought up that call.\n\n'Minjun-ah. You called me directly that time, not your mother. That was — reassuring.'",
+    "description": "When {name} heard about Dad's medication, he called Dad directly instead of going through Mom.\n\nToday Dad brought up that call.\n\n'Son. You called me directly that time, not your mother. That was — reassuring.'",
     "choices": [
       {
         "text": "\"It's about you, Dad. Of course I'd ask you directly.\"",
