@@ -5,6 +5,10 @@
 2026-11-24 사용자 승인. 근거: [C6 세 갈래 필수](../DECISIONS.md#2026-11-15-정식판-세-갈래-필수--사용자-결정),
 [투자·도박 갈래 설계 결정](../DECISIONS.md#2026-11-24-투자도박-갈래는-기존-장면을-챕터별로-잇는다--사용자-승인).
 833 다듬기 뒤 착수한다. 설계·실측: Claude. 구현·산문·번역·검증: Codex.
+**[~] 착수 — Claude B1 투자 1~2년 차(사용자 지시 2026-11-26).** 만지는 파일: `systems/InvestBranchBeats.gd`(신규),
+`content/meta/invest_branch_ledger.json`(신규), `scenes/MainGame.gd`(빈 주 라우팅 한 곳), 투자 재사용 사건의
+조건·`tendency` 효과(KO), `tools/InvestBranchBeatsCheck.*`(신규), `tools/audit_scope.json`, `docs/BALANCE.md`.
+`StoryMode.gd`·`arc_drama.json`·`ManualSaveCheck`(Codex W188 범위)는 건드리지 않는다. 도박 B2는 Codex.
 
 ## 실측 — 지금 왜 갈래가 아닌가 (2026-11-24, main `79d81a3c`)
 
