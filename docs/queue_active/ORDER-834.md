@@ -13,6 +13,11 @@
 `content/meta/gamble_branch_ledger.json`(신규), `systems/FullStoryFlow.gd`(활동 일반화), `scenes/MainGame.gd`(빈 주·활동 라우팅),
 도박 재사용 사건의 조건·효과(KO), `tools/GambleBranchBeatsCheck.*`(신규), `tools/audit_scope.json`, `docs/BALANCE.md`.
 
+**[~] 착수 — Claude B2.5 빈 주 습관 방문(사용자 승인 2026-11-26).** 만지는 파일: `systems/BranchHabit.gd`(신규),
+`content/meta/branch_habit_ledger.json`(신규), 습관 사건(신규, KO `content/events/branch_habit_events.json`·EN 오버레이·ja/zh 원장),
+`systems/FullStoryFlow.gd`(`ACTIVITY_SOURCES` 출처 추가), `scenes/MainGame.gd`(빈 주 라우팅 한 곳), `tools/BranchHabitCheck.*`(신규),
+`tools/audit_scope.json`, 정책 런 도구, 사건 등록 원장들, `docs/BALANCE.md`. Codex W188 범위는 건드리지 않는다.
+
 ## Claude 결과 (2026-11-26)
 
 - **B1 투자 1~2년 차 — 동작 확인.** 투자 정책 2런(`7a8ac428`): W17 수업 → W32 첫 매수 → W37 공부 → W40 밤 매수 →
