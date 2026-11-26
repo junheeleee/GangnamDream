@@ -15,13 +15,14 @@ func _ready() -> void:
 	_check_job_premise()
 	_check_json_round_trip()
 	_check_slide_warns_before_collapse()
+	_check_collapse_and_sustained()
 	_check_events_resolve()
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("BODY_BAND_SCENES_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("BODY_BAND_SCENES_CHECK_OK bands=4 transitions=8 job=7 json=1 slides=2 events=9")
+	print("BODY_BAND_SCENES_CHECK_OK bands=4 transitions=8 job=7 json=1 slides=2 collapse=4 events=9")
 	get_tree().quit(0)
 
 
@@ -107,6 +108,32 @@ func _check_slide_warns_before_collapse() -> void:
 			if health < 1.5:
 				break
 		_expect(danger_seen, "a %d-week slide reached collapse without a danger scene" % weeks)
+
+
+func _check_collapse_and_sustained() -> void:
+	# Falling from danger into collapse is a new band and speaks again.
+	var flags := {}
+	_take(flags, 65, 60, 2)
+	_expect(_take(flags, 35, 60, 3) == "health_checkup_00", "danger did not speak before collapse")
+	_expect(_take(flags, 35, 60, 4) == "", "sustained danger repeated inside one chapter")
+	_expect(_take(flags, 15, 60, 5) == "health_burnout_signal", "danger -> collapse stayed silent")
+	_expect(_take(flags, 12, 60, 6) == "", "collapse repeated inside one chapter")
+	# Still in collapse when the next chapter opens: one reminder, then quiet.
+	_expect(_take(flags, 10, 60, 49) != "" and _take(flags, 9, 60, 50) == "",
+		"sustained collapse got no chapter reminder or repeated it")
+	# D1 2026-11-26 gamble_s02: health 29 -> 2 from W24 to W75, one danger scene
+	# at W31, then 44 silent weeks. Every chapter with health under 20 speaks.
+	var slide := {}
+	var spoke_in_collapse := {}
+	for week in range(24, 76):
+		var health := 29.0 - 27.0 * float(week - 24) / 51.0
+		if week % 3 != 0:
+			continue  # an arc owns this week
+		var scene := _take(slide, health, 100, week)
+		if not scene.is_empty() and BODY.band_of(health) == BODY.BAND_COLLAPSE:
+			spoke_in_collapse[BODY.chapter_of(week)] = true
+	_expect(spoke_in_collapse.has(1) and spoke_in_collapse.has(2),
+		"a slide through collapse across two chapters was silent in one of them: %s" % str(spoke_in_collapse))
 
 
 func _check_events_resolve() -> void:

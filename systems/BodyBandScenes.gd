@@ -8,11 +8,13 @@ extends RefCounted
 ## never the number. Each band fires at most once per chapter per stat, and a
 ## caution scene is never reused, so a slide toward burnout/mental_break always
 ## passes through a danger scene first (D1 2026-11-24: two burnout runs had none).
+## Collapse is its own band: falling from danger into collapse speaks again, and
+## a stat that stays in danger/collapse is reminded once in each new chapter.
 ## Danger scenes repeat only after every eligible one was seen (oldest first).
 ##
 ## State lives in one flag, read and written only here:
 ##   flags["body_band_state"] = {"last": {"health": int, "mental": int},
-##                               "fired": ["health:2:3", ...], "used": [event_id]}
+##                               "fired": ["health:2:3", "health:3:3", ...], "used": [event_id]}
 
 const STATE_FLAG := "body_band_state"
 const STATS: Array[String] = ["health", "mental"]
@@ -106,11 +108,15 @@ static func take_scene(flags: Dictionary, values: Dictionary, turn: int,
 		var stat := str(row[0])
 		var band := int(row[1])
 		var previous := int(last.get(stat, BAND_STABLE))
-		if band <= previous:
+		var fired_key := "%s:%d:%d" % [stat, band, chapter]
+		# A stat still sitting in danger/collapse when a new chapter opens
+		# speaks once more for that chapter (D1 2026-11-26 gamble_s02: health
+		# 24 -> 2 over 44 silent weeks after one W31 danger scene).
+		var sustained := band == previous and band >= BAND_DANGER and not fired.has(fired_key)
+		if band < previous or (band == previous and not sustained):
 			# Same or better: remember the recovery so a later slide speaks again.
 			last[stat] = band
 			continue
-		var fired_key := "%s:%d:%d" % [stat, mini(band, BAND_DANGER), chapter]
 		if chosen.is_empty() and not fired.has(fired_key):
 			var event_id := _pick(stat, band, used, has_job)
 			if not event_id.is_empty() and bool(event_exists.call(event_id)):
