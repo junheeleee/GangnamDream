@@ -90,7 +90,7 @@
 | Y5 `arc_jiyeon_y5_feelings`(회색 경로 고백) | 0 | `moral_stage() <= -1` + `arc_jiyeon_03b_seen` + Y4 통화 미시청 — 03b를 본 런은 모두 Y4 통화를 봐서 이 문은 구조상 거의 닫힘 |
 
 - 지연은 다은을 소홀히 한 런에만 열린다. 다은을 보낸 플레이어는 두 관계를 모두 잃는다. 정책이 아니라 실제 플레이어도 다은 단골 장면(W34)에서 호감 12를 쉽게 넘는다.
-- **사용자 승인·반영(2026-11-26):** M22에서 다은을 보내면 이별 장면 뒤 같은 창(늦어도 W88)에 지연 제안을 연다(`MainGame._story_graph_contract_event_id`, `RelationshipForkReleaseCheck`). Y5 회색 경로 고백 문(`arc_jiyeon_y5_feelings`)이 구조상 거의 닫힌 문제는 남는다.
+- **사용자 승인·반영(2026-11-26):** M22에서 다은을 보내면 이별 장면 뒤 같은 창(늦어도 W88)에 지연 제안을 연다(`MainGame._story_graph_contract_event_id`, `RelationshipForkReleaseCheck`). Y5 회색 경로 고백 문(`arc_jiyeon_y5_feelings`)이 구조상 거의 닫힌 문제는 남는다. 재실행(`c184f211`, 다은을 보낸 2런): W88 지연 제안 → 점심·고백·부산·Y5 귀환·결혼식(W205)·첫날밤까지 이어졌고, 민준-다은 결혼 아크는 0. 두 런 모두 W228 심판에서 보냄(`jiyeon_left`) → `ordinary_life` 지연 변주(정본대로). `with_daeun` 7→5(28%) 예상.
 
 ## 배치
 
