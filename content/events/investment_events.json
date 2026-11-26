@@ -1268,12 +1268,12 @@
       {
         "text": "소액만 참여해본다 — FOMO를 달랜다",
         "effects": {
-          "money": -500000,
           "gambling_tendency": 8,
           "addiction_tendency": 10,
           "investment_skill": -1,
           "tint": -2
         },
+        "market_buy": {"asset_id": "bitcoin", "amount": 500000},
         "result_text": "50만 원을 넣었다. 처음엔 두 배가 됐다.\n그리고 반 토막. 다시 조금 올라와서 -30%에 멈췄다.\n팔아야 하는데, 손에 안 잡혔다.\n코인의 마력은 그거였다. 손절이 불가능하다.",
         "route": "unorthodox"
       },
@@ -2356,6 +2356,8 @@
           "luck": -1,
           "mental": -4
         },
+        "market_buy": {"asset_id": "kospi_3x", "cash_ratio": 0.3, "min": 15000, "max": 10000000},
+        "tendency": {"invest": 4},
         "result_text": "30%를 3배 레버리지에 넣었다.\n그건 사실상 전체 포트의 90%를 한 방향에 거는 것과 같았다."
       },
       {
@@ -2487,6 +2489,8 @@
           "health": -3,
           "mental": -5
         },
+        "market_buy": {"asset_id": "nasdaq", "cash_ratio": 0.1, "min": 50000, "max": 1000000},
+        "tendency": {"invest": 4},
         "result_text": "샀다. 그리고 새벽 4시에 잠들었다.\n다음날 -3%. 피로와 손실이 함께 쌓였다."
       }
     ]

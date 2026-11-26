@@ -2039,6 +2039,7 @@ func apply_choice(event, authored_choice) -> bool:
 		for investment_effect in investment_effects:
 			if investment_effect is Dictionary:
 				apply_investment_effect(investment_effect)
+	_apply_market_choice(choice)
 	# 발견 레이어 — 선택지가 단서를 줄 수 있다: "clues": ["clue_x"]
 	for clue_id in choice.get("clues", []):
 		add_clue(str(clue_id))
@@ -2344,6 +2345,43 @@ func apply_relationship_effect(effect):
 			"met_turn": turn,
 		})
 	stats_changed.emit()
+
+## ORDER-834 B1: an authored story choice may actually trade, through the same
+## InvestmentSystem the market screen uses (fees, average price, portfolio).
+##   "market_sell": {"asset_id": "kospi_etf" | "*", "ratio": 1.0}
+##   "market_buy":  {"asset_id": "kospi_etf", "amount": 200000}
+##                  or {"asset_id": ..., "cash_ratio": 0.3, "min": 35000, "max": 5000000}
+## A buy never spends more than the cash on hand; an unaffordable one is skipped.
+const INVESTMENT_SYSTEM_SCRIPT := "res://systems/InvestmentSystem.gd"
+
+static func market_buy_amount(spec: Dictionary, cash: float) -> float:
+	var amount := 0.0
+	if spec.has("amount"):
+		amount = float(spec["amount"])
+	elif spec.has("cash_ratio"):
+		amount = clampf(cash * float(spec["cash_ratio"]),
+			float(spec.get("min", 0.0)), float(spec.get("max", INF)))
+	amount = floorf(minf(amount, maxf(cash, 0.0)))
+	return amount if amount >= 1.0 else 0.0
+
+func _apply_market_choice(choice: Dictionary) -> void:
+	var sell: Variant = choice.get("market_sell", null)
+	var buy: Variant = choice.get("market_buy", null)
+	if not sell is Dictionary and not buy is Dictionary:
+		return
+	var market: Node = load(INVESTMENT_SYSTEM_SCRIPT).new()
+	if sell is Dictionary:
+		var target := str((sell as Dictionary).get("asset_id", "*"))
+		var ratio := float((sell as Dictionary).get("ratio", 1.0))
+		for asset_id in portfolio.keys().duplicate():
+			if target == "*" or str(asset_id) == target:
+				market.sell_asset(str(asset_id), ratio)
+	if buy is Dictionary:
+		var amount := market_buy_amount(buy, float(money))
+		var asset_id := str((buy as Dictionary).get("asset_id", ""))
+		if amount > 0.0 and not asset_id.is_empty():
+			market.buy_asset(asset_id, amount, true)
+	market.free()
 
 func apply_investment_effect(effect):
 	var asset_id = str(effect.get("asset_id", ""))
