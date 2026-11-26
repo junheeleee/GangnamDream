@@ -70,7 +70,7 @@
       },
       {
         "text": "要不要試著打個招呼呢",
-        "result_text": "「妳好，Daeun。」我說。\nDaeun 說：「啊，Minjun，好久不見。」"
+        "result_text": "「妳好，Daeun。」他說。\nDaeun 說：「啊，{name}，好久不見。」"
       }
     ]
   },

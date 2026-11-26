@@ -80,11 +80,11 @@
     "description": "One night in the goshiwon days, instead of overdoing it, {name} told Hyun-su 'get some sleep' and turned in early.\n\nThose nights of looking out for each other.\n\nToday the air of that era suddenly came to mind.",
     "choices": [
       {
-        "text": "Looking out for each other then — was the strength to endure",
-        "result_text": "Alone, they'd have tired faster.\n\nJust having someone enduring in the next room made the night less long.\n{name} missed the small care of those days."
+        "text": "Looking out for each other then was what got us through",
+        "result_text": "Just having someone enduring in the next room made the night less long.\n{name} missed the small care of those days."
       },
       {
-        "text": "Past that era — I've grown a bit sturdier",
+        "text": "Past that time, I've grown a little sturdier",
         "result_text": "Past the days of leaning on each other, they now stand alone.\n\nBut the warmth received then is melted into the present sturdiness."
       }
     ]

@@ -62,7 +62,7 @@
   {
     "id": "callback_delayed_visiting_dad_consequence",
     "title": "沒能回去的重量",
-    "description": "因為忙而推遲去看父親，已經過了兩個月。\n今天，父親傳來一則訊息。\n「Minjun，過得好嗎？」",
+    "description": "因為忙而推遲去看父親，已經過了兩個月。\n今天，父親傳來一則訊息。\n「兒子，過得好嗎？」",
     "choices": [
       {
         "text": "打電話給父親",

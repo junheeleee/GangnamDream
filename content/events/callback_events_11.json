@@ -221,7 +221,7 @@
   {
     "id": "callback_racetrack_bet_first_reflection",
     "title": "처음 베팅했던 날",
-    "description": "경마장에서 처음으로 베팅했던 날로부터 석 달이 됐다.\n그때 느꼈던 그 감각이 — 지금도 생각난다.\n좋은 기억인지 나쁜 기억인지 모르겠다.",
+    "description": "경마장에서 처음으로 베팅했던 날로부터 석 달이 됐다.\n그때 손끝에 남았던 감각이 지금도 생각난다.\n좋은 기억인지 나쁜 기억인지 모르겠다.",
     "category": "gambling",
     "rarity": "common",
     "weight": 1.0,
@@ -254,7 +254,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "재미있었다.\n재미있는 게 나쁜 건 아니었다.\n그 재미가 어디까지 가는지 — 스스로 알아야 했다."
+        "result_text": "재미있었다.\n재미있는 게 나쁜 건 아니었다.\n{name}은 경마장 앱 알림을 끄지 않은 채 휴대폰을 엎어 두었다."
       }
     ]
   },

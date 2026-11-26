@@ -156,7 +156,7 @@
     "choices": [
       {
         "text": "Keep going",
-        "result_text": "You kept at it.\nIt started as a muddy beginning — but what mattered in the end was following through."
+        "result_text": "He kept at it.\nIt had started on muddy ground. Still, {name} wrote next week's meeting into the calendar."
       },
       {
         "text": "Admit the path now is different from how it began",
@@ -190,7 +190,7 @@
       },
       {
         "text": "Repeat the same mistake",
-        "result_text": "You made the same mistake again.\nExperience doesn't automatically become a lesson."
+        "result_text": "He made the same mistake again.\nEvery time he passed the café, the look from that day came back first."
       }
     ]
   },

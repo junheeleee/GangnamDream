@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "Doubting yet continuing was the answer",
-        "result_text": "Doubt wasn't something to erase but to carry.\n\nHad they quit then, there'd be no foundation now.\n{name} acknowledged the self who stepped forward even within doubt."
+        "result_text": "Had he quit then, there'd be no foundation now.\n\n{name} hung the ID badge around his neck and pressed the elevator button."
       },
       {
         "text": "Re-examine whether that doubt was right",
@@ -50,12 +50,12 @@
     "description": "The day of the first paycheck, instead of celebrating, {name} immediately opened the investing app. 'This money can't just sit in the account.'\n\nThat instinct built the current momentum.\n\nMoney came in again today.",
     "choices": [
       {
-        "text": "That mindset — make money work",
+        "text": "That same mindset: make money work",
         "result_text": "Knew from the first payday that salary alone can't reach Gangnam.\n\nMoney making money. {name} grasped it early, started early.\nThat one month's head start becomes a large gap five years out."
       },
       {
         "text": "Now I watch risk over speed",
-        "result_text": "At first, believed rolling it all was the answer.\n\nNow knows not losing matters as much as gaining."
+        "result_text": "At first, he believed keeping it all in play was the answer.\n\nNow, before pressing buy, {name} writes down the stop-loss price first."
       }
     ]
   },

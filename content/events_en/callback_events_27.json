@@ -5,11 +5,11 @@
     "description": "Passing a convenience store, a job posting catches his eye.\n\nAutumn at 33, when the bank account dropped below 300,000 won, he had seriously considered a posting in this same spot. In the end, he didn't take it.\n\nOnly the hourly wage on the glass door had gone up since then.",
     "choices": [
       {
-        "text": "That was the right call — what I'm doing now is proof",
-        "result_text": "He walked on.\nA posting is just a posting. He chose something else. It was his own direction, even if slower."
+        "text": "That was the right call. What I'm doing now is proof",
+        "result_text": "He walked on.\n{name} looked away from the flyer and kept going the way he'd been going."
       },
       {
-        "text": "Still not sure — just holding on",
+        "text": "Still not sure. Just holding on",
         "result_text": "Too early to judge.\nSurviving and making the right choice aren't the same thing. He keeps going either way."
       }
     ]
@@ -32,15 +32,15 @@
   {
     "id": "callback_mid_goal_echo",
     "title": "The Number He Set",
-    "description": "When his assets were just beginning to grow, he wrote down monthly targets.\nSpecific numbers. They became something to hold onto.\n\nToday he looked at those numbers again. Whether he hit them or not — having a target made all the difference.",
+    "description": "When his assets were just beginning to grow, he wrote down monthly targets.\nSpecific numbers. They became something to hold onto.\n\nToday he looked at those numbers again. The months he hit and the months he missed carried the same pen marks.",
     "choices": [
       {
-        "text": "Raise the goal — aim higher",
+        "text": "Raise the goal higher",
         "result_text": "He revised the number upward. Bigger.\nBigger also means he has to endure more."
       },
       {
-        "text": "Keep the current pace — no overreaching",
-        "result_text": "Consistency beats greed.\nA goal isn't there to be achieved — it's there to keep you pointed in the right direction."
+        "text": "Keep the current pace. No overreaching",
+        "result_text": "He left the numbers as they were.\n{name} wrote the same amount into next month's box."
       }
     ]
   },

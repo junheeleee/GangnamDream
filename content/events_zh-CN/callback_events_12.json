@@ -70,7 +70,7 @@
       },
       {
         "text": "要不，还是打个招呼",
-        "result_text": "说了句：“你好，Daeun。”\nDaeun说：“啊，Minjun。好久不见。”"
+        "result_text": "说了句：“你好，Daeun。”\nDaeun说：“啊，{name}。好久不见。”"
       }
     ]
   },

@@ -77,7 +77,7 @@
   {
     "id": "callback_racetrack_bet_first_reflection",
     "title": "The Day of the First Bet",
-    "description": "Three months since the day you placed your first bet at the track.\nThat feeling you had then — it still comes back.\nNot sure if it's a good memory or a bad one.",
+    "description": "Three months since the day he placed his first bet at the track.\nThe feeling in his fingertips then still comes back.\nNot sure if it's a good memory or a bad one.",
     "choices": [
       {
         "text": "Analyze what that feeling actually was",
@@ -85,7 +85,7 @@
       },
       {
         "text": "It was just fun",
-        "result_text": "It was fun.\nFun isn't inherently bad.\nBut where that fun leads — that's something you had to know yourself."
+        "result_text": "It was fun.\nFun isn't inherently bad.\n{name} left the track app's alerts on and set the phone face down."
       }
     ]
   },

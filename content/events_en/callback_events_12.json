@@ -70,7 +70,7 @@
       },
       {
         "text": "Maybe I could at least say hello",
-        "result_text": "'Hello, Daeun-ssi,' you said.\nShe said 'Oh — Minjun-ssi. Long time.'"
+        "result_text": "'Hello, Daeun-ssi,' he said.\nShe said, 'Oh, {name}-ssi. Long time.'"
       }
     ]
   },
