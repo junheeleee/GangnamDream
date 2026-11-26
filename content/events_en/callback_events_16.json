@@ -137,7 +137,7 @@
     "choices": [
       {
         "text": "Just listen",
-        "result_text": "He listened.\nJaehyuk was the same.\nCutting things off had been confirmed as right."
+        "result_text": "He listened.\nJaehyuk was the same.\n{name} just nodded and moved on to something else."
       },
       {
         "text": "\"Can we not talk about him?\"",

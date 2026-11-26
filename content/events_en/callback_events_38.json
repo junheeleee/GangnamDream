@@ -5,11 +5,11 @@
     "description": "Cleaning out the wallet — a business card.\n\nLee Minseo. The woman who owns the Gangnam apartment.\n\n'If you want to know how I did it, reach out.'\n\nMonths since she said that.",
     "choices": [
       {
-        "text": "Send the message — ask to meet",
-        "result_text": "'you've been waiting. Let's get coffee.'\n\nFast reply.\n\nA card that sat in a wallet for three months finally got used."
+        "text": "Send a message asking to meet",
+        "result_text": "'I've been waiting to hear from you. Let's meet sometime.'\n\nFast reply.\n\nA card that sat in a wallet for three months finally got used."
       },
       {
-        "text": "Not yet — not ready to stand in front of her",
+        "text": "Not yet. not ready to stand in front of her",
         "result_text": "Wants to show up with something to show.\nNot empty-handed.\n\nPut the card back. Still there when it's time."
       }
     ]

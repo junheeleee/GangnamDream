@@ -122,14 +122,14 @@
   {
     "id": "callback_reached_out_35_echo",
     "title": "Reaching Out First",
-    "description": "At 35, in that piercingly lonely stretch, {name} reached out first to anyone at all.\n\nThat courage comes to mind sometimes.\n\nToday, on another similarly hollow day, they picked up the phone.",
+    "description": "At 35, in that piercingly lonely stretch, {name} reached out first to anyone at all.\n\nThat courage comes to mind sometimes.\n\nToday, on another similarly hollow day, he picked up the phone.",
     "choices": [
       {
-        "text": "Like that time — extend a hand first",
+        "text": "Like that time, extend a hand first",
         "result_text": "That small courage to reach out first had saved {name} more than once.\nToday too, he checked in on someone. When a reply came, the room felt less cold."
       },
       {
-        "text": "This time alone is fine — I've grown sturdier",
+        "text": "This time alone is fine. I've grown sturdier",
         "result_text": "Back then, anyone would do. Now, alone is bearable.\n\nThe strength to endure loneliness had grown a little."
       }
     ]
@@ -152,15 +152,15 @@
   {
     "id": "callback_went_hospital_echo",
     "title": "Going to the Hospital",
-    "description": "At 36, when the body sent signals, {name} put work aside and went to the hospital. Had to know.\n\nThey think it was the right call.\n\nToday the body is heavy again. This is the final stretch.",
+    "description": "At 36, when the body sent signals, {name} put work aside and went to the hospital. Had to know.\n\nHe thinks it was the right call.\n\nToday the body is heavy again. This is the final stretch.",
     "choices": [
       {
-        "text": "Like that time — body first",
-        "result_text": "Collapsing right at the finish line means nothing.\n\nAs going to the hospital protected {name} then, they chose the body first today too.\nNo health, no Gangnam."
+        "text": "Like that time, body first",
+        "result_text": "As going to the hospital had protected {name} then, he chose the body first today too."
       },
       {
-        "text": "Trust the test results — pace it, no overreach",
-        "result_text": "Thanks to that checkup, {name} knows their own condition.\n\nInstead of running blindly, they found a sustainable speed."
+        "text": "Trust the test results, pace it, no overreach",
+        "result_text": "Thanks to that checkup, {name} knows his own condition.\n\nInstead of running blindly, he found a sustainable speed."
       }
     ]
   },

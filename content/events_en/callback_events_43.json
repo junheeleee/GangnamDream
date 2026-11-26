@@ -2,11 +2,11 @@
   {
     "id": "callback_told_father_win_echo",
     "title": "That Phone Call",
-    "description": "A Sunday call.\n\nDad brought it up out of nowhere.\n\n'Minjun-ah — that time you called because something went well. Your voice sounded good that day.'\n\nThe day {name} first crossed 50 million won, the first call was to Dad.",
+    "description": "A Sunday call.\n\nDad brought it up out of nowhere.\n\n'Son, that time you called because something went well. Your voice sounded good that day.'\n\nThe day {name} first crossed 50 million won, the first call was to Dad.",
     "choices": [
       {
         "text": "\"I was happy. I wanted to hear your voice.\"",
-        "result_text": "'...Yeah. I felt good that day too.'\n\nThe first person {name} thought of after making money was Dad. That meant something.\nNumbers are cold when looked at alone. Less so when there's someone to share them with."
+        "result_text": "'...Yeah. I felt good that day too.'\n\nThe first person {name} thought of after making money was Dad.\nAfter the call ended, {name} held the phone for a long while."
       },
       {
         "text": "\"It wasn't a big deal. I made a fuss over nothing.\"",
@@ -95,11 +95,11 @@
     "description": "On the night the weight of 3 billion won pressed down, {name} did nothing and just lay down to sleep.\n\nThe doubt of that day.\n\nTonight a similar night returned.",
     "choices": [
       {
-        "text": "Like that day — sleep first, look again tomorrow",
-        "result_text": "Stopping is a strategy too.\n\n{name} now knows that just sleeping that day wasn't running away — it was recovery.\nThe next morning the numbers were the same, but the person was a little different."
+        "text": "Like that day, sleep first, look again tomorrow",
+        "result_text": "{name} turned the phone face down and lay down.\nThe next morning the numbers were the same, but the person was a little different."
       },
       {
-        "text": "Not just lying down this time — do one small thing",
+        "text": "Not just lying down this time. do one small thing",
         "result_text": "Remembering that day's helplessness.\n\nDecided to do one tiny thing before sleep today."
       }
     ]

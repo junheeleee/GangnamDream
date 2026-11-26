@@ -2,15 +2,15 @@
   {
     "id": "callback_next_milestone_set_echo",
     "title": "Setting the Next Goal Right Away",
-    "description": "The day {name} first hit 50 million won, before even celebrating, they set the next goal. '500 million won.'\n\nThat immediacy carried all the way here.\n\nToday, before another milestone, that day came to mind.",
+    "description": "The day {name} first hit 50 million won, before even celebrating, he set the next goal. '500 million won.'\n\nThat immediacy carried all the way here.\n\nToday, before another milestone, that day came to mind.",
     "choices": [
       {
-        "text": "Like then — don't stop, look at the next number",
+        "text": "Like then, don't stop, look at the next number",
         "result_text": "A habit of not lingering on achievement.\n\nThat pushed {name} quickly to the next stage.\nFrom 50 million won to 500 million won, that gaze eventually aimed at 3 billion won."
       },
       {
-        "text": "This time, pause — acknowledge coming this far",
-        "result_text": "Looking only at the next mark, he'd been missing now.\n\n{name} paused to acknowledge how far he'd come."
+        "text": "This time, pause, acknowledge coming this far",
+        "result_text": "{name} paused to acknowledge how far he'd come."
       }
     ]
   },

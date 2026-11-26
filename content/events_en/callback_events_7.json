@@ -77,11 +77,11 @@
   {
     "id": "callback_sangchul_jiyeon_connection",
     "title": "The Name Sangchul Brought Up",
-    "description": "Over dinner today, Sangchul brought it up first.\n\"Minjun. You know Han Jiyeon?\nShe's been mentioning your name lately.\"",
+    "description": "Over dinner today, Sangchul brought it up first.\n\"You know Han Jiyeon?\nShe's been mentioning your name lately.\"",
     "choices": [
       {
         "text": "\"What kind of things?\" — ask more",
-        "result_text": "Sangchul said 'Good things. That you're someone who can be trusted.'\nJiyeon. Sangchul. In this network, reputation flows.\nReputation is made where nobody's watching."
+        "result_text": "Sangchul said 'Good things. That you're someone who can be trusted.'\nEven where {name} wasn't, his name was going around."
       },
       {
         "text": "\"Is that so?\" and move on",
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "Respond",
-        "result_text": "'You handled that well. I wanted to do the same but couldn't.'\nThose words stayed for a long time.\nPeople who hold their ground — stay in the memory of those who couldn't."
+        "result_text": "'You handled that well. I wanted to do the same but couldn't.'\nThose words stayed for a long time."
       },
       {
         "text": "\"It was nothing special.\"",
-        "result_text": "'It was nothing.'\nThey said 'No — it really was something.'\nThe person in it may not see it. But witnesses do."
+        "result_text": "'It was nothing.'\nThey said 'No — it really was something.'"
       }
     ]
   },

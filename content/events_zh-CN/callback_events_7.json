@@ -47,9 +47,9 @@
   {
     "id": "callback_sangchul_jiyeon_connection",
     "title": "Sangchul 先提起的名字",
-    "description": "今天和 Sangchul 吃饭时，他先问了。\n“Minjun，认识 Han Jiyeon 吗？\n她最近在说你的事。”",
+    "description": "今天和 Sangchul 吃饭时，他先问了。\n“认识 Han Jiyeon 吗？\n她最近在说你的事。”",
     "choices": [
-      {"text": "“说什么了？”继续问", "result_text": "Sangchul 说：“好话。说你是个值得信赖的人。”\nJiyeon，Sangchul——评价在这个圈子里流动着。\n声誉，是在看不见的地方形成的。"},
+      {"text": "“说什么了？”继续问", "result_text": "Sangchul 说：“好话。说你是个值得信赖的人。”\n就算{name}不在场，他的名字也在被人提起。"},
       {"text": "说声“是吗”，就此带过", "result_text": "自然地带了过去。\nSangchul 换了个话题。\n那一句话，留下的时间比想象中更久。"}
     ]
   },
@@ -76,8 +76,8 @@
     "title": "没有在 Jaehyuk 面前退让之后",
     "description": "那天，在 Choi Jaehyuk 面前撑住了。\n周围的反应很安静。\n说不清那份安静是好是坏。\n今天，当时在场的人单独联系了过来。",
     "choices": [
-      {"text": "回应对方", "result_text": "“那天你做得很好。我也想那么做，但没能做到。”\n这句话，留了很久。\n撑住的人——会留在没能撑住的人心里。"},
-      {"text": "说声“没什么”，带过去", "result_text": "说了声：“没什么。”\n对方却说：“……不是。真的很了不起。”\n当事人未必明白，看着的人却知道。"}
+      {"text": "回应对方", "result_text": "“那天你做得很好。我也想那么做，但没能做到。”\n这句话，留了很久。"},
+      {"text": "说声“没什么”，带过去", "result_text": "说了声：“没什么。”\n对方却说：“……不是。真的很了不起。”"}
     ]
   },
   {
