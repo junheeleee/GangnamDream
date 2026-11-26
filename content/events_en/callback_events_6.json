@@ -77,15 +77,15 @@
   {
     "id": "callback_daeun_guarded_distance",
     "title": "The Distance That Grew",
-    "description": "You'd kept drawing lines around Daeun.\nToday you heard through a mutual friend.\nDaeun had moved to a different neighborhood.",
+    "description": "He'd kept drawing lines around Daeun.\nToday he heard through a mutual friend.\nDaeun had moved to a different neighborhood.",
     "choices": [
       {
         "text": "Try reaching out",
-        "result_text": "You sent a text. 'Heard you moved. How are you?'\nOnly the read receipt appeared.\nNo reply.\nYou were the one who drew the lines."
+        "result_text": "He sent a text. 'Heard you moved. How are you?'\nOnly the read receipt appeared.\nNo reply.\nHe was the one who drew the lines."
       },
       {
         "text": "Leave it",
-        "result_text": "You left it.\nThe next week, the chat with Daeun stayed closed too."
+        "result_text": "He left it.\nThe next week, the chat with Daeun stayed closed too."
       }
     ]
   },

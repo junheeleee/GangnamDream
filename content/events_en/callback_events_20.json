@@ -2,15 +2,15 @@
   {
     "id": "callback_father_going_soon_echo",
     "title": "After Learning Father Doesn't Have Long",
-    "description": "Two months since you learned your father doesn't have much time left.\nYou'd been carrying that knowledge.\nToday a call came from him.",
+    "description": "Two months since he learned his father didn't have much time left.\nHe'd been carrying that knowledge.\nToday a call came from his father.",
     "choices": [
       {
         "text": "Pick up right away",
-        "result_text": "You picked up.\nHis voice was weaker than before."
+        "result_text": "He picked up.\nHis voice was weaker than before."
       },
       {
         "text": "Call back later",
-        "result_text": "You called back later.\nHe was already asleep."
+        "result_text": "He called back later.\nHe was already asleep."
       }
     ]
   },
@@ -212,7 +212,7 @@
   {
     "id": "callback_took_high_road_echo",
     "title": "After Taking the High Road",
-    "description": "Two months since you chose the harder right over the easier wrong.\nIn the short term it had cost you.\nToday something came back.",
+    "description": "Two months since he chose the harder right over the easier wrong.\nIn the short term it had cost him.\nToday something came back.",
     "choices": [
       {
         "text": "Something came back",
@@ -220,7 +220,7 @@
       },
       {
         "text": "Still nothing yet",
-        "result_text": "Still nothing.\nBut there was also something you hadn't lost."
+        "result_text": "Still nothing.\nBut there was also something he hadn't lost."
       }
     ]
   }

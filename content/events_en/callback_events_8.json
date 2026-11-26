@@ -21,11 +21,11 @@
   {
     "id": "callback_cafe_stole_walked_echo",
     "title": "The Information You Didn't Use",
-    "description": "You overheard the tip at the café — and ultimately walked away without using it.\nToday that ticker made the news.\n[OO Stock Up 3.4x in Six Months]",
+    "description": "He overheard the tip at the café — and ultimately walked away without using it.\nToday that ticker made the news.\n[OO Stock Up 3.4x in Six Months]",
     "choices": [
       {
         "text": "Disappointing, but it was the right call.",
-        "result_text": "3.4x.\nThe number stayed in front of your eyes for a while.\nBut so did how you would have made that money.\nIt was the right call.\nEven if it hurt."
+        "result_text": "3.4x.\nThe number stayed in front of his eyes for a while.\nBut so did how he would have made that money.\nIt was the right call.\nEven if it hurt."
       },
       {
         "text": "Should've just put it in.",
@@ -96,22 +96,22 @@
   {
     "id": "callback_cafe_overheard_encounter",
     "title": "Someone from That Café",
-    "description": "You overheard investment talk at the café and did nothing with it.\nToday on the street you ran into one of the two people from that conversation.\nYou were close enough to recognize each other.",
+    "description": "He overheard investment talk at the café and did nothing with it.\nToday on the street he ran into one of the two people from that conversation.\nThey were close enough to recognize each other.",
     "choices": [
       {
         "text": "Pass without a word",
-        "result_text": "You passed.\nThey didn't seem to notice.\nThe judgment from that day felt vindicated.\nNot using what you overheard."
+        "result_text": "He passed.\nThey didn't seem to notice.\nThe judgment from that day felt vindicated.\nNot using what he overheard."
       },
       {
         "text": "Speak first",
-        "result_text": "You spoke.\nThey asked where they'd seen you.\n'That café. Briefly.'\nA short exchange.\nBefore parting, they asked if you'd be back."
+        "result_text": "He spoke.\nThey asked where they'd seen him.\n'That café. Briefly.'\nA short exchange.\nBefore parting, they asked if he'd be back."
       }
     ]
   },
   {
     "id": "callback_cafe_learned_humility_test",
     "title": "Humility's Expiration Date",
-    "description": "After what happened at the café, you were humble for a while.\nSix months passed.\nToday another strong-sounding tip came in.\nSame feeling as back then.",
+    "description": "After what happened at the café, he was humble for a while.\nSix months passed.\nToday another strong-sounding tip came in.\nSame feeling as back then.",
     "choices": [
       {
         "text": "Verify it first, like last time",
@@ -119,7 +119,7 @@
       },
       {
         "text": "This time is different. Go straight in.",
-        "result_text": "You went straight in.\nWrong.\nThe humility learned at the café was tested again six months later.\nAnd failed again."
+        "result_text": "He went straight in.\nWrong.\nThe humility learned at the café was tested again six months later.\nAnd failed again."
       }
     ]
   },

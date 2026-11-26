@@ -2,15 +2,15 @@
   {
     "id": "callback_daeun_supportive_echo",
     "title": "After Daeun's Support",
-    "description": "Two months since Daeun was there for you.\nThat support had stayed with you.\nToday a message came from her.",
+    "description": "Two months since Daeun was there for him.\nThat support had stayed with him.\nToday a message came from her.",
     "choices": [
       {
         "text": "Tell her things are going well",
-        "result_text": "You said things were going well.\nShe said 'Glad to hear it.'"
+        "result_text": "He said things were going well.\nShe said 'Glad to hear it.'"
       },
       {
         "text": "Ask how she's been first",
-        "result_text": "You asked how she was first.\nShe paused a moment before answering."
+        "result_text": "He asked how she was first.\nShe paused a moment before answering."
       }
     ]
   },
@@ -47,15 +47,15 @@
   {
     "id": "callback_daeun_deflected_echo",
     "title": "After Letting Her Pass",
-    "description": "Two months since you let Daeun pass.\nShe still crossed your path now and then.\nToday you crossed again.",
+    "description": "Two months since he let Daeun pass.\nShe still crossed his path now and then.\nToday their paths crossed again.",
     "choices": [
       {
         "text": "Greet her properly this time",
-        "result_text": "You said hello first.\nShe looked briefly surprised."
+        "result_text": "He said hello first.\nShe looked briefly surprised."
       },
       {
         "text": "Let her pass again",
-        "result_text": "You let her go again.\nShe passed too."
+        "result_text": "He let her go again.\nShe passed too."
       }
     ]
   },
@@ -212,15 +212,15 @@
   {
     "id": "callback_father_reconciled_started_echo",
     "title": "After the Reconciliation Began",
-    "description": "Two months since the careful beginning of reconciliation with your father.\nAt first it had been awkward.\nToday a text came from him.",
+    "description": "Two months since the careful beginning of reconciliation with his father.\nAt first it had been awkward.\nToday a text came from his father.",
     "choices": [
       {
         "text": "Reply right away",
-        "result_text": "You replied immediately.\nA short text, but this time it ended with a question mark instead of a period."
+        "result_text": "He replied immediately.\nA short text, but this time it ended with a question mark instead of a period."
       },
       {
         "text": "Think carefully about what to say",
-        "result_text": "You sat with what to write for a while.\nYou sent 'Yeah. Me too.'"
+        "result_text": "He sat with what to write for a while.\nHe sent 'Yeah. Me too.'"
       }
     ]
   }

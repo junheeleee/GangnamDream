@@ -62,37 +62,37 @@
   {
     "id": "callback_jiyeon_referral_met_echo",
     "title": "Jiyeon's Introduction",
-    "description": "Two months since you met someone Jiyeon introduced you to.\nToday they reached out again.",
+    "description": "Two months since he met someone Jiyeon introduced him to.\nToday they reached out again.",
     "choices": [
       {
         "text": "Continue building this connection",
-        "result_text": "You met again.\nThe introduction through Jiyeon — had continued beyond Jiyeon."
+        "result_text": "They met again.\nThe introduction through Jiyeon had continued beyond Jiyeon."
       },
       {
         "text": "Say you're busy this time",
-        "result_text": "'Busy these days,' you said.\nThey understood."
+        "result_text": "'Busy these days,' he said.\nThey understood."
       }
     ]
   },
   {
     "id": "callback_jiyeon_deflected_business_echo",
     "title": "After Deflecting the Business Talk",
-    "description": "Two months since you brushed off Jiyeon's business pitch.\nToday she brought it up again.\nThis time, directly.",
+    "description": "Two months since he brushed off Jiyeon's business pitch.\nToday she brought it up again.\nThis time, directly.",
     "choices": [
       {
         "text": "Hear it out properly this time",
-        "result_text": "You listened.\nWith actual attention, it was clearer than you'd let it be."
+        "result_text": "He listened.\nWith actual attention, it was clearer than he'd let it be."
       },
       {
         "text": "Deflect it gently again",
-        "result_text": "You slid past it again.\nJiyeon's expression shifted for a moment.\nShe said 'I see.'"
+        "result_text": "He slid past it again.\nJiyeon's expression shifted for a moment.\nShe said 'I see.'"
       }
     ]
   },
   {
     "id": "callback_jiyeon_mother_direct_echo",
     "title": "Directly with Jiyeon's Mother",
-    "description": "Two months since you had a direct conversation with Jiyeon's mother.\nToday Jiyeon brought it up.\n'My mother was saying good things about you, oppa.'",
+    "description": "Two months since he had a direct conversation with Jiyeon's mother.\nToday Jiyeon brought it up.\n'My mother was saying good things about you, oppa.'",
     "choices": [
       {
         "text": "\"Was she? Please pass on my thanks.\"",
@@ -100,7 +100,7 @@
       },
       {
         "text": "\"That's nice.\" Take it calmly.",
-        "result_text": "You received it calmly.\nJiyeon said 'You're so unfazed.'"
+        "result_text": "He received it calmly.\nJiyeon said 'You're so unfazed.'"
       }
     ]
   },

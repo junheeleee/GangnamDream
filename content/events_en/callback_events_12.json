@@ -2,22 +2,22 @@
   {
     "id": "callback_jiyeon_accepted_echo",
     "title": "After Accepting",
-    "description": "Two months since you decided to accept what Jiyeon said.\nYou thought it was the right call.\nToday a short message from Jiyeon.\n'Oppa — how've you been?'",
+    "description": "Two months since he decided to accept what Jiyeon said.\nHe thought it was the right call.\nToday a short message from Jiyeon.\n'Oppa — how've you been?'",
     "choices": [
       {
         "text": "Answer honestly",
-        "result_text": "'Hanging in there, more or less,' you said.\nJiyeon replied 'That means you're okay.'"
+        "result_text": "'Hanging in there, more or less,' he said.\nJiyeon replied 'That means you're okay.'"
       },
       {
         "text": "Just say \"I'm good\"",
-        "result_text": "'I'm good,' you said.\nJiyeon said 'Good to hear.'"
+        "result_text": "'I'm good,' he said.\nJiyeon said 'Good to hear.'"
       }
     ]
   },
   {
     "id": "callback_jiyeon_refused_coffee_echo",
     "title": "After Turning Down Coffee",
-    "description": "A month since you declined Jiyeon's invitation for coffee.\nToday you ran into her in the hallway.\nShe gave an awkward smile.",
+    "description": "A month since he declined Jiyeon's invitation for coffee.\nToday he ran into her in the hallway.\nShe gave an awkward smile.",
     "choices": [
       {
         "text": "\"I'm sorry I said no back then.\"",
@@ -25,14 +25,14 @@
       },
       {
         "text": "Just exchange a natural nod",
-        "result_text": "You nodded.\nShe nodded back."
+        "result_text": "He nodded.\nShe nodded back."
       }
     ]
   },
   {
     "id": "callback_jiyeon_prioritized_goal_echo",
     "title": "What Choosing the Goal Meant",
-    "description": "Three months since you chose your goal over the relationship with Jiyeon.\nToday you looked back at whether that was right.\nYour assets had grown since then.",
+    "description": "Three months since he chose his goal over the relationship with Jiyeon.\nToday he looked back at whether that was right.\nHis assets had grown since then.",
     "choices": [
       {
         "text": "It was the right call",
@@ -62,11 +62,11 @@
   {
     "id": "callback_daeun_kept_distance_echo",
     "title": "After Keeping Distance",
-    "description": "Two months since you decided to keep your distance from Daeun.\nToday you spotted her from far away.\nYou passed without saying anything.",
+    "description": "Two months since he decided to keep his distance from Daeun.\nToday he spotted her from far away.\nHe passed without saying anything.",
     "choices": [
       {
         "text": "This is the right distance",
-        "result_text": "You passed.\n{name} didn't look back until Daeun had turned the corner."
+        "result_text": "He passed.\n{name} didn't look back until Daeun had turned the corner."
       },
       {
         "text": "Maybe I could at least say hello",
@@ -77,7 +77,7 @@
   {
     "id": "callback_daeun_saw_her_ok_echo",
     "title": "Knowing Daeun Is Fine",
-    "description": "A month since you confirmed Daeun was doing well.\nYour mind felt a little lighter after.\nToday you heard about her again.",
+    "description": "A month since he confirmed Daeun was doing well.\nHis mind felt a little lighter after.\nToday he heard about her again.",
     "choices": [
       {
         "text": "Glad to hear it",
@@ -85,7 +85,7 @@
       },
       {
         "text": "The thought of reaching out crosses my mind",
-        "result_text": "You wanted to reach out.\nBut you couldn't tell if it was for her or for yourself."
+        "result_text": "He wanted to reach out.\nBut he couldn't tell if it was for her or for himself."
       }
     ]
   },
@@ -107,7 +107,7 @@
   {
     "id": "callback_jaehyuk_heard_his_story_echo",
     "title": "After Hearing Jaehyuk's Story",
-    "description": "Two months since you heard Jaehyuk's story.\nWhat you heard that day was still in a corner of {name}'s notebook, in a few words.\nToday you ran into Jaehyuk.",
+    "description": "Two months since he heard Jaehyuk's story.\nWhat he heard that day was still in a corner of {name}'s notebook, in a few words.\nToday he ran into Jaehyuk.",
     "choices": [
       {
         "text": "\"Thanks for telling me back then.\"",
@@ -115,14 +115,14 @@
       },
       {
         "text": "Just say hello naturally",
-        "result_text": "You said hello.\nHe said hello back."
+        "result_text": "{name} said hello.\nJaehyuk said hello back."
       }
     ]
   },
   {
     "id": "callback_jaehyuk_01b_pressed_result",
     "title": "After Pushing Jaehyuk",
-    "description": "A month since you pushed Jaehyuk to the wall.\nToday word came that Jaehyuk had left the company.",
+    "description": "A month since he pushed Jaehyuk to the wall.\nToday word came that Jaehyuk had left the company.",
     "choices": [
       {
         "text": "Wonder if pushing him made a difference",
@@ -130,22 +130,22 @@
       },
       {
         "text": "It was probably the right move for him",
-        "result_text": "Whatever the reason — you hoped leaving was better for him."
+        "result_text": "Whatever the reason, he hoped leaving was better for Jaehyuk."
       }
     ]
   },
   {
     "id": "callback_sangchul_invited_echo",
     "title": "After Sangchul's Invitation",
-    "description": "A month since Sangchul invited you to that gathering.\nSome of the people you met there reached out today.",
+    "description": "A month since Sangchul invited him to that gathering.\nSome of the people he met there reached out today.",
     "choices": [
       {
         "text": "Keep building these connections",
-        "result_text": "You met again.\nTwo new business cards went into {name}'s wallet."
+        "result_text": "He met them again.\nTwo new business cards went into {name}'s wallet."
       },
       {
         "text": "Say you're busy this time",
-        "result_text": "\"Can't make it this time,\" you said.\nThey understood."
+        "result_text": "\"Can't make it this time,\" he said.\nThey understood."
       }
     ]
   },
@@ -167,15 +167,15 @@
   {
     "id": "callback_dismissed_sangchul_warning_result",
     "title": "Ignoring Sangchul's Warning",
-    "description": "Two months since you dismissed Sangchul's warning.\nToday the outcome landed.\nExactly as he'd said.",
+    "description": "Two months since he dismissed Sangchul's warning.\nToday the outcome landed.\nExactly as he'd said.",
     "choices": [
       {
         "text": "Tell Sangchul honestly",
-        "result_text": "'You were right,' you said.\nSangchul said 'Listen next time.'"
+        "result_text": "'You were right,' he said.\nSangchul said 'Listen next time.'"
       },
       {
         "text": "Just take the lesson quietly",
-        "result_text": "You didn't say anything.\nBut you remembered."
+        "result_text": "He didn't say anything.\nBut he remembered."
       }
     ]
   },
@@ -197,22 +197,22 @@
   {
     "id": "callback_jiyeon_forgave_complexity_echo",
     "title": "After Forgiving the Complexity",
-    "description": "Two months since you understood Jiyeon's complicated situation and forgave her.\nIt wasn't easy.\nToday Jiyeon reached out first.",
+    "description": "Two months since he understood Jiyeon's complicated situation and forgave her.\nIt wasn't easy.\nToday Jiyeon reached out first.",
     "choices": [
       {
         "text": "Receive it warmly",
-        "result_text": "You talked for a long time.\nForgiveness wasn't the end of a relationship — it was the start of the next stage."
+        "result_text": "They talked for a long time.\nForgiveness wasn't the end of a relationship — it was the start of the next stage."
       },
       {
         "text": "Keep it short, just check in",
-        "result_text": "You exchanged a brief update.\nForgiveness doesn't always bring everything back."
+        "result_text": "They exchanged brief updates.\nForgiveness doesn't always bring everything back."
       }
     ]
   },
   {
     "id": "callback_jiyeon_acknowledged_echo",
     "title": "After Acknowledging It",
-    "description": "A month since you admitted your mistake to Jiyeon.\nToday you thought back to her reaction.\nShe hadn't said anything at the time.",
+    "description": "A month since he admitted his mistake to Jiyeon.\nToday he thought back to her reaction.\nShe hadn't said anything at the time.",
     "choices": [
       {
         "text": "Silence was also a response",

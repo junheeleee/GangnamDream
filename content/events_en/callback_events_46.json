@@ -10,7 +10,7 @@
       },
       {
         "text": "This time, pause — acknowledge coming this far",
-        "result_text": "Look only at next and you miss now.\n\n{name} paused to acknowledge how far they'd come."
+        "result_text": "Looking only at the next mark, he'd been missing now.\n\n{name} paused to acknowledge how far he'd come."
       }
     ]
   },
@@ -25,7 +25,7 @@
       },
       {
         "text": "\"I wished someone had asked me that too.\"",
-        "result_text": "When you fall, 'what now' lifts you more than 'it's okay.'\n\n{name} had offered Hyun-su the words they'd wanted to hear."
+        "result_text": "When Hyun-su fell, 'what now' had lifted him more than 'it's okay.'\n\n{name} had offered Hyun-su the words he'd wanted to hear."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "\"I held on because you picked up.\"",
-        "result_text": "'You did the same for me. That's what we are.'\n\nHaving someone to call when you're collapsing.\nThat was the rope that held {name} through that night."
+        "result_text": "'You did the same for me. That's what we are.'\n\nSomeone to call when he was falling apart.\nThat was the rope that held {name} through that night."
       },
       {
         "text": "\"Alone, I couldn't have gotten up.\"",
-        "result_text": "Having even one person you can show weakness to."
+        "result_text": "Even one person he could show weakness to."
       }
     ]
   },
@@ -186,7 +186,7 @@
     "choices": [
       {
         "text": "\"Honesty's easier. You doing well too?\"",
-        "result_text": "Stating your situation without dressing it up.\n\nThat actually drew out the other's respect.\n{name} wasn't ashamed of having been honest in the face of comparison."
+        "result_text": "Stating his situation without dressing it up.\n\nThat actually drew out the other's respect.\n{name} wasn't ashamed of having been honest in the face of comparison."
       },
       {
         "text": "\"Talking with you back then fired me up too.\"",

@@ -144,11 +144,11 @@
     "choices": [
       {
         "text": "Appear",
-        "result_text": "A courtroom.\nYour eyes met Jaehyuk's. He looked away.\nYou gave your testimony and walked out.\nThe sky was clear."
+        "result_text": "A courtroom.\n{name}'s eyes met Jaehyuk's. Jaehyuk looked away.\n{name} gave his testimony and walked out.\nThe sky was clear."
       },
       {
         "text": "Decline — you already filed the report",
-        "result_text": "'I have personal circumstances. I'll submit a written statement.'\nThe detective said that was fine.\nThat night you searched Jaehyuk's name in the news — then stopped."
+        "result_text": "'I have personal circumstances. I'll submit a written statement.'\nThe detective said that was fine.\nThat night he searched Jaehyuk's name in the news — then stopped."
       }
     ]
   },

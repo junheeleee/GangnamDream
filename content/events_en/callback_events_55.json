@@ -51,7 +51,7 @@
     "choices": [
       {
         "text": "Turned it down again. That decision was right.",
-        "result_text": "Declined.\n\nHanging up, {name} knew this wasn't a loss.\nCutting something means you no longer need to depend on it."
+        "result_text": "Declined.\n\nHanging up, {name} knew this wasn't a loss.\nHaving cut it, he no longer needed to depend on it."
       },
       {
         "text": "Hesitated for a moment. Declined anyway.",

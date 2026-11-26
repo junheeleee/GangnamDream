@@ -126,11 +126,11 @@
   {
     "id": "callback_declared_dream_check",
     "title": "Hyeonsu's Message",
-    "description": "In the goshiwon shared kitchen, you told Hyeonsu: 'you're going to Gangnam. In five years.'\nToday a KakaoTalk from Hyeonsu.\n'Hey, you said Gangnam in five years back then. How long's left now?'",
+    "description": "In the goshiwon shared kitchen, he told Hyeonsu: 'I'm going to Gangnam. In five years.'\nToday a KakaoTalk from Hyeonsu.\n'Hey, you said Gangnam in five years back then. How long's left now?'",
     "choices": [
       {
         "text": "\"Still on my way.\"",
-        "result_text": "Hyeonsu said 'Okay. When you make it, tell me too.'\nStill on your way.\nThat's true."
+        "result_text": "Hyeonsu said 'Okay. When you make it, tell me too.'\nStill on his way.\nThat's true."
       },
       {
         "text": "\"My thinking's changed a bit.\"",
@@ -141,7 +141,7 @@
   {
     "id": "callback_deleted_sns_check",
     "title": "Life After Deleting the App",
-    "description": "Ten months since you deleted Instagram.\nToday a friend asked, 'Why don't you have Insta anymore?'\n'I deleted it,' you said.\n'Why?' they asked.\nYou paused for a second thinking about how to explain.",
+    "description": "Ten months since he deleted Instagram.\nToday a friend asked, 'Why don't you have Insta anymore?'\n'I deleted it,' he said.\n'Why?' they asked.\nHe paused for a second thinking about how to explain.",
     "choices": [
       {
         "text": "Say honestly: \"I hated the comparison.\"",
@@ -156,15 +156,15 @@
   {
     "id": "callback_envy_fuel_cost",
     "title": "The Smell of the Fuel",
-    "description": "Ten months of running on 'I'll show them.'\nToday you were tired for no reason.\nYou didn't want to do anything.\nThe note stuck on the desk ten months ago was still there. The letters had been pressed so hard they'd dented the page behind.",
+    "description": "Ten months of running on 'I'll show them.'\nToday he was tired for no reason.\nHe didn't want to do anything.\nThe note stuck on the desk ten months ago was still there. The letters had been pressed so hard they'd dented the page behind.",
     "choices": [
       {
         "text": "Find a different engine. Not anger.",
-        "result_text": "Anger is fast fuel but it burns to ash.\nYou shifted toward wanting to build something.\nSlower — but it smelled less."
+        "result_text": "Anger is fast fuel but it burns to ash.\nHe shifted toward wanting to build something.\nSlower — but it smelled less."
       },
       {
         "text": "This tiredness is part of the process. Keep going.",
-        "result_text": "You kept going.\nTired, but not stopped.\n{name} set the alarm 30 minutes earlier."
+        "result_text": "He kept going.\nTired, but not stopped.\n{name} set the alarm 30 minutes earlier."
       }
     ]
   },

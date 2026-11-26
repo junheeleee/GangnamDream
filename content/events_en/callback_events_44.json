@@ -96,7 +96,7 @@
     "choices": [
       {
         "text": "That choice was right — rest is a strategy too",
-        "result_text": "Run without stopping and something eventually snaps.\n\n{name} knows that one day of birthday rest was maintenance the five-year run required.\nSometimes you go farther by stopping."
+        "result_text": "Run without stopping and something eventually snaps.\n\n{name} knew that one day of birthday rest was maintenance the five-year run required.\nSometimes stopping had taken him farther."
       },
       {
         "text": "I know now I need to rest more often",
@@ -107,11 +107,11 @@
   {
     "id": "callback_birthday_work_echo",
     "title": "The Birthday I Worked",
-    "description": "On {name}'s 35th birthday, they replied briefly to the messages and pulled the plan back out.\n\nThe day they didn't stop, even on a birthday.\n\nIt came to mind today. Did you have to go that far — or is that why you're here?",
+    "description": "On {name}'s 35th birthday, he replied briefly to the messages and pulled the plan back out.\n\nThe day he didn't stop, even on a birthday.\n\nIt came to mind today. Had he needed to go that far, or was that why he was here now?",
     "choices": [
       {
         "text": "That's why I'm here — no regrets",
-        "result_text": "The days you went one step further while others rested.\n\nThat accumulated into the current gap.\n{name} quietly thanked the self of that birthday."
+        "result_text": "The days he went one step further while others rested.\n\nThat accumulated into the current gap.\n{name} quietly thanked the self of that birthday."
       },
       {
         "text": "Next birthday, a day off is allowed",
@@ -126,7 +126,7 @@
     "choices": [
       {
         "text": "Like that time — extend a hand first",
-        "result_text": "Loneliness deepens if you sit still.\n\nThat small courage to reach out first saved {name} more than once.\nToday too, they checked in on someone. When a reply came, the room felt less cold."
+        "result_text": "That small courage to reach out first had saved {name} more than once.\nToday too, he checked in on someone. When a reply came, the room felt less cold."
       },
       {
         "text": "This time alone is fine — I've grown sturdier",

@@ -92,30 +92,30 @@
   {
     "id": "callback_daeun_chose_her_echo",
     "title": "After Choosing Daeun",
-    "description": "Two months since you gave something up to choose Daeun.\nThat choice had changed the relationship.\nToday Daeun brought up that choice.",
+    "description": "Two months since he gave something up to choose Daeun.\nThat choice had changed the relationship.\nToday Daeun brought up that choice.",
     "choices": [
       {
         "text": "Say it was the right call",
-        "result_text": "You said it was.\nDaeun asked, \"Was it hard back then?\""
+        "result_text": "He said it was.\nDaeun asked, \"Was it hard back then?\""
       },
       {
         "text": "Acknowledge the complicated feelings",
-        "result_text": "You said it was complicated.\nDaeun nodded."
+        "result_text": "He said it was complicated.\nDaeun nodded."
       }
     ]
   },
   {
     "id": "callback_daeun_committed_echo",
     "title": "After Making a Real Commitment to Daeun",
-    "description": "Two months since you decided to stay by Daeun's side.\nSmall promises had piled up.\nToday, without thinking, Daeun used the word \"we.\"",
+    "description": "Two months since he decided to stay by Daeun's side.\nSmall promises had piled up.\nToday, without thinking, Daeun used the word \"we.\"",
     "choices": [
       {
         "text": "Take it naturally",
-        "result_text": "You took it in stride.\nDaeun said \"we\" without a second thought, and {name} didn't correct it."
+        "result_text": "He took it in stride.\nDaeun said \"we\" without a second thought, and {name} didn't correct it."
       },
       {
         "text": "Hold onto that moment",
-        "result_text": "You held onto it.\nSmall promises, and then \"we.\""
+        "result_text": "He held onto it.\nSmall promises, and then \"we.\""
       }
     ]
   },
@@ -152,7 +152,7 @@
   {
     "id": "callback_cafe_stole_lead_echo",
     "title": "After Using the Café Incident as a Stepping Stone",
-    "description": "Two months since you used the café situation to open a new opportunity.\nIt had been an unexpected path.\nToday you looked back at how that opportunity had unfolded.",
+    "description": "Two months since he used the café situation to open a new opportunity.\nIt had been an unexpected path.\nToday he looked back at how that opportunity had unfolded.",
     "choices": [
       {
         "text": "Keep going",
@@ -160,7 +160,7 @@
       },
       {
         "text": "Admit the path now is different from how it began",
-        "result_text": "You admitted it was different."
+        "result_text": "He admitted it was different."
       }
     ]
   },
@@ -182,11 +182,11 @@
   {
     "id": "callback_cafe_humiliated_echo",
     "title": "After Being Humiliated at the Café",
-    "description": "Two months since you were publicly humiliated at the café.\nThe memory was still with you.\nToday you found yourself in a similar situation again.",
+    "description": "Two months since he was publicly humiliated at the café.\nThe memory was still with him.\nToday he found himself in a similar situation again.",
     "choices": [
       {
         "text": "Handle it differently this time",
-        "result_text": "You handled it differently.\nThe humiliation back then had changed how you judged things now."
+        "result_text": "He handled it differently.\nThe humiliation back then had changed how he judged things now."
       },
       {
         "text": "Repeat the same mistake",
@@ -197,15 +197,15 @@
   {
     "id": "callback_cafe_left_early_echo",
     "title": "After Leaving the Café Early",
-    "description": "Two months since you quit the café job ahead of schedule.\nThere had been various reasons.\nToday you ran into someone who used to work there with you.",
+    "description": "Two months since he quit the café job ahead of schedule.\nThere had been various reasons.\nToday he ran into someone who used to work there with him.",
     "choices": [
       {
         "text": "Say hello warmly",
-        "result_text": "You greeted them warmly.\nThey were glad to see you too.\nFor a minute you talked about the espresso machine you used to clean together."
+        "result_text": "He greeted them warmly.\nThey were glad to see him too.\nFor a minute they talked about the espresso machine they used to clean together."
       },
       {
         "text": "Walk past awkwardly",
-        "result_text": "You walked past awkwardly.\nMaybe leaving early still bothered you; your steps quickened first."
+        "result_text": "He walked past awkwardly.\nMaybe leaving early still bothered him; his steps quickened first."
       }
     ]
   }

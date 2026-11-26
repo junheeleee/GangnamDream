@@ -17,15 +17,15 @@
   {
     "id": "callback_shadow_investigated_echo",
     "title": "After Investigating the Shadow",
-    "description": "Two months since you dug into the gray-market structure yourself.\nIt hadn't been easy.\nToday it collapsed — and the news broke.",
+    "description": "Two months since he dug into the gray-market structure himself.\nIt hadn't been easy.\nToday it collapsed — and the news broke.",
     "choices": [
       {
         "text": "Saw it coming",
-        "result_text": "You'd seen it coming.\nBecause you'd looked into it, you'd seen it."
+        "result_text": "He'd seen it coming.\nBecause he'd looked into it, he'd seen it."
       },
       {
         "text": "Still feels bitter",
-        "result_text": "It felt bitter.\nYou thought about the people who got hurt."
+        "result_text": "It felt bitter.\nHe thought about the people who got hurt."
       }
     ]
   },

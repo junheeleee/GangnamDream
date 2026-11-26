@@ -85,14 +85,14 @@
       },
       {
         "text": "\"Is that so?\" and move on",
-        "result_text": "You moved on naturally.\nSangchul changed the subject.\nThat one line stayed longer than expected."
+        "result_text": "He moved on naturally.\nSangchul changed the subject.\nThat one line stayed longer than expected."
       }
     ]
   },
   {
     "id": "callback_forgave_jiyeon_outcome",
     "title": "After the Forgiveness",
-    "description": "That conversation where you forgave Jiyeon.\nAfter that, something between you shifted.\nToday Jiyeon appeared with something.\n\"There's something I've been wanting to give you, oppa.\"",
+    "description": "That conversation where he forgave Jiyeon.\nAfter that, something between them shifted.\nToday Jiyeon appeared with something.\n\"There's something I've been wanting to give you, oppa.\"",
     "choices": [
       {
         "text": "Accept it",
@@ -107,22 +107,22 @@
   {
     "id": "callback_jaehyuk_felt_kindness_echo",
     "title": "A Different Side of Jaehyuk",
-    "description": "After Jaehyuk unexpectedly helped you that time, you've been seeing him differently.\nToday you ran into him again.\nStill an uncomfortable person, but this time he nodded first.",
+    "description": "After Jaehyuk unexpectedly helped him that time, {name} had been seeing him differently.\nToday he ran into Jaehyuk again.\nStill an uncomfortable person, but this time he nodded first.",
     "choices": [
       {
         "text": "Start a conversation",
-        "result_text": "Jaehyuk gave a short answer. Still awkward.\nBut you knew that wasn't the whole story anymore.\nYou stopped reading people by a single side."
+        "result_text": "Jaehyuk gave a short answer. Still awkward.\nBut he knew that wasn't the whole story anymore.\nHe stopped reading people by a single side."
       },
       {
         "text": "Keep walking",
-        "result_text": "You walked past.\nSo did Jaehyuk.\n{name} didn't look back to watch him go."
+        "result_text": "He walked past.\nSo did Jaehyuk.\n{name} didn't look back to watch him go."
       }
     ]
   },
   {
     "id": "callback_jaehyuk_stood_up_aftermath",
     "title": "After Standing Your Ground with Jaehyuk",
-    "description": "The day you held your ground in front of Jaehyuk.\nEveryone around went quiet.\nUnclear if that was good or bad.\nToday someone who'd been there reached out separately.",
+    "description": "The day he held his ground in front of Jaehyuk.\nEveryone around went quiet.\nUnclear if that was good or bad.\nToday someone who'd been there reached out separately.",
     "choices": [
       {
         "text": "Respond",

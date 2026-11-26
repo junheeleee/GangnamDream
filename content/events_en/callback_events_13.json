@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Call him",
-        "result_text": "You called.\nHe said 'Been a while.'\nAt the end of the call, he added that you should come down sometime."
+        "result_text": "He called.\nHis father said, 'Been a while.'\nAt the end of the call, his father added that he should come down sometime."
       },
       {
         "text": "Text back \"I'm good\"",
-        "result_text": "You texted back 'I'm good.'\nHe replied 'Good, stay healthy.'"
+        "result_text": "He texted back 'I'm good.'\nHis father replied, 'Good, stay healthy.'"
       }
     ]
   },
@@ -77,15 +77,15 @@
   {
     "id": "callback_told_dad_okay_echo",
     "title": "After Saying You Were Fine",
-    "description": "Two months since you told your father 'I'm okay.'\nYou weren't, really.\nToday he asked again.\n'How are you these days. For real.'",
+    "description": "Two months since he told his father 'I'm okay.'\nHe wasn't, really.\nToday his father asked again.\n'How are you these days. For real.'",
     "choices": [
       {
         "text": "Be honest this time",
-        "result_text": "'Honestly — it's been a bit rough,' you said.\nYour father was quiet for a long moment, then: 'I see.'"
+        "result_text": "'Honestly — it's been a bit rough,' he said.\nHis father was quiet for a long moment, then: 'I see.'"
       },
       {
         "text": "\"Still fine.\"",
-        "result_text": "'Still fine,' you said.\nHe said '...Okay.'\nThe 'okay' felt like he already knew."
+        "result_text": "'Still fine,' he said.\nHis father said '...Okay.'\nThe 'okay' felt like he already knew."
       }
     ]
   },

@@ -126,7 +126,7 @@
     "choices": [
       {
         "text": "I did the right thing — chose conscience over gain",
-        "result_text": "Sangchul's network and information were vast, but he was the man who ruined Dad.\n\n{name} doesn't regret choosing conscience over gain.\nSome bridges must be burned to protect yourself."
+        "result_text": "Sangchul's network and information were vast, but he was the man who ruined Dad.\n\n{name} didn't regret choosing conscience over gain.\nSome bridges he had to burn to protect himself."
       },
       {
         "text": "Cutting him off — I came this far on my own",
@@ -175,7 +175,7 @@
       },
       {
         "text": "Now — I'm no longer bound by that matter",
-        "result_text": "Tie your heart to the past and you lose the strength to go forward.\n\n{name} left the Jaehyuk matter in the past and set their gaze ahead."
+        "result_text": "{name} left the Jaehyuk matter in the past and set his gaze ahead."
       }
     ]
   },
@@ -190,7 +190,7 @@
       },
       {
         "text": "My path too — I walk it quietly",
-        "result_text": "Congratulate sincerely, but your pace stays unshaken.\n\n{name} walked their own road without being swayed by others' speed."
+        "result_text": "He congratulated them sincerely, and his pace didn't change.\n\n{name} walked his own road without being swayed by others' speed."
       }
     ]
   }

@@ -131,13 +131,13 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 135 / 43 | `f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0` | `527ab30235b30fbaf6189981046b93b9bd91fa1f31e1ba553535704eeed16006` | strong, moderate |
+| 사행성·도박 | 135 / 43 | `f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0` | `38da5d3c84a31544f788be3748371181dc7b9a46c680254f889950a0cfe7ec5c` | strong, moderate |
 | 선정성·성적 내용 | 125 / 26 | `6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a` | `e0e7da6d72a623f69de8235c64d79807800e766640acb1e8166237991a0ee4c6` | moderate, mild |
 | 폭력성 | 16 / 13 | `fd37228bc8f4bfdc6c0eccc9b3a3d8aa084f52c3d2373d9a45b24eddbeab0c91` | `f9815cb043c331efa9f519f8a3753b65e967731369cae7faddc09972292139b5` | mild |
-| 공포 | 139 / 49 | `d79ad1a511238a01133dc73864bf406be605dd8fc948cc1af42cc5cf43ef530d` | `9426228509f7ab6b7a25a353afaffadbe1e78807bc661973b9918adc750c509c` | moderate |
+| 공포 | 139 / 49 | `d79ad1a511238a01133dc73864bf406be605dd8fc948cc1af42cc5cf43ef530d` | `6389365f877a778603efd30ba4cc565bf3a6f1e7737ffa12cfb0cc46a4e15ea8` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `9483360716d35eb3f28c7d93baf091c6c8f2cd377d37a9e3a4b75252a5cfb64f` | mild |
-| 범죄 | 74 / 41 | `078def701a69641b48f1ca1f8a05f05c34a0da6f5ec675ac948650d15b28be1a` | `7d909ce08d48c8d0be1d303ae4a959954f87fc6133ebcf734741abbeb679f21b` | moderate, strong |
-| 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `dcfb2e01e93071a1e0419bd52007f320a02c86510de2fd6f300b13bdea03084f` | moderate, mild |
+| 범죄 | 74 / 41 | `078def701a69641b48f1ca1f8a05f05c34a0da6f5ec675ac948650d15b28be1a` | `18977df52dd8c2c2835cd9baf065423fd1ef0f708c11eed657d0abc3452de4d6` | moderate, strong |
+| 음주·흡연·약물 | 83 / 40 | `9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e` | `17197510b066ec2b3ffd2277c2b5d38e6cf24c97b009cf9d8d04831e2671948e` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 

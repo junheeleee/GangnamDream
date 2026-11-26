@@ -2,7 +2,7 @@
   {
     "id": "callback_jiyeon_got_angry_aftermath",
     "title": "After Getting Angry",
-    "description": "The day you got angry at Jiyeon.\nYou realized the words had gone too far once you got home.\nToday a short text from Jiyeon.\n'I've been thinking.'",
+    "description": "The day he got angry at Jiyeon.\nHe realized the words had gone too far once he got home.\nToday a short text from Jiyeon.\n'I've been thinking.'",
     "choices": [
       {
         "text": "Apologize first",
@@ -10,7 +10,7 @@
       },
       {
         "text": "Hear Jiyeon out first",
-        "result_text": "'What did you think about?' you asked.\nJiyeon said 'I think we need to talk honestly.'\nThe anger became the start of a conversation."
+        "result_text": "'What did you think about?' he asked.\nJiyeon said 'I think we need to talk honestly.'\nThe anger became the start of a conversation."
       }
     ]
   },
@@ -32,7 +32,7 @@
   {
     "id": "callback_confronted_jiyeon_respect",
     "title": "What Changed After Calling Her Out",
-    "description": "A month since you confronted Jiyeon directly.\nHer manner has shifted slightly since.\nToday Jiyeon brought up something serious first.",
+    "description": "A month since he confronted Jiyeon directly.\nHer manner has shifted slightly since.\nToday Jiyeon brought up something serious first.",
     "choices": [
       {
         "text": "Listen carefully",
@@ -47,7 +47,7 @@
   {
     "id": "callback_jiyeon_came_clean_result",
     "title": "The Weight of Honesty",
-    "description": "Two months since you opened up to Jiyeon.\nToday she said:\n\"Oppa — what you told me then. I've been sitting with it.\"",
+    "description": "Two months since he opened up to Jiyeon.\nToday she said:\n\"Oppa — what you told me then. I've been sitting with it.\"",
     "choices": [
       {
         "text": "\"I'm glad I said it.\"",
@@ -55,14 +55,14 @@
       },
       {
         "text": "\"You can forget about it.\"",
-        "result_text": "'You can forget it.'\nJiyeon said '...That's not something to forget.'\nWhat you say honestly — others remember."
+        "result_text": "'You can forget it.'\nJiyeon said '...That's not something to forget.'\nWhat he had said honestly, Jiyeon had kept."
       }
     ]
   },
   {
     "id": "callback_daeun_first_date_next",
     "title": "What Came After",
-    "description": "A month since you had a first meal alone with Daeun.\nToday a KakaoTalk from Daeun.\n'Minjun. Are you free next week?'",
+    "description": "A month since he had a first meal alone with Daeun.\nToday a KakaoTalk from Daeun.\n'Minjun. Are you free next week?'",
     "choices": [
       {
         "text": "\"Yes. Where?\"",
@@ -70,7 +70,7 @@
       },
       {
         "text": "\"Been a bit busy lately. Let's do it next time.\"",
-        "result_text": "Daeun said 'Sure, whenever.'\nA second chance materialized.\nUsing it or not — that was your call."
+        "result_text": "Daeun said 'Sure, whenever.'\nA second chance materialized.\nUsing it or not — that was his call."
       }
     ]
   },
@@ -122,15 +122,15 @@
   {
     "id": "callback_rushed_to_father_moment",
     "title": "After Running There",
-    "description": "The day you rushed there after hearing the news.\nYour father was better than expected.\nOn the bus home, {name} finally retied a shoelace that had come undone.",
+    "description": "The day he rushed there after hearing the news.\nHis father was better than expected.\nOn the bus home, {name} finally retied a shoelace that had come undone.",
     "choices": [
       {
         "text": "Decide to go more often",
-        "result_text": "You put the next visit on the calendar.\nIt wasn't odd.\nThat was the natural thing.\nGoing when you feel like you should go."
+        "result_text": "He put the next visit on the calendar.\nIt wasn't odd.\nThat was the natural thing.\nGoing when he felt he should go."
       },
       {
         "text": "Going often is a burden",
-        "result_text": "It was a burden.\nBut you should go sometimes.\n{name} screenshotted the bus times home ahead of time."
+        "result_text": "It was a burden.\nBut he should go sometimes.\n{name} screenshotted the bus times home ahead of time."
       }
     ]
   },

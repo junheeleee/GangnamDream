@@ -118,7 +118,7 @@
   {
     "id": "callback_jaehyuk_02b_questioned_echo",
     "title": "After Questioning Jaehyuk",
-    "description": "A month since you questioned Jaehyuk's behavior directly.\nToday Jaehyuk came to find you first.",
+    "description": "A month since he questioned Jaehyuk's behavior directly.\nToday Jaehyuk came to find him first.",
     "choices": [
       {
         "text": "Hear what he has to say",
@@ -126,22 +126,22 @@
       },
       {
         "text": "Ask first: \"Something you want to say?\"",
-        "result_text": "You said 'Is there something you want to tell me?'\nHe said 'Yeah — it's about back then.'"
+        "result_text": "{name} said, 'Is there something you want to tell me?'\nJaehyuk said 'Yeah — it's about back then.'"
       }
     ]
   },
   {
     "id": "callback_jaehyuk_final_break_echo",
     "title": "The Final Break with Jaehyuk",
-    "description": "Two months since you completely cut ties with Jaehyuk.\nToday you heard about him from a mutual contact.",
+    "description": "Two months since he completely cut ties with Jaehyuk.\nToday he heard about Jaehyuk from a mutual contact.",
     "choices": [
       {
         "text": "Just listen",
-        "result_text": "You listened.\nJaehyuk was the same.\nCutting things off had been confirmed as right."
+        "result_text": "He listened.\nJaehyuk was the same.\nCutting things off had been confirmed as right."
       },
       {
         "text": "\"Can we not talk about him?\"",
-        "result_text": "'Let's not,' you said.\nThey said 'Okay.'\nCutting it was cutting it."
+        "result_text": "'Let's not,' he said.\nThey said 'Okay.'\nCutting it was cutting it."
       }
     ]
   },

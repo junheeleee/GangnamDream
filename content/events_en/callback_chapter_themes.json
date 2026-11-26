@@ -81,7 +81,7 @@
     "choices": [
       {
         "text": "Living on the side of trusting people is right",
-        "result_text": "Living in suspicion wrecks a person more than being used does. {name} chose to believe that. So what if you take a loss. You sleep well."
+        "result_text": "Living in suspicion wrecks a person more than being used does. {name} chose to believe that. So what if he took a loss. He slept well."
       },
       {
         "text": "This time, he drew a line",
@@ -100,7 +100,7 @@
       },
       {
         "text": "With one person, decided to close the gap",
-        "result_text": "No need to keep everyone at arm's length. {name} picked one and stepped closer. He might get hurt. But living only to avoid hurt, you end up with nothing."
+        "result_text": "No need to keep everyone at arm's length. {name} picked one and stepped closer. He might get hurt. But living only to avoid hurt would leave him with nothing."
       }
     ]
   },
