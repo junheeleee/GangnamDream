@@ -555,7 +555,7 @@ func _continue_after_story():
 			or GameState.flags.has("full_story_calendar_save_pending")
 			or GameState.flags.has("full_story_activity_save_pending")
 			or (FULL_STORY_FLOW.is_full_run()
-				and GameState.flags.has("open_racetrack_after_story"))
+				and FULL_STORY_FLOW.has_activity_flag())
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -638,8 +638,7 @@ func _full_story_route_week() -> bool:
 		push_error("Full story preview has an invalid saved owner")
 		return true
 	if FULL_STORY_FLOW.is_full_run() \
-			and GameState.flags.has("open_racetrack_after_story") \
-			and not GameState.flags["open_racetrack_after_story"] is bool:
+			and not FULL_STORY_FLOW.activity_flags_valid():
 		push_error("Full story has an invalid direct activity flag")
 		return true
 	# Keep the already-calculated state on a failed save. Retrying only the
@@ -1003,9 +1002,10 @@ func _full_story_continue_activity(expected_turn: int, phase: String) -> void:
 			or not FULL_STORY_FLOW.is_full_run():
 		_full_story_advancing = false
 		return
-	if phase == "entry" and not FULL_STORY_FLOW.begin_activity("racetrack"):
+	if phase == "entry" and not FULL_STORY_FLOW.begin_activity(
+			FULL_STORY_FLOW.pending_activity_id()):
 		_full_story_advancing = false
-		push_error("Full story could not reserve its authored racetrack return")
+		push_error("Full story could not reserve its authored activity return")
 		return
 	var saved := _full_story_save_activity(expected_turn, phase)
 	_full_story_advancing = false
@@ -1020,12 +1020,13 @@ func _full_story_activity_phase_is_valid(phase: String) -> bool:
 	if not receipts is Dictionary:
 		return false
 	var raw: Variant = receipts.get(str(GameState.turn), null)
-	if not raw is Dictionary or raw.get("activity_id", null) != "racetrack" \
+	if not raw is Dictionary \
+			or not FULL_STORY_FLOW.ACTIVITY_SOURCES.has(str(raw.get("activity_id", ""))) \
 			or not _economy_integer_matches(raw.get("turn", null), GameState.turn):
 		return false
 	if phase == "entry":
 		return raw.get("status", null) == "pending" \
-			and FULL_STORY_FLOW.pending_activity_id() == "racetrack"
+			and FULL_STORY_FLOW.pending_activity_id() == str(raw["activity_id"])
 	return phase == "closed" and raw.get("status", null) in ["closed", "cancelled"] \
 		and FULL_STORY_FLOW.pending_activity_id().is_empty()
 
@@ -1034,7 +1035,7 @@ func _full_story_pending_activity_save_is_valid() -> bool:
 	var pending: Variant = GameState.flags.get("full_story_activity_save_pending")
 	return pending is Dictionary and pending.size() == 3 \
 		and _economy_integer_matches(pending.get("turn", null), GameState.turn) \
-		and pending.get("activity_id", null) == "racetrack" \
+		and FULL_STORY_FLOW.ACTIVITY_SOURCES.has(str(pending.get("activity_id", ""))) \
 		and pending.get("phase", null) is String \
 		and _full_story_activity_phase_is_valid(str(pending["phase"]))
 
@@ -1047,7 +1048,8 @@ func _full_story_save_activity(expected_turn: int, phase: String) -> bool:
 	GameState.flags.erase("full_story_activity_save_pending")
 	if not SaveManager.autosave():
 		GameState.flags["full_story_activity_save_pending"] = {
-			"turn": expected_turn, "activity_id": "racetrack", "phase": phase,
+			"turn": expected_turn, "activity_id": _full_story_turn_activity_id(),
+			"phase": phase,
 		}
 		_full_story_seal_surface()
 		push_warning("Full story paused after a failed activity save")
@@ -1055,10 +1057,26 @@ func _full_story_save_activity(expected_turn: int, phase: String) -> bool:
 	return true
 
 
+## The activity this week's full-story receipt belongs to ("" if none).
+func _full_story_turn_activity_id() -> String:
+	var receipts: Variant = FULL_STORY_FLOW.snapshot().get("activity_receipts", {})
+	if receipts is Dictionary:
+		var raw: Variant = (receipts as Dictionary).get(str(GameState.turn), null)
+		if raw is Dictionary:
+			return str((raw as Dictionary).get("activity_id", ""))
+	return FULL_STORY_FLOW.pending_activity_id()
+
+
 func _full_story_after_activity_saved(phase: String) -> void:
 	if phase == "entry":
 		SceneTransition.fade_in()
-		_open_racetrack()
+		match _full_story_turn_activity_id():
+			"holdem":
+				_open_holdem()
+			"jeongseon_casino":
+				_open_jeongseon_casino()
+			_:
+				_open_racetrack()
 	elif bool(get_meta("_screenshot_qa_static_surface", false)):
 		set_meta("_full_story_activity_closed_turn", GameState.turn)
 	else:
@@ -6790,7 +6808,7 @@ func _begin_month():
 			or GameState.flags.has("full_story_calendar_save_pending")
 			or GameState.flags.has("full_story_activity_save_pending")
 			or (FULL_STORY_FLOW.is_full_run()
-				and GameState.flags.has("open_racetrack_after_story"))
+				and FULL_STORY_FLOW.has_activity_flag())
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -6849,7 +6867,7 @@ func _begin_month_story_and_render():
 			or GameState.flags.has("full_story_calendar_save_pending")
 			or GameState.flags.has("full_story_activity_save_pending")
 			or (FULL_STORY_FLOW.is_full_run()
-				and GameState.flags.has("open_racetrack_after_story"))
+				and FULL_STORY_FLOW.has_activity_flag())
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -18395,12 +18413,45 @@ func _on_racetrack_closed():
 	_render_ap_actions()
 
 func _open_holdem():
-	if not _can_open_gamble_session():
+	if FULL_STORY_FLOW.is_full_run():
+		if not _full_story_activity_can_open("holdem"):
+			return
+	elif not _can_open_gamble_session():
 		return
 	_enter_minigame_overlay(holdem_club)
 	holdem_club.open()
 
+## Full story: a choice opened this activity for this week only (ORDER-834 B2).
+func _full_story_activity_can_open(activity_id: String) -> bool:
+	return not _minigame_overlay_active \
+		and FULL_STORY_FLOW.pending_activity_id() == activity_id \
+		and not GameState.flags.has("full_story_activity_save_pending") \
+		and FULL_STORY_FLOW.begin_activity(activity_id)
+
+## Full story: the minigame already settled every bet. Receipt the real session
+## and return to the same story week, without AP or a second payout.
+func _full_story_close_activity(activity_id: String, node: Node, game_id: String,
+		axis_action: String) -> void:
+	if not _minigame_overlay_active \
+			or FULL_STORY_FLOW.pending_activity_id() != activity_id:
+		return
+	var details := _gamble_session_details(game_id, node)
+	if not FULL_STORY_FLOW.close_activity(activity_id,
+			int(details["rounds"]), float(details["session_net"])):
+		push_error("Full story could not close its actual %s session" % activity_id)
+		return
+	_exit_minigame_overlay()
+	if int(details["rounds"]) > 0:
+		GameState.register_action_axis("money", game_id, axis_action)
+		details["settled"] = true
+		_record_gamble_session_result(details)
+	if _full_story_save_activity(GameState.turn, "closed"):
+		_full_story_after_activity_saved("closed")
+
 func _on_holdem_closed():
+	if FULL_STORY_FLOW.is_full_run():
+		_full_story_close_activity("holdem", holdem_club, "holdem", "gamble_holdem")
+		return
 	_exit_minigame_overlay()
 	_record_gamble_session_result(_settle_gamble_session(
 		"gamble_holdem", "holdem", "underground", holdem_club))
@@ -18422,12 +18473,18 @@ func _on_scalping_closed():
 	_render_ap_actions()
 
 func _open_jeongseon_casino():
-	if not _can_open_gamble_session():
+	if FULL_STORY_FLOW.is_full_run():
+		if not _full_story_activity_can_open("jeongseon_casino"):
+			return
+	elif not _can_open_gamble_session():
 		return
 	_enter_minigame_overlay(jeongseon_casino)
 	jeongseon_casino.open()
 
 func _on_jeongseon_casino_closed():
+	if FULL_STORY_FLOW.is_full_run():
+		_full_story_close_activity("jeongseon_casino", jeongseon_casino, "casino", "gamble_casino")
+		return
 	_exit_minigame_overlay()
 	_record_gamble_session_result(_settle_gamble_session(
 		"gamble_casino", "casino", "expedition", jeongseon_casino))

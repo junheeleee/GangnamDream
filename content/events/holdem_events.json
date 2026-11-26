@@ -160,7 +160,8 @@
           "mental": 6
         },
         "flags": [
-          "holdem_regular"
+          "holdem_regular",
+          "open_holdem_after_story"
         ],
         "result_text": "자리비 30% 할인. 6,000원.\n테이블 사람들도 낯이 익어졌다.\n\n여기 오면 직장도 나이도 없다. 패 앞에서는 다 같다.\n그게 이상하게 편했다.",
         "follow_up_event": ""

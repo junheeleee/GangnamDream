@@ -30,7 +30,8 @@
           "tint": 3
         },
         "flags": [
-          "casino_set_limit"
+          "casino_set_limit",
+          "open_casino_after_story"
         ],
         "result_text": "10만원어치만 바꿨다. 지갑은 차에 두고 왔다.\n\n칩 두 개. 이게 오늘의 전부다.\n잃으면 끝, 따면 일어선다. 규칙을 미리 정해두니 마음이 가벼웠다.\n\n칩이 가벼워 보일수록, 한도를 정하는 사람이 이긴다.",
         "follow_up_event": ""
@@ -38,13 +39,13 @@
       {
         "text": "넉넉하게 바꿔둔다 — 모자라면 김이 새니까",
         "effects": {
-          "money": -300000,
           "mental": -4,
           "addiction_tendency": 6,
           "tint": -2
         },
         "flags": [
-          "casino_chips_loaded"
+          "casino_chips_loaded",
+          "open_casino_after_story"
         ],
         "result_text": "30만원어치 칩을 받았다. 묵직했다.\n\n넉넉해야 마음 편히 친다고 생각했다.\n근데 그 '넉넉함'이 곧 기준이 됐다. 30만원은 어느새 '오늘 쓸 돈'이 되어 있었다.\n\n많이 바꿀수록 많이 잃는 구조라는 걸, 환전 창구에선 아무도 말해주지 않았다.",
         "follow_up_event": "casino_no_clocks"

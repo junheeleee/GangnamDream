@@ -140,15 +140,70 @@ func _drive_ending(main: Node) -> bool:
 	return true
 
 
+const HOLDEM_PHASE_SETUP := 0
+const HOLDEM_PHASE_SHOWDOWN := 5
+const HOLDEM_PHASE_RESULT := 6
+const CASINO_SLOT_INDEX := 2   # baccarat, blackjack, slot, roulette, dai sai, big wheel
+
+
 func _drive_main(main: Node) -> bool:
 	if bool(main.get("_minigame_overlay_active")) \
-			and str(main.get("_active_activity_id")) == "racetrack" \
 			and _active_main_tutorial_overlay(main) == null:
-		var track := main.get("racetrack") as Node
-		if is_instance_valid(track) and bool(track.get("visible")):
-			await _drive_racetrack(track)
-			return false
+		match str(main.get("_active_activity_id")):
+			"racetrack":
+				var track := main.get("racetrack") as Node
+				if is_instance_valid(track) and bool(track.get("visible")):
+					await _drive_racetrack(track)
+					return false
+			"holdem":
+				var club := main.get("holdem_club") as Node
+				if is_instance_valid(club) and bool(club.get("visible")):
+					await _drive_holdem(club)
+					return false
+			"casino":
+				if await _drive_casino(main):
+					return false
 	return await super(main)
+
+
+## ORDER-834 B2: play a fixed number of hands at the default buy-in and the
+## default action, then leave. The table settles every chip itself.
+func _drive_holdem(club: Node) -> void:
+	var limit := int(_profile.get("holdem_hands_per_visit", 3))
+	var played := int(club.get("_hands_played"))
+	var phase := int(club.get("_phase"))
+	if phase == HOLDEM_PHASE_SETUP:
+		await _send_key(KEY_ESCAPE if played >= limit or float(GameState.money) < 50000.0 else KEY_ENTER)
+	elif phase == HOLDEM_PHASE_RESULT:
+		await _send_key(KEY_ENTER)
+	elif phase == HOLDEM_PHASE_SHOWDOWN:
+		await _send_key(KEY_ESCAPE if played >= limit else KEY_ENTER)
+	elif bool(club.call("_is_player_action_waiting")):
+		await _send_key(KEY_ENTER)
+	await get_tree().create_timer(0.05).timeout
+
+
+## Jeongseon: walk to the slot machine, spin a fixed number of times, return to
+## the hub and leave. Returns false when no casino surface is up yet.
+func _drive_casino(main: Node) -> bool:
+	var hub := main.get("jeongseon_casino") as Node
+	var slot := main.get("slot_machine_game") as Node
+	var limit := int(_profile.get("casino_spins_per_visit", 5))
+	if is_instance_valid(slot) and bool(slot.get("visible")):
+		var spun := int(slot.get("_rounds"))
+		await _send_key(KEY_ESCAPE if spun >= limit or float(GameState.money) < 10000.0 else KEY_ENTER)
+		await get_tree().create_timer(0.3).timeout
+		return true
+	if is_instance_valid(hub) and bool(hub.get("visible")):
+		if int(hub.get("_session_rounds")) >= limit or float(GameState.money) < 10000.0:
+			await _send_key(KEY_ESCAPE)
+		elif int(hub.get("_pad_game_idx")) != CASINO_SLOT_INDEX:
+			await _send_key(KEY_RIGHT)
+		else:
+			await _send_key(KEY_ENTER)
+		await get_tree().create_timer(0.05).timeout
+		return true
+	return false
 
 
 func _drive_racetrack(track: Node) -> void:
