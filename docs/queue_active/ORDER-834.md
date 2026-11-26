@@ -8,7 +8,10 @@
 **[~] 착수 — Claude B1 투자 1~2년 차(사용자 지시 2026-11-26).** 만지는 파일: `systems/InvestBranchBeats.gd`(신규),
 `content/meta/invest_branch_ledger.json`(신규), `scenes/MainGame.gd`(빈 주 라우팅 한 곳), 투자 재사용 사건의
 조건·`tendency` 효과(KO), `tools/InvestBranchBeatsCheck.*`(신규), `tools/audit_scope.json`, `docs/BALANCE.md`.
-`StoryMode.gd`·`arc_drama.json`·`ManualSaveCheck`(Codex W188 범위)는 건드리지 않는다. 도박 B2는 Codex.
+`StoryMode.gd`·`arc_drama.json`·`ManualSaveCheck`(Codex W188 범위)는 건드리지 않는다.
+**[~] 착수 — Claude B2 도박 1~2년 차(사용자 지시 2026-11-26).** 만지는 파일: `systems/GambleBranchBeats.gd`(신규),
+`content/meta/gamble_branch_ledger.json`(신규), `systems/FullStoryFlow.gd`(활동 일반화), `scenes/MainGame.gd`(빈 주·활동 라우팅),
+도박 재사용 사건의 조건·효과(KO), `tools/GambleBranchBeatsCheck.*`(신규), `tools/audit_scope.json`, `docs/BALANCE.md`.
 
 ## 실측 — 지금 왜 갈래가 아닌가 (2026-11-24, main `79d81a3c`)
 
