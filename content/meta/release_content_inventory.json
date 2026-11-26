@@ -481,7 +481,7 @@
         "expected_event_count": 141,
         "expected_file_count": 43,
         "expected_ids_sha256": "e506e7499f895410a0fcbcdc3df6ed859d6059879fb2026a4b3eeb89199f557c",
-        "expected_content_sha256": "0b8ed9b4ca60c3b6f57ba857e6901eb6f6e243bf7fc0b8fa1befe68290f54543"
+        "expected_content_sha256": "d684c7c0e6f1ac46668b9410827dcd50e0618fa5b6366f1a2fb44fd5a067e4f7"
       },
       "facts": [
         {
@@ -640,7 +640,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 139, "expected_file_count": 49, "expected_ids_sha256": "d79ad1a511238a01133dc73864bf406be605dd8fc948cc1af42cc5cf43ef530d", "expected_content_sha256": "40313ef2a0ce125e0322303c1c5c50ef7b457dbd714c0ed5f96df1ec0a4ab751"
+        "expected_event_count": 138, "expected_file_count": 49, "expected_ids_sha256": "9ffff543ebda31858fbe6d6670b5b5af86b5903903449f54e80d2325ef68f50f", "expected_content_sha256": "fb484cf44049e78a020ddaef1b1962f0dc599cd952d8d1db4759c63a04360e4f"
       },
       "facts": [
         {

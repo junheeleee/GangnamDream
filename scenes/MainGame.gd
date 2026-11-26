@@ -13,6 +13,7 @@ const RHYTHM_RECALL = preload("res://systems/RhythmRecall.gd")
 const INVEST_BRANCH_BEATS = preload("res://systems/InvestBranchBeats.gd")
 const GAMBLE_BRANCH_BEATS = preload("res://systems/GambleBranchBeats.gd")
 const BRANCH_HABIT = preload("res://systems/BranchHabit.gd")
+const EASTER_EGG_ROUTE = preload("res://systems/EasterEggRoute.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
@@ -6930,6 +6931,11 @@ func _begin_month_story_and_render():
 		if gamble_id != "":
 			_go_story_mode([gamble_id])
 			return
+		# 조건이 맞은 런에만 한 번씩 나오는 이스터에그(빈 주, 6주 간격).
+		var egg_id := _full_story_easter_egg_id()
+		if egg_id != "":
+			_go_story_mode([egg_id])
+			return
 		# 발을 들인 런이 빈 주에 스스로 고르는 습관 방문 하나(834 B2.5).
 		var habit_id := _full_story_habit_id()
 		if habit_id != "":
@@ -7089,6 +7095,18 @@ func _full_story_gamble_beat_id() -> String:
 		int(GameState.turn),
 		not GameState.current_job.is_empty(),
 		_full_story_branch_event_open)
+
+
+func _full_story_easter_egg_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return EASTER_EGG_ROUTE.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		func(event_id: String) -> bool:
+			return EventManager.deferred_event_is_eligible(event_id),
+		func(event_id: String) -> bool:
+			return not _full_story_branch_event_open(event_id))
 
 
 func _full_story_habit_id() -> String:
