@@ -35,11 +35,11 @@
     "description": "A message from Han Jiyeon.\n\n\"I opened the office. It's small. I wanted to send you a photo when I hung the sign.\"\n\nA photo was attached. A back street in Busan somewhere. A small sign. Han Jiyeon Real Estate.\n\n{name} looked at it for a long time.",
     "choices": [
       {
-        "text": "\"I'm really glad for you.\" — brief, sincere",
-        "result_text": "Jiyeon replied. \"Thank you. For seeing me off well.\"\n\nThat felt like a proper ending.\nDifferent directions — but seeing each other's path clearly."
+        "text": "\"I'm really glad for you.\" Brief, sincere",
+        "result_text": "Jiyeon replied. \"Thank you. For seeing me off well.\"\n\nThat felt like a proper ending.\nDifferent directions, but both knew they'd seen each other off well."
       },
       {
-        "text": "\"That's really yours now.\" — her words from back then came back",
+        "text": "\"That's really yours now.\" Her words from back then came back",
         "result_text": "Jiyeon just said \"Yes.\"\n\nThat short reply felt like it had a long silence behind it.\n\nNot her father's firm. Her name on the door.\nThat was genuinely hers."
       }
     ]

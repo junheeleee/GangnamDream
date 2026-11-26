@@ -167,14 +167,14 @@
   {
     "id": "callback_contacted_jaehyuk_early_echo",
     "title": "Reaching Out to Jaehyuk First",
-    "description": "After being scammed, {name} reached out first — 'Jaehyuk, how've you been?'\n\nThat complicated feeling comes back sometimes.\n\nToday they think about how to settle that matter.",
+    "description": "After being scammed, {name} reached out first — 'Jaehyuk, how've you been?'\n\nThat complicated feeling comes back sometimes.\n\nToday he thinks about how to settle that matter.",
     "choices": [
       {
-        "text": "Reaching out first — was to find closure",
-        "result_text": "Carrying hatred takes energy too.\n\n{name} wanted to somehow tie off that relationship.\nNot forgiveness, but closure — that was for themselves."
+        "text": "Reaching out first was to find closure",
+        "result_text": "{name} wanted to somehow tie off that relationship.\nNot forgiveness but closure. That was for himself."
       },
       {
-        "text": "Now — I'm no longer bound by that matter",
+        "text": "Now I'm no longer bound by that matter",
         "result_text": "{name} left the Jaehyuk matter in the past and set his gaze ahead."
       }
     ]
@@ -182,14 +182,14 @@
   {
     "id": "callback_congratulated_friend_echo",
     "title": "Congratulating Sincerely",
-    "description": "At a thriving friend's news, {name} said, 'congratulations sincerely — you're on your own path.'\n\nThat mature heart comes back sometimes.\n\nToday they hear another's good news.",
+    "description": "At a thriving friend's news, {name} said, 'Sincere congratulations. I'm on my own path.'\n\nThat mature heart comes back sometimes.\n\nToday he hears another's good news.",
     "choices": [
       {
-        "text": "I can now rejoice at others' success — without envy",
-        "result_text": "Only one who accepts that another's success isn't their failure can congratulate sincerely.\n\n{name} knows that ease comes from conviction in one's own path.\nRejoicing without envy was the sturdiest self-esteem."
+        "text": "I can now rejoice at others' success without envy",
+        "result_text": "{name} sent a congratulations message and went back to what he'd been doing."
       },
       {
-        "text": "My path too — I walk it quietly",
+        "text": "My path too, I walk it quietly",
         "result_text": "He congratulated them sincerely, and his pace didn't change.\n\n{name} walked his own road without being swayed by others' speed."
       }
     ]

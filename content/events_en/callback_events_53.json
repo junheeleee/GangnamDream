@@ -2,15 +2,15 @@
   {
     "id": "callback_daeun_honest_together_echo",
     "title": "Asking If It Was Okay with Nothing to Offer",
-    "description": "The day they decided to be together, {name} asked Daeun honestly, 'I have nothing to offer yet — is that okay?'\n\nThat honest confession comes back sometimes.\n\nToday Daeun brought up that day.",
+    "description": "The day he and Daeun decided to be together, {name} asked Daeun honestly, 'I have nothing to offer yet — is that okay?'\n\nThat honest confession comes back sometimes.\n\nToday Daeun brought up that day.",
     "choices": [
       {
         "text": "\"Glad I was honest back then.\"",
         "result_text": "'You said you had nothing to offer — but the honesty was the biggest thing.'\n\nA relationship begun without pretense stayed sturdy even when shaken.\n{name} knows the honesty of that starting point protected them both."
       },
       {
-        "text": "\"Now — I've become someone who can offer a little.\"",
-        "result_text": "'I had enough back then too.'\n\nThey were empty-handed then, but the heart was real."
+        "text": "\"Now I've become someone who can offer a little.\"",
+        "result_text": "'I had enough back then too.'\n\nHe had been empty-handed then, but the heart was real."
       }
     ]
   },
@@ -35,11 +35,11 @@
     "description": "A few years in, {name} and Dae-un steadied each other — 'we're going together.'\n\nThat promise of companionship comes back sometimes.\n\nToday is the end of another day endured together.",
     "choices": [
       {
-        "text": "Because we're together — I could come this far",
-        "result_text": "Alone, it was a road that would have broken them several times.\n\nWith someone walking beside, {name} found the strength to go all the way.\nLove wasn't a burden, but sharing the same weight."
+        "text": "Because we're together, I could come this far",
+        "result_text": "Alone, it was a road that would have broken him several times.\n\nWith someone walking beside, {name} found the strength to go all the way."
       },
       {
-        "text": "I want to see the end of this road — together",
+        "text": "I want to see the end of this road together",
         "result_text": "The closer the arrival, the clearer the scenery seen together.\n\n{name} went further wanting to see that end with Dae-un."
       }
     ]

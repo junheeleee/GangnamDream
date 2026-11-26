@@ -85,18 +85,18 @@
       },
       {
         "text": "\"I can show you now. I've moved somewhere better.\"",
-        "result_text": "'...Yeah. You'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of."
+        "result_text": "'...Yeah. I'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of."
       }
     ]
   },
   {
     "id": "callback_birthday_rest_echo",
     "title": "The Birthday I Rested",
-    "description": "On {name}'s 35th birthday, they closed the plan for that one day and just spent it as a birthday.\n\nThey think of that day sometimes.\n\nResting didn't break anything. If anything, the next day was lighter.",
+    "description": "On {name}'s 35th birthday, he closed the plan for that one day and just spent it as a birthday.\n\nHe thinks of that day sometimes.\n\nResting didn't break anything. If anything, the next day was lighter.",
     "choices": [
       {
-        "text": "That choice was right — rest is a strategy too",
-        "result_text": "Run without stopping and something eventually snaps.\n\n{name} knew that one day of birthday rest was maintenance the five-year run required.\nSometimes stopping had taken him farther."
+        "text": "That choice was right. Rest is a strategy too",
+        "result_text": "He had rested that birthday, and the next week's plan still rolled on.\n\n{name} left this year's birthday square on the calendar blank too."
       },
       {
         "text": "I know now I need to rest more often",
@@ -110,12 +110,12 @@
     "description": "On {name}'s 35th birthday, he replied briefly to the messages and pulled the plan back out.\n\nThe day he didn't stop, even on a birthday.\n\nIt came to mind today. Had he needed to go that far, or was that why he was here now?",
     "choices": [
       {
-        "text": "That's why I'm here — no regrets",
+        "text": "That's why I'm here. No regrets",
         "result_text": "The days he went one step further while others rested.\n\nThat accumulated into the current gap.\n{name} quietly thanked the self of that birthday."
       },
       {
         "text": "Next birthday, a day off is allowed",
-        "result_text": "That day's desperation was necessary. But not every time.\n\n{name} knows now that living a little differently is allowed."
+        "result_text": "That day's desperation was necessary. But not every time.\n\n{name} left next year's birthday square blank."
       }
     ]
   },
@@ -197,15 +197,15 @@
   {
     "id": "callback_cut_sns_echo",
     "title": "Cutting SNS Off",
-    "description": "In the second year in Seoul, shaken by news of friends doing well, {name} decided: 'Cut SNS. Comparison is poison for focus.'\n\nThey hadn't looked at the feed since.\n\nToday they happened to hear someone's update — the kind of news that once would have rattled them.",
+    "description": "In the second year in Seoul, shaken by news of friends doing well, {name} decided: 'Cut SNS. Comparison is poison for focus.'\n\nHe hadn't looked at the feed since.\n\nToday he happened to hear someone's update — the kind of news that once would have rattled him.",
     "choices": [
       {
-        "text": "No longer shaken — I have my own pace",
-        "result_text": "Not watching others' speed, they could see their own.\n\n{name} knows now that cutting SNS was a choice for focus, not escape.\nFrom a place free of comparison, their own path was clearer."
+        "text": "No longer shaken. I have my own pace",
+        "result_text": "Not watching others' speed, he could see his own.\n\n{name} took in the news and finished what he'd been doing."
       },
       {
-        "text": "Sometimes I'm curious — but I still don't look",
-        "result_text": "There was curiosity. But {name} knows its cost too.\n\nAfter a brief hesitation, they set the phone down."
+        "text": "Sometimes I'm curious. But I still don't look",
+        "result_text": "There was curiosity. But {name} knows its cost too.\n\nAfter a brief hesitation, he set the phone down."
       }
     ]
   }

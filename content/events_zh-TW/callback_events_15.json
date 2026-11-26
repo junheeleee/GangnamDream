@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "再次見面",
-        "result_text": "又見了一面。\n因 Jiyeon 的介紹而開始的往來——不再需要透過 Jiyeon，也延續了下去。"
+        "result_text": "又見了一面。\n因 Jiyeon 的介紹而開始的往來，不再需要透過 Jiyeon，也延續了下去。"
       },
       {
         "text": "說「這次有點忙」",
-        "result_text": "說了：「最近有點忙。」\n對方理解了。"
+        "result_text": "說了：「最近有點忙。」\n對方說能理解。"
       }
     ]
   },

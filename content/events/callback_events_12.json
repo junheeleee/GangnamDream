@@ -82,7 +82,7 @@
   {
     "id": "callback_jiyeon_prioritized_goal_echo",
     "title": "목표를 택했던 결과",
-    "description": "지연과의 관계보다 목표를 우선했던 게 석 달 전이다.\n그때의 선택이 옳았는지 — 오늘 정리해봤다.\n자산이 그때보다 늘었다.",
+    "description": "지연과의 관계보다 목표를 우선했던 게 석 달 전이다.\n그때의 선택이 옳았는지 오늘 정리해봤다.\n자산이 그때보다 늘었다.",
     "category": "relationship",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -116,7 +116,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "아쉬움이 남았다.\n목표를 잡되 — 사람을 너무 비용으로 보지 않는 것."
+        "result_text": "아쉬움이 남았다.\n{name}은 지연과의 대화창을 열었다가, 아무것도 쓰지 못하고 닫았다."
       }
     ]
   },
@@ -558,7 +558,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "오래 이야기했다.\n용서가 관계의 끝이 아니라 — 다음 단계의 시작이었다."
+        "result_text": "오래 이야기했다.\n전화를 끊고 보니 창밖이 어두워져 있었다."
       },
       {
         "text": "짧게 안부만 묻는다",

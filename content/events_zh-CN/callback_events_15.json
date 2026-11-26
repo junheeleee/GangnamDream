@@ -40,8 +40,8 @@
     "title": "Jiyeon的介绍",
     "description": "见到Jiyeon介绍的那个人，是两个月前的事。\n今天，那个人又联系了我。",
     "choices": [
-      {"text": "又见了一面", "result_text": "又见了一面。\nJiyeon牵起的线——不再依靠Jiyeon，也延续了下去。"},
-      {"text": "说了句“这次有点忙”", "result_text": "说了句：“最近有点忙。”\n对方理解了。"}
+      {"text": "又见了一面", "result_text": "又见了一面。\nJiyeon牵起的线，不再依靠Jiyeon，也延续了下去。"},
+      {"text": "说了句“这次有点忙”", "result_text": "说了句：“最近有点忙。”\n对方说理解。"}
     ]
   },
   {

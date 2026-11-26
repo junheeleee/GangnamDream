@@ -554,7 +554,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present", "arc_final_week"],
-        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "e0e7da6d72a623f69de8235c64d79807800e766640acb1e8166237991a0ee4c6"
+        "expected_event_count": 125, "expected_file_count": 26, "expected_ids_sha256": "6620181787758c130fa15cd2ca04d300880407944cbdba3f8018e8a082fe604a", "expected_content_sha256": "dfec6b7f94997de3cc771e9520460e4e7192227acbb198ebef17a264bf6dd1ae"
       },
       "facts": [
         {
@@ -710,7 +710,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon", "callback_tried_to_go_father_echo"],
-        "expected_event_count": 74, "expected_file_count": 41, "expected_ids_sha256": "078def701a69641b48f1ca1f8a05f05c34a0da6f5ec675ac948650d15b28be1a", "expected_content_sha256": "6c446ac59d49e3e9a9af33c85b5911766d037bcfcedb92f59ec6e51b634eb1b5"
+        "expected_event_count": 74, "expected_file_count": 41, "expected_ids_sha256": "078def701a69641b48f1ca1f8a05f05c34a0da6f5ec675ac948650d15b28be1a", "expected_content_sha256": "754f4dfad37988c66d935b225820588a1952606dc67a05ba61aaed6273314f7c"
       },
       "facts": [
         {

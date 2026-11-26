@@ -40,7 +40,7 @@
       },
       {
         "text": "I think I was too cold",
-        "result_text": "There was a lingering regret.\nChasing a goal, but not treating people as costs."
+        "result_text": "There was a lingering regret.\n{name} opened the chat with Jiyeon, then closed it without typing anything."
       }
     ]
   },
@@ -201,7 +201,7 @@
     "choices": [
       {
         "text": "Receive it warmly",
-        "result_text": "They talked for a long time.\nForgiveness wasn't the end of a relationship — it was the start of the next stage."
+        "result_text": "They talked for a long time.\nWhen the call ended, it had gone dark outside the window."
       },
       {
         "text": "Keep it short, just check in",
