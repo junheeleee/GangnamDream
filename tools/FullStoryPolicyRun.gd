@@ -42,10 +42,22 @@ func _score_choice(choice: Dictionary, policy: Dictionary) -> float:
 			if str(key) == "money":
 				value /= POLICY_MONEY_UNIT
 			score += float(weights.get(str(key), 0.0)) * value
-	var haystack := "%s %s %s" % [
+	# 834: real trades and identity points are part of what a choice does.
+	var mechanics := ""
+	if choice.has("market_buy"):
+		mechanics += " market_buy"
+	if choice.has("market_sell"):
+		mechanics += " market_sell"
+	var tendency: Variant = choice.get("tendency", {})
+	if tendency is Dictionary:
+		for kind in (tendency as Dictionary).keys():
+			if float((tendency as Dictionary)[kind]) > 0.0:
+				mechanics += " tendency_" + str(kind)
+	var haystack := "%s %s %s%s" % [
 		str(choice.get("text", "")),
 		str(choice.get("follow_up_event", "")),
 		JSON.stringify(choice.get("flags", [])),
+		mechanics,
 	]
 	var keywords: Dictionary = policy.get("keyword_weights", {})
 	for word in keywords.keys():

@@ -58,14 +58,18 @@ POLICIES: dict[str, dict] = {
         "effect_weights": {"investment_skill": 1.0, "money": 0.6, "intelligence": 0.3,
                            "mental": 0.1, "addiction_tendency": -1.0},
         "keyword_weights": {"투자": 3.0, "매수": 3.0, "주식": 3.0, "ETF": 3.0, "부동산": 2.0,
-                            "포트폴리오": 2.0, "코인": 1.5, "공부": 1.0, "invest": 2.0},
+                            "포트폴리오": 2.0, "코인": 1.5, "공부": 1.0, "invest": 2.0,
+                            # 834 B1: a choice that really buys, or builds investor identity.
+                            "market_buy": 6.0, "tendency_invest": 1.0},
     },
     "gamble": {
         "description": "도박: 834 B 결정 일관",
         "actions": ["side_shift", "invest", "contact", "rest", "apply", "resume", "study", "save"],
         "effect_weights": {"addiction_tendency": 1.0, "gambling_tendency": 2.0, "luck": 0.5, "money": 0.3},
         "keyword_weights": {"베팅": 3.0, "경마": 3.0, "카지노": 3.0, "홀덤": 3.0, "칩": 2.0,
-                            "한 판": 2.0, "한 번만": 2.0, "race": 2.0, "casino": 2.0, "gambl": 2.0},
+                            "한 판": 2.0, "한 번만": 2.0, "race": 2.0, "casino": 2.0, "gambl": 2.0,
+                            # 834 B2: a choice that opens a real racetrack/hold'em/casino session.
+                            "_after_story": 6.0},
     },
     "people": {
         "description": "관계 우선: 사람 갈래 결정 우선",

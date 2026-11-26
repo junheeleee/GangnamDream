@@ -290,7 +290,9 @@
           "포트폴리오": 2.0,
           "코인": 1.5,
           "공부": 1.0,
-          "invest": 2.0
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0
         }
       },
       "modal_policy": {
@@ -374,7 +376,9 @@
           "포트폴리오": 2.0,
           "코인": 1.5,
           "공부": 1.0,
-          "invest": 2.0
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0
         }
       },
       "modal_policy": {
@@ -458,7 +462,9 @@
           "포트폴리오": 2.0,
           "코인": 1.5,
           "공부": 1.0,
-          "invest": 2.0
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0
         }
       },
       "modal_policy": {
@@ -542,7 +548,8 @@
           "한 번만": 2.0,
           "race": 2.0,
           "casino": 2.0,
-          "gambl": 2.0
+          "gambl": 2.0,
+          "_after_story": 6.0
         }
       },
       "modal_policy": {
@@ -626,7 +633,8 @@
           "한 번만": 2.0,
           "race": 2.0,
           "casino": 2.0,
-          "gambl": 2.0
+          "gambl": 2.0,
+          "_after_story": 6.0
         }
       },
       "modal_policy": {
@@ -710,7 +718,8 @@
           "한 번만": 2.0,
           "race": 2.0,
           "casino": 2.0,
-          "gambl": 2.0
+          "gambl": 2.0,
+          "_after_story": 6.0
         }
       },
       "modal_policy": {
