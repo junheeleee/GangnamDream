@@ -17,19 +17,19 @@
   {
     "id": "callback_shadow_investors_proposal",
     "title": "Their Proposal",
-    "description": "At the Sangchul network event you'd approached that guaranteed-returns group in the corner.\nToday one of them reached out.\n\"You seemed interested back then. A spot just opened up.\n22% in three months. Corporate structure.\"",
+    "description": "At the Sangchul network event he'd approached that guaranteed-returns group in the corner.\nToday one of them reached out.\n\"You seemed interested back then. A spot just opened up.\n22% in three months. Corporate structure.\"",
     "choices": [
       {
         "text": "Look into it — understand the structure first",
-        "result_text": "You dug into the FSS website.\nSix prosecuted cases with similar structures came up.\nYou hung up.\n'Guaranteed returns' is itself illegal.\nChecking was the right move."
+        "result_text": "He dug into the FSS website.\nSix prosecuted cases with similar structures came up.\nHe hung up.\n'Guaranteed returns' is itself illegal.\nChecking was the right move."
       },
       {
         "text": "Put in a small amount to test it",
-        "result_text": "You put in 3 million won.\nTwo months later, contact went dark.\nYou reported to the FSS. An investigation opened.\nThe 3 million won didn't come back.\nThere are no easy paths in the Gangnam network."
+        "result_text": "He put in 3 million won.\nTwo months later, contact went dark.\nHe reported to the FSS. An investigation opened.\nThe 3 million won didn't come back.\nThere are no easy paths in the Gangnam network."
       },
       {
         "text": "Decline",
-        "result_text": "'Not really my style.'\nThe other person said 'We'll be in touch again.'\nYou blocked them."
+        "result_text": "'Not really my style.'\nThe other person said 'We'll be in touch again.'\nHe blocked them."
       }
     ]
   },

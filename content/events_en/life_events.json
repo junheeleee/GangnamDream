@@ -1086,11 +1086,11 @@
   {
     "id": "health_burnout_signal",
     "title": "Signs of Burnout",
-    "description": "You didn't want to do anything.\nYou knew you should, you knew you couldn't afford not to.\n{name}'s body just wouldn't move.",
+    "description": "He didn't want to do anything.\nHe knew he should, he knew he couldn't afford not to.\n{name}'s body just wouldn't move.",
     "choices": [
       {
         "text": "Decide to take the whole day completely off",
-        "result_text": "You did nothing. Turned off YouTube too. The silence felt uncomfortable at first, then peaceful."
+        "result_text": "He did nothing. Turned off YouTube too. The silence felt uncomfortable at first, then peaceful."
       },
       {
         "text": "Push through the to-do list anyway",
@@ -1098,7 +1098,7 @@
       },
       {
         "text": "Write this feeling down in a journal",
-        "result_text": "For the first time you wrote honestly. 'I'm exhausted.' After writing it down, you felt a little lighter."
+        "result_text": "For the first time he wrote honestly. 'I'm exhausted.' After writing it down, he felt a little lighter."
       }
     ]
   },
@@ -2064,10 +2064,10 @@
   {
     "id": "health_checkup_reminder",
     "title": "Checkup Notice",
-    "description": "A text about the national health checkup arrived.\n\nYou were eligible this year. Free.\n\n{name} saw the text and swiped it away. Too much hassle.\nBut you couldn't remember the last time you got checked.",
+    "description": "A text about the national health checkup arrived.\n\nHe was eligible this year. Free.\n\n{name} saw the text and swiped it away. Too much hassle.\nBut he couldn't remember the last time he got checked.",
     "choices": [
       {
-        "result_text": "Booked the hospital. Blood test. Chest X-ray.\nWhen they said 'all clear,' the relief was bigger than expected.\nThought you wasn't worried about your health — turns out you were.",
+        "result_text": "Booked the hospital. Blood test. Chest X-ray.\nWhen they said 'all clear,' the relief was bigger than expected.\nThought he wasn't worried about his health — turns out he was.",
         "text": "Make an appointment"
       },
       {
