@@ -120,6 +120,26 @@ const RACE_PHASE_BETTING := 0
 const RACE_PHASE_RESULT := 2
 
 
+## An early game over (burnout, mental break, ruin) is a policy outcome, not a
+## driver error: the parent contract expects the six-page W240 ending, so an
+## overreach run that burns out at W79 used to end as RUN_FAIL with "visible
+## ending lacks a fresh game-over signal at exact W240". Record the early ending
+## once and close the run cleanly; W240 endings keep the parent's full contract.
+func _drive_ending(main: Node) -> bool:
+	if _ending_id.is_empty() or int(GameState.turn) >= 240:
+		return await super(main)
+	var modal := main.get("modal_layer") as Control
+	if not is_instance_valid(modal) or not modal.visible:
+		return false
+	_record("early_ending", "ending:%s:early" % _profile_id, {
+		"ending_id": _ending_id,
+		"week": int(GameState.turn),
+		"state": _state_snapshot(),
+	}, MAIN_SCRIPT, int(GameState.turn))
+	_finish_run(true)
+	return true
+
+
 func _drive_main(main: Node) -> bool:
 	if bool(main.get("_minigame_overlay_active")) \
 			and str(main.get("_active_activity_id")) == "racetrack" \
