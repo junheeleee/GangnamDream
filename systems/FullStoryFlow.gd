@@ -811,11 +811,13 @@ static func _valid_activity_receipts(state: Dictionary, last: int) -> bool:
 						or chain.is_empty() or not bool(chain["closed"]) \
 						or (state["routine_receipts"] as Dictionary).has(raw_key):
 					return false
+			# A settled receipt only forbids a pending flag on its own week. An
+			# earlier week's settled racetrack must not void tonight's casino.
 			"closed":
-				if rounds <= 0 or not pending_activity_id().is_empty():
+				if rounds <= 0 or (at_turn == last + 1 and not pending_activity_id().is_empty()):
 					return false
 			"cancelled":
-				if rounds != 0 or not pending_activity_id().is_empty():
+				if rounds != 0 or (at_turn == last + 1 and not pending_activity_id().is_empty()):
 					return false
 			_:
 				return false

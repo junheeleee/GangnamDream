@@ -13,6 +13,17 @@
 `content/meta/gamble_branch_ledger.json`(신규), `systems/FullStoryFlow.gd`(활동 일반화), `scenes/MainGame.gd`(빈 주·활동 라우팅),
 도박 재사용 사건의 조건·효과(KO), `tools/GambleBranchBeatsCheck.*`(신규), `tools/audit_scope.json`, `docs/BALANCE.md`.
 
+## Claude 결과 (2026-11-26)
+
+- **B1 투자 1~2년 차 — 동작 확인.** 투자 정책 2런(`7a8ac428`): W17 수업 → W32 첫 매수 → W37 공부 → W40 밤 매수 →
+  W43 첫 손실 추가 매수(투자자 정체성 실현 W43) → W54 레버리지 → W58 코인, 멈춤 0·240주 완주(`late_call` 2).
+  보유 평가 정점 약 235만원(W60), M60 순자산 6,952만/7,026만원으로 다른 정책 대역(4,987만~7,880만원)과 같다.
+  큰돈이 걸리는 갈림은 B3 몫이다. 수치 근거는 [BALANCE](../BALANCE.md) 2026-11-26.
+- **B2 도박 — 활동 영수증 수리.** 도박 정책 첫 런이 W78 정선 칩 교환 결과에서 멈췄다. W15에 닫힌 경마장 영수증이
+  "대기 활동이 없어야 한다" 규칙(경마장 하나뿐이던 시절)에 걸려 새 정선 플래그와 함께 세션 전체를 무효로 만들었다.
+  닫힘·취소 영수증은 자기 주에서만 대기 플래그를 금지하도록 `FullStoryFlow._valid_activity_receipts`를 고쳤다
+  (지난 주의 대기 플래그는 `complete_turn`이 이미 막는다). 재실행 결과는 아래에 덧붙인다.
+
 ## 실측 — 지금 왜 갈래가 아닌가 (2026-11-24, main `79d81a3c`)
 
 - **실제 런 노출 0.** [C1·29.1 주차 기록](../queue_archive/ORDER-833-foreground-weeks.tsv)의 사건 331개 중
