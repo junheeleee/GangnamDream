@@ -4758,6 +4758,21 @@
       ]
     },
     {
+      "tool": "tools/BranchHabitCheck.tscn",
+      "godot": true,
+      "why": "834 B2.5 빈 주 습관 방문: 발을 들인 뒤에만, 간 다음 주 재호출·거절 뒤 휴지·습관 변형·애도/종막 쉼·그만둠·보유 전제·번갈아·저장 왕복, 가는 선택이 실제 미니게임/매매",
+      "paths": [
+        "systems/BranchHabit.gd",
+        "content/meta/branch_habit_ledger.json",
+        "systems/FullStoryFlow.gd",
+        "scenes/MainGame.gd",
+        "content/events/gambling_narrative.json",
+        "content/events/investment_events.json",
+        "tools/BranchHabitCheck.gd",
+        "tools/BranchHabitCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/GambleBranchBeatsCheck.tscn",
       "godot": true,
       "why": "834 B2 도박 1~2년 차: 플레이어가 만든 사실(경마 방문·멘토·정선·네트워크) 뒤에만, 원장 순서·창·간격·직장 전제·멈춤 출구·저장 왕복",

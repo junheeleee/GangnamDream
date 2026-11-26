@@ -103,5 +103,95 @@
         "result_text": "{name} bet everything he'd lost today. Because it was the last one.\n\nThe horses ran. He watched to the end. It wasn't it.\n\nThe betting window was empty by then. Everyone scattered with the same expression.\n\nOn the last train he opened his banking app. Chasing the loss had doubled it in a day.\nThe phrase 'last race' was dangerous precisely because it was never the last."
       }
     ]
+  },
+  {
+    "id": "habit_race_saturday",
+    "title": "Saturday at the Track",
+    "description": "Saturday afternoon in Gwacheon. The line at the ticket windows ran all the way down the stairs.\n\nThe odds for the first race went up on the board. Last week's winner was paying less this time.\n\nThe wallet in {name}'s pocket felt heavier than usual. He hadn't bought a ticket yet.",
+    "choices": [
+      {
+        "text": "Buy a ticket and watch today's races",
+        "result_text": "He joined the end of the line. The man ahead of him held a racing form, its margin crowded with ballpoint circles."
+      },
+      {
+        "text": "Look at the board and go home",
+        "result_text": "He pushed through the revolving door by the exit. Behind him, the starting bell rang.\n\nHe didn't look back once on the walk to the station."
+      }
+    ]
+  },
+  {
+    "id": "habit_race_regular",
+    "title": "Saturday Again",
+    "description": "He had downloaded the race card on Friday night. On Saturday morning he woke before the alarm.\n\nLine 4 toward Gwacheon. Two faces in the car were ones he had seen last week. Nobody acknowledged anybody.\n\nA note on his phone held what he had lost last week. The line under it was empty.",
+    "choices": [
+      {
+        "text": "Go fill in today's line",
+        "result_text": "He got off at Racecourse Park. His feet knew the stairs before he did."
+      },
+      {
+        "text": "Get off at the next stop and take the train back",
+        "result_text": "He sat on a bench on the other platform and closed the notes app.\n\nFor a while his thumb hovered over the dark screen."
+      }
+    ]
+  },
+  {
+    "id": "habit_holdem_night",
+    "title": "The Stairs on Friday Night",
+    "description": "On Friday night his steps slowed at the top of the stairs going underground. The click of chips leaked through the steel door.\n\nThere was a message on his phone. \"One seat open tonight.\"\n\nHis wallet held this week's living money.",
+    "choices": [
+      {
+        "text": "Go down and take the open seat",
+        "result_text": "The dealer only nodded. A row of chips slid across to him."
+      },
+      {
+        "text": "Walk past without replying",
+        "result_text": "Under the convenience store lights he read the message again.\n\nHe left it on read and put the phone back in his pocket."
+      }
+    ]
+  },
+  {
+    "id": "habit_holdem_regular",
+    "title": "The Usual Seat",
+    "description": "Third seat to the dealer's left. At some point, whenever it sat empty, it had started to feel like {name}'s.\n\nThe hand he lost last time was still replaying in his head. The seven of hearts on the river.\n\nTonight his first thought was to buy in for twice as much.",
+    "choices": [
+      {
+        "text": "Sit there and buy in",
+        "result_text": "The chair was still warm. Someone had just gotten up from it."
+      },
+      {
+        "text": "Leave the seat empty tonight",
+        "result_text": "He paused once at the top of the stairs. Below, someone pulled that chair out."
+      }
+    ]
+  },
+  {
+    "id": "habit_casino_trip",
+    "title": "The Shuttle to Gohan",
+    "description": "When the shuttle doors opened, cold air came in. Between the mountains, the casino's lights showed first.\n\nThe round-trip fare and a rest-stop meal had already cost 30,000 won.\n\nThe sign by the revolving door had no clock. Only the date.",
+    "choices": [
+      {
+        "text": "Push through the revolving door",
+        "result_text": "Past the security check, the noise of the machines closed over his ears."
+      },
+      {
+        "text": "Check when the shuttle goes back",
+        "result_text": "Forty minutes to the next one. He sat on a bench until the canned coffee from the kiosk went cold."
+      }
+    ]
+  },
+  {
+    "id": "habit_casino_regular",
+    "title": "Motel Signs in Sabuk",
+    "description": "Motel signs in Sabuk slid past the shuttle window. Last time he had heard about people who rented rooms by the week.\n\nIn the inner pocket of his wallet were three folded 50,000-won notes. This month's rent.\n\nThe shuttle stopped in front of the casino.",
+    "choices": [
+      {
+        "text": "Get off and go straight to the tables",
+        "result_text": "Passing through the revolving door, he switched his phone to silent."
+      },
+      {
+        "text": "Stay on the shuttle back to the station",
+        "result_text": "The clock in the Gohan station waiting room read two in the afternoon.\n\nHis hand shook a little as he bought the ticket to Seoul."
+      }
+    ]
   }
 ]

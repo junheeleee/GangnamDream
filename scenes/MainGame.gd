@@ -12,6 +12,7 @@ const BODY_BAND_SCENES = preload("res://systems/BodyBandScenes.gd")
 const RHYTHM_RECALL = preload("res://systems/RhythmRecall.gd")
 const INVEST_BRANCH_BEATS = preload("res://systems/InvestBranchBeats.gd")
 const GAMBLE_BRANCH_BEATS = preload("res://systems/GambleBranchBeats.gd")
+const BRANCH_HABIT = preload("res://systems/BranchHabit.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
@@ -6929,6 +6930,11 @@ func _begin_month_story_and_render():
 		if gamble_id != "":
 			_go_story_mode([gamble_id])
 			return
+		# 발을 들인 런이 빈 주에 스스로 고르는 습관 방문 하나(834 B2.5).
+		var habit_id := _full_story_habit_id()
+		if habit_id != "":
+			_go_story_mode([habit_id])
+			return
 		# 네 번째 빈 주가 되기 전, 이미 한 결정의 회수 장면 하나(837 B1).
 		var recall_id := _full_story_rhythm_recall_id()
 		if recall_id != "":
@@ -7083,6 +7089,18 @@ func _full_story_gamble_beat_id() -> String:
 		int(GameState.turn),
 		not GameState.current_job.is_empty(),
 		_full_story_branch_event_open)
+
+
+func _full_story_habit_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return BRANCH_HABIT.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		not GameState.portfolio.is_empty(),
+		GameState.event_log,
+		func(event_id: String) -> bool:
+			return not DataRegistry.find_event(event_id).is_empty())
 
 
 func _full_story_rhythm_recall_id() -> String:

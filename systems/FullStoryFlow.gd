@@ -107,6 +107,7 @@ static func _last_turn_for_state(state: Dictionary) -> int:
 ## Activities a full-story choice may open on its own week (ORDER-834 B2).
 ## Each maps to the producer flag the choice sets and the exact (event, choice)
 ## reads that may open it; a receipt is valid only behind one of those reads.
+## B2.5 adds the free-week habit scenes (systems/BranchHabit.gd) as sources.
 ## The racetrack row keeps its original single source, so older saves still load.
 const ACTIVITY_FLAGS := {
 	"racetrack": "open_racetrack_after_story",
@@ -114,9 +115,12 @@ const ACTIVITY_FLAGS := {
 	"jeongseon_casino": "open_casino_after_story",
 }
 const ACTIVITY_SOURCES := {
-	"racetrack": [["race_first_visit", 1]],
-	"holdem": [["holdem_regular", 0]],
-	"jeongseon_casino": [["casino_chip_exchange", 0], ["casino_chip_exchange", 1]],
+	"racetrack": [["race_first_visit", 1],
+		["habit_race_saturday", 0], ["habit_race_regular", 0]],
+	"holdem": [["holdem_regular", 0],
+		["habit_holdem_night", 0], ["habit_holdem_regular", 0]],
+	"jeongseon_casino": [["casino_chip_exchange", 0], ["casino_chip_exchange", 1],
+		["habit_casino_trip", 0], ["habit_casino_regular", 0]],
 }
 
 

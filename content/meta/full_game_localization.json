@@ -46430,6 +46430,76 @@
           }
         }
       }
+    },
+    {
+      "order": "CLAUDE-HABIT-1",
+      "group": "events",
+      "roots": [
+        "habit_casino_regular",
+        "habit_casino_trip",
+        "habit_holdem_night",
+        "habit_holdem_regular",
+        "habit_portfolio_check",
+        "habit_portfolio_regular",
+        "habit_race_regular",
+        "habit_race_saturday"
+      ],
+      "source_leaves": 52,
+      "target_leaves_by_locale": {
+        "ja": 52,
+        "zh-CN": 52,
+        "zh-TW": 52
+      },
+      "source_review": "ORDER-834 B2.5 free-week habit scenes (8 new roots: racetrack/hold'em/Jeongseon/portfolio, first and habitual variants). Each locale authored directly from the Korean source by Claude; numerals kept in the source form (written vs Arabic), place names per existing convention (クァチョン/果川, 競馬公園駅/赛马公园站, コハン・サブク/古汗・舍北), won amounts and counters validated.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "b83eba499eddcedcada6eb0c87c90e25b13c12e4b355b035684808bc1fdd19a0",
+        "zh-CN": "d08220cbdd98973bd2797000e127c9fcc97dbc2937c5a82add5669b84db92c34",
+        "zh-TW": "a9690cd369bb2b39c6ed3b909bf728dc237fad298ed7e019878d43a9d1d77a0f"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "342fe9a92c993f6ad7f6b6393fb1818bc3605d0a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a3bf0de2cd5bf230a5122ea4f1e0d8d822de41de6e61e4b8a12c8988827e7e58",
+          "selection_sha256": "3fd02a87befed6d7e5936249bf89fac2246e605d545c4ba18020243b88946ec9",
+          "count": 52,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bc019c3b27134901c924788e510305df9e5f720222e753171941325d646a6e62"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "342fe9a92c993f6ad7f6b6393fb1818bc3605d0a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a3bf0de2cd5bf230a5122ea4f1e0d8d822de41de6e61e4b8a12c8988827e7e58",
+          "selection_sha256": "6eaeeb23d239f46f692d822bc74550e804d713ea0a94a50c98eb5e5c60f0392e",
+          "count": 52,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "20c4dd4602ebe1467b6490e68f607f264459fc3b1bbbe56a2eb9f58aba5624d4"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "342fe9a92c993f6ad7f6b6393fb1818bc3605d0a",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a3bf0de2cd5bf230a5122ea4f1e0d8d822de41de6e61e4b8a12c8988827e7e58",
+          "selection_sha256": "f53116636383b641e3e91b785aaf715478b771066c61a9d85a70a173a846f215",
+          "count": 52,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0df8ef5203a00a07df03e7a84fff1dc16e220fb260ee7bcecdd578552de9efdb"
+        }
+      }
     }
   ],
   "accepted": {
@@ -99337,6 +99407,214 @@
       "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": {
         "source_sha256": "5c87e4b9f032c4618a465100e5f139979ee491c4faab81cc51a88642395f1e10",
         "target_sha256": "8e4b39c725033903c06b2fe0e58877407edfeb9fa75f64adcd76c5c8f9e28415"
+      },
+      "events:habit_casino_regular:/choices/0/result_text": {
+        "source_sha256": "966fea6a351cf551a3c935df2a8e1f5246119a6f6fdf500db210cb49e6d0652b",
+        "target_sha256": "251686fb8e73268f3161fd0e203e5341f798a9650aa03c5b68e0ee86faccf80d"
+      },
+      "events:habit_casino_regular:/choices/0/text": {
+        "source_sha256": "0eb9abdc614409170d5ffbc9243328f6e726461c20648278440c30dceaaa7de8",
+        "target_sha256": "7544e7e17809b6bbed31ebe9fde6d90803289d9409ac30f2c5aa6de89fdfffa2"
+      },
+      "events:habit_casino_regular:/choices/1/result_text": {
+        "source_sha256": "c9c3c8352673376a8b8402cca1cb6c09f856f9599f8d18c76178415f8904ceed",
+        "target_sha256": "9dbbc78b384a44deb30f6a153bc616e1868f7aea376a6b5e68989a4e9bd778be"
+      },
+      "events:habit_casino_regular:/choices/1/text": {
+        "source_sha256": "a47065cc032b0e00de684c5c63dd3f6ac7151cd2f910ceb1c1575d028fcc09d6",
+        "target_sha256": "62778a3e812c7c2fd2b0c6fe8c6149f267acd17d9ab7eaaf43e189e36dee4d42"
+      },
+      "events:habit_casino_regular:/description": {
+        "source_sha256": "5893458497dcf65d603b390393104955966441253a78c61248bff8e815e80c38",
+        "target_sha256": "d172aaaaaf84986c3495953793a96471aec3d7ce4d4d76e3732ccaa64a53581d"
+      },
+      "events:habit_casino_regular:/title": {
+        "source_sha256": "0f7c33f4f2425af1e9f734c53c54b5c7e19ca1e876a399a0284e16fa36ffd65e",
+        "target_sha256": "6548ffb6778e592facf23edf412a66a2cbb6ff12ccfea917bc95e3402a0a12ec"
+      },
+      "events:habit_casino_trip:/choices/0/result_text": {
+        "source_sha256": "55380af879ad07b8fe7ce61c6aa379025462f233d6351f33ca1667251509ff3b",
+        "target_sha256": "bd9380b737e07e7de1a9ce356e00d03ed07950f78210011aca0c667852b37cc3"
+      },
+      "events:habit_casino_trip:/choices/0/text": {
+        "source_sha256": "edf6cce70cc3f943b01f1fc265f36fe858ab82dedfbcc8084f920bb12db2d097",
+        "target_sha256": "651525c2ad5ea182059ff64d661ab5c6321a41f9fb1bc8eb4bbd361bc768cfd7"
+      },
+      "events:habit_casino_trip:/choices/1/result_text": {
+        "source_sha256": "95f0c6196c594153416f51e01d42264a275814808db7066fbcbba657e3711621",
+        "target_sha256": "34b0b73e5ba41a4a1a77f3fbfe2ddeef6ba6ba1ec2788efc53047554be60b3ca"
+      },
+      "events:habit_casino_trip:/choices/1/text": {
+        "source_sha256": "0507f949483a40473cfbabd53ec84cfbef41357216e93c100b018ba9a8c69ebf",
+        "target_sha256": "060583cbe934f69c722e5fbb181d20f2b8b4e3b90366f89adc2f7631326fee95"
+      },
+      "events:habit_casino_trip:/description": {
+        "source_sha256": "0db02ece11ed4631c45698ede2b433b0e9a9ed6abd75203be28065e9a2146674",
+        "target_sha256": "e4b10b74d2d1e0018a3f4f0f37422343f811c389e79c35a2964f78db771e8a74"
+      },
+      "events:habit_casino_trip:/title": {
+        "source_sha256": "14bb537508683d0617e65e33d961a5958ebef03f9122d13ab618f67caf2c7724",
+        "target_sha256": "cf7af4d27de65d0e731a5ecd611c522746aed51951d615e6eb1ddb980b38dde4"
+      },
+      "events:habit_holdem_night:/choices/0/result_text": {
+        "source_sha256": "6d6705ded87f11571f09eedd5ae8d815f183a6cb364ee364f91335a8d6d68646",
+        "target_sha256": "ea0964e9b1df3b4fd054a8ee177125d19e07db0932ced2dd21f1690718efc6cd"
+      },
+      "events:habit_holdem_night:/choices/0/text": {
+        "source_sha256": "bf97133a52747a6c400358e5847cff3637accc5418486c45984b45fe331a03f1",
+        "target_sha256": "9156a5b184496e8aee9d6bfde0ec012f880316cea34bd82d662e410ab949434e"
+      },
+      "events:habit_holdem_night:/choices/1/result_text": {
+        "source_sha256": "bd507ccb8496609fb5259fa88a5099b89c62774ad2aa05701d5d03ba68ae365c",
+        "target_sha256": "4efef34e1e29e9693bce6ff9315d0a4e762f56197ce0dec11e36aa40e855286d"
+      },
+      "events:habit_holdem_night:/choices/1/text": {
+        "source_sha256": "c92760e03cccca0fcbc3f050c0d600cc3a4b21f93fa5afaa3c0f69f177295494",
+        "target_sha256": "1bbf322b0087e8e2585e2b5f88b9f86c628eed80564d6830e5f21ac7539da994"
+      },
+      "events:habit_holdem_night:/description": {
+        "source_sha256": "ee6c97bd2d77e51c897b53d1ca9dadbdf5724755c32a757d4735f75c437a3ba8",
+        "target_sha256": "290851da54fa65e57c104d06202739a09f1995fa090faa17ee1ff961daa14286"
+      },
+      "events:habit_holdem_night:/title": {
+        "source_sha256": "7038070ba12dd48a9bef04d7d3e180ef58e77227f7e3d6e2ad465e88b50aa3e9",
+        "target_sha256": "73db79267b3b416b6af5dde0ae5acd3673e831fdfc324a388144c77433a9a255"
+      },
+      "events:habit_holdem_regular:/choices/0/result_text": {
+        "source_sha256": "68b0261ab2853e8e6199c388a2b46120a7a5613b9daca34473cabf0a2a731726",
+        "target_sha256": "a963561d85dd3776eb8e25320781ddc1da5e87ec153a6d6e3db157e2849505b7"
+      },
+      "events:habit_holdem_regular:/choices/0/text": {
+        "source_sha256": "8b6b93d5341e99623f8306a7495f70a8ee7fbe80813fc79887ab4158f9d2900f",
+        "target_sha256": "895d3064000d7f10f28b3f0a23e28a90b8fe1417d833f5797e8652daaed1933f"
+      },
+      "events:habit_holdem_regular:/choices/1/result_text": {
+        "source_sha256": "c0d9e2af1221612af85d99d196db970f1b64b106ca0e58656b52c6816360e7b7",
+        "target_sha256": "95b0900e751bf73d9e92cfe7c54fde3bdd19feef29211bfe38000d2d4b1cbe98"
+      },
+      "events:habit_holdem_regular:/choices/1/text": {
+        "source_sha256": "f71219cb44bb38e6002dfbde732e01c560aeefe7ce80a53cb1fb1148d2966718",
+        "target_sha256": "18b0924aa9b0ef63b2408428500006f6d54bf05670a1e278a2bcd204ec19c242"
+      },
+      "events:habit_holdem_regular:/description": {
+        "source_sha256": "d7445a3f0b75d595823fe878bb76b0d76196ce1f31e570da1a73bfaf3a57cb3e",
+        "target_sha256": "b2991d2152d3316a3b5cfaf1f0203d93abd0123d7fcc68919948ff68f8d64b05"
+      },
+      "events:habit_holdem_regular:/title": {
+        "source_sha256": "6204a2161a265e611db2b542321bcb181fd7f54cbdf457ba0a69d0c077a9d4d2",
+        "target_sha256": "11c091dab0dd65b67c0f6db1015113ddfa243bf9220148ac294e43202e4bccfb"
+      },
+      "events:habit_portfolio_check:/choices/0/result_text": {
+        "source_sha256": "031f652c9887f84330da1c542191fcd640545050765ab29d2fe2af1c4e6d610f",
+        "target_sha256": "e4661e352382b8764cb3276ed7ec54c0f20d306061bd04a893b8b67b79a911e6"
+      },
+      "events:habit_portfolio_check:/choices/0/text": {
+        "source_sha256": "6d6e9463c42c1019a365b5070aefd749871e5b34671eeb3666b6f1718060ed6d",
+        "target_sha256": "7054ad3dd345c9a88ddc16ec7aa7141c4ac00d857646ef0f6f81a178ed304a1f"
+      },
+      "events:habit_portfolio_check:/choices/1/result_text": {
+        "source_sha256": "0377da945dd49fc5b628c655b89cc326c2383d34893362c96678489e84fb9530",
+        "target_sha256": "6acd8153ee37ec2ab399c60bb72b1c34e7e03cc9c50e536e9bfcce322e5fee55"
+      },
+      "events:habit_portfolio_check:/choices/1/text": {
+        "source_sha256": "e3c65322348daf5a73eee3c2ff677f849c585ae9bb87efcf4d18a16a11fc5f3f",
+        "target_sha256": "1b15cfa138e49cf146f62639974e54cc05310013ef682fadc5d63b08908bcd07"
+      },
+      "events:habit_portfolio_check:/choices/2/result_text": {
+        "source_sha256": "dda999d2350ee6ee8b4d0b81cdd4f5e5c770bb00d9136d4ff3c9fa716de33fdb",
+        "target_sha256": "73fed612b5529c185f1287a6b9951e6320c876d13ab3378f6c3aef094231e4fc"
+      },
+      "events:habit_portfolio_check:/choices/2/text": {
+        "source_sha256": "f34c722ce538b0ed336ab1b9516bdc1896d6b7f20370f730180f2fefdbe68d8a",
+        "target_sha256": "24851d5e4aa9322f9e5c5d1dc603536ecc5b94b43dfe99043bad02f78279c29d"
+      },
+      "events:habit_portfolio_check:/description": {
+        "source_sha256": "b3603ddbc0a47be58430bd6ccaa6bc126374126b1203294c8656403110db7b6b",
+        "target_sha256": "8d934a43e83b6e1374452156d4f38e5ac5eef5218d2ad506d2938145a2db1b83"
+      },
+      "events:habit_portfolio_check:/title": {
+        "source_sha256": "343c1c260e5ba113fb37cb0984b344575845ecbcaba48f26b98f44afb8c2c0c2",
+        "target_sha256": "990d7b32f627e8fe4999796085b508e2581f93f62f2c10479ca1f3f3ddf89c9b"
+      },
+      "events:habit_portfolio_regular:/choices/0/result_text": {
+        "source_sha256": "ecbbd3b6c856fdd9bd782de581dc380c9cf2bc3a0c2f6bcfbbef30728813a48d",
+        "target_sha256": "98655a417af0d424c772dbb05fffb39b24288e6204859ded2bbd9949bed57185"
+      },
+      "events:habit_portfolio_regular:/choices/0/text": {
+        "source_sha256": "a74194d036ab67a5190142172f9671d9341033e7de6390e629b0e59dbb02fb7e",
+        "target_sha256": "dcb3e957db66c6537a96bdb02449de654394ca6aede9e2832ee3237075247c9c"
+      },
+      "events:habit_portfolio_regular:/choices/1/result_text": {
+        "source_sha256": "e81766cdb93984ae82ee1876f0ea018bbb3e215cfb6a74797a7ed3ce5d4e96df",
+        "target_sha256": "23700b07a2254480bbfabc93c90fd6b400e7a746759854382b1589228c4c7b9f"
+      },
+      "events:habit_portfolio_regular:/choices/1/text": {
+        "source_sha256": "6ee13c5f1d88341b21e369fc816f762304d4bf8e4918247404c49aea5367dd54",
+        "target_sha256": "10ea0f97c99c4c200591edb4344cc29f5c02ac15b8bd3e4c60d3042cd08635c0"
+      },
+      "events:habit_portfolio_regular:/choices/2/result_text": {
+        "source_sha256": "391dfaa76ee19bd67edb23f4af8e66c5db36127e8fcbe58544acac80d3087a4c",
+        "target_sha256": "6976633f5fd71ce24b4b5c5c3b4857d8b539e31fe22fe05852aabbc03ff08f41"
+      },
+      "events:habit_portfolio_regular:/choices/2/text": {
+        "source_sha256": "71f08601b3cbc6c7d0a83cecf6c3131d96e0ba40c2e114d6a1b1793024da5448",
+        "target_sha256": "0e39da6481cd1080dfda3f1ab37215b3664fa957e7c8e8a2d7f32f205d8e5c0f"
+      },
+      "events:habit_portfolio_regular:/description": {
+        "source_sha256": "0a93565ebe036ed3fc2b4adaf05babf4b55aae172c08a31ea7056cfbaf10e3c2",
+        "target_sha256": "509334541ed841282665e12da76268934cde800e753d055d060c4514878335ee"
+      },
+      "events:habit_portfolio_regular:/title": {
+        "source_sha256": "c0fd55d9a0db26bfe80f8acc58686f9bd3b641f9cd482e61a086a40663a0343f",
+        "target_sha256": "24c88a33d427d43620b9439ae2a28a014246188477e0f97062b907a959b0fd70"
+      },
+      "events:habit_race_regular:/choices/0/result_text": {
+        "source_sha256": "76726d17581d57c6a844de09263cef9b0a2e6b3a9c70e8dc3079b9e4867e98bc",
+        "target_sha256": "46a9820570807fe91f2d7b50d9f133197791ef02627f0e520bd251c25df5edff"
+      },
+      "events:habit_race_regular:/choices/0/text": {
+        "source_sha256": "19a44806c90200bb721b90dbe88284a0fe0fdf1ff04ed4c50bbc5729988d1e41",
+        "target_sha256": "5f1519ebbd8bb59c9a00358634de0b3cd9d63f4f6e3a059ef28d6be38e05a15e"
+      },
+      "events:habit_race_regular:/choices/1/result_text": {
+        "source_sha256": "45d5c146b59a0bc4787e51b903a44431cb9efce820f9bd2f51c2ec6df235bb08",
+        "target_sha256": "07dc0ec4a4a2ae9091d5c9690b89437057555fa9d5dd2526c99fd23fa0d61969"
+      },
+      "events:habit_race_regular:/choices/1/text": {
+        "source_sha256": "106bf11c569e17dd4fab31c2c084270786b0ae355beada7b503de3de47e1b030",
+        "target_sha256": "6ef9e4d143c6097a1609e2a86161b364bbea9309216ddf5bb7e95be1fc5b3057"
+      },
+      "events:habit_race_regular:/description": {
+        "source_sha256": "a522689fc2f290e500e72d891a13a5ee786f1de46b29d2c620fdd6c1746f5535",
+        "target_sha256": "2e2499824b8bbeb659aff2f60b8d0a246d3f85d78ba01cfceddca41f826da920"
+      },
+      "events:habit_race_regular:/title": {
+        "source_sha256": "e800417b5ce19b7453357b56b0f4cb266780ea4323315448e42acd12fc2c1721",
+        "target_sha256": "ad1ff4810b16596181416480cc7ef3c952d1305e946e50177cc5bcd4fba6df20"
+      },
+      "events:habit_race_saturday:/choices/0/result_text": {
+        "source_sha256": "a141e406916cf0328bbf6df978d850ac40418ce19b5a38e6e530955b47cd81d9",
+        "target_sha256": "b5e49b46b59637c35c5d05ce5773dcf9741cdf6836e2117d2c490fbfff6a8389"
+      },
+      "events:habit_race_saturday:/choices/0/text": {
+        "source_sha256": "85508c46c10760d07c467de4eac2ae806eff3b01fd5493163fe1d42c955508c7",
+        "target_sha256": "cd5df440ca54d5ec3adc9cffbb586a733a5d377fe2d9de6936ce5d349a8a7821"
+      },
+      "events:habit_race_saturday:/choices/1/result_text": {
+        "source_sha256": "89bac7c5ed96a1004f6589ab697bbffd98bf71bc87f5baf127702be239ad5c7e",
+        "target_sha256": "ec62c0915e12ef009e3c33b2925050b080ec6b0a292b7fee17e1a21d22764aa3"
+      },
+      "events:habit_race_saturday:/choices/1/text": {
+        "source_sha256": "708a713e269af2d2a73a2544bbfb888a59ee32e12147739aaa6dac7c9f2b5968",
+        "target_sha256": "6199c3bc0e56e10965fdfb5c63e38561a2ed562c74f6277cd13c6c98d5dbcd61"
+      },
+      "events:habit_race_saturday:/description": {
+        "source_sha256": "8ac4a045098ca484e8742b386c6a990d0a43209cfc12c608b426ac17490771b6",
+        "target_sha256": "9ebc88813b77393bb2626e6a5506afd5a580b4fbd815c51221c8f77ed15e3ed1"
+      },
+      "events:habit_race_saturday:/title": {
+        "source_sha256": "eb1ab7cbb4a65de0b94d69029e7e5dec48da7d2786ab0349f624b5210ebb634f",
+        "target_sha256": "1fddebefec5254e5fb7d60703449dd7ebe16d824ea20453ecd0774166d54f695"
       }
     },
     "zh-CN": {
@@ -159027,6 +159305,214 @@
       "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": {
         "source_sha256": "5c87e4b9f032c4618a465100e5f139979ee491c4faab81cc51a88642395f1e10",
         "target_sha256": "f6f51d94b1b122c278799b3f694538d2a82a3bda8b3d1eddad1d4fd2d8bf61fd"
+      },
+      "events:habit_casino_regular:/choices/0/result_text": {
+        "source_sha256": "966fea6a351cf551a3c935df2a8e1f5246119a6f6fdf500db210cb49e6d0652b",
+        "target_sha256": "235953b628f65b26867f46a5e25931662b4de278f01f188ee2a40a6824cfe434"
+      },
+      "events:habit_casino_regular:/choices/0/text": {
+        "source_sha256": "0eb9abdc614409170d5ffbc9243328f6e726461c20648278440c30dceaaa7de8",
+        "target_sha256": "edfe246e04166c17068132df5309ac515a280b70b263d7727437edff6ea79907"
+      },
+      "events:habit_casino_regular:/choices/1/result_text": {
+        "source_sha256": "c9c3c8352673376a8b8402cca1cb6c09f856f9599f8d18c76178415f8904ceed",
+        "target_sha256": "0c4b3a78323fc551cc411a068d260b326268ae16564313cb04b0f6ead0b7b603"
+      },
+      "events:habit_casino_regular:/choices/1/text": {
+        "source_sha256": "a47065cc032b0e00de684c5c63dd3f6ac7151cd2f910ceb1c1575d028fcc09d6",
+        "target_sha256": "c36c6464c141f969f7713b855a18afdcf53f6e9f68c56545711e764caeb5e3cf"
+      },
+      "events:habit_casino_regular:/description": {
+        "source_sha256": "5893458497dcf65d603b390393104955966441253a78c61248bff8e815e80c38",
+        "target_sha256": "15ab3be95dfaa2013ba93ed006f5fac054da6a894467d854373f00b8256e80eb"
+      },
+      "events:habit_casino_regular:/title": {
+        "source_sha256": "0f7c33f4f2425af1e9f734c53c54b5c7e19ca1e876a399a0284e16fa36ffd65e",
+        "target_sha256": "725de73d143c6dedb86a128dfb2e5c46e0633903bbbd66ea4fad4c443849ad09"
+      },
+      "events:habit_casino_trip:/choices/0/result_text": {
+        "source_sha256": "55380af879ad07b8fe7ce61c6aa379025462f233d6351f33ca1667251509ff3b",
+        "target_sha256": "edeffe82280ab07cee7fb7eee9e1a3aeaa6789701d8a92a1c1ddd01e64d81ebd"
+      },
+      "events:habit_casino_trip:/choices/0/text": {
+        "source_sha256": "edf6cce70cc3f943b01f1fc265f36fe858ab82dedfbcc8084f920bb12db2d097",
+        "target_sha256": "027f1795dce8cfe52703d26d0d8e9b1809d8b178ba347f81369e5afebe0503ce"
+      },
+      "events:habit_casino_trip:/choices/1/result_text": {
+        "source_sha256": "95f0c6196c594153416f51e01d42264a275814808db7066fbcbba657e3711621",
+        "target_sha256": "2658020a24f13a54bfbbc034a06469aa368350ab2516bdae8091964ae9332d22"
+      },
+      "events:habit_casino_trip:/choices/1/text": {
+        "source_sha256": "0507f949483a40473cfbabd53ec84cfbef41357216e93c100b018ba9a8c69ebf",
+        "target_sha256": "22b6a1b97a456b08755c03183332fd0f69d1d75f2b5dec4f30d2c219e1459e2e"
+      },
+      "events:habit_casino_trip:/description": {
+        "source_sha256": "0db02ece11ed4631c45698ede2b433b0e9a9ed6abd75203be28065e9a2146674",
+        "target_sha256": "30cc4cab86f3ac65a2d6479a4c7f560162b4e4b54d10c12225faf768803fbb88"
+      },
+      "events:habit_casino_trip:/title": {
+        "source_sha256": "14bb537508683d0617e65e33d961a5958ebef03f9122d13ab618f67caf2c7724",
+        "target_sha256": "42084fc8cd5c47ee0e582cea2bb8da104c865ee638585b8ae8401486f97c6282"
+      },
+      "events:habit_holdem_night:/choices/0/result_text": {
+        "source_sha256": "6d6705ded87f11571f09eedd5ae8d815f183a6cb364ee364f91335a8d6d68646",
+        "target_sha256": "1f5c9a5e4692105efdcdd0ccac81939e0304c23fbe995eb4f016455ee5c0d36d"
+      },
+      "events:habit_holdem_night:/choices/0/text": {
+        "source_sha256": "bf97133a52747a6c400358e5847cff3637accc5418486c45984b45fe331a03f1",
+        "target_sha256": "5c7d810d09343026215ddd179ff678667cb44b2635f5cdab54243cfeddd11de2"
+      },
+      "events:habit_holdem_night:/choices/1/result_text": {
+        "source_sha256": "bd507ccb8496609fb5259fa88a5099b89c62774ad2aa05701d5d03ba68ae365c",
+        "target_sha256": "bb3331716e0faa6ebbb4e326048fcdb15ed11c663e6affa2298cd650aa2671f5"
+      },
+      "events:habit_holdem_night:/choices/1/text": {
+        "source_sha256": "c92760e03cccca0fcbc3f050c0d600cc3a4b21f93fa5afaa3c0f69f177295494",
+        "target_sha256": "5debc4da271b4b71777c50e45c29d4e8fdb9278151a2422254c8b331472c2ca3"
+      },
+      "events:habit_holdem_night:/description": {
+        "source_sha256": "ee6c97bd2d77e51c897b53d1ca9dadbdf5724755c32a757d4735f75c437a3ba8",
+        "target_sha256": "ab4bb9084fd00c30e7b542c943116d625fce7ef034ffaef922e85945141e11b7"
+      },
+      "events:habit_holdem_night:/title": {
+        "source_sha256": "7038070ba12dd48a9bef04d7d3e180ef58e77227f7e3d6e2ad465e88b50aa3e9",
+        "target_sha256": "b280011cdddc374260c88fbe94afd1fe5551ab554f72f618e1ddb87e05ad75a9"
+      },
+      "events:habit_holdem_regular:/choices/0/result_text": {
+        "source_sha256": "68b0261ab2853e8e6199c388a2b46120a7a5613b9daca34473cabf0a2a731726",
+        "target_sha256": "ee28b00e53a078efb62586fa7b59f1e347274e07af4cad45dd6e15ed7e4d9540"
+      },
+      "events:habit_holdem_regular:/choices/0/text": {
+        "source_sha256": "8b6b93d5341e99623f8306a7495f70a8ee7fbe80813fc79887ab4158f9d2900f",
+        "target_sha256": "d400131a00486af27441e3c4fc16f6343a7ceed9de7afbac5bd1d8fe05995acc"
+      },
+      "events:habit_holdem_regular:/choices/1/result_text": {
+        "source_sha256": "c0d9e2af1221612af85d99d196db970f1b64b106ca0e58656b52c6816360e7b7",
+        "target_sha256": "c90738eb9603acc5b9171385d16a0a85ed0da8b9579bfc30ed85e398e57e64ef"
+      },
+      "events:habit_holdem_regular:/choices/1/text": {
+        "source_sha256": "f71219cb44bb38e6002dfbde732e01c560aeefe7ce80a53cb1fb1148d2966718",
+        "target_sha256": "c53779096e3ff30f0fb40f58b415bce5e0b8c777a5e2516d60228a2475642472"
+      },
+      "events:habit_holdem_regular:/description": {
+        "source_sha256": "d7445a3f0b75d595823fe878bb76b0d76196ce1f31e570da1a73bfaf3a57cb3e",
+        "target_sha256": "9f1311c4fcec9237542d3329e82c0026686765cf3e8c06b4ae9746e905b92163"
+      },
+      "events:habit_holdem_regular:/title": {
+        "source_sha256": "6204a2161a265e611db2b542321bcb181fd7f54cbdf457ba0a69d0c077a9d4d2",
+        "target_sha256": "b26565dbddfd12e85bed4f8a71f6086ebfbb4c9080759268735de349b30f7be9"
+      },
+      "events:habit_portfolio_check:/choices/0/result_text": {
+        "source_sha256": "031f652c9887f84330da1c542191fcd640545050765ab29d2fe2af1c4e6d610f",
+        "target_sha256": "fbc49a4c61a40bc56741f892f9594fc82db31775fb95385b1f44d74c2e07d467"
+      },
+      "events:habit_portfolio_check:/choices/0/text": {
+        "source_sha256": "6d6e9463c42c1019a365b5070aefd749871e5b34671eeb3666b6f1718060ed6d",
+        "target_sha256": "838aef266e2111241aacfb24cf54dfe6f5b2f11d55c181f717e3fe67f67fb03f"
+      },
+      "events:habit_portfolio_check:/choices/1/result_text": {
+        "source_sha256": "0377da945dd49fc5b628c655b89cc326c2383d34893362c96678489e84fb9530",
+        "target_sha256": "cc6fc2898c36040073c4f481dbb029410e4f016ab37360595d6b01227806584a"
+      },
+      "events:habit_portfolio_check:/choices/1/text": {
+        "source_sha256": "e3c65322348daf5a73eee3c2ff677f849c585ae9bb87efcf4d18a16a11fc5f3f",
+        "target_sha256": "a6e6b24c1de843945fcf68237ff0d986a2052d398be893602da0dbe5aa098130"
+      },
+      "events:habit_portfolio_check:/choices/2/result_text": {
+        "source_sha256": "dda999d2350ee6ee8b4d0b81cdd4f5e5c770bb00d9136d4ff3c9fa716de33fdb",
+        "target_sha256": "b1d216b247b75636be7161baa5c1d320859c98a903045130e4a7d772c377b85c"
+      },
+      "events:habit_portfolio_check:/choices/2/text": {
+        "source_sha256": "f34c722ce538b0ed336ab1b9516bdc1896d6b7f20370f730180f2fefdbe68d8a",
+        "target_sha256": "45bdd041c9571d4c1dd2b004f3b80f230b61e995cce233b4cd6efdd0d67ad3c3"
+      },
+      "events:habit_portfolio_check:/description": {
+        "source_sha256": "b3603ddbc0a47be58430bd6ccaa6bc126374126b1203294c8656403110db7b6b",
+        "target_sha256": "27aaf95f81c143a04f81b3b04f1eb3e2023cb85a1caf6b8b8a4b57107195d3c2"
+      },
+      "events:habit_portfolio_check:/title": {
+        "source_sha256": "343c1c260e5ba113fb37cb0984b344575845ecbcaba48f26b98f44afb8c2c0c2",
+        "target_sha256": "ade95c43329c885826676ee7de037ece652672972abaaaac77f5e0f4db60b87a"
+      },
+      "events:habit_portfolio_regular:/choices/0/result_text": {
+        "source_sha256": "ecbbd3b6c856fdd9bd782de581dc380c9cf2bc3a0c2f6bcfbbef30728813a48d",
+        "target_sha256": "75d074b4ca950f1777200960802b035b90b58737afeb1100cff70af683481b4f"
+      },
+      "events:habit_portfolio_regular:/choices/0/text": {
+        "source_sha256": "a74194d036ab67a5190142172f9671d9341033e7de6390e629b0e59dbb02fb7e",
+        "target_sha256": "58929174e283d72742c70901f5c8ff7b45c2867cd21b47e21ceabe7080457d02"
+      },
+      "events:habit_portfolio_regular:/choices/1/result_text": {
+        "source_sha256": "e81766cdb93984ae82ee1876f0ea018bbb3e215cfb6a74797a7ed3ce5d4e96df",
+        "target_sha256": "61f9aea3d3523629be8126ea91a6c65478f8a37888512cbc493a3a11b4346e68"
+      },
+      "events:habit_portfolio_regular:/choices/1/text": {
+        "source_sha256": "6ee13c5f1d88341b21e369fc816f762304d4bf8e4918247404c49aea5367dd54",
+        "target_sha256": "d8a38f3cd48ea5586042534755124d59cf847e9b7a27fda3ae4c552f70adc761"
+      },
+      "events:habit_portfolio_regular:/choices/2/result_text": {
+        "source_sha256": "391dfaa76ee19bd67edb23f4af8e66c5db36127e8fcbe58544acac80d3087a4c",
+        "target_sha256": "090e7c28a8e7f85ee9145eb02843feb6d393b1b07a6138043ef01448d5e67475"
+      },
+      "events:habit_portfolio_regular:/choices/2/text": {
+        "source_sha256": "71f08601b3cbc6c7d0a83cecf6c3131d96e0ba40c2e114d6a1b1793024da5448",
+        "target_sha256": "754dcff2283e337609204350b2977132254207d469139a7ba24d9fa6efe611a6"
+      },
+      "events:habit_portfolio_regular:/description": {
+        "source_sha256": "0a93565ebe036ed3fc2b4adaf05babf4b55aae172c08a31ea7056cfbaf10e3c2",
+        "target_sha256": "d227c9540b34f4f665871c3f2e50fd8b40f68bd54d22b9e071feea99b904777f"
+      },
+      "events:habit_portfolio_regular:/title": {
+        "source_sha256": "c0fd55d9a0db26bfe80f8acc58686f9bd3b641f9cd482e61a086a40663a0343f",
+        "target_sha256": "401feb9d938c4762cc4b1299e08a7d745079acf000beadabdc323c8315693ca0"
+      },
+      "events:habit_race_regular:/choices/0/result_text": {
+        "source_sha256": "76726d17581d57c6a844de09263cef9b0a2e6b3a9c70e8dc3079b9e4867e98bc",
+        "target_sha256": "37dd4394be0cd7e1c162cb27b211e9fd9d7b570a7c522707cdb7d7bc2d446d5f"
+      },
+      "events:habit_race_regular:/choices/0/text": {
+        "source_sha256": "19a44806c90200bb721b90dbe88284a0fe0fdf1ff04ed4c50bbc5729988d1e41",
+        "target_sha256": "b50136a91793c127fb52da72120cdebd1ee99868ff7b5efc236e1f9d4c2addd2"
+      },
+      "events:habit_race_regular:/choices/1/result_text": {
+        "source_sha256": "45d5c146b59a0bc4787e51b903a44431cb9efce820f9bd2f51c2ec6df235bb08",
+        "target_sha256": "1d211eed92a7b013922ce786fad4505f2f830348724e3b26c552544dafe31733"
+      },
+      "events:habit_race_regular:/choices/1/text": {
+        "source_sha256": "106bf11c569e17dd4fab31c2c084270786b0ae355beada7b503de3de47e1b030",
+        "target_sha256": "0ddf393ffe708e7816986e0bf1740058a0f2b0788583173d0d7f7a112ca9fa99"
+      },
+      "events:habit_race_regular:/description": {
+        "source_sha256": "a522689fc2f290e500e72d891a13a5ee786f1de46b29d2c620fdd6c1746f5535",
+        "target_sha256": "21a38c8ace1ab9a0e05bbcc28c49b091f2fe8c5196e1f20d682d838a10e76c70"
+      },
+      "events:habit_race_regular:/title": {
+        "source_sha256": "e800417b5ce19b7453357b56b0f4cb266780ea4323315448e42acd12fc2c1721",
+        "target_sha256": "c7b24d57f9a3021d01c084e406d29b3aa12dd6cf6f7aaded4dfcf907fc98ef46"
+      },
+      "events:habit_race_saturday:/choices/0/result_text": {
+        "source_sha256": "a141e406916cf0328bbf6df978d850ac40418ce19b5a38e6e530955b47cd81d9",
+        "target_sha256": "5f6d51c3360927380332892f38822ba50bb4a6a81c80511aefdff9dced811be2"
+      },
+      "events:habit_race_saturday:/choices/0/text": {
+        "source_sha256": "85508c46c10760d07c467de4eac2ae806eff3b01fd5493163fe1d42c955508c7",
+        "target_sha256": "3c2ae24ac04aef93dee8c193666cca8cb68d0c67662a87d92d2dfb416e73fe48"
+      },
+      "events:habit_race_saturday:/choices/1/result_text": {
+        "source_sha256": "89bac7c5ed96a1004f6589ab697bbffd98bf71bc87f5baf127702be239ad5c7e",
+        "target_sha256": "be4ff5945d18733b18d19ec5f46cf2db43ffeacd744346f8ff428ab4c624ae0a"
+      },
+      "events:habit_race_saturday:/choices/1/text": {
+        "source_sha256": "708a713e269af2d2a73a2544bbfb888a59ee32e12147739aaa6dac7c9f2b5968",
+        "target_sha256": "ea347afb652822d9e9ada518b75779be191ce4f519c791038b15a80bc4eed53f"
+      },
+      "events:habit_race_saturday:/description": {
+        "source_sha256": "8ac4a045098ca484e8742b386c6a990d0a43209cfc12c608b426ac17490771b6",
+        "target_sha256": "61a24fe807991f2a8a361644eed8d567e37a9e8f8df9dc31b455cfb867440f1e"
+      },
+      "events:habit_race_saturday:/title": {
+        "source_sha256": "eb1ab7cbb4a65de0b94d69029e7e5dec48da7d2786ab0349f624b5210ebb634f",
+        "target_sha256": "8d9e2888099e2ba1937f95d40ec0c31b2808d2a4bf81fb6ee6af67f12becbcc8"
       }
     },
     "zh-TW": {
@@ -218717,10 +219203,218 @@
       "ui:사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.:/사망 소식을 들은 뒤 창원행 열차를 탔다. 빈 병실에 한참 앉아 있다가 돌아왔다.": {
         "source_sha256": "5c87e4b9f032c4618a465100e5f139979ee491c4faab81cc51a88642395f1e10",
         "target_sha256": "655d9a4bc8f269ed8a68127b4297eb256d4940bd7f7da515ce5abb6865ae85b9"
+      },
+      "events:habit_casino_regular:/choices/0/result_text": {
+        "source_sha256": "966fea6a351cf551a3c935df2a8e1f5246119a6f6fdf500db210cb49e6d0652b",
+        "target_sha256": "5ef63aa1b63853a43017cd9961d75deee5cb677dbd544d5cb92e3e8a5f1a1375"
+      },
+      "events:habit_casino_regular:/choices/0/text": {
+        "source_sha256": "0eb9abdc614409170d5ffbc9243328f6e726461c20648278440c30dceaaa7de8",
+        "target_sha256": "b35c826ecee5d5da31a0c53fe22f145369a7e8e6b722e48a920ff72cf97b64ed"
+      },
+      "events:habit_casino_regular:/choices/1/result_text": {
+        "source_sha256": "c9c3c8352673376a8b8402cca1cb6c09f856f9599f8d18c76178415f8904ceed",
+        "target_sha256": "2f99c2dc4604bbeea66524b3c59d7aec3f668d8d8e0563b27826c4bf35bfeda7"
+      },
+      "events:habit_casino_regular:/choices/1/text": {
+        "source_sha256": "a47065cc032b0e00de684c5c63dd3f6ac7151cd2f910ceb1c1575d028fcc09d6",
+        "target_sha256": "3ce617b79e35919dccd84579a9ed190162178323fa5283300251a68d1cd95e05"
+      },
+      "events:habit_casino_regular:/description": {
+        "source_sha256": "5893458497dcf65d603b390393104955966441253a78c61248bff8e815e80c38",
+        "target_sha256": "08c784cf2e6747aa5651d951ebf47f6f5fca48921ec896d76768782288a0c405"
+      },
+      "events:habit_casino_regular:/title": {
+        "source_sha256": "0f7c33f4f2425af1e9f734c53c54b5c7e19ca1e876a399a0284e16fa36ffd65e",
+        "target_sha256": "7cba4a8f600f1f678e8eec8f29b33f9a7fee09c058e95b7e9608921eb8dc1092"
+      },
+      "events:habit_casino_trip:/choices/0/result_text": {
+        "source_sha256": "55380af879ad07b8fe7ce61c6aa379025462f233d6351f33ca1667251509ff3b",
+        "target_sha256": "1c76107590d00ac72371a7a30eb445bd0165f290d30978374a326a5baca0ff01"
+      },
+      "events:habit_casino_trip:/choices/0/text": {
+        "source_sha256": "edf6cce70cc3f943b01f1fc265f36fe858ab82dedfbcc8084f920bb12db2d097",
+        "target_sha256": "83d036ab01c21bfbece91d606f5a3a70efed86b18434d360dd0efc5897cb354b"
+      },
+      "events:habit_casino_trip:/choices/1/result_text": {
+        "source_sha256": "95f0c6196c594153416f51e01d42264a275814808db7066fbcbba657e3711621",
+        "target_sha256": "8a3c1b8f55d42754b35257b335754e0e96ca00c223f99aae9078b279e5acea48"
+      },
+      "events:habit_casino_trip:/choices/1/text": {
+        "source_sha256": "0507f949483a40473cfbabd53ec84cfbef41357216e93c100b018ba9a8c69ebf",
+        "target_sha256": "281c7551c16c0eef8873a1c3810bb9ade8405ec384ec88a5162849f7be9f2f12"
+      },
+      "events:habit_casino_trip:/description": {
+        "source_sha256": "0db02ece11ed4631c45698ede2b433b0e9a9ed6abd75203be28065e9a2146674",
+        "target_sha256": "93a7d029a63d817e3615a99cc6f14405d25a9bd26ccc6edbd61d339814dd244b"
+      },
+      "events:habit_casino_trip:/title": {
+        "source_sha256": "14bb537508683d0617e65e33d961a5958ebef03f9122d13ab618f67caf2c7724",
+        "target_sha256": "2b1c31c63b1ab0c8084b7a05777b707f3365821dc794cf0beddc5e6948caa82c"
+      },
+      "events:habit_holdem_night:/choices/0/result_text": {
+        "source_sha256": "6d6705ded87f11571f09eedd5ae8d815f183a6cb364ee364f91335a8d6d68646",
+        "target_sha256": "340c8678a2f319c96a780189778dbc87d18ca450db3e5de29acdcaccf46b8421"
+      },
+      "events:habit_holdem_night:/choices/0/text": {
+        "source_sha256": "bf97133a52747a6c400358e5847cff3637accc5418486c45984b45fe331a03f1",
+        "target_sha256": "24d4c5cbf229c320b1ea7093919bb2663ea513e0c3a728b5df39025623f9e754"
+      },
+      "events:habit_holdem_night:/choices/1/result_text": {
+        "source_sha256": "bd507ccb8496609fb5259fa88a5099b89c62774ad2aa05701d5d03ba68ae365c",
+        "target_sha256": "7ffc7b6a10fed0a44cb2b891b039d8076fbe75dcdc92ec3ffff8045f85e1f122"
+      },
+      "events:habit_holdem_night:/choices/1/text": {
+        "source_sha256": "c92760e03cccca0fcbc3f050c0d600cc3a4b21f93fa5afaa3c0f69f177295494",
+        "target_sha256": "ba38beb42575ea49797693f36966b72912109d56faa9d1d923a45b9135edc636"
+      },
+      "events:habit_holdem_night:/description": {
+        "source_sha256": "ee6c97bd2d77e51c897b53d1ca9dadbdf5724755c32a757d4735f75c437a3ba8",
+        "target_sha256": "6f214495906ce9cb4c4dcc2f30b60484dfa2386cef6bb4bc219f7bb1541d54e6"
+      },
+      "events:habit_holdem_night:/title": {
+        "source_sha256": "7038070ba12dd48a9bef04d7d3e180ef58e77227f7e3d6e2ad465e88b50aa3e9",
+        "target_sha256": "15e4f01162daa167fe7f3d20ac788d28d037d86b1cfa5e9aa132d28a05d38fcd"
+      },
+      "events:habit_holdem_regular:/choices/0/result_text": {
+        "source_sha256": "68b0261ab2853e8e6199c388a2b46120a7a5613b9daca34473cabf0a2a731726",
+        "target_sha256": "97c4e9737448faf9c30668daf7a12829fcd3f93b25007584ec533ea8aa20d0d6"
+      },
+      "events:habit_holdem_regular:/choices/0/text": {
+        "source_sha256": "8b6b93d5341e99623f8306a7495f70a8ee7fbe80813fc79887ab4158f9d2900f",
+        "target_sha256": "4aef2452b5a8244937cd1205be7c71501334532685f37d8126e27a4365737190"
+      },
+      "events:habit_holdem_regular:/choices/1/result_text": {
+        "source_sha256": "c0d9e2af1221612af85d99d196db970f1b64b106ca0e58656b52c6816360e7b7",
+        "target_sha256": "c0c5e71452f552804b397134337da32fb8b1cff85bfea79463b21fd1700ce030"
+      },
+      "events:habit_holdem_regular:/choices/1/text": {
+        "source_sha256": "f71219cb44bb38e6002dfbde732e01c560aeefe7ce80a53cb1fb1148d2966718",
+        "target_sha256": "b054fdda5369579364a9d8000167d23602a34e14bd0f7459d964f3a660b7c3cf"
+      },
+      "events:habit_holdem_regular:/description": {
+        "source_sha256": "d7445a3f0b75d595823fe878bb76b0d76196ce1f31e570da1a73bfaf3a57cb3e",
+        "target_sha256": "a21c27d0434fd0470c31e445395d759b3207dd053f86624db3e11086ed2fe981"
+      },
+      "events:habit_holdem_regular:/title": {
+        "source_sha256": "6204a2161a265e611db2b542321bcb181fd7f54cbdf457ba0a69d0c077a9d4d2",
+        "target_sha256": "b26565dbddfd12e85bed4f8a71f6086ebfbb4c9080759268735de349b30f7be9"
+      },
+      "events:habit_portfolio_check:/choices/0/result_text": {
+        "source_sha256": "031f652c9887f84330da1c542191fcd640545050765ab29d2fe2af1c4e6d610f",
+        "target_sha256": "efc025f4778d1de2ea21404447af016fc6e101d26231faf9fb7a103f4f993322"
+      },
+      "events:habit_portfolio_check:/choices/0/text": {
+        "source_sha256": "6d6e9463c42c1019a365b5070aefd749871e5b34671eeb3666b6f1718060ed6d",
+        "target_sha256": "938bf6251cc6b5f5fe20e38f038db8a483a5263057eee35980f06e327c3a1392"
+      },
+      "events:habit_portfolio_check:/choices/1/result_text": {
+        "source_sha256": "0377da945dd49fc5b628c655b89cc326c2383d34893362c96678489e84fb9530",
+        "target_sha256": "1e6496c765237281d903f0c81763123ef5a33b72d367c01b30c2847088a8c6fe"
+      },
+      "events:habit_portfolio_check:/choices/1/text": {
+        "source_sha256": "e3c65322348daf5a73eee3c2ff677f849c585ae9bb87efcf4d18a16a11fc5f3f",
+        "target_sha256": "78ead2472da9449fa8a65a151cb86b592a4e68c7e24e3c234d27cabaf00b630a"
+      },
+      "events:habit_portfolio_check:/choices/2/result_text": {
+        "source_sha256": "dda999d2350ee6ee8b4d0b81cdd4f5e5c770bb00d9136d4ff3c9fa716de33fdb",
+        "target_sha256": "67e81bca630059494135f9b35f2cade2d6632257655ae938b8619429faf409a9"
+      },
+      "events:habit_portfolio_check:/choices/2/text": {
+        "source_sha256": "f34c722ce538b0ed336ab1b9516bdc1896d6b7f20370f730180f2fefdbe68d8a",
+        "target_sha256": "3fe7ddb908b7474ac1138de465caa9385f7f99eeb2d6f6a1ba47ba3fc29f4cfc"
+      },
+      "events:habit_portfolio_check:/description": {
+        "source_sha256": "b3603ddbc0a47be58430bd6ccaa6bc126374126b1203294c8656403110db7b6b",
+        "target_sha256": "85a7bf38c73295d37c8d47a6230a5820562f4bae5c6d2acaea172be379a85447"
+      },
+      "events:habit_portfolio_check:/title": {
+        "source_sha256": "343c1c260e5ba113fb37cb0984b344575845ecbcaba48f26b98f44afb8c2c0c2",
+        "target_sha256": "bdef08534b254373f809b7e5886f8a27a60f4e831d3a180119672958b0a4cd8d"
+      },
+      "events:habit_portfolio_regular:/choices/0/result_text": {
+        "source_sha256": "ecbbd3b6c856fdd9bd782de581dc380c9cf2bc3a0c2f6bcfbbef30728813a48d",
+        "target_sha256": "be3bfc48588618914f1841d55560f4a0f813a9b42d054704b293cb946a6c7aee"
+      },
+      "events:habit_portfolio_regular:/choices/0/text": {
+        "source_sha256": "a74194d036ab67a5190142172f9671d9341033e7de6390e629b0e59dbb02fb7e",
+        "target_sha256": "4accc8a59453cd0824a0634d44cd09f7cb9cb5c2025f03d31326ba7899dd841c"
+      },
+      "events:habit_portfolio_regular:/choices/1/result_text": {
+        "source_sha256": "e81766cdb93984ae82ee1876f0ea018bbb3e215cfb6a74797a7ed3ce5d4e96df",
+        "target_sha256": "64c4775411de7c0c716c17ed9a6561f9e12cb3521346e2b22784620a5af71291"
+      },
+      "events:habit_portfolio_regular:/choices/1/text": {
+        "source_sha256": "6ee13c5f1d88341b21e369fc816f762304d4bf8e4918247404c49aea5367dd54",
+        "target_sha256": "fc4c898087b6f5a0cbe9089459b4047c4799d9f9f3984e2c4a29bf8106d04991"
+      },
+      "events:habit_portfolio_regular:/choices/2/result_text": {
+        "source_sha256": "391dfaa76ee19bd67edb23f4af8e66c5db36127e8fcbe58544acac80d3087a4c",
+        "target_sha256": "f04079863f95ddc3882045384440f84a62e8de3f75474b22bb0dc45c2de865d1"
+      },
+      "events:habit_portfolio_regular:/choices/2/text": {
+        "source_sha256": "71f08601b3cbc6c7d0a83cecf6c3131d96e0ba40c2e114d6a1b1793024da5448",
+        "target_sha256": "930914afba57ea89ee1f8cbccbf84c78dda3d633d92fae8449657a54d137515c"
+      },
+      "events:habit_portfolio_regular:/description": {
+        "source_sha256": "0a93565ebe036ed3fc2b4adaf05babf4b55aae172c08a31ea7056cfbaf10e3c2",
+        "target_sha256": "1de4f3f953e70b1e5975b9cff0a2274f338c83e0fa260a25a481b8cebcb0a26b"
+      },
+      "events:habit_portfolio_regular:/title": {
+        "source_sha256": "c0fd55d9a0db26bfe80f8acc58686f9bd3b641f9cd482e61a086a40663a0343f",
+        "target_sha256": "a125f2403cc8af6dd0cfba3af343012e48a2526ab416bd697e56e975569ae88c"
+      },
+      "events:habit_race_regular:/choices/0/result_text": {
+        "source_sha256": "76726d17581d57c6a844de09263cef9b0a2e6b3a9c70e8dc3079b9e4867e98bc",
+        "target_sha256": "be1d0c7e98edc31db8e48a1fde377adecacf0e0a7e737a2a276b9ea91300e2d1"
+      },
+      "events:habit_race_regular:/choices/0/text": {
+        "source_sha256": "19a44806c90200bb721b90dbe88284a0fe0fdf1ff04ed4c50bbc5729988d1e41",
+        "target_sha256": "b50136a91793c127fb52da72120cdebd1ee99868ff7b5efc236e1f9d4c2addd2"
+      },
+      "events:habit_race_regular:/choices/1/result_text": {
+        "source_sha256": "45d5c146b59a0bc4787e51b903a44431cb9efce820f9bd2f51c2ec6df235bb08",
+        "target_sha256": "c585f1fea6bc2c50006de9f117a9b7ee8ab5c88f395b78cb49d407902b7c7a97"
+      },
+      "events:habit_race_regular:/choices/1/text": {
+        "source_sha256": "106bf11c569e17dd4fab31c2c084270786b0ae355beada7b503de3de47e1b030",
+        "target_sha256": "cba38d1bb3eb5d37dee1d4b52011f0b51a4ab0e5d53b8a5ad9bfc4f390c5820b"
+      },
+      "events:habit_race_regular:/description": {
+        "source_sha256": "a522689fc2f290e500e72d891a13a5ee786f1de46b29d2c620fdd6c1746f5535",
+        "target_sha256": "7df2eacc4788e6aac51caee05c26374f9bc9dbe4b7f7a67a76c9a039e27dce5e"
+      },
+      "events:habit_race_regular:/title": {
+        "source_sha256": "e800417b5ce19b7453357b56b0f4cb266780ea4323315448e42acd12fc2c1721",
+        "target_sha256": "2b35da86e27ea0825dd323807153b4b07f0e98cc7afa9946f8a3424dbd597d2a"
+      },
+      "events:habit_race_saturday:/choices/0/result_text": {
+        "source_sha256": "a141e406916cf0328bbf6df978d850ac40418ce19b5a38e6e530955b47cd81d9",
+        "target_sha256": "88dd472e69ece8a4d7a2f7f7ec28f13b48c4130f5e04e0b32164dc5b2b046ac3"
+      },
+      "events:habit_race_saturday:/choices/0/text": {
+        "source_sha256": "85508c46c10760d07c467de4eac2ae806eff3b01fd5493163fe1d42c955508c7",
+        "target_sha256": "e1cf203851e8c530ade1ae38d52826fd70b376db2e8181c0469eb34ca3ba4314"
+      },
+      "events:habit_race_saturday:/choices/1/result_text": {
+        "source_sha256": "89bac7c5ed96a1004f6589ab697bbffd98bf71bc87f5baf127702be239ad5c7e",
+        "target_sha256": "b5652874b8883a5cc2316d33a88fdf790226ff1f08c25dc27f2d3cd628d1749c"
+      },
+      "events:habit_race_saturday:/choices/1/text": {
+        "source_sha256": "708a713e269af2d2a73a2544bbfb888a59ee32e12147739aaa6dac7c9f2b5968",
+        "target_sha256": "085fac234a7e818683d7a56961e7d6fb5b0bf5069b0f7e3e11150c7785df49d2"
+      },
+      "events:habit_race_saturday:/description": {
+        "source_sha256": "8ac4a045098ca484e8742b386c6a990d0a43209cfc12c608b426ac17490771b6",
+        "target_sha256": "2a2fe46219172126ba64c45d586da0049a780047f48ea8361b93207527e6098a"
+      },
+      "events:habit_race_saturday:/title": {
+        "source_sha256": "eb1ab7cbb4a65de0b94d69029e7e5dec48da7d2786ab0349f624b5210ebb634f",
+        "target_sha256": "25980f1921c542ff92524b27db67d33bc038382d98b694ae9fdb0afe9071d661"
       }
     }
   },
-  "accepted_sha256": "9bc66f6f32ddb7fd101313cc308ee16db1afbf79e08ca6c1bfe464efcb79c49d",
+  "accepted_sha256": "5adf5aa16067b5cba5bb67ce4a34372350b48cc3ebdfd26a66e404c4d70d43de",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

@@ -899,5 +899,43 @@
         "result_text": "You turned it off.\nWhether Gangnam prices rose or not, today's work still had to be done today."
       }
     ]
+  },
+  {
+    "id": "habit_portfolio_check",
+    "title": "Opening the Account",
+    "description": "On Sunday night he opened the brokerage app. The numbers beside his holdings flickered between red and blue.\n\nAt the bottom of the balance screen sat 'Available to order.' The money in his bank account had moved there unchanged.\n\nHis finger rested on the buy button for a moment.",
+    "choices": [
+      {
+        "text": "Put some of his savings into more index ETF",
+        "result_text": "The fill notice popped up. His average cost shifted a little, somewhere past the decimal point."
+      },
+      {
+        "text": "Sell half of what he holds",
+        "result_text": "Sell order filled. For the first time, the settled number stayed still."
+      },
+      {
+        "text": "Close the app and leave it",
+        "result_text": "When the screen went off, the room went dark. He set the phone face down and lay back."
+      }
+    ]
+  },
+  {
+    "id": "habit_portfolio_regular",
+    "title": "The Order Book at Dawn",
+    "description": "Three in the morning, an hour before the US close. The screen threw a square of light onto the ceiling.\n\nHe opened and closed the app several times a day now. His holdings had moved a few hundred thousand won since yesterday.\n\nIn the top right corner a new badge had appeared: 'Leveraged products enabled.'",
+    "choices": [
+      {
+        "text": "Put some of what's left into more Nasdaq ETF",
+        "result_text": "The fill chimed. Outside, the window began to pale."
+      },
+      {
+        "text": "Load part of it into a 3x leveraged product",
+        "result_text": "The order history showed a 3 next to it. Sleep didn't come back."
+      },
+      {
+        "text": "Sell everything and delete the app",
+        "result_text": "He pressed delete. The icon wobbled and vanished, leaving one empty slot on the home screen."
+      }
+    ]
   }
 ]

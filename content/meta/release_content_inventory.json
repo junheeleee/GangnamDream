@@ -252,12 +252,12 @@
     "scope": "current_worktree_full_and_legacy_profiles",
     "ko_event_files": 127,
     "en_event_files": 127,
-    "ko_events": 1813,
-    "en_events": 1813,
-    "event_ids_sha256": "4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b",
-    "shipping_ko_events": 1702,
-    "shipping_en_events": 1702,
-    "shipping_event_ids_sha256": "ed0b07c151b204c08f1e5783d9ddd851daafc41eb56b2c9f183626d879f8a163",
+    "ko_events": 1821,
+    "en_events": 1821,
+    "event_ids_sha256": "24bc8ab659a5e0780e0bee438403a87a7fe0cffeff4beef82199017fc7d18238",
+    "shipping_ko_events": 1710,
+    "shipping_en_events": 1710,
+    "shipping_event_ids_sha256": "7d94ce69cf4e4b38673391b2e36bdf187f3531bcc58f7f406cf7ac916be0d45e",
     "author_only_events": 111,
     "author_only_event_ids_sha256": "bc0cb2873cee16b9496d72bc660489e16312a571d73681dfcdd6d1ed5c9ae240",
     "ko_endings": 35,
@@ -478,10 +478,10 @@
         "tags": ["gambling", "addiction"],
         "tokens_ko": ["도박", "베팅", "카지노", "경마", "마권", "바카라", "블랙잭", "룰렛", "슬롯", "홀덤", "다이사이", "식보"],
         "tokens_en": ["gambl", "betting", "casino", "racetrack", "baccarat", "blackjack", "roulette", "slot machine", "hold'em", "sic bo"],
-        "expected_event_count": 135,
+        "expected_event_count": 141,
         "expected_file_count": 43,
-        "expected_ids_sha256": "f6ce3e8c42810bbf37ada7d6b38f63c09bc68d736cc2c0097eed58f1bafd4aa0",
-        "expected_content_sha256": "1634a37c45d74025b328accbef7ad8b667b5c7887829ab6f01bc9ff40dbded85"
+        "expected_ids_sha256": "e506e7499f895410a0fcbcdc3df6ed859d6059879fb2026a4b3eeb89199f557c",
+        "expected_content_sha256": "0b8ed9b4ca60c3b6f57ba857e6901eb6f6e243bf7fc0b8fa1befe68290f54543"
       },
       "facts": [
         {
