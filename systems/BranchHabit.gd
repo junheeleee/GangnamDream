@@ -112,8 +112,12 @@ static func _eligible(activity: Dictionary, flags: Dictionary, has_portfolio: bo
 	for flag_id in activity.get("requires_all", []):
 		if not bool(flags.get(str(flag_id), false)):
 			return false
-	for flag_id in activity.get("forbids", []):
+	var waived := false
+	for flag_id in activity.get("forbids_unless", []):
 		if bool(flags.get(str(flag_id), false)):
+			waived = true
+	for flag_id in activity.get("forbids", []):
+		if not waived and bool(flags.get(str(flag_id), false)):
 			return false
 	return not bool(activity.get("portfolio", false)) or has_portfolio
 

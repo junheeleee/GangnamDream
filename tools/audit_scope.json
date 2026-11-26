@@ -4758,6 +4758,22 @@
       ]
     },
     {
+      "tool": "tools/AddictionArcCheck.tscn",
+      "godot": true,
+      "why": "834 B2.6 중독은 장면으로 끝난다: 70에 바닥 1회, 도움 뒤 회복 아크 간격(1주·4주·4주), 한 판 더/재발 이탈, 애도 쉼, 회복 중 도박 습관 잠금·재발 시 해제, 아버지 별세 변형(어머니), 정식 런 밖 90 종료 보존",
+      "paths": [
+        "systems/AddictionArc.gd",
+        "autoloads/GameState.gd",
+        "autoloads/EventManager.gd",
+        "systems/BranchHabit.gd",
+        "content/meta/branch_habit_ledger.json",
+        "scenes/MainGame.gd",
+        "content/events/arc_addiction_recovery.json",
+        "tools/AddictionArcCheck.gd",
+        "tools/AddictionArcCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/EasterEggRouteCheck.tscn",
       "godot": true,
       "why": "본편 이스터에그: 원장 8개 실재·자기 플래그로 1회, 자기 조건이 맞을 때만 빈 주에 원장 순서·6주 간격·애도/종막 쉼·저장 왕복, 실제 EventManager 조건 판정",

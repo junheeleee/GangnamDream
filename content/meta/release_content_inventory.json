@@ -252,12 +252,12 @@
     "scope": "current_worktree_full_and_legacy_profiles",
     "ko_event_files": 127,
     "en_event_files": 127,
-    "ko_events": 1821,
-    "en_events": 1821,
-    "event_ids_sha256": "24bc8ab659a5e0780e0bee438403a87a7fe0cffeff4beef82199017fc7d18238",
-    "shipping_ko_events": 1710,
-    "shipping_en_events": 1710,
-    "shipping_event_ids_sha256": "7d94ce69cf4e4b38673391b2e36bdf187f3531bcc58f7f406cf7ac916be0d45e",
+    "ko_events": 1822,
+    "en_events": 1822,
+    "event_ids_sha256": "750535cf4992749655f33a60862e1ef23603fd6c81b0ae56f13d21f84086f259",
+    "shipping_ko_events": 1711,
+    "shipping_en_events": 1711,
+    "shipping_event_ids_sha256": "51d0ac645bfcf5093675b98e1387342e93f178756595d3d438cc6d22f6110c9c",
     "author_only_events": 111,
     "author_only_event_ids_sha256": "bc0cb2873cee16b9496d72bc660489e16312a571d73681dfcdd6d1ed5c9ae240",
     "ko_endings": 35,
@@ -478,10 +478,10 @@
         "tags": ["gambling", "addiction"],
         "tokens_ko": ["도박", "베팅", "카지노", "경마", "마권", "바카라", "블랙잭", "룰렛", "슬롯", "홀덤", "다이사이", "식보"],
         "tokens_en": ["gambl", "betting", "casino", "racetrack", "baccarat", "blackjack", "roulette", "slot machine", "hold'em", "sic bo"],
-        "expected_event_count": 141,
+        "expected_event_count": 142,
         "expected_file_count": 43,
-        "expected_ids_sha256": "e506e7499f895410a0fcbcdc3df6ed859d6059879fb2026a4b3eeb89199f557c",
-        "expected_content_sha256": "d684c7c0e6f1ac46668b9410827dcd50e0618fa5b6366f1a2fb44fd5a067e4f7"
+        "expected_ids_sha256": "c586d16205016ce3bf19610d83db467652f47678006f4fdedda52c3f71b3405b",
+        "expected_content_sha256": "5d55525d52e818f6a5596e71dfc7de112fe5e8379b141b781190eef46203ec7d"
       },
       "facts": [
         {
@@ -522,7 +522,7 @@
           "media": ["text"],
           "owner_paths": ["content/events/gambling_narrative.json", "content/events/arc_addiction_recovery.json", "content/endings.json"],
           "event_ids": ["gambling_rock_bottom", "recovery_first_week"],
-          "evidence_tokens": ["금단이라는 게", "min_addiction", "addiction"],
+          "evidence_tokens": ["도박을 끊은 지 일주일", "min_addiction", "addiction"],
           "per_profile": {
             "retail_full": {"packaged": true, "runtime_load": "boot_eager", "fresh_start_reachability": "static_possible", "basis": "Registered full-game events follow gambling state and recovery flags."},
             "legacy_demo": {"packaged": true, "runtime_load": "boot_eager", "fresh_start_reachability": "static_possible", "basis": "A valid dirty-money/no-job route can open the racetrack at week 13, raise addiction to 80, keep cash below the savings milestone, and leave week 23 for a weighted gambling_rock_bottom draw; choosing help defers recovery_first_week to week 24. Relapse and completion stay beyond the cutoff."},
@@ -768,7 +768,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal", "arc_year3_close"],
-        "expected_event_count": 83, "expected_file_count": 40, "expected_ids_sha256": "9c4bf08c76ee149f048226bd2c06c12d693d5d37c9f291a7ee4eb1881787719e", "expected_content_sha256": "8e88b269baf2edc377211d3687381d1500860b11c8b099cdaff1d3e4111fddbe"
+        "expected_event_count": 82, "expected_file_count": 39, "expected_ids_sha256": "013ad6f381cb8de1d7ef367449a7a5561669899a5fdefe17621928669318765b", "expected_content_sha256": "68de4391fc54f94c0b737a4966f3bb53964547b39480c6ba7515477385c5f23e"
       },
       "facts": [
         {

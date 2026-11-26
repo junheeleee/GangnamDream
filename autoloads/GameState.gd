@@ -4386,6 +4386,10 @@ func _divorce_ending_for_assets(total_assets: float) -> String:
 	# 부자 엔딩을 꾸며내지 않고 그냥 사람의 전용 결별 변주로 회수한다.
 	return "lonely_rich" if total_assets >= GANGNAM_TARGET else "ordinary_life"
 
+func _full_story_run() -> bool:
+	return bool(load("res://systems/FullStoryFlow.gd").is_full_run())
+
+
 func check_game_over():
 	if is_game_over:
 		return
@@ -4422,7 +4426,11 @@ func check_game_over():
 		finish_run("debt_spiral"); return
 	if total_now < -100_000_000:
 		finish_run("bankruptcy"); return
-	if addiction_tendency >= 90:
+	# The full story never ends a run on a number alone (DECISIONS 2026-11-26):
+	# at 70 AddictionArc guarantees the rock-bottom scene, and only a run that
+	# chose to go deeper there, or relapsed, can be ruined by addiction.
+	if addiction_tendency >= 90 and (not _full_story_run()
+			or bool(flags.get("chose_deeper", false)) or bool(flags.get("relapsed", false))):
 		finish_run("crypto_ghost"); return
 
 	# M56-M60 owns the final document/person decisions for its locked route.

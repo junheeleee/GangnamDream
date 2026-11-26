@@ -14,6 +14,7 @@ const INVEST_BRANCH_BEATS = preload("res://systems/InvestBranchBeats.gd")
 const GAMBLE_BRANCH_BEATS = preload("res://systems/GambleBranchBeats.gd")
 const BRANCH_HABIT = preload("res://systems/BranchHabit.gd")
 const EASTER_EGG_ROUTE = preload("res://systems/EasterEggRoute.gd")
+const ADDICTION_ARC = preload("res://systems/AddictionArc.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
@@ -6916,6 +6917,11 @@ func _begin_month_story_and_render():
 		if ms_id != "":
 			_go_story_mode([ms_id])
 			return
+		# 중독 70에 닿은 런의 바닥 장면, 도움을 청한 런의 회복 아크(834 B2.6).
+		var addiction_id := _full_story_addiction_scene_id()
+		if addiction_id != "":
+			_go_story_mode([addiction_id])
+			return
 		# 몸·마음이 한 구간 아래로 내려간 뒤 처음 비는 주에 몸의 장면 하나(836 M1).
 		var body_id := _full_story_body_band_scene_id()
 		if body_id != "":
@@ -7094,6 +7100,16 @@ func _full_story_gamble_beat_id() -> String:
 		GameState.flags,
 		int(GameState.turn),
 		not GameState.current_job.is_empty(),
+		_full_story_branch_event_open)
+
+
+func _full_story_addiction_scene_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return ADDICTION_ARC.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		int(GameState.addiction_tendency),
 		_full_story_branch_event_open)
 
 

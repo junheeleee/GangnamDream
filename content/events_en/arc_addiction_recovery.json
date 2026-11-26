@@ -2,18 +2,44 @@
   {
     "id": "gambling_rock_bottom",
     "title": "Rock Bottom",
-    "description": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.",
+    "description": "Dawn. {name} was staring at the transaction history in the betting app.\n\nThe losses ran on and on down the screen.\nHe couldn't remember when he had stopped counting.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.",
     "choices": [
       {
-        "text": "Ask for help — call a gambling recovery group",
-        "result_text": "With trembling hands, he dialed the recovery group's number.\n\nAn unfamiliar voice answered. \"Yes, we're here. Take your time.\"\n\n{name} couldn't speak for a while.\nThen, barely, one sentence. \"...I want to quit gambling.\"\n\nA quiet reply came through the phone.\n\"Well done. That one sentence is the hardest.\"\n\nHitting bottom also meant the only way left was up.\nAt least, {name} chose to believe that."
+        "text": "Ask for help. Call a gambling recovery group",
+        "result_text": "With trembling hands, he dialed the recovery group's number.\n\nAn unfamiliar voice answered. \"Yes, we're here. Take your time.\"\n\n{name} couldn't speak for a while.\nThen, barely, one sentence. \"...I want to quit gambling.\"\n\nA quiet reply came through the phone.\n\"Well done. That one sentence is the hardest.\"\n\nAfter hanging up, {name} held the phone for a long time.\nHe rested his thumb on the betting app's icon, then held it down and deleted it."
       },
       {
         "text": "Confess everything to your father",
-        "result_text": "He called his father. It was 4 AM.\n\nHe told him everything. The gambling, the debt, the ruined account, the ruined self.\nHe cried while talking. The first time since becoming an adult.\n\nFather was silent for a long time.\nThen he said, low:\n\"...Come home. Just come once.\"\n\nHe didn't scold. That hurt more.\nThe son who paid off his father's debt six years ago was now confessing his own debt to his father.\nThis had to be a new beginning, not an end."
+        "result_text": "He called his father. It was 4 AM.\n\nHe told him everything. The gambling, the money he'd lost, the ruined account, the ruined self.\nHe cried while talking. The first time since becoming an adult.\n\nFather was silent for a long time.\nThen he said, low:\n\"...Come home. Just come once.\"\n\nHe didn't scold. That hurt more.\nThe son who had spent six years paying off his father's debt was now confessing to his father what he had lost.\n{name} hung up and looked up the first train home."
       },
       {
-        "text": "One more hand — win it all back with this",
+        "text": "One more hand. Win it all back with this",
+        "result_text": "{name} didn't ask for help.\n\n'Just one hand. I've got a good feeling this time.'\n\nHe scraped together the last of his money and bet it.\n\nThe number on the screen flickered and became 0.\nBelow the place he thought was bottom, there was another bottom."
+      }
+    ],
+    "description_if_known": {
+      "tried_to_quit_gambling": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\nHe remembered the day he deleted every app, standing in front of the mirror.\nBack then he thought that was the end of it.\nNow, on the bottom row of that screen, the app he had deleted was installed again.",
+      "ignored_gambling_warning": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\nHe remembered the day he looked away from the mirror.\n'I'm still fine.'\n{name} didn't count how many months it took those words to carry him here.",
+      "ng_gambling_entered_again": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\nHe had seen this floor in his last life too.\nA bottom you return to knowingly is colder than the first.",
+      "addiction_relapsed": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\n'Just this once is fine.'\nA man who had held the line crossed back over on that single sentence.",
+      "gambling_memory_relapsed": "Dawn. {name} stared at the empty account screen.\n\nThis time he'd blown even the borrowed money.\nA number with no way to repay it sat on the screen.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.\n\nIt began with that payday comparison. One month versus two minutes.\nThe weekends that lost to the comparison stacked up until they led here."
+    }
+  },
+  {
+    "id": "gambling_rock_bottom_father_passed",
+    "title": "Rock Bottom",
+    "description": "Dawn. {name} was staring at the transaction history in the betting app.\n\nThe losses ran on and on down the screen.\nHe couldn't remember when he had stopped counting.\n\nHis body shook. Not from cold.\n\nCatching himself thinking about the next bet, {name} felt a chill.\nEven now, he was calculating one hand to win it all back.\n\nA few names he could still call were left in his contacts. On the very next screen, the betting app was still open.",
+    "choices": [
+      {
+        "text": "Ask for help. Call a gambling recovery group",
+        "result_text": "With trembling hands, he dialed the recovery group's number.\n\nAn unfamiliar voice answered. \"Yes, we're here. Take your time.\"\n\n{name} couldn't speak for a while.\nThen, barely, one sentence. \"...I want to quit gambling.\"\n\nA quiet reply came through the phone.\n\"Well done. That one sentence is the hardest.\"\n\nAfter hanging up, {name} held the phone for a long time.\nHe rested his thumb on the betting app's icon, then held it down and deleted it."
+      },
+      {
+        "text": "Confess everything to your mother",
+        "result_text": "He called his mother. It was 4 AM.\n\nHe told her everything. The gambling, the money he'd lost, the ruined account, the ruined self.\nHe cried while talking. The first time since becoming an adult.\n\nHis mother was silent for a long time.\nThen she said, low:\n\"...Come home. Your father's room is still the way he left it.\"\n\nShe didn't scold. That hurt more.\nThe son who had spent six years paying off his father's debt was now confessing to his mother what he had lost.\n{name} hung up and looked up the first train home."
+      },
+      {
+        "text": "One more hand. Win it all back with this",
         "result_text": "{name} didn't ask for help.\n\n'Just one hand. I've got a good feeling this time.'\n\nHe scraped together the last of his money and bet it.\n\nThe number on the screen flickered and became 0.\nBelow the place he thought was bottom, there was another bottom."
       }
     ],
@@ -28,14 +54,14 @@
   {
     "id": "recovery_first_week",
     "title": "The First Week Clean",
-    "description": "One week since quitting gambling.\n\nIt was far harder than expected.\nHis hand kept reaching for the phone. He wanted to reinstall the deleted apps.\nNights were the most dangerous. When betting time came, his body reacted first.\n\nSo this was withdrawal.\nNot just for alcohol or cigarettes.\n\n{name} shoved his hands in his pockets and endured.\nA week. Just one week. But that week felt like a year.",
+    "description": "One week since quitting gambling.\n\nIt was far harder than expected.\nHis hand kept reaching for the phone. He wanted to reinstall the deleted apps.\nNights were the most dangerous. When betting time came, his body reacted first.\n\n{name} shoved his hands in his pockets and endured.\nA week. Just one week. But that week felt like a year.",
     "choices": [
       {
-        "text": "Endure day by day — circle each day on the calendar",
-        "result_text": "{name} bought a calendar.\n\nFor each gambling-free day, he drew a circle.\nOne, two, three… the circles grew.\n\nIt seemed like nothing, but those circles were strangely a source of strength.\nQuitting wasn't a grand resolution — it was one circle for today.\n\nOne more tomorrow. That was enough."
+        "text": "Endure day by day. Circle each day on the calendar",
+        "result_text": "{name} bought a calendar.\n\nFor each gambling-free day, he drew a circle.\nOne, two, three… the circles grew.\n\nIt seemed like nothing, but those circles were strangely a source of strength.\n\nOne more tomorrow. That was enough."
       },
       {
-        "text": "Work the body — go running every dawn",
+        "text": "Work the body. Go running every dawn",
         "result_text": "Whenever he wanted to bet, {name} put on running shoes.\n\nHe ran the dawn Han River. Breathless, legs aching.\nBut that pain was honest. Different from the pain of gambling.\n\nReturning drenched in sweat, the urge to bet faded a little.\n\nThat night {name} fell asleep without turning on the phone."
       }
     ]
@@ -43,26 +69,26 @@
   {
     "id": "recovery_relapse_test",
     "title": "The Temptation, Again",
-    "description": "About a month clean.\n\nJust when he thought he was okay, it came.\n\nAn old betting buddy got in touch.\n\"Hyung, I've got a sure thing this time. Just come once with me.\"\n\n{name}'s heart raced. That feeling came alive again.\n'Just once... I can control it now, right.'\n\nThe most dangerous words for someone who quit\nwere 'I can control it now.'\n\nHis finger froze over the reply.",
+    "description": "About a month clean.\n\nJust when he thought he was okay, it came.\n\nAn old betting buddy got in touch.\n\"Hyung, I've got a sure thing this time. Just come once with me.\"\n\n{name}'s heart raced. That feeling came alive again.\n'Just once... I can control it now, right.'\n\nHis finger froze over the reply.",
     "choices": [
       {
-        "text": "Refuse — 'Sorry, I don't do that anymore'",
+        "text": "Refuse. 'Sorry, I don't do that anymore'",
         "result_text": "{name} sent the reply.\n\n'Sorry. I don't do that anymore. You should ease up too.'\n\nAfter sending, he stared at the phone a while.\nHis heart was still racing. No reply came back.\n\n{name} went as far as tapping 'leave chat', then set the phone down."
       },
       {
-        "text": "Just once — 'I can control it'",
-        "result_text": "'Just once.'\n\n{name} went.\nAnd it wasn't just once.\n\nA month of circles, erased in one night.\nThe week of withdrawal, the dawn runs — all of it became nothing.\n\nAddiction waits. For the moment the one who quit lets his guard down and thinks 'I'm fine now.'\n\n{name} had to start again from the collapsed place.\nThis time, with a heavier heart."
+        "text": "Just once. 'I can control it'",
+        "result_text": "'Just once.'\n\n{name} went.\nAnd it wasn't just once.\n\nA month of circles, erased in one night.\nThe week of withdrawal, the dawn runs. All of it came to nothing.\n\n{name} had to start again from the collapsed place.\nThis time, with a heavier heart."
       }
     ]
   },
   {
     "id": "recovery_one_month_clean",
     "title": "Thirty Circles",
-    "description": "He looked at the calendar.\n\nThe circles passed thirty.\nDays spent without gambling were crossing from one month to two.\n\n{name} stared at those circles a long time.\n\nThe lost money did not come back. The list of debts written next to the account balance was still long.\n\n{name} drew a circle on today's date too, in red pen.",
+    "description": "He looked at the calendar.\n\nThe circles passed thirty.\nDays spent without gambling were crossing from one month to two.\n\n{name} stared at those circles a long time.\n\nThe lost money did not come back. The list of losses written next to the account balance was still long.\n\n{name} drew a circle on today's date too, in red pen.",
     "choices": [
       {
         "text": "Make this experience a foundation",
-        "result_text": "{name} taped the calendar to the front of his desk.\n\nEvery day, looking at those circles, he resolved:\nNever to return to that bottom again.\n\nSomeone who overcame addiction isn't a weak person.\nThey're the strongest — someone who saw the bottom and climbed back up.\n\nFor the time remaining, {name} would go honestly.\nSlow, but certain.\n\nThe circles would keep growing. One each day."
+        "result_text": "{name} taped the calendar to the front of his desk.\n\nEvery day, looking at those circles, he resolved:\nNever to return to that bottom again.\n\nHe clipped the red pen beside the calendar,\nwhere he could reach it first thing tomorrow."
       }
     ]
   }

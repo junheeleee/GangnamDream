@@ -46862,6 +46862,382 @@
           }
         }
       }
+    },
+    {
+      "order": "CLAUDE-RECOVERY-TONE-1",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "gambling_rock_bottom",
+        "recovery_first_week",
+        "recovery_one_month_clean",
+        "recovery_relapse_test"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 15,
+        "zh-CN": 15,
+        "zh-TW": 15
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Rock bottom and the recovery arc now surface in the full story (AddictionArc). Unconditioned facts removed (borrowed money, empty account, debt list -> money lost), canon time fixed (six years of repaying the father's debt, not six years ago), narration/choice dashes and closing aphorisms replaced with in-scene actions in five languages.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "74af6dcfdc2683666fe701f079ec29d974ea6e04",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "5f733141f89b35851c80852f4bffc06fb041f445e2ab2c3550c22a1c236151db",
+          "selection_sha256": "9f8e437ac8483ccd1f5f4e9f3d033aef535cc41e4c4c56c5ec63412ef2d5ecfb",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "06bfae31f5e0ece1ca697d42b4fbae74da9d84f9700e4c7967802f86c4e65d01"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "74af6dcfdc2683666fe701f079ec29d974ea6e04",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "5f733141f89b35851c80852f4bffc06fb041f445e2ab2c3550c22a1c236151db",
+          "selection_sha256": "68cee3409ef630458f16fd620d1364b81013e1755d5d2dde6360a41ada2518fd",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b1791c7ec388beb03622e5dbc777636477f4be0176ee1b16569a04e2ffb737bf"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "74af6dcfdc2683666fe701f079ec29d974ea6e04",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "5f733141f89b35851c80852f4bffc06fb041f445e2ab2c3550c22a1c236151db",
+          "selection_sha256": "1bb60153cf3d8c6fdb77fe81521928dcf47448efe207e67be114e46533cc30fe",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "881abc1160b45f193057c1538c81aad8fb3dd83c06fdaf2740577e48fe02a80e"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "ec76829a32586a3457c2a57063737187d0d3b8535d9e23d4fa12a1394aa8cff5",
+        "zh-CN": "fa5788fa22729e43f81fdf44f3b7db3aa2248216189b5688a6903cf5c6b0dbf0",
+        "zh-TW": "3762e1a1a5fa8bf4fcf9cbe63d587efa239e2da02a05234311af50a927eb95e3"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:gambling_rock_bottom:/choices/0/result_text": "49c6e6c5e2444b1334ae5a443d3dda8ff5eaec7b496b73e4fd3613ad654e6967",
+          "events:gambling_rock_bottom:/choices/0/text": "ce12bf7376f27d7ca9367c6d28d665f4351254860f2ce788607af133352b9f8f",
+          "events:gambling_rock_bottom:/choices/1/result_text": "1483bbfd455139cc0da5870c10fa56c98df0042b25f5b165c30945adafed8ff3",
+          "events:gambling_rock_bottom:/choices/2/text": "d5bd875b46e287a1c2dc3d9bd3affe805decedddf270b594cad73338345ec96c",
+          "events:gambling_rock_bottom:/description": "c3ac96d47b9f6167e91fd60a72bd192d8092f828279c9fffc3280c89fbcc8172",
+          "events:recovery_first_week:/choices/0/result_text": "85d06a4637f38ae2a9676bcad5cb2b88d064f0faaf19dedee4bcc67b6b8c84d2",
+          "events:recovery_first_week:/choices/0/text": "b5602001ac71b6a81e1e9cf7ff05a486d4609aab608fc7513e4f2bf4a77bef5a",
+          "events:recovery_first_week:/choices/1/text": "248e9d6d2a00c285f6a7dec56334b4786dba73d57d74c4e5179ece438d48ac47",
+          "events:recovery_first_week:/description": "fc76802245939a24b0711b87b74977e18fa3b2020cfa22b86d582cdf1d5f3be2",
+          "events:recovery_one_month_clean:/choices/0/result_text": "32f1d5fc4cf45fe1d5588598fa2b91172bd60a4e38bbbfc0c816b9e8fb8434c0",
+          "events:recovery_one_month_clean:/description": "fb9794012b2a856de30e0b107aa361ccb96960328a24d09f325e4fc36f2428d5",
+          "events:recovery_relapse_test:/choices/0/text": "2da70c0209b42a0e0a31c8c4557862a3571f227c57ce41f055ecf1d38342a0da",
+          "events:recovery_relapse_test:/choices/1/result_text": "d1cc89ee32f7bf72690d1beb95e0ffb02d0916eaacc63329ed2f4a92690f7f5a",
+          "events:recovery_relapse_test:/choices/1/text": "bfed1223ce9bedff31a721592ce6c0eaba7d898591e5f0cec126e2f94340babd",
+          "events:recovery_relapse_test:/description": "38ea9762e606f022c4dad298a48fd8a7e3ae11a986055a25e5333494c4892521"
+        },
+        "zh-CN": {
+          "events:gambling_rock_bottom:/choices/0/result_text": "e7223f1438af8776c5d2d4e3c704fe813136da658237d090332447d9f049f625",
+          "events:gambling_rock_bottom:/choices/0/text": "98f646887b61f2f79becec0ef229775cbd52ccb400740241484fbe62a3a9d479",
+          "events:gambling_rock_bottom:/choices/1/result_text": "2992c951f74417f29120e11a729a3e4b3559c1351172e450f17c8bf8336cfc13",
+          "events:gambling_rock_bottom:/choices/2/text": "b41f6f9ab774f1cd0926d50748a29fbbb585bbca7e728fa91fbf7d2f9ecd84af",
+          "events:gambling_rock_bottom:/description": "633b7982ed082bdabe15be85fadcf4251ed4e47d36534d0cf8314cdcb84d46ba",
+          "events:recovery_first_week:/choices/0/result_text": "453a0f00991620760f2f54d7e13d3e613622745d2f5cbfb767e4262f9984d466",
+          "events:recovery_first_week:/choices/0/text": "752048f38beff1ceff7bb05233b8d4c179bb2715d4549f1c94707530930e7a5c",
+          "events:recovery_first_week:/choices/1/text": "f6c65fabe00ed0b219d2ea5e7ea2eac7a6a31c6dd6c1c755c67507a5ca224eec",
+          "events:recovery_first_week:/description": "9f4d8dc3ada9a602a08d05ffd124bf13f973ef8007306072845030c9f31df3f6",
+          "events:recovery_one_month_clean:/choices/0/result_text": "e755521d9478cfaf583186caa1594419e24ccd74f4100d57d6e3132c6c9eb2c0",
+          "events:recovery_one_month_clean:/description": "290d0c6de9446a7be41a21e062b9dc2d535abf7236c095f565479204d284590f",
+          "events:recovery_relapse_test:/choices/0/text": "d826f5211298eb1f58a28b16175a61b867bb1b3140b2bdbb4a2fd0647ab63ee6",
+          "events:recovery_relapse_test:/choices/1/result_text": "20669ef20ee05cdcd6d7271565f2f879cdaf918766d154f0afa170c820d999d1",
+          "events:recovery_relapse_test:/choices/1/text": "c9fb3d497d4748a8c19717ea11f1a3cc59c5f8a9a4e49f7b1a605ab4db9a214b",
+          "events:recovery_relapse_test:/description": "ff57b61363e3ac8930ea8de3ea85e684cb8843b7a003fcf55223f338b790fe19"
+        },
+        "zh-TW": {
+          "events:gambling_rock_bottom:/choices/0/result_text": "5b6a892d0bc33c8f6bb9fce146a8cb1301312fe0b8033e6973c9a23e2935c784",
+          "events:gambling_rock_bottom:/choices/0/text": "1a27fba49dc52df3590bd934feb32e547c57f46a8693acccead175a095ca96bb",
+          "events:gambling_rock_bottom:/choices/1/result_text": "b24cc94f3438b061728a2c1f04df489bcdfcdc97fc1cb6c93308328633107341",
+          "events:gambling_rock_bottom:/choices/2/text": "42f43d41ca00f3221be2483568216d4705bea814e8d4dde5106a0ce6bba1e7fd",
+          "events:gambling_rock_bottom:/description": "d0de9229e4ca7d71aaa44abd523d64ba75d032eb4c413a753b0237883bfa5b85",
+          "events:recovery_first_week:/choices/0/result_text": "73f4b6f9165516e943f28e1472fe1601354d61745bb1bd23d9d1bbe56e3f24a9",
+          "events:recovery_first_week:/choices/0/text": "ec45fc693238a423d4bdb0b68573982e7039494b58f7d0315b27e21ffe77fde0",
+          "events:recovery_first_week:/choices/1/text": "43fb2e0d0bcdb78118252a6547d34f0768118bf2b90f47cf67ee43e2e7adbace",
+          "events:recovery_first_week:/description": "ab37d700fa532039573f8f95e2e125b338ef1f7ebe1a7ecc1e38f01e96033fe1",
+          "events:recovery_one_month_clean:/choices/0/result_text": "90040b50a67eccd3e1a8040ff7e00575ef8088641d6e864e9c6d9a9d7fd8e8fa",
+          "events:recovery_one_month_clean:/description": "f8cf8bbcdadf3157bb43c28331d29c79683853738c356a9d45f068d241482fb3",
+          "events:recovery_relapse_test:/choices/0/text": "256a52ffc436800589439f98b28dfe45c806abca6c9353595b14cfdfd6373360",
+          "events:recovery_relapse_test:/choices/1/result_text": "fc5d892c365a9809a909a02b53183921aad4d5657ecf4615d2d419a8a3bcf198",
+          "events:recovery_relapse_test:/choices/1/text": "81d0afe8ec43ba22916d77a502556d9a3e05b7971eb29897083595baf89c2f07",
+          "events:recovery_relapse_test:/description": "71f54fe9bd560df9c27dbd3b5b9ac2a7a8b742ae4d27ff91a521d7346901b64a"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:gambling_rock_bottom:/choices/0/result_text": {
+            "source_sha256": "df9c32f530189b37e3d21ce2667bb206716a95a0471218345883e34469f4f0e1",
+            "target_sha256": "c4141a55a75521fbd110cb242c01140981d599f54c9fcb92c31034ec254eb5f6"
+          },
+          "events:gambling_rock_bottom:/choices/0/text": {
+            "source_sha256": "a241ab114ec0f8bbffd73c4360a1e8b9188b2e79c742c482aafe8531c06c635c",
+            "target_sha256": "a2efda238ae51b89acaa40d926057a23816958ac9a6f53dafb0a0ca3b67f2aa4"
+          },
+          "events:gambling_rock_bottom:/choices/1/result_text": {
+            "source_sha256": "4e08b5d275df93a68638947108706c8d625fa490565535866205c54bba771c0b",
+            "target_sha256": "aeda057cf57fabde4c36ea2789b6a178ec180ff6a982e906d64410e30c764c34"
+          },
+          "events:gambling_rock_bottom:/choices/2/text": {
+            "source_sha256": "bff46a30b2748c680d8add9246b6d4ea5255980d319863db49594c2b42c2cf3b",
+            "target_sha256": "03f1fd4568234e3ddc19d4f91b63633146ad9e1249e277249bc2411ae5a1df28"
+          },
+          "events:gambling_rock_bottom:/description": {
+            "source_sha256": "9f9afb0321c85ab8a35756cf5650cf200d02b5436e7457c181a061c4a5d8d046",
+            "target_sha256": "da56766a166581eb3d35f007cf69e55c5f7cbebd7c17ba7578e91b55dcd23549"
+          },
+          "events:recovery_first_week:/choices/0/result_text": {
+            "source_sha256": "5dbd04ec255bc04fc9fb7c1569873b37e1fd6655d4758d69050e5cd37e0dbc44",
+            "target_sha256": "d904dcbbe69c746ef44fe068a7704d7d89d035897d409b8d373ff1d3b4ef1402"
+          },
+          "events:recovery_first_week:/choices/0/text": {
+            "source_sha256": "2c09817e6913bbfd1d277c39a66967a4bcbcde38fa3f02dcab98ec402362d8d1",
+            "target_sha256": "26c0423e060c5b2ada3b2a163dd9603777b624e3d5bc84b08e710aa78ed7f7b9"
+          },
+          "events:recovery_first_week:/choices/1/text": {
+            "source_sha256": "692956f74291426052fda64b53cab136fc64c52ecb461220ed47be7721832ceb",
+            "target_sha256": "d0128fa3d08ce5c36f0905371f4d0da01b59434c91513428f6ab29f3f909cb38"
+          },
+          "events:recovery_first_week:/description": {
+            "source_sha256": "fb9e2424784afd2278083ab765671a012afe125302c9df7000ee05a41ed8c973",
+            "target_sha256": "c2c3c4aed5138a42f6464c1c4bba070f51a11a51f9c1098315cee8ff293aa153"
+          },
+          "events:recovery_one_month_clean:/choices/0/result_text": {
+            "source_sha256": "6cb546e5fad6ba88da0c0b243fa4c8869e56401261523d81e5604188468c83ce",
+            "target_sha256": "5f0563415e2968d836a2a9475fd93dfbdf1e2ab7c0adde96c3fcd6b331255b8e"
+          },
+          "events:recovery_one_month_clean:/description": {
+            "source_sha256": "9d23ed11e5355bc8a4ada2eae36d79f029f911659bb6022eca547905850b9961",
+            "target_sha256": "3bdd319d29011beb0118a6f50877211ac0624fa41bad748d1ebc78eb9823d2f6"
+          },
+          "events:recovery_relapse_test:/choices/0/text": {
+            "source_sha256": "a60127f10e679e978e51495b31f59f12eb86842d475cfd82663b1507e8ddaead",
+            "target_sha256": "08f958a7b6119a894bcd9b29de5c47138e6f5a4957e6baa017d3cb39beb72012"
+          },
+          "events:recovery_relapse_test:/choices/1/result_text": {
+            "source_sha256": "f9cee2e9e050f39a76847d5cc328dcec71e06c2509eaadcf2189489bef9f67a0",
+            "target_sha256": "e81366c0291b05d94d979b42ce0de3476e10fb2c99a0d469394f7ec843445e18"
+          },
+          "events:recovery_relapse_test:/choices/1/text": {
+            "source_sha256": "7da1abd4748eb99e2e482233f9dee9f53a525a3e283e592fdcff25b37186e027",
+            "target_sha256": "5f99609bbfd3f14a4bef22c357eae2264f294b6e4383383c957e5469311ab029"
+          },
+          "events:recovery_relapse_test:/description": {
+            "source_sha256": "90a686abd6ac0d1953014acffde9d67ea9731746542f2646a0ce3c91d967db17",
+            "target_sha256": "7708855f8ab9936109b210b5af0fe4956dd87fca6c31ab9512ee158b5986bfa7"
+          }
+        },
+        "zh-CN": {
+          "events:gambling_rock_bottom:/choices/0/result_text": {
+            "source_sha256": "df9c32f530189b37e3d21ce2667bb206716a95a0471218345883e34469f4f0e1",
+            "target_sha256": "4187f2671f1b9d006d68ca00eb0dd14a51ddb8da619fee57a6ffc382693cbaab"
+          },
+          "events:gambling_rock_bottom:/choices/0/text": {
+            "source_sha256": "a241ab114ec0f8bbffd73c4360a1e8b9188b2e79c742c482aafe8531c06c635c",
+            "target_sha256": "3f7393429460e421c00089988cf9c72f4db6646c3a9b01ba48e58dbd653e6732"
+          },
+          "events:gambling_rock_bottom:/choices/1/result_text": {
+            "source_sha256": "4e08b5d275df93a68638947108706c8d625fa490565535866205c54bba771c0b",
+            "target_sha256": "9551185ba55fe853f42448552da80f86e1e187b96e40bed133f353e6b10ab646"
+          },
+          "events:gambling_rock_bottom:/choices/2/text": {
+            "source_sha256": "bff46a30b2748c680d8add9246b6d4ea5255980d319863db49594c2b42c2cf3b",
+            "target_sha256": "8c6641e36dbb252e1ac58bb60a2bd2008fdbc58b4025ac3722f58ad75e25ec16"
+          },
+          "events:gambling_rock_bottom:/description": {
+            "source_sha256": "9f9afb0321c85ab8a35756cf5650cf200d02b5436e7457c181a061c4a5d8d046",
+            "target_sha256": "7f3ea98a1d63a294813a2d61e45450ae3852453a02cb6ce9764603366cc059af"
+          },
+          "events:recovery_first_week:/choices/0/result_text": {
+            "source_sha256": "5dbd04ec255bc04fc9fb7c1569873b37e1fd6655d4758d69050e5cd37e0dbc44",
+            "target_sha256": "538538f51a316774bb48df942932e6a18a38dde09791f7a97976709bdcf62ce4"
+          },
+          "events:recovery_first_week:/choices/0/text": {
+            "source_sha256": "2c09817e6913bbfd1d277c39a66967a4bcbcde38fa3f02dcab98ec402362d8d1",
+            "target_sha256": "8ae12394b1b6b3c91d71ab700f4d49580e7bcf9af889de3e92fce5c0f9bf373c"
+          },
+          "events:recovery_first_week:/choices/1/text": {
+            "source_sha256": "692956f74291426052fda64b53cab136fc64c52ecb461220ed47be7721832ceb",
+            "target_sha256": "6727e0f2e5952125f1739393385700673e151a642bafebf5ddf074a765a84624"
+          },
+          "events:recovery_first_week:/description": {
+            "source_sha256": "fb9e2424784afd2278083ab765671a012afe125302c9df7000ee05a41ed8c973",
+            "target_sha256": "c359e569e534f8814fbd632cc2e5ff89701146e5539ecde14c3c04708677505c"
+          },
+          "events:recovery_one_month_clean:/choices/0/result_text": {
+            "source_sha256": "6cb546e5fad6ba88da0c0b243fa4c8869e56401261523d81e5604188468c83ce",
+            "target_sha256": "d0537185aa46100b06854677aff3a5cd7cf2c84a37b97286fea7b1d175653486"
+          },
+          "events:recovery_one_month_clean:/description": {
+            "source_sha256": "9d23ed11e5355bc8a4ada2eae36d79f029f911659bb6022eca547905850b9961",
+            "target_sha256": "b8e8abed41aaaa15ca45720254932a4348628cfe169c4912778d09fe61b6c5b7"
+          },
+          "events:recovery_relapse_test:/choices/0/text": {
+            "source_sha256": "a60127f10e679e978e51495b31f59f12eb86842d475cfd82663b1507e8ddaead",
+            "target_sha256": "16eb708a6ae019aac184e85662da0bff21dc38f744ac3459c5cfaefadaf2df71"
+          },
+          "events:recovery_relapse_test:/choices/1/result_text": {
+            "source_sha256": "f9cee2e9e050f39a76847d5cc328dcec71e06c2509eaadcf2189489bef9f67a0",
+            "target_sha256": "c95b7a4720691cd690e59a89ca6298315e510734655920cade46ef139ff0f426"
+          },
+          "events:recovery_relapse_test:/choices/1/text": {
+            "source_sha256": "7da1abd4748eb99e2e482233f9dee9f53a525a3e283e592fdcff25b37186e027",
+            "target_sha256": "7651fb204b45a7d0ed6a38bc9c66830088022bd1918c904b09f98d04d75abf8d"
+          },
+          "events:recovery_relapse_test:/description": {
+            "source_sha256": "90a686abd6ac0d1953014acffde9d67ea9731746542f2646a0ce3c91d967db17",
+            "target_sha256": "88d9e593bad809304bc4833d8168cc271354e262611d092ee353af4bf84b8e30"
+          }
+        },
+        "zh-TW": {
+          "events:gambling_rock_bottom:/choices/0/result_text": {
+            "source_sha256": "df9c32f530189b37e3d21ce2667bb206716a95a0471218345883e34469f4f0e1",
+            "target_sha256": "352ef250e85ca818da775aed5b8e91bc3b06a86f7a27bcc0e976ce77747a4cf6"
+          },
+          "events:gambling_rock_bottom:/choices/0/text": {
+            "source_sha256": "a241ab114ec0f8bbffd73c4360a1e8b9188b2e79c742c482aafe8531c06c635c",
+            "target_sha256": "0d4e292524baf837d34a8637dabe85de27f5b644a527388e7e4aaf365281a4c8"
+          },
+          "events:gambling_rock_bottom:/choices/1/result_text": {
+            "source_sha256": "4e08b5d275df93a68638947108706c8d625fa490565535866205c54bba771c0b",
+            "target_sha256": "5ce8006eba1ad3f18899796814d3d0a38bf098dcff039692cb18cc33ee293cc8"
+          },
+          "events:gambling_rock_bottom:/choices/2/text": {
+            "source_sha256": "bff46a30b2748c680d8add9246b6d4ea5255980d319863db49594c2b42c2cf3b",
+            "target_sha256": "973558dc0848210741d9ea7299eb0363363ab37344cd15adfeba8330a171de18"
+          },
+          "events:gambling_rock_bottom:/description": {
+            "source_sha256": "9f9afb0321c85ab8a35756cf5650cf200d02b5436e7457c181a061c4a5d8d046",
+            "target_sha256": "7f18012e232ce910bff09febde6021652ad85e7944ddbfd425f5c21a45a3f2f6"
+          },
+          "events:recovery_first_week:/choices/0/result_text": {
+            "source_sha256": "5dbd04ec255bc04fc9fb7c1569873b37e1fd6655d4758d69050e5cd37e0dbc44",
+            "target_sha256": "7e78138eadb3809293de8c4f3ef6e07d556b16a6ca360da55f2c43eb55c7202a"
+          },
+          "events:recovery_first_week:/choices/0/text": {
+            "source_sha256": "2c09817e6913bbfd1d277c39a66967a4bcbcde38fa3f02dcab98ec402362d8d1",
+            "target_sha256": "3cb69d568416199f8fcb5c862ae20444022467ca3e4d34a1ee93ddf46db32c1c"
+          },
+          "events:recovery_first_week:/choices/1/text": {
+            "source_sha256": "692956f74291426052fda64b53cab136fc64c52ecb461220ed47be7721832ceb",
+            "target_sha256": "188092cb57264f8a60ae883e3d6d9fd37514c9f4c7087087328cbc77c861a325"
+          },
+          "events:recovery_first_week:/description": {
+            "source_sha256": "fb9e2424784afd2278083ab765671a012afe125302c9df7000ee05a41ed8c973",
+            "target_sha256": "586ea16d12e7f036f9cad6b889ba8bed04dcb78b4068789d120f8882ef6a93f3"
+          },
+          "events:recovery_one_month_clean:/choices/0/result_text": {
+            "source_sha256": "6cb546e5fad6ba88da0c0b243fa4c8869e56401261523d81e5604188468c83ce",
+            "target_sha256": "6f1c5bcb52aabcc85dea8faba506f3ad7c1b9d4ac1753dcf82199ddc52523cac"
+          },
+          "events:recovery_one_month_clean:/description": {
+            "source_sha256": "9d23ed11e5355bc8a4ada2eae36d79f029f911659bb6022eca547905850b9961",
+            "target_sha256": "cef5a48dcd4ab7f293f57377cae8df428620bb704acdfd26440d9989a70448e2"
+          },
+          "events:recovery_relapse_test:/choices/0/text": {
+            "source_sha256": "a60127f10e679e978e51495b31f59f12eb86842d475cfd82663b1507e8ddaead",
+            "target_sha256": "c45a35a174724c5cb08aa1b9c1af9a5a23fa2b4760dabe5ee13ff21afc8c97ab"
+          },
+          "events:recovery_relapse_test:/choices/1/result_text": {
+            "source_sha256": "f9cee2e9e050f39a76847d5cc328dcec71e06c2509eaadcf2189489bef9f67a0",
+            "target_sha256": "54fa642dc6abab5e7795e6952d8f819804683821475403704c8b4a8ef1facb11"
+          },
+          "events:recovery_relapse_test:/choices/1/text": {
+            "source_sha256": "7da1abd4748eb99e2e482233f9dee9f53a525a3e283e592fdcff25b37186e027",
+            "target_sha256": "00ff7883126f7cb617888a216550028415321b013d605e08dab885a222778728"
+          },
+          "events:recovery_relapse_test:/description": {
+            "source_sha256": "90a686abd6ac0d1953014acffde9d67ea9731746542f2646a0ce3c91d967db17",
+            "target_sha256": "a3f0b951924511102998d2f7a1687f9aecd895d3d59caf0b854b408d6051d138"
+          }
+        }
+      }
+    },
+    {
+      "order": "CLAUDE-RECOVERY-VAR-1",
+      "group": "events",
+      "roots": [
+        "gambling_rock_bottom_father_passed"
+      ],
+      "source_leaves": 13,
+      "target_leaves_by_locale": {
+        "ja": 13,
+        "zh-CN": 13,
+        "zh-TW": 13
+      },
+      "source_review": "New father_passed variant of gambling_rock_bottom (the confession goes to the mother; the father's room is unchanged). Authored directly from Korean per locale; identical to the base except choice 1.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "811050a0b0e392ad55bbfa33b7e5b1231a4fc43a3d5968692f76759dcb9c676f",
+        "zh-CN": "0c02c9e3047155238d71013eaab77c2ad485c383d7ee61d101f551d4a94e0217",
+        "zh-TW": "847a6a53ce6830f1ab6e7baf9d84ebbee85f1f712dd547845c096e0b5e8c9227"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "74af6dcfdc2683666fe701f079ec29d974ea6e04",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "5f733141f89b35851c80852f4bffc06fb041f445e2ab2c3550c22a1c236151db",
+          "selection_sha256": "c7e402f254454963697f68b784c9a11f7191924c7f3c2cc49b01eb16194009e9",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5d30ea6dc88cf9e059e54b25621735aa68cd37419e46d0032552ed934661eb95"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "74af6dcfdc2683666fe701f079ec29d974ea6e04",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "5f733141f89b35851c80852f4bffc06fb041f445e2ab2c3550c22a1c236151db",
+          "selection_sha256": "b23d1eb39f62192e41836d65ed6b00f3dcf481ac343dd635fa6bfa274fdb698f",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "dfa197830d535400e5d763087d07a1e71094c1a74f4b04996f486ed8d2a82e22"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "74af6dcfdc2683666fe701f079ec29d974ea6e04",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "5f733141f89b35851c80852f4bffc06fb041f445e2ab2c3550c22a1c236151db",
+          "selection_sha256": "ebc4d8c1b2b86853d795800f2b0a6f855f1181a311cf8bec763e5953a34a057e",
+          "count": 13,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e3d6646b7f08991fc1c76deafd69153928fffc7154bcf98aa301e6e7c43d4ae3"
+        }
+      }
     }
   ],
   "accepted": {
@@ -94819,16 +95195,16 @@
         "target_sha256": "d0f873609ff3f3ed548a099dac8e32e4271cadc5dabd6e2aef5b896ffbb01085"
       },
       "events:gambling_rock_bottom:/choices/0/result_text": {
-        "source_sha256": "df9c32f530189b37e3d21ce2667bb206716a95a0471218345883e34469f4f0e1",
-        "target_sha256": "c4141a55a75521fbd110cb242c01140981d599f54c9fcb92c31034ec254eb5f6"
+        "source_sha256": "31b9fd1e8e495a36535bf56de77311dbd022f8456a99cd3b1319171e7b62dd64",
+        "target_sha256": "49c6e6c5e2444b1334ae5a443d3dda8ff5eaec7b496b73e4fd3613ad654e6967"
       },
       "events:gambling_rock_bottom:/choices/0/text": {
-        "source_sha256": "a241ab114ec0f8bbffd73c4360a1e8b9188b2e79c742c482aafe8531c06c635c",
-        "target_sha256": "a2efda238ae51b89acaa40d926057a23816958ac9a6f53dafb0a0ca3b67f2aa4"
+        "source_sha256": "a271fdf086799dd5eb4d9c3f827d8d23efa3c9372d87daa3112fbfb274a5b5c5",
+        "target_sha256": "ce12bf7376f27d7ca9367c6d28d665f4351254860f2ce788607af133352b9f8f"
       },
       "events:gambling_rock_bottom:/choices/1/result_text": {
-        "source_sha256": "4e08b5d275df93a68638947108706c8d625fa490565535866205c54bba771c0b",
-        "target_sha256": "aeda057cf57fabde4c36ea2789b6a178ec180ff6a982e906d64410e30c764c34"
+        "source_sha256": "1b3262f8d4b49d0d53837ae5097013b00df655da226f96f43d895d4233faea5d",
+        "target_sha256": "1483bbfd455139cc0da5870c10fa56c98df0042b25f5b165c30945adafed8ff3"
       },
       "events:gambling_rock_bottom:/choices/1/text": {
         "source_sha256": "15fd4caf587d3819432eb5df7b0daa4bee659f2fd6a8b2fdc84de387f30d287e",
@@ -94839,12 +95215,12 @@
         "target_sha256": "9be207a1acac649c40686570e594d3d646c8b4554735f369573db6b753ff5f9f"
       },
       "events:gambling_rock_bottom:/choices/2/text": {
-        "source_sha256": "bff46a30b2748c680d8add9246b6d4ea5255980d319863db49594c2b42c2cf3b",
-        "target_sha256": "03f1fd4568234e3ddc19d4f91b63633146ad9e1249e277249bc2411ae5a1df28"
+        "source_sha256": "76227193cce5ceaa04260297d5432e9e95e2efc4d9b3f6ba659294f6d06cd86e",
+        "target_sha256": "d5bd875b46e287a1c2dc3d9bd3affe805decedddf270b594cad73338345ec96c"
       },
       "events:gambling_rock_bottom:/description": {
-        "source_sha256": "9f9afb0321c85ab8a35756cf5650cf200d02b5436e7457c181a061c4a5d8d046",
-        "target_sha256": "da56766a166581eb3d35f007cf69e55c5f7cbebd7c17ba7578e91b55dcd23549"
+        "source_sha256": "215affdcbd10089f727950dd4956220df248c1cfd4e74e99c53e202193416133",
+        "target_sha256": "c3ac96d47b9f6167e91fd60a72bd192d8092f828279c9fffc3280c89fbcc8172"
       },
       "events:gambling_rock_bottom:/description_if_known/addiction_relapsed": {
         "source_sha256": "aff2c3630a4ff6aeabd4543bb002c13e71105a4520f08bf9ce431376bcf90b1e",
@@ -94903,40 +95279,40 @@
         "target_sha256": "307428cb731b610b84a4def56f8afc3cd878e411963b2bdd461f3819121e5038"
       },
       "events:recovery_first_week:/choices/0/result_text": {
-        "source_sha256": "5dbd04ec255bc04fc9fb7c1569873b37e1fd6655d4758d69050e5cd37e0dbc44",
-        "target_sha256": "d904dcbbe69c746ef44fe068a7704d7d89d035897d409b8d373ff1d3b4ef1402"
+        "source_sha256": "38b5f7e67b35fc542f8cb4da497b134491d69ce3d606a79a0302672328e5e8a8",
+        "target_sha256": "85d06a4637f38ae2a9676bcad5cb2b88d064f0faaf19dedee4bcc67b6b8c84d2"
       },
       "events:recovery_first_week:/choices/0/text": {
-        "source_sha256": "2c09817e6913bbfd1d277c39a66967a4bcbcde38fa3f02dcab98ec402362d8d1",
-        "target_sha256": "26c0423e060c5b2ada3b2a163dd9603777b624e3d5bc84b08e710aa78ed7f7b9"
+        "source_sha256": "6f44d7fdf2e76914405bf4f5453a90bd357a0fa518b49ec3299b9ed4ad3b4e5e",
+        "target_sha256": "b5602001ac71b6a81e1e9cf7ff05a486d4609aab608fc7513e4f2bf4a77bef5a"
       },
       "events:recovery_first_week:/choices/1/result_text": {
         "source_sha256": "a625d85a1927c17615555ca5dbb5dae6974082e4ee765eb883fb3d8b022cd29f",
         "target_sha256": "90904239bdc41d1e8379a1952a03daf15cb34c1f24dbd4633ed72c1b6de2293d"
       },
       "events:recovery_first_week:/choices/1/text": {
-        "source_sha256": "692956f74291426052fda64b53cab136fc64c52ecb461220ed47be7721832ceb",
-        "target_sha256": "d0128fa3d08ce5c36f0905371f4d0da01b59434c91513428f6ab29f3f909cb38"
+        "source_sha256": "d665d569862148f16bebdd7e034d0120e1ccc2021f8b0b64bcb3b70a0708c458",
+        "target_sha256": "248e9d6d2a00c285f6a7dec56334b4786dba73d57d74c4e5179ece438d48ac47"
       },
       "events:recovery_first_week:/description": {
-        "source_sha256": "fb9e2424784afd2278083ab765671a012afe125302c9df7000ee05a41ed8c973",
-        "target_sha256": "c2c3c4aed5138a42f6464c1c4bba070f51a11a51f9c1098315cee8ff293aa153"
+        "source_sha256": "b53fe86051a36e371826a69e1158c1acb72d95fffbb8d59dec50de31ca11a052",
+        "target_sha256": "fc76802245939a24b0711b87b74977e18fa3b2020cfa22b86d582cdf1d5f3be2"
       },
       "events:recovery_first_week:/title": {
         "source_sha256": "dd60c975a9fc1537858f605fad75919268991a083a46ea57840f88aaf839335f",
         "target_sha256": "5913dd490cd65f4dcf75396d4edf32bd20f11c03da0553ada3c50258f8cd6726"
       },
       "events:recovery_one_month_clean:/choices/0/result_text": {
-        "source_sha256": "6cb546e5fad6ba88da0c0b243fa4c8869e56401261523d81e5604188468c83ce",
-        "target_sha256": "5f0563415e2968d836a2a9475fd93dfbdf1e2ab7c0adde96c3fcd6b331255b8e"
+        "source_sha256": "c54862e8c879c275557bd55135a8a19fee5b74b547b8f497340376cff3e2a1d7",
+        "target_sha256": "32f1d5fc4cf45fe1d5588598fa2b91172bd60a4e38bbbfc0c816b9e8fb8434c0"
       },
       "events:recovery_one_month_clean:/choices/0/text": {
         "source_sha256": "c2fd51865bad6f0e9bb27c8748030db8be0a3fcead32d519842ab8c22fd0e5c8",
         "target_sha256": "7b640d37322d57d35edf59172fedd2b1f151b09e9e1e2e74e0a1a492c051bde0"
       },
       "events:recovery_one_month_clean:/description": {
-        "source_sha256": "9d23ed11e5355bc8a4ada2eae36d79f029f911659bb6022eca547905850b9961",
-        "target_sha256": "3bdd319d29011beb0118a6f50877211ac0624fa41bad748d1ebc78eb9823d2f6"
+        "source_sha256": "e33a3f4032abbc6db2917fe75a50613af88c53e3760983cb26a498d226a20313",
+        "target_sha256": "fb9794012b2a856de30e0b107aa361ccb96960328a24d09f325e4fc36f2428d5"
       },
       "events:recovery_one_month_clean:/title": {
         "source_sha256": "2cdf81b47ec385d99c7fba877263d4cec52fb48c91a70eb9b42f1c9198618795",
@@ -94947,20 +95323,20 @@
         "target_sha256": "2779c3e677f4df59117bdf21959679e56cb35d90695ad7e33c9467969a16d467"
       },
       "events:recovery_relapse_test:/choices/0/text": {
-        "source_sha256": "a60127f10e679e978e51495b31f59f12eb86842d475cfd82663b1507e8ddaead",
-        "target_sha256": "08f958a7b6119a894bcd9b29de5c47138e6f5a4957e6baa017d3cb39beb72012"
+        "source_sha256": "2b1ccdf671ca54ae836ae4c693997de0c09b2051b21840bcdcd71ffffa028e16",
+        "target_sha256": "2da70c0209b42a0e0a31c8c4557862a3571f227c57ce41f055ecf1d38342a0da"
       },
       "events:recovery_relapse_test:/choices/1/result_text": {
-        "source_sha256": "f9cee2e9e050f39a76847d5cc328dcec71e06c2509eaadcf2189489bef9f67a0",
-        "target_sha256": "e81366c0291b05d94d979b42ce0de3476e10fb2c99a0d469394f7ec843445e18"
+        "source_sha256": "f1fd18fb18324aeef08d6ee6b4219aafc29c46cb9747ef1a14a3a4e4a4b2f574",
+        "target_sha256": "d1cc89ee32f7bf72690d1beb95e0ffb02d0916eaacc63329ed2f4a92690f7f5a"
       },
       "events:recovery_relapse_test:/choices/1/text": {
-        "source_sha256": "7da1abd4748eb99e2e482233f9dee9f53a525a3e283e592fdcff25b37186e027",
-        "target_sha256": "5f99609bbfd3f14a4bef22c357eae2264f294b6e4383383c957e5469311ab029"
+        "source_sha256": "5ba15d7dd0d6febae4c5d053253a639a601383511293be104d1d00c37858f7ec",
+        "target_sha256": "bfed1223ce9bedff31a721592ce6c0eaba7d898591e5f0cec126e2f94340babd"
       },
       "events:recovery_relapse_test:/description": {
-        "source_sha256": "90a686abd6ac0d1953014acffde9d67ea9731746542f2646a0ce3c91d967db17",
-        "target_sha256": "7708855f8ab9936109b210b5af0fe4956dd87fca6c31ab9512ee158b5986bfa7"
+        "source_sha256": "0311d0a6d5a2399b77400f84b7ac5493eb5f01c601eb66b3985358e71fc87f4e",
+        "target_sha256": "38ea9762e606f022c4dad298a48fd8a7e3ae11a986055a25e5333494c4892521"
       },
       "events:recovery_relapse_test:/title": {
         "source_sha256": "2244bdd3f6edceaebf95ac3a0c9ad96b376af15a77a4eab4064796523c45c0df",
@@ -99977,6 +100353,58 @@
       "events:habit_race_saturday:/title": {
         "source_sha256": "eb1ab7cbb4a65de0b94d69029e7e5dec48da7d2786ab0349f624b5210ebb634f",
         "target_sha256": "1fddebefec5254e5fb7d60703449dd7ebe16d824ea20453ecd0774166d54f695"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/0/result_text": {
+        "source_sha256": "31b9fd1e8e495a36535bf56de77311dbd022f8456a99cd3b1319171e7b62dd64",
+        "target_sha256": "49c6e6c5e2444b1334ae5a443d3dda8ff5eaec7b496b73e4fd3613ad654e6967"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/0/text": {
+        "source_sha256": "a271fdf086799dd5eb4d9c3f827d8d23efa3c9372d87daa3112fbfb274a5b5c5",
+        "target_sha256": "ce12bf7376f27d7ca9367c6d28d665f4351254860f2ce788607af133352b9f8f"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/1/result_text": {
+        "source_sha256": "06e839b093276193e47cd636bb52bc022b3a4ae02d699b9bc963e27faf32b8fa",
+        "target_sha256": "e42c9bb2c90e69ef75d0be1f7b919c75bd0eff7b21a4a3ca5f9550d44007ec94"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/1/text": {
+        "source_sha256": "970c87c625f84bf7edb214db083f8865a4f6aaf5436fc410cf1c67fe8dfa99e0",
+        "target_sha256": "c43e8803bd2133dc118b81ce3d4bc8ad1518e437af9f8d7e74c5f7c95aef0019"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/2/result_text": {
+        "source_sha256": "e4fbeb665fdf7e7c0843676ecab2526947d324fb76fc2d13cf639064a7cf6e51",
+        "target_sha256": "9be207a1acac649c40686570e594d3d646c8b4554735f369573db6b753ff5f9f"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/2/text": {
+        "source_sha256": "76227193cce5ceaa04260297d5432e9e95e2efc4d9b3f6ba659294f6d06cd86e",
+        "target_sha256": "d5bd875b46e287a1c2dc3d9bd3affe805decedddf270b594cad73338345ec96c"
+      },
+      "events:gambling_rock_bottom_father_passed:/description": {
+        "source_sha256": "215affdcbd10089f727950dd4956220df248c1cfd4e74e99c53e202193416133",
+        "target_sha256": "c3ac96d47b9f6167e91fd60a72bd192d8092f828279c9fffc3280c89fbcc8172"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/addiction_relapsed": {
+        "source_sha256": "aff2c3630a4ff6aeabd4543bb002c13e71105a4520f08bf9ce431376bcf90b1e",
+        "target_sha256": "19270580d84e05d464c3e38df57da82697d248f8fb6580f33e26bdc10b2c2739"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/gambling_memory_relapsed": {
+        "source_sha256": "57801799af5380eb18811833039673b1e87c7f8cd4adfd4974a54df10c3c7dc7",
+        "target_sha256": "33211d59b7c029b5fcc355b5d9cfc6f132c79b5ecb212c49e4675ada6515072c"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/ignored_gambling_warning": {
+        "source_sha256": "431c929bd93faa9ec8ae36298e58651b098e12501e2c1df0f82585dc0311991a",
+        "target_sha256": "2d484063ad0d2716ea873d1771b6cb5dbbb3e66ed5efff31ef398de524e83f2d"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/ng_gambling_entered_again": {
+        "source_sha256": "4aec04b70a29e09610d17c3b2dcff036153c114bf0635ebd76ff9947c1c6f558",
+        "target_sha256": "2814002a6692e9a2b1d342840f992ce68ff667955e102c23c0373066253e0afe"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/tried_to_quit_gambling": {
+        "source_sha256": "01e9f5002c7c0096fe665b6d8d1c6a2aa8bb1ac1e82bb37729fb8df8446385ab",
+        "target_sha256": "65965510aa7c2ee18f145ef0d0ed16bc4fccd2c8a435b9945079b0ec0190b011"
+      },
+      "events:gambling_rock_bottom_father_passed:/title": {
+        "source_sha256": "02b01148ee861d594bf4ff6fb8fe4dc4e4955bd95c5a108c15a1a14edbc97dee",
+        "target_sha256": "1213805f644cb535dd185ae1eae5d3165b73763cd4cb46b395819b3a3f51301d"
       }
     },
     "zh-CN": {
@@ -147933,16 +148361,16 @@
         "target_sha256": "4f35f5df84bd01f5947a16247fdb7b452531252c85be25835c3ebf068adc3ac3"
       },
       "events:gambling_rock_bottom:/choices/0/result_text": {
-        "source_sha256": "df9c32f530189b37e3d21ce2667bb206716a95a0471218345883e34469f4f0e1",
-        "target_sha256": "4187f2671f1b9d006d68ca00eb0dd14a51ddb8da619fee57a6ffc382693cbaab"
+        "source_sha256": "31b9fd1e8e495a36535bf56de77311dbd022f8456a99cd3b1319171e7b62dd64",
+        "target_sha256": "e7223f1438af8776c5d2d4e3c704fe813136da658237d090332447d9f049f625"
       },
       "events:gambling_rock_bottom:/choices/0/text": {
-        "source_sha256": "a241ab114ec0f8bbffd73c4360a1e8b9188b2e79c742c482aafe8531c06c635c",
-        "target_sha256": "3f7393429460e421c00089988cf9c72f4db6646c3a9b01ba48e58dbd653e6732"
+        "source_sha256": "a271fdf086799dd5eb4d9c3f827d8d23efa3c9372d87daa3112fbfb274a5b5c5",
+        "target_sha256": "98f646887b61f2f79becec0ef229775cbd52ccb400740241484fbe62a3a9d479"
       },
       "events:gambling_rock_bottom:/choices/1/result_text": {
-        "source_sha256": "4e08b5d275df93a68638947108706c8d625fa490565535866205c54bba771c0b",
-        "target_sha256": "9551185ba55fe853f42448552da80f86e1e187b96e40bed133f353e6b10ab646"
+        "source_sha256": "1b3262f8d4b49d0d53837ae5097013b00df655da226f96f43d895d4233faea5d",
+        "target_sha256": "2992c951f74417f29120e11a729a3e4b3559c1351172e450f17c8bf8336cfc13"
       },
       "events:gambling_rock_bottom:/choices/1/text": {
         "source_sha256": "15fd4caf587d3819432eb5df7b0daa4bee659f2fd6a8b2fdc84de387f30d287e",
@@ -147953,12 +148381,12 @@
         "target_sha256": "9b3f9166003efcf1230b7338d78eaac79b231f2748eed25e8f3f9c59bdbdddc6"
       },
       "events:gambling_rock_bottom:/choices/2/text": {
-        "source_sha256": "bff46a30b2748c680d8add9246b6d4ea5255980d319863db49594c2b42c2cf3b",
-        "target_sha256": "8c6641e36dbb252e1ac58bb60a2bd2008fdbc58b4025ac3722f58ad75e25ec16"
+        "source_sha256": "76227193cce5ceaa04260297d5432e9e95e2efc4d9b3f6ba659294f6d06cd86e",
+        "target_sha256": "b41f6f9ab774f1cd0926d50748a29fbbb585bbca7e728fa91fbf7d2f9ecd84af"
       },
       "events:gambling_rock_bottom:/description": {
-        "source_sha256": "9f9afb0321c85ab8a35756cf5650cf200d02b5436e7457c181a061c4a5d8d046",
-        "target_sha256": "7f3ea98a1d63a294813a2d61e45450ae3852453a02cb6ce9764603366cc059af"
+        "source_sha256": "215affdcbd10089f727950dd4956220df248c1cfd4e74e99c53e202193416133",
+        "target_sha256": "633b7982ed082bdabe15be85fadcf4251ed4e47d36534d0cf8314cdcb84d46ba"
       },
       "events:gambling_rock_bottom:/description_if_known/addiction_relapsed": {
         "source_sha256": "aff2c3630a4ff6aeabd4543bb002c13e71105a4520f08bf9ce431376bcf90b1e",
@@ -148017,40 +148445,40 @@
         "target_sha256": "80aaeb4cc9b8f03f31642acc6cd2fb9ebfdbb772ad9f6c5f953e71f198c298aa"
       },
       "events:recovery_first_week:/choices/0/result_text": {
-        "source_sha256": "5dbd04ec255bc04fc9fb7c1569873b37e1fd6655d4758d69050e5cd37e0dbc44",
-        "target_sha256": "538538f51a316774bb48df942932e6a18a38dde09791f7a97976709bdcf62ce4"
+        "source_sha256": "38b5f7e67b35fc542f8cb4da497b134491d69ce3d606a79a0302672328e5e8a8",
+        "target_sha256": "453a0f00991620760f2f54d7e13d3e613622745d2f5cbfb767e4262f9984d466"
       },
       "events:recovery_first_week:/choices/0/text": {
-        "source_sha256": "2c09817e6913bbfd1d277c39a66967a4bcbcde38fa3f02dcab98ec402362d8d1",
-        "target_sha256": "8ae12394b1b6b3c91d71ab700f4d49580e7bcf9af889de3e92fce5c0f9bf373c"
+        "source_sha256": "6f44d7fdf2e76914405bf4f5453a90bd357a0fa518b49ec3299b9ed4ad3b4e5e",
+        "target_sha256": "752048f38beff1ceff7bb05233b8d4c179bb2715d4549f1c94707530930e7a5c"
       },
       "events:recovery_first_week:/choices/1/result_text": {
         "source_sha256": "a625d85a1927c17615555ca5dbb5dae6974082e4ee765eb883fb3d8b022cd29f",
         "target_sha256": "41c957858b24953ee7bf2545259de3cd5fe6435a96e612cfe6ee882f808011b1"
       },
       "events:recovery_first_week:/choices/1/text": {
-        "source_sha256": "692956f74291426052fda64b53cab136fc64c52ecb461220ed47be7721832ceb",
-        "target_sha256": "6727e0f2e5952125f1739393385700673e151a642bafebf5ddf074a765a84624"
+        "source_sha256": "d665d569862148f16bebdd7e034d0120e1ccc2021f8b0b64bcb3b70a0708c458",
+        "target_sha256": "f6c65fabe00ed0b219d2ea5e7ea2eac7a6a31c6dd6c1c755c67507a5ca224eec"
       },
       "events:recovery_first_week:/description": {
-        "source_sha256": "fb9e2424784afd2278083ab765671a012afe125302c9df7000ee05a41ed8c973",
-        "target_sha256": "c359e569e534f8814fbd632cc2e5ff89701146e5539ecde14c3c04708677505c"
+        "source_sha256": "b53fe86051a36e371826a69e1158c1acb72d95fffbb8d59dec50de31ca11a052",
+        "target_sha256": "9f4d8dc3ada9a602a08d05ffd124bf13f973ef8007306072845030c9f31df3f6"
       },
       "events:recovery_first_week:/title": {
         "source_sha256": "dd60c975a9fc1537858f605fad75919268991a083a46ea57840f88aaf839335f",
         "target_sha256": "ff2d681f8d5f099cb3c99b7d5f93fa7630b3ceeae4551dfd2644511bdb473f27"
       },
       "events:recovery_one_month_clean:/choices/0/result_text": {
-        "source_sha256": "6cb546e5fad6ba88da0c0b243fa4c8869e56401261523d81e5604188468c83ce",
-        "target_sha256": "d0537185aa46100b06854677aff3a5cd7cf2c84a37b97286fea7b1d175653486"
+        "source_sha256": "c54862e8c879c275557bd55135a8a19fee5b74b547b8f497340376cff3e2a1d7",
+        "target_sha256": "e755521d9478cfaf583186caa1594419e24ccd74f4100d57d6e3132c6c9eb2c0"
       },
       "events:recovery_one_month_clean:/choices/0/text": {
         "source_sha256": "c2fd51865bad6f0e9bb27c8748030db8be0a3fcead32d519842ab8c22fd0e5c8",
         "target_sha256": "aa29a369ee85b6ff5aa1e2618d77ec5afbba2c8f04c1eb82dbdaf985beaa21c5"
       },
       "events:recovery_one_month_clean:/description": {
-        "source_sha256": "9d23ed11e5355bc8a4ada2eae36d79f029f911659bb6022eca547905850b9961",
-        "target_sha256": "b8e8abed41aaaa15ca45720254932a4348628cfe169c4912778d09fe61b6c5b7"
+        "source_sha256": "e33a3f4032abbc6db2917fe75a50613af88c53e3760983cb26a498d226a20313",
+        "target_sha256": "290d0c6de9446a7be41a21e062b9dc2d535abf7236c095f565479204d284590f"
       },
       "events:recovery_one_month_clean:/title": {
         "source_sha256": "2cdf81b47ec385d99c7fba877263d4cec52fb48c91a70eb9b42f1c9198618795",
@@ -148061,20 +148489,20 @@
         "target_sha256": "8282faf7167e9e98b594381c7d5cba66d33bc95155df14519f733d06062b6ae4"
       },
       "events:recovery_relapse_test:/choices/0/text": {
-        "source_sha256": "a60127f10e679e978e51495b31f59f12eb86842d475cfd82663b1507e8ddaead",
-        "target_sha256": "16eb708a6ae019aac184e85662da0bff21dc38f744ac3459c5cfaefadaf2df71"
+        "source_sha256": "2b1ccdf671ca54ae836ae4c693997de0c09b2051b21840bcdcd71ffffa028e16",
+        "target_sha256": "d826f5211298eb1f58a28b16175a61b867bb1b3140b2bdbb4a2fd0647ab63ee6"
       },
       "events:recovery_relapse_test:/choices/1/result_text": {
-        "source_sha256": "f9cee2e9e050f39a76847d5cc328dcec71e06c2509eaadcf2189489bef9f67a0",
-        "target_sha256": "c95b7a4720691cd690e59a89ca6298315e510734655920cade46ef139ff0f426"
+        "source_sha256": "f1fd18fb18324aeef08d6ee6b4219aafc29c46cb9747ef1a14a3a4e4a4b2f574",
+        "target_sha256": "20669ef20ee05cdcd6d7271565f2f879cdaf918766d154f0afa170c820d999d1"
       },
       "events:recovery_relapse_test:/choices/1/text": {
-        "source_sha256": "7da1abd4748eb99e2e482233f9dee9f53a525a3e283e592fdcff25b37186e027",
-        "target_sha256": "7651fb204b45a7d0ed6a38bc9c66830088022bd1918c904b09f98d04d75abf8d"
+        "source_sha256": "5ba15d7dd0d6febae4c5d053253a639a601383511293be104d1d00c37858f7ec",
+        "target_sha256": "c9fb3d497d4748a8c19717ea11f1a3cc59c5f8a9a4e49f7b1a605ab4db9a214b"
       },
       "events:recovery_relapse_test:/description": {
-        "source_sha256": "90a686abd6ac0d1953014acffde9d67ea9731746542f2646a0ce3c91d967db17",
-        "target_sha256": "88d9e593bad809304bc4833d8168cc271354e262611d092ee353af4bf84b8e30"
+        "source_sha256": "0311d0a6d5a2399b77400f84b7ac5493eb5f01c601eb66b3985358e71fc87f4e",
+        "target_sha256": "ff57b61363e3ac8930ea8de3ea85e684cb8843b7a003fcf55223f338b790fe19"
       },
       "events:recovery_relapse_test:/title": {
         "source_sha256": "2244bdd3f6edceaebf95ac3a0c9ad96b376af15a77a4eab4064796523c45c0df",
@@ -159875,6 +160303,58 @@
       "events:habit_race_saturday:/title": {
         "source_sha256": "eb1ab7cbb4a65de0b94d69029e7e5dec48da7d2786ab0349f624b5210ebb634f",
         "target_sha256": "8d9e2888099e2ba1937f95d40ec0c31b2808d2a4bf81fb6ee6af67f12becbcc8"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/0/result_text": {
+        "source_sha256": "31b9fd1e8e495a36535bf56de77311dbd022f8456a99cd3b1319171e7b62dd64",
+        "target_sha256": "e7223f1438af8776c5d2d4e3c704fe813136da658237d090332447d9f049f625"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/0/text": {
+        "source_sha256": "a271fdf086799dd5eb4d9c3f827d8d23efa3c9372d87daa3112fbfb274a5b5c5",
+        "target_sha256": "98f646887b61f2f79becec0ef229775cbd52ccb400740241484fbe62a3a9d479"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/1/result_text": {
+        "source_sha256": "06e839b093276193e47cd636bb52bc022b3a4ae02d699b9bc963e27faf32b8fa",
+        "target_sha256": "0f83fd76a28751f8755b275086fcd40adc8ce59e3cfa3cec6323e229cf82aa71"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/1/text": {
+        "source_sha256": "970c87c625f84bf7edb214db083f8865a4f6aaf5436fc410cf1c67fe8dfa99e0",
+        "target_sha256": "b1df6e3ec6339e41fb41cc54c0559b2c127c8309aee7d08b8c3343108d68955b"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/2/result_text": {
+        "source_sha256": "e4fbeb665fdf7e7c0843676ecab2526947d324fb76fc2d13cf639064a7cf6e51",
+        "target_sha256": "9b3f9166003efcf1230b7338d78eaac79b231f2748eed25e8f3f9c59bdbdddc6"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/2/text": {
+        "source_sha256": "76227193cce5ceaa04260297d5432e9e95e2efc4d9b3f6ba659294f6d06cd86e",
+        "target_sha256": "b41f6f9ab774f1cd0926d50748a29fbbb585bbca7e728fa91fbf7d2f9ecd84af"
+      },
+      "events:gambling_rock_bottom_father_passed:/description": {
+        "source_sha256": "215affdcbd10089f727950dd4956220df248c1cfd4e74e99c53e202193416133",
+        "target_sha256": "633b7982ed082bdabe15be85fadcf4251ed4e47d36534d0cf8314cdcb84d46ba"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/addiction_relapsed": {
+        "source_sha256": "aff2c3630a4ff6aeabd4543bb002c13e71105a4520f08bf9ce431376bcf90b1e",
+        "target_sha256": "25fb269c13c12c0b9ef5c7a1d1a7a19a05ab428ad428910c713048c2a6f3167d"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/gambling_memory_relapsed": {
+        "source_sha256": "57801799af5380eb18811833039673b1e87c7f8cd4adfd4974a54df10c3c7dc7",
+        "target_sha256": "757583bfbadd14239d1e1f4e56a4b9dc48f20d1f6a8a45ff3c7858f048a7f7cf"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/ignored_gambling_warning": {
+        "source_sha256": "431c929bd93faa9ec8ae36298e58651b098e12501e2c1df0f82585dc0311991a",
+        "target_sha256": "15f3c7d21cfe7a306ffb5055a15244e6c9208f505fc611f62ab767d81997f38b"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/ng_gambling_entered_again": {
+        "source_sha256": "4aec04b70a29e09610d17c3b2dcff036153c114bf0635ebd76ff9947c1c6f558",
+        "target_sha256": "6a2251988f0b185aac9f773925291cc745a624aa1f5a9df60f93f59246b4549c"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/tried_to_quit_gambling": {
+        "source_sha256": "01e9f5002c7c0096fe665b6d8d1c6a2aa8bb1ac1e82bb37729fb8df8446385ab",
+        "target_sha256": "ab39fe49c4967f2dc74e23c3858e9fb1afff30cafda70741c2f409089af7900d"
+      },
+      "events:gambling_rock_bottom_father_passed:/title": {
+        "source_sha256": "02b01148ee861d594bf4ff6fb8fe4dc4e4955bd95c5a108c15a1a14edbc97dee",
+        "target_sha256": "7bcee97c4378034d3be678650598727c813b3ce83e2e38370cd6008cc2d5df8a"
       }
     },
     "zh-TW": {
@@ -207831,16 +208311,16 @@
         "target_sha256": "4f35f5df84bd01f5947a16247fdb7b452531252c85be25835c3ebf068adc3ac3"
       },
       "events:gambling_rock_bottom:/choices/0/result_text": {
-        "source_sha256": "df9c32f530189b37e3d21ce2667bb206716a95a0471218345883e34469f4f0e1",
-        "target_sha256": "352ef250e85ca818da775aed5b8e91bc3b06a86f7a27bcc0e976ce77747a4cf6"
+        "source_sha256": "31b9fd1e8e495a36535bf56de77311dbd022f8456a99cd3b1319171e7b62dd64",
+        "target_sha256": "5b6a892d0bc33c8f6bb9fce146a8cb1301312fe0b8033e6973c9a23e2935c784"
       },
       "events:gambling_rock_bottom:/choices/0/text": {
-        "source_sha256": "a241ab114ec0f8bbffd73c4360a1e8b9188b2e79c742c482aafe8531c06c635c",
-        "target_sha256": "0d4e292524baf837d34a8637dabe85de27f5b644a527388e7e4aaf365281a4c8"
+        "source_sha256": "a271fdf086799dd5eb4d9c3f827d8d23efa3c9372d87daa3112fbfb274a5b5c5",
+        "target_sha256": "1a27fba49dc52df3590bd934feb32e547c57f46a8693acccead175a095ca96bb"
       },
       "events:gambling_rock_bottom:/choices/1/result_text": {
-        "source_sha256": "4e08b5d275df93a68638947108706c8d625fa490565535866205c54bba771c0b",
-        "target_sha256": "5ce8006eba1ad3f18899796814d3d0a38bf098dcff039692cb18cc33ee293cc8"
+        "source_sha256": "1b3262f8d4b49d0d53837ae5097013b00df655da226f96f43d895d4233faea5d",
+        "target_sha256": "b24cc94f3438b061728a2c1f04df489bcdfcdc97fc1cb6c93308328633107341"
       },
       "events:gambling_rock_bottom:/choices/1/text": {
         "source_sha256": "15fd4caf587d3819432eb5df7b0daa4bee659f2fd6a8b2fdc84de387f30d287e",
@@ -207851,12 +208331,12 @@
         "target_sha256": "e8c15a99956f51dc464d74ff894c2adffe7037fa619903d4cfcddbc12dd369b8"
       },
       "events:gambling_rock_bottom:/choices/2/text": {
-        "source_sha256": "bff46a30b2748c680d8add9246b6d4ea5255980d319863db49594c2b42c2cf3b",
-        "target_sha256": "973558dc0848210741d9ea7299eb0363363ab37344cd15adfeba8330a171de18"
+        "source_sha256": "76227193cce5ceaa04260297d5432e9e95e2efc4d9b3f6ba659294f6d06cd86e",
+        "target_sha256": "42f43d41ca00f3221be2483568216d4705bea814e8d4dde5106a0ce6bba1e7fd"
       },
       "events:gambling_rock_bottom:/description": {
-        "source_sha256": "9f9afb0321c85ab8a35756cf5650cf200d02b5436e7457c181a061c4a5d8d046",
-        "target_sha256": "7f18012e232ce910bff09febde6021652ad85e7944ddbfd425f5c21a45a3f2f6"
+        "source_sha256": "215affdcbd10089f727950dd4956220df248c1cfd4e74e99c53e202193416133",
+        "target_sha256": "d0de9229e4ca7d71aaa44abd523d64ba75d032eb4c413a753b0237883bfa5b85"
       },
       "events:gambling_rock_bottom:/description_if_known/addiction_relapsed": {
         "source_sha256": "aff2c3630a4ff6aeabd4543bb002c13e71105a4520f08bf9ce431376bcf90b1e",
@@ -207915,40 +208395,40 @@
         "target_sha256": "02a647e7ff73fa8a596d9e813ab189149a0750283fd3339d6b6c702ccd3f8383"
       },
       "events:recovery_first_week:/choices/0/result_text": {
-        "source_sha256": "5dbd04ec255bc04fc9fb7c1569873b37e1fd6655d4758d69050e5cd37e0dbc44",
-        "target_sha256": "7e78138eadb3809293de8c4f3ef6e07d556b16a6ca360da55f2c43eb55c7202a"
+        "source_sha256": "38b5f7e67b35fc542f8cb4da497b134491d69ce3d606a79a0302672328e5e8a8",
+        "target_sha256": "73f4b6f9165516e943f28e1472fe1601354d61745bb1bd23d9d1bbe56e3f24a9"
       },
       "events:recovery_first_week:/choices/0/text": {
-        "source_sha256": "2c09817e6913bbfd1d277c39a66967a4bcbcde38fa3f02dcab98ec402362d8d1",
-        "target_sha256": "3cb69d568416199f8fcb5c862ae20444022467ca3e4d34a1ee93ddf46db32c1c"
+        "source_sha256": "6f44d7fdf2e76914405bf4f5453a90bd357a0fa518b49ec3299b9ed4ad3b4e5e",
+        "target_sha256": "ec45fc693238a423d4bdb0b68573982e7039494b58f7d0315b27e21ffe77fde0"
       },
       "events:recovery_first_week:/choices/1/result_text": {
         "source_sha256": "a625d85a1927c17615555ca5dbb5dae6974082e4ee765eb883fb3d8b022cd29f",
         "target_sha256": "4145622b7569b90d2e6c97918b3d2c1af3597d4e0d28fcafa1c009041565e20b"
       },
       "events:recovery_first_week:/choices/1/text": {
-        "source_sha256": "692956f74291426052fda64b53cab136fc64c52ecb461220ed47be7721832ceb",
-        "target_sha256": "188092cb57264f8a60ae883e3d6d9fd37514c9f4c7087087328cbc77c861a325"
+        "source_sha256": "d665d569862148f16bebdd7e034d0120e1ccc2021f8b0b64bcb3b70a0708c458",
+        "target_sha256": "43fb2e0d0bcdb78118252a6547d34f0768118bf2b90f47cf67ee43e2e7adbace"
       },
       "events:recovery_first_week:/description": {
-        "source_sha256": "fb9e2424784afd2278083ab765671a012afe125302c9df7000ee05a41ed8c973",
-        "target_sha256": "586ea16d12e7f036f9cad6b889ba8bed04dcb78b4068789d120f8882ef6a93f3"
+        "source_sha256": "b53fe86051a36e371826a69e1158c1acb72d95fffbb8d59dec50de31ca11a052",
+        "target_sha256": "ab37d700fa532039573f8f95e2e125b338ef1f7ebe1a7ecc1e38f01e96033fe1"
       },
       "events:recovery_first_week:/title": {
         "source_sha256": "dd60c975a9fc1537858f605fad75919268991a083a46ea57840f88aaf839335f",
         "target_sha256": "b064a8bcc6379bfcee63e5937025dd1352205af797eda57f8158ebe0ee0ed365"
       },
       "events:recovery_one_month_clean:/choices/0/result_text": {
-        "source_sha256": "6cb546e5fad6ba88da0c0b243fa4c8869e56401261523d81e5604188468c83ce",
-        "target_sha256": "6f1c5bcb52aabcc85dea8faba506f3ad7c1b9d4ac1753dcf82199ddc52523cac"
+        "source_sha256": "c54862e8c879c275557bd55135a8a19fee5b74b547b8f497340376cff3e2a1d7",
+        "target_sha256": "90040b50a67eccd3e1a8040ff7e00575ef8088641d6e864e9c6d9a9d7fd8e8fa"
       },
       "events:recovery_one_month_clean:/choices/0/text": {
         "source_sha256": "c2fd51865bad6f0e9bb27c8748030db8be0a3fcead32d519842ab8c22fd0e5c8",
         "target_sha256": "a4841a95c648444f4db6d3fbe1f0d372331ef49b0911e7dc4880a10b3e70519f"
       },
       "events:recovery_one_month_clean:/description": {
-        "source_sha256": "9d23ed11e5355bc8a4ada2eae36d79f029f911659bb6022eca547905850b9961",
-        "target_sha256": "cef5a48dcd4ab7f293f57377cae8df428620bb704acdfd26440d9989a70448e2"
+        "source_sha256": "e33a3f4032abbc6db2917fe75a50613af88c53e3760983cb26a498d226a20313",
+        "target_sha256": "f8cf8bbcdadf3157bb43c28331d29c79683853738c356a9d45f068d241482fb3"
       },
       "events:recovery_one_month_clean:/title": {
         "source_sha256": "2cdf81b47ec385d99c7fba877263d4cec52fb48c91a70eb9b42f1c9198618795",
@@ -207959,20 +208439,20 @@
         "target_sha256": "f7e92cd55182ed1b94316823f465b7b54f244881e919d3e40cb6039901925fc6"
       },
       "events:recovery_relapse_test:/choices/0/text": {
-        "source_sha256": "a60127f10e679e978e51495b31f59f12eb86842d475cfd82663b1507e8ddaead",
-        "target_sha256": "c45a35a174724c5cb08aa1b9c1af9a5a23fa2b4760dabe5ee13ff21afc8c97ab"
+        "source_sha256": "2b1ccdf671ca54ae836ae4c693997de0c09b2051b21840bcdcd71ffffa028e16",
+        "target_sha256": "256a52ffc436800589439f98b28dfe45c806abca6c9353595b14cfdfd6373360"
       },
       "events:recovery_relapse_test:/choices/1/result_text": {
-        "source_sha256": "f9cee2e9e050f39a76847d5cc328dcec71e06c2509eaadcf2189489bef9f67a0",
-        "target_sha256": "54fa642dc6abab5e7795e6952d8f819804683821475403704c8b4a8ef1facb11"
+        "source_sha256": "f1fd18fb18324aeef08d6ee6b4219aafc29c46cb9747ef1a14a3a4e4a4b2f574",
+        "target_sha256": "fc5d892c365a9809a909a02b53183921aad4d5657ecf4615d2d419a8a3bcf198"
       },
       "events:recovery_relapse_test:/choices/1/text": {
-        "source_sha256": "7da1abd4748eb99e2e482233f9dee9f53a525a3e283e592fdcff25b37186e027",
-        "target_sha256": "00ff7883126f7cb617888a216550028415321b013d605e08dab885a222778728"
+        "source_sha256": "5ba15d7dd0d6febae4c5d053253a639a601383511293be104d1d00c37858f7ec",
+        "target_sha256": "81d0afe8ec43ba22916d77a502556d9a3e05b7971eb29897083595baf89c2f07"
       },
       "events:recovery_relapse_test:/description": {
-        "source_sha256": "90a686abd6ac0d1953014acffde9d67ea9731746542f2646a0ce3c91d967db17",
-        "target_sha256": "a3f0b951924511102998d2f7a1687f9aecd895d3d59caf0b854b408d6051d138"
+        "source_sha256": "0311d0a6d5a2399b77400f84b7ac5493eb5f01c601eb66b3985358e71fc87f4e",
+        "target_sha256": "71f54fe9bd560df9c27dbd3b5b9ac2a7a8b742ae4d27ff91a521d7346901b64a"
       },
       "events:recovery_relapse_test:/title": {
         "source_sha256": "2244bdd3f6edceaebf95ac3a0c9ad96b376af15a77a4eab4064796523c45c0df",
@@ -219773,10 +220253,62 @@
       "events:habit_race_saturday:/title": {
         "source_sha256": "eb1ab7cbb4a65de0b94d69029e7e5dec48da7d2786ab0349f624b5210ebb634f",
         "target_sha256": "25980f1921c542ff92524b27db67d33bc038382d98b694ae9fdb0afe9071d661"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/0/result_text": {
+        "source_sha256": "31b9fd1e8e495a36535bf56de77311dbd022f8456a99cd3b1319171e7b62dd64",
+        "target_sha256": "5b6a892d0bc33c8f6bb9fce146a8cb1301312fe0b8033e6973c9a23e2935c784"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/0/text": {
+        "source_sha256": "a271fdf086799dd5eb4d9c3f827d8d23efa3c9372d87daa3112fbfb274a5b5c5",
+        "target_sha256": "1a27fba49dc52df3590bd934feb32e547c57f46a8693acccead175a095ca96bb"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/1/result_text": {
+        "source_sha256": "06e839b093276193e47cd636bb52bc022b3a4ae02d699b9bc963e27faf32b8fa",
+        "target_sha256": "be27029a7b051dd09a6a6e9ffbb9cb20c011d7c9559a877829e469006d27a1b4"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/1/text": {
+        "source_sha256": "970c87c625f84bf7edb214db083f8865a4f6aaf5436fc410cf1c67fe8dfa99e0",
+        "target_sha256": "b26976b191f070336c741e42213fefffa0d9656764220386ad5f419c88cb987e"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/2/result_text": {
+        "source_sha256": "e4fbeb665fdf7e7c0843676ecab2526947d324fb76fc2d13cf639064a7cf6e51",
+        "target_sha256": "e8c15a99956f51dc464d74ff894c2adffe7037fa619903d4cfcddbc12dd369b8"
+      },
+      "events:gambling_rock_bottom_father_passed:/choices/2/text": {
+        "source_sha256": "76227193cce5ceaa04260297d5432e9e95e2efc4d9b3f6ba659294f6d06cd86e",
+        "target_sha256": "42f43d41ca00f3221be2483568216d4705bea814e8d4dde5106a0ce6bba1e7fd"
+      },
+      "events:gambling_rock_bottom_father_passed:/description": {
+        "source_sha256": "215affdcbd10089f727950dd4956220df248c1cfd4e74e99c53e202193416133",
+        "target_sha256": "d0de9229e4ca7d71aaa44abd523d64ba75d032eb4c413a753b0237883bfa5b85"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/addiction_relapsed": {
+        "source_sha256": "aff2c3630a4ff6aeabd4543bb002c13e71105a4520f08bf9ce431376bcf90b1e",
+        "target_sha256": "9400b5e58e040ec3947fd3b69b3e3701a96e9dc508c8fea78c746dddea3a7362"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/gambling_memory_relapsed": {
+        "source_sha256": "57801799af5380eb18811833039673b1e87c7f8cd4adfd4974a54df10c3c7dc7",
+        "target_sha256": "8ce2c9931eda3349af19b01e21d017034e1fa912068db6ce62af4f344254e895"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/ignored_gambling_warning": {
+        "source_sha256": "431c929bd93faa9ec8ae36298e58651b098e12501e2c1df0f82585dc0311991a",
+        "target_sha256": "da1885967b4e9318d7beee9d460d803ec99af2e5fc6a0b8e4e9054b95363bfa7"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/ng_gambling_entered_again": {
+        "source_sha256": "4aec04b70a29e09610d17c3b2dcff036153c114bf0635ebd76ff9947c1c6f558",
+        "target_sha256": "647ff153623d5f67d6cb4b80e070065caa34b1a7f2a118007f09f3d872f776a7"
+      },
+      "events:gambling_rock_bottom_father_passed:/description_if_known/tried_to_quit_gambling": {
+        "source_sha256": "01e9f5002c7c0096fe665b6d8d1c6a2aa8bb1ac1e82bb37729fb8df8446385ab",
+        "target_sha256": "0c44b4f162be67129ef15d839feff2f054f9adc6944dd81e11edded7aaf2c774"
+      },
+      "events:gambling_rock_bottom_father_passed:/title": {
+        "source_sha256": "02b01148ee861d594bf4ff6fb8fe4dc4e4955bd95c5a108c15a1a14edbc97dee",
+        "target_sha256": "7bcee97c4378034d3be678650598727c813b3ce83e2e38370cd6008cc2d5df8a"
       }
     }
   },
-  "accepted_sha256": "02895aba018237f240834f29994318d2383e0827503cad4e8dc4822cb55f4fc3",
+  "accepted_sha256": "62aef7f08a1106faa491a674a3c23a7c4b4ad114c5143f97cc97175182a11831",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
