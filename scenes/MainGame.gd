@@ -7507,6 +7507,16 @@ func _story_graph_contract_event_id(
 				return "arc_daeun_03_fork_hold_receipt"
 			if released_daeun and not chose_daeun:
 				return "arc_daeun_03_fork_release_receipt"
+		# Letting Daeun go is not a choice to lose everyone: once her parting
+		# scenes have played (or M22's last week arrives), Jiyeon's offer still
+		# comes inside M22 if the player already knows her from the store.
+		# User decision 2026-11-26 — D1 re-measure: the release closed both doors.
+		if released_daeun and not chose_daeun \
+				and f.get("arc_daeun_fork_receipt_seen", false) \
+				and f.get("arc_jiyeon_store_seen", false) \
+				and not f.get("arc_jiyeon_offer_seen", false) \
+				and (f.get("arc_daeun_regret_seen", false) or t >= 88):
+			return "arc_jiyeon_03_offer"
 		if f.get("arc_daeun_fork_seen", false) \
 				or f.get("arc_jiyeon_offer_seen", false) \
 				or f.get("arc_y2_relationship_fork_unattached_seen", false):

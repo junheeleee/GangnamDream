@@ -30,6 +30,7 @@
 
 - **상호배타**: `daeun_romance_started` ↔ `jiyeon_romance_started`. 한쪽 시작 시 다른 쪽 Y5 고백(arc_*_y5_feelings) 게이트가 닫힌다 (MainGame `_next_arc_id` 조건).
 - **`daeun_married`는 민준의 약혼만 뜻한다** (`arc_daeun_proposal_answer`가 쓴다). 풀어준 다은의 결혼 사진(`arc_daeun_year3_apart`)은 `arc_daeun_year3_apart_seen`으로만 남기고, 그 회수(`callback_daeun_married_echo`)도 그 영수증을 읽는다. 둘을 한 플래그로 쓰면 이별한 런이 민준의 결혼 아크와 `with_daeun`으로 샌다(2026-11-26 D1 재측정 2/18런, `DaeunMarriedMeaningCheck`).
+- **2년 차 갈림(M22, W85~88)**: 다은 단골+호감 12 이상이면 다은 갈림이 먼저다. 거기서 다은을 보내면 이별 장면 뒤 같은 창 안(늦어도 W88)에 지연 제안이 열린다(편의점 만남 이력 필요). [2026-11-26 결정](DECISIONS.md)
 - **조기 연애 가능**: Y2부터 플레이어 선택으로 시작 가능 (다은 confession 등). Y5 게이트 단일화 아님.
 - **다은 라인**: 편의점 만남(t9)→단골→꿈 이야기→갈림길(t23)→…→고백/연애→**프로포즈(t150+)**→약혼 후 아크(`arc_daeun_married.json`): 우리 집의 의미(t155)→상견례(t168, father_passed 시 스킵)→스드메(t175, 소박 vs 과시)→결혼식(t200, 신랑석=5년간 사람에게 쓴 시간의 결산)→**상철의 시험(t182**, 아내를 서류로 쓰라는 제안)→**최종 선택(t228, 자산 18억~30억 미달 시에만**: 배신→`daeun_divorced`+crossed_line / 거부→`chose_daeun`). 정직하게 30억 도달한 기혼자는 최종 선택 없이 따뜻한 진엔딩.
 - **지연 라인**: 재회→진짜 이유(내 거 하나)→부산 독립(Y3)→Y4 서울 방문→Y5 귀환/고백→결혼 전 미래 대화→**처가 눈높이 결혼식(t205**, 빚내서 맞춤 vs 형편대로)→**심판(t228, 자산 5억 미만 시에만**: 현재 잔고가 아니라 “계속 갈 사람이라는 믿음”이 무너진 갈등 — 붙잡음=`jiyeon_kept_by_diminishing`+crossed_line(자기를 잃음) / 보냄=`jiyeon_left`(자기를 지킴)).
