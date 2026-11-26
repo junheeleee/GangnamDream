@@ -4786,6 +4786,17 @@ func load_from_dict(data):
 		flags.erase("kept_clean_hands")
 		flags.erase("arc_temptation_clean_seen")
 		flags.erase("stayed_clean")
+	# `daeun_married` is Minjun's own engagement (arc_daeun_proposal_answer).
+	# Older saves also wrote it when a released Daeun's wedding photo surfaced
+	# (arc_daeun_year3_apart), so the run later replayed Minjun's own wedding with
+	# her and ended in with_daeun. That photo is recorded by its own receipt
+	# `arc_daeun_year3_apart_seen`; drop the polluted alias unless the engagement
+	# really happened or the married arc already started on this save.
+	if bool(flags.get("daeun_married", false)) \
+			and bool(flags.get("arc_daeun_year3_apart_seen", false)) \
+			and not bool(flags.get("arc_daeun_proposal_seen", false)) \
+			and not bool(flags.get("arc_daeun_our_home_seen", false)):
+		flags.erase("daeun_married")
 	# 구버전 세이브 호환 — cast 없으면 기본값 채움
 	if cast == null or cast.is_empty():
 		cast = _default_cast()

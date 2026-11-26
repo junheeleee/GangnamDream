@@ -57,7 +57,7 @@
     "weight": 1.0,
     "hidden": false,
     "conditions": {
-      "flag": "daeun_married",
+      "flag": "arc_daeun_year3_apart_seen",
       "min_turn": 112
     },
     "tags": ["callback", "daeun", "story"],

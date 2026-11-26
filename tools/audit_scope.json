@@ -4758,6 +4758,19 @@
       ]
     },
     {
+      "tool": "tools/DaeunMarriedMeaningCheck.tscn",
+      "godot": true,
+      "why": "daeun_married는 민준의 약혼만 뜻한다(풀어준 다은의 결혼 사진이 민준의 결혼 아크·with_daeun으로 새지 않음)",
+      "paths": [
+        "autoloads/GameState.gd",
+        "content/events/arc_daeun_extension.json",
+        "content/events/arc_daeun_romance.json",
+        "content/events/callback_events_39.json",
+        "tools/DaeunMarriedMeaningCheck.gd",
+        "tools/DaeunMarriedMeaningCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/audit_select.py --verify",
       "why": "감사 인프라 자체를 바꾸면 등록 누락부터 확인한다",
       "paths": [

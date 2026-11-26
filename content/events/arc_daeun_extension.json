@@ -108,8 +108,7 @@
           "tint": 4
         },
         "flags": [
-          "arc_daeun_year3_apart_seen",
-          "daeun_married"
+          "arc_daeun_year3_apart_seen"
         ],
         "deferred_follow_up": "callback_daeun_married_echo",
         "deferred_delay": 12,
@@ -127,8 +126,7 @@
           "tint": -3
         },
         "flags": [
-          "arc_daeun_year3_apart_seen",
-          "daeun_married"
+          "arc_daeun_year3_apart_seen"
         ],
         "deferred_follow_up": "callback_daeun_married_echo",
         "deferred_delay": 12,
