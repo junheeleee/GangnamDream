@@ -4,7 +4,7 @@ extends Node
 ## health for the chosen week and the five after it, a strain choice takes it,
 ## the latest listed choice replaces the earlier tide, a week never pays twice,
 ## an unlisted index leaves the tide alone, a health crisis queues exactly one
-## crisis scene (first unused, then the oldest) while its damage and toast
+## crisis scene that fits the body's health (first unused, then the oldest) while its damage and toast
 ## stay immediate, and the state survives a JSON
 ## save. MainGame applies the tide and the crisis scene only in a full run.
 
@@ -26,7 +26,7 @@ func _ready() -> void:
 			push_error("BODY_TIDE_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("BODY_TIDE_CHECK_OK choices=%d crisis_scenes=%d rest=1 strain=1 replace=1 idempotent=1 crisis=4 json=1 gate=1" % [
+	print("BODY_TIDE_CHECK_OK choices=%d crisis_scenes=%d rest=1 strain=1 replace=1 idempotent=1 crisis=5 json=1 gate=1" % [
 		(TIDE.ledger().get("choices", []) as Array).size(),
 		(TIDE.ledger().get("crisis_scenes", []) as Array).size()])
 	get_tree().quit(0)
@@ -57,9 +57,9 @@ func _check_ledger() -> void:
 			for index in row.get(key, []):
 				_expect(int(index) >= 0 and int(index) < count,
 					"%s %s index %s is not a real choice" % [row.get("event_id", ""), key, index])
-	for event_id in source.get("crisis_scenes", []):
-		_expect(not DataRegistry.find_event(str(event_id)).is_empty(),
-			"crisis scene missing: %s" % event_id)
+	for row in source.get("crisis_scenes", []):
+		var event_id := str((row as Dictionary).get("event_id", "")) if row is Dictionary else ""
+		_expect(not DataRegistry.find_event(event_id).is_empty(), "crisis scene missing: %s" % str(row))
 
 
 func _run(flags: Dictionary, event_log: Array, turns: Array) -> Array:
@@ -94,23 +94,30 @@ func _check_replace_and_idempotent() -> void:
 
 func _check_crisis() -> void:
 	var flags := {}
-	_expect(TIDE.take_crisis_scene(flags, 50, _always) == "", "a crisis scene played with no crisis")
+	_expect(TIDE.take_crisis_scene(flags, 50, 30, _always) == "", "a crisis scene played with no crisis")
 	TIDE.queue_crisis(flags, 50)
-	_expect(TIDE.take_crisis_scene(flags, 49, _always) == "", "a crisis scene played before its week")
-	var first := TIDE.take_crisis_scene(flags, 50, _always)
-	_expect(first == "health_burnout_signal" and TIDE.take_crisis_scene(flags, 51, _always) == "",
+	_expect(TIDE.take_crisis_scene(flags, 49, 30, _always) == "", "a crisis scene played before its week")
+	var first := TIDE.take_crisis_scene(flags, 50, 30, _always)
+	_expect(first == "health_burnout_signal" and TIDE.take_crisis_scene(flags, 51, 30, _always) == "",
 		"one crisis did not bring exactly one scene: %s" % first)
 	TIDE.queue_crisis(flags, 55)
 	TIDE.queue_crisis(flags, 59)
-	var held := TIDE.take_crisis_scene(flags, 60, _always)
-	_expect(held == "health_checkup_00" and TIDE.take_crisis_scene(flags, 61, _always) == "",
+	var held := TIDE.take_crisis_scene(flags, 60, 30, _always)
+	_expect(held == "health_sleep_debt" and TIDE.take_crisis_scene(flags, 61, 30, _always) == "",
 		"two crises before a free week did not share one pending scene: %s" % held)
 	var seen: Array = []
 	for turn in [70, 80, 90]:
 		TIDE.queue_crisis(flags, turn)
-		seen.append(TIDE.take_crisis_scene(flags, turn, _always))
-	_expect(seen == ["health_sleep_debt", "health_checkup_reminder", "health_burnout_signal"],
+		seen.append(TIDE.take_crisis_scene(flags, turn, 30, _always))
+	_expect(seen == ["health_checkup_00", "health_checkup_reminder", "health_burnout_signal"],
 		"crisis scenes did not rotate to the oldest: %s" % str(seen))
+	var healthy := {}
+	var healthy_seen: Array = []
+	for turn in [100, 110, 120, 130]:
+		TIDE.queue_crisis(healthy, turn)
+		healthy_seen.append(TIDE.take_crisis_scene(healthy, turn, 88, _always))
+	_expect(not healthy_seen.has("health_burnout_signal") and healthy_seen[0] == "health_sleep_debt",
+		"a near-full body met the burnout scene as its crisis: %s" % str(healthy_seen))
 
 
 func _check_json_round_trip() -> void:
@@ -121,7 +128,7 @@ func _check_json_round_trip() -> void:
 	var restored: Dictionary = JSON.parse_string(JSON.stringify(flags))
 	_expect(TIDE.take_week(restored, 100, event_log) == 0, "a JSON save let a week pay twice")
 	_expect(TIDE.take_week(restored, 101, event_log) == 2, "a JSON save lost the tide")
-	_expect(TIDE.take_crisis_scene(restored, 101, _always) != "", "a JSON save lost the crisis")
+	_expect(TIDE.take_crisis_scene(restored, 101, 30, _always) != "", "a JSON save lost the crisis")
 
 
 func _check_main_game_gate() -> void:

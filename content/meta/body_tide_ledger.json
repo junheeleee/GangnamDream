@@ -1,9 +1,14 @@
 {
-  "_doc": "ORDER-836 B2 body tide. Read only by systems/BodyTide.gd. In a full run, a choice listed here sets the body's weekly tide for `weeks` weeks after the week it was chosen: rest adds health, strain (pushing on, not putting off) takes less, on top of the automatic routine and the scene's own cost. The latest listed choice replaces the earlier tide. A full-run monthly health crisis still hits at once with its toast and queues one crisis scene for the next free week (the first not yet used, then the oldest), so the player can answer the body. Values are [첫 실행 재조정].",
+  "_doc": "ORDER-836 B2 body tide. Read only by systems/BodyTide.gd. In a full run, a choice listed here sets the body's weekly tide for `weeks` weeks after the week it was chosen: rest adds health, strain (pushing on, not putting off) takes less, on top of the automatic routine and the scene's own cost. The latest listed choice replaces the earlier tide. A full-run monthly health crisis still hits at once with its toast and queues one crisis scene for the next free week (the first not yet used among those that fit the body's health now, then the oldest of them), so the player can answer the body. A scene with below_health fits only under that health: a near-full body is not written as burnout. Values are [첫 실행 재조정].",
   "weeks": 6,
   "rest_health": 2,
   "strain_health": -1,
-  "crisis_scenes": ["health_burnout_signal", "health_checkup_00", "health_sleep_debt", "health_checkup_reminder"],
+  "crisis_scenes": [
+    {"event_id": "health_burnout_signal", "below_health": 40},
+    {"event_id": "health_sleep_debt"},
+    {"event_id": "health_checkup_00"},
+    {"event_id": "health_checkup_reminder"}
+  ],
   "choices": [
     {"event_id": "health_sleep_debt", "rest": [0], "strain": [1]},
     {"event_id": "health_checkup_reminder", "rest": [0], "strain": []},

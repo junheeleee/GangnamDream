@@ -109,9 +109,10 @@ static func queue_crisis(flags: Dictionary, turn: int) -> void:
 	flags[STATE_FLAG] = state
 
 
-## The crisis scene for this free week ("" for none) and records it.
-static func take_crisis_scene(flags: Dictionary, turn: int, event_exists: Callable,
-		data: Dictionary = {}) -> String:
+## The crisis scene for this free week ("" for none) and records it. Only scenes
+## that fit `health` now are considered (a `below_health` scene needs less).
+static func take_crisis_scene(flags: Dictionary, turn: int, health: int,
+		event_exists: Callable, data: Dictionary = {}) -> String:
 	var source: Dictionary = data if not data.is_empty() else ledger()
 	var state := _state(flags)
 	var crisis := int(state.get("crisis", 0))
@@ -121,7 +122,12 @@ static func take_crisis_scene(flags: Dictionary, turn: int, event_exists: Callab
 	var chosen := ""
 	var oldest := ""
 	for raw in source.get("crisis_scenes", []):
-		var event_id := str(raw)
+		if not raw is Dictionary:
+			continue
+		var row: Dictionary = raw
+		var event_id := str(row.get("event_id", ""))
+		if row.has("below_health") and health >= int(row["below_health"]):
+			continue
 		if not bool(event_exists.call(event_id)):
 			continue
 		if not used.has(event_id):

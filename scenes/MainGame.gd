@@ -7083,6 +7083,7 @@ func _full_story_body_crisis_scene_id() -> String:
 	return BODY_TIDE.take_crisis_scene(
 		GameState.flags,
 		int(GameState.turn),
+		int(GameState.health),
 		func(event_id: String) -> bool:
 			return not DataRegistry.find_event(event_id).is_empty())
 
