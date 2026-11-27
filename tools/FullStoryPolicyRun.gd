@@ -175,7 +175,34 @@ func _drive_main(main: Node) -> bool:
 			"casino":
 				if await _drive_casino(main):
 					return false
+			"trading":
+				var board := main.get("trading_floor") as Node
+				if is_instance_valid(board) and bool(board.get("visible")):
+					await _drive_trading(board)
+					return false
 	return await super(main)
+
+
+## ORDER-839 T1: the trading board. The default strategy (no profile key)
+## puts a quarter of the cash into an index fund each session while it can,
+## then leaves with Escape like a pad player. T4 adds the strategy profiles.
+func _drive_trading(board: Node) -> void:
+	var target := "kospi_etf"
+	var ids: Array = board.call("_asset_ids")
+	var session_key := "policy_tried_%d" % int(GameState.turn)
+	if int(board.call("orders_left")) > 0 and int(board.get("_session_trades")) == 0 \
+			and not board.has_meta(session_key) and ids.has(target) \
+			and float(GameState.money) * 0.25 >= float(board.call("_min_invest", target,
+				float(GameState.market_prices.get(target, 0.0)))) \
+			and float(GameState.money) >= 300000.0:
+		board.set_meta(session_key, true)
+		board.call("_select", target)
+		await get_tree().process_frame
+		board.call("_do_buy", int(floor(float(GameState.money) * 0.25)))
+		await get_tree().create_timer(0.05).timeout
+		return
+	await _send_key(KEY_ESCAPE)
+	await get_tree().create_timer(0.05).timeout
 
 
 ## ORDER-834 B2: play a fixed number of hands at the default buy-in and the

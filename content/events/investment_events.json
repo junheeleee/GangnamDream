@@ -2569,29 +2569,12 @@
     "cooldown": 1,
     "choices": [
       {
-        "text": "모아 둔 돈 일부로 지수 ETF를 더 산다",
-        "effects": {
-          "mental": 1
-        },
-        "market_buy": {
-          "asset_id": "kospi_etf",
-          "cash_ratio": 0.15,
-          "min": 10000,
-          "max": 3000000
-        },
-        "result_text": "체결 알림이 떴다. 평균 단가가 소수점 아래에서 조금 움직였다.",
-        "follow_up_event": ""
-      },
-      {
-        "text": "가진 것의 절반을 판다",
-        "effects": {
-          "mental": -1
-        },
-        "market_sell": {
-          "asset_id": "*",
-          "ratio": 0.5
-        },
-        "result_text": "매도 체결. 확정된 숫자가 처음으로 움직이지 않았다.",
+        "text": "주문 화면을 연다",
+        "effects": {},
+        "flags": [
+          "open_trading_after_story"
+        ],
+        "result_text": "차트가 한 칸씩 내려앉았다. 이번 달에 넣을 주문은 세 번까지라고 스스로 정했다.",
         "follow_up_event": ""
       },
       {
@@ -2619,33 +2602,15 @@
     "cooldown": 1,
     "choices": [
       {
-        "text": "남은 돈 일부로 나스닥 ETF를 더 산다",
+        "text": "호가창을 끝까지 내려 본다",
         "effects": {
           "health": -1,
           "mental": -1
         },
-        "market_buy": {
-          "asset_id": "nasdaq",
-          "cash_ratio": 0.25,
-          "min": 10000,
-          "max": 10000000
-        },
-        "result_text": "체결음이 울렸다. 창밖이 조금씩 밝아졌다.",
-        "follow_up_event": ""
-      },
-      {
-        "text": "3배 레버리지 상품에 일부를 싣는다",
-        "effects": {
-          "health": -1,
-          "mental": -2
-        },
-        "market_buy": {
-          "asset_id": "kospi_3x",
-          "cash_ratio": 0.15,
-          "min": 15000,
-          "max": 10000000
-        },
-        "result_text": "체결 내역에 3이라는 숫자가 찍혀 있었다. 다시 잠이 오지 않았다.",
+        "flags": [
+          "open_trading_after_story"
+        ],
+        "result_text": "눈이 시렸다. 새벽 세 시에도 주문은 세 번이면 된다고, 한 번 더 중얼거렸다.",
         "follow_up_event": ""
       },
       {

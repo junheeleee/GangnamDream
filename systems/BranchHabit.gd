@@ -57,6 +57,12 @@ static func _state(flags: Dictionary) -> Dictionary:
 	return state
 
 
+## Weeks after a visit before the activity calls again; an activity may set its
+## own (the trading board moves monthly, ORDER-839 T1).
+static func _gap_after_go(source: Dictionary, activity: Dictionary) -> int:
+	return int(activity.get("return_gap_after_go", source.get("return_gap_after_go", 1)))
+
+
 static func _story_year(turn: int) -> String:
 	return str(int((maxi(turn, 1) - 1) / 48) + 1)
 
@@ -168,9 +174,10 @@ static func take_scene(flags: Dictionary, turn: int, has_portfolio: bool, event_
 			if not bool((offer as Dictionary).get("went", false)):
 				gap = int(source.get("return_gap_after_skip", 4))
 			elif int((offer as Dictionary).get("streak", 1)) >= int(source.get("max_streak", 2)):
-				gap = int(source.get("return_gap_after_streak", 3))
+				gap = maxi(int(source.get("return_gap_after_streak", 3)),
+					_gap_after_go(source, activity))
 			else:
-				gap = int(source.get("return_gap_after_go", 1))
+				gap = _gap_after_go(source, activity)
 		if turn - last < gap or turn == last:
 			continue
 		if _calls_this_year(state, activity_id, turn) >= int(source.get("max_calls_per_year", 6)):
@@ -195,7 +202,7 @@ static func take_scene(flags: Dictionary, turn: int, has_portfolio: bool, event_
 	var previous: Variant = offers.get(activity_id, null)
 	if previous is Dictionary and bool((previous as Dictionary).get("went", false)) \
 			and turn - int((previous as Dictionary).get("turn", -100)) \
-				<= int(source.get("return_gap_after_go", 1)) + 1:
+				<= _gap_after_go(source, best) + 1:
 		streak = int((previous as Dictionary).get("streak", 1)) + 1
 	offers[activity_id] = {"turn": turn, "event": chosen, "settled": false, "went": false,
 		"streak": streak}

@@ -4,8 +4,26 @@ extends Control
 ## 30억을 직접 굴려 만든다. 백엔드(InvestmentSystem/시장)는 기존 것을 재사용.
 ##
 ## MainGame이 인스턴스해서 child로 붙이고, setup(inv) 주입 후 open()으로 표시.
+##
+## ORDER-839 T1 (full run): a portfolio habit scene opens this board as the
+## week's activity. No action points: a session has `orders_per_session`
+## orders, buys are 10/25/50% of cash and sells 25/50/100% of the holding, and
+## only assets the run's story has opened are listed (trading_floor_ledger).
+## The tutorial popup stays off; the opening scene carries the first guidance.
 
 signal closed
+
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
+const LEDGER_PATH := "res://content/meta/trading_floor_ledger.json"
+const BUY_RATIOS := [0.10, 0.25, 0.50]
+const SELL_RATIOS := [0.25, 0.50, 1.0]
+static var _ledger_cache: Dictionary = {}
+
+var _orders_left: int = 0
+var _session_trades: int = 0
+var _entry_balance: float = 0.0
+var _focus_key: String = ""
+var _presentation_rng := RandomNumberGenerator.new()
 
 var inv                              # InvestmentSystem (MainGame 주입)
 var _selected: String = ""
@@ -18,7 +36,7 @@ const FEATURED := ["samsung", "kospi_etf", "sp500", "nvidia", "ai_chip",
 
 const MA_FAST := 5
 const MA_SLOW := 20
-const CANDLE_GROUP := 2   # 가격 N개 → 캔들 1개
+const CANDLE_GROUP := 1   # 월 가격 1개 → 캔들 1개 (기록 60개월, ORDER-839 T1)
 
 # 노드
 var _hud: RichTextLabel
@@ -68,6 +86,7 @@ func _font_for(lbl: Object, bold: bool = false) -> void:
 
 # ── 구성 ──────────────────────────────────────────────────────
 func _ready() -> void:
+	_presentation_rng.randomize()
 	_load_fonts()
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_build_ui()
@@ -119,6 +138,8 @@ func _build_ui() -> void:
 	help_btn.offset_bottom = 38
 	_style_btn(help_btn, "#0a0a1a", "#5a4510")
 	help_btn.pressed.connect(func(): TutorialOverlay.force_show("trading", self))
+	help_btn.visible = not FULL_STORY_FLOW.is_full_run()
+	help_btn.set_meta("full_story_hidden", true)
 	add_child(help_btn)
 
 	var close_btn := Button.new()
@@ -130,6 +151,7 @@ func _build_ui() -> void:
 	close_btn.offset_bottom = 38
 	_style_btn(close_btn, "#2a1518", "#a04040")
 	close_btn.pressed.connect(_on_close)
+	_make_focusable(close_btn, "close")
 	add_child(close_btn)
 
 	# ── 차트 영역 (상단) ──
@@ -221,25 +243,131 @@ func _build_ui() -> void:
 
 # ── 진입/종료 ─────────────────────────────────────────────────
 func open() -> void:
-	if _selected == "":
+	if visible:
+		return
+	_entry_balance = float(GameState.money)
+	_session_trades = 0
+	_orders_left = int(ledger().get("orders_per_session", 3))
+	var ids := _asset_ids()
+	if _selected == "" or not ids.has(_selected):
 		_selected = _pick_default()
+	_focus_key = "asset:" + _selected
 	BGMPlayer.enter_activity_ambience("office")
 	visible = true
-	TutorialOverlay.maybe_show("trading", self)
+	for child in get_children():
+		if child is Control and bool((child as Control).get_meta("full_story_hidden", false)):
+			(child as Control).visible = not FULL_STORY_FLOW.is_full_run()
+	if not FULL_STORY_FLOW.is_full_run():
+		TutorialOverlay.maybe_show("trading", self)
 	_refresh()
 
 func _pick_default() -> String:
+	var ids := _asset_ids()
 	for aid in GameState.portfolio:
-		return str(aid)
-	return FEATURED[0]
+		if ids.has(str(aid)):
+			return str(aid)
+	return str(ids[0]) if not ids.is_empty() else FEATURED[0]
 
 func _on_close() -> void:
+	if not visible:
+		return
 	BGMPlayer.leave_activity_ambience("office")
 	visible = false
 	closed.emit()
 
+## What MainGame receipts for the full-story activity: orders filled this
+## session and the change in cash (sells in, buys out), in whole won.
+func get_session_summary() -> Dictionary:
+	return {
+		"game_id": "trading",
+		"rounds": _session_trades,
+		"trades": _session_trades,
+		"net": float(round(float(GameState.money) - _entry_balance)),
+	}
+
+func orders_left() -> int:
+	return _orders_left
+
+static func ledger() -> Dictionary:
+	if _ledger_cache.is_empty():
+		var text := FileAccess.get_file_as_string(LEDGER_PATH)
+		var parsed: Variant = JSON.parse_string(text) if not text.is_empty() else null
+		_ledger_cache = parsed if parsed is Dictionary else {}
+	return _ledger_cache
+
+## Assets the run's story has opened, in ledger order. A tier opens when any
+## of its flags is set or any of its scenes has been played; a holding always
+## stays listed so it can be sold.
+static func unlocked_asset_ids(flags: Dictionary, portfolio: Dictionary,
+		event_log: Array = []) -> Array:
+	var seen := {}
+	for logged in event_log:
+		if logged is Dictionary:
+			seen[str((logged as Dictionary).get("event_id", ""))] = true
+	var ids: Array = []
+	for raw in ledger().get("tiers", []):
+		if not raw is Dictionary:
+			continue
+		var tier: Dictionary = raw
+		var open := false
+		for flag_id in tier.get("requires_any", []):
+			if bool(flags.get(str(flag_id), false)):
+				open = true
+				break
+		for event_id in tier.get("requires_any_event", []):
+			if seen.has(str(event_id)):
+				open = true
+				break
+		if not open:
+			continue
+		for aid in tier.get("assets", []):
+			if not ids.has(str(aid)):
+				ids.append(str(aid))
+	for aid in portfolio:
+		if not ids.has(str(aid)):
+			ids.append(str(aid))
+	return ids
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_on_close()
+
+func _make_focusable(control: Control, key: String) -> void:
+	control.focus_mode = Control.FOCUS_ALL
+	control.set_meta("trading_focus_key", key)
+	# Hover and pad focus point at the same control.
+	control.mouse_entered.connect(func():
+		if is_instance_valid(control) and control.is_visible_in_tree() \
+				and control.focus_mode != Control.FOCUS_NONE:
+			control.grab_focus())
+	control.focus_entered.connect(func(): _focus_key = key)
+
+func _restore_focus() -> void:
+	if not visible:
+		return
+	var fallback: Control = null
+	for node in find_children("*", "Control", true, false):
+		var control := node as Control
+		if not control.has_meta("trading_focus_key") or not control.is_visible_in_tree() \
+				or control.is_queued_for_deletion():
+			continue
+		if control is Button and (control as Button).disabled:
+			continue
+		if str(control.get_meta("trading_focus_key")) == _focus_key:
+			control.grab_focus()
+			return
+		if fallback == null and str(control.get_meta("trading_focus_key")).begins_with("asset:"):
+			fallback = control
+	if fallback != null:
+		fallback.grab_focus()
+
 # ── 갱신 ──────────────────────────────────────────────────────
 func _asset_ids() -> Array:
+	if FULL_STORY_FLOW.is_full_run():
+		return unlocked_asset_ids(GameState.flags, GameState.portfolio, GameState.event_log)
 	var ids: Array = FEATURED.duplicate()
 	for aid in GameState.portfolio:
 		if not ids.has(str(aid)):
@@ -273,13 +401,21 @@ func _refresh() -> void:
 		"bear": _tr("🔴 하락장", "🔴 Bear"),
 		"neutral": _tr("⚪ 횡보", "⚪ Sideways"),
 	}.get(cyc, _tr("⚪ 횡보", "⚪ Sideways"))
-	var ap: int = GameState.action_points
+	var full_run := FULL_STORY_FLOW.is_full_run()
+	var ap: int = _orders_left if full_run else GameState.action_points
 	var ap_col: String = "#4adfaa" if ap > 0 else "#ff6060"
 	var target_text := _tr("30억", GameState.format_money(3_000_000_000.0))
-	_hud.text = _tr(
-		"[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]⚡%d[/color]",
-		"[b]💰 Cash %s[/b]    📊 Net Worth [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  Fear/Greed %d    [color=%s]⚡%d[/color]"
-	) % [GameState.format_money(cash), GameState.format_money(assets), target_text, pct, cyc_label, fg, ap_col, ap]
+	if full_run:
+		_hud.text = _tr(
+			"[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]남은 주문 %d/%d[/color]",
+			"[b]💰 Cash %s[/b]    📊 Net Worth [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  Fear/Greed %d    [color=%s]Orders left %d/%d[/color]"
+		) % [GameState.format_money(cash), GameState.format_money(assets), target_text, pct, cyc_label, fg,
+			ap_col, ap, int(ledger().get("orders_per_session", 3))]
+	else:
+		_hud.text = _tr(
+			"[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]⚡%d[/color]",
+			"[b]💰 Cash %s[/b]    📊 Net Worth [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  Fear/Greed %d    [color=%s]⚡%d[/color]"
+		) % [GameState.format_money(cash), GameState.format_money(assets), target_text, pct, cyc_label, fg, ap_col, ap]
 
 	# 차트 헤더 — 현재가 + 변동 + 포지션 P&L
 	var price: float = float(GameState.market_prices.get(_selected, 0.0))
@@ -313,6 +449,7 @@ func _refresh() -> void:
 		c.queue_free()
 	for aid in _asset_ids():
 		_list_box.add_child(_make_asset_row(str(aid)))
+	call_deferred("_restore_focus")
 
 func _prepare_chart_data() -> void:
 	var hist: Array = GameState.price_history.get(_selected, [])
@@ -369,6 +506,9 @@ func _build_trade_controls(cash: float, qty: float, price: float, ap: int) -> vo
 		c.queue_free()
 	for c in _sell_row.get_children():
 		c.queue_free()
+	if FULL_STORY_FLOW.is_full_run():
+		_build_full_story_trade_controls(cash, qty, price)
+		return
 	var can_trade: bool = ap > 0
 	_trade_label.text = (_tr("매수/매도 시 시간(⚡) 1 소비  |  캔들 MA5=5개월 MA20=20개월 평균", "Buy/Sell consumes 1 time (⚡)  |  Candles use MA5=5-month, MA20=20-month averages") if can_trade
 		else _tr("⚡ 시간이 없다 — 이번 달은 관망만. (닫고 다음 달)", "⚡ No time left — observe this month. Close and advance."))
@@ -431,6 +571,54 @@ func _build_trade_controls(cash: float, qty: float, price: float, ap: int) -> vo
 		_font_for(pl_lbl, true)
 		_sell_row.add_child(pl_lbl)
 
+## Full story: ratio buttons only, spent against this session's orders.
+func _build_full_story_trade_controls(cash: float, qty: float, price: float) -> void:
+	var can_trade := _orders_left > 0
+	var note := _tr("남은 주문 %d건  ·  매수 수수료 0.3%%  ·  매도 수수료 0.5%%  ·  가격은 한 달에 한 번 움직인다",
+		"%d orders left  ·  Buy fee 0.3%%  ·  Sell fee 0.5%%  ·  Prices move once a month") % _orders_left
+	if not can_trade:
+		note = _tr("이번에 넣을 주문은 다 넣었다. 닫고 돌아간다.",
+			"Every order for this session is in. Close the app and go back.")
+	elif int(GameState.mental) < 70:
+		note += _tr("\n손끝이 자꾸 엇나간다. 주문을 넣을 때마다 조금 비싸게 산 기분이 든다.",
+			"\nHis fingers keep slipping. Every order feels like it filled a little too high.")
+	_trade_label.text = note
+	var buy_lbl := Label.new()
+	buy_lbl.text = _tr("  매수 ", "  Buy ")
+	_font_for(buy_lbl, true)
+	buy_lbl.add_theme_color_override("font_color", Color("#00c896"))
+	_buy_row.add_child(buy_lbl)
+	var min_invest := _min_invest(_selected, price)
+	for i in range(BUY_RATIOS.size()):
+		var ratio: float = float(BUY_RATIOS[i])
+		var b := Button.new()
+		b.text = _tr("현금 %d%%", "%d%% of cash") % int(round(ratio * 100.0))
+		_style_btn(b, "#0e2018", "#1e7a52")
+		b.disabled = not can_trade or price <= 0.0 or cash * ratio < min_invest
+		b.pressed.connect(func(): _do_buy(int(floor(float(GameState.money) * ratio))))
+		_make_focusable(b, "buy:%d" % i)
+		_buy_row.add_child(b)
+	var sell_lbl := Label.new()
+	sell_lbl.text = _tr("  매도 ", "  Sell ")
+	_font_for(sell_lbl, true)
+	sell_lbl.add_theme_color_override("font_color", Color("#ff6b6b"))
+	_sell_row.add_child(sell_lbl)
+	for i in range(SELL_RATIOS.size()):
+		var r: float = float(SELL_RATIOS[i])
+		var b := Button.new()
+		b.text = _tr("보유 %d%%", "%d%% of holding") % int(round(r * 100.0))
+		_style_btn(b, "#201012", "#7a2e2e")
+		b.disabled = not can_trade or qty <= 0.0
+		b.pressed.connect(func(): _do_sell(r))
+		_make_focusable(b, "sell:%d" % i)
+		_sell_row.add_child(b)
+
+func _min_invest(aid: String, price: float) -> float:
+	for a in DataRegistry.assets:
+		if str(a.get("id", "")) == aid:
+			return float(a.get("min_invest", price))
+	return price
+
 func _make_asset_row(aid: String) -> Button:
 	var price: float = float(GameState.market_prices.get(aid, 0.0))
 	var ch: float = _change_pct(aid)
@@ -472,6 +660,11 @@ func _make_asset_row(aid: String) -> Button:
 	btn.add_theme_stylebox_override("pressed", st)
 	var cap: String = aid
 	btn.pressed.connect(func(): _select(cap))
+	if FULL_STORY_FLOW.is_full_run():
+		_make_focusable(btn, "asset:" + aid)
+		var focus_st := st.duplicate()
+		focus_st.border_color = Color("#8fb4ff")
+		btn.add_theme_stylebox_override("focus", focus_st)
 	btn.add_child(rt)
 	rt.set_anchors_preset(Control.PRESET_FULL_RECT)
 	rt.offset_left = 12
@@ -486,17 +679,27 @@ func _select(aid: String) -> void:
 
 # ── 거래 ──────────────────────────────────────────────────────
 func _do_buy(krw: int) -> void:
-	if GameState.action_points <= 0:
+	var full_run := FULL_STORY_FLOW.is_full_run()
+	if full_run and _orders_left <= 0:
+		return
+	if not full_run and GameState.action_points <= 0:
 		_flash(_tr("⚡ 시간이 없다", "⚡ No time left"), "#ff5252"); return
 	if GameState.money < float(krw) or krw <= 0:
 		_flash(_tr("현금이 부족하다", "Not enough cash"), "#ff5252"); return
 	var price: float = float(GameState.market_prices.get(_selected, 0.0))
 	if price <= 0:
 		_flash(_tr("가격 데이터 없음", "No price data"), "#ff5252"); return
-	if not GameState.spend_ap():
+	if full_run:
+		var bought: Dictionary = inv.buy_asset(_selected, float(krw))
+		if not bool(bought.get("success", false)):
+			_flash(str(bought.get("message", "")), "#ff5252"); return
+		_orders_left -= 1
+		_session_trades += 1
+	elif not GameState.spend_ap():
 		return
 	AudioManager.play("buy")
-	inv.buy_asset(_selected, float(krw))
+	if not full_run:
+		inv.buy_asset(_selected, float(krw))
 	_flash(_tr("📈 [b]%s[/b] 매수  %s", "📈 Bought [b]%s[/b]  %s") % [_name_of(_selected), GameState.format_money(float(krw))], "#00c896")
 	_trade_burst("BUY", Color("#00c896"))
 	_screen_flash(Color("#00c896"), 0.10, 0.22)
@@ -505,7 +708,7 @@ func _do_buy(krw: int) -> void:
 	_refresh()
 
 func _do_sell(ratio: float) -> void:
-	if GameState.action_points <= 0:
+	if not FULL_STORY_FLOW.is_full_run() and GameState.action_points <= 0:
 		_flash(_tr("⚡ 시간이 없다", "⚡ No time left"), "#ff5252"); return
 	var owned: Dictionary = GameState.portfolio.get(_selected, {})
 	if float(owned.get("quantity", 0.0)) <= 0:
@@ -516,10 +719,19 @@ func _do_sell(ratio: float) -> void:
 	var pl_pct: float = (price - avg) / avg * 100.0 if avg > 0 else 0.0
 	var sell_val: float = qty * ratio * price
 	var est_pnl: float = sell_val * ((price - avg) / maxf(avg, 0.01)) if avg > 0.0 else 0.0
-	if not GameState.spend_ap():
+	if FULL_STORY_FLOW.is_full_run():
+		if _orders_left <= 0:
+			return
+		var sold: Dictionary = inv.sell_asset(_selected, ratio)
+		if not bool(sold.get("success", false)):
+			_flash(str(sold.get("message", "")), "#ff5252"); return
+		_orders_left -= 1
+		_session_trades += 1
+	elif not GameState.spend_ap():
 		return
+	else:
+		inv.sell_asset(_selected, ratio)
 	AudioManager.play("money_gain" if est_pnl >= 0.0 else "money_loss")
-	inv.sell_asset(_selected, ratio)
 	if pl_pct >= 0:
 		_screen_flash(Color("#00c896"), 0.12, 0.24)
 		_flash(_tr("📉 %s 매도  +%s  (%+.1f%%)", "📉 Sold %s  +%s  (%+.1f%%)") % [_name_of(_selected),
@@ -791,7 +1003,8 @@ func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> voi
 	var base := ctrl.position
 	var tw := create_tween()
 	for _i in range(6):
-		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		var offset := Vector2(_presentation_rng.randf_range(-amount, amount),
+			_presentation_rng.randf_range(-amount * 0.45, amount * 0.45))
 		tw.tween_property(ctrl, "position", base + offset, duration / 6.0)
 	tw.tween_property(ctrl, "position", base, 0.04)
 

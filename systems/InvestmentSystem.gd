@@ -10,6 +10,9 @@ var cycle_timer: int = 0
 
 ## Share of the gap to 50 that fear/greed closes each full-run month. [첫 실행 재조정]
 const FULL_RUN_FEAR_GREED_REVERSION := 0.15
+## Full-run cap on the hidden low-mental buy fee (legacy: up to 20%). [첫 실행 재조정]
+const FULL_RUN_MENTAL_FEE_CAP := 0.02
+const FULL_RUN_PRICE_HISTORY_MONTHS := 60
 static var _news_expectation_cache: Dictionary = {}
 
 func initialize():
@@ -89,6 +92,10 @@ func buy_asset(asset_id, amount_krw, allow_below_min: bool = false):
 		return {"success": false, "message": LocaleManager.ui("잔액이 부족합니다.", "Insufficient balance.")}
 
 	var decision_penalty = clamp(float(70 - GameState.mental) / 250.0, 0.0, 0.2)
+	if FULL_STORY_FLOW.is_full_run():
+		# A tired mind still pays more, but the trading screen shows it as a
+		# sentence, not a number, so the hidden cost stays small (ORDER-839 T1).
+		decision_penalty = minf(decision_penalty, FULL_RUN_MENTAL_FEE_CAP)
 	var base_fee_rate = 0.003
 	var fee = cash_committed * (base_fee_rate + decision_penalty)
 	var quantity = max(0.0, cash_committed - fee) / current_price
@@ -279,7 +286,9 @@ func _record_price_history():
 			GameState.price_history[id] = []
 		var hist: Array = GameState.price_history[id]
 		hist.append(price)
-		if hist.size() > 12:
+		# The full-run chart shows the whole story so MA20 can draw (ORDER-839 T1).
+		var keep := FULL_RUN_PRICE_HISTORY_MONTHS if FULL_STORY_FLOW.is_full_run() else 12
+		while hist.size() > keep:
 			hist.pop_front()
 
 func _apply_dividends():

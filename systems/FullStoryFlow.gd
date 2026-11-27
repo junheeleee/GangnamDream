@@ -113,6 +113,7 @@ const ACTIVITY_FLAGS := {
 	"racetrack": "open_racetrack_after_story",
 	"holdem": "open_holdem_after_story",
 	"jeongseon_casino": "open_casino_after_story",
+	"trading_floor": "open_trading_after_story",
 }
 const ACTIVITY_SOURCES := {
 	"racetrack": [["race_first_visit", 1],
@@ -121,6 +122,8 @@ const ACTIVITY_SOURCES := {
 		["habit_holdem_night", 0], ["habit_holdem_regular", 0]],
 	"jeongseon_casino": [["casino_chip_exchange", 0], ["casino_chip_exchange", 1],
 		["habit_casino_trip", 0], ["habit_casino_regular", 0]],
+	# ORDER-839 T1: the portfolio habit's "open the app" choice opens the board.
+	"trading_floor": [["habit_portfolio_check", 0], ["habit_portfolio_regular", 0]],
 }
 
 

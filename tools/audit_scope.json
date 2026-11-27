@@ -4777,6 +4777,23 @@
       ]
     },
     {
+      "tool": "tools/TradingFloorFullStoryCheck.tscn",
+      "godot": true,
+      "why": "839 T1 정식판 매매 화면: 계좌 습관 첫 선택이 trading_floor 활동을 연다, 4주 간격, 세션 주문 3건·AP 미사용·현금/보유 비율·수수료·이력이 연 종목만(보유는 유지)·정신 수수료 상한·60개월 기록·세션 요약, 정식판 밖은 AP 유지, MainGame 열기·닫기·복귀",
+      "paths": [
+        "scenes/TradingFloor.gd",
+        "content/meta/trading_floor_ledger.json",
+        "content/meta/branch_habit_ledger.json",
+        "content/events/investment_events.json",
+        "systems/BranchHabit.gd",
+        "systems/FullStoryFlow.gd",
+        "systems/InvestmentSystem.gd",
+        "scenes/MainGame.gd",
+        "tools/TradingFloorFullStoryCheck.gd",
+        "tools/TradingFloorFullStoryCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/MarketModelCheck.tscn",
       "godot": true,
       "why": "839 T0 정식판 시장: 공포·탐욕 평균 회귀·뉴스 기대값 0으로 5년 하락장 고착 없음(지수 중앙값·하락장 비중·ETF 5년 배율), 체험판 시장 24개월 가격 지문 고정, market_boom 정식판 충격 생략",
