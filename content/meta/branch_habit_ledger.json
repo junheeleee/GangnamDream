@@ -1,9 +1,10 @@
 {
-  "_doc": "ORDER-834 B2.5 free-week habit visits. Read only by systems/BranchHabit.gd. Once a full run has entered an activity (requires_any / requires_all, none of forbids, and a holding when portfolio is true), a free full-story week may offer one short habit scene. After a week the player went (a choice index in that event's `go`), the activity calls again on the next free week, at most max_streak times in a row, then waits return_gap_after_streak weeks; after a refusal it waits return_gap_after_skip weeks. `visits` counts the weeks the player went; at habitual_visits the regular variant replaces the first one. rest_weeks stay quiet (mourning, finale). A forbids flag stops an activity unless a forbids_unless flag is set: recovery locks gambling until a relapse, as the AP surface did.",
+  "_doc": "ORDER-834 B2.5 free-week habit visits. Read only by systems/BranchHabit.gd. Once a full run has entered an activity (requires_any / requires_all, none of forbids, and a holding when portfolio is true), a free full-story week may offer one short habit scene. After a week the player went (a choice index in that event's `go`), the activity calls again on the next free week, at most max_streak times in a row, then waits return_gap_after_streak weeks, and calls at most max_calls_per_year times in a story year; after a refusal it waits return_gap_after_skip weeks. `visits` counts the weeks the player went; at habitual_visits the regular variant replaces the first one. rest_weeks stay quiet (mourning, finale). A forbids flag stops an activity unless a forbids_unless flag is set: recovery locks gambling until a relapse, as the AP surface did.",
   "return_gap_after_go": 1,
   "return_gap_after_skip": 4,
   "max_streak": 2,
   "return_gap_after_streak": 3,
+  "max_calls_per_year": 6,
   "habitual_visits": 4,
   "rest_weeks": [[189, 192], [238, 240]],
   "activities": [

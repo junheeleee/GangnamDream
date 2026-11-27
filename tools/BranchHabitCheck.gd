@@ -1,7 +1,7 @@
 extends Node
 ## ORDER-834 B2.5 regression: free-week habit visits. An activity calls only
 ## after the player entered it, comes back on the next free week after a week
-## the player went (at most twice in a row, then a rest) and waits after a refusal, turns habitual after enough visits,
+## the player went (at most twice in a row, then a rest; at most six calls a story year) and waits after a refusal, turns habitual after enough visits,
 ## stays quiet in mourning/finale weeks, honors the quit flags and the holding
 ## premise, rotates between activities, survives a JSON save, and every habit
 ## scene's "go" choice really opens its minigame or a real trade.
@@ -20,13 +20,14 @@ func _ready() -> void:
 	_check_rest_quit_and_holding()
 	_check_rotation()
 	_check_streak_cap()
+	_check_yearly_cap()
 	_check_json_round_trip()
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("BRANCH_HABIT_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("BRANCH_HABIT_CHECK_OK activities=%d events=%d cadence=3 streak=1 habitual=1 rest=1 quit=1 holding=1 rotation=1 json=1" % [
+	print("BRANCH_HABIT_CHECK_OK activities=%d events=%d cadence=3 streak=1 yearly=1 habitual=1 rest=1 quit=1 holding=1 rotation=1 json=1" % [
 		(HABIT.ledger().get("activities", []) as Array).size(), HABIT.HABIT_EVENT_IDS.size()])
 	get_tree().quit(0)
 
@@ -171,6 +172,22 @@ func _check_streak_cap() -> void:
 	_expect(after_gap == "habit_race_saturday"
 			and int(((state["offers"] as Dictionary)["racetrack"] as Dictionary)["streak"]) == 1,
 		"a call after a long quiet stretch did not start a new streak")
+
+
+func _check_yearly_cap() -> void:
+	var flags := {"racetrack_visited": true}
+	var log: Array = []
+	var calls: Array = []
+	# Year 2 is turns 49-96. Going every free week with the streak rest gives
+	# far more than six chances; only six may call.
+	for turn in range(49, 97):
+		var scene := HABIT.take_scene(flags, turn, false, log, _always)
+		if not scene.is_empty():
+			calls.append(turn)
+			log.append(_log(scene, turn, 0))
+	_expect(calls.size() == 6, "a habit called %d times in one story year: %s" % [calls.size(), str(calls)])
+	_expect(HABIT.take_scene(flags, 97, false, log, _always) == "habit_race_regular",
+		"the habit did not call again in the next story year")
 
 
 func _check_json_round_trip() -> void:

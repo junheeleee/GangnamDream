@@ -8,7 +8,10 @@ extends RefCounted
 ## real trade; refusing is always a choice. An activity the player went to calls
 ## again on the next free week, up to max_streak calls in a row; then it waits
 ## return_gap_after_streak weeks so the same prose never runs for a month. A
-## refusal buys return_gap_after_skip quiet weeks.
+## refusal buys return_gap_after_skip quiet weeks. One activity calls at most
+## max_calls_per_year times in a story year (48 weeks): QA 2026-11-27 read the
+## same habit prose 10-45 times in one run (user-approved cap; prose variants
+## by money, year and streak are the follow-up).
 ## After habitual_visits weeks the regular variant (heavier cost) replaces the first.
 ##
 ## Deterministic (no RNG). Whether the player went is read back from the event log
@@ -17,7 +20,8 @@ extends RefCounted
 ##   flags["branch_habit_state"] = {
 ##     "offers": {activity: {"turn": int, "event": id, "settled": bool, "went": bool,
 ##                           "streak": int}},
-##     "visits": {activity: int}}
+##     "visits": {activity: int},
+##     "calls": {activity: {story_year: int}}}
 
 const LEDGER_PATH := "res://content/meta/branch_habit_ledger.json"
 const STATE_FLAG := "branch_habit_state"
@@ -48,7 +52,18 @@ static func _state(flags: Dictionary) -> Dictionary:
 		state["offers"] = {}
 	if not state.get("visits", null) is Dictionary:
 		state["visits"] = {}
+	if not state.get("calls", null) is Dictionary:
+		state["calls"] = {}
 	return state
+
+
+static func _story_year(turn: int) -> String:
+	return str(int((maxi(turn, 1) - 1) / 48) + 1)
+
+
+static func _calls_this_year(state: Dictionary, activity_id: String, turn: int) -> int:
+	var raw: Variant = (state["calls"] as Dictionary).get(activity_id, {})
+	return int((raw as Dictionary).get(_story_year(turn), 0)) if raw is Dictionary else 0
 
 
 static func visits(flags: Dictionary, activity_id: String) -> int:
@@ -158,6 +173,8 @@ static func take_scene(flags: Dictionary, turn: int, has_portfolio: bool, event_
 				gap = int(source.get("return_gap_after_go", 1))
 		if turn - last < gap or turn == last:
 			continue
+		if _calls_this_year(state, activity_id, turn) >= int(source.get("max_calls_per_year", 6)):
+			continue
 		if best.is_empty() or last < best_last:
 			best = activity
 			best_last = last
@@ -183,5 +200,11 @@ static func take_scene(flags: Dictionary, turn: int, has_portfolio: bool, event_
 	offers[activity_id] = {"turn": turn, "event": chosen, "settled": false, "went": false,
 		"streak": streak}
 	state["offers"] = offers
+	var calls: Dictionary = state["calls"]
+	var by_year: Dictionary = (calls.get(activity_id, {}) as Dictionary).duplicate() \
+		if calls.get(activity_id, {}) is Dictionary else {}
+	by_year[_story_year(turn)] = _calls_this_year(state, activity_id, turn) + 1
+	calls[activity_id] = by_year
+	state["calls"] = calls
 	flags[STATE_FLAG] = state
 	return chosen

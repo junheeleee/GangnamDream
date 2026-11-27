@@ -87,6 +87,10 @@ func _check_habit_lock() -> void:
 
 
 func _check_father_variant() -> void:
+	# The confession test reads the Korean source; the saved language (English
+	# by default) would otherwise swap in the EN overlay.
+	var saved_language := str(LocaleManager.language)
+	LocaleManager.set_language("ko")
 	var variant_id := str(EventManager.FATHER_PASSED_EVENT_VARIANTS.get("gambling_rock_bottom", ""))
 	var base: Dictionary = DataRegistry.find_event("gambling_rock_bottom")
 	var variant: Dictionary = DataRegistry.find_event(variant_id)
@@ -97,6 +101,7 @@ func _check_father_variant() -> void:
 			and not str((variant_choices[1] as Dictionary).get("result_text", "")).contains("아버지에게 전화")
 			and (variant_choices[1] as Dictionary).get("flags", []) == (base_choices[1] as Dictionary).get("flags", []),
 		"the father-passed rock bottom does not confess to the mother with the same consequences")
+	LocaleManager.set_language(saved_language)
 	var saved_passed: Variant = GameState.flags.get("father_passed", null)
 	GameState.flags["father_passed"] = true
 	for source_id in EventManager.FATHER_PASSED_EVENT_VARIANTS:

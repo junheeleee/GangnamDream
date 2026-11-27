@@ -18,10 +18,7 @@
 `systems/FullStoryFlow.gd`(`ACTIVITY_SOURCES` 출처 추가), `scenes/MainGame.gd`(빈 주 라우팅 한 곳), `tools/BranchHabitCheck.*`(신규),
 `tools/audit_scope.json`, 정책 런 도구, 사건 등록 원장들, `docs/BALANCE.md`. Codex W188 범위는 건드리지 않는다.
 
-**[~] 착수 — Claude B2.6 중독 바닥·회복 보장(사용자 승인 2026-11-26).** 만지는 파일: `systems/AddictionArc.gd`(신규),
-`autoloads/GameState.gd`(정식 런 중독 즉사 판정 한 곳), `autoloads/EventManager.gd`(아버지 별세 변형 등록 한 줄),
-`content/events/arc_addiction_recovery.json`·오버레이 4언어(바닥 별세 변형 신규·정합/문체), `content/meta/branch_habit_ledger.json`,
-`systems/BranchHabit.gd`, `scenes/MainGame.gd`(빈 주 라우팅 한 곳), `tools/AddictionArcCheck.*`(신규), 등록 원장들.
+**[x] 완료 — Claude B2.6 중독 바닥·회복 보장(사용자 승인 2026-11-26, 결과 아래).** 파일: `AddictionArc.gd`(신규)·`GameState`(정식 런 중독 종료 한 곳)·`EventManager`(별세 변형 한 줄)·`arc_addiction_recovery` 5언어·`BranchHabit`·`MainGame` 라우팅 한 곳·`AddictionArcCheck`.
 
 **[x] 완료 — Claude B3 두 갈래 3~4년 차(사용자 지시 2026-11-27, 결과 아래).** 만지는 파일: `systems/BranchBeats.gd`(중독·시장 국면·손익률·상철 단계·성향 조건),
 `systems/InvestBranchBeats.gd`·`systems/GambleBranchBeats.gd`(문맥 전달), `content/meta/invest_branch_ledger.json`·`gamble_branch_ledger.json`,
@@ -48,6 +45,7 @@
 - **B2.6 바닥·회복 실측(`4d23f527`, 도박 3런, 정지 0):** s01 W46 바닥→"한 판만 더"→W54 파멸, s03 W107 바닥→"한 판만 더"→W109 파멸, s02 W44 바닥→도움→W45 회복 첫 주→W51 재발 시험에서 재발→습관 재개(W64 무직 번아웃, 836 B2 몫). 장면 없는 중독 종료 0. 이스터에그 실노출(W54 삼각김밥). 도박 정책은 중독을 선호해 회복 완주 런은 아직 없다(`AddictionArcCheck`가 단계 간격을 덮는다).
 - **B3 실측(`9d3d36a6`, 투자 2·도박 1, 정지 0):** 투자 s01 W131 회색지대 → W142 폭락(분할 매수), s02 W99 폭락 → W103 상철 경고 → W109 회색지대. M60 6,249만/5,424만원으로 B1 대역보다 낮고 두 런 모두 4년 차에 보유를 정리한다(갈림 없음, B4·835). 도박 s02는 W60 무직 번아웃(836 B2)이라 3~4년 차 도박은 `GambleBranchBeatsCheck`만 덮는다.
 - **습관 연속 상한:** 같은 계좌 습관 문장이 최대 5주 연속(s02 45장면) → 같은 활동 연속 2주 뒤 3주 쉼(`BranchHabit`·원장·검사). 재실행(`6a4b0274`, s02): 습관 45→22장면, 최대 연속 2주, 4주+ 공백 0, 결정 없는 달 0→1, 3~4년 차 투자 3장면 발화, M60 6,453만원. 상태별 문장 변주는 다음 후보.
+- **QA(11-27):** 별세 뒤 바닥 장면 멈춤(변형이 생존 필수 태그 복사) 수리·회귀 검사, 정선·상철 배경 수리, 습관 문장 한 런 10~45번 → 활동당 연 6번(승인). **후속:** 습관 문장 상태별 변주.
 - **남은 일(Codex):** `ManualSaveCheck`에 홀덤·정선 영수증과 "지난 주 닫힌 경마장 + 이번 주 정선 대기" 경우 추가(W188 범위라
   Claude는 손대지 않음), 활동 진입·복귀 `ScreenshotQA`, B3~B5.
 

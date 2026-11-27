@@ -6,7 +6,9 @@ extends "res://tools/ScreenshotQA.gd"
 ## the window size it is run with (Steam Deck: 1280x800).
 ##   xvfb-run -a godot --rendering-driver opengl3 --resolution 1280x800 \
 ##     res://tools/BranchSceneScreenshotQA.tscn
-## Output: $GANGNAM_QA_OUT or /tmp/gangnamdream_qa, one PNG per shot.
+## Output: $GANGNAM_QA_OUT or /tmp/gangnamdream_qa, one PNG per shot. Run it with
+## an isolated HOME: the EN pass saves English as the language, and Korean-text
+## checks run afterwards in the same user:// would read the EN overlay.
 
 const BRANCH_SCENES := [
 	["habit_race_saturday", 60], ["habit_race_regular", 70],
