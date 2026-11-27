@@ -7,13 +7,15 @@ extends RefCounted
 ## In a full run a listed rest choice now adds `rest_health` a week for `weeks`
 ## weeks, counting the week it was chosen; a listed strain choice takes
 ## `strain_health` instead. The latest listed choice replaces the earlier tide.
-## A monthly health crisis queues the next free week's crisis scene, so the
-## player answers the body instead of reading a toast.
+## A monthly health crisis queues the next free week's crisis scene and holds
+## its damage until then, so the body hits and is answered in the same scene
+## instead of a toast (and never weeks before, when a dense year leaves no free
+## week: D1 2026-11-27 gamble_s02 took a W9 crisis and met its scene at W31).
 ##
 ## Deterministic (no RNG). Choices are read back from the event log (event id,
 ## turn, choice index). State lives in one flag read and written only here:
 ##   flags["body_tide_state"] = {"kind": "rest"|"strain"|"", "from": int,
-##     "applied": int, "crisis": int, "crisis_used": [event_id]}
+##     "applied": int, "crisis": int, "crisis_hp": int, "crisis_used": [event_id]}
 
 const LEDGER_PATH := "res://content/meta/body_tide_ledger.json"
 const STATE_FLAG := "body_tide_state"
@@ -96,21 +98,25 @@ static func take_week(flags: Dictionary, turn: int, event_log: Array,
 	return delta
 
 
-## A monthly health crisis hit this week: the next free week answers it.
-static func queue_crisis(flags: Dictionary, turn: int) -> void:
+## A monthly health crisis rolled this week: the next free week answers it.
+## A second crisis before that week adds its damage to the same scene.
+static func queue_crisis(flags: Dictionary, turn: int, hp: int) -> void:
 	var state := _state(flags)
-	state["crisis"] = turn
+	if int(state.get("crisis", 0)) <= 0:
+		state["crisis"] = turn
+		state["crisis_hp"] = 0
+	state["crisis_hp"] = int(state.get("crisis_hp", 0)) + maxi(hp, 0)
 	flags[STATE_FLAG] = state
 
 
-## The crisis scene for this free week ("" for none) and records it.
-static func take_crisis_scene(flags: Dictionary, turn: int, event_exists: Callable,
-		data: Dictionary = {}) -> String:
+## The crisis for this free week ({} for none): {"event_id": id, "hp": damage}.
+static func take_crisis(flags: Dictionary, turn: int, event_exists: Callable,
+		data: Dictionary = {}) -> Dictionary:
 	var source: Dictionary = data if not data.is_empty() else ledger()
 	var state := _state(flags)
 	var crisis := int(state.get("crisis", 0))
 	if crisis <= 0 or crisis > turn:
-		return ""
+		return {}
 	var used: Array = state["crisis_used"]
 	var chosen := ""
 	var oldest := ""
@@ -126,10 +132,12 @@ static func take_crisis_scene(flags: Dictionary, turn: int, event_exists: Callab
 	if chosen.is_empty():
 		chosen = oldest
 	if chosen.is_empty():
-		return ""
+		return {}
+	var hp := int(state.get("crisis_hp", 0))
 	used.erase(chosen)
 	used.append(chosen)
 	state["crisis_used"] = used
 	state["crisis"] = 0
+	state["crisis_hp"] = 0
 	flags[STATE_FLAG] = state
-	return chosen
+	return {"event_id": chosen, "hp": hp}
