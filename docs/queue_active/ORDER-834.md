@@ -23,6 +23,11 @@
 `content/events/arc_addiction_recovery.json`·오버레이 4언어(바닥 별세 변형 신규·정합/문체), `content/meta/branch_habit_ledger.json`,
 `systems/BranchHabit.gd`, `scenes/MainGame.gd`(빈 주 라우팅 한 곳), `tools/AddictionArcCheck.*`(신규), 등록 원장들.
 
+**[~] 착수 — Claude B3 두 갈래 3~4년 차(사용자 지시 2026-11-27).** 만지는 파일: `systems/BranchBeats.gd`(중독·시장 국면·손익률·상철 단계·성향 조건),
+`systems/InvestBranchBeats.gd`·`systems/GambleBranchBeats.gd`(문맥 전달), `content/meta/invest_branch_ledger.json`·`gamble_branch_ledger.json`,
+`scenes/MainGame.gd`(문맥 전달 두 곳), 재사용 사건 13개의 매매 키·5언어 문체/정합(`investment_events`·`drama_events`·`racetrack_events`·`holdem_events`·`life_events`),
+`tools/InvestBranchBeatsCheck`·`GambleBranchBeatsCheck`, 등록 원장들, `docs/BALANCE.md`. 판돈 상한은 올리지 않는다.
+
 ## Claude 결과 (2026-11-26)
 
 - **B1 투자 1~2년 차 — 동작 확인.** 투자 정책 2런(`7a8ac428`): W17 수업 → W32 첫 매수 → W37 공부 → W40 밤 매수 →
