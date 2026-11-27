@@ -292,7 +292,8 @@
           "공부": 1.0,
           "invest": 2.0,
           "market_buy": 6.0,
-          "tendency_invest": 1.0
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
         }
       },
       "modal_policy": {
@@ -378,7 +379,8 @@
           "공부": 1.0,
           "invest": 2.0,
           "market_buy": 6.0,
-          "tendency_invest": 1.0
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
         }
       },
       "modal_policy": {
@@ -464,7 +466,8 @@
           "공부": 1.0,
           "invest": 2.0,
           "market_buy": 6.0,
-          "tendency_invest": 1.0
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
         }
       },
       "modal_policy": {
@@ -1447,6 +1450,1062 @@
         "_ap_save_money",
         "_ap_side_job",
         "_ap_invest"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_index_s01",
+      "description": "매매: 지수 적립",
+      "seed": 2026118400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "index",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_index_s02",
+      "description": "매매: 지수 적립",
+      "seed": 2026118401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "index",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_index_s03",
+      "description": "매매: 지수 적립",
+      "seed": 2026118402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "index",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_cycle_s01",
+      "description": "매매: 국면을 읽는 운용",
+      "seed": 2026119400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "cycle",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_cycle_s02",
+      "description": "매매: 국면을 읽는 운용",
+      "seed": 2026119401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "cycle",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_cycle_s03",
+      "description": "매매: 국면을 읽는 운용",
+      "seed": 2026119402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "cycle",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_lev_s01",
+      "description": "매매: 레버리지 추격",
+      "seed": 2026120400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "leverage",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_lev_s02",
+      "description": "매매: 레버리지 추격",
+      "seed": 2026120401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "leverage",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_lev_s03",
+      "description": "매매: 레버리지 추격",
+      "seed": 2026120402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "leverage",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_coin_s01",
+      "description": "매매: 코인 집중",
+      "seed": 2026121400,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "coin",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_coin_s02",
+      "description": "매매: 코인 집중",
+      "seed": 2026121401,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "coin",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
+      ],
+      "survival_policy": {
+        "enter_health_at_or_below": 30,
+        "enter_mental_at_or_below": 30,
+        "resume_health_at_or_above": 45,
+        "resume_mental_at_or_above": 45,
+        "action_priority": [
+          "rest",
+          "contact"
+        ],
+        "function_priority": [
+          "_ap_free_time",
+          "_ap_contact_person"
+        ]
+      },
+      "asset_band_policy": null,
+      "required_event_sequence": [],
+      "required_edges": [],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 1,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": []
+      }
+    },
+    {
+      "id": "trade_coin_s03",
+      "description": "매매: 코인 집중",
+      "seed": 2026121402,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "policy"
+      },
+      "choice_policy": {
+        "explore_rate": 0.15,
+        "effect_weights": {
+          "investment_skill": 1.0,
+          "money": 0.6,
+          "intelligence": 0.3,
+          "mental": 0.1,
+          "addiction_tendency": -1.0
+        },
+        "keyword_weights": {
+          "투자": 3.0,
+          "매수": 3.0,
+          "주식": 3.0,
+          "ETF": 3.0,
+          "부동산": 2.0,
+          "포트폴리오": 2.0,
+          "코인": 1.5,
+          "공부": 1.0,
+          "invest": 2.0,
+          "market_buy": 6.0,
+          "tendency_invest": 1.0,
+          "open_trading": 6.0
+        }
+      },
+      "modal_policy": {
+        "study_type": 0
+      },
+      "race_bets_per_visit": 1,
+      "trading_strategy": "coin",
+      "main_action_priority": [
+        "invest",
+        "study",
+        "save",
+        "apply",
+        "resume",
+        "side_shift",
+        "rest",
+        "contact"
+      ],
+      "main_function_priority": [
+        "_ap_invest",
+        "_ap_study",
+        "_ap_save_money",
+        "_ap_job_hunt",
+        "_ap_write_resume",
+        "_ap_side_job",
+        "_ap_free_time",
+        "_ap_contact_person"
       ],
       "survival_policy": {
         "enter_health_at_or_below": 30,

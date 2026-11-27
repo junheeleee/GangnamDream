@@ -183,26 +183,78 @@ func _drive_main(main: Node) -> bool:
 	return await super(main)
 
 
-## ORDER-839 T1: the trading board. The default strategy (no profile key)
-## puts a quarter of the cash into an index fund each session while it can,
-## then leaves with Escape like a pad player. T4 adds the strategy profiles.
+## ORDER-839 T1/T4: the trading board. Each call places at most one order of
+## this session's plan, then leaves with Escape like a pad player. The plan
+## reads only what the board shows: the cycle on the HUD, the listed assets,
+## cash and holdings. Strategies (profile `trading_strategy`):
+##   default/index  a quarter of the cash into an index fund
+##   cycle          bull: half the cash into tech; bear: sell everything;
+##                  sideways: a quarter into the index
+##   leverage       half the cash into the first 3x product listed, else tech
+##   coin           half the cash into the meme coin or core coin, else index
 func _drive_trading(board: Node) -> void:
-	var target := "kospi_etf"
-	var ids: Array = board.call("_asset_ids")
-	var session_key := "policy_tried_%d" % int(GameState.turn)
-	if int(board.call("orders_left")) > 0 and int(board.get("_session_trades")) == 0 \
-			and not board.has_meta(session_key) and ids.has(target) \
-			and float(GameState.money) * 0.25 >= float(board.call("_min_invest", target,
-				float(GameState.market_prices.get(target, 0.0)))) \
-			and float(GameState.money) >= 300000.0:
-		board.set_meta(session_key, true)
-		board.call("_select", target)
+	var plan_key := "policy_plan_%d" % int(GameState.turn)
+	if not board.has_meta(plan_key):
+		board.set_meta(plan_key, _trading_plan(board))
+	var plan: Array = board.get_meta(plan_key)
+	if int(board.call("orders_left")) > 0 and not plan.is_empty():
+		var order: Array = plan.pop_front()
+		board.set_meta(plan_key, plan)
+		board.call("_select", str(order[1]))
 		await get_tree().process_frame
-		board.call("_do_buy", int(floor(float(GameState.money) * 0.25)))
+		if str(order[0]) == "buy":
+			var amount := int(floor(float(GameState.money) * float(order[2])))
+			var price := float(GameState.market_prices.get(str(order[1]), 0.0))
+			if amount >= int(ceil(float(board.call("_min_invest", str(order[1]), price)))):
+				board.call("_do_buy", amount)
+		else:
+			board.call("_do_sell", float(order[2]))
 		await get_tree().create_timer(0.05).timeout
 		return
 	await _send_key(KEY_ESCAPE)
 	await get_tree().create_timer(0.05).timeout
+
+
+func _trading_plan(board: Node) -> Array:
+	var listed: Array = board.call("_asset_ids")
+	var cash := float(GameState.money)
+	var pick := func(ids: Array) -> String:
+		for aid in ids:
+			if listed.has(aid):
+				return str(aid)
+		return ""
+	var index_id: String = pick.call(["sp500", "kospi_etf"]) if cash >= 2_400_000.0 \
+		else pick.call(["kospi_etf"])
+	var plan: Array = []
+	if cash < 300_000.0 and str(_profile.get("trading_strategy", "index")) != "cycle":
+		return plan
+	match str(_profile.get("trading_strategy", "index")):
+		"cycle":
+			match str(GameState.market_context.get("cycle", "neutral")):
+				"bull":
+					var growth: String = pick.call(["nasdaq", "nvidia", "kospi_etf"])
+					if not growth.is_empty() and cash >= 300_000.0:
+						plan.append(["buy", growth, 0.5])
+				"bear":
+					for aid in GameState.portfolio.keys():
+						if plan.size() < 3:
+							plan.append(["sell", str(aid), 1.0])
+				_:
+					if not index_id.is_empty() and cash >= 300_000.0:
+						plan.append(["buy", index_id, 0.25])
+		"leverage":
+			var lever: String = pick.call(["nasdaq_3x", "kospi_3x", "nasdaq", "kospi_etf"])
+			if not lever.is_empty():
+				plan.append(["buy", lever, 0.5])
+		"coin":
+			var coin: String = pick.call(["meme_coin", "bitcoin"]) if cash >= 4_000_000.0 \
+				else pick.call(["meme_coin", "kospi_etf"])
+			if not coin.is_empty():
+				plan.append(["buy", coin, 0.5])
+		_:
+			if not index_id.is_empty():
+				plan.append(["buy", index_id, 0.25])
+	return plan
 
 
 ## ORDER-834 B2: play a fixed number of hands at the default buy-in and the

@@ -34,6 +34,8 @@ const HABIT_EVENT_IDS := [
 	"habit_portfolio_check", "habit_portfolio_regular",
 ]
 
+## Set by the portfolio habit's delete-the-app choice (ORDER-839 T4).
+const TRADING_APP_DELETED_FLAG := "trading_app_deleted"
 static var _ledger_cache: Dictionary = {}
 
 
@@ -143,7 +145,19 @@ static func _eligible(activity: Dictionary, flags: Dictionary, has_portfolio: bo
 	for flag_id in activity.get("forbids", []):
 		if not waived and bool(flags.get(str(flag_id), false)):
 			return false
-	return not bool(activity.get("portfolio", false)) or has_portfolio
+	if not bool(activity.get("portfolio", false)):
+		return true
+	# "Sell everything and delete the app" closes the trading board for good.
+	if bool(flags.get(TRADING_APP_DELETED_FLAG, false)):
+		return false
+	if has_portfolio:
+		return true
+	# A run that has already used the trading board keeps it while all in
+	# cash: selling out in a bear market must not lock the board (ORDER-839 T4).
+	for flag_id in activity.get("portfolio_or_any", []):
+		if bool(flags.get(str(flag_id), false)):
+			return true
+	return false
 
 
 ## Returns this free week's habit scene ("" for none) and records the offer.

@@ -252,6 +252,9 @@ func open() -> void:
 	if _selected == "" or not ids.has(_selected):
 		_selected = _pick_default()
 	_focus_key = "asset:" + _selected
+	if FULL_STORY_FLOW.is_full_run():
+		# Read by BranchHabit: the board stays reachable while all in cash.
+		GameState.flags["trading_board_opened"] = true
 	BGMPlayer.enter_activity_ambience("office")
 	visible = true
 	for child in get_children():

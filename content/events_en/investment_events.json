@@ -903,7 +903,7 @@
   {
     "id": "habit_portfolio_check",
     "title": "Opening the Account",
-    "description": "On Sunday night he opened the brokerage app. The numbers beside his holdings flickered between red and blue.\n\nAt the bottom of the balance screen sat 'Available to order.' The money in his bank account had moved there unchanged.\n\nHis finger rested on the buy button for a moment.",
+    "description": "On Sunday night he opened the brokerage app. The numbers beside his watchlist flickered between red and blue.\n\nAt the bottom of the balance screen sat 'Available to order.' The money in his bank account had moved there unchanged.\n\nHis finger rested on the buy button for a moment.",
     "choices": [
       {
         "text": "Open the order screen",
@@ -918,7 +918,7 @@
   {
     "id": "habit_portfolio_regular",
     "title": "The Order Book at Dawn",
-    "description": "Three in the morning, an hour before the US close. The screen threw a square of light onto the ceiling.\n\nHe opened and closed the app several times a day now. His holdings had moved a few hundred thousand won since yesterday.\n\nIn the top right corner a new badge had appeared: 'Leveraged products enabled.'",
+    "description": "Three in the morning, an hour before the US close. The screen threw a square of light onto the ceiling.\n\nHe opened and closed the app several times a day now. The prices on his watchlist had moved a long way since yesterday.\n\nIn the top right corner a new badge had appeared: 'Leveraged products enabled.'",
     "choices": [
       {
         "text": "Scroll the order book all the way down",

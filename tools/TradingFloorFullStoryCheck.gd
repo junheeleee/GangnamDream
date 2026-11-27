@@ -6,7 +6,9 @@ extends Node
 ## ratios and sells holding ratios, only assets the story has opened are
 ## listed (a holding always stays), the hidden low-mental fee is capped, the
 ## chart keeps sixty months, and the session summary is what MainGame
-## receipts. Outside a full run the board still spends action points.
+## receipts. A run that has used the board keeps it while all in cash, and
+## deleting the app closes it. Outside a full run the board still spends
+## action points.
 
 const FLOW := preload("res://systems/FullStoryFlow.gd")
 const HABIT := preload("res://systems/BranchHabit.gd")
@@ -85,6 +87,21 @@ func _check_activity_source() -> void:
 			_expect(go.size() == 1 and int(go[0]) == 0, "portfolio go index is not the open choice")
 	_expect(HABIT._gap_after_go(habit_ledger, {"id": "racetrack"}) == 1,
 		"the shared return gap changed for other activities")
+	var portfolio: Dictionary = {}
+	for raw in habit_ledger.get("activities", []):
+		if str((raw as Dictionary).get("id", "")) == "portfolio":
+			portfolio = raw
+	var lesson := {"investment_lesson_1": true}
+	_expect(not HABIT._eligible(portfolio, lesson, false), "the board is offered before any holding or visit")
+	_expect(HABIT._eligible(portfolio, lesson, true), "a holding does not open the board")
+	_expect(HABIT._eligible(portfolio, {"investment_lesson_1": true, "trading_board_opened": true}, false),
+		"a trader all in cash loses the board")
+	_expect(not HABIT._eligible(portfolio, {"investment_lesson_1": true,
+		"trading_board_opened": true, "trading_app_deleted": true}, true),
+		"deleting the app does not close the board")
+	var regular: Dictionary = DataRegistry.find_event("habit_portfolio_regular")
+	var leave: Array = ((regular.get("choices", []) as Array)[1] as Dictionary).get("flags", [])
+	_expect(leave.has("trading_app_deleted"), "the delete-the-app choice does not record it")
 
 
 func _check_unlocks() -> void:
@@ -124,6 +141,7 @@ func _check_full_run_session() -> void:
 	board.open()
 	await get_tree().process_frame
 	_expect(board.visible and int(board.call("orders_left")) == 3, "a session does not open with three orders")
+	_expect(bool(GameState.flags.get("trading_board_opened", false)), "opening the board is not recorded")
 	_expect(not (board.call("_asset_ids") as Array).has("bitcoin"), "a locked asset is listed")
 	board.call("_select", "kospi_etf")
 	var cash := float(GameState.money)

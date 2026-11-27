@@ -60,7 +60,9 @@ POLICIES: dict[str, dict] = {
         "keyword_weights": {"투자": 3.0, "매수": 3.0, "주식": 3.0, "ETF": 3.0, "부동산": 2.0,
                             "포트폴리오": 2.0, "코인": 1.5, "공부": 1.0, "invest": 2.0,
                             # 834 B1: a choice that really buys, or builds investor identity.
-                            "market_buy": 6.0, "tendency_invest": 1.0},
+                            "market_buy": 6.0, "tendency_invest": 1.0,
+                            # 839 T1: a choice that opens the trading board.
+                            "open_trading": 6.0},
     },
     "gamble": {
         "description": "도박: 834 B 결정 일관",
@@ -95,6 +97,17 @@ POLICIES: dict[str, dict] = {
     },
 }
 
+# ORDER-839 T4: trading-board strategies on the investment policy's choices.
+# The driver reads only what the board shows (cycle, unlocked assets, cash).
+TRADING_STRATEGIES = {
+    "trade_index": ("매매: 지수 적립", "index"),
+    "trade_cycle": ("매매: 국면을 읽는 운용", "cycle"),
+    "trade_lev": ("매매: 레버리지 추격", "leverage"),
+    "trade_coin": ("매매: 코인 집중", "coin"),
+}
+for _name, (_description, _strategy) in TRADING_STRATEGIES.items():
+    POLICIES[_name] = dict(POLICIES["invest"], description=_description, trading_strategy=_strategy)
+
 
 def build_profiles(seeds: int, explore: float) -> dict:
     rows = []
@@ -115,6 +128,7 @@ def build_profiles(seeds: int, explore: float) -> dict:
                 },
                 "modal_policy": {"study_type": 0},
                 "race_bets_per_visit": 3 if name == "gamble" else 1,
+                **({"trading_strategy": spec["trading_strategy"]} if "trading_strategy" in spec else {}),
                 "main_action_priority": actions,
                 "main_function_priority": [ACTION_FUNCS[a] for a in actions],
                 "survival_policy": None if name == "overreach" else {
@@ -330,7 +344,16 @@ def main() -> int:
     r.add_argument("--timeout", type=int, default=6000)
     s = sub.add_parser("summary")
     s.add_argument("--out", type=Path, required=True)
+    sub.add_parser("check", help="the committed profiles equal a fresh `profiles` build")
     args = ap.parse_args()
+    if args.cmd == "check":
+        expected = json.dumps(build_profiles(3, 0.15), ensure_ascii=False, indent=2) + "\n"
+        if PROFILES.read_text(encoding="utf-8") != expected:
+            print("FULL_STORY_POLICY_PROFILES_STALE: run `profiles` and commit", file=sys.stderr)
+            return 1
+        count = len(json.loads(expected)["profiles"])
+        print(f"FULL_STORY_POLICY_PROFILES_OK profiles={count}")
+        return 0
     if args.cmd == "profiles":
         PROFILES.write_text(json.dumps(build_profiles(args.seeds, args.explore), ensure_ascii=False,
                                        indent=2) + "\n", encoding="utf-8")

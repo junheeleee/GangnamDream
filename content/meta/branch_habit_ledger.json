@@ -1,5 +1,5 @@
 {
-  "_doc": "ORDER-834 B2.5 free-week habit visits. Read only by systems/BranchHabit.gd. Once a full run has entered an activity (requires_any / requires_all, none of forbids, and a holding when portfolio is true), a free full-story week may offer one short habit scene. After a week the player went (a choice index in that event's `go`), the activity calls again on the next free week, at most max_streak times in a row, then waits return_gap_after_streak weeks, and calls at most max_calls_per_year times in a story year; after a refusal it waits return_gap_after_skip weeks. An activity's own return_gap_after_go overrides the shared one: the trading board's prices move once a month, so the portfolio calls again after 4 weeks at the earliest (ORDER-839 T1). `visits` counts the weeks the player went; at habitual_visits the regular variant replaces the first one. rest_weeks stay quiet (mourning, finale). A forbids flag stops an activity unless a forbids_unless flag is set: recovery locks gambling until a relapse, as the AP surface did.",
+  "_doc": "ORDER-834 B2.5 free-week habit visits. Read only by systems/BranchHabit.gd. Once a full run has entered an activity (requires_any / requires_all, none of forbids, and a holding when portfolio is true), a free full-story week may offer one short habit scene. After a week the player went (a choice index in that event's `go`), the activity calls again on the next free week, at most max_streak times in a row, then waits return_gap_after_streak weeks, and calls at most max_calls_per_year times in a story year; after a refusal it waits return_gap_after_skip weeks. An activity's own return_gap_after_go overrides the shared one: the trading board's prices move once a month, so the portfolio calls again after 4 weeks at the earliest (ORDER-839 T1). `portfolio_or_any` keeps a holding-only activity open for a run with one of those flags (a trader all in cash still has the board); deleting the app (trading_app_deleted, read in BranchHabit) closes a portfolio activity. `visits` counts the weeks the player went; at habitual_visits the regular variant replaces the first one. rest_weeks stay quiet (mourning, finale). A forbids flag stops an activity unless a forbids_unless flag is set: recovery locks gambling until a relapse, as the AP surface did.",
   "return_gap_after_go": 1,
   "return_gap_after_skip": 4,
   "max_streak": 2,
@@ -42,6 +42,7 @@
       "id": "portfolio",
       "requires_all": ["investment_lesson_1"],
       "portfolio": true,
+      "portfolio_or_any": ["trading_board_opened"],
       "return_gap_after_go": 4,
       "events": [
         {"event_id": "habit_portfolio_check", "go": [0]},
