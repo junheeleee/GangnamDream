@@ -4,7 +4,7 @@
 
 > 2026-11-25 Claude 착수(사용자 지시, Codex 부재) — **B1의 M1 경고 보장만**. 만지는 파일: `systems/BodyBandScenes.gd`(신규), `scenes/MainGame.gd`의 주간 라우팅 한 곳(`_full_story_body_band_scene_id`·preload), `tools/BodyBandScenesCheck.*`(신규), `tools/audit_scope.json`, 이 사양·큐·WORK_LOG. M2 선택 조건 키(엔진, `StoryMode`)와 B2는 Codex 몫으로 남긴다(W188 `StoryMode.gd` 충돌 회피).
 
-> **[~] 2026-11-27 Claude B2 몸 기울기 착수(사용자 승인, Codex 부재).** 쉬는 선택은 몇 주간 회복, 버티는 선택은 몇 주간 소모(정식 런 주간), 월초 건강 위기는 토스트 대신 다음 빈 주의 몸 장면. 만지는 파일: `systems/BodyTide.gd`(신규), `content/meta/body_tide_ledger.json`(신규), `scenes/MainGame.gd`(주 진행 한 곳·월초 위기 정식 런 분기·빈 주 라우팅 한 곳·preload), `tools/BodyTideCheck.*`(신규), `tools/audit_scope.json`, 이 사양·큐·WORK_LOG·BALANCE·DECISIONS. 체험판 루틴 수치·`FullStoryFlow` 영수증·`StoryMode`는 손대지 않는다.
+> **[x] 2026-11-27 Claude B2 몸 기울기 완료(사용자 승인, Codex 부재, 결과 아래).** 쉬는 선택은 몇 주간 회복, 버티는 선택은 몇 주간 소모(정식 런 주간), 월초 건강 위기는 토스트 대신 다음 빈 주의 몸 장면. 만지는 파일: `systems/BodyTide.gd`(신규), `content/meta/body_tide_ledger.json`(신규), `scenes/MainGame.gd`(주 진행 한 곳·월초 위기 정식 런 분기·빈 주 라우팅 한 곳·preload), `tools/BodyTideCheck.*`(신규), `tools/audit_scope.json`, 이 사양·큐·WORK_LOG·BALANCE·DECISIONS. 체험판 루틴 수치·`FullStoryFlow` 영수증·`StoryMode`는 손대지 않는다.
 
 2026-11-24 사용자 결정(풀프라이스 짜임새·일정 연기). 기준은 [SYSTEMS_DESIGN §3](../SYSTEMS_DESIGN.md)이 소유한다.
 설계: Claude(이 사양). 구현·연출·번역: Codex. 833 뒤 착수한다(834와 병행 가능, 파일 소유 분리).
@@ -106,6 +106,13 @@
 - **권고(B2·835, 수치는 `[첫 실행 재조정]`)**: ① 회복 루틴을 고정 +1이 아니라 이야기의 휴식·밤샘 결정이 바꾸는 값으로 — 직장인도 밤샘·부업을
   고르면 기울기가 음수가 되게. ② 무직 생계 −1은 유지하되 회복 결정(M1 휴식 선택)이 몇 주간 기울기를 0 이상으로 돌리게.
   ③ `health_crisis`는 토스트 수치 타격 대신 다음 빈 주의 몸 장면(M1)으로 보이게 한다. 데모 승인 루틴 수치는 체험판 바이트 밖에서만 바꾼다.
+
+## B2 몸 기울기 결과 — 2026-11-27 (Claude)
+
+- **장치:** `systems/BodyTide.gd`·`content/meta/body_tide_ledger.json`. 몸 장면 10개의 쉬기 선택은 그 주부터 6주 +2/주, 버티기(무리) 선택은 6주 −1/주. 미루기·방치는 버티기가 아니다. 월초 건강 위기는 즉시 피해·알림을 유지하고 다음 빈 주에 몸 장면 1개(건강 40 미만에서만 번아웃 장면). `BodyTideCheck`.
+- **실측(`c4c9a062`~`fa28bbfc`):** 무리 정책 s01 번아웃 W79 → **W181**(W29·W98 쉬기 선택이 실제로 건강을 되올림). 성실·회복 정책은 건강 최저 62·끝 98로 변화 없음. 무직 도박 s02는 W35~W47 번아웃으로 전(W60)보다 이르다 — 직장도 쉼도 고르지 않는 정책이 버티기를 두 번 골랐고 위기 시점에 따라 흔들린다(1런, 단정 불가).
+- **철회한 안:** 위기 피해를 장면까지 미룸 → 1년 차 W9~W31에 빈 주가 없어 위기 셋이 W32에 −38로 몰림. 되돌림.
+- **남은 것:** ① 직장 있는 런 건강 100 고착(기본 회복 수치 = 엔딩 분포 결정, 사용자), ② 1년 차 이야기 밀집 구간에 몸 장면 자리 없음(한 주 한 장면, 빈 주 배정 정리 때), ③ 무직 런 회복 결정 장면(Codex).
 
 ## 배치
 
