@@ -73,26 +73,27 @@
 | 4 | [~] | ORDER-836 · 몸·마음 독자 | [836](queue_active/ORDER-836.md) | 833 뒤 · SYSTEMS_DESIGN §3 · Claude B1-M1·B2 몸 기울기 착수 |
 | 5 | [~] | ORDER-837 · 공백 주 리듬 | [837](queue_active/ORDER-837.md) | 834·835 뒤 · SYSTEMS_DESIGN §4 · Claude B1 회수 스케줄러 착수 |
 | 6 | [ ] | ORDER-838 · 엔딩 도달·재플레이 | [838](queue_active/ORDER-838.md) | 834~837 뒤 · SYSTEMS_DESIGN §5 |
-| 7 | [~] | ORDER-829 · 체험판 M01~M06 품질 | [829](queue_active/ORDER-829.md) | 830 뒤 체험판 사람 1명 1시간 |
-| 8 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 새 번역 일시 중지 · #41/#42 병합 |
-| 9 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 10 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 11 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 12 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 13 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 14 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 15 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 16 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 17 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 18 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 19 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
-| 20 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 7 | [ ] | ORDER-839 · 투자 매매 화면 | [839](queue_active/ORDER-839.md) | PR #44 병합 뒤 · 설계 완료(Claude) · 구현 Codex |
+| 8 | [~] | ORDER-829 · 체험판 M01~M06 품질 | [829](queue_active/ORDER-829.md) | 830 뒤 체험판 사람 1명 1시간 |
+| 9 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 새 번역 일시 중지 · #41/#42 병합 |
+| 10 | [~] | ORDER-149 · 프롤로그 세 비트의 강조·리듬 | [149](queue_active/ORDER-149.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 11 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 12 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 13 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 14 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 15 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 16 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 17 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 18 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 19 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 20 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
+| 21 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | 출시 후 보류 · 잔여 의무는 5조건 밖 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
-| 25 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | 목록·삭제0 |
-| 26 | [~] | ORDER-828 · 문서·큐·에셋 | [828](queue_active/ORDER-828.md) | 문서와 에셋 목록 |
-| 27 | [~] | ORDER-731 · 연속 대표 플레이 | [731](queue_active/ORDER-731.md) | M60 완료 · 사람 검수 별도 |
+| 26 | [~] | ORDER-827 · 레거시 목록 | [827](queue_active/ORDER-827.md) | 목록·삭제0 |
+| 27 | [~] | ORDER-828 · 문서·큐·에셋 | [828](queue_active/ORDER-828.md) | 문서와 에셋 목록 |
+| 28 | [~] | ORDER-731 · 연속 대표 플레이 | [731](queue_active/ORDER-731.md) | M60 완료 · 사람 검수 별도 |
 
 
 
