@@ -4774,6 +4774,18 @@
       ]
     },
     {
+      "tool": "tools/BodyTideCheck.tscn",
+      "godot": true,
+      "why": "836 B2 몸 기울기: 원장 선택 실재, 쉬기 6주 회복·버티기 6주 소모, 최신 선택 교체, 같은 주 1회, 월초 위기 → 다음 빈 주 몸 장면 1개(미사용 먼저·오래된 순), 저장 왕복, 정식 런 한정",
+      "paths": [
+        "systems/BodyTide.gd",
+        "content/meta/body_tide_ledger.json",
+        "scenes/MainGame.gd",
+        "tools/BodyTideCheck.gd",
+        "tools/BodyTideCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/EasterEggRouteCheck.tscn",
       "godot": true,
       "why": "본편 이스터에그: 원장 8개 실재·자기 플래그로 1회, 자기 조건이 맞을 때만 빈 주에 원장 순서·6주 간격·애도/종막 쉼·저장 왕복, 실제 EventManager 조건 판정",

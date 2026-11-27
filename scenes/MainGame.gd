@@ -9,6 +9,7 @@ const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
 const FULL_STORY_FLOW = preload("res://systems/FullStoryFlow.gd")
 const BODY_BAND_SCENES = preload("res://systems/BodyBandScenes.gd")
+const BODY_TIDE = preload("res://systems/BodyTide.gd")
 const RHYTHM_RECALL = preload("res://systems/RhythmRecall.gd")
 const INVEST_BRANCH_BEATS = preload("res://systems/InvestBranchBeats.gd")
 const GAMBLE_BRANCH_BEATS = preload("res://systems/GambleBranchBeats.gd")
@@ -722,6 +723,7 @@ func _full_story_advance_week(expected_turn: int) -> bool:
 		return false
 	if not FULL_STORY_FLOW.apply_background_for_turn(expected_turn):
 		return false
+	_full_story_apply_body_tide(expected_turn)
 	if GameState.is_game_over:
 		# Real fatal state is not the demo's reset-to-survival behavior.
 		if not _full_story_resume_ending():
@@ -6927,6 +6929,11 @@ func _begin_month_story_and_render():
 		if body_id != "":
 			_go_story_mode([body_id])
 			return
+		# 월초 건강 위기가 온 런은 다음 빈 주에 그 몸에 답하는 장면 하나(836 B2).
+		var crisis_id := _full_story_body_crisis_scene_id()
+		if crisis_id != "":
+			_go_story_mode([crisis_id])
+			return
 		# 상철의 첫 수업에서 투자를 고른 런의 1~2년 차 투자 장면 하나(834 B1).
 		var invest_id := _full_story_invest_beat_id()
 		if invest_id != "":
@@ -7068,6 +7075,25 @@ func _full_story_body_band_scene_id() -> String:
 		not GameState.current_job.is_empty(),
 		func(event_id: String) -> bool:
 			return not DataRegistry.find_event(event_id).is_empty())
+
+
+func _full_story_body_crisis_scene_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return BODY_TIDE.take_crisis_scene(
+		GameState.flags,
+		int(GameState.turn),
+		func(event_id: String) -> bool:
+			return not DataRegistry.find_event(event_id).is_empty())
+
+
+func _full_story_apply_body_tide(expected_turn: int) -> void:
+	# Full run only: a rest or strain choice tilts the next weeks (836 B2).
+	if not FULL_STORY_FLOW.is_full_run():
+		return
+	var delta := BODY_TIDE.take_week(GameState.flags, expected_turn, GameState.event_log)
+	if delta != 0:
+		GameState.modify_stat("health", delta)
 
 
 func _full_story_invest_beat_id() -> String:
@@ -9320,7 +9346,11 @@ func _apply_monthly_event(ev: Dictionary):
 			var hp_dmg = int(ev.get("hp", 10))
 			GameState.modify_stat("health", -hp_dmg)
 			GameState.modify_hidden_stat("stress", 12)
-			_show_toast("%s — %s" % [title, desc], color)
+			if FULL_STORY_FLOW.is_full_run():
+				# The full story answers the body with a scene, not a toast (836 B2).
+				BODY_TIDE.queue_crisis(GameState.flags, int(GameState.turn))
+			else:
+				_show_toast("%s — %s" % [title, desc], color)
 			GameState.add_log(desc, "system")
 
 # ── 쌓인 능력이 세계를 다르게 보이게 하는 순간 ───────────────────────

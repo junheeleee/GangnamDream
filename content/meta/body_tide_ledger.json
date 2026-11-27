@@ -1,0 +1,19 @@
+{
+  "_doc": "ORDER-836 B2 body tide. Read only by systems/BodyTide.gd. In a full run, a choice listed here sets the body's weekly tide for `weeks` weeks after the week it was chosen: rest adds health, strain takes it, on top of the automatic routine. The latest listed choice replaces the earlier tide. A full-run monthly health crisis no longer shows a toast; the next free week plays the first crisis scene not yet used (then the oldest), so the player answers it. Values are [첫 실행 재조정].",
+  "weeks": 6,
+  "rest_health": 2,
+  "strain_health": -2,
+  "crisis_scenes": ["health_burnout_signal", "health_checkup_00", "health_sleep_debt", "health_checkup_reminder"],
+  "choices": [
+    {"event_id": "health_sleep_debt", "rest": [0], "strain": [1]},
+    {"event_id": "health_checkup_reminder", "rest": [0], "strain": []},
+    {"event_id": "health_checkup_00", "rest": [0, 2], "strain": [1]},
+    {"event_id": "health_burnout_signal", "rest": [0, 2], "strain": [1]},
+    {"event_id": "health_insomnia", "rest": [0, 2], "strain": [1]},
+    {"event_id": "health_mental_burnout_signal", "rest": [0], "strain": [1]},
+    {"event_id": "work_burnout_monday", "rest": [0], "strain": [1]},
+    {"event_id": "drama_burnout_warning", "rest": [0, 2], "strain": [1]},
+    {"event_id": "arc_36_body_signal", "rest": [0, 1], "strain": [2]},
+    {"event_id": "arc_35_habit_check", "rest": [2], "strain": [0]}
+  ]
+}
