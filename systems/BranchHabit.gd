@@ -6,14 +6,17 @@ extends RefCounted
 ## entered the racetrack, the hold'em room, Jeongseon or a brokerage account, a
 ## free week may offer one short habit scene. Going opens the real minigame or a
 ## real trade; refusing is always a choice. An activity the player went to calls
-## again on the next free week; a refusal buys return_gap_after_skip quiet weeks.
+## again on the next free week, up to max_streak calls in a row; then it waits
+## return_gap_after_streak weeks so the same prose never runs for a month. A
+## refusal buys return_gap_after_skip quiet weeks.
 ## After habitual_visits weeks the regular variant (heavier cost) replaces the first.
 ##
 ## Deterministic (no RNG). Whether the player went is read back from the event log
 ## (the offered event's choice index on the offered turn). State lives in one flag
 ## read and written only here:
 ##   flags["branch_habit_state"] = {
-##     "offers": {activity: {"turn": int, "event": id, "settled": bool, "went": bool}},
+##     "offers": {activity: {"turn": int, "event": id, "settled": bool, "went": bool,
+##                           "streak": int}},
 ##     "visits": {activity: int}}
 
 const LEDGER_PATH := "res://content/meta/branch_habit_ledger.json"
@@ -147,9 +150,12 @@ static func take_scene(flags: Dictionary, turn: int, has_portfolio: bool, event_
 		var offer: Variant = offers.get(activity_id, null)
 		if offer is Dictionary:
 			last = int((offer as Dictionary).get("turn", -100))
-			gap = int(source.get("return_gap_after_go", 1)) \
-				if bool((offer as Dictionary).get("went", false)) \
-				else int(source.get("return_gap_after_skip", 4))
+			if not bool((offer as Dictionary).get("went", false)):
+				gap = int(source.get("return_gap_after_skip", 4))
+			elif int((offer as Dictionary).get("streak", 1)) >= int(source.get("max_streak", 2)):
+				gap = int(source.get("return_gap_after_streak", 3))
+			else:
+				gap = int(source.get("return_gap_after_go", 1))
 		if turn - last < gap or turn == last:
 			continue
 		if best.is_empty() or last < best_last:
@@ -168,7 +174,14 @@ static func take_scene(flags: Dictionary, turn: int, has_portfolio: bool, event_
 	if chosen.is_empty() or not HABIT_EVENT_IDS.has(chosen) \
 			or not bool(event_exists.call(chosen)):
 		return ""
-	offers[activity_id] = {"turn": turn, "event": chosen, "settled": false, "went": false}
+	var streak := 1
+	var previous: Variant = offers.get(activity_id, null)
+	if previous is Dictionary and bool((previous as Dictionary).get("went", false)) \
+			and turn - int((previous as Dictionary).get("turn", -100)) \
+				<= int(source.get("return_gap_after_go", 1)) + 1:
+		streak = int((previous as Dictionary).get("streak", 1)) + 1
+	offers[activity_id] = {"turn": turn, "event": chosen, "settled": false, "went": false,
+		"streak": streak}
 	state["offers"] = offers
 	flags[STATE_FLAG] = state
 	return chosen

@@ -23,7 +23,7 @@
 `content/events/arc_addiction_recovery.json`·오버레이 4언어(바닥 별세 변형 신규·정합/문체), `content/meta/branch_habit_ledger.json`,
 `systems/BranchHabit.gd`, `scenes/MainGame.gd`(빈 주 라우팅 한 곳), `tools/AddictionArcCheck.*`(신규), 등록 원장들.
 
-**[~] 착수 — Claude B3 두 갈래 3~4년 차(사용자 지시 2026-11-27).** 만지는 파일: `systems/BranchBeats.gd`(중독·시장 국면·손익률·상철 단계·성향 조건),
+**[x] 완료 — Claude B3 두 갈래 3~4년 차(사용자 지시 2026-11-27, 결과 아래).** 만지는 파일: `systems/BranchBeats.gd`(중독·시장 국면·손익률·상철 단계·성향 조건),
 `systems/InvestBranchBeats.gd`·`systems/GambleBranchBeats.gd`(문맥 전달), `content/meta/invest_branch_ledger.json`·`gamble_branch_ledger.json`,
 `scenes/MainGame.gd`(문맥 전달 두 곳), 재사용 사건 13개의 매매 키·5언어 문체/정합(`investment_events`·`drama_events`·`racetrack_events`·`holdem_events`·`life_events`),
 `tools/InvestBranchBeatsCheck`·`GambleBranchBeatsCheck`, 등록 원장들, `docs/BALANCE.md`. 판돈 상한은 올리지 않는다.
@@ -46,6 +46,8 @@
   미니게임 판돈(세션당 슬롯 5회·홀덤 3핸드)이 작아 1~2년 차 도박은 돈을 거의 움직이지 않는다. 큰돈·파산은 B3·B4 몫.
 - **B2.5 습관 방문 실측(`5ee97fa6`, 도박 2·투자 1):** 도박 s01 W33·37 감·W38 거절·W43·44·47 감·W51 습관 변형, s03 홀덤 4회(W61~67)·정선 5회(W79~98)·W99 습관 변형. 두 도박 런 모두 중독 90 즉시 종료(W51·W108)로 끝나 B2.6을 열었다.
 - **B2.6 바닥·회복 실측(`4d23f527`, 도박 3런, 정지 0):** s01 W46 바닥→"한 판만 더"→W54 파멸, s03 W107 바닥→"한 판만 더"→W109 파멸, s02 W44 바닥→도움→W45 회복 첫 주→W51 재발 시험에서 재발→습관 재개(W64 무직 번아웃, 836 B2 몫). 장면 없는 중독 종료 0. 이스터에그 실노출(W54 삼각김밥). 도박 정책은 중독을 선호해 회복 완주 런은 아직 없다(`AddictionArcCheck`가 단계 간격을 덮는다).
+- **B3 실측(`9d3d36a6`, 투자 2·도박 1, 정지 0):** 투자 s01 W131 회색지대 → W142 폭락(분할 매수), s02 W99 폭락 → W103 상철 경고 → W109 회색지대. M60 6,249만/5,424만원으로 B1 대역보다 낮고 두 런 모두 4년 차에 보유를 정리한다(갈림 없음, B4·835). 도박 s02는 W60 무직 번아웃(836 B2)이라 3~4년 차 도박은 `GambleBranchBeatsCheck`만 덮는다.
+- **습관 연속 상한:** 같은 계좌 습관 문장이 최대 5주 연속(s02 45장면) → 같은 활동 연속 2주 뒤 3주 쉼(`BranchHabit`·원장·검사). 상태별 문장 변주는 다음 후보.
 - **남은 일(Codex):** `ManualSaveCheck`에 홀덤·정선 영수증과 "지난 주 닫힌 경마장 + 이번 주 정선 대기" 경우 추가(W188 범위라
   Claude는 손대지 않음), 활동 진입·복귀 `ScreenshotQA`, B3~B5.
 

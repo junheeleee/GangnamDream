@@ -1,7 +1,7 @@
 extends Node
 ## ORDER-834 B2.5 regression: free-week habit visits. An activity calls only
 ## after the player entered it, comes back on the next free week after a week
-## the player went and waits after a refusal, turns habitual after enough visits,
+## the player went (at most twice in a row, then a rest) and waits after a refusal, turns habitual after enough visits,
 ## stays quiet in mourning/finale weeks, honors the quit flags and the holding
 ## premise, rotates between activities, survives a JSON save, and every habit
 ## scene's "go" choice really opens its minigame or a real trade.
@@ -19,13 +19,14 @@ func _ready() -> void:
 	_check_habitual_variant()
 	_check_rest_quit_and_holding()
 	_check_rotation()
+	_check_streak_cap()
 	_check_json_round_trip()
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("BRANCH_HABIT_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("BRANCH_HABIT_CHECK_OK activities=%d events=%d cadence=3 habitual=1 rest=1 quit=1 holding=1 rotation=1 json=1" % [
+	print("BRANCH_HABIT_CHECK_OK activities=%d events=%d cadence=3 streak=1 habitual=1 rest=1 quit=1 holding=1 rotation=1 json=1" % [
 		(HABIT.ledger().get("activities", []) as Array).size(), HABIT.HABIT_EVENT_IDS.size()])
 	get_tree().quit(0)
 
@@ -118,7 +119,7 @@ func _check_habitual_variant() -> void:
 	var flags := {"holdem_visited": true}
 	var log: Array = []
 	var seen: Array = []
-	for turn in range(60, 66):
+	for turn in [60, 61, 64, 65, 68, 69]:
 		var scene := HABIT.take_scene(flags, turn, false, log, _always)
 		seen.append(scene)
 		log.append(_log(scene, turn, 0))
@@ -149,6 +150,29 @@ func _check_rotation() -> void:
 		"two open activities did not take turns: %s, %s" % [first, second])
 
 
+func _check_streak_cap() -> void:
+	var flags := {"investment_lesson_1": true}
+	var log: Array = []
+	var seen: Array = []
+	for turn in range(136, 144):
+		var scene := HABIT.take_scene(flags, turn, true, log, _always)
+		seen.append(scene)
+		if not scene.is_empty():
+			log.append(_log(scene, turn, 0))
+	var played: Array = seen.map(func(id): return 0 if str(id).is_empty() else 1)
+	_expect(played == [1, 1, 0, 0, 1, 1, 0, 0],
+		"the same habit ran more than twice in a row or the rest was wrong: %s" % str(seen))
+	var skipped := {"racetrack_visited": true}
+	HABIT.take_scene(skipped, 30, false, [], _always)
+	HABIT.take_scene(skipped, 31, false, [_log("habit_race_saturday", 30, 0)], _always)
+	var after_gap := HABIT.take_scene(skipped, 36, false,
+		[_log("habit_race_saturday", 30, 0), _log("habit_race_saturday", 31, 0)], _always)
+	var state: Dictionary = skipped[HABIT.STATE_FLAG]
+	_expect(after_gap == "habit_race_saturday"
+			and int(((state["offers"] as Dictionary)["racetrack"] as Dictionary)["streak"]) == 1,
+		"a call after a long quiet stretch did not start a new streak")
+
+
 func _check_json_round_trip() -> void:
 	var flags := {"racetrack_visited": true}
 	HABIT.take_scene(flags, 50, false, [], _always)
@@ -157,6 +181,8 @@ func _check_json_round_trip() -> void:
 	_expect(HABIT.visits(restored, "racetrack") == 1, "visits did not survive a JSON save")
 	_expect(HABIT.take_scene(restored, 51, false, [], _always) == "",
 		"a JSON save let the same week offer twice")
-	_expect(HABIT.take_scene(restored, 52, false, [_log("habit_race_saturday", 51, 0)], _always)
+	_expect(HABIT.take_scene(restored, 52, false, [_log("habit_race_saturday", 51, 0)], _always) == "",
+		"a JSON save lost the streak rest")
+	_expect(HABIT.take_scene(restored, 54, false, [_log("habit_race_saturday", 51, 0)], _always)
 			== "habit_race_saturday",
 		"a JSON save lost the go cadence")
