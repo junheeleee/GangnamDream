@@ -57,6 +57,8 @@ PEAK_ROOTS = (
     ("The Mirror Receipt", "arc_sangchul_mirror"),
 )
 
+PEAK_ROOT_IDS = frozenset(event_id for _, event_id in PEAK_ROOTS)
+
 MIN_LINKS = 2
 MAX_LINKS = 4
 MIN_DECISIONS = 2
@@ -202,9 +204,11 @@ def walk_paths(
             base.dialogue_turns + dialogue_count(choice.get("result_text")),
         )
         follow_up = str(choice.get("follow_up_event", "")).strip()
-        if follow_up:
+        if follow_up and follow_up not in PEAK_ROOT_IDS:
             paths.extend(walk_paths(events, follow_up, selected, stack + (event_id,)))
         else:
+            # A follow-up into another named peak (the wedding aisle into the
+            # wedding night) starts that peak; it is measured on its own root.
             paths.append(selected)
     return paths
 
@@ -1195,7 +1199,14 @@ def validate_home_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
 
 
 def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
-    """Preserve the paid ceremony variant and canonical aisle decision."""
+    """Preserve the paid ceremony variant and canonical aisle decision.
+
+    The aisle decision continues straight into the wedding night the same
+    week (QA 2026-11-27, user-approved): the night opens "after the wedding"
+    but the arc router could only offer it a week or two later. The night is
+    its own peak root, so the ceremony stays a four-link peak and the night's
+    links are pinned by its separate contract.
+    """
     root_id = "arc_daeun_wedding_day"
     final_id = "arc_daeun_wedding_aisle"
     expected_path = (
@@ -1204,6 +1215,7 @@ def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
         "arc_daeun_wedding_walk",
         "arc_daeun_wedding_aisle",
     )
+    night_id = "arc_daeun_wedding_night"
     paths = walk_paths(events, root_id)
     for path in paths:
         if path.event_ids != expected_path:
@@ -1211,6 +1223,9 @@ def validate_daeun_wedding_contract(events: dict[str, dict[str, Any]]) -> None:
                 "Daeun wedding path must retain the four-link reaction/aisle chain: "
                 f"{' -> '.join(path.event_ids)}"
             )
+    for choice in events[final_id].get("choices") or []:
+        if choice.get("follow_up_event") != night_id:
+            raise ValueError("Daeun wedding aisle choices must continue into the wedding night")
 
     protected_flags = {
         "arc_daeun_wedding_day_seen",

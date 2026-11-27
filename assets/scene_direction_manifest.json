@@ -3253,6 +3253,13 @@
       "reduced_motion": "static_update",
       "from_surface": "cafe"
     },
+    "arc_daeun_wedding_aisle->arc_daeun_wedding_night": {
+      "mode": "explicit_move",
+      "to_surface": "daeun_newlywed_home",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "from_surface": "wedding_hall"
+    },
     "arc_daeun_wedding_day->arc_daeun_wedding_groom_side": {
       "mode": "same_location",
       "to_surface": "wedding_hall",

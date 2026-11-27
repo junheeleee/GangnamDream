@@ -2,9 +2,9 @@
   "schema_version": 1,
   "scope": {
     "root_count": 381,
-    "exposed_count": 532,
+    "exposed_count": 536,
     "root_ids_sha256": "7acaeed6021b32d95f5cae1dfd4b1f09e3fc7090d135c988bab7714018251917",
-    "exposed_ids_sha256": "6bbd45effe1b3a05c5c475e4dc8b1a377b72393df1d9a5cbf417680da934743c"
+    "exposed_ids_sha256": "80c5f479c1ab895d911eb42f3a5d221a3c835acd4cdbf730a6f15e3e79f14041"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -436,6 +436,26 @@
       "relationship"
     ],
     "arc_daeun_wedding_day": [
+      "relationship"
+    ],
+    "arc_daeun_wedding_night": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_wedding_night_choice": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_wedding_night_honest": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_wedding_night_tea": [
+      "housing",
+      "location",
       "relationship"
     ],
     "arc_daeun_wedding_groom_side": [
