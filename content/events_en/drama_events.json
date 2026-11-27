@@ -585,11 +585,11 @@
     "description": "2 a.m. again. Checking betting results, and it got this late.\n\nTurned off the screen and sat blankly, then happened to look in the mirror.\nAn unfamiliar face was there.\n\nWhen did this start. That 'just one more time' has\nconsumed this many nights.",
     "choices": [
       {
-        "text": "Admit it — \"I think something's off with me lately\"",
+        "text": "Admit it. \"I think something's off with me lately\"",
         "result_text": "{name} put the phone in a drawer. Just for tonight.\nAdmitting it wasn't easy. But it was better than looking away from the mirror."
       },
       {
-        "text": "It's nothing — everyone lives like this",
+        "text": "It's nothing. Everyone lives like this",
         "result_text": "{name} set an alarm and lay down. It's nothing.\nBut sleep didn't come easily."
       }
     ]
@@ -619,11 +619,11 @@
     "description": "Had a call with Dad after a long time.\nWhile catching up, Dad said quietly:\n\n\"Son. What's going on with you lately?\nI've been worried since I saw you last time.\nYou're not sick anywhere, right?\"\n\n{name} couldn't say anything.\nDad is someone who chooses every word carefully.\nAfter that short question, Dad asked nothing more for a long while.",
     "choices": [
       {
-        "text": "\"I'm fine. Just been pushing too hard lately.\" — deflect",
+        "text": "Deflect: \"I'm fine. Just been pushing too hard lately.\"",
         "result_text": "Dad said \"Okay, don't push too hard\" and hung up.\n{name} knew Dad didn't believe it.\nDad not pressing further made it heavier, somehow."
       },
       {
-        "text": "\"Dad, I've been having a hard time lately.\" — say it for the first time",
+        "text": "Say it for the first time: \"Dad, I've been having a hard time lately.\"",
         "result_text": "Dad went quiet for a long time. Then said:\n\"Yeah. Thank you for telling me.\nDad's here.\"\n\n{name} stayed still after hanging up.\nDidn't know why tears came. Actually knew why."
       }
     ]

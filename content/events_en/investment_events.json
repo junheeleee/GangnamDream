@@ -658,14 +658,14 @@
   {
     "id": "orthodox_institutional_access",
     "title": "The Institutional Door Opens",
-    "description": "The path walked so far has opened a particular door.\nPrivate Banking center of a securities firm. A place ordinary clients don't enter.\n\n\"We can share our research team's reports in advance.\nWithin legal bounds, of course — but earlier information is better.\"\n\nNot the same starting line. A door that only opens for those who walked the straight road.",
+    "description": "The path walked so far has opened a particular door.\nPrivate Banking center of a securities firm. A place ordinary clients don't enter.\n\n\"We can share our research team's reports in advance.\nWithin legal bounds, of course. But earlier information is better.\"\n\nThe receptionist said {name}'s name right on the first try.",
     "choices": [
       {
         "text": "Accept PB services.",
-        "result_text": "Now receiving analysis one day ahead of the market.\nPublic information — but the interpretation is different.\nSwimming in the same pool — just a different lane. Didn't know that until now."
+        "result_text": "Now receiving analysis one day ahead of the market.\nPublic information — but the interpretation is different.\nThe first report came with {name}'s name printed on the cover."
       },
       {
-        "text": "Thank you — but want to decide independently.",
+        "text": "Thank you, but I want to decide on my own.",
         "result_text": "Chose to trust {name}'s own judgment.\nThe contact was disappointed but understanding.\n\"Call if you change your mind.\"\nThat card stayed in the wallet."
       }
     ]
@@ -673,15 +673,15 @@
   {
     "id": "unorthodox_gray_zone_tip",
     "title": "Gray Zone Information",
-    "description": "Late night pojangmacha. A middle-aged man strikes up a conversation.\n\n\"...Hold on. I know your type. Someone who doesn't just take the orthodox route.\"\n\nTrue. How did he know?\nHe lowers his voice.\n\"Certain materials stocks will move this month.\nNot internal — just a strong gut feeling.\"\n\nLegally fine — probably.",
+    "description": "Late night pojangmacha. A middle-aged man strikes up a conversation.\n\n\"...Hold on. I know your type. Someone who doesn't just take the orthodox route.\"\n\nTrue. How did he know?\nHe lowers his voice.\n\"Chip theme stocks will move this month.\nNot internal — just a strong gut feeling.\"\n\nLegally fine. Probably.",
     "choices": [
       {
         "text": "Act on the information. Take a position.",
-        "result_text": "Got into position. Right or wrong — unclear.\nIf the man is right: profit. If not: loss.\nBut this kind of information only comes to those who know how to find it."
+        "result_text": "Got into position. Right or wrong, he couldn't tell.\nIf the man is right: profit. If not: loss.\nThe order history now read 'AI chip theme.'"
       },
       {
         "text": "Ignore it. Rumors are rumors.",
-        "result_text": "Just drank. Good soju.\nThe market is overflowing with noise that calls itself information.\nKnowing what to discard is also a skill."
+        "result_text": "Just drank. Good soju.\nThe man left first.\n{name} finished the half bottle of soju he'd left behind."
       },
       {
         "text": "Find out more about this person.",
@@ -786,7 +786,7 @@
         "result_text": "Went back through the portfolio that night.\nSaw the places too heavily loaded.\nNext to that position, {name} penciled a small note: 'Sangchul.'"
       },
       {
-        "text": "\"This time is different\" — go with my own judgment.",
+        "text": "\"This time is different.\" Go with my own judgment.",
         "result_text": "\"That line — I heard it before each of those three crashes.\"\nSangchul didn't push further. \"It's your money.\""
       }
     ]
@@ -839,19 +839,19 @@
   {
     "id": "market_crash_panic",
     "title": "The Crash",
-    "description": "The market was collapsing.\n\nShock from U.S. jobs data. Circuit breakers triggered. KOSPI -8%.\n\nSocial media was flooded with 'I sold everything' and 'It's already too late.'\n{name}'s portfolio was a wall of bright red numbers too.",
+    "description": "The market was collapsing.\n\nShock from U.S. jobs data. Circuit breakers triggered.\n\nSocial media was flooded with 'I sold everything' and 'It's already too late.'\n{name}'s portfolio was a wall of bright red numbers too.",
     "choices": [
       {
-        "text": "Use the fear — a chance to buy in tranches",
-        "result_text": "You were able to buy into the fear.\nTwo months later the market rebounded 50%, and that position doubled."
+        "text": "Use the fear. A chance to buy in tranches",
+        "result_text": "He placed split buy orders into the fear.\nThe fill alert chimed three times. The numbers on the screen were still red."
       },
       {
-        "text": "Sell everything — I have to protect the principal",
-        "result_text": "You sold. You locked in the loss.\nAfter that you didn't look at the market for a while."
+        "text": "Sell everything. Protect the principal",
+        "result_text": "He sold. He locked in the loss.\nAfter that he didn't look at the market for a while."
       },
       {
-        "text": "Do nothing — I won't be shaken",
-        "result_text": "You held. That was all.\nThat was the first time you learned that holding, too, is a strategy."
+        "text": "Do nothing. Don't be shaken",
+        "result_text": "He held. That was all.\nHe didn't delete the app. He only turned the alerts off."
       }
     ]
   },

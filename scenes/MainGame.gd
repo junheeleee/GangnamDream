@@ -7074,13 +7074,24 @@ func _full_story_invest_beat_id() -> String:
 	# Full run only: the demo and AP surfaces keep their bytes and pools.
 	if not FULL_STORY_FLOW.is_full_run():
 		return ""
+	var lean := ""
+	if GameState.route_orthodox > GameState.route_unorthodox:
+		lean = "orthodox"
+	elif GameState.route_unorthodox > GameState.route_orthodox:
+		lean = "unorthodox"
 	return INVEST_BRANCH_BEATS.take_scene(
 		GameState.flags,
 		int(GameState.turn),
 		str(GameState.housing),
 		GameState.portfolio,
 		GameState.market_prices,
-		_full_story_branch_event_open)
+		_full_story_branch_event_open,
+		{},
+		{
+			"market_cycle": str(GameState.market_context.get("cycle", "neutral")),
+			"cast_stages": {"sangchul": GameState.get_cast_stage("sangchul")},
+			"route_lean": lean,
+		})
 
 
 func _full_story_branch_event_open(event_id: String) -> bool:
@@ -7100,7 +7111,9 @@ func _full_story_gamble_beat_id() -> String:
 		GameState.flags,
 		int(GameState.turn),
 		not GameState.current_job.is_empty(),
-		_full_story_branch_event_open)
+		_full_story_branch_event_open,
+		{},
+		{"addiction": int(GameState.addiction_tendency)})
 
 
 func _full_story_addiction_scene_id() -> String:

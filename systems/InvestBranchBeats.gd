@@ -34,9 +34,11 @@ static func portfolio_pnl(portfolio: Dictionary, prices: Dictionary) -> float:
 
 ## Returns the beat to play this free week ("" for none) and records it.
 ## `event_exists` filters ids the data registry cannot resolve or already played.
+## `extra` carries the years 3-4 facts: market_cycle, cast_stages, route_lean.
 static func take_scene(flags: Dictionary, turn: int, housing: String, portfolio: Dictionary,
-		prices: Dictionary, event_exists: Callable, data: Dictionary = {}) -> String:
+		prices: Dictionary, event_exists: Callable, data: Dictionary = {},
+		extra: Dictionary = {}) -> String:
 	var source: Dictionary = data if not data.is_empty() else ledger()
-	return ENGINE.take(source, STATE_FLAG, flags, {
-		"turn": turn, "housing": housing, "portfolio": portfolio, "prices": prices,
-	}, event_exists)
+	var ctx := {"turn": turn, "housing": housing, "portfolio": portfolio, "prices": prices}
+	ctx.merge(extra)
+	return ENGINE.take(source, STATE_FLAG, flags, ctx, event_exists)

@@ -4813,6 +4813,8 @@
         "content/events/racetrack_events.json",
         "content/events/gambling_narrative.json",
         "content/events/holdem_events.json",
+        "content/events/drama_events.json",
+        "content/events/life_events.json",
         "tools/GambleBranchBeatsCheck.gd",
         "tools/GambleBranchBeatsCheck.tscn"
       ]

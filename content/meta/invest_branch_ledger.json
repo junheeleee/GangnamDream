@@ -1,5 +1,5 @@
 {
-  "_doc": "ORDER-834 B1 investment branch, years 1-2. Read only by systems/InvestBranchBeats.gd. A beat plays on a free full-story week, in ledger order, at most one per min_gap_weeks, only for a run that opened the branch (gate flag) and only inside its window. `portfolio`: true needs a holding, \"loss\" needs the holdings under water. `housing` matches GameState.housing. `after` names a beat that must already have played. Money moves only through each event's market_buy/market_sell choices.",
+  "_doc": "ORDER-834 investment branch, years 1-4 (B1, B3). Read only by systems/InvestBranchBeats.gd. A beat plays on a free full-story week, in ledger order, at most one per min_gap_weeks, only for a run that opened the branch (gate flag) and only inside its window. `portfolio`: true needs a holding, \"loss\" needs the holdings under water. `housing` matches GameState.housing. `after` names a beat that must already have played. Money moves only through each event's market_buy/market_sell choices. Years 3-4 also read the live market (market_cycle, pnl_ratio_below: holdings down by that share), Sangchul's cast stage and which way the run's choices lean (route_lean).",
   "gate_flag": "investment_lesson_1",
   "beats": [
     {
@@ -38,6 +38,40 @@
       "event_id": "inv_crypto_mania",
       "min_week": 49,
       "max_week": 96
+    },
+    {
+      "event_id": "market_crash_panic",
+      "min_week": 97,
+      "max_week": 180,
+      "portfolio": true,
+      "market_cycle": "bear",
+      "pnl_ratio_below": -0.05
+    },
+    {
+      "event_id": "sangchul_tip_warning",
+      "min_week": 97,
+      "max_week": 180,
+      "portfolio": true,
+      "cast_stage": {
+        "person": "sangchul",
+        "in": [
+          "mentoring",
+          "trusted",
+          "guardian"
+        ]
+      }
+    },
+    {
+      "event_id": "unorthodox_gray_zone_tip",
+      "min_week": 105,
+      "max_week": 190,
+      "route_lean": "unorthodox"
+    },
+    {
+      "event_id": "orthodox_institutional_access",
+      "min_week": 105,
+      "max_week": 190,
+      "route_lean": "orthodox"
     }
   ],
   "min_gap_weeks": 3

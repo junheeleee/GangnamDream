@@ -17,12 +17,13 @@ func _ready() -> void:
 	_check_job_and_exits()
 	_check_casino_and_holdem()
 	_check_json_round_trip()
+	_check_years_three_four()
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("GAMBLE_BRANCH_BEATS_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("GAMBLE_BRANCH_BEATS_CHECK_OK beats=%d gate=1 order=3 job=1 exits=2 casino=2 holdem=1 json=1" % [
+	print("GAMBLE_BRANCH_BEATS_CHECK_OK beats=%d gate=1 order=3 job=1 exits=2 casino=2 holdem=1 json=1 y34_addiction=4 y34_father=1 y34_recovery=1 y34_session=2 y34_race_money=1" % [
 		(BEATS.ledger().get("beats", []) as Array).size()])
 	get_tree().quit(0)
 
@@ -45,7 +46,8 @@ func _check_ledger() -> void:
 		var event: Dictionary = DataRegistry.find_event(event_id)
 		_expect(not event.is_empty() and (event.get("choices", []) as Array).size() >= 2,
 			"gambling beat missing or without a decision: " + event_id)
-		_expect(not (raw as Dictionary).get("requires", []).is_empty(),
+		_expect(not (raw as Dictionary).get("requires", []).is_empty()
+				or not (raw as Dictionary).get("requires_any", []).is_empty(),
 			"gambling beat opens without a player fact: " + event_id)
 		for choice in event.get("choices", []):
 			if float(((choice as Dictionary).get("effects", {}) as Dictionary).get("money", 0.0)) < 0.0:
@@ -97,3 +99,39 @@ func _check_json_round_trip() -> void:
 	var loaded: Dictionary = JSON.parse_string(JSON.stringify(flags))
 	_expect(BEATS.take_scene(loaded, 19, false, _always) == "race_number_three",
 		"gambling branch state lost its meaning after a JSON save/load")
+
+
+func _years_three_four() -> Dictionary:
+	var rows: Array = []
+	for raw in BEATS.ledger().get("beats", []):
+		if int((raw as Dictionary).get("min_week", 0)) >= 97:
+			rows.append(raw)
+	return {"min_gap_weeks": 0, "beats": rows}
+
+
+func _check_years_three_four() -> void:
+	var data := _years_three_four()
+	_expect((data["beats"] as Array).size() == 8, "years 3-4 gambling beats are not the eight authored scenes")
+	var track := {"racetrack_visited": true}
+	_expect(BEATS.take_scene(track.duplicate(), 100, false, _always, data, {"addiction": 55}) == "drama_addiction_mirror",
+		"addiction 55 did not bring the mirror")
+	_expect(BEATS.take_scene(track.duplicate(), 100, false, _always, data, {"addiction": 72}) == "race_big_win",
+		"the mirror played after the rock bottom owns the run")
+	var warn_only := {"min_gap_weeks": 0, "beats": (data["beats"] as Array).filter(
+		func(row): return str((row as Dictionary).get("event_id", "")) == "drama_addiction_warning")}
+	_expect(BEATS.take_scene(track.duplicate(), 100, false, _always, warn_only, {"addiction": 66}) == "drama_addiction_warning",
+		"a living father did not notice addiction 66")
+	_expect(BEATS.take_scene({"racetrack_visited": true, "father_passed": true}, 100, false, _always, warn_only,
+			{"addiction": 66}) == "",
+		"the father's call came after he passed")
+	_expect(BEATS.take_scene({"racetrack_visited": true, "in_recovery_started": true}, 100, false, _always, data,
+			{"addiction": 30}) == "",
+		"a year-three win scene played during recovery")
+	_expect(BEATS.take_scene({"jeongseon_session_win": true}, 120, false, _always, data, {}) == "jeongseon_big_win_urge"
+			and BEATS.take_scene({"jeongseon_session_loss": true}, 120, false, _always, data, {}) == "jeongseon_big_loss_bus",
+		"the Jeongseon bus scenes do not follow the last session's result")
+	var race: Array = DataRegistry.find_event("race_big_win").get("choices", [])
+	_expect(race.size() == 2
+			and float(((race[0] as Dictionary).get("effects", {}) as Dictionary).get("money", 0.0)) == 170000.0
+			and float(((race[1] as Dictionary).get("effects", {}) as Dictionary).get("money", 0.0)) == 160000.0,
+		"the big race win no longer pays what its prose says (18x on 10,000 won)")

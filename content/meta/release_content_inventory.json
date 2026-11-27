@@ -481,7 +481,7 @@
         "expected_event_count": 142,
         "expected_file_count": 43,
         "expected_ids_sha256": "c586d16205016ce3bf19610d83db467652f47678006f4fdedda52c3f71b3405b",
-        "expected_content_sha256": "5d55525d52e818f6a5596e71dfc7de112fe5e8379b141b781190eef46203ec7d"
+        "expected_content_sha256": "a2b1d60ae91d523fd1f8c0a1e2139afbcd9251a6ab593afac856ebfab7781cd5"
       },
       "facts": [
         {
@@ -640,7 +640,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 138, "expected_file_count": 49, "expected_ids_sha256": "9ffff543ebda31858fbe6d6670b5b5af86b5903903449f54e80d2325ef68f50f", "expected_content_sha256": "fb484cf44049e78a020ddaef1b1962f0dc599cd952d8d1db4759c63a04360e4f"
+        "expected_event_count": 138, "expected_file_count": 49, "expected_ids_sha256": "9ffff543ebda31858fbe6d6670b5b5af86b5903903449f54e80d2325ef68f50f", "expected_content_sha256": "a4b8cde9574baba53cb9436e563cd1390ecbd880d600af6a183380deccd243fd"
       },
       "facts": [
         {
@@ -768,7 +768,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal", "arc_year3_close"],
-        "expected_event_count": 82, "expected_file_count": 39, "expected_ids_sha256": "013ad6f381cb8de1d7ef367449a7a5561669899a5fdefe17621928669318765b", "expected_content_sha256": "68de4391fc54f94c0b737a4966f3bb53964547b39480c6ba7515477385c5f23e"
+        "expected_event_count": 82, "expected_file_count": 39, "expected_ids_sha256": "013ad6f381cb8de1d7ef367449a7a5561669899a5fdefe17621928669318765b", "expected_content_sha256": "4ecf37a24d7acf1c943c2104b3c50972c7bbd7dc62362bddb1cb6ff82d206302"
       },
       "facts": [
         {

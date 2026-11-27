@@ -8,9 +8,12 @@ extends RefCounted
 ##   flags[state_flag] = {"used": [event_id], "last_turn": int}
 ##
 ## Ledger keys: "gate_flag" (optional, every beat needs it), "min_gap_weeks",
-## "beats": [{event_id, min_week, max_week, requires: [flag], forbids: [flag],
-##            housing, has_job, after, portfolio: true | "loss"}].
-## `ctx`: {turn, housing, has_job, portfolio, prices}.
+## "beats": [{event_id, min_week, max_week, requires: [flag], requires_any: [flag], forbids: [flag],
+##            housing, has_job, after, portfolio: true | "loss",
+##            min_addiction, max_addiction, market_cycle, pnl_ratio_below,
+##            cast_stage: {person, in: [stage]}, route_lean: "orthodox" | "unorthodox"}].
+## `ctx`: {turn, housing, has_job, portfolio, prices, addiction, market_cycle,
+##         cast_stages: {person: stage}, route_lean}.
 
 
 static func load_ledger(path: String) -> Dictionary:
@@ -41,6 +44,17 @@ static func portfolio_pnl(portfolio: Dictionary, prices: Dictionary) -> float:
 	return pnl
 
 
+## Unrealized result as a share of what the holdings cost (0.0 when empty).
+static func portfolio_pnl_ratio(portfolio: Dictionary, prices: Dictionary) -> float:
+	var cost := 0.0
+	for asset_id in portfolio.keys():
+		var holding: Variant = portfolio[asset_id]
+		if holding is Dictionary:
+			cost += float((holding as Dictionary).get("quantity", 0.0)) \
+				* float((holding as Dictionary).get("avg_price", 0.0))
+	return portfolio_pnl(portfolio, prices) / cost if cost > 0.0 else 0.0
+
+
 static func _beat_ready(beat: Dictionary, flags: Dictionary, ctx: Dictionary, used: Array) -> bool:
 	var turn := int(ctx.get("turn", 0))
 	if turn < int(beat.get("min_week", 0)) or turn > int(beat.get("max_week", 999)):
@@ -48,6 +62,9 @@ static func _beat_ready(beat: Dictionary, flags: Dictionary, ctx: Dictionary, us
 	for flag_id in beat.get("requires", []):
 		if not bool(flags.get(str(flag_id), false)):
 			return false
+	var any: Array = beat.get("requires_any", [])
+	if not any.is_empty() and not any.any(func(flag_id): return bool(flags.get(str(flag_id), false))):
+		return false
 	for flag_id in beat.get("forbids", []):
 		if bool(flags.get(str(flag_id), false)):
 			return false
@@ -63,6 +80,24 @@ static func _beat_ready(beat: Dictionary, flags: Dictionary, ctx: Dictionary, us
 		return false
 	if need is String and str(need) == "loss" \
 			and (portfolio.is_empty() or portfolio_pnl(portfolio, ctx.get("prices", {})) >= 0.0):
+		return false
+	var addiction := int(ctx.get("addiction", 0))
+	if beat.has("min_addiction") and addiction < int(beat["min_addiction"]):
+		return false
+	if beat.has("max_addiction") and addiction > int(beat["max_addiction"]):
+		return false
+	if beat.has("market_cycle") and str(ctx.get("market_cycle", "")) != str(beat["market_cycle"]):
+		return false
+	if beat.has("pnl_ratio_below") and (portfolio.is_empty()
+			or portfolio_pnl_ratio(portfolio, ctx.get("prices", {})) > float(beat["pnl_ratio_below"])):
+		return false
+	var cast: Variant = beat.get("cast_stage", null)
+	if cast is Dictionary:
+		var stages: Dictionary = ctx.get("cast_stages", {})
+		if not ((cast as Dictionary).get("in", []) as Array).has(
+				str(stages.get(str((cast as Dictionary).get("person", "")), ""))):
+			return false
+	if beat.has("route_lean") and str(ctx.get("route_lean", "")) != str(beat["route_lean"]):
 		return false
 	return true
 

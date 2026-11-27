@@ -24,7 +24,10 @@ static func ledger() -> Dictionary:
 	return _ledger_cache
 
 
+## `extra` carries the years 3-4 facts: addiction.
 static func take_scene(flags: Dictionary, turn: int, has_job: bool, event_exists: Callable,
-		data: Dictionary = {}) -> String:
+		data: Dictionary = {}, extra: Dictionary = {}) -> String:
 	var source: Dictionary = data if not data.is_empty() else ledger()
-	return ENGINE.take(source, STATE_FLAG, flags, {"turn": turn, "has_job": has_job}, event_exists)
+	var ctx := {"turn": turn, "has_job": has_job}
+	ctx.merge(extra)
+	return ENGINE.take(source, STATE_FLAG, flags, ctx, event_exists)

@@ -1732,11 +1732,11 @@
   {
     "id": "jeongseon_big_loss_bus",
     "title": "The Bus Home",
-    "description": "You walked out of the Jeongseon casino.\n\nYou got on the bus.\nMountains blur past the window.\n\nYou calculate in your head what you lost today.\nYou keep recounting the same number.\n\nDoesn't matter how many times. It's always the same number.",
+    "description": "{name} walked out of the Jeongseon casino.\n\nHe got on the bus.\nMountains blurred past the window.\n\nHe added up in his head what he had lost today.\nHe kept recounting the same number.\n\nIt didn't matter how many times. It was always the same number.",
     "choices": [
       {
         "text": "It was entertainment money. Just call it fun.",
-        "result_text": "You settled on that conclusion.\n\nYou half believed it.\nNot completely.\n\n{name} didn't take out the phone all the way to the terminal."
+        "result_text": "He settled on that conclusion.\n\nHe half believed it.\nNot completely.\n\n{name} didn't take out the phone all the way to the terminal."
       },
       {
         "text": "Never going back. For real this time.",
@@ -1747,15 +1747,15 @@
   {
     "id": "jeongseon_big_win_urge",
     "title": "One More Round",
-    "description": "The money you won today is in your wallet.\n\nYou're on the way home but your feet won't move.\n\nYou were lucky today.\nAnd when you're lucky, the luck keeps going. — At least right now, {name}'s brain is saying exactly that.",
+    "description": "The money {name} won today was in his wallet.\n\nHe was on the way home, but his feet wouldn't move.\n\nHe had been lucky today.\nAnd when you're lucky, the luck keeps going.\nAt least, that was what his head was telling him right now.",
     "choices": [
       {
         "text": "Go back in. Today's your day.",
-        "result_text": "You went back in.\n\nThe second session was different.\n\nYou left with barely anything in your pocket.\nThe casino always works this way. It never sends you home at your best moment."
+        "result_text": "He went back in.\n\nThe second session was different.\n\nHe left with barely anything in his pocket.\nIn front of the shuttle timetable, {name} opened his empty wallet twice."
       },
       {
         "text": "Quit while you're ahead. Go home.",
-        "result_text": "You turned around.\n\nNot an easy decision.\n\n{name} today — at least on this one call — made the right move.\nThe walk home felt lighter."
+        "result_text": "He turned around.\n\nNot an easy decision.\n\nToday, at least on this one call, {name} made the right move.\nThe walk home felt lighter."
       }
     ]
   },

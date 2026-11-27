@@ -47238,6 +47238,566 @@
           "batch_id": "e3d6646b7f08991fc1c76deafd69153928fffc7154bcf98aa301e6e7c43d4ae3"
         }
       }
+    },
+    {
+      "order": "CLAUDE-B3-TONE-1",
+      "group": "events",
+      "kind": "existing_target_correction",
+      "roots": [
+        "drama_addiction_mirror",
+        "drama_addiction_warning",
+        "holdem_bad_beat",
+        "holdem_big_pot",
+        "holdem_losing_streak",
+        "jeongseon_big_win_urge",
+        "market_crash_panic",
+        "orthodox_institutional_access",
+        "race_big_win",
+        "sangchul_tip_warning",
+        "unorthodox_gray_zone_tip"
+      ],
+      "source_leaves": 31,
+      "target_leaves_by_locale": {
+        "ja": 31,
+        "zh-CN": 31,
+        "zh-TW": 31
+      },
+      "new_coverage_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "834 B3 surfaces 12 reused years 3-4 scenes. Five languages: choice/narration dashes, closing aphorisms (poker skill vs money, principles collapse, losing-what-you-would-lose, casino-never-sends-you-home, information comes to finders, discarding is a skill, same pool different lane, straight-road door), a future-telling crash result (50% rebound) and the KOSPI -8% figure removed; gray tip names the chip-theme asset it actually buys; race_big_win prose and money aligned at a 10,000-won stake; zh-TW first-person and EN second-person narration moved to third person.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "8ee071be10c966d2fd51005edba33d9a5c2873ea",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "76067cb2d5ad08904a160fb25e53c15b6d9f3140c16f40e72eb8e6da76c4c1fb",
+          "selection_sha256": "523057a2f07da856e6dddb2ef920ae1f7f10e8ac90438bb476c0fee12f984d19",
+          "count": 31,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "873c6cdf656274289e0e4e0e111bb20e86e9255c96b6dce552258c717d19e789"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "8ee071be10c966d2fd51005edba33d9a5c2873ea",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "76067cb2d5ad08904a160fb25e53c15b6d9f3140c16f40e72eb8e6da76c4c1fb",
+          "selection_sha256": "e127dcfca4bf1792d841a8971397b69c8b4b6ae1beecdfdb66049c5cabb495ed",
+          "count": 31,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8dc7ff563879b59f7960bd073f5639030bc0b9d6ea6e5012c1222b094aa9f8f9"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "8ee071be10c966d2fd51005edba33d9a5c2873ea",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "76067cb2d5ad08904a160fb25e53c15b6d9f3140c16f40e72eb8e6da76c4c1fb",
+          "selection_sha256": "460a4225b000010f65a82c2c677c04f0f78c893b11438cc51b074719b1973daf",
+          "count": 31,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "0bc053d920255ae3cbee838365c3e05e70591d5dd48662693e73f818e4dd92a9"
+        }
+      },
+      "receipt_sha256_by_locale": {
+        "ja": "28b041c84c46516af40be63991de4aeb6e2c3de5c6fc946c3d32804c80309254",
+        "zh-CN": "4d616060ed601e7e34744ae74b1d410ff13d7bd8f3921a0d03d9a492acb5a5ee",
+        "zh-TW": "46ca3b712c50545cfe85de3b288b8b89312f5ba29ee845e75315c937d0774f31"
+      },
+      "previous_target_sha256_by_locale": {
+        "ja": {
+          "events:drama_addiction_mirror:/choices/0/text": "645d72b1675d3c346cfc310a678b2233f501b688a8b269d81e1e3c4aa3dfe83d",
+          "events:drama_addiction_mirror:/choices/1/text": "cfeeeaef7d59666e940278881946457e5f8f4f2765e89b8b30338d922b6b58e3",
+          "events:drama_addiction_warning:/choices/0/text": "ace5b661a1f9f81e0182aaf9243a4adb18c6099657c7a48ce8811a0c3f3a933e",
+          "events:drama_addiction_warning:/choices/1/text": "da18fcce24ca0830cafff90f23a36760b4fa4999b8a54c84bd19cf5fb6c2f3bc",
+          "events:holdem_bad_beat:/choices/0/result_text": "a3eed196905013567df31fe4b97c794aee113fd586494c35a2c800a6cc66892a",
+          "events:holdem_bad_beat:/choices/1/result_text": "b281c0d937ffcd6a09fcf709fa072031516bded6ea432534c453e00f6a268680",
+          "events:holdem_bad_beat:/description": "7a7c5eefd9b96325fa64878df5bea95068662dbf976867eb7815b9d27b954867",
+          "events:holdem_big_pot:/choices/1/result_text": "17057588ece2fe4b46c8c651f6b74cea0bc283eee15007074b8f719c91382584",
+          "events:holdem_losing_streak:/choices/0/result_text": "03e1ac07d4937db586696b5ebff24056f363decd5fc40bb5e86b447506f4b42b",
+          "events:holdem_losing_streak:/choices/1/result_text": "2357ca469346714573ce04efe1e7bd2e89347bfe77537402fd977825c5d13ab2",
+          "events:holdem_losing_streak:/choices/1/text": "4b83f63cfefb7a708ea36f10f78e18df55ee960f570ec149aa3287927d335d6f",
+          "events:jeongseon_big_win_urge:/choices/0/result_text": "862b46077fddac0fda84e06ab02625f2f3faa3bb5d20146b26b1de53fdaf9ed6",
+          "events:jeongseon_big_win_urge:/description": "c1478043a94fa3b9ab1bc99e79ff715d071b35234e6f02c82bfaa5dea7e469da",
+          "events:market_crash_panic:/choices/0/result_text": "c1a42214bb26663d399b85ba9179c26f2faca33003b2f5387ed3da153d1b231b",
+          "events:market_crash_panic:/choices/0/text": "03fb761ca9b939ef3f8c23611c3a1547ec4618eb128c7372539e1ebb61aa5b6e",
+          "events:market_crash_panic:/choices/1/result_text": "2932eb0e83e546c9d7b13ef37e57bb773bb1dacd93ea2e326ab538352f8cd429",
+          "events:market_crash_panic:/choices/1/text": "4fd0ad2fc29b0f6d45f3447b76584f45f569b697945cd1c47541f04989f08639",
+          "events:market_crash_panic:/choices/2/result_text": "c59d4d311d214bd5b7df1838152ac24a1e8770ab8d2d452c4448f578dc732bb5",
+          "events:market_crash_panic:/choices/2/text": "9a6bb001f8ff9e0aef45cdc933d808352ab9c305ad806ed6ca71c9b4a1505e99",
+          "events:market_crash_panic:/description": "67bd385cdd6e1ec40c7f104ee3cbca1c0235eda02489e8325e696b96ebc01db0",
+          "events:orthodox_institutional_access:/choices/0/result_text": "5a61d2c5e0969a5081c8423a4c9b97c87c8a6218017939edf893324a8484e443",
+          "events:orthodox_institutional_access:/choices/1/result_text": "8accb6d762e396ed4f2d6ddd5440be11f9a691fc477b3d8bbf6a27d25723df85",
+          "events:orthodox_institutional_access:/description": "fe3773bc961267c2f78f4a787d2ea5f38b24edb40003423022bb082f36ef58fa",
+          "events:race_big_win:/choices/0/result_text": "5ef9046341de350e53ba5da6bd93ab482368acc8b23ddb23a7cc5e6bd79ac994",
+          "events:race_big_win:/choices/1/result_text": "a635a0997959cda8cbd9161fcb56ad7e566640ab817ba826f81cde39b0790c5b",
+          "events:sangchul_tip_warning:/choices/1/text": "b0e354b0ea5e88f060ec1e87911beef5e4d525a597c659989902aebf8096d7b2",
+          "events:unorthodox_gray_zone_tip:/choices/0/result_text": "bcfd5286cad7814b93896bdf913ef4b78d9665c276f50d051fef15ba42f47b9e",
+          "events:unorthodox_gray_zone_tip:/choices/1/result_text": "185506f3dd0572bb54dbcfe95bc9b0288d41e0a60ab3498aeec2fba5396e6ed5",
+          "events:unorthodox_gray_zone_tip:/choices/1/text": "76d6a635392904575435da0a1c006ab6e344ef52a6e2ce5062eee51b855ed866",
+          "events:unorthodox_gray_zone_tip:/choices/2/result_text": "b689c5f262e0e0cfeb4b4f55966570c5077a99d3d53a527ca41e3bfc8c47fe0c",
+          "events:unorthodox_gray_zone_tip:/description": "5b3fd3da2d6b583e09e0350802dda76da29870b2e997001ea516744e2cd375a0"
+        },
+        "zh-CN": {
+          "events:drama_addiction_mirror:/choices/0/text": "879b9db8bbddf3b3ea0cfab39a948a668c5170f2b1b2fc1bcc06da122a7c1ec3",
+          "events:drama_addiction_mirror:/choices/1/text": "0efe8ed82f58069f68e9fe024f83356501502804cf58aed83fee7d68dc44706a",
+          "events:drama_addiction_warning:/choices/0/text": "c945689134f6826c2a219916cb9a615660a988198d2ec318850d227771539d98",
+          "events:drama_addiction_warning:/choices/1/text": "c5c2671e07cbe0f2884c354d439e8f57158adb7f07cc3fc09bac58c4b8ec61dc",
+          "events:holdem_bad_beat:/choices/0/result_text": "5be9eef1f0ca6d8c8e87dd16e617457491c033444ae21dea373e83417012ab95",
+          "events:holdem_bad_beat:/choices/1/result_text": "b2cb4f321b3bd109448646a1fe3d8f69a890b38aeb3174fcd6e46e1bc2918745",
+          "events:holdem_bad_beat:/description": "99bbcbf2add919277a6102101c69f289b9a62068ee02ea41245e4a8167ea9405",
+          "events:holdem_big_pot:/choices/1/result_text": "d219069e6b8a5f44657f4a12ac24a7e98af0d2aa7ca772954fa9e13863a3f64e",
+          "events:holdem_losing_streak:/choices/0/result_text": "dca06540421b84990a9a6ab1c0dd9991d75c52c98b2d789a4d14068f031c6df0",
+          "events:holdem_losing_streak:/choices/1/result_text": "6898669517c1ea010e70c3a2260b987a22de791dc4c7230775b20de867c13fd3",
+          "events:holdem_losing_streak:/choices/1/text": "989e8d0c85c07d51bafa0b34e370c14f1d7a941311a50ff06e2846060a2990ac",
+          "events:jeongseon_big_win_urge:/choices/0/result_text": "8c0ec9c87b00eebc75ec5184c7deb6825b50485851773505755408bc7128bb71",
+          "events:jeongseon_big_win_urge:/description": "5ab5e331fd536d5d493095c183b90e01a77b8f67b016881efe3a918ffe39b9dd",
+          "events:market_crash_panic:/choices/0/result_text": "1d61a49f02aa821ca42467c140f4fb5bb5c1c86ba6e9c2030e7d06aa831c8459",
+          "events:market_crash_panic:/choices/0/text": "15f03fedfc8e7b416dfcdf567b06e3d6122142d49e189c880741acb76e933150",
+          "events:market_crash_panic:/choices/1/result_text": "30ca081ecba0530bcf2d8fbc28739c0c63e764c25fbb60136e275a53f4a07309",
+          "events:market_crash_panic:/choices/1/text": "911aab5cbd1a46b8ccb611fed56c60af9666ab0d798139526fe3756a9451d930",
+          "events:market_crash_panic:/choices/2/result_text": "815066e208b32ef71fefa01695c5c40f7c3d3c8558b4e6a9db639b9f2533e49b",
+          "events:market_crash_panic:/choices/2/text": "566b989904ab5bb323c5422f90161c3a80947c1dc8a0cfea5d809649322f0d76",
+          "events:market_crash_panic:/description": "558d0c0c2369b5e49712b3f362d61faf4b83c50a273e820060ba60f85d83a93e",
+          "events:orthodox_institutional_access:/choices/0/result_text": "68c67b0c6a7cc81e9f404e19153c8339a28fcdc9edeaf31872b612c148314164",
+          "events:orthodox_institutional_access:/choices/1/result_text": "e608af76277b400ab1e8771e8ecdb6fa06282a9d2c8f4cd8c1c8608eedad395b",
+          "events:orthodox_institutional_access:/description": "46af6f2f85f111ba131ba255d73e655f9d16555b00c19d6981be8a0ef22f52f0",
+          "events:race_big_win:/choices/0/result_text": "2ab365bd8ff8e18c8202e148ed61ad9ca4fa058eb2f1a7ba3f5ee584bf27b226",
+          "events:race_big_win:/choices/1/result_text": "1828f0fe3cdbb1e7b4e3ce91d32eba95ba4deee6b0d746d864fbf445c2efcae1",
+          "events:sangchul_tip_warning:/choices/1/text": "4aad53386c18b1018b699888f2306eac440fdf1b4674f0ca9339d54265c168b3",
+          "events:unorthodox_gray_zone_tip:/choices/0/result_text": "6719074ea1f20d8e623ea25856e6082a06b2d977f5885cc70102a3092febae0a",
+          "events:unorthodox_gray_zone_tip:/choices/1/result_text": "b130ba531543d293970744b9c754b5e8510b8bf50cbcad5208732621792f7187",
+          "events:unorthodox_gray_zone_tip:/choices/1/text": "dc6451b83944b1ba299dcbd096ee402a48afe3656cdaf66821953786c2b49d96",
+          "events:unorthodox_gray_zone_tip:/choices/2/result_text": "3a2e2d66a3d32ef8df77c09dfc6ab8ed5391988c62918b174325d1816e4adcfb",
+          "events:unorthodox_gray_zone_tip:/description": "a3df6c1d7fd33a7193569083fad2c5c43ed8f1522e395a56303cc5e3509cfbac"
+        },
+        "zh-TW": {
+          "events:drama_addiction_mirror:/choices/0/text": "b55d597fa19ef5f24a98f21e9a5c7c73253c0490c81ef119018bb6e13e2f1cd8",
+          "events:drama_addiction_mirror:/choices/1/text": "4bde718aaaaad376a69844f55626a4d4837555fe058555920a4a74b2b42e23ab",
+          "events:drama_addiction_warning:/choices/0/text": "efdda9ac1242358b5c3c3c97833b4a40f3dfb9f893f40e2659b328fbab956ca3",
+          "events:drama_addiction_warning:/choices/1/text": "f0d3f0ed1e9488dcbd357b786323c2c17bf6bdc3f2e9470e048bb0f7802bc652",
+          "events:holdem_bad_beat:/choices/0/result_text": "892145b75357d61ee373dc7b97dad3663a34b01face6d3a011ebbdf68636482c",
+          "events:holdem_bad_beat:/choices/1/result_text": "62a35a15edcadb9d384404b2e1e445f7739d4d207aedf6f111ee4a42ff6cd6d4",
+          "events:holdem_bad_beat:/description": "26378e5b342c5cb0811490cb93bab233a3a7d3357f91da00810dd4be1d2eb83f",
+          "events:holdem_big_pot:/choices/1/result_text": "898120ae4ce0291482f15fb47a7a32c423f1653c38ca18b20b12a7d07c37234d",
+          "events:holdem_losing_streak:/choices/0/result_text": "547c67fa6e402a5cb388709f0bc1bfa794f415a1133cd56cb6f4c690eab276e0",
+          "events:holdem_losing_streak:/choices/1/result_text": "057955ad0a44cc405097c550f18f31c654d2547086070eda5f3c64cbf815c02b",
+          "events:holdem_losing_streak:/choices/1/text": "d77842deaaab0257df0416d34e707da8e4500278f6ac2ef1092f142d3937b405",
+          "events:jeongseon_big_win_urge:/choices/0/result_text": "f4a62f8568493c51f7cd91f17b6d294b4e46c0eee618498f6ea7653467e3c7f8",
+          "events:jeongseon_big_win_urge:/description": "654569d5c7e4daedd8d80ca86d768a166d404edc9861c64816527b8ed6e38974",
+          "events:market_crash_panic:/choices/0/result_text": "ef3a701f5a440fb0b09199738cf50136ada31287073f5369ad29301167b661d8",
+          "events:market_crash_panic:/choices/0/text": "d9d3e9983f8e4872a8eb59e558a092a50d8c592e2193d6f86075cef7a080f03a",
+          "events:market_crash_panic:/choices/1/result_text": "d8f3fb94737e05e61cc3521d6dfc973fd3c7743af8013bd1264bee238bf7f33c",
+          "events:market_crash_panic:/choices/1/text": "269eed0cf1757e75d912c313996554179a5514b4625c4cbd88c2ebc9a8ad4dae",
+          "events:market_crash_panic:/choices/2/result_text": "c901661afc2d547dc33d6bd883270a50be6358e3b667989c7a80678e82692220",
+          "events:market_crash_panic:/choices/2/text": "c352a88e5d8ceb41e64c79106c7ac54fb38b346cc376d93a2e7f72a21034fc35",
+          "events:market_crash_panic:/description": "b915dbadb14ff277568be4de380ce12dc1068e8f67b3e2bcfee2301cfba342e8",
+          "events:orthodox_institutional_access:/choices/0/result_text": "cb3315e6aec440e6f7175669310448d896d810a64e8d8265854c891b18370624",
+          "events:orthodox_institutional_access:/choices/1/result_text": "9335c4f9213f43b298589b05e38909dbe0de19eabeb29ba0e16e22001dc13fbf",
+          "events:orthodox_institutional_access:/description": "a8fc066e0986bffd87e9739fec5b48878a961d8874c9b07e3115939e5fd5c715",
+          "events:race_big_win:/choices/0/result_text": "53a9e27cfbdbec0dbf0d4e36d982b7a48e152b5c01bf0365fd079fd181a58dd8",
+          "events:race_big_win:/choices/1/result_text": "776e89c24de86f49680d77f0e58dde408f3e158fd262f836ab56e0f6d7d4d07d",
+          "events:sangchul_tip_warning:/choices/1/text": "d3679946f56f0807eb933520bbaba16a87d7d1b8c9aeb0e14c8de11941fdb123",
+          "events:unorthodox_gray_zone_tip:/choices/0/result_text": "be8af6da308d1d84d638900e91509272f33d84635ff8ddfdc38251bbde38316a",
+          "events:unorthodox_gray_zone_tip:/choices/1/result_text": "6b09a06a25c54d27b926132ec878fee17c95bcf4a305433f1015b75db31e9103",
+          "events:unorthodox_gray_zone_tip:/choices/1/text": "073d2c4d363a929ff993a66a24c3a985538c763e8a3016a530f695cc3247606e",
+          "events:unorthodox_gray_zone_tip:/choices/2/result_text": "0bd219e2aa597fe30dbc4c0a8407ae533af5ae0e24d684038140e556d68492bd",
+          "events:unorthodox_gray_zone_tip:/description": "06b4ea1401e2c70032065dfabe4429b3921d3892d2e92e509b22b95ba5ba1710"
+        }
+      },
+      "superseded_acceptance_by_locale": {
+        "ja": {
+          "events:drama_addiction_mirror:/choices/0/text": {
+            "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
+            "target_sha256": "0d5bc49232229c0e67ee877e19a8bd4e310b8078f54c314a94818184d6587143"
+          },
+          "events:drama_addiction_mirror:/choices/1/text": {
+            "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
+            "target_sha256": "c24f630413a2ad74d21573da46840f36bd44911fca147b8c71cc0bd74787202d"
+          },
+          "events:drama_addiction_warning:/choices/0/text": {
+            "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
+            "target_sha256": "bd1ba6614ea31f7321007c53c5bbbcd236dee40a14a68a7cf480d8c7de5756ae"
+          },
+          "events:drama_addiction_warning:/choices/1/text": {
+            "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
+            "target_sha256": "2f6eb113c0b9f80d46ee03cc956930201cf4ad27793551b3fc608041db37a685"
+          },
+          "events:holdem_bad_beat:/choices/0/result_text": {
+            "source_sha256": "6669eccf7668f2ca49f0755c1c307d1ac1fc084fa9d9a49fd0d8ed03946949fe",
+            "target_sha256": "fbc98f3486fe5a86fd04cea48f11793a99dc54b5074ef04a4bf4514d3b170265"
+          },
+          "events:holdem_bad_beat:/choices/1/result_text": {
+            "source_sha256": "edb40ecdadcdef39e99ccc6985b8a944d9cc4cd0c0170b2133c3e63b0f2254bf",
+            "target_sha256": "f8cce4139c85f9206d8a0d3283f5004a408e37b368727e92e624283aae1ec5de"
+          },
+          "events:holdem_bad_beat:/description": {
+            "source_sha256": "2048f39f76ecae0638955d4322be1cb12925ef4a8c9181600425f5eb7db91d99",
+            "target_sha256": "594dc214a5f54797e75ef782114ca6433f1d399457d26f20c37df5750a843f98"
+          },
+          "events:holdem_big_pot:/choices/1/result_text": {
+            "source_sha256": "5417ba73ce5a4ca766d12140621693b48fbe5a4bdcf8d107948aed6b0df08d22",
+            "target_sha256": "710f0b3f0a7dcc10ae54c63ef485a17eab578403a56e77dae34b2addd7129dd6"
+          },
+          "events:holdem_losing_streak:/choices/0/result_text": {
+            "source_sha256": "3f1b5ab4c25eb228117deb8f0cb8eefdae74bae1f46bd3ed1345d7c0a62819d2",
+            "target_sha256": "703bd977f7ffdda0b76854809e261ec2409cb6dc2078c0149ab717c883852c0b"
+          },
+          "events:holdem_losing_streak:/choices/1/result_text": {
+            "source_sha256": "7ec0598cdeec30012ec2b7464eb63549b516f1573a5cf16a0d5f78a87b06d547",
+            "target_sha256": "9961c61315f0d2d87aed06b3f9c252e466a6fba3446a83a25d13f41d342d974a"
+          },
+          "events:holdem_losing_streak:/choices/1/text": {
+            "source_sha256": "be8fa3622ef8d197dd3dc0413fed07c4dd359b1b40cb5a65b28e3eaf976ae794",
+            "target_sha256": "8dd33c800dbabf760b503fc9f3d4a14505450f6c0f0d3cea8052930fb7a366a4"
+          },
+          "events:jeongseon_big_win_urge:/choices/0/result_text": {
+            "source_sha256": "8a201e8dda8ed63e3c174834d2124ede42f38999c4f8f3f362fd0bdc20c75b3e",
+            "target_sha256": "84a1a12b44abb5cbf7565752d1670d396c3206417b2f62a544791286fe0a6b79"
+          },
+          "events:jeongseon_big_win_urge:/description": {
+            "source_sha256": "66a8fa837577031ee6a2e9e18bae4c7fda4b1b8278bdeaab965bb1e71b184f1a",
+            "target_sha256": "de945a18537b4bd64237fd064075c284e998ddc417ff3056b32533ea53f2ba2c"
+          },
+          "events:market_crash_panic:/choices/0/result_text": {
+            "source_sha256": "29a5b71dfde102a2c7dd257f996f3565870ec2c194f1c6c73ccb98c9f6d60630",
+            "target_sha256": "857c8942b4abdb26379f25c5369485e05a35839036efa24fa351de886da7a7b0"
+          },
+          "events:market_crash_panic:/choices/0/text": {
+            "source_sha256": "cdb95000699801dfec53c1083f7b06a6d19431ad99dabb84af8083fde51982bc",
+            "target_sha256": "899857f15596ed639d0a4abe36f41aa22107c1bca94e0ee0dd35413d04d33f29"
+          },
+          "events:market_crash_panic:/choices/1/result_text": {
+            "source_sha256": "155b219932b0ee0606a6eeb5519a5a67c79fa8b820533d3ad49fc15d061a5fd7",
+            "target_sha256": "2932eb0e83e546c9d7b13ef37e57bb773bb1dacd93ea2e326ab538352f8cd429"
+          },
+          "events:market_crash_panic:/choices/1/text": {
+            "source_sha256": "23f9c0dac6823dac4b3c274290861a907ba3f159f2cd8a6d567bb069c985eb87",
+            "target_sha256": "bd0f77995c4b22e6fd563f89b94162bcf8d6152be189e4057ee40c7a6b776e99"
+          },
+          "events:market_crash_panic:/choices/2/result_text": {
+            "source_sha256": "401f88c329fac3e871f77049beda117429f2e6f07f8db22aa870add49774fd3d",
+            "target_sha256": "8f0ce3e5fe1d83e767c101c496e946278c7a1b10160a27e9972d92aea5fcfc91"
+          },
+          "events:market_crash_panic:/choices/2/text": {
+            "source_sha256": "4cb7040453f384411e61e4c51f6680bd8ac4b382e4616c77aba879aaaec90d27",
+            "target_sha256": "b3d5f5b2535ee49c007664d9a95bb331bf58f78d97aaa7d33421e434446a8d18"
+          },
+          "events:market_crash_panic:/description": {
+            "source_sha256": "19d835849bebf72c2b0c32594a69f2a188193f52f93f96858b0251fbe60345fc",
+            "target_sha256": "4e9cf419572c19acc23a083fb23eb73ad8437037bd36d7eb1b465ec11a6cf2d3"
+          },
+          "events:orthodox_institutional_access:/choices/0/result_text": {
+            "source_sha256": "ff873e0f23353ff2aa01f9eacc93970471fc99085a003e98dc47c2bf9dd3107b",
+            "target_sha256": "58991ec26f9979c68f51777f52912f5b6bcd8544cb2e9ff91936198906e168f5"
+          },
+          "events:orthodox_institutional_access:/choices/1/result_text": {
+            "source_sha256": "126e55e14399466bc90acf53694c991502e5ad8bf2f146fe1e791bff24d93618",
+            "target_sha256": "8accb6d762e396ed4f2d6ddd5440be11f9a691fc477b3d8bbf6a27d25723df85"
+          },
+          "events:orthodox_institutional_access:/description": {
+            "source_sha256": "8a7b8e14a4f2e5389a677b3ee4c1fb5265d530b0a9d6c817ca161d0bf6f398c0",
+            "target_sha256": "8c434b3644d9bf3392ae6712d207fa3283df474fc2e0fe9578a6644942bad078"
+          },
+          "events:race_big_win:/choices/0/result_text": {
+            "source_sha256": "5f1007699647992310e0de7194aae48e5ec8e03dd794210a82da209749292d41",
+            "target_sha256": "c2ab1386cd084b6475256229fc5ad20895a8922cad617bda579fa7b005846186"
+          },
+          "events:race_big_win:/choices/1/result_text": {
+            "source_sha256": "fc3669eb062c35b2c22ce71b6362395c17f6a4f56a47dbf97123f6285c4d351e",
+            "target_sha256": "f7fe9750db7b3f9a11ed64ccd27c116fecc395d1f3464b740974dce189786042"
+          },
+          "events:sangchul_tip_warning:/choices/1/text": {
+            "source_sha256": "d29a92b5d06cceb4ec483fc05905ecaed9b57ea4ef9458c1b90b0a548cd51269",
+            "target_sha256": "ae77062b0dfc3ee13db7dc57e72f5b180585e010a0648e8002190fb6901429dc"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/0/result_text": {
+            "source_sha256": "21d65f06dbe3d40fd8eff74695651b7729b289af1f4ec583ecc252709f3f0e20",
+            "target_sha256": "57e63c79541b8bdb337d8239b7b7fc32a48c6218d9611131f94a4045b3e60be5"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/1/result_text": {
+            "source_sha256": "c489104287ac16a5e48469e10ac1abe7847b7d4bf0401ca85f7f6cb6b5961cf6",
+            "target_sha256": "435ab0a8f3e398fa4524751528d9019f5889b7df53a78853f1f9a565e80d95b5"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/1/text": {
+            "source_sha256": "fdf4b425cc657eef46677967b945659449be124495b5a29ce4acbe7bfd41c226",
+            "target_sha256": "ce762b9456af0edcbe9ee97032d42ba1f9fec5d1c2f4e518080accc06cde99fd"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/2/result_text": {
+            "source_sha256": "cdbbf05f551cf4002c0564b76dba2653ed3215fdafb40f6471544fcbef353f7f",
+            "target_sha256": "b689c5f262e0e0cfeb4b4f55966570c5077a99d3d53a527ca41e3bfc8c47fe0c"
+          },
+          "events:unorthodox_gray_zone_tip:/description": {
+            "source_sha256": "5a6f47eb0b7b0de01504a3cc93f6117f9d529ee7f50f0c89f2c25ec5f6c98aee",
+            "target_sha256": "20a341549be4cd36371f718b428476d9656915c8bb02396451684ebcb94035f0"
+          }
+        },
+        "zh-CN": {
+          "events:drama_addiction_mirror:/choices/0/text": {
+            "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
+            "target_sha256": "868d76d45a3b0c70d8c095503b6570016146f71547b25be8c2129083aef0b569"
+          },
+          "events:drama_addiction_mirror:/choices/1/text": {
+            "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
+            "target_sha256": "7071bc530e0a54da5503d338b84c8d2f64ff4ec4dcc24f2123ad53c6e2359e7f"
+          },
+          "events:drama_addiction_warning:/choices/0/text": {
+            "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
+            "target_sha256": "abd5967fb6da3e6a759b59d6cdd52601e5ab1d8a4cbfbba082187042f969da9e"
+          },
+          "events:drama_addiction_warning:/choices/1/text": {
+            "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
+            "target_sha256": "50d8d64c9313f8a80f3b9c214c4994653c8e30b67093ae179ee97c6fc3d16d45"
+          },
+          "events:holdem_bad_beat:/choices/0/result_text": {
+            "source_sha256": "6669eccf7668f2ca49f0755c1c307d1ac1fc084fa9d9a49fd0d8ed03946949fe",
+            "target_sha256": "aac13341d4bc9228f9d2d7d0db7abdd6777950ddc945da3e93043ea7d083169c"
+          },
+          "events:holdem_bad_beat:/choices/1/result_text": {
+            "source_sha256": "edb40ecdadcdef39e99ccc6985b8a944d9cc4cd0c0170b2133c3e63b0f2254bf",
+            "target_sha256": "bd072e97284a9aca6293618de9e8f421e4390af08a546c3aed62b93cd524cb47"
+          },
+          "events:holdem_bad_beat:/description": {
+            "source_sha256": "2048f39f76ecae0638955d4322be1cb12925ef4a8c9181600425f5eb7db91d99",
+            "target_sha256": "0349b1500cb40df88461168fdad782b4b5582347f86d171f1460cae65ec4c368"
+          },
+          "events:holdem_big_pot:/choices/1/result_text": {
+            "source_sha256": "5417ba73ce5a4ca766d12140621693b48fbe5a4bdcf8d107948aed6b0df08d22",
+            "target_sha256": "0fcf2e9cb5d9165df68a69941ee0c6ac392542c58178f88735a435a319fa1d3c"
+          },
+          "events:holdem_losing_streak:/choices/0/result_text": {
+            "source_sha256": "3f1b5ab4c25eb228117deb8f0cb8eefdae74bae1f46bd3ed1345d7c0a62819d2",
+            "target_sha256": "1a48cbea4e6a98e453eac8c64e910f4bf3be4684a3d91dcf54c11b6f8eef31ff"
+          },
+          "events:holdem_losing_streak:/choices/1/result_text": {
+            "source_sha256": "7ec0598cdeec30012ec2b7464eb63549b516f1573a5cf16a0d5f78a87b06d547",
+            "target_sha256": "f60bed5ef04a56494d01f495c0eec0f47bd014cc779c013dfb45b49be82b0182"
+          },
+          "events:holdem_losing_streak:/choices/1/text": {
+            "source_sha256": "be8fa3622ef8d197dd3dc0413fed07c4dd359b1b40cb5a65b28e3eaf976ae794",
+            "target_sha256": "dc816b3c7df99a65a7b5af933eefaccfd91a7cb2b099407eaf08faa19227a9b1"
+          },
+          "events:jeongseon_big_win_urge:/choices/0/result_text": {
+            "source_sha256": "8a201e8dda8ed63e3c174834d2124ede42f38999c4f8f3f362fd0bdc20c75b3e",
+            "target_sha256": "0532edd41e65925b220ad3f860f9df1fe94ab448da5d4072832417b7b70ae905"
+          },
+          "events:jeongseon_big_win_urge:/description": {
+            "source_sha256": "66a8fa837577031ee6a2e9e18bae4c7fda4b1b8278bdeaab965bb1e71b184f1a",
+            "target_sha256": "f23c79b4a67b13b8f067ff5146a9c4e043b6f227872c97d143ecbc224d1dc7ee"
+          },
+          "events:market_crash_panic:/choices/0/result_text": {
+            "source_sha256": "29a5b71dfde102a2c7dd257f996f3565870ec2c194f1c6c73ccb98c9f6d60630",
+            "target_sha256": "640d657e5261586e320b071a4e235c7122a0bf1a87ab59975a388d0b6951a50b"
+          },
+          "events:market_crash_panic:/choices/0/text": {
+            "source_sha256": "cdb95000699801dfec53c1083f7b06a6d19431ad99dabb84af8083fde51982bc",
+            "target_sha256": "d46770d54bdd19f6692c9ff61f0841478070e9315ca1b1f6a17a7ba0b54f6425"
+          },
+          "events:market_crash_panic:/choices/1/result_text": {
+            "source_sha256": "155b219932b0ee0606a6eeb5519a5a67c79fa8b820533d3ad49fc15d061a5fd7",
+            "target_sha256": "30ca081ecba0530bcf2d8fbc28739c0c63e764c25fbb60136e275a53f4a07309"
+          },
+          "events:market_crash_panic:/choices/1/text": {
+            "source_sha256": "23f9c0dac6823dac4b3c274290861a907ba3f159f2cd8a6d567bb069c985eb87",
+            "target_sha256": "1bf7844708a6c0cb5fd7751b923056ed2fc32678817af14a5560cb99104ef28c"
+          },
+          "events:market_crash_panic:/choices/2/result_text": {
+            "source_sha256": "401f88c329fac3e871f77049beda117429f2e6f07f8db22aa870add49774fd3d",
+            "target_sha256": "50b4060f18af302ec640f7376baa893af51562c151d843fcdc23d9358e36a513"
+          },
+          "events:market_crash_panic:/choices/2/text": {
+            "source_sha256": "4cb7040453f384411e61e4c51f6680bd8ac4b382e4616c77aba879aaaec90d27",
+            "target_sha256": "1051992b05635c0768697bd4ab4680774d2fcae345593f4a28eee3573ec8825a"
+          },
+          "events:market_crash_panic:/description": {
+            "source_sha256": "19d835849bebf72c2b0c32594a69f2a188193f52f93f96858b0251fbe60345fc",
+            "target_sha256": "537bc340469631910780c52a180bfb77a062283e1f4b49de24055bca25ebec28"
+          },
+          "events:orthodox_institutional_access:/choices/0/result_text": {
+            "source_sha256": "ff873e0f23353ff2aa01f9eacc93970471fc99085a003e98dc47c2bf9dd3107b",
+            "target_sha256": "b825712b01a3ebac0217124a4cfe5c6a04cf7e36dbd44c76b4357c44eef91ada"
+          },
+          "events:orthodox_institutional_access:/choices/1/result_text": {
+            "source_sha256": "126e55e14399466bc90acf53694c991502e5ad8bf2f146fe1e791bff24d93618",
+            "target_sha256": "e608af76277b400ab1e8771e8ecdb6fa06282a9d2c8f4cd8c1c8608eedad395b"
+          },
+          "events:orthodox_institutional_access:/description": {
+            "source_sha256": "8a7b8e14a4f2e5389a677b3ee4c1fb5265d530b0a9d6c817ca161d0bf6f398c0",
+            "target_sha256": "ebf9c45ccc69a3c01f4a9e1ca6a36f720ca3c349aadee15af42828b703916e8a"
+          },
+          "events:race_big_win:/choices/0/result_text": {
+            "source_sha256": "5f1007699647992310e0de7194aae48e5ec8e03dd794210a82da209749292d41",
+            "target_sha256": "fe56d6d20d8eab2856725c559df925b0a76f88a137f1e264b8f45ff37f47c46d"
+          },
+          "events:race_big_win:/choices/1/result_text": {
+            "source_sha256": "fc3669eb062c35b2c22ce71b6362395c17f6a4f56a47dbf97123f6285c4d351e",
+            "target_sha256": "0b20e75debb903e204260072026788e9158fb587f00ad8e633d3cffe941116cf"
+          },
+          "events:sangchul_tip_warning:/choices/1/text": {
+            "source_sha256": "d29a92b5d06cceb4ec483fc05905ecaed9b57ea4ef9458c1b90b0a548cd51269",
+            "target_sha256": "32de3632419a96227b070035a1edb36326ec303ef8d91c3c496c8197c5e24a56"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/0/result_text": {
+            "source_sha256": "21d65f06dbe3d40fd8eff74695651b7729b289af1f4ec583ecc252709f3f0e20",
+            "target_sha256": "a7f3f0ebf655fc19162282f79cab341b40430d2b3e6a2ae6801e6979489cfc3c"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/1/result_text": {
+            "source_sha256": "c489104287ac16a5e48469e10ac1abe7847b7d4bf0401ca85f7f6cb6b5961cf6",
+            "target_sha256": "f72a2a45e6d79fc6a53db5f1dee9b0c3a4119df9e970b32f9728b985ad64e694"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/1/text": {
+            "source_sha256": "fdf4b425cc657eef46677967b945659449be124495b5a29ce4acbe7bfd41c226",
+            "target_sha256": "63a5544bc20b37bea06d9fc2b6f31aef560c5232f6aa0a41ac26733b901d032c"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/2/result_text": {
+            "source_sha256": "cdbbf05f551cf4002c0564b76dba2653ed3215fdafb40f6471544fcbef353f7f",
+            "target_sha256": "3a2e2d66a3d32ef8df77c09dfc6ab8ed5391988c62918b174325d1816e4adcfb"
+          },
+          "events:unorthodox_gray_zone_tip:/description": {
+            "source_sha256": "5a6f47eb0b7b0de01504a3cc93f6117f9d529ee7f50f0c89f2c25ec5f6c98aee",
+            "target_sha256": "cb13ef27131dba648c47dc197f85e7a11248bc42fd5284cf8ce95df653f35b4b"
+          }
+        },
+        "zh-TW": {
+          "events:drama_addiction_mirror:/choices/0/text": {
+            "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
+            "target_sha256": "0649c2532d6702f122dd43245261c53e302e5cc95567b37c31b329385f7b020e"
+          },
+          "events:drama_addiction_mirror:/choices/1/text": {
+            "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
+            "target_sha256": "14c032cef68fcdf9519ad27926f9e72050062c22462cc8ebf5f960bbc01542ca"
+          },
+          "events:drama_addiction_warning:/choices/0/text": {
+            "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
+            "target_sha256": "e84b7c01d762cb4e9d13250f6d0bffb39af6dc6c497eb4221c42ca02cd93fbdd"
+          },
+          "events:drama_addiction_warning:/choices/1/text": {
+            "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
+            "target_sha256": "6e7b2e6acd6ed3c6914514c7271bb7f1973084f70ea8cfe0ef4c17922933316f"
+          },
+          "events:holdem_bad_beat:/choices/0/result_text": {
+            "source_sha256": "6669eccf7668f2ca49f0755c1c307d1ac1fc084fa9d9a49fd0d8ed03946949fe",
+            "target_sha256": "ce59a226580676db5346a9ba5e7f0b12c59781836ac4b41e0af603872f5d6474"
+          },
+          "events:holdem_bad_beat:/choices/1/result_text": {
+            "source_sha256": "edb40ecdadcdef39e99ccc6985b8a944d9cc4cd0c0170b2133c3e63b0f2254bf",
+            "target_sha256": "716af5a2bf7fdf019c5d878298dd87ee0a5d700aef64b5ac27d8c041ba9494dd"
+          },
+          "events:holdem_bad_beat:/description": {
+            "source_sha256": "2048f39f76ecae0638955d4322be1cb12925ef4a8c9181600425f5eb7db91d99",
+            "target_sha256": "5db7c89053fd558b3ef2d3a01371f554e0e6c66fb6ffff2b4380cb53a6e0bf16"
+          },
+          "events:holdem_big_pot:/choices/1/result_text": {
+            "source_sha256": "5417ba73ce5a4ca766d12140621693b48fbe5a4bdcf8d107948aed6b0df08d22",
+            "target_sha256": "57a9e4ddf6b36456ce98ef2f058f653bddce5d3731d9f0026911b3de7882bd04"
+          },
+          "events:holdem_losing_streak:/choices/0/result_text": {
+            "source_sha256": "3f1b5ab4c25eb228117deb8f0cb8eefdae74bae1f46bd3ed1345d7c0a62819d2",
+            "target_sha256": "5deb24858b6a0d8a595fde6747090ea9ce290d5e2bc5062e073ee9d0787d6380"
+          },
+          "events:holdem_losing_streak:/choices/1/result_text": {
+            "source_sha256": "7ec0598cdeec30012ec2b7464eb63549b516f1573a5cf16a0d5f78a87b06d547",
+            "target_sha256": "3773e7e7e8a7e393c32fc6d9277e92f9576b0440cde6e769c9d3f141afe9bb1e"
+          },
+          "events:holdem_losing_streak:/choices/1/text": {
+            "source_sha256": "be8fa3622ef8d197dd3dc0413fed07c4dd359b1b40cb5a65b28e3eaf976ae794",
+            "target_sha256": "7024bc574d06eb328cfa3d38d35da8a4fd403bdf42af86eeb1722d4e4cdac161"
+          },
+          "events:jeongseon_big_win_urge:/choices/0/result_text": {
+            "source_sha256": "8a201e8dda8ed63e3c174834d2124ede42f38999c4f8f3f362fd0bdc20c75b3e",
+            "target_sha256": "5468d1406e97f8a6e2fdc1ead27e4e33154818ad4038bbc90148c388ae468525"
+          },
+          "events:jeongseon_big_win_urge:/description": {
+            "source_sha256": "66a8fa837577031ee6a2e9e18bae4c7fda4b1b8278bdeaab965bb1e71b184f1a",
+            "target_sha256": "be8d290a23b5877fe7530b89037d2a9f66d1aaec2ee8cabd3ad9b8db24813709"
+          },
+          "events:market_crash_panic:/choices/0/result_text": {
+            "source_sha256": "29a5b71dfde102a2c7dd257f996f3565870ec2c194f1c6c73ccb98c9f6d60630",
+            "target_sha256": "a33fa4c9dff0248f17b414d75af6924469cf5da4dd7c5df7dfc85c44961fd1d2"
+          },
+          "events:market_crash_panic:/choices/0/text": {
+            "source_sha256": "cdb95000699801dfec53c1083f7b06a6d19431ad99dabb84af8083fde51982bc",
+            "target_sha256": "fcebdc7c752b3dbe12f5a105ec267be786bc95158b77384caf60bb907a218293"
+          },
+          "events:market_crash_panic:/choices/1/result_text": {
+            "source_sha256": "155b219932b0ee0606a6eeb5519a5a67c79fa8b820533d3ad49fc15d061a5fd7",
+            "target_sha256": "4f8df285fbb35fb69c59b7ef781f25064a97aed1f2df50c9f112859b2f55e7ac"
+          },
+          "events:market_crash_panic:/choices/1/text": {
+            "source_sha256": "23f9c0dac6823dac4b3c274290861a907ba3f159f2cd8a6d567bb069c985eb87",
+            "target_sha256": "aef5dd9e9258aa5897ee7ad8e6dd40fcdbaf1fe83e14345ad855dfee27bb7a41"
+          },
+          "events:market_crash_panic:/choices/2/result_text": {
+            "source_sha256": "401f88c329fac3e871f77049beda117429f2e6f07f8db22aa870add49774fd3d",
+            "target_sha256": "289e65ff2fbde64e2b438600d753a8aea816c58ef0aad02332bbb83a087eaf55"
+          },
+          "events:market_crash_panic:/choices/2/text": {
+            "source_sha256": "4cb7040453f384411e61e4c51f6680bd8ac4b382e4616c77aba879aaaec90d27",
+            "target_sha256": "266d34267d45a088f90be59e8307e608f108a1f3cbb993fa03eafc24662d0b83"
+          },
+          "events:market_crash_panic:/description": {
+            "source_sha256": "19d835849bebf72c2b0c32594a69f2a188193f52f93f96858b0251fbe60345fc",
+            "target_sha256": "606b5bc1512fbcf317b9fc088af1dd95256ad89dddc4ad57f5936d89b04063cc"
+          },
+          "events:orthodox_institutional_access:/choices/0/result_text": {
+            "source_sha256": "ff873e0f23353ff2aa01f9eacc93970471fc99085a003e98dc47c2bf9dd3107b",
+            "target_sha256": "01ab9937cda6248c291a1991b3dc95cc78289ebcf3d8b73632e9031537adbf9b"
+          },
+          "events:orthodox_institutional_access:/choices/1/result_text": {
+            "source_sha256": "126e55e14399466bc90acf53694c991502e5ad8bf2f146fe1e791bff24d93618",
+            "target_sha256": "24501b21f6fed0719b421a623d5c145c3aecf35f51033ef0e52d9b30f4df4f88"
+          },
+          "events:orthodox_institutional_access:/description": {
+            "source_sha256": "8a7b8e14a4f2e5389a677b3ee4c1fb5265d530b0a9d6c817ca161d0bf6f398c0",
+            "target_sha256": "67eee0ded4548212d1c924bf1fb8f2f5cbd20ecf6fc1196ae7a328b2ba3d09ef"
+          },
+          "events:race_big_win:/choices/0/result_text": {
+            "source_sha256": "5f1007699647992310e0de7194aae48e5ec8e03dd794210a82da209749292d41",
+            "target_sha256": "83c456511f52411c36336d49b5229109685bb7fa948ea1d0e0bca88b696645aa"
+          },
+          "events:race_big_win:/choices/1/result_text": {
+            "source_sha256": "fc3669eb062c35b2c22ce71b6362395c17f6a4f56a47dbf97123f6285c4d351e",
+            "target_sha256": "1ae5adcb05714ef1619b8d6b2b572c94eb3946b09f6c9e522b0555b4cbf7a01c"
+          },
+          "events:sangchul_tip_warning:/choices/1/text": {
+            "source_sha256": "d29a92b5d06cceb4ec483fc05905ecaed9b57ea4ef9458c1b90b0a548cd51269",
+            "target_sha256": "a0d786d607a6886f39012da9d1a36389adc0646621c7868a1036fcbdc0060d1f"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/0/result_text": {
+            "source_sha256": "21d65f06dbe3d40fd8eff74695651b7729b289af1f4ec583ecc252709f3f0e20",
+            "target_sha256": "750c3308becd9e435666dcb8adc48e3a8309e460c58a58ffbe35d96692121b05"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/1/result_text": {
+            "source_sha256": "c489104287ac16a5e48469e10ac1abe7847b7d4bf0401ca85f7f6cb6b5961cf6",
+            "target_sha256": "6c0e62bacf5a43d63aeb1a988d739e849f4412a5840133d30ef6866bb6a25637"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/1/text": {
+            "source_sha256": "fdf4b425cc657eef46677967b945659449be124495b5a29ce4acbe7bfd41c226",
+            "target_sha256": "1486be165a9567fe5a6472e970f8a285d2362e8eaed6ede94b9aa849f877d225"
+          },
+          "events:unorthodox_gray_zone_tip:/choices/2/result_text": {
+            "source_sha256": "cdbbf05f551cf4002c0564b76dba2653ed3215fdafb40f6471544fcbef353f7f",
+            "target_sha256": "b5084b72864fb5c3e3939327e838e30a98af1c1e45b3fcbc4f75a986339e2315"
+          },
+          "events:unorthodox_gray_zone_tip:/description": {
+            "source_sha256": "5a6f47eb0b7b0de01504a3cc93f6117f9d529ee7f50f0c89f2c25ec5f6c98aee",
+            "target_sha256": "28d4a85ee65b8d010a1dc5ff23c3f14e769045a39fc1c6b0ed74f0f68a44d428"
+          }
+        }
+      }
     }
   ],
   "accepted": {
@@ -66879,8 +67439,8 @@
         "target_sha256": "364e83c83c9cfe53894d91569920eafb40deb6dc99332ed18aa8d28210d5c79e"
       },
       "events:jeongseon_big_win_urge:/choices/0/result_text": {
-        "source_sha256": "8a201e8dda8ed63e3c174834d2124ede42f38999c4f8f3f362fd0bdc20c75b3e",
-        "target_sha256": "84a1a12b44abb5cbf7565752d1670d396c3206417b2f62a544791286fe0a6b79"
+        "source_sha256": "76b756679f6667fad8a6a88644b642a45235b300ec276f515309ed04745229ce",
+        "target_sha256": "862b46077fddac0fda84e06ab02625f2f3faa3bb5d20146b26b1de53fdaf9ed6"
       },
       "events:jeongseon_big_win_urge:/choices/0/text": {
         "source_sha256": "f1c679836f1de207c8c9cef0bd875a6640ccd2a97621c6fce3810615086a547d",
@@ -66895,8 +67455,8 @@
         "target_sha256": "10e4b37987920a8e6f51f1079e9fb2c79719a8655b4e05fdd9f517b44ff900ce"
       },
       "events:jeongseon_big_win_urge:/description": {
-        "source_sha256": "66a8fa837577031ee6a2e9e18bae4c7fda4b1b8278bdeaab965bb1e71b184f1a",
-        "target_sha256": "de945a18537b4bd64237fd064075c284e998ddc417ff3056b32533ea53f2ba2c"
+        "source_sha256": "a7fbc9ae6179c282f62dd0e9ae2d6cd06776207c58b2b84b12998b24b771c83d",
+        "target_sha256": "c1478043a94fa3b9ab1bc99e79ff715d071b35234e6f02c82bfaa5dea7e469da"
       },
       "events:jeongseon_big_win_urge:/title": {
         "source_sha256": "a3c486fb61b40418f7792e0aac10e107ad112f4917255bf9b9b1af4c9b48d45f",
@@ -69515,16 +70075,16 @@
         "target_sha256": "73d38ef6bba8c1d4bc696bfa4bb03d0c8f704ce9fa3543876070763f86168cad"
       },
       "events:drama_addiction_mirror:/choices/0/text": {
-        "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
-        "target_sha256": "0d5bc49232229c0e67ee877e19a8bd4e310b8078f54c314a94818184d6587143"
+        "source_sha256": "99d990c909b910e58ba2514595aee057033acb966c623f0319edb7926d94bd42",
+        "target_sha256": "645d72b1675d3c346cfc310a678b2233f501b688a8b269d81e1e3c4aa3dfe83d"
       },
       "events:drama_addiction_mirror:/choices/1/result_text": {
         "source_sha256": "2682fff0f077802e3a3e43fa1b52291fd2b1ade89302bce33c2a3933b2f26b37",
         "target_sha256": "c8520f32199945adf6c2be426752de48e0511e09a115b233f0463f6f592697d4"
       },
       "events:drama_addiction_mirror:/choices/1/text": {
-        "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
-        "target_sha256": "c24f630413a2ad74d21573da46840f36bd44911fca147b8c71cc0bd74787202d"
+        "source_sha256": "6492f1b2c4d2ff35582a84f56395639630b7c22320cf82ce1cccf37ffd3613af",
+        "target_sha256": "cfeeeaef7d59666e940278881946457e5f8f4f2765e89b8b30338d922b6b58e3"
       },
       "events:drama_addiction_mirror:/description": {
         "source_sha256": "13a3ea127d8398c8ad90b51c26d67792c975f859b22f5d85e93c4532d0cef269",
@@ -69539,16 +70099,16 @@
         "target_sha256": "df8aaa658499f02f5da238f95b2f495ab48044368c9a3aa22f2bc1269bea663f"
       },
       "events:drama_addiction_warning:/choices/0/text": {
-        "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
-        "target_sha256": "bd1ba6614ea31f7321007c53c5bbbcd236dee40a14a68a7cf480d8c7de5756ae"
+        "source_sha256": "9c6af670a12da148c1f16a8aa3d501f4b675d510126b6aa7ea404e0d627448f3",
+        "target_sha256": "ace5b661a1f9f81e0182aaf9243a4adb18c6099657c7a48ce8811a0c3f3a933e"
       },
       "events:drama_addiction_warning:/choices/1/result_text": {
         "source_sha256": "f4ee94141b0c5101977814cc10aea159dd64b094a543fe9375f2be14ce6391c0",
         "target_sha256": "2b2da076e60ae39cf23d07fecbb17e410dbdd14f5c9a653bc9271a92f9a0cd99"
       },
       "events:drama_addiction_warning:/choices/1/text": {
-        "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
-        "target_sha256": "2f6eb113c0b9f80d46ee03cc956930201cf4ad27793551b3fc608041db37a685"
+        "source_sha256": "14974cdec704643146dbcb89c491e67816b9bc8f23e7b068b7c6273dd272ca50",
+        "target_sha256": "da18fcce24ca0830cafff90f23a36760b4fa4999b8a54c84bd19cf5fb6c2f3bc"
       },
       "events:drama_addiction_warning:/description": {
         "source_sha256": "27d760344fe3976ec4cdf500e6c79638ef4326bdb5c14a67a3f7c09fd5905981",
@@ -86463,32 +87023,32 @@
         "target_sha256": "130963f8d2bf5ae5a38fb8d252a7e2e998d44f2594dbb2f3955b246c26e024aa"
       },
       "events:market_crash_panic:/choices/0/result_text": {
-        "source_sha256": "29a5b71dfde102a2c7dd257f996f3565870ec2c194f1c6c73ccb98c9f6d60630",
-        "target_sha256": "857c8942b4abdb26379f25c5369485e05a35839036efa24fa351de886da7a7b0"
+        "source_sha256": "f8c290552364bc0173fc8948377d59ab322bc1ae368de63dad555e9e950af6f3",
+        "target_sha256": "c1a42214bb26663d399b85ba9179c26f2faca33003b2f5387ed3da153d1b231b"
       },
       "events:market_crash_panic:/choices/0/text": {
-        "source_sha256": "cdb95000699801dfec53c1083f7b06a6d19431ad99dabb84af8083fde51982bc",
-        "target_sha256": "899857f15596ed639d0a4abe36f41aa22107c1bca94e0ee0dd35413d04d33f29"
+        "source_sha256": "c0a6957b27faeb177b593bd71a04300d227ed99e62e8a355e93899022a708c29",
+        "target_sha256": "03fb761ca9b939ef3f8c23611c3a1547ec4618eb128c7372539e1ebb61aa5b6e"
       },
       "events:market_crash_panic:/choices/1/result_text": {
         "source_sha256": "155b219932b0ee0606a6eeb5519a5a67c79fa8b820533d3ad49fc15d061a5fd7",
         "target_sha256": "2932eb0e83e546c9d7b13ef37e57bb773bb1dacd93ea2e326ab538352f8cd429"
       },
       "events:market_crash_panic:/choices/1/text": {
-        "source_sha256": "23f9c0dac6823dac4b3c274290861a907ba3f159f2cd8a6d567bb069c985eb87",
-        "target_sha256": "bd0f77995c4b22e6fd563f89b94162bcf8d6152be189e4057ee40c7a6b776e99"
+        "source_sha256": "7ff7c74cd325e98e0937b770f96916c92456bca58009a2426ccea81def0e927a",
+        "target_sha256": "4fd0ad2fc29b0f6d45f3447b76584f45f569b697945cd1c47541f04989f08639"
       },
       "events:market_crash_panic:/choices/2/result_text": {
-        "source_sha256": "401f88c329fac3e871f77049beda117429f2e6f07f8db22aa870add49774fd3d",
-        "target_sha256": "8f0ce3e5fe1d83e767c101c496e946278c7a1b10160a27e9972d92aea5fcfc91"
+        "source_sha256": "d8fc2ca281f131e40634397019cc23b587225ea1861b2527b11c13aaba81414f",
+        "target_sha256": "c59d4d311d214bd5b7df1838152ac24a1e8770ab8d2d452c4448f578dc732bb5"
       },
       "events:market_crash_panic:/choices/2/text": {
-        "source_sha256": "4cb7040453f384411e61e4c51f6680bd8ac4b382e4616c77aba879aaaec90d27",
-        "target_sha256": "b3d5f5b2535ee49c007664d9a95bb331bf58f78d97aaa7d33421e434446a8d18"
+        "source_sha256": "993665259449694c54e787d0b755b5bb4003274f3a345be9dfce6217c4a5a284",
+        "target_sha256": "9a6bb001f8ff9e0aef45cdc933d808352ab9c305ad806ed6ca71c9b4a1505e99"
       },
       "events:market_crash_panic:/description": {
-        "source_sha256": "19d835849bebf72c2b0c32594a69f2a188193f52f93f96858b0251fbe60345fc",
-        "target_sha256": "4e9cf419572c19acc23a083fb23eb73ad8437037bd36d7eb1b465ec11a6cf2d3"
+        "source_sha256": "40bd1bbb25b536eaad023388041b1ca95dccacbec0d5609dcd72872fc04ab9c9",
+        "target_sha256": "67bd385cdd6e1ec40c7f104ee3cbca1c0235eda02489e8325e696b96ebc01db0"
       },
       "events:market_crash_panic:/title": {
         "source_sha256": "34ad35d6f5d114b162fda49900253f380b3af8f1b466dcb5b9ff4e9227a62a02",
@@ -87023,8 +87583,8 @@
         "target_sha256": "bed9128fc4639bf70f138143cdf8168080b7dfb98f87abd76ea9667448b5d898"
       },
       "events:orthodox_institutional_access:/choices/0/result_text": {
-        "source_sha256": "ff873e0f23353ff2aa01f9eacc93970471fc99085a003e98dc47c2bf9dd3107b",
-        "target_sha256": "58991ec26f9979c68f51777f52912f5b6bcd8544cb2e9ff91936198906e168f5"
+        "source_sha256": "4236fda39111ce2ea9b27b3f48d4acdbab0c65706624aaca88aa6bd8fc326187",
+        "target_sha256": "5a61d2c5e0969a5081c8423a4c9b97c87c8a6218017939edf893324a8484e443"
       },
       "events:orthodox_institutional_access:/choices/0/text": {
         "source_sha256": "e3741412d92539281dfd0f322326aeacb8739afa028562e9b2a4fdf66bbcc6f9",
@@ -87039,8 +87599,8 @@
         "target_sha256": "23fd880644970bdd32d36f3ff454cbb59edfe41b182c6cf252051788c4af17ba"
       },
       "events:orthodox_institutional_access:/description": {
-        "source_sha256": "8a7b8e14a4f2e5389a677b3ee4c1fb5265d530b0a9d6c817ca161d0bf6f398c0",
-        "target_sha256": "8c434b3644d9bf3392ae6712d207fa3283df474fc2e0fe9578a6644942bad078"
+        "source_sha256": "57a06725666197a6aeae294e8f040f6e6acc8bcba03704cbd0151d961f334d60",
+        "target_sha256": "fe3773bc961267c2f78f4a787d2ea5f38b24edb40003423022bb082f36ef58fa"
       },
       "events:orthodox_institutional_access:/title": {
         "source_sha256": "7f50106cd71263a1e15b4d53fbb7c3ad8a875540044d09218df5560f2d65ca53",
@@ -87115,8 +87675,8 @@
         "target_sha256": "367af6e601cef6002e017ecbae64a62204a08362cfd4dcc2fba6923a7865c6f0"
       },
       "events:sangchul_tip_warning:/choices/1/text": {
-        "source_sha256": "d29a92b5d06cceb4ec483fc05905ecaed9b57ea4ef9458c1b90b0a548cd51269",
-        "target_sha256": "ae77062b0dfc3ee13db7dc57e72f5b180585e010a0648e8002190fb6901429dc"
+        "source_sha256": "f476a120cc62109b84ca7d21dc93ee86481ca1ea2a5ddc1276d5e8769352773c",
+        "target_sha256": "b0e354b0ea5e88f060ec1e87911beef5e4d525a597c659989902aebf8096d7b2"
       },
       "events:sangchul_tip_warning:/description": {
         "source_sha256": "dcbf4337b7f3ca3fd400f173fd4bf71911bb19eda7c7cdf7d8db901b0c79c358",
@@ -87127,20 +87687,20 @@
         "target_sha256": "c8a9a6d5e82992a8d0589bbb68d0a3ac9f7139d7cb59911f670106bff4c17d2a"
       },
       "events:unorthodox_gray_zone_tip:/choices/0/result_text": {
-        "source_sha256": "21d65f06dbe3d40fd8eff74695651b7729b289af1f4ec583ecc252709f3f0e20",
-        "target_sha256": "57e63c79541b8bdb337d8239b7b7fc32a48c6218d9611131f94a4045b3e60be5"
+        "source_sha256": "0e778e13213e91f3369f7a543049769a3567743deaf0f47c0cd013f4a3007033",
+        "target_sha256": "bcfd5286cad7814b93896bdf913ef4b78d9665c276f50d051fef15ba42f47b9e"
       },
       "events:unorthodox_gray_zone_tip:/choices/0/text": {
         "source_sha256": "048bdc69d7da26442125094a92f082e34701948ef8b66e2c2c72282f9dbcebc7",
         "target_sha256": "0e96ebb56ace89d04555678f45007bd6f267efad295e62c36dd5c07a1dba1497"
       },
       "events:unorthodox_gray_zone_tip:/choices/1/result_text": {
-        "source_sha256": "c489104287ac16a5e48469e10ac1abe7847b7d4bf0401ca85f7f6cb6b5961cf6",
-        "target_sha256": "435ab0a8f3e398fa4524751528d9019f5889b7df53a78853f1f9a565e80d95b5"
+        "source_sha256": "ab4182d0dbabaff06dea9d68f65de1f7b3d998b69a298b602eaf5c43ff8cdf23",
+        "target_sha256": "185506f3dd0572bb54dbcfe95bc9b0288d41e0a60ab3498aeec2fba5396e6ed5"
       },
       "events:unorthodox_gray_zone_tip:/choices/1/text": {
-        "source_sha256": "fdf4b425cc657eef46677967b945659449be124495b5a29ce4acbe7bfd41c226",
-        "target_sha256": "ce762b9456af0edcbe9ee97032d42ba1f9fec5d1c2f4e518080accc06cde99fd"
+        "source_sha256": "1dc3ca329846a2febf1be1762c06980ae4a0844e79ee78658a2166b0edbdd1b6",
+        "target_sha256": "76d6a635392904575435da0a1c006ab6e344ef52a6e2ce5062eee51b855ed866"
       },
       "events:unorthodox_gray_zone_tip:/choices/2/result_text": {
         "source_sha256": "cdbbf05f551cf4002c0564b76dba2653ed3215fdafb40f6471544fcbef353f7f",
@@ -87151,8 +87711,8 @@
         "target_sha256": "d4953581e5bb973f592f637b0f28a4738e3557f979f1ec5ffd4a99f7450a387e"
       },
       "events:unorthodox_gray_zone_tip:/description": {
-        "source_sha256": "5a6f47eb0b7b0de01504a3cc93f6117f9d529ee7f50f0c89f2c25ec5f6c98aee",
-        "target_sha256": "20a341549be4cd36371f718b428476d9656915c8bb02396451684ebcb94035f0"
+        "source_sha256": "7b65ed71dc15bb07da7d772d7e9ae84829ca45b37a3f5950d91e364000c5eaab",
+        "target_sha256": "5b3fd3da2d6b583e09e0350802dda76da29870b2e997001ea516744e2cd375a0"
       },
       "events:unorthodox_gray_zone_tip:/title": {
         "source_sha256": "86159caffbfd7d74386be19f1c48e208ee0ac1dba948b1dce65b91424dd7671d",
@@ -88151,24 +88711,24 @@
         "target_sha256": "4a09bdf668bd3b7503ed2b6b9aa55ec37416bce5948e35b19a322f25266856bc"
       },
       "events:holdem_bad_beat:/choices/0/result_text": {
-        "source_sha256": "6669eccf7668f2ca49f0755c1c307d1ac1fc084fa9d9a49fd0d8ed03946949fe",
-        "target_sha256": "fbc98f3486fe5a86fd04cea48f11793a99dc54b5074ef04a4bf4514d3b170265"
+        "source_sha256": "a49db86ac69d91165d5a6d45c68d2c445182860d1525af2da6847bf92e57709c",
+        "target_sha256": "a3eed196905013567df31fe4b97c794aee113fd586494c35a2c800a6cc66892a"
       },
       "events:holdem_bad_beat:/choices/0/text": {
         "source_sha256": "eb0cb2e41bfb97788ff7a9b0a67794194be6f2a0634a751b1b540514355c6141",
         "target_sha256": "994a3900f5f2ec6c8e7885b85f4bf8bb39ea028c71a9c3f107f9de91f3ce557c"
       },
       "events:holdem_bad_beat:/choices/1/result_text": {
-        "source_sha256": "edb40ecdadcdef39e99ccc6985b8a944d9cc4cd0c0170b2133c3e63b0f2254bf",
-        "target_sha256": "f8cce4139c85f9206d8a0d3283f5004a408e37b368727e92e624283aae1ec5de"
+        "source_sha256": "295605cff9baeb31a39ecc832039865957aa61c2341b022ac17720fa2cf88b89",
+        "target_sha256": "b281c0d937ffcd6a09fcf709fa072031516bded6ea432534c453e00f6a268680"
       },
       "events:holdem_bad_beat:/choices/1/text": {
         "source_sha256": "106c5220d338ce5c2c0ef69f8b82da7d3a3265740f4cec6d6c60caa2608b2382",
         "target_sha256": "84706adab18276a75688eb5b6277e611e780d8a85c74a75c86576c6d7c9ffe97"
       },
       "events:holdem_bad_beat:/description": {
-        "source_sha256": "2048f39f76ecae0638955d4322be1cb12925ef4a8c9181600425f5eb7db91d99",
-        "target_sha256": "594dc214a5f54797e75ef782114ca6433f1d399457d26f20c37df5750a843f98"
+        "source_sha256": "00d5f416381bd44ee53a17b1353cd183ce578ae79b021203e55e956627c52df1",
+        "target_sha256": "7a7c5eefd9b96325fa64878df5bea95068662dbf976867eb7815b9d27b954867"
       },
       "events:holdem_bad_beat:/title": {
         "source_sha256": "3fa1914b196dcb06252d1e2a33a4a2a74b82d8a7e89bdf19e8e2697c1e5abea5",
@@ -88183,8 +88743,8 @@
         "target_sha256": "0e6fe0eaa15d3c5592a5fd18fc5e91f5da6334c3bf56a8dd95bf37e3dff7421b"
       },
       "events:holdem_big_pot:/choices/1/result_text": {
-        "source_sha256": "5417ba73ce5a4ca766d12140621693b48fbe5a4bdcf8d107948aed6b0df08d22",
-        "target_sha256": "710f0b3f0a7dcc10ae54c63ef485a17eab578403a56e77dae34b2addd7129dd6"
+        "source_sha256": "7a5a4c3557b63ba17c8af499b16c984317b3819d9e66f1d5109c4340d9f0fddd",
+        "target_sha256": "17057588ece2fe4b46c8c651f6b74cea0bc283eee15007074b8f719c91382584"
       },
       "events:holdem_big_pot:/choices/1/text": {
         "source_sha256": "63ecc640cba7ef1ab0235cb8e199926a3d2292215cda4c1569252e8224e78224",
@@ -88223,20 +88783,20 @@
         "target_sha256": "158ea137c08f616868cb5d93500c5097d2388907b22fea9d5e3e129deef32151"
       },
       "events:holdem_losing_streak:/choices/0/result_text": {
-        "source_sha256": "3f1b5ab4c25eb228117deb8f0cb8eefdae74bae1f46bd3ed1345d7c0a62819d2",
-        "target_sha256": "703bd977f7ffdda0b76854809e261ec2409cb6dc2078c0149ab717c883852c0b"
+        "source_sha256": "406fe597210606130c010c0184aaeee74f5f1be64e4a5f68e6c5a04758cadf1b",
+        "target_sha256": "03e1ac07d4937db586696b5ebff24056f363decd5fc40bb5e86b447506f4b42b"
       },
       "events:holdem_losing_streak:/choices/0/text": {
         "source_sha256": "b167224d214de2590b011f90e98f07862d4eb1a7fc10c123419de7bf6c0ea988",
         "target_sha256": "2166100c84aa15ab4954c83bceb7477cf87406f8ba7bbfa9be4ec09d269db05a"
       },
       "events:holdem_losing_streak:/choices/1/result_text": {
-        "source_sha256": "7ec0598cdeec30012ec2b7464eb63549b516f1573a5cf16a0d5f78a87b06d547",
-        "target_sha256": "9961c61315f0d2d87aed06b3f9c252e466a6fba3446a83a25d13f41d342d974a"
+        "source_sha256": "4aaa29fe36c5a34ab3e14da2832e18646903c24500064fa80a49c5583e520485",
+        "target_sha256": "2357ca469346714573ce04efe1e7bd2e89347bfe77537402fd977825c5d13ab2"
       },
       "events:holdem_losing_streak:/choices/1/text": {
-        "source_sha256": "be8fa3622ef8d197dd3dc0413fed07c4dd359b1b40cb5a65b28e3eaf976ae794",
-        "target_sha256": "8dd33c800dbabf760b503fc9f3d4a14505450f6c0f0d3cea8052930fb7a366a4"
+        "source_sha256": "87ac97195e7c4364ce302406334c14dae15d07d93e254dcb6188477df0d29d6c",
+        "target_sha256": "4b83f63cfefb7a708ea36f10f78e18df55ee960f570ec149aa3287927d335d6f"
       },
       "events:holdem_losing_streak:/description": {
         "source_sha256": "5ecfc150c5033d22b40ade920cb78a81fc6b4be95d48442f334f6eb7fbd5853e",
@@ -88831,16 +89391,16 @@
         "target_sha256": "a5256f03f1cd282042adb7737740c78373b263323d57263e5be063ff26152047"
       },
       "events:race_big_win:/choices/0/result_text": {
-        "source_sha256": "5f1007699647992310e0de7194aae48e5ec8e03dd794210a82da209749292d41",
-        "target_sha256": "c2ab1386cd084b6475256229fc5ad20895a8922cad617bda579fa7b005846186"
+        "source_sha256": "b1fdaa9d578c9a537d9d7a786acd3f73f0a3e9d4ea9885e0261818beb733da95",
+        "target_sha256": "5ef9046341de350e53ba5da6bd93ab482368acc8b23ddb23a7cc5e6bd79ac994"
       },
       "events:race_big_win:/choices/0/text": {
         "source_sha256": "95d443b25a102695870bbf30c8fa6ce44e04150168566f48cb86eafe8e3692b6",
         "target_sha256": "a2ef98f044862f700006e09f34cef20fb2b8f19cd7b268c3954049a427b25a27"
       },
       "events:race_big_win:/choices/1/result_text": {
-        "source_sha256": "fc3669eb062c35b2c22ce71b6362395c17f6a4f56a47dbf97123f6285c4d351e",
-        "target_sha256": "f7fe9750db7b3f9a11ed64ccd27c116fecc395d1f3464b740974dce189786042"
+        "source_sha256": "7d1245c5754e673ec09adea0ee6eb044cd499211f46b80d097a59403901b3a78",
+        "target_sha256": "a635a0997959cda8cbd9161fcb56ad7e566640ab817ba826f81cde39b0790c5b"
       },
       "events:race_big_win:/choices/1/text": {
         "source_sha256": "078235296ca6e9da34395ca94386b07b109f8e3f6e42841b4f4ff5ebf0bb0a08",
@@ -120045,8 +120605,8 @@
         "target_sha256": "ced07507a0e0a97413b9b660b42d5e2fedd4492520eba0dc1aadc0c9782159e0"
       },
       "events:jeongseon_big_win_urge:/choices/0/result_text": {
-        "source_sha256": "8a201e8dda8ed63e3c174834d2124ede42f38999c4f8f3f362fd0bdc20c75b3e",
-        "target_sha256": "0532edd41e65925b220ad3f860f9df1fe94ab448da5d4072832417b7b70ae905"
+        "source_sha256": "76b756679f6667fad8a6a88644b642a45235b300ec276f515309ed04745229ce",
+        "target_sha256": "8c0ec9c87b00eebc75ec5184c7deb6825b50485851773505755408bc7128bb71"
       },
       "events:jeongseon_big_win_urge:/choices/0/text": {
         "source_sha256": "f1c679836f1de207c8c9cef0bd875a6640ccd2a97621c6fce3810615086a547d",
@@ -120061,8 +120621,8 @@
         "target_sha256": "e8cd48bb112f5fddcdf9feee17cbb6c38126935b5895fb61848231dde3311755"
       },
       "events:jeongseon_big_win_urge:/description": {
-        "source_sha256": "66a8fa837577031ee6a2e9e18bae4c7fda4b1b8278bdeaab965bb1e71b184f1a",
-        "target_sha256": "f23c79b4a67b13b8f067ff5146a9c4e043b6f227872c97d143ecbc224d1dc7ee"
+        "source_sha256": "a7fbc9ae6179c282f62dd0e9ae2d6cd06776207c58b2b84b12998b24b771c83d",
+        "target_sha256": "5ab5e331fd536d5d493095c183b90e01a77b8f67b016881efe3a918ffe39b9dd"
       },
       "events:jeongseon_big_win_urge:/title": {
         "source_sha256": "a3c486fb61b40418f7792e0aac10e107ad112f4917255bf9b9b1af4c9b48d45f",
@@ -122681,16 +123241,16 @@
         "target_sha256": "671e37b5cb28051d5d56ebcaa55ad21ce5b1187c7fca5a130dacf0a93c554ef4"
       },
       "events:drama_addiction_mirror:/choices/0/text": {
-        "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
-        "target_sha256": "868d76d45a3b0c70d8c095503b6570016146f71547b25be8c2129083aef0b569"
+        "source_sha256": "99d990c909b910e58ba2514595aee057033acb966c623f0319edb7926d94bd42",
+        "target_sha256": "879b9db8bbddf3b3ea0cfab39a948a668c5170f2b1b2fc1bcc06da122a7c1ec3"
       },
       "events:drama_addiction_mirror:/choices/1/result_text": {
         "source_sha256": "2682fff0f077802e3a3e43fa1b52291fd2b1ade89302bce33c2a3933b2f26b37",
         "target_sha256": "54ac28dbbb200bf675708efee261f587e51d4607e435f062ad7e4daaaa690b19"
       },
       "events:drama_addiction_mirror:/choices/1/text": {
-        "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
-        "target_sha256": "7071bc530e0a54da5503d338b84c8d2f64ff4ec4dcc24f2123ad53c6e2359e7f"
+        "source_sha256": "6492f1b2c4d2ff35582a84f56395639630b7c22320cf82ce1cccf37ffd3613af",
+        "target_sha256": "0efe8ed82f58069f68e9fe024f83356501502804cf58aed83fee7d68dc44706a"
       },
       "events:drama_addiction_mirror:/description": {
         "source_sha256": "13a3ea127d8398c8ad90b51c26d67792c975f859b22f5d85e93c4532d0cef269",
@@ -122705,16 +123265,16 @@
         "target_sha256": "625a46f8f63d5ca8453ee659a5c68d081b6e31c3145e8f058200d5bf86c3c1ac"
       },
       "events:drama_addiction_warning:/choices/0/text": {
-        "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
-        "target_sha256": "abd5967fb6da3e6a759b59d6cdd52601e5ab1d8a4cbfbba082187042f969da9e"
+        "source_sha256": "9c6af670a12da148c1f16a8aa3d501f4b675d510126b6aa7ea404e0d627448f3",
+        "target_sha256": "c945689134f6826c2a219916cb9a615660a988198d2ec318850d227771539d98"
       },
       "events:drama_addiction_warning:/choices/1/result_text": {
         "source_sha256": "f4ee94141b0c5101977814cc10aea159dd64b094a543fe9375f2be14ce6391c0",
         "target_sha256": "8a8d5ef7b41725ee6276364647e9f36aaf8518ee4be99c8c4e8a1c0bc4e6a198"
       },
       "events:drama_addiction_warning:/choices/1/text": {
-        "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
-        "target_sha256": "50d8d64c9313f8a80f3b9c214c4994653c8e30b67093ae179ee97c6fc3d16d45"
+        "source_sha256": "14974cdec704643146dbcb89c491e67816b9bc8f23e7b068b7c6273dd272ca50",
+        "target_sha256": "c5c2671e07cbe0f2884c354d439e8f57158adb7f07cc3fc09bac58c4b8ec61dc"
       },
       "events:drama_addiction_warning:/description": {
         "source_sha256": "27d760344fe3976ec4cdf500e6c79638ef4326bdb5c14a67a3f7c09fd5905981",
@@ -139629,32 +140189,32 @@
         "target_sha256": "7428f9a05b0e70626b474ce0800e23faa077276ae4a9961f3daf5b1c8beb1a65"
       },
       "events:market_crash_panic:/choices/0/result_text": {
-        "source_sha256": "29a5b71dfde102a2c7dd257f996f3565870ec2c194f1c6c73ccb98c9f6d60630",
-        "target_sha256": "640d657e5261586e320b071a4e235c7122a0bf1a87ab59975a388d0b6951a50b"
+        "source_sha256": "f8c290552364bc0173fc8948377d59ab322bc1ae368de63dad555e9e950af6f3",
+        "target_sha256": "1d61a49f02aa821ca42467c140f4fb5bb5c1c86ba6e9c2030e7d06aa831c8459"
       },
       "events:market_crash_panic:/choices/0/text": {
-        "source_sha256": "cdb95000699801dfec53c1083f7b06a6d19431ad99dabb84af8083fde51982bc",
-        "target_sha256": "d46770d54bdd19f6692c9ff61f0841478070e9315ca1b1f6a17a7ba0b54f6425"
+        "source_sha256": "c0a6957b27faeb177b593bd71a04300d227ed99e62e8a355e93899022a708c29",
+        "target_sha256": "15f03fedfc8e7b416dfcdf567b06e3d6122142d49e189c880741acb76e933150"
       },
       "events:market_crash_panic:/choices/1/result_text": {
         "source_sha256": "155b219932b0ee0606a6eeb5519a5a67c79fa8b820533d3ad49fc15d061a5fd7",
         "target_sha256": "30ca081ecba0530bcf2d8fbc28739c0c63e764c25fbb60136e275a53f4a07309"
       },
       "events:market_crash_panic:/choices/1/text": {
-        "source_sha256": "23f9c0dac6823dac4b3c274290861a907ba3f159f2cd8a6d567bb069c985eb87",
-        "target_sha256": "1bf7844708a6c0cb5fd7751b923056ed2fc32678817af14a5560cb99104ef28c"
+        "source_sha256": "7ff7c74cd325e98e0937b770f96916c92456bca58009a2426ccea81def0e927a",
+        "target_sha256": "911aab5cbd1a46b8ccb611fed56c60af9666ab0d798139526fe3756a9451d930"
       },
       "events:market_crash_panic:/choices/2/result_text": {
-        "source_sha256": "401f88c329fac3e871f77049beda117429f2e6f07f8db22aa870add49774fd3d",
-        "target_sha256": "50b4060f18af302ec640f7376baa893af51562c151d843fcdc23d9358e36a513"
+        "source_sha256": "d8fc2ca281f131e40634397019cc23b587225ea1861b2527b11c13aaba81414f",
+        "target_sha256": "815066e208b32ef71fefa01695c5c40f7c3d3c8558b4e6a9db639b9f2533e49b"
       },
       "events:market_crash_panic:/choices/2/text": {
-        "source_sha256": "4cb7040453f384411e61e4c51f6680bd8ac4b382e4616c77aba879aaaec90d27",
-        "target_sha256": "1051992b05635c0768697bd4ab4680774d2fcae345593f4a28eee3573ec8825a"
+        "source_sha256": "993665259449694c54e787d0b755b5bb4003274f3a345be9dfce6217c4a5a284",
+        "target_sha256": "566b989904ab5bb323c5422f90161c3a80947c1dc8a0cfea5d809649322f0d76"
       },
       "events:market_crash_panic:/description": {
-        "source_sha256": "19d835849bebf72c2b0c32594a69f2a188193f52f93f96858b0251fbe60345fc",
-        "target_sha256": "537bc340469631910780c52a180bfb77a062283e1f4b49de24055bca25ebec28"
+        "source_sha256": "40bd1bbb25b536eaad023388041b1ca95dccacbec0d5609dcd72872fc04ab9c9",
+        "target_sha256": "558d0c0c2369b5e49712b3f362d61faf4b83c50a273e820060ba60f85d83a93e"
       },
       "events:market_crash_panic:/title": {
         "source_sha256": "34ad35d6f5d114b162fda49900253f380b3af8f1b466dcb5b9ff4e9227a62a02",
@@ -140189,8 +140749,8 @@
         "target_sha256": "81b37cbf9a05c44885fb962956e82190abcff0953018e0c3e62c4828e1354f68"
       },
       "events:orthodox_institutional_access:/choices/0/result_text": {
-        "source_sha256": "ff873e0f23353ff2aa01f9eacc93970471fc99085a003e98dc47c2bf9dd3107b",
-        "target_sha256": "b825712b01a3ebac0217124a4cfe5c6a04cf7e36dbd44c76b4357c44eef91ada"
+        "source_sha256": "4236fda39111ce2ea9b27b3f48d4acdbab0c65706624aaca88aa6bd8fc326187",
+        "target_sha256": "68c67b0c6a7cc81e9f404e19153c8339a28fcdc9edeaf31872b612c148314164"
       },
       "events:orthodox_institutional_access:/choices/0/text": {
         "source_sha256": "e3741412d92539281dfd0f322326aeacb8739afa028562e9b2a4fdf66bbcc6f9",
@@ -140205,8 +140765,8 @@
         "target_sha256": "1056b65b2ea5fd70dc60f60ea0fd4189c551d22724bba2b2e84378bc99d6423d"
       },
       "events:orthodox_institutional_access:/description": {
-        "source_sha256": "8a7b8e14a4f2e5389a677b3ee4c1fb5265d530b0a9d6c817ca161d0bf6f398c0",
-        "target_sha256": "ebf9c45ccc69a3c01f4a9e1ca6a36f720ca3c349aadee15af42828b703916e8a"
+        "source_sha256": "57a06725666197a6aeae294e8f040f6e6acc8bcba03704cbd0151d961f334d60",
+        "target_sha256": "46af6f2f85f111ba131ba255d73e655f9d16555b00c19d6981be8a0ef22f52f0"
       },
       "events:orthodox_institutional_access:/title": {
         "source_sha256": "7f50106cd71263a1e15b4d53fbb7c3ad8a875540044d09218df5560f2d65ca53",
@@ -140281,8 +140841,8 @@
         "target_sha256": "be475804f9c84f345c4be5b12c84923b8c0a849ef732191ca8bcde6f03d8673c"
       },
       "events:sangchul_tip_warning:/choices/1/text": {
-        "source_sha256": "d29a92b5d06cceb4ec483fc05905ecaed9b57ea4ef9458c1b90b0a548cd51269",
-        "target_sha256": "32de3632419a96227b070035a1edb36326ec303ef8d91c3c496c8197c5e24a56"
+        "source_sha256": "f476a120cc62109b84ca7d21dc93ee86481ca1ea2a5ddc1276d5e8769352773c",
+        "target_sha256": "4aad53386c18b1018b699888f2306eac440fdf1b4674f0ca9339d54265c168b3"
       },
       "events:sangchul_tip_warning:/description": {
         "source_sha256": "dcbf4337b7f3ca3fd400f173fd4bf71911bb19eda7c7cdf7d8db901b0c79c358",
@@ -140293,20 +140853,20 @@
         "target_sha256": "a0666a9c666c9b275454b9b9bfa423aa6f5730985fd03a6758b10eb06179fe5d"
       },
       "events:unorthodox_gray_zone_tip:/choices/0/result_text": {
-        "source_sha256": "21d65f06dbe3d40fd8eff74695651b7729b289af1f4ec583ecc252709f3f0e20",
-        "target_sha256": "a7f3f0ebf655fc19162282f79cab341b40430d2b3e6a2ae6801e6979489cfc3c"
+        "source_sha256": "0e778e13213e91f3369f7a543049769a3567743deaf0f47c0cd013f4a3007033",
+        "target_sha256": "6719074ea1f20d8e623ea25856e6082a06b2d977f5885cc70102a3092febae0a"
       },
       "events:unorthodox_gray_zone_tip:/choices/0/text": {
         "source_sha256": "048bdc69d7da26442125094a92f082e34701948ef8b66e2c2c72282f9dbcebc7",
         "target_sha256": "7ca535b9c4a14e6cd94445eccd9755ab4880b0bb5a7aa86dadb721849e3f89b6"
       },
       "events:unorthodox_gray_zone_tip:/choices/1/result_text": {
-        "source_sha256": "c489104287ac16a5e48469e10ac1abe7847b7d4bf0401ca85f7f6cb6b5961cf6",
-        "target_sha256": "f72a2a45e6d79fc6a53db5f1dee9b0c3a4119df9e970b32f9728b985ad64e694"
+        "source_sha256": "ab4182d0dbabaff06dea9d68f65de1f7b3d998b69a298b602eaf5c43ff8cdf23",
+        "target_sha256": "b130ba531543d293970744b9c754b5e8510b8bf50cbcad5208732621792f7187"
       },
       "events:unorthodox_gray_zone_tip:/choices/1/text": {
-        "source_sha256": "fdf4b425cc657eef46677967b945659449be124495b5a29ce4acbe7bfd41c226",
-        "target_sha256": "63a5544bc20b37bea06d9fc2b6f31aef560c5232f6aa0a41ac26733b901d032c"
+        "source_sha256": "1dc3ca329846a2febf1be1762c06980ae4a0844e79ee78658a2166b0edbdd1b6",
+        "target_sha256": "dc6451b83944b1ba299dcbd096ee402a48afe3656cdaf66821953786c2b49d96"
       },
       "events:unorthodox_gray_zone_tip:/choices/2/result_text": {
         "source_sha256": "cdbbf05f551cf4002c0564b76dba2653ed3215fdafb40f6471544fcbef353f7f",
@@ -140317,8 +140877,8 @@
         "target_sha256": "deb374ce410a5d214d8170b36005c243cbc7b751ab53d36b763201041fcbbe81"
       },
       "events:unorthodox_gray_zone_tip:/description": {
-        "source_sha256": "5a6f47eb0b7b0de01504a3cc93f6117f9d529ee7f50f0c89f2c25ec5f6c98aee",
-        "target_sha256": "cb13ef27131dba648c47dc197f85e7a11248bc42fd5284cf8ce95df653f35b4b"
+        "source_sha256": "7b65ed71dc15bb07da7d772d7e9ae84829ca45b37a3f5950d91e364000c5eaab",
+        "target_sha256": "a3df6c1d7fd33a7193569083fad2c5c43ed8f1522e395a56303cc5e3509cfbac"
       },
       "events:unorthodox_gray_zone_tip:/title": {
         "source_sha256": "86159caffbfd7d74386be19f1c48e208ee0ac1dba948b1dce65b91424dd7671d",
@@ -141317,24 +141877,24 @@
         "target_sha256": "2178788533a7b35488ea129661c7e1b2fda800975829d23a1cf6d21cf1b043b2"
       },
       "events:holdem_bad_beat:/choices/0/result_text": {
-        "source_sha256": "6669eccf7668f2ca49f0755c1c307d1ac1fc084fa9d9a49fd0d8ed03946949fe",
-        "target_sha256": "aac13341d4bc9228f9d2d7d0db7abdd6777950ddc945da3e93043ea7d083169c"
+        "source_sha256": "a49db86ac69d91165d5a6d45c68d2c445182860d1525af2da6847bf92e57709c",
+        "target_sha256": "5be9eef1f0ca6d8c8e87dd16e617457491c033444ae21dea373e83417012ab95"
       },
       "events:holdem_bad_beat:/choices/0/text": {
         "source_sha256": "eb0cb2e41bfb97788ff7a9b0a67794194be6f2a0634a751b1b540514355c6141",
         "target_sha256": "5a4fdf3d330af11f268d06f036fdfc70e7d6fc2fe1cb08f8243997258ff8251e"
       },
       "events:holdem_bad_beat:/choices/1/result_text": {
-        "source_sha256": "edb40ecdadcdef39e99ccc6985b8a944d9cc4cd0c0170b2133c3e63b0f2254bf",
-        "target_sha256": "bd072e97284a9aca6293618de9e8f421e4390af08a546c3aed62b93cd524cb47"
+        "source_sha256": "295605cff9baeb31a39ecc832039865957aa61c2341b022ac17720fa2cf88b89",
+        "target_sha256": "b2cb4f321b3bd109448646a1fe3d8f69a890b38aeb3174fcd6e46e1bc2918745"
       },
       "events:holdem_bad_beat:/choices/1/text": {
         "source_sha256": "106c5220d338ce5c2c0ef69f8b82da7d3a3265740f4cec6d6c60caa2608b2382",
         "target_sha256": "8e2c1900912682734c9be3b9b5d96961ec2806ceb8c253b56fdbd5c2a3e0e864"
       },
       "events:holdem_bad_beat:/description": {
-        "source_sha256": "2048f39f76ecae0638955d4322be1cb12925ef4a8c9181600425f5eb7db91d99",
-        "target_sha256": "0349b1500cb40df88461168fdad782b4b5582347f86d171f1460cae65ec4c368"
+        "source_sha256": "00d5f416381bd44ee53a17b1353cd183ce578ae79b021203e55e956627c52df1",
+        "target_sha256": "99bbcbf2add919277a6102101c69f289b9a62068ee02ea41245e4a8167ea9405"
       },
       "events:holdem_bad_beat:/title": {
         "source_sha256": "3fa1914b196dcb06252d1e2a33a4a2a74b82d8a7e89bdf19e8e2697c1e5abea5",
@@ -141349,8 +141909,8 @@
         "target_sha256": "a0e0e62d254df2617e2f49fe86a3186027f3a8878f9592399280bdaa09473db3"
       },
       "events:holdem_big_pot:/choices/1/result_text": {
-        "source_sha256": "5417ba73ce5a4ca766d12140621693b48fbe5a4bdcf8d107948aed6b0df08d22",
-        "target_sha256": "0fcf2e9cb5d9165df68a69941ee0c6ac392542c58178f88735a435a319fa1d3c"
+        "source_sha256": "7a5a4c3557b63ba17c8af499b16c984317b3819d9e66f1d5109c4340d9f0fddd",
+        "target_sha256": "d219069e6b8a5f44657f4a12ac24a7e98af0d2aa7ca772954fa9e13863a3f64e"
       },
       "events:holdem_big_pot:/choices/1/text": {
         "source_sha256": "63ecc640cba7ef1ab0235cb8e199926a3d2292215cda4c1569252e8224e78224",
@@ -141389,20 +141949,20 @@
         "target_sha256": "e1d6c26206c095e14b57f60b0de1582ec46fdde78977728a89ffa0708d1430ac"
       },
       "events:holdem_losing_streak:/choices/0/result_text": {
-        "source_sha256": "3f1b5ab4c25eb228117deb8f0cb8eefdae74bae1f46bd3ed1345d7c0a62819d2",
-        "target_sha256": "1a48cbea4e6a98e453eac8c64e910f4bf3be4684a3d91dcf54c11b6f8eef31ff"
+        "source_sha256": "406fe597210606130c010c0184aaeee74f5f1be64e4a5f68e6c5a04758cadf1b",
+        "target_sha256": "dca06540421b84990a9a6ab1c0dd9991d75c52c98b2d789a4d14068f031c6df0"
       },
       "events:holdem_losing_streak:/choices/0/text": {
         "source_sha256": "b167224d214de2590b011f90e98f07862d4eb1a7fc10c123419de7bf6c0ea988",
         "target_sha256": "8bebea2329a346d091f0e0336d1efed774fa0f882612ddbef01ca2abfd50fbb0"
       },
       "events:holdem_losing_streak:/choices/1/result_text": {
-        "source_sha256": "7ec0598cdeec30012ec2b7464eb63549b516f1573a5cf16a0d5f78a87b06d547",
-        "target_sha256": "f60bed5ef04a56494d01f495c0eec0f47bd014cc779c013dfb45b49be82b0182"
+        "source_sha256": "4aaa29fe36c5a34ab3e14da2832e18646903c24500064fa80a49c5583e520485",
+        "target_sha256": "6898669517c1ea010e70c3a2260b987a22de791dc4c7230775b20de867c13fd3"
       },
       "events:holdem_losing_streak:/choices/1/text": {
-        "source_sha256": "be8fa3622ef8d197dd3dc0413fed07c4dd359b1b40cb5a65b28e3eaf976ae794",
-        "target_sha256": "dc816b3c7df99a65a7b5af933eefaccfd91a7cb2b099407eaf08faa19227a9b1"
+        "source_sha256": "87ac97195e7c4364ce302406334c14dae15d07d93e254dcb6188477df0d29d6c",
+        "target_sha256": "989e8d0c85c07d51bafa0b34e370c14f1d7a941311a50ff06e2846060a2990ac"
       },
       "events:holdem_losing_streak:/description": {
         "source_sha256": "5ecfc150c5033d22b40ade920cb78a81fc6b4be95d48442f334f6eb7fbd5853e",
@@ -141997,16 +142557,16 @@
         "target_sha256": "a5e88b259ac5172e687eac6dc5d1c02715e9a8c70ccd45b7ff61b6b5158d648b"
       },
       "events:race_big_win:/choices/0/result_text": {
-        "source_sha256": "5f1007699647992310e0de7194aae48e5ec8e03dd794210a82da209749292d41",
-        "target_sha256": "fe56d6d20d8eab2856725c559df925b0a76f88a137f1e264b8f45ff37f47c46d"
+        "source_sha256": "b1fdaa9d578c9a537d9d7a786acd3f73f0a3e9d4ea9885e0261818beb733da95",
+        "target_sha256": "2ab365bd8ff8e18c8202e148ed61ad9ca4fa058eb2f1a7ba3f5ee584bf27b226"
       },
       "events:race_big_win:/choices/0/text": {
         "source_sha256": "95d443b25a102695870bbf30c8fa6ce44e04150168566f48cb86eafe8e3692b6",
         "target_sha256": "dec48b8ce3a37e0ac8bea3ab442a05252c7f9df6fc489bf3d9056f570985d237"
       },
       "events:race_big_win:/choices/1/result_text": {
-        "source_sha256": "fc3669eb062c35b2c22ce71b6362395c17f6a4f56a47dbf97123f6285c4d351e",
-        "target_sha256": "0b20e75debb903e204260072026788e9158fb587f00ad8e633d3cffe941116cf"
+        "source_sha256": "7d1245c5754e673ec09adea0ee6eb044cd499211f46b80d097a59403901b3a78",
+        "target_sha256": "1828f0fe3cdbb1e7b4e3ce91d32eba95ba4deee6b0d746d864fbf445c2efcae1"
       },
       "events:race_big_win:/choices/1/text": {
         "source_sha256": "078235296ca6e9da34395ca94386b07b109f8e3f6e42841b4f4ff5ebf0bb0a08",
@@ -179995,8 +180555,8 @@
         "target_sha256": "ced07507a0e0a97413b9b660b42d5e2fedd4492520eba0dc1aadc0c9782159e0"
       },
       "events:jeongseon_big_win_urge:/choices/0/result_text": {
-        "source_sha256": "8a201e8dda8ed63e3c174834d2124ede42f38999c4f8f3f362fd0bdc20c75b3e",
-        "target_sha256": "5468d1406e97f8a6e2fdc1ead27e4e33154818ad4038bbc90148c388ae468525"
+        "source_sha256": "76b756679f6667fad8a6a88644b642a45235b300ec276f515309ed04745229ce",
+        "target_sha256": "f4a62f8568493c51f7cd91f17b6d294b4e46c0eee618498f6ea7653467e3c7f8"
       },
       "events:jeongseon_big_win_urge:/choices/0/text": {
         "source_sha256": "f1c679836f1de207c8c9cef0bd875a6640ccd2a97621c6fce3810615086a547d",
@@ -180011,8 +180571,8 @@
         "target_sha256": "ec7307ca30038420d2ce5149d59901afd1c5132c44c1fd9b3efb4c78b2680c47"
       },
       "events:jeongseon_big_win_urge:/description": {
-        "source_sha256": "66a8fa837577031ee6a2e9e18bae4c7fda4b1b8278bdeaab965bb1e71b184f1a",
-        "target_sha256": "be8d290a23b5877fe7530b89037d2a9f66d1aaec2ee8cabd3ad9b8db24813709"
+        "source_sha256": "a7fbc9ae6179c282f62dd0e9ae2d6cd06776207c58b2b84b12998b24b771c83d",
+        "target_sha256": "654569d5c7e4daedd8d80ca86d768a166d404edc9861c64816527b8ed6e38974"
       },
       "events:jeongseon_big_win_urge:/title": {
         "source_sha256": "a3c486fb61b40418f7792e0aac10e107ad112f4917255bf9b9b1af4c9b48d45f",
@@ -182631,16 +183191,16 @@
         "target_sha256": "434075b706321e68370e67f560dfdad2fea910729460b3cb050569cafbb31aa1"
       },
       "events:drama_addiction_mirror:/choices/0/text": {
-        "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
-        "target_sha256": "0649c2532d6702f122dd43245261c53e302e5cc95567b37c31b329385f7b020e"
+        "source_sha256": "99d990c909b910e58ba2514595aee057033acb966c623f0319edb7926d94bd42",
+        "target_sha256": "b55d597fa19ef5f24a98f21e9a5c7c73253c0490c81ef119018bb6e13e2f1cd8"
       },
       "events:drama_addiction_mirror:/choices/1/result_text": {
         "source_sha256": "2682fff0f077802e3a3e43fa1b52291fd2b1ade89302bce33c2a3933b2f26b37",
         "target_sha256": "d66892a730d2f39270aebab343529857a048f314d5562a9d6ee8dd4ad5e88ee7"
       },
       "events:drama_addiction_mirror:/choices/1/text": {
-        "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
-        "target_sha256": "14c032cef68fcdf9519ad27926f9e72050062c22462cc8ebf5f960bbc01542ca"
+        "source_sha256": "6492f1b2c4d2ff35582a84f56395639630b7c22320cf82ce1cccf37ffd3613af",
+        "target_sha256": "4bde718aaaaad376a69844f55626a4d4837555fe058555920a4a74b2b42e23ab"
       },
       "events:drama_addiction_mirror:/description": {
         "source_sha256": "13a3ea127d8398c8ad90b51c26d67792c975f859b22f5d85e93c4532d0cef269",
@@ -182655,16 +183215,16 @@
         "target_sha256": "ee589c18e64cd1ea78aa90d624ad621257d7ef9ae890ffe0da4f8aa2def0088f"
       },
       "events:drama_addiction_warning:/choices/0/text": {
-        "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
-        "target_sha256": "e84b7c01d762cb4e9d13250f6d0bffb39af6dc6c497eb4221c42ca02cd93fbdd"
+        "source_sha256": "9c6af670a12da148c1f16a8aa3d501f4b675d510126b6aa7ea404e0d627448f3",
+        "target_sha256": "efdda9ac1242358b5c3c3c97833b4a40f3dfb9f893f40e2659b328fbab956ca3"
       },
       "events:drama_addiction_warning:/choices/1/result_text": {
         "source_sha256": "f4ee94141b0c5101977814cc10aea159dd64b094a543fe9375f2be14ce6391c0",
         "target_sha256": "d06339305a361a8de2339b46fe57d18217a3d7321d13c6d2084196411c8e2161"
       },
       "events:drama_addiction_warning:/choices/1/text": {
-        "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
-        "target_sha256": "6e7b2e6acd6ed3c6914514c7271bb7f1973084f70ea8cfe0ef4c17922933316f"
+        "source_sha256": "14974cdec704643146dbcb89c491e67816b9bc8f23e7b068b7c6273dd272ca50",
+        "target_sha256": "f0d3f0ed1e9488dcbd357b786323c2c17bf6bdc3f2e9470e048bb0f7802bc652"
       },
       "events:drama_addiction_warning:/description": {
         "source_sha256": "27d760344fe3976ec4cdf500e6c79638ef4326bdb5c14a67a3f7c09fd5905981",
@@ -199579,32 +200139,32 @@
         "target_sha256": "1397daabe368b6b35e3f70f5cc9904d0735290fa5ab765b8f3281a18221b1d7b"
       },
       "events:market_crash_panic:/choices/0/result_text": {
-        "source_sha256": "29a5b71dfde102a2c7dd257f996f3565870ec2c194f1c6c73ccb98c9f6d60630",
-        "target_sha256": "a33fa4c9dff0248f17b414d75af6924469cf5da4dd7c5df7dfc85c44961fd1d2"
+        "source_sha256": "f8c290552364bc0173fc8948377d59ab322bc1ae368de63dad555e9e950af6f3",
+        "target_sha256": "ef3a701f5a440fb0b09199738cf50136ada31287073f5369ad29301167b661d8"
       },
       "events:market_crash_panic:/choices/0/text": {
-        "source_sha256": "cdb95000699801dfec53c1083f7b06a6d19431ad99dabb84af8083fde51982bc",
-        "target_sha256": "fcebdc7c752b3dbe12f5a105ec267be786bc95158b77384caf60bb907a218293"
+        "source_sha256": "c0a6957b27faeb177b593bd71a04300d227ed99e62e8a355e93899022a708c29",
+        "target_sha256": "d9d3e9983f8e4872a8eb59e558a092a50d8c592e2193d6f86075cef7a080f03a"
       },
       "events:market_crash_panic:/choices/1/result_text": {
         "source_sha256": "155b219932b0ee0606a6eeb5519a5a67c79fa8b820533d3ad49fc15d061a5fd7",
-        "target_sha256": "4f8df285fbb35fb69c59b7ef781f25064a97aed1f2df50c9f112859b2f55e7ac"
+        "target_sha256": "d8f3fb94737e05e61cc3521d6dfc973fd3c7743af8013bd1264bee238bf7f33c"
       },
       "events:market_crash_panic:/choices/1/text": {
-        "source_sha256": "23f9c0dac6823dac4b3c274290861a907ba3f159f2cd8a6d567bb069c985eb87",
-        "target_sha256": "aef5dd9e9258aa5897ee7ad8e6dd40fcdbaf1fe83e14345ad855dfee27bb7a41"
+        "source_sha256": "7ff7c74cd325e98e0937b770f96916c92456bca58009a2426ccea81def0e927a",
+        "target_sha256": "269eed0cf1757e75d912c313996554179a5514b4625c4cbd88c2ebc9a8ad4dae"
       },
       "events:market_crash_panic:/choices/2/result_text": {
-        "source_sha256": "401f88c329fac3e871f77049beda117429f2e6f07f8db22aa870add49774fd3d",
-        "target_sha256": "289e65ff2fbde64e2b438600d753a8aea816c58ef0aad02332bbb83a087eaf55"
+        "source_sha256": "d8fc2ca281f131e40634397019cc23b587225ea1861b2527b11c13aaba81414f",
+        "target_sha256": "c901661afc2d547dc33d6bd883270a50be6358e3b667989c7a80678e82692220"
       },
       "events:market_crash_panic:/choices/2/text": {
-        "source_sha256": "4cb7040453f384411e61e4c51f6680bd8ac4b382e4616c77aba879aaaec90d27",
-        "target_sha256": "266d34267d45a088f90be59e8307e608f108a1f3cbb993fa03eafc24662d0b83"
+        "source_sha256": "993665259449694c54e787d0b755b5bb4003274f3a345be9dfce6217c4a5a284",
+        "target_sha256": "c352a88e5d8ceb41e64c79106c7ac54fb38b346cc376d93a2e7f72a21034fc35"
       },
       "events:market_crash_panic:/description": {
-        "source_sha256": "19d835849bebf72c2b0c32594a69f2a188193f52f93f96858b0251fbe60345fc",
-        "target_sha256": "606b5bc1512fbcf317b9fc088af1dd95256ad89dddc4ad57f5936d89b04063cc"
+        "source_sha256": "40bd1bbb25b536eaad023388041b1ca95dccacbec0d5609dcd72872fc04ab9c9",
+        "target_sha256": "b915dbadb14ff277568be4de380ce12dc1068e8f67b3e2bcfee2301cfba342e8"
       },
       "events:market_crash_panic:/title": {
         "source_sha256": "34ad35d6f5d114b162fda49900253f380b3af8f1b466dcb5b9ff4e9227a62a02",
@@ -200139,8 +200699,8 @@
         "target_sha256": "81b37cbf9a05c44885fb962956e82190abcff0953018e0c3e62c4828e1354f68"
       },
       "events:orthodox_institutional_access:/choices/0/result_text": {
-        "source_sha256": "ff873e0f23353ff2aa01f9eacc93970471fc99085a003e98dc47c2bf9dd3107b",
-        "target_sha256": "01ab9937cda6248c291a1991b3dc95cc78289ebcf3d8b73632e9031537adbf9b"
+        "source_sha256": "4236fda39111ce2ea9b27b3f48d4acdbab0c65706624aaca88aa6bd8fc326187",
+        "target_sha256": "cb3315e6aec440e6f7175669310448d896d810a64e8d8265854c891b18370624"
       },
       "events:orthodox_institutional_access:/choices/0/text": {
         "source_sha256": "e3741412d92539281dfd0f322326aeacb8739afa028562e9b2a4fdf66bbcc6f9",
@@ -200148,15 +200708,15 @@
       },
       "events:orthodox_institutional_access:/choices/1/result_text": {
         "source_sha256": "126e55e14399466bc90acf53694c991502e5ad8bf2f146fe1e791bff24d93618",
-        "target_sha256": "24501b21f6fed0719b421a623d5c145c3aecf35f51033ef0e52d9b30f4df4f88"
+        "target_sha256": "9335c4f9213f43b298589b05e38909dbe0de19eabeb29ba0e16e22001dc13fbf"
       },
       "events:orthodox_institutional_access:/choices/1/text": {
         "source_sha256": "77b1c30a83424af74890bd185434dd64d915318017585280dcf65abb88e809db",
         "target_sha256": "519278c2da0834630dfa5843201cfe6602c6f39cdba7165e585aca94a1d5d5f5"
       },
       "events:orthodox_institutional_access:/description": {
-        "source_sha256": "8a7b8e14a4f2e5389a677b3ee4c1fb5265d530b0a9d6c817ca161d0bf6f398c0",
-        "target_sha256": "67eee0ded4548212d1c924bf1fb8f2f5cbd20ecf6fc1196ae7a328b2ba3d09ef"
+        "source_sha256": "57a06725666197a6aeae294e8f040f6e6acc8bcba03704cbd0151d961f334d60",
+        "target_sha256": "a8fc066e0986bffd87e9739fec5b48878a961d8874c9b07e3115939e5fd5c715"
       },
       "events:orthodox_institutional_access:/title": {
         "source_sha256": "7f50106cd71263a1e15b4d53fbb7c3ad8a875540044d09218df5560f2d65ca53",
@@ -200231,8 +200791,8 @@
         "target_sha256": "3fe87ba0ef9c15054202482be491d6041b27d89b638fa48ebe42a66d8aae96e0"
       },
       "events:sangchul_tip_warning:/choices/1/text": {
-        "source_sha256": "d29a92b5d06cceb4ec483fc05905ecaed9b57ea4ef9458c1b90b0a548cd51269",
-        "target_sha256": "a0d786d607a6886f39012da9d1a36389adc0646621c7868a1036fcbdc0060d1f"
+        "source_sha256": "f476a120cc62109b84ca7d21dc93ee86481ca1ea2a5ddc1276d5e8769352773c",
+        "target_sha256": "d3679946f56f0807eb933520bbaba16a87d7d1b8c9aeb0e14c8de11941fdb123"
       },
       "events:sangchul_tip_warning:/description": {
         "source_sha256": "dcbf4337b7f3ca3fd400f173fd4bf71911bb19eda7c7cdf7d8db901b0c79c358",
@@ -200243,32 +200803,32 @@
         "target_sha256": "9347a7056e57a3fda5c9117cd508debf2e606970014ba43e419b74f9eac83232"
       },
       "events:unorthodox_gray_zone_tip:/choices/0/result_text": {
-        "source_sha256": "21d65f06dbe3d40fd8eff74695651b7729b289af1f4ec583ecc252709f3f0e20",
-        "target_sha256": "750c3308becd9e435666dcb8adc48e3a8309e460c58a58ffbe35d96692121b05"
+        "source_sha256": "0e778e13213e91f3369f7a543049769a3567743deaf0f47c0cd013f4a3007033",
+        "target_sha256": "be8af6da308d1d84d638900e91509272f33d84635ff8ddfdc38251bbde38316a"
       },
       "events:unorthodox_gray_zone_tip:/choices/0/text": {
         "source_sha256": "048bdc69d7da26442125094a92f082e34701948ef8b66e2c2c72282f9dbcebc7",
         "target_sha256": "a1b298c3ca61684aae5be7eb87f41136d9a6a9ed9796f19fb59a6b21627c70ba"
       },
       "events:unorthodox_gray_zone_tip:/choices/1/result_text": {
-        "source_sha256": "c489104287ac16a5e48469e10ac1abe7847b7d4bf0401ca85f7f6cb6b5961cf6",
-        "target_sha256": "6c0e62bacf5a43d63aeb1a988d739e849f4412a5840133d30ef6866bb6a25637"
+        "source_sha256": "ab4182d0dbabaff06dea9d68f65de1f7b3d998b69a298b602eaf5c43ff8cdf23",
+        "target_sha256": "6b09a06a25c54d27b926132ec878fee17c95bcf4a305433f1015b75db31e9103"
       },
       "events:unorthodox_gray_zone_tip:/choices/1/text": {
-        "source_sha256": "fdf4b425cc657eef46677967b945659449be124495b5a29ce4acbe7bfd41c226",
-        "target_sha256": "1486be165a9567fe5a6472e970f8a285d2362e8eaed6ede94b9aa849f877d225"
+        "source_sha256": "1dc3ca329846a2febf1be1762c06980ae4a0844e79ee78658a2166b0edbdd1b6",
+        "target_sha256": "073d2c4d363a929ff993a66a24c3a985538c763e8a3016a530f695cc3247606e"
       },
       "events:unorthodox_gray_zone_tip:/choices/2/result_text": {
         "source_sha256": "cdbbf05f551cf4002c0564b76dba2653ed3215fdafb40f6471544fcbef353f7f",
-        "target_sha256": "b5084b72864fb5c3e3939327e838e30a98af1c1e45b3fcbc4f75a986339e2315"
+        "target_sha256": "0bd219e2aa597fe30dbc4c0a8407ae533af5ae0e24d684038140e556d68492bd"
       },
       "events:unorthodox_gray_zone_tip:/choices/2/text": {
         "source_sha256": "525d4bd9e41f9b80d5f421281c8130ae16f1b95d812b14ef1608bb18f3faa722",
         "target_sha256": "bce9c71c18912eb4f17fc42d9aea755162fde269987b6b43ff7ad87c0308b681"
       },
       "events:unorthodox_gray_zone_tip:/description": {
-        "source_sha256": "5a6f47eb0b7b0de01504a3cc93f6117f9d529ee7f50f0c89f2c25ec5f6c98aee",
-        "target_sha256": "28d4a85ee65b8d010a1dc5ff23c3f14e769045a39fc1c6b0ed74f0f68a44d428"
+        "source_sha256": "7b65ed71dc15bb07da7d772d7e9ae84829ca45b37a3f5950d91e364000c5eaab",
+        "target_sha256": "06b4ea1401e2c70032065dfabe4429b3921d3892d2e92e509b22b95ba5ba1710"
       },
       "events:unorthodox_gray_zone_tip:/title": {
         "source_sha256": "86159caffbfd7d74386be19f1c48e208ee0ac1dba948b1dce65b91424dd7671d",
@@ -201267,24 +201827,24 @@
         "target_sha256": "3745f8132270598c325759e2f57b53798a8435d9ae1608728f6eaa27795b7116"
       },
       "events:holdem_bad_beat:/choices/0/result_text": {
-        "source_sha256": "6669eccf7668f2ca49f0755c1c307d1ac1fc084fa9d9a49fd0d8ed03946949fe",
-        "target_sha256": "ce59a226580676db5346a9ba5e7f0b12c59781836ac4b41e0af603872f5d6474"
+        "source_sha256": "a49db86ac69d91165d5a6d45c68d2c445182860d1525af2da6847bf92e57709c",
+        "target_sha256": "892145b75357d61ee373dc7b97dad3663a34b01face6d3a011ebbdf68636482c"
       },
       "events:holdem_bad_beat:/choices/0/text": {
         "source_sha256": "eb0cb2e41bfb97788ff7a9b0a67794194be6f2a0634a751b1b540514355c6141",
         "target_sha256": "80b8df5228136cde1d49efb688cb9e05d1b4fddf8e115db6f1c4b3de1ecbe734"
       },
       "events:holdem_bad_beat:/choices/1/result_text": {
-        "source_sha256": "edb40ecdadcdef39e99ccc6985b8a944d9cc4cd0c0170b2133c3e63b0f2254bf",
-        "target_sha256": "716af5a2bf7fdf019c5d878298dd87ee0a5d700aef64b5ac27d8c041ba9494dd"
+        "source_sha256": "295605cff9baeb31a39ecc832039865957aa61c2341b022ac17720fa2cf88b89",
+        "target_sha256": "62a35a15edcadb9d384404b2e1e445f7739d4d207aedf6f111ee4a42ff6cd6d4"
       },
       "events:holdem_bad_beat:/choices/1/text": {
         "source_sha256": "106c5220d338ce5c2c0ef69f8b82da7d3a3265740f4cec6d6c60caa2608b2382",
         "target_sha256": "cb6194714e0f5f5ab22c491ccb0f8938383a8f9fb55d4b75f2aad4f5f8bbf09f"
       },
       "events:holdem_bad_beat:/description": {
-        "source_sha256": "2048f39f76ecae0638955d4322be1cb12925ef4a8c9181600425f5eb7db91d99",
-        "target_sha256": "5db7c89053fd558b3ef2d3a01371f554e0e6c66fb6ffff2b4380cb53a6e0bf16"
+        "source_sha256": "00d5f416381bd44ee53a17b1353cd183ce578ae79b021203e55e956627c52df1",
+        "target_sha256": "26378e5b342c5cb0811490cb93bab233a3a7d3357f91da00810dd4be1d2eb83f"
       },
       "events:holdem_bad_beat:/title": {
         "source_sha256": "3fa1914b196dcb06252d1e2a33a4a2a74b82d8a7e89bdf19e8e2697c1e5abea5",
@@ -201299,8 +201859,8 @@
         "target_sha256": "a0e0e62d254df2617e2f49fe86a3186027f3a8878f9592399280bdaa09473db3"
       },
       "events:holdem_big_pot:/choices/1/result_text": {
-        "source_sha256": "5417ba73ce5a4ca766d12140621693b48fbe5a4bdcf8d107948aed6b0df08d22",
-        "target_sha256": "57a9e4ddf6b36456ce98ef2f058f653bddce5d3731d9f0026911b3de7882bd04"
+        "source_sha256": "7a5a4c3557b63ba17c8af499b16c984317b3819d9e66f1d5109c4340d9f0fddd",
+        "target_sha256": "898120ae4ce0291482f15fb47a7a32c423f1653c38ca18b20b12a7d07c37234d"
       },
       "events:holdem_big_pot:/choices/1/text": {
         "source_sha256": "63ecc640cba7ef1ab0235cb8e199926a3d2292215cda4c1569252e8224e78224",
@@ -201339,20 +201899,20 @@
         "target_sha256": "682ae226990bde8155bccbb5358c14757cf07c28875ee1cb38e45b35a02c9ed2"
       },
       "events:holdem_losing_streak:/choices/0/result_text": {
-        "source_sha256": "3f1b5ab4c25eb228117deb8f0cb8eefdae74bae1f46bd3ed1345d7c0a62819d2",
-        "target_sha256": "5deb24858b6a0d8a595fde6747090ea9ce290d5e2bc5062e073ee9d0787d6380"
+        "source_sha256": "406fe597210606130c010c0184aaeee74f5f1be64e4a5f68e6c5a04758cadf1b",
+        "target_sha256": "547c67fa6e402a5cb388709f0bc1bfa794f415a1133cd56cb6f4c690eab276e0"
       },
       "events:holdem_losing_streak:/choices/0/text": {
         "source_sha256": "b167224d214de2590b011f90e98f07862d4eb1a7fc10c123419de7bf6c0ea988",
         "target_sha256": "e732751e89dc299bac051f64e046ce49f2543ffbc1dbe43de7de566a48396875"
       },
       "events:holdem_losing_streak:/choices/1/result_text": {
-        "source_sha256": "7ec0598cdeec30012ec2b7464eb63549b516f1573a5cf16a0d5f78a87b06d547",
-        "target_sha256": "3773e7e7e8a7e393c32fc6d9277e92f9576b0440cde6e769c9d3f141afe9bb1e"
+        "source_sha256": "4aaa29fe36c5a34ab3e14da2832e18646903c24500064fa80a49c5583e520485",
+        "target_sha256": "057955ad0a44cc405097c550f18f31c654d2547086070eda5f3c64cbf815c02b"
       },
       "events:holdem_losing_streak:/choices/1/text": {
-        "source_sha256": "be8fa3622ef8d197dd3dc0413fed07c4dd359b1b40cb5a65b28e3eaf976ae794",
-        "target_sha256": "7024bc574d06eb328cfa3d38d35da8a4fd403bdf42af86eeb1722d4e4cdac161"
+        "source_sha256": "87ac97195e7c4364ce302406334c14dae15d07d93e254dcb6188477df0d29d6c",
+        "target_sha256": "d77842deaaab0257df0416d34e707da8e4500278f6ac2ef1092f142d3937b405"
       },
       "events:holdem_losing_streak:/description": {
         "source_sha256": "5ecfc150c5033d22b40ade920cb78a81fc6b4be95d48442f334f6eb7fbd5853e",
@@ -201947,16 +202507,16 @@
         "target_sha256": "0b8cf8b58ce56ef743a857c9f905ae263481d672b952b3818b01904c8aa42483"
       },
       "events:race_big_win:/choices/0/result_text": {
-        "source_sha256": "5f1007699647992310e0de7194aae48e5ec8e03dd794210a82da209749292d41",
-        "target_sha256": "83c456511f52411c36336d49b5229109685bb7fa948ea1d0e0bca88b696645aa"
+        "source_sha256": "b1fdaa9d578c9a537d9d7a786acd3f73f0a3e9d4ea9885e0261818beb733da95",
+        "target_sha256": "53a9e27cfbdbec0dbf0d4e36d982b7a48e152b5c01bf0365fd079fd181a58dd8"
       },
       "events:race_big_win:/choices/0/text": {
         "source_sha256": "95d443b25a102695870bbf30c8fa6ce44e04150168566f48cb86eafe8e3692b6",
         "target_sha256": "bf12109faa963bf4bfe282203e4d3fef2f66a5a464b34a2895a84d3cd4db7ce5"
       },
       "events:race_big_win:/choices/1/result_text": {
-        "source_sha256": "fc3669eb062c35b2c22ce71b6362395c17f6a4f56a47dbf97123f6285c4d351e",
-        "target_sha256": "1ae5adcb05714ef1619b8d6b2b572c94eb3946b09f6c9e522b0555b4cbf7a01c"
+        "source_sha256": "7d1245c5754e673ec09adea0ee6eb044cd499211f46b80d097a59403901b3a78",
+        "target_sha256": "776e89c24de86f49680d77f0e58dde408f3e158fd262f836ab56e0f6d7d4d07d"
       },
       "events:race_big_win:/choices/1/text": {
         "source_sha256": "078235296ca6e9da34395ca94386b07b109f8e3f6e42841b4f4ff5ebf0bb0a08",
@@ -220308,7 +220868,7 @@
       }
     }
   },
-  "accepted_sha256": "62aef7f08a1106faa491a674a3c23a7c4b4ad114c5143f97cc97175182a11831",
+  "accepted_sha256": "faaa2ea0654d58e78bd0d2e6016970934d9af2b15374f73599291e401337a6b6",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

@@ -18,12 +18,13 @@ func _ready() -> void:
 	_check_loss_beat()
 	_check_json_round_trip()
 	_check_market_choices()
+	_check_years_three_four()
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("INVEST_BRANCH_BEATS_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("INVEST_BRANCH_BEATS_CHECK_OK beats=%d gate=1 order=3 housing=2 loss=2 json=1 market=4" % [
+	print("INVEST_BRANCH_BEATS_CHECK_OK beats=%d gate=1 order=3 housing=2 loss=2 json=1 market=4 y34_crash=3 y34_sangchul=1 y34_lean=3 y34_trades=2" % [
 		(BEATS.ledger().get("beats", []) as Array).size()])
 	get_tree().quit(0)
 
@@ -116,3 +117,43 @@ func _check_market_choices() -> void:
 	GameState.apply_choice({"id": "invest_check"}, {"text": "coin", "market_buy": {"asset_id": "bitcoin", "amount": 500000}})
 	_expect(int(GameState.money) == 0 and GameState.portfolio.has("bitcoin"),
 		"a buy spent more than the cash on hand (money=%s)" % str(GameState.money))
+
+
+func _years_three_four() -> Dictionary:
+	var rows: Array = []
+	for raw in BEATS.ledger().get("beats", []):
+		if int((raw as Dictionary).get("min_week", 0)) >= 97:
+			rows.append(raw)
+	return {"gate_flag": "investment_lesson_1", "min_gap_weeks": 0, "beats": rows}
+
+
+func _check_years_three_four() -> void:
+	var data := _years_three_four()
+	_expect((data["beats"] as Array).size() == 4, "years 3-4 investment beats are not the four authored scenes")
+	var held := {"kospi_etf": {"quantity": 10.0, "avg_price": 10000.0}}
+	var down := {"kospi_etf": 9000.0}
+	_expect(BEATS.take_scene(_gate(), 100, "officetel", held, down, _always, data,
+			{"market_cycle": "bear"}) == "market_crash_panic",
+		"a real bear market with holdings down 10% did not bring the crash scene")
+	_expect(BEATS.take_scene(_gate(), 100, "officetel", held, down, _always, data,
+			{"market_cycle": "bull"}) == "",
+		"the crash scene played outside a bear market")
+	_expect(BEATS.take_scene(_gate(), 100, "officetel", held, {"kospi_etf": 9800.0}, _always, data,
+			{"market_cycle": "bear"}) == "",
+		"the crash scene played on a 2% dip")
+	_expect(BEATS.take_scene(_gate(), 100, "officetel", held, {"kospi_etf": 11000.0}, _always, data,
+			{"cast_stages": {"sangchul": "trusted"}}) == "sangchul_tip_warning",
+		"a trusted Sangchul did not warn a holder in year three")
+	_expect(BEATS.take_scene(_gate(), 110, "officetel", {}, {}, _always, data,
+			{"route_lean": "unorthodox"}) == "unorthodox_gray_zone_tip"
+			and BEATS.take_scene(_gate(), 110, "officetel", {}, {}, _always, data,
+			{"route_lean": "orthodox"}) == "orthodox_institutional_access"
+			and BEATS.take_scene(_gate(), 110, "officetel", {}, {}, _always, data, {}) == "",
+		"the gray tip and the PB door do not follow which way the run leaned")
+	var crash: Array = DataRegistry.find_event("market_crash_panic").get("choices", [])
+	var gray: Array = DataRegistry.find_event("unorthodox_gray_zone_tip").get("choices", [])
+	_expect(crash.size() == 3 and (crash[0] as Dictionary).has("market_buy")
+			and (crash[1] as Dictionary).has("market_sell") and not (crash[2] as Dictionary).has("market_sell"),
+		"the crash choices do not buy, sell and hold for real")
+	_expect(not gray.is_empty() and str(((gray[0] as Dictionary).get("market_buy", {}) as Dictionary).get("asset_id", "")) == "ai_chip",
+		"the gray tip does not buy the chip theme it names")
