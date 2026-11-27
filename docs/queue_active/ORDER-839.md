@@ -1,9 +1,9 @@
 # ORDER-839 — 투자 매매 화면: 장면에서 여는 월간 운용
 
-#### [ ] ORDER-839 · C6 · 투자 매매 화면
+#### [~] ORDER-839 · C6 · 투자 매매 화면 — 착수 T0(Claude, 브랜치 `claude/market-trading-depth`) — 만지는 파일: `systems/InvestmentSystem.gd`, `scenes/MainGame.gd`(`market_boom`만), `tools/MarketModelCheck.gd/.tscn`, `tools/audit_scope.json`, 문서
 
 2026-11-27 사용자 지시("투자 매매 화면부터 설계해줘"). 11-24 결정 ③("투자는 매매 화면 없이")을 바꾼다. 근거와 결정은 [DECISIONS 2026-11-27](../DECISIONS.md)이 소유한다.
-설계: Claude(이 사양). 구현·연출·번역: Codex. **PR #44 병합 뒤 착수한다.** 이 사양의 수치는 모두 `[첫 실행 재조정]`이다.
+설계·구현·연출·번역: Claude(DECISIONS 2026-11-27 역할 변경). PR #44 위의 새 브랜치에서 한다. 이 사양의 수치는 모두 `[첫 실행 재조정]`이다.
 
 ## 왜 지금 투자가 게임이 아닌가 (실측 2026-11-27)
 
