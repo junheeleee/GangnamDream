@@ -4401,10 +4401,13 @@
     {
       "tool": "tools/EventDirectorCheck.tscn",
       "godot": true,
-      "why": "디렉터 런타임",
+      "why": "디렉터 런타임 · 아버지 별세 변형 목록(엔진 FATHER_PASSED_EVENT_VARIANTS와 동기)·생존 전용 사건 차단",
       "paths": [
         "content/meta/event_director.json",
-        "autoloads/EventManager.gd"
+        "autoloads/EventManager.gd",
+        "content/events/arc_addiction_recovery.json",
+        "tools/EventDirectorCheck.gd",
+        "tools/EventDirectorCheck.tscn"
       ]
     },
     {
