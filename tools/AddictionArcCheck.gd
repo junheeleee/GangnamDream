@@ -4,8 +4,10 @@ extends Node
 ## walks the recovery arc with its authored gaps (one week, a month, a month);
 ## a relapse or "one more hand" leaves the arc; mourning/finale weeks stay quiet;
 ## recovery locks the gambling habit calls until a relapse; the father-passed
-## run gets the mother's variant; and outside the full story addiction 90 still
-## ends the run exactly as before.
+## run gets the mother's variant and every father-passed variant clears the
+## living-father gate (QA 2026-11-27: the variant had copied that gate and the
+## rock bottom soft-locked after the father's death); and outside the full story
+## addiction 90 still ends the run exactly as before.
 
 const ARC := preload("res://systems/AddictionArc.gd")
 const HABIT := preload("res://systems/BranchHabit.gd")
@@ -26,7 +28,7 @@ func _ready() -> void:
 			push_error("ADDICTION_ARC_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("ADDICTION_ARC_CHECK_OK bottom=3 recovery=4 exits=3 habit_lock=2 father_variant=1 legacy=1")
+	print("ADDICTION_ARC_CHECK_OK bottom=3 recovery=4 exits=3 habit_lock=2 father_variant=%d legacy=1" % (1 + EventManager.FATHER_PASSED_EVENT_VARIANTS.size()))
 	get_tree().quit(0)
 
 
@@ -95,6 +97,16 @@ func _check_father_variant() -> void:
 			and not str((variant_choices[1] as Dictionary).get("result_text", "")).contains("아버지에게 전화")
 			and (variant_choices[1] as Dictionary).get("flags", []) == (base_choices[1] as Dictionary).get("flags", []),
 		"the father-passed rock bottom does not confess to the mother with the same consequences")
+	var saved_passed: Variant = GameState.flags.get("father_passed", null)
+	GameState.flags["father_passed"] = true
+	for source_id in EventManager.FATHER_PASSED_EVENT_VARIANTS:
+		var passed_id := str(EventManager.FATHER_PASSED_EVENT_VARIANTS[source_id])
+		_expect(EventManager.call("_event_passes_hard_state_contracts", DataRegistry.find_event(passed_id)),
+			"a father-passed variant still requires a living father: %s" % passed_id)
+	if saved_passed == null:
+		GameState.flags.erase("father_passed")
+	else:
+		GameState.flags["father_passed"] = saved_passed
 
 
 func _check_legacy_game_over() -> void:
