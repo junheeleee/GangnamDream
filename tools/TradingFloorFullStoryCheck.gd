@@ -33,7 +33,7 @@ func _ready() -> void:
 			push_error("TRADING_FLOOR_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("TRADING_FLOOR_CHECK_OK tiers=%d ledger=1 source=1 unlock=4 session=1 legacy=1 routes=1" % [
+	print("TRADING_FLOOR_CHECK_OK tiers=%d ledger=1 source=1 unlock=6 session=1 legacy=1 routes=1" % [
 		(BOARD.ledger().get("tiers", []) as Array).size()])
 	get_tree().quit(0)
 
@@ -111,6 +111,11 @@ func _check_unlocks() -> void:
 	var coins := BOARD.unlocked_asset_ids({"investment_lesson_1": true}, {},
 		[{"event_id": "inv_crypto_mania", "turn": 60, "choice_index": 1}])
 	_expect(coins.has("bitcoin") and coins.has("meme_coin"), "the crypto scene does not open coins")
+	var property := BOARD.unlocked_asset_ids({"pb_access": true}, {})
+	_expect(property == ["officetel", "gangnam_share"], "private banking opens %s" % str(property))
+	var startup := BOARD.unlocked_asset_ids({}, {},
+		[{"event_id": "arc_jaehyuk_03_pitch", "turn": 104, "choice_index": 0}])
+	_expect(startup.has("seed_startup") and startup.has("ai_startup"), "a startup pitch does not open startup stakes")
 	var held := BOARD.unlocked_asset_ids({}, {"nasdaq_3x": {"quantity": 1.0, "avg_price": 90000.0}})
 	_expect(held == ["nasdaq_3x"], "a holding is not kept on the board")
 

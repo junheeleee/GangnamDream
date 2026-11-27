@@ -1,5 +1,5 @@
 {
-  "_doc": "ORDER-839 T1/T3 full-story trading board. Read only by scenes/TradingFloor.gd. A portfolio habit scene opens one session (FullStoryFlow activity trading_floor); a session has orders_per_session orders. Assets are listed only once the run's story has opened them: a tier opens when any requires_any flag is set or any requires_any_event scene is in the event log. Holdings stay listed so they can be sold. Startup and real-estate tiers wait for T3. Counts are [첫 실행 재조정].",
+  "_doc": "ORDER-839 T1/T3 full-story trading board. Read only by scenes/TradingFloor.gd. A portfolio habit scene opens one session (FullStoryFlow activity trading_floor); a session has orders_per_session orders. Assets are listed only once the run's story has opened them: a tier opens when any requires_any flag is set or any requires_any_event scene is in the event log. Holdings stay listed so they can be sold. T3: private-banking access or the Gangnam property scene opens fractional property; joining, founding or being pitched a startup opens the startup stakes. Counts are [첫 실행 재조정].",
   "orders_per_session": 3,
   "tiers": [
     {
@@ -58,6 +58,36 @@
       ],
       "assets": [
         "ai_chip"
+      ]
+    },
+    {
+      "id": "property_access",
+      "requires_any": [
+        "pb_access",
+        "arc_gangnam_real_estate_seen"
+      ],
+      "requires_any_event": [
+        "arc_gangnam_real_estate"
+      ],
+      "assets": [
+        "officetel",
+        "gangnam_share"
+      ]
+    },
+    {
+      "id": "startup_circle",
+      "requires_any": [
+        "joined_startup",
+        "startup_joined",
+        "startup_founded",
+        "startup_collab_proposed"
+      ],
+      "requires_any_event": [
+        "arc_jaehyuk_03_pitch"
+      ],
+      "assets": [
+        "seed_startup",
+        "ai_startup"
       ]
     }
   ]
