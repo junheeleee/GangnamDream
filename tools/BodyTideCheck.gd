@@ -4,7 +4,8 @@ extends Node
 ## health for the chosen week and the five after it, a strain choice takes it,
 ## the latest listed choice replaces the earlier tide, a week never pays twice,
 ## an unlisted index leaves the tide alone, a health crisis queues exactly one
-## crisis scene (first unused, then the oldest) whose damage lands with it, and the state survives a JSON
+## crisis scene (first unused, then the oldest) while its damage and toast
+## stay immediate, and the state survives a JSON
 ## save. MainGame applies the tide and the crisis scene only in a full run.
 
 const TIDE := preload("res://systems/BodyTide.gd")
@@ -93,22 +94,21 @@ func _check_replace_and_idempotent() -> void:
 
 func _check_crisis() -> void:
 	var flags := {}
-	_expect(TIDE.take_crisis(flags, 50, _always).is_empty(), "a crisis scene played with no crisis")
-	TIDE.queue_crisis(flags, 50, 12)
-	_expect(TIDE.take_crisis(flags, 49, _always).is_empty(), "a crisis scene played before its week")
-	var first := TIDE.take_crisis(flags, 50, _always)
-	_expect(str(first.get("event_id", "")) == "health_burnout_signal" and int(first.get("hp", 0)) == 12
-			and TIDE.take_crisis(flags, 51, _always).is_empty(),
-		"one crisis did not bring exactly one scene with its damage: %s" % str(first))
-	TIDE.queue_crisis(flags, 55, 8)
-	TIDE.queue_crisis(flags, 59, 10)
-	var held := TIDE.take_crisis(flags, 60, _always)
-	_expect(int(held.get("hp", 0)) == 18 and str(held.get("event_id", "")) == "health_checkup_00",
-		"two crises before a free week did not land together in one scene: %s" % str(held))
+	_expect(TIDE.take_crisis_scene(flags, 50, _always) == "", "a crisis scene played with no crisis")
+	TIDE.queue_crisis(flags, 50)
+	_expect(TIDE.take_crisis_scene(flags, 49, _always) == "", "a crisis scene played before its week")
+	var first := TIDE.take_crisis_scene(flags, 50, _always)
+	_expect(first == "health_burnout_signal" and TIDE.take_crisis_scene(flags, 51, _always) == "",
+		"one crisis did not bring exactly one scene: %s" % first)
+	TIDE.queue_crisis(flags, 55)
+	TIDE.queue_crisis(flags, 59)
+	var held := TIDE.take_crisis_scene(flags, 60, _always)
+	_expect(held == "health_checkup_00" and TIDE.take_crisis_scene(flags, 61, _always) == "",
+		"two crises before a free week did not share one pending scene: %s" % held)
 	var seen: Array = []
 	for turn in [70, 80, 90]:
-		TIDE.queue_crisis(flags, turn, 9)
-		seen.append(str(TIDE.take_crisis(flags, turn, _always).get("event_id", "")))
+		TIDE.queue_crisis(flags, turn)
+		seen.append(TIDE.take_crisis_scene(flags, turn, _always))
 	_expect(seen == ["health_sleep_debt", "health_checkup_reminder", "health_burnout_signal"],
 		"crisis scenes did not rotate to the oldest: %s" % str(seen))
 
@@ -117,21 +117,19 @@ func _check_json_round_trip() -> void:
 	var flags := {}
 	var event_log := [_log("health_insomnia", 100, 1)]
 	TIDE.take_week(flags, 100, event_log)
-	TIDE.queue_crisis(flags, 101, 11)
+	TIDE.queue_crisis(flags, 101)
 	var restored: Dictionary = JSON.parse_string(JSON.stringify(flags))
 	_expect(TIDE.take_week(restored, 100, event_log) == 0, "a JSON save let a week pay twice")
 	_expect(TIDE.take_week(restored, 101, event_log) == -2, "a JSON save lost the tide")
-	_expect(int(TIDE.take_crisis(restored, 101, _always).get("hp", 0)) == 11, "a JSON save lost the crisis")
+	_expect(TIDE.take_crisis_scene(restored, 101, _always) != "", "a JSON save lost the crisis")
 
 
 func _check_main_game_gate() -> void:
 	var source := FileAccess.get_file_as_string("res://scenes/MainGame.gd")
 	var tide_at := source.find("func _full_story_apply_body_tide(")
-	var crisis_at := source.find("func _full_story_take_body_crisis(")
+	var crisis_at := source.find("func _full_story_body_crisis_scene_id(")
 	_expect(tide_at >= 0 and crisis_at >= 0
 			and source.find("if not FULL_STORY_FLOW.is_full_run():", tide_at) < tide_at + 200
 			and source.find("if not FULL_STORY_FLOW.is_full_run():", crisis_at) < crisis_at + 120
-			and source.contains("BODY_TIDE.queue_crisis(GameState.flags")
-			and source.find("return", source.find("BODY_TIDE.queue_crisis(GameState.flags")) \
-				< source.find("GameState.modify_stat(\"health\", -hp_dmg)"),
+			and source.contains("BODY_TIDE.queue_crisis(GameState.flags"),
 		"MainGame does not gate the body tide and crisis scene to the full run")

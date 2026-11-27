@@ -1,5 +1,5 @@
 {
-  "_doc": "ORDER-836 B2 body tide. Read only by systems/BodyTide.gd. In a full run, a choice listed here sets the body's weekly tide for `weeks` weeks after the week it was chosen: rest adds health, strain takes it, on top of the automatic routine. The latest listed choice replaces the earlier tide. A full-run monthly health crisis no longer shows a toast or hits at once; its damage lands when the next free week plays the first crisis scene not yet used (then the oldest), so the player meets the body and answers it in the same week. Values are [첫 실행 재조정].",
+  "_doc": "ORDER-836 B2 body tide. Read only by systems/BodyTide.gd. In a full run, a choice listed here sets the body's weekly tide for `weeks` weeks after the week it was chosen: rest adds health, strain takes it, on top of the automatic routine. The latest listed choice replaces the earlier tide. A full-run monthly health crisis still hits at once with its toast and queues one crisis scene for the next free week (the first not yet used, then the oldest), so the player can answer the body. Values are [첫 실행 재조정].",
   "weeks": 6,
   "rest_health": 2,
   "strain_health": -2,
