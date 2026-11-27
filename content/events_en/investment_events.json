@@ -658,7 +658,7 @@
   {
     "id": "orthodox_institutional_access",
     "title": "The Institutional Door Opens",
-    "description": "The path walked so far has opened a particular door.\nPrivate Banking center of a securities firm. A place ordinary clients don't enter.\n\n\"We can share our research team's reports in advance.\nWithin legal bounds, of course. But earlier information is better.\"\n\nThe receptionist said {name}'s name right on the first try.",
+    "description": "Everything he had built so far had opened one door.\nThe private banking floor of a securities firm, where ordinary clients never go.\n\n\"We can share our research team's reports in advance.\nWithin legal bounds, of course. But earlier information is better.\"\n\nThe receptionist said {name}'s name right on the first try.",
     "choices": [
       {
         "text": "Accept PB services.",

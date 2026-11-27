@@ -2206,6 +2206,8 @@
     "rarity": "uncommon",
     "weight": 5,
     "hidden": false,
+    "background": "gukbap_restaurant_night",
+    "portrait": "sangchul_normal",
     "conditions": {
       "cast_stage": {
         "person": "sangchul",
