@@ -75,10 +75,10 @@ func _check_rest_and_strain() -> void:
 	_expect(rest == [0, 2, 2, 2, 2, 2, 2, 0, 0],
 		"a rest choice did not add health for six weeks from the chosen week: %s" % str(rest))
 	var strain := _run({}, [_log("drama_burnout_warning", 60, 1)], range(60, 67))
-	_expect(strain == [-2, -2, -2, -2, -2, -2, 0],
+	_expect(strain == [-1, -1, -1, -1, -1, -1, 0],
 		"a strain choice did not take health for six weeks: %s" % str(strain))
-	var unlisted := _run({}, [_log("health_checkup_reminder", 70, 1)], range(70, 73))
-	_expect(unlisted == [0, 0, 0], "an unlisted choice moved the tide: %s" % str(unlisted))
+	var unlisted := _run({}, [_log("health_checkup_00", 70, 1)], range(70, 73))
+	_expect(unlisted == [0, 0, 0], "putting off a checkup moved the tide: %s" % str(unlisted))
 
 
 func _check_replace_and_idempotent() -> void:
@@ -87,7 +87,7 @@ func _check_replace_and_idempotent() -> void:
 	var first := _run(flags, event_log, [80, 81])
 	event_log.append(_log("arc_36_body_signal", 82, 2))
 	var after := _run(flags, event_log, [82, 87, 88])
-	_expect(first == [2, 2] and after == [-2, -2, 0],
+	_expect(first == [2, 2] and after == [-1, -1, 0],
 		"the latest choice did not replace the earlier tide: %s %s" % [str(first), str(after)])
 	_expect(TIDE.take_week(flags, 87, event_log) == 0, "the same week paid twice")
 
@@ -115,12 +115,12 @@ func _check_crisis() -> void:
 
 func _check_json_round_trip() -> void:
 	var flags := {}
-	var event_log := [_log("health_insomnia", 100, 1)]
+	var event_log := [_log("health_insomnia", 100, 0)]
 	TIDE.take_week(flags, 100, event_log)
 	TIDE.queue_crisis(flags, 101)
 	var restored: Dictionary = JSON.parse_string(JSON.stringify(flags))
 	_expect(TIDE.take_week(restored, 100, event_log) == 0, "a JSON save let a week pay twice")
-	_expect(TIDE.take_week(restored, 101, event_log) == -2, "a JSON save lost the tide")
+	_expect(TIDE.take_week(restored, 101, event_log) == 2, "a JSON save lost the tide")
 	_expect(TIDE.take_crisis_scene(restored, 101, _always) != "", "a JSON save lost the crisis")
 
 

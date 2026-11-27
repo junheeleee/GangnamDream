@@ -5,8 +5,9 @@ extends RefCounted
 ## health climbs to 100 and stays, without one it slides about half a point a
 ## week into burnout, and no choice changed either (ORDER-836 B2 input, 18 runs).
 ## In a full run a listed rest choice now adds `rest_health` a week for `weeks`
-## weeks, counting the week it was chosen; a listed strain choice takes
-## `strain_health` instead. The latest listed choice replaces the earlier tide.
+## weeks, counting the week it was chosen; a listed strain choice (pushing on,
+## not putting off) takes `strain_health` instead, smaller because the scene
+## already charged its own cost. The latest listed choice replaces the earlier tide.
 ## A monthly health crisis still hits at once with its toast, and also queues
 ## the next free week's crisis scene, so the player can answer the body. The
 ## damage is not held for the scene: a dense year can leave no free week for
