@@ -9323,7 +9323,10 @@ func _apply_monthly_event(ev: Dictionary):
 			GameState.add_log(desc, "system")
 			AudioManager.play("money_gain")
 		"market_boom":
-			investment_system.apply_market_shock()  # opposite: boost
+			# The shock first took fear/greed 25 down, so a boom netted -5
+			# (ORDER-839 T0). The full run skips it; the approved demo keeps it.
+			if not FULL_STORY_FLOW.is_full_run():
+				investment_system.apply_market_shock()
 			GameState.market_context["fear_greed"] = min(90, int(GameState.market_context.get("fear_greed", 50)) + 20)
 			GameState.market_context["cycle"] = "bull"
 			GameState.market_context["crash_risk"] = 0.02

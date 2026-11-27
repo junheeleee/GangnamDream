@@ -8,6 +8,10 @@ signal portfolio_updated()
 
 var cycle_timer: int = 0
 
+## Share of the gap to 50 that fear/greed closes each full-run month. [첫 실행 재조정]
+const FULL_RUN_FEAR_GREED_REVERSION := 0.15
+static var _news_expectation_cache: Dictionary = {}
+
 func initialize():
 	var uninitialized_market := _market_is_uninitialized()
 	if GameState.market_prices.is_empty():
@@ -51,6 +55,8 @@ func _restore_cycle_timer() -> void:
 	GameState.market_context["cycle_timer"] = cycle_timer
 
 func process_month(news_items):
+	if FULL_STORY_FLOW.is_full_run():
+		_steady_full_run_market(news_items)
 	_restore_cycle_timer()
 	cycle_timer -= 1
 	if cycle_timer <= 0:
@@ -223,7 +229,47 @@ func _news_bias_for_asset(asset, news_items):
 		var effect: Dictionary = news.get("market_effect", news.get("market_effects", {}))
 		if effect.get("category", "") == asset.get("category", ""):
 			bias += float(effect.get("power", 0.0))
+	if FULL_STORY_FLOW.is_full_run():
+		bias -= float(_news_expectations()["power"].get(str(asset.get("category", "")), 0.0)) \
+			* float(news_items.size())
 	return bias
+
+
+## ORDER-839 T0 (full run only): fear/greed had no pull back to the middle and
+## the news set leans fearful, so the index sank to about 13 and 82% of months
+## in years 3-5 were bear (60 months x 200 seeds). Each month the drawn news is
+## centred on zero and fear/greed drifts FULL_RUN_FEAR_GREED_REVERSION of the
+## way back to 50. NewsManager has already applied this month's items.
+func _steady_full_run_market(news_items: Array) -> void:
+	var fear_greed := float(GameState.market_context.get("fear_greed", 50))
+	fear_greed -= float(_news_expectations()["fear"]) * float(news_items.size())
+	fear_greed += (50.0 - fear_greed) * FULL_RUN_FEAR_GREED_REVERSION
+	GameState.market_context["fear_greed"] = clampi(int(round(fear_greed)), 0, 100)
+
+
+## Expected fear/greed delta of one drawn news item, and expected price effect
+## per category of one drawn item, over the shipped templates.
+static func _news_expectations() -> Dictionary:
+	if not _news_expectation_cache.is_empty():
+		return _news_expectation_cache
+	var templates: Array = DataRegistry.news_templates
+	var fear := 0.0
+	var power := {}
+	for raw in templates:
+		if not raw is Dictionary:
+			continue
+		var item: Dictionary = raw
+		var chance := float(item.get("misleading_chance", 0.15))
+		fear += (1.0 - chance) * float(NewsManager.fear_delta(item, false)) \
+			+ chance * float(NewsManager.fear_delta(item, true))
+		var effect: Dictionary = item.get("market_effect", item.get("market_effects", {}))
+		var category := str(effect.get("category", ""))
+		power[category] = float(power.get(category, 0.0)) + float(effect.get("power", 0.0))
+	var count := float(maxi(templates.size(), 1))
+	for category in power:
+		power[category] = float(power[category]) / count
+	_news_expectation_cache = {"fear": fear / count, "power": power}
+	return _news_expectation_cache
 
 func _record_price_history():
 	for asset in DataRegistry.assets:
