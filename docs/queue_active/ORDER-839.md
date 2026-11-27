@@ -1,6 +1,6 @@
 # ORDER-839 — 투자 매매 화면: 장면에서 여는 월간 운용
 
-#### [~] ORDER-839 · C6 · 투자 매매 화면 — 착수 T0(Claude, 브랜치 `claude/market-trading-depth`) — 만지는 파일: `systems/InvestmentSystem.gd`, `autoloads/NewsManager.gd`(감정 표 함수 추출, 동작 동일), `scenes/MainGame.gd`(`market_boom`만), `tools/MarketModelCheck.gd/.tscn`, `tools/audit_scope.json`, 문서
+#### [~] ORDER-839 · C6 · 투자 매매 화면 — T0 완료, 착수 T1·T2(Claude, 브랜치 `claude/market-trading-depth`·PR #45) — 만지는 파일: `scenes/TradingFloor.gd`, `scenes/MainGame.gd`(매매 활동 열기·닫기·복귀), `systems/FullStoryFlow.gd`(활동 `trading_floor` 등록), `content/events/investment_events.json`+`events_en/ja/zh-CN/zh-TW`(계좌 습관 선택지), `content/meta/branch_habit_ledger.json`, `locale/ui_*.json`, `tools/FullStoryPolicyRun.gd`, 신규 `tools/TradingFloorFullStoryCheck.gd/.tscn`, `tools/audit_scope.json`, 문서
 
 2026-11-27 사용자 지시("투자 매매 화면부터 설계해줘"). 11-24 결정 ③("투자는 매매 화면 없이")을 바꾼다. 근거와 결정은 [DECISIONS 2026-11-27](../DECISIONS.md)이 소유한다.
 설계·구현·연출·번역: Claude(DECISIONS 2026-11-27 역할 변경). PR #44 위의 새 브랜치에서 한다. 이 사양의 수치는 모두 `[첫 실행 재조정]`이다.
@@ -125,7 +125,7 @@
 
 ## 배치 (각 선언 커밋 선행)
 
-- **T0** [x] 시장 모형 수리(사용자 승인, 정식판만): 공포·탐욕 평균 회귀 15%·뉴스 기대값 0·`market_boom` 충격 생략. `MarketModelCheck`(수리 전 5건 실패, 체험판 가격 지문 고정). M12 지수 19→50대, 3~5년 차 하락장 82%→34%, 미국 대형주 ETF 5년 0.24→1.15배([BALANCE](../BALANCE.md)). **남음:** 뉴스 주제 실존 기업명 가상화(체험판 노출 범위 확인 뒤)
+- **T0** [x] 시장 모형 수리(사용자 승인, 정식판만): 공포·탐욕 평균 회귀 15%·뉴스 기대값 0·`market_boom` 충격 생략. `MarketModelCheck`(수리 전 5건 실패, 체험판 가격 지문 고정). M12 지수 19→50대, 3~5년 차 하락장 82%→34%, 미국 대형주 ETF 5년 0.24→1.15배([BALANCE](../BALANCE.md)). 투자 정책 3런 재실행(`d6cf056c`, 정지 0·공백 0): M60 6,760만/8,859만/5,319만, 엔딩 `ordinary_life`×2·`late_call`. 시장은 고쳐졌지만 장면 선택지의 소액 매매만으로는 여전히 갈래가 벌어지지 않는다(T1~T4 몫). **남음:** 뉴스 주제 실존 기업명 가상화(체험판 노출 범위 확인 뒤)
 - **T1** `TradingFloor` 정식판 이식: AP 제거, 세션 규칙(월 1회·3건·비율 버튼·수수료), 패드 포커스, 5언어 문자열
 - **T2** 진입·복귀: 계좌 습관 "앱을 연다" → 활동 → 영수증, 3~4년 차 장면의 맥락 세션, 저장·불러오기
 - **T3** 종목 개방 원장과 정보 등급(PB·상철·회색지대)
