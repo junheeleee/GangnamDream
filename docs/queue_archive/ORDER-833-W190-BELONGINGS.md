@@ -1,0 +1,31 @@
+# ORDER-833 — W190 유품 장면의 T1 자산·연출
+
+## [~] 2026-11-29 착수
+
+근거: 사용자 W188 사망 통보 통일·W189~192 유품 장면 지시, 부모833의 유품T1 OPEN.
+후보 기준: main `78239d80a59be980aa1534662a3192691a845926`.
+이 문서는 일회성 작업 소유권·증거이며 장면 정본은 새 visual bible에 둔다.
+
+### 한 단위
+
+두 `arc_y4_year_close_{daeun,unattached}`의 `father_passed` 본문에만 전용 CG·기존 direction·종이 동작 끝의 실제 녹음1회를 연결한다. 카페의 두 사람과 혼자 있는 현재 방은 다른 그림이다. 기존 생존/지연 분기, 5언어 문구·선택·효과·저장·500만원·event/asset 기존ID는 불변이다.
+
+계층: narrative_spine boss의 T1. 전용 장소를 포함한 CG2개, 카페 두 주연 연기/방은 혼자, 무음 또는 단일 녹음 룸톤, 정확한 종이 폴리, 조건부 direction을 같은 단위로 검증한다. 자산 부재/품질 미달이면 미완료로 남긴다.
+
+깊이3문: 제거하면 발인 뒤 유품을 대하는 실제 행동의 시청각 회수가 빠진다. 새 선택은 만들지 않으며 기존 세 결정과 장기 독자를 유지한다. 같은 자리의 관계/몸/가족 한도 결정은 서로 경쟁하고 그림·소리는 어느 쪽도 먼저 고르지 않는다.
+
+### 정확한 파일 소유권
+
+- root: `content/events/arc_year_close.json`(두 root의 cg_if_known만), `autoloads/ImageRegistry.gd`, `assets/{cg_acting_manifest,event_visual_contracts,scene_audio_manifest}.json`, 신규 `assets/FATHER_BELONGINGS_VISUAL_BIBLE.md`, 신규 `assets/cg/story/father_belongings_{cafe,desk}_w190_v1.png` 및 해당 `.png.import`.
+- `/root/session_receipt_recon_1129`: `scenes/StoryMode.gd`, 신규 `assets/w190_belongings_paper.tres`, `docs/AUDIO_QA.md`의 이 장면 절만. 기존 W208의 transient typed-anchor/복원·재배치 방어를 두 사건+father_passed에 한정한다. 영구flag/savekey/공용 시스템 신설0.
+- `/root/w188_current_contract_1129`: `tools/StoryBackgroundContextCheck.gd`의 W190 focus만. 기존 검사 삭제/완화0.
+- 필요한 실측 동기화만: `docs/ART_AI_AUDIT.md`, `content/meta/release_content_inventory.json`, `docs/CONTENT_RATING_INVENTORY.md`.
+- 운영: 이 파일, `docs/queue_active/ORDER-833.md`, `docs/{CODEX_QUEUE,WORK_LOG}.md`, `CLAUDE.md`, `docs/agent_review_decisions.json`, `docs/agent_reviews/ORDER-833-W190-belongings-20261129.json`.
+
+Claude839~841 보호 파일·사용자 원본 worktree·project.godot·공개demo·기존 오디오 원본은 편집0. 그림은 built-in imagegen, 기존 y3 얼굴·화풍/실제 장소 참고, 새 원본으로 보존한다.
+
+### 검증과 완료 경계
+
+두 사건×생사×5언어, 종이 앵커 직전0/끝1/이후0, 자연 타이핑·완독·동일언어 cold전후·선택/결과·언어/글자/해상도 재배치, 의료 기억 추가문단, 주거3종, 생존/지연 불변과 전체상태 불변을 고립 namespace로 검사한다. 신규이미지 import·compile, 시청각/acting/서사·EN/보호demo·context/queue·diff와 표적 영향 검사를 실행한다. 실제 산출물 독립 전수 검수 뒤 커밋/정상push/실제CI를 추적한다.
+
+자동 검사는 계약·타이밍 증거이지 정상속도 사람 청취·원어민·native 화면·물리패드·재미·출시 승인 아니다. 이들 OPEN과 부모833 남은 P0/P1은 유지한다.

@@ -17,7 +17,7 @@
 
 사망시각·콜백·엔딩은5언어 정합, 공식51target 수용·독립 전수 대조·컴파일69와
 의료/생사 격리 검사 통과. W190 유품은 같은slot의 생사별 본문만 추가했다.
-boss 지정으로 T1이며 초기T2 선언 철회: 전용 그림·direction/cue는 OPEN이다.
+boss 지정 T1. [유품 그림·연출 착수](../queue_archive/ORDER-833-W190-BELONGINGS.md), 아직 OPEN.
 다음은 옛0/1 선택·edge를 보존하는 신규 직접진행과 유품 자산의 별도 선언/검수.
 
 [x] [W188 직접진행 단위](../queue_archive/ORDER-833-FATHER-DIRECT-PROGRESS.md):
