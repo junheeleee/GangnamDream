@@ -17,6 +17,16 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 ACTING_PATH = ROOT / "assets" / "cg_acting_manifest.json"
 DYNAMIC_AMBIENCE_KEYS = {"current_housing", "current_workplace"}
+W190_BELONGINGS = {
+    "arc_y4_year_close_daeun": ("cg_father_belongings_cafe_w190", "cafe", "daeun_normal"),
+    "arc_y4_year_close_unattached": ("cg_father_belongings_desk_w190", "current_housing", "player_determined"),
+}
+W190_BELONGINGS_AUDIO = {
+    cg: {"ambience": ambience, "suppress_music": True,
+         "suppress_human_ambience": True, "suppress_season_ambience": True}
+    for cg, ambience in (("cg_father_belongings_cafe_w190", "intentional_silence"),
+                         ("cg_father_belongings_desk_w190", "apartment"))
+}
 HYUNSU_EXAM_FAILURE_EVENT = "hyunsu_result_fail"
 HYUNSU_EXAM_FAILURE_AUDIO = {
     "ambience": "apartment", "suppress_music": True,
@@ -911,18 +921,69 @@ def run_w188_audio_mutation_self_test(events: dict[str, dict], manifest: dict) -
     return cases
 
 
+def validate_w190_belongings_audio(events: dict, manifest: dict) -> list[str]:
+    """Admit only these two exact passed-only CG owners, not arbitrary silence."""
+    errors: list[str] = []
+    for event_id, (cg, background, portrait) in W190_BELONGINGS.items():
+        event = events.get(event_id, {})
+        if (not isinstance(event, dict)
+                or event.get("cg_if_known") != {"father_passed": cg}
+                or "cg" in event or "direction" in event
+                or event.get("background") != background or event.get("portrait") != portrait):
+            errors.append(f"{event_id}: belongings CG must stay passed-only with living surface unchanged")
+        contract = manifest.get("cg", {}).get(cg)
+        if (contract != W190_BELONGINGS_AUDIO[cg] or not isinstance(contract, dict)
+                or any(contract.get(key) is not True for key in (
+                    "suppress_music", "suppress_human_ambience", "suppress_season_ambience"))):
+            errors.append(f"{cg}: exact quiet belongings bed and three boolean suppressions required")
+    return errors
+
+
+def run_w190_audio_mutation_self_test(events: dict, manifest: dict) -> int:
+    assert not validate_w190_belongings_audio(events, manifest), "W190 positive fixture failed"
+    cases = 0
+    for event_id, (cg, _background, _portrait) in W190_BELONGINGS.items():
+        for field, value in (("cg_if_known", {}), ("cg", cg),
+                             ("direction", {"pace": "slow"}),
+                             ("background", "hospital"), ("portrait", "father_home")):
+            altered = copy.deepcopy(events)
+            altered[event_id][field] = value
+            assert validate_w190_belongings_audio(altered, manifest), (event_id, field)
+            cases += 1
+        absent = copy.deepcopy(manifest)
+        del absent["cg"][cg]
+        assert validate_w190_belongings_audio(events, absent), (cg, "missing")
+        cases += 1
+        for field, value in (("ambience", "cafe"), ("music", {"key": "grief"}),
+                             ("paragraph_cues", {"0": [{"sfx": "paper_handle"}]}),
+                             *[(key, value) for key in (
+                                 "suppress_music", "suppress_human_ambience", "suppress_season_ambience")
+                               for value in (False, 1)]):
+            altered = copy.deepcopy(manifest)
+            altered["cg"][cg][field] = value
+            assert validate_w190_belongings_audio(events, altered), (cg, field, value)
+            cases += 1
+    return cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--self-test-w188", action="store_true")
+    parser.add_argument("--self-test-w190", action="store_true")
     args = parser.parse_args()
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
+    if args.self_test_w190:
+        cases = run_w190_audio_mutation_self_test(load_events(), manifest)
+        print(f"W190_AUDIO_SELF_TEST_OK mutations={cases}")
+        return 0
     if args.self_test_w188:
         cases = run_w188_audio_mutation_self_test(load_events(), manifest)
         print(f"W188_AUDIO_SELF_TEST_OK mutations={cases}")
         return 0
     acting = load_json(ACTING_PATH)
     events = load_events()
+    errors.extend(validate_w190_belongings_audio(events, manifest))
     check_w227_write_anchors(errors)
     check_w230_write_anchors(errors)
     check_w235_return_anchors(errors)
@@ -1028,6 +1089,10 @@ def main() -> int:
         elif owner in W132_CAFE_EVENTS:
             if contract != W132_CAFE_AUDIO:
                 errors.append(f"{owner}: keep the score, not the unrelated street or bar recording")
+        elif owner in W190_BELONGINGS_AUDIO:
+            # Validated above against exact owners, CG selectors and typed booleans.
+            # Do not add intentional_silence to the global ambience-key set.
+            pass
         elif owner in DAEUN_QUIET_RESULT_CGS:
             if contract != {"ambience": "intentional_silence"}:
                 errors.append(f"{owner}: do not borrow the recorded bar or street crowd")

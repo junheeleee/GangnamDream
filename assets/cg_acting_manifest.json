@@ -3,6 +3,23 @@
   "updated": "2026-11-14",
   "rule": "Every active CG owns an explicit camera role and every visible named actor owns a gaze target plus a supporting body action. Lens gaze is legal only for player_pov.",
   "cg": {
+    "cg_father_belongings_cafe_w190": {
+      "path": "assets/cg/story/father_belongings_cafe_w190_v1.png",
+      "camera_role": "observational_two_shot",
+      "story_action": "After Father's funeral departure and return to Seoul, Minjun and Daeun remain in winter coats at a closing cafe. Attention rests on the creased medication instructions and empty envelope, without freezing an unfolding, folding or disposal action.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The medication instructions between his hands", "pose_support": "His charcoal winter coat stays open over the off-duty black crewneck; restrained fingers and seated shoulders hold attention at the paper edge."},
+        {"id": "daeun", "gaze_target": "Minjun's hand and paper across their cafe table", "pose_support": "Her y3 short bob and left-temple clip stay readable above a navy winter coat; both hands stay around her own cup as she waits."}
+      ]
+    },
+    "cg_father_belongings_desk_w190": {
+      "path": "assets/cg/story/father_belongings_desk_w190_v1.png",
+      "camera_role": "player_pov",
+      "story_action": "Alone at his current room desk, Minjun observes the thin medication instructions, empty envelope and opened zip bag. The unique close composition does not invent a dwelling layout or freeze a completed discard/fold action.",
+      "actors": [
+        {"id": "minjun", "gaze_target": "The creased medication instructions on his desk", "pose_support": "Only his two anatomically coherent black-crewneck-sleeved hands are visible from his own seated viewpoint, staying near the paper edge."}
+      ]
+    },
     "cg_final_father_record_goshiwon_open": {
       "path": "assets/cg/story/final_father_record_goshiwon_open_v1.png",
       "camera_role": "environment",

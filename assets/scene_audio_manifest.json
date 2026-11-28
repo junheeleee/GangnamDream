@@ -607,6 +607,8 @@
     "intentional_silence": []
   },
   "cg": {
+    "cg_father_belongings_cafe_w190": {"ambience": "intentional_silence", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
+    "cg_father_belongings_desk_w190": {"ambience": "apartment", "suppress_music": true, "suppress_human_ambience": true, "suppress_season_ambience": true},
     "cg_final_father_record_goshiwon_open": {"ambience": "apartment"},
     "cg_final_father_record_goshiwon_closed": {"ambience": "apartment"},
     "cg_final_father_record_general_open": {"ambience": "apartment"},
