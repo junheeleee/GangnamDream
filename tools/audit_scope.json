@@ -4777,6 +4777,16 @@
       ]
     },
     {
+      "tool": "tools/RaceTrackHiddenStatCheck.tscn",
+      "godot": true,
+      "why": "840 G1 숨은 수치: 정식판 경마 HUD·결과 경고에 중독도 숫자·게이지가 없고 손의 문장으로만 보인다, 체험판 게이지 유지",
+      "paths": [
+        "scenes/RaceTrack.gd",
+        "tools/RaceTrackHiddenStatCheck.gd",
+        "tools/RaceTrackHiddenStatCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/full_story_policy_run.py check",
       "why": "838 D1·839 T4 정책 런 프로필: 커밋된 프로필이 생성기 출력과 같다(정책·매매 전략 추가 뒤 재생성 누락 방지). 측정 도구이며 제품 게이트가 아니다",
       "paths": [

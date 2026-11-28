@@ -3,6 +3,7 @@ extends Control
 ## 폼 읽기 → 베팅 → 레이스 애니메이션 → 정산으로 플레이 가능하게 한다.
 ## MainGame이 인스턴스해 overlay로 붙이고 open()으로 표시. 닫으면 closed 시그널.
 
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
 signal closed
 
 enum Phase { BETTING, RACE, RESULT }
@@ -385,11 +386,27 @@ func _refresh_top() -> void:
 	_header.text = _tr("[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s", "[b]Race Track[/b]   ·   Race %d   ·   %dm   ·   Track %s") % [
 		_races_today, int(_race.get("distance", 0)), str(_race.get("track", ""))]
 	var addic: int = GameState.addiction_tendency
+	if FULL_STORY_FLOW.is_full_run():
+		# Addiction is a hidden stat: the full story shows the body, not a gauge
+		# (ORDER-840 G1). The approved demo keeps its gauge.
+		_hud.text = _tr("현금 [b]%s[/b]      안목(지력) %d", "Cash [b]%s[/b]      Read (INT) %d") % [
+			GameState.format_money(GameState.money), GameState.intelligence] + _full_story_hand_line(addic)
+		return
 	var bars: int = clampi(addic / 10, 0, 10)
 	var ac: String = "#5de89c" if addic < 40 else ("#e8c45d" if addic < 70 else "#e85d5d")
 	_hud.text = _tr("현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d", "Cash [b]%s[/b]      Addiction [color=%s]%s[/color] %d/100      Read (INT) %d") % [
 		GameState.format_money(GameState.money),
 		ac, ("▰".repeat(bars) + "▱".repeat(10 - bars)), addic, GameState.intelligence]
+
+## How the habit shows in a full story: in the hands, never as a number.
+func _full_story_hand_line(addic: int) -> String:
+	if addic >= 70:
+		return _tr("      [color=#e8a05d]출발 시각보다 다음 경주 시각을 먼저 본다.[/color]",
+			"      [color=#e8a05d]He checks when the next race starts before this one has.[/color]")
+	if addic >= 40:
+		return _tr("      [color=#c8b070]마권을 쥔 손가락이 조금 빨라졌다.[/color]",
+			"      [color=#c8b070]The fingers holding the ticket have got a little quicker.[/color]")
+	return ""
 
 func _render() -> void:
 	_refresh_top()
@@ -1162,7 +1179,11 @@ func _render_result() -> void:
 	if GameState.addiction_tendency >= 70:
 		var warn := Label.new()
 		_f(warn); warn.add_theme_font_size_override("font_size", 13)
-		warn.text = _tr("위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)", "Danger signal: 'just one more' is the trap. (Addiction %d)") % GameState.addiction_tendency
+		if FULL_STORY_FLOW.is_full_run():
+			warn.text = _tr("지갑을 다시 열었다. 다음 경주까지 남은 시간을 손가락으로 셌다.",
+				"He opened his wallet again and counted the minutes to the next race on his fingers.")
+		else:
+			warn.text = _tr("위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)", "Danger signal: 'just one more' is the trap. (Addiction %d)") % GameState.addiction_tendency
 		warn.add_theme_color_override("font_color", Color("#e8a05d"))
 		box.add_child(warn)
 
