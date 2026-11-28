@@ -21,6 +21,7 @@
 - `/root/w188_current_contract_1129`: `tools/StoryBackgroundContextCheck.gd`의 W190 focus만. 기존 검사 삭제/완화0.
 - 필요한 실측 동기화만: `docs/ART_AI_AUDIT.md`, `content/meta/release_content_inventory.json`, `docs/CONTENT_RATING_INVENTORY.md`.
 - 11-29 추가 선언: `tools/scene_audio_contract_check.py`에 새 CG2개의 exact 무음/단일룸톤 계약과 부정검사를 등록한다. 현 검사에서 새 무음owner 미등록으로 거절됐다. 공통 허용집합 확대·기존 검사 삭제/완화0.
+- 추가 등록 소유: `tools/art_resolution_baseline.json`의 새2자산 실측 행/집계만(기존327행·targets·bands 불변, 1080/4K 확대채무 유지). `.codex/skills/gangnamdream-dev/SKILL.md`에는 신규 raster의 해상도 원장 사전 선언 한 줄을 남긴다. 판정 기준 완화0.
 - 운영: 이 파일, `docs/queue_active/ORDER-833.md`, `docs/{CODEX_QUEUE,WORK_LOG}.md`, `CLAUDE.md`, `docs/agent_review_decisions.json`, `docs/agent_reviews/ORDER-833-W190-belongings-20261129.json`.
 
 Claude839~841 보호 파일·사용자 원본 worktree·project.godot·공개demo·기존 오디오 원본은 편집0. 그림은 built-in imagegen, 기존 y3 얼굴·화풍/실제 장소 참고, 새 원본으로 보존한다.
