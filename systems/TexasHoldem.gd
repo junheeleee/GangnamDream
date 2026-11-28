@@ -158,16 +158,23 @@ static func hand_strength(hole: Array, community: Array) -> float:
 
 ## ── AI 행동 결정 ──────────────────────────────────────────────────
 ## aggression 0.0(tight)~1.0(loose/aggressive)
-## → {"action": "fold"/"check"/"call"/"raise", "amount": int}
+## → {"action": "fold"/"check"/"call"/"raise", "amount": int,
+##    "bluff": bool, "strength": float}
+## bluff_rate < 0 keeps the old aggression-linked bluff odds (ORDER-840 G2
+## regulars pass their own); the rng draws are the same either way.
 static func ai_decide(hole: Array, community: Array, pot: int, to_call: int,
-		stack: int, aggression: float, rng: RandomNumberGenerator) -> Dictionary:
+		stack: int, aggression: float, rng: RandomNumberGenerator,
+		bluff_rate: float = -1.0) -> Dictionary:
 	var strength := hand_strength(hole, community)
 	# 약간의 노이즈 — AI도 항상 완벽하지 않음
 	var adj := strength + rng.randf_range(-0.09, 0.09)
 	# 블러프
-	if rng.randf() < aggression * 0.12:
+	var bluffing := false
+	if rng.randf() < (aggression * 0.12 if bluff_rate < 0.0 else bluff_rate):
+		bluffing = adj < 0.55
 		adj = maxf(adj, 0.55)
 	adj = clampf(adj, 0.0, 1.0)
+	var tag := {"bluff": bluffing, "strength": strength}
 
 	var min_raise := mini(maxi(to_call * 2, 10_000), stack)
 
@@ -175,15 +182,15 @@ static func ai_decide(hole: Array, community: Array, pot: int, to_call: int,
 		if adj > 0.55 + aggression * 0.12:
 			var raise_sz := mini(int(float(pot) * (0.4 + aggression * 0.4)), stack)
 			raise_sz = maxi(raise_sz, min_raise)
-			return {"action": "raise", "amount": raise_sz}
-		return {"action": "check", "amount": 0}
+			return {"action": "raise", "amount": raise_sz}.merged(tag)
+		return {"action": "check", "amount": 0}.merged(tag)
 	else:
 		var pot_odds := float(to_call) / float(maxi(pot + to_call, 1))
 		var fold_thr := pot_odds + 0.28 - aggression * 0.18
 		if adj < fold_thr:
-			return {"action": "fold", "amount": 0}
+			return {"action": "fold", "amount": 0}.merged(tag)
 		if adj > 0.68 + aggression * 0.10:
 			var raise_sz := mini(int(float(pot) * (0.6 + aggression * 0.4) + float(to_call)), stack)
 			raise_sz = maxi(raise_sz, to_call + min_raise)
-			return {"action": "raise", "amount": raise_sz}
-		return {"action": "call", "amount": to_call}
+			return {"action": "raise", "amount": raise_sz}.merged(tag)
+		return {"action": "call", "amount": to_call}.merged(tag)

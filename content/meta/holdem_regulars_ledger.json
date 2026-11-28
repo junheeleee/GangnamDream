@@ -1,0 +1,21 @@
+{
+  "order": "ORDER-840 G2",
+  "note": "Full run only. Four regulars sit at the hold'em club, two per visit. A visit with at least min_hands_for_visit hands counts; every visits_per_tell visits one tell's meaning is written in the notebook. The behaviour itself is always visible with tell_show odds; the notebook only says what it means. One regular falls into debt, one quits. Text lives in systems/HoldemRegulars.gd.",
+  "seats": 2,
+  "min_hands_for_visit": 3,
+  "visits_per_tell": 2,
+  "strong_hand": 0.72,
+  "tell_show": {"true": 0.8, "false": 0.12},
+  "regulars": [
+    {"id": "park_driver", "style": "stayer", "aggression": 0.15, "bluff_rate": 0.01,
+     "tells": [{"kind": "strong"}, {"kind": "bluff"}]},
+    {"id": "yoon_boss", "style": "builder", "aggression": 0.85, "bluff_rate": 0.08,
+     "tells": [{"kind": "bluff"}, {"kind": "strong"}]},
+    {"id": "do_manager", "style": "bluffer", "aggression": 0.55, "bluff_rate": 0.22,
+     "tells": [{"kind": "bluff"}, {"kind": "strong"}]},
+    {"id": "han_teacher", "style": "counter", "aggression": 0.35, "bluff_rate": 0.04,
+     "tells": [{"kind": "strong"}, {"kind": "bluff"}]}
+  ],
+  "debt": {"regular": "yoon_boss", "min_visits": 4, "min_turn": 97, "loan": 3000000, "news_gap_weeks": 8},
+  "quit": {"regular": "han_teacher", "min_visits": 5}
+}

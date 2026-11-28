@@ -22,10 +22,18 @@ func _big_blind() -> int:
 const VALID_BUYINS := [50_000, 100_000, 200_000, 500_000]
 const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
 const STAKE_LADDER := preload("res://systems/GambleStakeLadder.gd")
+const REGULARS := preload("res://systems/HoldemRegulars.gd")
 ## This session's buy-ins and blind scale: fixed, or in a full run the stake
 ## ladder's tier fixed at open (ORDER-840 G1).
 var _session_buyins: Array = VALID_BUYINS.duplicate()
 var _blind_scale: int = 1
+## ORDER-840 G2: the two regulars at this visit's table (full run only).
+var _seated: Array = []
+var _tell_rng := RandomNumberGenerator.new()
+var _debt_scene_open := false
+var _debt_choice_idx := 1
+var _visit_recorded := false
+var _debt_after := ""
 
 enum Phase { SETUP, PREFLOP, FLOP, TURN, RIVER, SHOWDOWN, RESULT }
 
@@ -106,6 +114,8 @@ func _opp_name(idx: int) -> String:
 	if idx < 0 or idx >= _opp.size():
 		return "?"
 	var o: Dictionary = _opp[idx]
+	if str(o.get("regular_id", "")) != "":
+		return REGULARS.display_name(str(o["regular_id"]))
 	match int(o.get("name_id", idx)):
 		0:
 			return _tr("조용한 남자", "Quiet Man")
@@ -172,6 +182,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if pad_navigation_event:
 		_pad_navigation_active = true
 
+	if _debt_scene_open:
+		if _debt_scene_input(event, major_direction):
+			get_viewport().set_input_as_handled()
+		return
 	var handled := false
 	if major_direction != 0:
 		if _phase == Phase.SETUP:
@@ -330,6 +344,8 @@ func _show_buyin_screen() -> void:
 	info.scroll_active = false
 	_f(info)
 	vb.add_child(info)
+	if not _seated.is_empty():
+		_add_regulars_notebook(vb)
 
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 12)
@@ -1121,9 +1137,15 @@ func _commit_ai_action(opp_idx: int) -> void:
 	var o = _opp[opp_idx]
 	var to_call: int = _max_bet - int(_opp_bets[opp_idx])
 	var decision := TH.ai_decide(o["hole"], _community, _pot, to_call, o["stack"],
-			float(o["aggression"]), _rng)
+			float(o["aggression"]), _rng, float(o.get("bluff_rate", -1.0)))
 	var previous_max := _max_bet
-	_set_msg("%s: %s" % [_opp_name(opp_idx), _action_label(decision["action"])])
+	var tell := ""
+	if str(o.get("regular_id", "")) != "":
+		tell = REGULARS.observed_tell(str(o["regular_id"]), decision, _tell_rng)
+	if tell != "":
+		_set_msg("%s: %s\n[color=#9aa8b8]%s[/color]" % [_opp_name(opp_idx), _action_label(decision["action"]), tell])
+	else:
+		_set_msg("%s: %s" % [_opp_name(opp_idx), _action_label(decision["action"])])
 
 	match decision["action"]:
 		"fold":
@@ -1364,6 +1386,7 @@ func _show_result_screen() -> void:
 			GameState.modify_hidden_stat("addiction_tendency", 4)
 	# 마스터리 기록
 	MetaProgression.record_minigame_play("holdem")
+	_record_regulars_visit(vb)
 
 	var close_btn := _make_btn(_tr("돌아가기", "Return"), _leave, "#1a2a3a")
 	close_btn.custom_minimum_size = Vector2(0, 44)
@@ -1771,6 +1794,7 @@ func open() -> void:
 	_invalidate_action_flow()
 	_apply_stake_ladder()
 	_open_session()
+	_seat_regulars()
 
 func _start_hand() -> void:
 	if not visible or _action_busy or _phase not in [Phase.SETUP, Phase.SHOWDOWN]: return
@@ -1826,3 +1850,159 @@ func _phase_banner_label(token: String) -> String:
 func _victory_template(template: String) -> String:
 	# Preserve the translation lookup key; all built-in KO ranks take 로, including 트리플.
 	return template.replace("%s으로", "%s로") if LocaleManager.is_korean() else template
+
+
+# ── ORDER-840 G2: regulars ────────────────────────────────────────
+func _seat_regulars() -> void:
+	_seated = []
+	_debt_scene_open = false
+	_visit_recorded = false
+	_debt_after = ""
+	for o in _opp:
+		o["regular_id"] = ""
+		o.erase("bluff_rate")
+	if not FULL_STORY_FLOW.is_full_run():
+		return
+	_tell_rng.randomize()
+	_seated = REGULARS.seat(GameState.flags, int(GameState.turn))
+	_apply_seated()
+	if REGULARS.debt_due(GameState.flags, _seated, int(GameState.turn)):
+		_show_debt_scene()
+	else:
+		_show_buyin_screen()
+
+func _apply_seated() -> void:
+	for i in range(_opp.size()):
+		if i >= _seated.size():
+			continue
+		var r: Dictionary = REGULARS.regular(str(_seated[i]))
+		_opp[i]["regular_id"] = str(_seated[i])
+		_opp[i]["aggression"] = float(r.get("aggression", 0.4))
+		_opp[i]["bluff_rate"] = float(r.get("bluff_rate", -1.0))
+
+func _add_regulars_notebook(vb: VBoxContainer) -> void:
+	var lines: Array = []
+	if _debt_after != "":
+		lines.append("[color=#c9a227]%s[/color]" % _debt_after)
+		_debt_after = ""
+	var names: Array = []
+	for rid in _seated:
+		names.append(REGULARS.display_name(str(rid)))
+	lines.append("[color=#c0c8d0]" + _tr("오늘 테이블: %s", "Tonight's table: %s") % ", ".join(names) + "[/color]")
+	for rid in _seated:
+		lines.append("[color=#8a9ab0]%s · %s[/color]" % [REGULARS.display_name(str(rid)), REGULARS.description(str(rid))])
+	if REGULARS.debt_news_due(GameState.flags, int(GameState.turn)):
+		var st := REGULARS.state(GameState.flags)
+		var news := _tr("클럽 사람에게 들었다. 윤 사장 번호가 바뀌었다고. 그날 계단참이 가끔 생각난다.",
+			"Someone at the club says Boss Yoon changed his number. Minjun still thinks about that night on the stairs.")
+		if int(st.get("lent", 0)) > 0:
+			news = _tr("클럽 사람에게 들었다. 윤 사장 번호가 바뀌었다고. 수첩 맨 뒤에 적어 둔 %s은 아직 거기 있다.",
+				"Someone at the club says Boss Yoon changed his number. The %s written on the last page of the notebook is still there.") % _fmt(int(st["lent"]))
+		lines.append("[color=#c9a227]" + news + "[/color]")
+		REGULARS.mark_news_shown(GameState.flags)
+	var notes: Array = []
+	for rid in REGULARS.ids():
+		var reason := str((REGULARS.state(GameState.flags)["gone"] as Dictionary).get(rid, ""))
+		if reason != "":
+			notes.append(REGULARS.gone_line(rid, reason))
+		for k in range(REGULARS.tells_known(GameState.flags, rid)):
+			notes.append(REGULARS.tell_note(rid, k))
+	lines.append("[color=#c0c8d0]" + _tr("수첩", "Notebook") + "[/color]")
+	if notes.is_empty():
+		lines.append("[color=#6a7485]" + _tr("아직 적은 게 없다.", "Nothing written yet.") + "[/color]")
+	else:
+		for n in notes:
+			lines.append("[color=#9aa8b8]• %s[/color]" % n)
+	var book := RichTextLabel.new()
+	book.bbcode_enabled = true
+	book.fit_content = true
+	book.scroll_active = false
+	book.text = "\n".join(lines)
+	book.add_theme_font_size_override("normal_font_size", 12)
+	_f(book)
+	vb.add_child(book)
+
+func _record_regulars_visit(vb: VBoxContainer) -> void:
+	if _seated.is_empty() or _visit_recorded:
+		return
+	_visit_recorded = true
+	var learned := REGULARS.record_visit(GameState.flags, _seated, _hands_played)
+	var lines: Array = []
+	for note in learned:
+		lines.append(_tr("수첩에 한 줄 적었다: %s", "A line goes into the notebook: %s") % str(note))
+	if REGULARS.quit_due(GameState.flags, _seated):
+		REGULARS.settle_quit(GameState.flags, int(GameState.turn))
+		lines.append(_tr("한 선생이 칩을 정리하며 말했다. \"저 오늘로 그만해요. 계산은 맞는데, 집에 가는 길이 안 맞더라고요.\" 그녀는 자기 수첩에서 한 장을 찢어 민준 앞에 두고 갔다. 숫자는 없고 날짜만 적혀 있었다.",
+			"Ms. Han squares her chips. \"This is my last night. The math works. The way home doesn't.\" She tears a page from her own notebook and leaves it in front of Minjun. No numbers, only dates."))
+	if lines.is_empty():
+		return
+	var lbl := RichTextLabel.new()
+	lbl.bbcode_enabled = true
+	lbl.fit_content = true
+	lbl.scroll_active = false
+	lbl.text = "[color=#9aa8b8]%s[/color]" % "\n\n".join(lines)
+	lbl.add_theme_font_size_override("normal_font_size", 12)
+	_f(lbl)
+	vb.add_child(lbl)
+
+func _show_debt_scene() -> void:
+	_phase = Phase.SETUP
+	_debt_scene_open = true
+	_clear_content()
+	var vb := _content_vbox()
+	var prose := RichTextLabel.new()
+	prose.bbcode_enabled = true
+	prose.fit_content = true
+	prose.scroll_active = false
+	prose.text = "[color=#c0c8d0]%s[/color]" % _tr(
+		"윤 사장은 오늘 테이블에 앉지 않았다. 계단참에서 불 꺼진 담배를 물고 기다리고 있었다.\n\"민준 씨, 딱 한 번만. 다음 주에 메꿔. 내가 언제 안 갚은 적 있어?\"\n늘 풀어 놓던 시계가 그의 손목에 없다.",
+		"Boss Yoon isn't at the table tonight. He is waiting on the stairs with an unlit cigarette.\n\"Minjun, just this once. I'll cover it next week. When have I ever not paid?\"\nThe watch he always takes off at the table is not on his wrist.")
+	prose.add_theme_font_size_override("normal_font_size", 14)
+	_f(prose)
+	vb.add_child(prose)
+	vb.add_child(_sep())
+	var loan := REGULARS.loan_amount()
+	var lend := _make_btn(_tr("%s 빌려준다", "Lend him %s") % _fmt(loan), func(): _resolve_debt(true), "#2a2a1a")
+	lend.disabled = GameState.money < float(loan)
+	var refuse := _make_btn(_tr("못 빌려준다고 말한다", "Tell him no"), func(): _resolve_debt(false), "#2a1818")
+	if _should_show_pad_cursor():
+		_mark_pad_button(lend if _debt_choice_idx == 0 and not lend.disabled else refuse)
+	vb.add_child(lend)
+	vb.add_child(refuse)
+
+func _debt_scene_input(event: InputEvent, major_direction: int) -> bool:
+	if event.is_action_pressed("ui_cancel"):
+		_resolve_debt(false)
+		return true
+	if event.is_action_pressed("ui_accept"):
+		_resolve_debt(_debt_choice_idx == 0 and GameState.money >= float(REGULARS.loan_amount()))
+		return true
+	if major_direction != 0 or event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down"):
+		_debt_choice_idx = 1 - _debt_choice_idx
+		_show_debt_scene()
+		return true
+	return false
+
+func _resolve_debt(lend: bool) -> void:
+	if not _debt_scene_open:
+		return
+	_debt_scene_open = false
+	var lent := 0
+	if lend and GameState.money >= float(REGULARS.loan_amount()):
+		lent = REGULARS.loan_amount()
+		GameState.add_money(-float(lent))
+		# The loan is not a hand at the table: keep it out of the session net.
+		_entry_balance -= float(lent)
+		GameState.add_log(_tr("윤 사장에게 %s을 빌려줬다.", "Lent Boss Yoon %s.") % _fmt(lent), "money")
+	REGULARS.settle_debt(GameState.flags, int(GameState.turn), lent)
+	AudioManager.play("click")
+	var after := _tr("\"그래, 그렇지.\" 윤 사장은 웃었다. 웃는 얼굴로 계단을 내려갔다.",
+		"\"Sure. Of course.\" Boss Yoon smiles, and goes down the stairs still smiling.")
+	if lent > 0:
+		after = _tr("윤 사장은 봉투를 두 번 접어 안주머니에 넣었다. \"다음 주.\" 그 말을 하고 계단을 내려갔다.",
+			"Boss Yoon folds the envelope twice and puts it in his inside pocket. \"Next week.\" Then he goes down the stairs.")
+	_debt_after = after
+	_seated = REGULARS.seat(GameState.flags, int(GameState.turn))
+	_apply_seated()
+	_show_buyin_screen()

@@ -4790,6 +4790,19 @@
       ]
     },
     {
+      "tool": "tools/HoldemRegularsCheck.tscn",
+      "godot": true,
+      "why": "840 G2 홀덤 단골: 정식판 단골 4명 중 주마다 고정된 2명, 버릇이 참일 때 주로·거짓일 때 가끔 보임, 두 번 방문마다 수첩 한 줄, 윤 사장 계단참 대출과 이탈, 한 선생 은퇴, 저장 왕복, 대출은 판 손익 밖, 정식판 밖 옛 상대와 ai_decide 기본 확률 유지",
+      "paths": [
+        "systems/HoldemRegulars.gd",
+        "content/meta/holdem_regulars_ledger.json",
+        "systems/TexasHoldem.gd",
+        "scenes/HoldemClub.gd",
+        "tools/HoldemRegularsCheck.gd",
+        "tools/HoldemRegularsCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/RaceTrackHiddenStatCheck.tscn",
       "godot": true,
       "why": "840 G1 숨은 수치: 정식판 경마 HUD·결과 경고에 중독도 숫자·게이지가 없고 손의 문장으로만 보인다, 체험판 게이지 유지",
