@@ -4209,10 +4209,38 @@ func _direct_continue_choice_index() -> int:
 			or bool(_current.get("timed", false)):
 		return -1
 	var choices: Array = _current.get("choices", [])
+	var event_id := str(_current.get("id", ""))
+	if event_id == W188_PLATFORM or event_id == W188_DEAL_ROOM:
+		# New play continues the root decision at its real authored index.
+		# Frozen galleries keep their historical visible 0/1 snapshot instead.
+		var visible := _visible_choice_indices(_current)
+		return 2 if visible == [2] else -1
 	if choices.size() != 1 or not _choice_visible(
 			choices[0] as Dictionary, 0):
 		return -1
 	return 0
+
+func _w188_direct_choice_is_valid(event: Dictionary = {}) -> bool:
+	var source := _current if event.is_empty() else event
+	var event_id := str(source.get("id", ""))
+	if event_id != W188_PLATFORM and event_id != W188_DEAL_ROOM:
+		return false
+	var choices: Array = source.get("choices", [])
+	if choices.size() != 3 or not choices[2] is Dictionary:
+		return false
+	var choice: Dictionary = choices[2]
+	var keys := choice.keys()
+	keys.sort()
+	if keys != ["choice_kind", "follow_up_event", "result_text", "text"]:
+		return false
+	var expected_follow_up := "arc_father_passing_hospital_room" \
+			if event_id == W188_PLATFORM else "arc_father_passing_deal_morning"
+	return choice.get("choice_kind") == "decision" \
+		and choice.get("follow_up_event") == expected_follow_up \
+		and typeof(choice.get("text")) == TYPE_STRING \
+		and not str(choice.get("text")).strip_edges().is_empty() \
+		and typeof(choice.get("result_text")) == TYPE_STRING \
+		and not str(choice.get("result_text")).strip_edges().is_empty()
 
 func _direct_continue_action_text() -> String:
 	var choice_index := _direct_continue_choice_index()
@@ -4523,7 +4551,11 @@ func _live_gallery_selector_matches(event: Dictionary) -> Array[String]:
 func _live_gallery_visible_choice_indices(event: Dictionary) -> Array[int]:
 	var visible: Array[int] = []
 	var choices: Array = event.get("choices", [])
+	var event_id := str(event.get("id", ""))
 	for choice_index in range(choices.size()):
+		if (event_id == W188_PLATFORM or event_id == W188_DEAL_ROOM) \
+				and (choice_index != 2 or not _w188_direct_choice_is_valid(event)):
+			continue
 		var raw_choice: Variant = choices[choice_index]
 		if raw_choice is Dictionary and _live_gallery_choice_visible(
 				event, raw_choice as Dictionary):
@@ -6507,8 +6539,10 @@ func _apply_authored_result_location(play_cut_cue: bool = false) -> void:
 func _apply_w188_ktx_result(event_id: String, live_advance: bool) -> void:
 	# The platform result starts on the train. The meeting result first
 	# leaves the signature blank; only the second authored paragraph boards.
-	var onboard := _pending_after_result and _pending_result_choice_index == 0 \
-		and (event_id == W188_PLATFORM or _story_source_paragraph_index(_para_index) == 1)
+	var onboard := _pending_after_result and ( \
+		(_pending_result_choice_index == 0 \
+			and (event_id == W188_PLATFORM or _story_source_paragraph_index(_para_index) == 1)) \
+		or (event_id == W188_PLATFORM and _pending_result_choice_index == 2))
 	if not onboard and _event_background_id != W188_NIGHT_KTX:
 		return
 	var destination: String = W188_NIGHT_KTX if onboard else str(_current.get("background", ""))
@@ -8925,6 +8959,16 @@ func _show_choices():
 	_reset_advance_hold()
 	_stop_story_choice_countdown()
 	_clear_result_record_card()
+	if _w188_direct_choice_is_valid() and _visible_choice_indices(_current) == [2]:
+		# A legacy save can stop at the old two-button rail. Restore a hint,
+		# not a second decision or an automatically committed continuation.
+		if _showing_choices:
+			_set_choice_dock_active(false)
+		_showing_choices = false
+		_choice_box.visible = false
+		_continue_hint.visible = true
+		_refresh_continue_hint_text()
+		return
 	var choices: Array = _current.get("choices", [])
 	if choices.is_empty():
 		# 선택지 없는 이벤트 → 바로 다음
@@ -9084,6 +9128,12 @@ func _choice_visible(ch: Dictionary, choice_index: int = -1) -> bool:
 					_first_bill_replay_snapshot, replay_obligation_id)
 		return _gallery_choice_was_visible(
 			str(_current.get("id", "")), choice_index)
+	var event_id := str(_current.get("id", ""))
+	if (event_id == W188_PLATFORM or event_id == W188_DEAL_ROOM) \
+			and (choice_index != 2 or not _w188_direct_choice_is_valid()):
+		# Legacy choices remain data for old results/receipts, never a new
+		# opportunity to reverse the decision already made at the ward call.
+		return false
 	var need_item := str(ch.get("requires_item", ""))
 	if need_item != "" and not GameState.has_item(need_item):
 		return false

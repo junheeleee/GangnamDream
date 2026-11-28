@@ -176,6 +176,20 @@ const W188_FOLLOW_UPS := [
 	"arc_father_passing_hospital_room",
 	"arc_father_passing_deal_morning",
 ]
+# Literal choice labels from the pre-repair 6b9b09c fixture. These are historical
+# applied-result receipts, never candidates for the live choice rail.
+const W188_LEGACY_LABELS := {
+	"ko": [["(KTX를 탔다. 늦었다는 걸 알면서도.)", "문이 닫히기 전에 돌아선다. 딜로 간다."],
+		["펜을 놓는다. 가장 빠른 KTX를 탄다.", "(전화를 끊었다. 지금 당장 가야 할 딜이 있었다.)"]],
+	"en": [["(He took the KTX. Knowing he was already too late.)", "Turn back before the doors close. Take the deal."],
+		["Put down the pen. Take the fastest KTX.", "(He hung up. There was a deal he had to close right now.)"]],
+	"ja": [["（KTXに乗った。遅かったと分かっていても。）", "ドアが閉まる前に引き返す。取引へ行く。"],
+		["ペンを置く。最も早いKTXに乗る。", "（電話を切った。今すぐ行かなければならない取引があった。）"]],
+	"zh-CN": [["（上了 KTX。明知道已经迟了。）", "在车门关上之前转身。去做交易。"],
+		["放下笔。搭最快一班 KTX。", "（挂断了电话。有一笔现在就得去的交易。）"]],
+	"zh-TW": [["（搭上了KTX。明知道已經遲了。）", "在門關上前回頭。去做交易。"],
+		["放下筆。搭最快的KTX。", "（掛了電話。眼前有一筆必須立刻前往的交易。）"]],
+}
 const W192_ROOT := "arc_year4_close"
 const W192_DEAD := "arc_year4_close_father_passed"
 const W192_BG := "year4_winter_rooftop"
@@ -14305,7 +14319,7 @@ func _check_w188_platform_silence() -> bool:
 	var paths := 0
 	var restores := 0
 	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
-		for choice in range(2):
+		for choice in [2, 0, 1]:
 			await _remove_story()
 			await _stop_audio()
 			_context = "%s/W188/platform/c%d" % [language, choice]
@@ -14382,19 +14396,23 @@ func _check_w188_platform_silence() -> bool:
 				await _finish_page()
 				if not _expect_w188_platform("W188 platform intro"):
 					return false
-				_story.call("_on_advance")
-				await _wait_stable()
-			if not bool(_story.get("_showing_choices")) \
-					or (platform.get("choices", []) as Array).size() != 2 \
-					or not _expect_w188_platform("W188 platform choices"):
-				_fail("W188 platform did not retain its two decisions on the silent winter surface")
+				if _page + 1 < intro.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			if not _w188_live_continue_only(platform) \
+					or not _expect_w188_platform("W188 platform direct continue"):
 				return false
 			var before_phenotype := _w177_phenotype_state()
 			var before_flags: Dictionary = GameState.flags.duplicate(true)
 			var before_events := int(GameState.events_seen)
 			var before_log: Array = GameState.event_log.duplicate(true)
-			_story.call("_on_choice", choice)
+			if choice == 2:
+				_story.call("_on_advance")
+			elif not _w188_prepare_legacy_result(platform, choice, language):
+				return false
 			await _wait_stable()
+			var next_id: String = W188_FOLLOW_UPS[0 if choice == 2 else choice]
+			var expected_sources := 2 if choice == 2 else 1
 			var expected_flags: Dictionary = before_flags.duplicate(true)
 			# This platform is a pure bridge. Its terminal follow-up owns the
 			# father-passing route flags; the platform itself records only the event.
@@ -14413,8 +14431,8 @@ func _check_w188_platform_silence() -> bool:
 				"receipt": str(receipt.get("event_id", "")) == W188_PLATFORM \
 					and int(receipt.get("choice_index", -1)) == choice \
 					and int(receipt.get("turn", -1)) == 188,
-				"follow_up": str(_story.get("_pending_follow_up")) == W188_FOLLOW_UPS[choice],
-				"source_count": int(_story.call("_story_source_paragraph_count")) == 1,
+				"follow_up": str(_story.get("_pending_follow_up")) == next_id,
+				"source_count": int(_story.call("_story_source_paragraph_count")) == expected_sources,
 				"prose": not result_pages.is_empty() and _m23_same_prose(result_pages, authored_result),
 			}
 			if choice_checks.values().has(false):
@@ -14422,42 +14440,46 @@ func _check_w188_platform_silence() -> bool:
 					choice_checks, GameState.flags, receipt, _story.get("_pending_follow_up"),
 					_story.call("_story_source_paragraph_count")])
 				return false
+			var restored_sources := {}
 			for page in range(result_pages.size()):
 				await _finish_page()
-				var onboard := choice == 0
+				var source := int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index"))))
+				var onboard: bool = choice in [0, 2]
 				if not _w177_applied_state_matches(applied_state, "W188 platform result") \
 						or not _expect_w188_result_surface(
 							W188_PLATFORM, onboard, "W188 platform result"):
 					return false
-				if choice == 0 and page == 0:
+				if not restored_sources.has(source):
 					var context: Dictionary = _story.call("build_save_resume_context")
-					if not await _reload_authored_result_context(context, language, 1, 0) \
+					if not await _reload_authored_result_context(context, language, expected_sources, source) \
 							or str((_story.get("_current") as Dictionary).get("id", "")) != W188_PLATFORM \
-							or int(_story.get("_para_index")) != page \
+							or int(_story.get("_pending_result_choice_index")) != choice \
+							or int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != source \
 							or not _w177_applied_state_matches(applied_state, "W188 cold platform result") \
 							or not _expect_w188_result_surface(
-								W188_PLATFORM, true, "W188 cold platform result"):
+								W188_PLATFORM, onboard, "W188 cold platform result"):
 						_fail("W188 v4 result restore lost the onboard KTX or applied choice")
 						return false
 					await _finish_page()
+					restored_sources[source] = true
 					restores += 1
 				if page + 1 < result_pages.size():
 					_story.call("_on_advance")
 					await _wait_stable()
-			if str(_story.get("_pending_follow_up")) != W188_FOLLOW_UPS[choice] \
+			if str(_story.get("_pending_follow_up")) != next_id \
 					or not _w177_applied_state_matches(applied_state, "W188 final platform result"):
 				_fail("W188 platform result changed before its authored follow-up")
 				return false
 			paths += 1
 	print("W188_PLATFORM_SILENCE_OK paths=%d v4=%d" % [paths, restores])
-	return paths == 10 and restores == 5
+	return paths == 15 and restores == 20
 
 func _check_w188_deal_boarding() -> bool:
 	var paths := 0
 	var restores := 0
 	var reflows := 0
 	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
-		for choice in range(2):
+		for choice in [2, 0, 1]:
 			await _remove_story()
 			await _stop_audio()
 			_context = "%s/W188/deal/c%d" % [language, choice]
@@ -14532,18 +14554,20 @@ func _check_w188_deal_boarding() -> bool:
 				await _finish_page()
 				if not _expect_w188_deal("W188 deal intro"):
 					return false
-				_story.call("_on_advance")
-				await _wait_stable()
-			if not bool(_story.get("_showing_choices")) \
-					or (deal.get("choices", []) as Array).size() != 2 \
-					or not _expect_w188_deal("W188 deal choices"):
-				_fail("W188 deal room did not retain its two decisions on the meeting surface")
+				if _page + 1 < intro.size():
+					_story.call("_on_advance")
+					await _wait_stable()
+			if not _w188_live_continue_only(deal) \
+					or not _expect_w188_deal("W188 deal direct continue"):
 				return false
 			var before_phenotype := _w177_phenotype_state()
 			var before_flags: Dictionary = GameState.flags.duplicate(true)
 			var before_events := int(GameState.events_seen)
 			var before_log: Array = GameState.event_log.duplicate(true)
-			_story.call("_on_choice", choice)
+			if choice == 2:
+				_story.call("_on_advance")
+			elif not _w188_prepare_legacy_result(deal, choice, language):
+				return false
 			await _wait_stable()
 			var receipt: Dictionary = GameState.event_log.back() \
 				if not GameState.event_log.is_empty() else {}
@@ -14551,7 +14575,8 @@ func _check_w188_deal_boarding() -> bool:
 			var result_pages: Array = (_story.get("_paragraphs") as Array).duplicate()
 			var authored_result := str(_story.call("_fmt", str(
 				(deal.get("choices", []) as Array)[choice].get("result_text", ""))))
-			var expected_sources := 2 if choice == 0 else 1
+			var expected_sources := 2 if choice in [0, 2] else 1
+			var next_id: String = W188_FOLLOW_UPS[1 if choice == 2 else choice]
 			var choice_checks := {
 				"phenotype": _w177_phenotype_state() == before_phenotype,
 				"flags": GameState.flags == before_flags,
@@ -14561,7 +14586,7 @@ func _check_w188_deal_boarding() -> bool:
 				"receipt": str(receipt.get("event_id", "")) == W188_DEAL \
 					and int(receipt.get("choice_index", -1)) == choice \
 					and int(receipt.get("turn", -1)) == 188,
-				"follow_up": str(_story.get("_pending_follow_up")) == W188_FOLLOW_UPS[choice],
+				"follow_up": str(_story.get("_pending_follow_up")) == next_id,
 				"source_count": int(_story.call("_story_source_paragraph_count")) == expected_sources,
 				"prose": not result_pages.is_empty() and _m23_same_prose(result_pages, authored_result),
 			}
@@ -14575,7 +14600,7 @@ func _check_w188_deal_boarding() -> bool:
 				await _finish_page()
 				var source := int(_story.call(
 					"_story_source_paragraph_index", int(_story.get("_para_index"))))
-				var onboard := choice == 0 and source == 1
+				var onboard: bool = choice == 0 and source == 1
 				if not _w177_applied_state_matches(applied_state, "W188 deal result") \
 						or not _expect_w188_result_surface(W188_DEAL, onboard, "W188 deal result"):
 					return false
@@ -14596,11 +14621,12 @@ func _check_w188_deal_boarding() -> bool:
 							_fail("W188 onboard deal locale reflow lost source one or its runtime presentation")
 							return false
 						reflows += 1
-				if choice == 0 and not restored_sources.has(source):
+				if not restored_sources.has(source):
 					var context: Dictionary = _story.call("build_save_resume_context")
 					if not await _reload_authored_result_context(
 							context, language, expected_sources, source) \
 							or str((_story.get("_current") as Dictionary).get("id", "")) != W188_DEAL \
+							or int(_story.get("_pending_result_choice_index")) != choice \
 							or int(_story.call("_story_source_paragraph_index", int(
 								_story.get("_para_index")))) != source \
 							or not _w177_applied_state_matches(applied_state, "W188 cold deal result") \
@@ -14614,7 +14640,7 @@ func _check_w188_deal_boarding() -> bool:
 				if page + 1 < result_pages.size():
 					_story.call("_on_advance")
 					await _wait_stable()
-			if str(_story.get("_pending_follow_up")) != W188_FOLLOW_UPS[choice] \
+			if str(_story.get("_pending_follow_up")) != next_id \
 					or not _w177_applied_state_matches(applied_state, "W188 final deal result"):
 				_fail("W188 deal result changed before its authored follow-up")
 				return false
@@ -14624,7 +14650,50 @@ func _check_w188_deal_boarding() -> bool:
 			paths += 1
 	print("W188_DEAL_BOARDING_OK paths=%d v4=%d locale_reflows=%d" % [
 		paths, restores, reflows])
-	return paths == 10 and restores == 10 and reflows == 2
+	return paths == 15 and restores == 25 and reflows == 2
+
+func _w188_live_continue_only(event: Dictionary) -> bool:
+	var choices: Array = event.get("choices", [])
+	if choices.size() != 3 or _story.call("_visible_choice_indices", event) != [2] \
+			or int(_story.call("_direct_continue_choice_index")) != 2 \
+			or bool(_story.get("_showing_choices")) \
+			or (_story.get("_choice_box") as Control).visible \
+			or not (_story.get("_continue_hint") as Label).visible:
+		_fail("W188 middle must expose only index2 through Enter/click, without a choice rail")
+		return false
+	var before: Dictionary = GameState.serialize().duplicate(true)
+	var context: Dictionary = _story.call("build_save_resume_context")
+	for old_index in [0, 1]:
+		_story.call("_on_choice", old_index)
+		if GameState.serialize() != before \
+				or _story.call("build_save_resume_context") != context:
+			_fail("W188 legacy index%d was accepted as a new live decision" % old_index)
+			return false
+	return true
+
+func _w188_prepare_legacy_result(event: Dictionary, index: int, language: String) -> bool:
+	# Prepared historical APPLIED result, not a synthetic new-index2 receipt.
+	# The authentic producer writes the old tuple/text; actual result restore and
+	# v4 disk consumers below must preserve it without applying it a second time.
+	var historical: Dictionary = event.duplicate(true)
+	var route := 0 if str(event.get("id", "")) == W188_PLATFORM else 1
+	var choice: Dictionary = historical["choices"][index]
+	choice["text"] = W188_LEGACY_LABELS[language][route][index]
+	if not GameState.apply_choice(historical, choice):
+		_fail("W188 historical applied-result fixture producer refused its old choice")
+		return false
+	_story.call("_record_dialogue_choice", choice, index)
+	var context: Dictionary = _story.call("build_save_resume_context")
+	context.merge({
+		"phase": "result", "pending_result_choice_index": index,
+		"pending_follow_up": str(choice["follow_up_event"]),
+		"paragraph_index": 0, "source_paragraph_index": 0,
+		"source_paragraph_count": 2 if route == 1 and index == 0 else 1,
+		"source_text_progress": 0.0, "paragraph_type_ratio": 0.0,
+		"paragraph_was_typing": true, "type_pos": 0,
+	}, true)
+	_story.call("_restore_story_result", context)
+	return true
 
 func _expect_w188_result_surface(event_id: String, onboard: bool, label: String) -> bool:
 	if onboard:

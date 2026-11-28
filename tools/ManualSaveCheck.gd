@@ -83,6 +83,12 @@ var _narrative_name_only := false
 var _narrative_name_checked := false
 var _full_story_cash_summary_only := false
 var _full_story_cash_summary_checked := false
+var _prose_resume_only := false
+var _prose_resume_cases := 0
+var _father_direct_only := false
+var _father_direct_cases := 0
+var _father_direct_cold := 0
+var _father_direct_replays := 0
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -91,6 +97,28 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_father_direct_only = OS.get_cmdline_user_args().has("--father-direct-progress-only")
+	if _father_direct_only:
+		await _check_father_direct_progress()
+		await _check_father_passing_terminal_result_resume()
+		await _finish()
+		return
+	_prose_resume_only = OS.get_cmdline_user_args().has("--prose-resume-only")
+	if _prose_resume_only:
+		var original_language := LocaleManager.language
+		for language in ["ko", "en"]:
+			LocaleManager.set_language(language)
+			for saved_size in ["small", "standard", "large"]:
+				for loaded_size in ["small", "standard", "large"]:
+					if saved_size == loaded_size:
+						continue
+					await _free_story()
+					await _check_prose_resume(saved_size, loaded_size)
+		LocaleManager.set_language(original_language)
+		_expect(_prose_resume_cases == 12,
+			"prose resume matrix did not complete all twelve locale/size cases")
+		await _finish()
+		return
 	_full_story_cash_summary_only = OS.get_cmdline_user_args().has("--full-story-cash-summary-only")
 	if _full_story_cash_summary_only:
 		await _check_full_story_cash_summary()
@@ -182,6 +210,7 @@ func _run() -> void:
 	await _check_father_passed_result_variant_receipt_guard()
 	await _check_father_passed_nonresult_variant_resume()
 	await _check_father_stale_pending_story_queue()
+	await _check_father_direct_progress()
 	await _check_father_passing_terminal_result_resume()
 	await _check_timed_choice_resume()
 	await _check_cross_locale_resume_rewind()
@@ -5005,11 +5034,13 @@ func _check_narrative_name_resume() -> void:
 	_narrative_name_checked = true
 
 
-func _check_prose_resume() -> void:
+func _check_prose_resume(saved_size: String = "large", loaded_size: String = "small") -> void:
 	GameState.start_new_game()
 	if not await _spawn_story("story_knee_choice"):
 		return
-	_story.call("_set_story_text_size", "large")
+	_story.call("_set_story_text_size", saved_size)
+	_expect(str(_story.get("_story_text_size")) == saved_size,
+		"prose fixture did not apply its saved text size")
 	_story.call("_complete_typing")
 	_story.call("_on_advance")
 	var partial_position := mini(
@@ -5035,10 +5066,15 @@ func _check_prose_resume() -> void:
 	await _free_story()
 	# Pagination is presentation state, not narrative state. Loading under a
 	# different text size must return to the same authored source position.
-	SaveManager.set_setting("story_text_size", "small")
+	SaveManager.set_setting("story_text_size", loaded_size)
 	_expect(SaveManager.load_game(TEST_SLOT), "prose save could not be reloaded")
-	if not await _spawn_loaded_story():
+	# Loading restores the source offset synchronously in _ready(). Freeze only
+	# automatic frame ticks before the helper awaits layout; elapsed typing is
+	# tested separately below, not mistaken for extra prose exposed by restore.
+	if not await _spawn_loaded_story(true):
 		return
+	_expect(str(_story.get("_story_text_size")) == loaded_size,
+		"prose fixture did not load under the requested different text size")
 	_expect(str((_story.get("_current") as Dictionary).get("id", "")) == "story_knee_choice",
 		"prose resume loaded the wrong event")
 	var restored_page := int(_story.get("_para_index"))
@@ -5060,6 +5096,25 @@ func _check_prose_resume() -> void:
 		"text-size change exposed prose beyond the saved point")
 	_expect((_story.get("_dialogue_log_entries") as Array) == prose_entries,
 		"prose resume changed or duplicated Dialogue History")
+	var restored_position := int(_story.get("_type_pos"))
+	var interval := float(_story.call("_direction_type_interval"))
+	var accumulator := float(_story.get("_type_accum"))
+	_expect(interval > 0.0 and accumulator >= 0.0 and accumulator < interval,
+		"prose resume restored an invalid typing clock")
+	_expect(restored_full.length() - restored_position >= 4,
+		"prose resume fixture lacks four unread characters for the slow-frame check")
+	# A slow 4-character frame used to fail the +2 restore bound. Drive exactly
+	# that real _process interval AFTER checking the frozen source position.
+	_story.call("_process", 4.0 * interval - accumulator + interval * 0.01)
+	_expect(int(_story.get("_type_pos")) == restored_position + 4 \
+		and (_story.get("_body_lbl") as RichTextLabel).text \
+			== restored_full.substr(0, restored_position + 4),
+		"resumed prose did not type exactly four characters on a slow frame")
+	_expect(int(_story.get("_para_index")) == restored_page \
+		and (_story.get("_dialogue_log_entries") as Array) == prose_entries,
+		"resumed typing advanced the page or duplicated Dialogue History")
+	_story.set_process(true)
+	_prose_resume_cases += 1
 
 func _check_choice_and_result_resume() -> void:
 	if not is_instance_valid(_story):
@@ -6573,6 +6628,375 @@ func _check_father_stale_pending_story_queue() -> void:
 	_expect(GameState.serialize() == replay_state_before \
 			and MetaProgression.data == replay_meta_before,
 		"read-only gallery replay mutated the current run or meta history")
+
+
+func _check_father_direct_progress() -> void:
+	# Prepared calendar/history, NOT played M01-M47 or a native C1 continuation.
+	# Actual owner, root choice, read-close, live Enter, old applied-result
+	# producer, v4 disk, fresh Story consumer and exact read receipts below.
+	await _free_story()
+	var original_language := LocaleManager.language
+	LocaleManager.set_language("ko")
+	GameState.start_new_game()
+	if GameState.is_demo_build() or CORE_LOOP.requested() \
+			or OS.get_cmdline_user_args().has(FULL_STORY_FLOW.PREVIEW_ARG) \
+			or OS.get_cmdline_user_args().has(FULL_STORY_FLOW.THIRD_MONTH_ARG):
+		_expect(not FULL_STORY_FLOW.initialize_fresh_run(),
+			"W188 full fixture promoted a demo/V2/preview process")
+		print("MANUAL_SAVE_FATHER_DIRECT_EXCLUSION_CHECK_OK full=not-issued")
+		LocaleManager.set_language(original_language)
+		return
+	_expect(FULL_STORY_FLOW.initialize_fresh_run(), "W188 fixture needs a genuine fresh full owner")
+	if not FULL_STORY_FLOW.valid_session():
+		return
+	var fresh: Dictionary = GameState.serialize().duplicate(true)
+	_purchase_prepared_reader(fresh)
+	var prepared: Dictionary = GameState.serialize().duplicate(true)
+	var roots := ["arc_father_passing_platform", "arc_father_passing_deal_room"]
+	var terminals := ["arc_father_passing_hospital_room", "arc_father_passing_deal_morning"]
+	var old_labels := [
+		["(KTX를 탔다. 늦었다는 걸 알면서도.)", "문이 닫히기 전에 돌아선다. 딜로 간다."],
+		["펜을 놓는다. 가장 빠른 KTX를 탄다.", "(전화를 끊었다. 지금 당장 가야 할 딜이 있었다.)"],
+	]
+	for route in range(2):
+		for choice_index in [2, 0, 1]:
+			await _free_story()
+			_production_prepared_owner(prepared, 188)
+			GameState.health = 90
+			GameState.mental = 90
+			GameState.moral_tint = 0
+			GameState.money = 2_000_000.0
+			GameState.housing = "oneroom"
+			for flag in ["arc_father_medication_seen", "arc_father_03_seen", "arc_y4_bill_night_seen",
+					"father_care_left_open", "arc_y4_father_crisis_contact_seen", "father_crisis_contact_missed"]:
+				GameState.flags[flag] = true
+			GameState.cast["father"]["stage"] = "hospitalized"
+			var root_id := "arc_father_passing"
+			_expect(FULL_STORY_FLOW.begin_chain([root_id]), "W188 could not open exact root chain")
+			GameState.pending_story_queue = [root_id]
+			GameState.story_return_scene = "res://scenes/MainGame.tscn"
+			if not await _spawn_full_story_fixture():
+				return
+			_show_current_story_choices()
+			_expect((_story.get("_current") as Dictionary).get("id") == root_id,
+				"W188 fixture skipped its live root")
+			_story.call("_on_choice", route)
+			if not await _father_read_result_to_next(str(roots[route])):
+				return
+			var middle: Dictionary = _story.get("_current")
+			var id := str(middle.get("id", ""))
+			if not await _father_read_intro_to_continue():
+				return
+			_expect((middle.get("choices", []) as Array).size() == 3 \
+					and _story.call("_visible_choice_indices", middle) == [2] \
+					and _story.call("_live_gallery_visible_choice_indices", middle) == [2] \
+					and int(_story.call("_direct_continue_choice_index")) == 2 \
+					and not bool(_story.get("_showing_choices")) \
+					and not (_story.get("_choice_box") as Control).visible \
+					and (_story.get("_continue_hint") as Label).visible,
+				"W188 live middle exposed a second dilemma instead of one Enter/click")
+			var before: Dictionary = GameState.serialize().duplicate(true)
+			var before_context: Dictionary = _story.call("build_save_resume_context")
+			for rejected_index in [0, 1]:
+				_story.call("_on_choice", rejected_index)
+				_expect(GameState.serialize() == before \
+						and _story.call("build_save_resume_context") == before_context,
+					"W188 hidden historical index%d became a new live action" % rejected_index)
+			if choice_index == 2:
+				for mutation in ["missing-kind", "expression", "extra-effect", "wrong-edge", "empty-text", "nontext-result"]:
+					var corrupted: Dictionary = middle.duplicate(true)
+					var candidate: Dictionary = corrupted["choices"][2]
+					match mutation:
+						"missing-kind": candidate.erase("choice_kind")
+						"expression": candidate["choice_kind"] = "expression"
+						"extra-effect": candidate["effects"] = {"money": 1}
+						"wrong-edge": candidate["follow_up_event"] = terminals[1 - route]
+						"empty-text": candidate["text"] = " "
+						"nontext-result": candidate["result_text"] = 7
+					_story.set("_current", corrupted)
+					_expect(not bool(_story.call("_w188_direct_choice_is_valid")) \
+							and (_story.call("_visible_choice_indices", corrupted) as Array).is_empty() \
+							and int(_story.call("_direct_continue_choice_index")) == -1 \
+							and (_story.call("_live_gallery_visible_choice_indices", corrupted) as Array).is_empty(),
+						"W188 malformed new choice remained live/archive-visible: %s" % mutation)
+					_story.call("_on_choice", 2)
+					_expect(GameState.serialize() == before \
+							and not bool(_story.get("_pending_after_result")),
+						"W188 malformed choice mutated state: %s" % mutation)
+				_story.set("_current", middle)
+				# Real old phase=choices disk: restore must remove its stale rail,
+				# wait for fresh Enter, and not silently decide during load.
+				var old_choices: Dictionary = before_context.duplicate(true)
+				old_choices["phase"] = "choices"
+				_expect(SaveManager.save_game(TEST_SLOT, old_choices, {"qa_fixture": true}),
+					"W188 old choices phase could not reach v4 disk")
+				await _free_story()
+				GameState.start_new_game()
+				_expect(SaveManager.load_game(TEST_SLOT), "W188 old choices phase failed cold load")
+				if not await _spawn_loaded_story(true):
+					return
+				if not await _father_finish_page():
+					return
+				_expect(_json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(before) \
+						and not bool(_story.get("_pending_after_result")) \
+						and not bool(_story.get("_showing_choices")) \
+						and not (_story.get("_choice_box") as Control).visible \
+						and (_story.get("_continue_hint") as Label).visible \
+						and int(_story.call("_direct_continue_choice_index")) == 2,
+					"W188 old choices cold restore auto-decided or retained its stale rail")
+				_father_direct_cold += 1
+				_story.call("_on_advance")
+			else:
+				# Historical result fixture applies an OLD index through its real
+				# producer and keeps its literal label. Never relabel a new2 result.
+				var historical: Dictionary = middle.duplicate(true)
+				var historical_choice: Dictionary = historical["choices"][choice_index]
+				historical_choice["text"] = old_labels[route][choice_index]
+				_expect(GameState.apply_choice(historical, historical_choice),
+					"W188 old applied-result producer refused its preserved index")
+				_story.call("_record_dialogue_choice", historical_choice, choice_index)
+				var legacy_context: Dictionary = _story.call("build_save_resume_context")
+				legacy_context.merge({"phase": "result", "pending_result_choice_index": choice_index,
+					"pending_follow_up": historical_choice["follow_up_event"],
+					"paragraph_index": 0, "source_paragraph_index": 0,
+					"source_paragraph_count": 2 if route == 1 and choice_index == 0 else 1,
+					"source_text_progress": 0.0, "paragraph_type_ratio": 0.0,
+					"paragraph_was_typing": true, "type_pos": 0}, true)
+				_story.call("_restore_story_result", legacy_context)
+			_story.call("_finish_story_scene_transition")
+			await get_tree().process_frame
+			var terminal_id: String = str(terminals[route if choice_index == 2 else choice_index])
+			var applied: Dictionary = GameState.serialize().duplicate(true)
+			var context: Dictionary = _story.call("build_save_resume_context")
+			var expected_sources := 2 if choice_index == 2 or (route == 1 and choice_index == 0) else 1
+			var applied_log: Dictionary = GameState.event_log.back()
+			_expect(str(context.get("phase", "")) == "result" \
+					and int(context.get("pending_result_choice_index", -1)) == choice_index \
+					and str(context.get("pending_follow_up", "")) == terminal_id \
+					and int(context.get("source_paragraph_count", -1)) == expected_sources \
+					and applied_log.get("event_id") == id \
+					and int(applied_log.get("choice_index", -1)) == choice_index \
+					and int(GameState.events_seen) == int(before["events_seen"]) + 1 \
+					and GameState.money == float(before["money"]) \
+					and GameState.action_points == int(before["action_points"]),
+				"W188 middle changed the pure bridge effect/old tuple/exact edge/source count")
+			if choice_index < 2:
+				_expect(applied_log["choice"] == old_labels[route][choice_index] \
+						and _father_history_has_choice(context, id, choice_index, str(old_labels[route][choice_index])),
+					"W188 historical literal choice label was replaced by today's label")
+			_story.call("_after_result")
+			_expect(not FULL_STORY_FLOW.close_result(id, 3) \
+					and not FULL_STORY_FLOW.close_result(id, choice_index, true) \
+					and not FULL_STORY_FLOW.close_chain() \
+					and GameState.serialize() == applied,
+				"W188 unread middle accepted wrong index/expression/early chain close")
+			_story.call("_on_choice", choice_index)
+			_expect(GameState.serialize() == applied, "W188 duplicate result input reapplied a bridge")
+			GameState.event_log.pop_back()
+			var missing_witness: Dictionary = GameState.serialize().duplicate(true)
+			_expect(not FULL_STORY_FLOW.close_result(id, choice_index) \
+					and GameState.serialize() == missing_witness,
+				"W188 current/open result borrowed historical authority after its applied tuple was removed")
+			GameState.call("_restore_serialized_snapshot_exact", applied)
+			_expect(SaveManager.save_game(TEST_SLOT, context, {"qa_fixture": true}),
+				"W188 actual applied result could not reach v4 disk")
+			await _free_story()
+			GameState.start_new_game()
+			_expect(SaveManager.load_game(TEST_SLOT), "W188 applied result failed cold load")
+			if not await _spawn_loaded_story(true):
+				return
+			_story.set_meta("_screenshot_qa_static_surface", true)
+			_expect(FULL_STORY_FLOW.valid_session() \
+					and _json_round_trip_dictionary(GameState.serialize()) == _json_round_trip_dictionary(applied) \
+					and int(_story.get("_pending_result_choice_index")) == choice_index \
+					and str(_story.get("_pending_follow_up")) == terminal_id,
+				"W188 cold result lost its owner/old index/edge or reapplied effects")
+			if choice_index < 2:
+				_expect(_father_history_has_choice(_story.call("build_save_resume_context"),
+						id, choice_index, str(old_labels[route][choice_index])),
+					"W188 actual v4 cold load rewrote old Dialogue History")
+			_father_direct_cold += 1
+			if not await _father_read_result_to_next(terminal_id):
+				return
+			var owner: Dictionary = FULL_STORY_FLOW.snapshot()
+			var reads: Array = owner["read_receipts"]["188"]
+			var record: Dictionary = reads.back()
+			_expect(reads.size() == 2 and owner["chain"]["closed_results"] == reads \
+					and owner["chain"]["pending_event_ids"] == [terminal_id] \
+					and record == {"turn": 188, "event_id": id, "choice_index": choice_index,
+						"expression": false, "applied_tuple": {"turn": 188, "event_id": id,
+							"choice_index": choice_index}, "applied_sequence": GameState.events_seen},
+				"W188 real read-close did not bind exact new/old tuple and terminal edge")
+			var read_state: Dictionary = GameState.serialize().duplicate(true)
+			_expect(FULL_STORY_FLOW.close_result(id, choice_index) \
+					and not FULL_STORY_FLOW.close_result(id, (choice_index + 1) % 3) \
+					and GameState.serialize() == read_state,
+				"W188 duplicate read-close changed state or accepted another old/new index")
+			# Finish the original terminal, then one genuine weekly Main edge.
+			# Historical fallback is forbidden while W188 is still the open week.
+			_story.set_meta("_screenshot_qa_static_surface", true)
+			_show_current_story_choices()
+			_story.call("_on_choice", 0)
+			for guard in range(64):
+				if not await _father_finish_page():
+					return
+				_story.call("_on_advance")
+				await get_tree().process_frame
+				if bool(_story.get("_transitioning")):
+					break
+			_expect(bool(_story.get("_transitioning")) and FULL_STORY_FLOW.ready_to_advance() \
+					and bool(GameState.flags.get("father_passed", false)) \
+					and FULL_STORY_FLOW.snapshot()["read_receipts"]["188"].size() == 3,
+				"W188 terminal did not close its actual third read before calendar release")
+			var final_reads: Array = FULL_STORY_FLOW.snapshot()["read_receipts"]["188"].duplicate(true)
+			await _free_story()
+			var main_game: Control = await _spawn_monthly_economy_main()
+			_expect(bool(main_game.call("_full_story_advance_week", 188)) \
+					and GameState.turn == 189 and FULL_STORY_FLOW.valid_session(),
+				"W188 closed old/new chain did not release exactly one real Main calendar edge")
+			await _free_monthly_economy_main(main_game)
+			# SaveManager retains only the last100 event records. Read receipts
+			# must remain a closed witness after the applied event scrolls out.
+			for extra in range(105):
+				var event: Dictionary = DataRegistry.find_event("story_flashforward")
+				_expect(GameState.apply_choice(event, event["choices"][0]), "W188 log-cap fixture producer failed")
+			_expect(SaveManager.save_game(TEST_SLOT, {}, {"qa_fixture": true}),
+				"W188 read receipt log-cap fixture could not save")
+			await _free_story()
+			GameState.start_new_game()
+			_expect(SaveManager.load_game(TEST_SLOT) and GameState.event_log.size() == 100 \
+					and FULL_STORY_FLOW.valid_session() \
+					and FULL_STORY_FLOW.snapshot()["read_receipts"]["188"] == _json_round_trip_dictionary({"rows": final_reads})["rows"],
+				"W188 old/new read receipt failed the real saved log-cap boundary")
+			var intact: Dictionary = GameState.serialize().duplicate(true)
+			for damage in ["index", "expression", "tuple", "chain-edge"]:
+				var damaged_owner: Dictionary = FULL_STORY_FLOW.snapshot()
+				var damaged_read: Dictionary = damaged_owner["read_receipts"]["188"][1]
+				match damage:
+					"index": damaged_read["choice_index"] = 3
+					"expression": damaged_read["expression"] = true
+					"tuple": damaged_read["applied_tuple"]["choice_index"] = (choice_index + 1) % 3
+					"chain-edge": damaged_read["event_id"] = roots[1 - route]
+				GameState.flags[FULL_STORY_FLOW.STATE_KEY] = damaged_owner
+				_expect(not FULL_STORY_FLOW.valid_session(),
+					"W188 log-cap historical read accepted %s tampering" % damage)
+				GameState.call("_restore_serialized_snapshot_exact", intact)
+			_father_direct_cold += 1
+			_father_direct_cases += 1
+			print("MANUAL_SAVE_FATHER_DIRECT_CASE_OK route=%d middle_index=%d legacy_applied=%s terminal=%s" % [
+				route, choice_index, choice_index < 2, terminal_id])
+	await _free_story()
+	await _check_father_direct_replay()
+	_expect(_father_direct_cases == 6 and _father_direct_cold == 14 and _father_direct_replays == 6,
+		"W188 focused matrix did not complete six live/legacy routes and cold/replay boundaries")
+	LocaleManager.set_language(original_language)
+
+
+func _father_history_has_choice(context: Dictionary, id: String, index: int, text: String) -> bool:
+	for raw in (context.get("dialogue_log", {}) as Dictionary).get("entries", []):
+		if raw is Dictionary and raw.get("event_id") == id and raw.get("kind") == "choice" \
+				and int(raw.get("choice_index", -1)) == index and raw.get("text") == text:
+			return true
+	return false
+
+
+func _father_read_intro_to_continue() -> bool:
+	for guard in range(64):
+		if not await _father_finish_page():
+			return false
+		if int(_story.get("_para_index")) == (_story.get("_paragraphs") as Array).size() - 1:
+			return true
+		_story.call("_on_advance")
+		await get_tree().process_frame
+	_father_progress_timeout("intro final page")
+	return false
+
+
+func _father_read_result_to_next(next_id: String) -> bool:
+	for guard in range(64):
+		if not await _father_finish_page():
+			return false
+		_story.call("_on_advance")
+		await get_tree().process_frame
+		if str((_story.get("_current") as Dictionary).get("id", "")) == next_id:
+			_story.call("_finish_story_scene_transition")
+			return true
+	_father_progress_timeout("read-close into %s" % next_id)
+	return false
+
+
+func _father_finish_page() -> bool:
+	_story.call("_finish_story_scene_transition")
+	if bool(_story.get("_direction_beat_waiting")):
+		_story.call("_on_advance")
+	_story.call("_complete_typing")
+	if bool(_story.get("_direction_hold_active")):
+		# Prepared elapsed dramatic time through the real timer consumer. Headless
+		# frame counts are not seconds, and cold fixtures freeze normal processing.
+		# Do not clear the hold flag or bypass the input/read-close guard.
+		var remaining := float(_story.get("_direction_hold_remaining"))
+		_story.call("_process", maxf(0.0, remaining) + 0.001)
+	await get_tree().process_frame
+	_story.call("_finish_story_scene_transition")
+	if bool(_story.get("_direction_hold_active")):
+		_father_progress_timeout("actual direction hold expiry")
+		return false
+	return true
+
+
+func _father_progress_timeout(target: String) -> void:
+	_fail("W188 could not reach %s within bounded advances: event=%s page=%s/%d result=%s choice=%s followup=%s typing=%s hold=%s remaining=%s beat=%s transition=%s owner=%s" % [
+		target, (_story.get("_current") as Dictionary).get("id", ""), _story.get("_para_index"),
+		(_story.get("_paragraphs") as Array).size(), _story.get("_pending_after_result"),
+		_story.get("_pending_result_choice_index"), _story.get("_pending_follow_up"), _story.get("_typing"),
+		_story.get("_direction_hold_active"), _story.get("_direction_hold_remaining"),
+		_story.get("_direction_beat_waiting"), _story.get("_story_scene_transition_active"),
+		FULL_STORY_FLOW.valid_session()])
+
+
+func _check_father_direct_replay() -> void:
+	for id in ["arc_father_passing_platform", "arc_father_passing_deal_room"]:
+		for frozen: Array in [[0, 1], [2]]:
+			await _free_story()
+			GameState.start_new_game()
+			if not await _spawn_pending_story_queue([id], id):
+				return
+			_story.set("_read_only_replay", true)
+			# Prepared frozen visibility contract, not a claim of a historical
+			# human gallery recording. The actual replay consumer owns execution.
+			_story.set("_gallery_replay_snapshot", {"visible_choice_indices": {id: frozen}})
+			var before: Dictionary = GameState.serialize().duplicate(true)
+			var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+			_expect(_story.call("_visible_choice_indices", _story.get("_current")) == frozen,
+				"W188 frozen replay rewrote its historic choice visibility")
+			if frozen == [2]:
+				if not await _father_read_intro_to_continue():
+					return
+				_expect(int(_story.call("_direct_continue_choice_index")) == 2,
+					"W188 new frozen replay lost direct progression")
+				_story.call("_on_advance")
+				_expect(bool(_story.get("_pending_after_result")) \
+						and int(_story.get("_pending_result_choice_index")) == 2 \
+						and GameState.serialize() == before and MetaProgression.data == meta_before,
+					"W188 new frozen replay applied live effects or lost index2")
+				_father_direct_replays += 1
+			else:
+				_show_current_story_choices()
+				_expect(bool(_story.get("_showing_choices")) \
+						and int(_story.call("_direct_continue_choice_index")) == -1,
+					"W188 old frozen replay was silently changed into new index2")
+				for old_index in [0, 1]:
+					_story.call("_finish_story_scene_transition")
+					_story.call("_on_choice", old_index)
+					_expect(bool(_story.get("_pending_after_result")) \
+							and int(_story.get("_pending_result_choice_index")) == old_index \
+							and GameState.serialize() == before and MetaProgression.data == meta_before,
+						"W188 old frozen replay applied effects or lost its old index")
+					_father_direct_replays += 1
+					# Reset only replay UI to exercise the sibling frozen option.
+					_story.set("_pending_after_result", false)
+					_story.set("_pending_result_choice_index", -1)
+	await _free_story()
 
 
 func _check_father_passing_terminal_result_resume() -> void:
@@ -8144,9 +8568,11 @@ func _clear_gallery_pair_fixture(root_id: String) -> void:
 	snapshots.erase(root_id)
 	MetaProgression.data["scene_replay_snapshots"] = snapshots
 
-func _spawn_loaded_story() -> bool:
+func _spawn_loaded_story(freeze_processing: bool = false) -> bool:
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
+	if freeze_processing:
+		_story.set_process(false)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if not is_instance_valid(_story) or not _story.has_method("_set_auto_mode"):
@@ -8353,6 +8779,15 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _father_direct_cases == 6:
+			print("MANUAL_SAVE_FATHER_DIRECT_CHECK_OK routes=6 live_enter2=2 historical_applied0/1=4 v4_cold=14 read_close=exact-tuple/edge/duplicate-reject log_cap=100 replay=6 frozen_old_rail/new_direct effects=once prepared_W188=1 natural=0 new_OS_process=0")
+		if _father_direct_only:
+			get_tree().quit(0)
+			return
+		if _prose_resume_only:
+			print("MANUAL_SAVE_PROSE_RESUME_CHECK_OK cases=%d locales=ko/en text_sizes=all-six-directed-pairs restore=frozen-source/no-extra-prose/history timing=real-process-four-characters native=0 new_OS_process=0" % _prose_resume_cases)
+			get_tree().quit(0)
+			return
 		if _full_story_cash_summary_checked:
 			print("MANUAL_SAVE_FULL_STORY_CASH_SUMMARY_CHECK_OK source=actual-routine-money/month-opening/frozen-close residual=unclassified oldsave=partial pending=cold-before-story/ack-write-fault/retry/duplicate calendar=existing-fault-rng quiet=prepared-W13-W16-read0 native=0 new_OS_process=0")
 		if _full_story_cash_summary_only:

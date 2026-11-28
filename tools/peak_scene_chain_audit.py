@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import copy
 import glob
+import hashlib
 import json
 import os
 import re
@@ -20,6 +21,14 @@ MAIN_GAME = os.path.join(ROOT, "scenes", "MainGame.gd")
 GAME_STATE = os.path.join(ROOT, "autoloads", "GameState.gd")
 ENDINGS_KO = os.path.join(ROOT, "content", "endings.json")
 ENDINGS_EN = os.path.join(ROOT, "content", "endings_en.json")
+
+W188_DIRECT_EDGES = {
+    "arc_father_passing_platform": "arc_father_passing_hospital_room",
+    "arc_father_passing_deal_room": "arc_father_passing_deal_morning",
+}
+# Immutable 6b9b09c old choice 0/1 shape, result and edge fingerprint.  Only
+# action labels (including their populated black/white variants) may change.
+W188_LEGACY_CHOICES_SHA256 = "c749810192f7437cb3dc6e345b8850a523d59eda1eafcef33cf3201849d47c7a"
 
 # The names mirror docs/ROMANCE_SYSTEM.md section 8. Each root is the exact
 # StoryMode entry point; scheduled scenes weeks later do not count as one chain.
@@ -166,6 +175,47 @@ def dialogue_count(value: Any) -> int:
     return straight + curly + corner
 
 
+def w188_legacy_choices_fingerprint(events: dict[str, dict[str, Any]]) -> str:
+    locked = {}
+    for event_id in W188_DIRECT_EDGES:
+        choices = events.get(event_id, {}).get("choices", [])
+        if not isinstance(choices, list) or len(choices) != 3 \
+                or any(not isinstance(choice, dict) for choice in choices):
+            raise ValueError(f"Father passing {event_id} needs legacy 0/1 and direct 2")
+        locked[event_id] = []
+        for choice in choices[:2]:
+            moral = choice.get("text_if_moral", {})
+            if not isinstance(moral, dict):
+                raise ValueError(f"Father passing {event_id} lost legacy moral labels")
+            labels = [choice.get("text"), *moral.values()]
+            if any(not isinstance(text, str) or not text.strip() for text in labels):
+                raise ValueError(f"Father passing {event_id} lost legacy action labels")
+            row = {key: value for key, value in choice.items()
+                   if key not in ("text", "text_if_moral")}
+            row["keys"] = sorted(choice)
+            row["moral_keys"] = sorted(moral)
+            locked[event_id].append(row)
+    payload = json.dumps(locked, ensure_ascii=False, sort_keys=True,
+                         separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def w188_live_choices(event_id: str, choices: list[Any]) -> list[dict[str, Any]]:
+    """StoryMode exposes only new index 2; legacy results are not new decisions."""
+    if event_id not in W188_DIRECT_EDGES:
+        return choices
+    if len(choices) != 3 or any(not isinstance(choice, dict) for choice in choices):
+        raise ValueError(f"Father passing {event_id} needs exact three stored choices")
+    direct = choices[2]
+    if (set(direct) != {"choice_kind", "text", "result_text", "follow_up_event"}
+            or direct.get("choice_kind") != "decision"
+            or direct.get("follow_up_event") != W188_DIRECT_EDGES[event_id]
+            or any(not isinstance(direct.get(key), str) or not direct[key].strip()
+                   for key in ("text", "result_text"))):
+        raise ValueError(f"Father passing {event_id}[2] direct continuation contract changed")
+    return [direct]
+
+
 def walk_paths(
     events: dict[str, dict[str, Any]],
     event_id: str,
@@ -183,6 +233,7 @@ def walk_paths(
     choices = event.get("choices") or []
     if not isinstance(choices, list):
         raise ValueError(f"choices must be an array: {event_id}")
+    choices = w188_live_choices(event_id, choices)
     current = metric or PathMetric((), 0, 0, 0)
     base = PathMetric(
         current.event_ids + (event_id,),
@@ -1965,7 +2016,7 @@ def validate_father_hospital_contract(events: dict[str, dict[str, Any]]) -> None
 
 
 def validate_father_passing_contract(events: dict[str, dict[str, Any]]) -> None:
-    """Separate every physical location while preserving both canonical losses."""
+    """One live dilemma, two consequences, with four cold legacy paths intact."""
     root_id = "arc_father_passing"
     platform_id = "arc_father_passing_platform"
     deal_room_id = "arc_father_passing_deal_room"
@@ -1973,16 +2024,19 @@ def validate_father_passing_contract(events: dict[str, dict[str, Any]]) -> None:
     deal_morning_id = "arc_father_passing_deal_morning"
     expected_paths = {
         (root_id, platform_id, hospital_id),
-        (root_id, platform_id, deal_morning_id),
-        (root_id, deal_room_id, hospital_id),
         (root_id, deal_room_id, deal_morning_id),
     }
-    actual_paths = {path.event_ids for path in walk_paths(events, root_id)}
+    paths = walk_paths(events, root_id)
+    actual_paths = {path.event_ids for path in paths}
     if actual_paths != expected_paths:
         raise ValueError(
             "Father passing paths changed: "
             f"actual={sorted(actual_paths)!r} expected={sorted(expected_paths)!r}"
         )
+    if len(paths) != 2 or any(path.decisions != 1 for path in paths):
+        raise ValueError("Father passing must ask the hospital/deal dilemma exactly once")
+    if w188_legacy_choices_fingerprint(events) != W188_LEGACY_CHOICES_SHA256:
+        raise ValueError("Father passing legacy 0/1 shape/result/edge changed")
 
     expected_visuals = {
         root_id: ("current_housing", "player_shocked"),
@@ -2006,10 +2060,27 @@ def validate_father_passing_contract(events: dict[str, dict[str, Any]]) -> None:
     ]:
         raise ValueError("Father passing root must branch to platform or deal room")
 
+    legacy_paths = set()
+    for event_id in (platform_id, deal_room_id):
+        choices = events[event_id].get("choices") or []
+        # Do not count these old stored choices as live player decisions.
+        if [choice.get("follow_up_event") for choice in choices[:2]] != [
+                hospital_id, deal_morning_id]:
+            raise ValueError(f"Father passing legacy terminal edges changed: {event_id}")
+        legacy_paths.update((root_id, event_id, choice["follow_up_event"])
+                            for choice in choices[:2])
+    if legacy_paths != {
+            (root_id, platform_id, hospital_id),
+            (root_id, platform_id, deal_morning_id),
+            (root_id, deal_room_id, hospital_id),
+            (root_id, deal_room_id, deal_morning_id)}:
+        raise ValueError("Father passing four legacy cold routes changed")
+
     for event_id in (root_id, platform_id, deal_room_id):
         choices = events[event_id].get("choices") or []
-        if len(choices) != 2:
-            raise ValueError(f"Father passing buildup must retain two choices: {event_id}")
+        expected_count = 2 if event_id == root_id else 3
+        if len(choices) != expected_count:
+            raise ValueError(f"Father passing stored choice population changed: {event_id}")
         for choice_index, choice in enumerate(choices):
             for forbidden in ("effects", "cast_effects", "flags"):
                 if choice.get(forbidden):
@@ -2048,6 +2119,73 @@ def validate_father_passing_contract(events: dict[str, dict[str, Any]]) -> None:
                     f"Father passing terminal {event_id} changed {key}: "
                     f"{choices[0].get(key)!r}!={value!r}"
                 )
+
+
+def run_father_passing_mutation_self_test(events: dict[str, dict[str, Any]]) -> int:
+    """Reject dead-choice inflation and every legacy/new route mutation."""
+    events = {event_id: events[event_id] for event_id in (
+        "arc_father_passing", *W188_DIRECT_EDGES, *W188_DIRECT_EDGES.values())}
+    validate_father_passing_contract(events)
+    metric = measure("Father's Passing", "arc_father_passing", events)
+    if not metric.passes or metric.paths != 2 \
+            or (metric.min_decisions, metric.max_decisions) != (1, 1):
+        raise AssertionError("W188 single-dilemma baseline did not measure two honest live paths")
+    cases = 0
+
+    def rejected(mutated: dict[str, dict[str, Any]], label: str) -> None:
+        nonlocal cases
+        try:
+            validate_father_passing_contract(mutated)
+        except (ValueError, KeyError, TypeError):
+            cases += 1
+            return
+        raise AssertionError(f"W188 accepted mutation: {label}")
+
+    for event_id in W188_DIRECT_EDGES:
+        for index in (0, 1):
+            for field, value in (("result_text", "changed old cold prose"),
+                                 ("follow_up_event", "arc_father_passing"),
+                                 ("effects", {}), ("choice_kind", "decision")):
+                bad = copy.deepcopy(events)
+                bad[event_id]["choices"][index][field] = value
+                rejected(bad, f"{event_id} legacy {index}/{field}")
+            bad = copy.deepcopy(events)
+            bad[event_id]["choices"][index]["text_if_moral"].pop("black")
+            rejected(bad, f"{event_id} legacy {index} moral shape")
+            bad = copy.deepcopy(events)
+            bad[event_id]["choices"][index]["text"] = ""
+            rejected(bad, f"{event_id} legacy {index} empty label")
+        for field, value in (("follow_up_event", "arc_father_passing"),
+                             ("choice_kind", "expression"), ("effects", {}),
+                             ("text_if_moral", {}), ("text", ""),
+                             ("result_text", ""), ("result_text", ["not prose"])):
+            bad = copy.deepcopy(events)
+            bad[event_id]["choices"][2][field] = value
+            rejected(bad, f"{event_id} direct 2/{field}")
+        for remove_index in (0, 2):
+            bad = copy.deepcopy(events)
+            bad[event_id]["choices"].pop(remove_index)
+            rejected(bad, f"{event_id} remove choice {remove_index}")
+        bad = copy.deepcopy(events)
+        bad[event_id]["choices"].append(copy.deepcopy(bad[event_id]["choices"][2]))
+        rejected(bad, f"{event_id} extra live choice")
+    bad = copy.deepcopy(events)
+    bad["arc_father_passing"]["choices"].pop()
+    rejected(bad, "root decision removed")
+    bad = copy.deepcopy(events)
+    bad["arc_father_passing_deal_morning"]["choices"][0]["effects"]["money"] += 1
+    rejected(bad, "terminal money changed")
+
+    # Every other peak still requires MIN_DECISIONS=2, not the W188 exception.
+    ordinary = {
+        "ordinary_root": {"description": '"one" "two"', "choices": [
+            {"follow_up_event": "ordinary_end"},
+            {"follow_up_event": "ordinary_end"}]},
+        "ordinary_end": {"description": '"three" "four"', "choices": [{}]},
+    }
+    if measure("ordinary", "ordinary_root", ordinary).passes or MIN_DECISIONS != 2:
+        raise AssertionError("W188 exception weakened the generic two-decision minimum")
+    return cases + 1
 
 
 def validate_breakup_peak_contracts(events: dict[str, dict[str, Any]]) -> None:
@@ -3244,11 +3382,17 @@ def print_finale_observations(events: dict[str, dict[str, Any]], locale: str) ->
 
 def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> PeakMetric:
     evidence_convergence = root_id == "arc_sangchul_deduction"
+    single_dilemma = root_id == "arc_father_passing"
     if evidence_convergence:
         # This solo evidence scene is judged by its two routes, convergence and
         # final judgment, not by inventing dialogue to meet the legacy minimum.
         # Keep the contract here so standalone measure() cannot bypass it.
         validate_sangchul_deduction_contract(events)
+    if single_dilemma:
+        # Approved W188 exception only: asking the same hospital/deal dilemma
+        # twice is a defect.  The exact two consequences and all four legacy
+        # cold routes are validated before this one-decision profile applies.
+        validate_father_passing_contract(events)
     paths = walk_paths(events, root_id)
     links = [len(path.event_ids) for path in paths]
     decisions = [path.decisions for path in paths]
@@ -3257,7 +3401,8 @@ def measure(label: str, root_id: str, events: dict[str, dict[str, Any]]) -> Peak
     passes = evidence_convergence or (
         min(links) >= MIN_LINKS
         and max(links) <= MAX_LINKS
-        and min(decisions) >= MIN_DECISIONS
+        and (min(decisions) == max(decisions) == 1
+             if single_dilemma else min(decisions) >= MIN_DECISIONS)
         and max(decisions) <= MAX_DECISIONS
         and min(dialogue) >= MIN_DIALOGUE_TURNS
     )
@@ -3287,7 +3432,8 @@ def print_markdown(metrics: list[PeakMetric]) -> None:
     for metric in metrics:
         profile = (
             " (evidence_convergence)"
-            if metric.root_id == "arc_sangchul_deduction" else ""
+            if metric.root_id == "arc_sangchul_deduction" else
+            " (single_dilemma)" if metric.root_id == "arc_father_passing" else ""
         )
         print(
             f"| {metric.label} | `{metric.root_id}` | "
@@ -3311,6 +3457,8 @@ def main() -> int:
     if args.self_test:
         mutation_count = run_finale_mutation_self_test(ko_events, en_events)
         print(f"FINALE_FUNCTION_SELF_TEST_OK mutations={mutation_count}")
+        father_mutations = run_father_passing_mutation_self_test(ko_events)
+        print(f"FATHER_PASSING_SELF_TEST_OK mutations={father_mutations}")
         return 0
     validate_season_peak_contracts(ko_events)
     validate_daeun_first_night_contract(ko_events)
@@ -3355,7 +3503,8 @@ def main() -> int:
         for metric in metrics:
             profile = (
                 " acceptance=evidence_convergence"
-                if metric.root_id == "arc_sangchul_deduction" else ""
+                if metric.root_id == "arc_sangchul_deduction" else
+                " acceptance=single_dilemma" if metric.root_id == "arc_father_passing" else ""
             )
             print(
                 "PEAK_CHAIN "

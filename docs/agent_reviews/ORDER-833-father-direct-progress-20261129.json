@@ -1,0 +1,376 @@
+{
+  "unit_id": "ORDER-833-father-direct-progress",
+  "decided_at": "2026-11-29",
+  "reviewer": "Codex /root/claude_pr45_review_for_user (independent source, committed candidate and complete raw-log review)",
+  "subject": {
+    "kind": "source",
+    "commit": "01c304345c58a8e289046741b790ab138cec513a",
+    "tree": "863937c3fcc4530a38f951609c0da683649946dc",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": [
+    "CLAUDE.md",
+    "content/events/arc_drama.json",
+    "content/events_en/arc_drama.json",
+    "content/events_ja/arc_drama.json",
+    "content/events_zh-CN/arc_drama.json",
+    "content/events_zh-TW/arc_drama.json",
+    "content/meta/full_game_localization.json",
+    "content/meta/release_content_inventory.json",
+    "docs/CODEX_QUEUE.md",
+    "docs/CONTENT_RATING_INVENTORY.md",
+    "docs/WORK_LOG.md",
+    "docs/queue_active/ORDER-833.md",
+    "docs/queue_archive/ORDER-833-FATHER-DIRECT-PROGRESS.md",
+    "scenes/StoryMode.gd",
+    "tools/ManualSaveCheck.gd",
+    "tools/StoryBackgroundContextCheck.gd",
+    "tools/chapter4_causal_route_audit.py",
+    "tools/peak_scene_chain_audit.py",
+    "tools/scene_audio_contract_check.py"
+  ],
+  "source_sha256": {
+    "CLAUDE.md": "c4757819fed9273e3c19a53d1c26b72a6ddaf6cbe422dadea668295fd04223f5",
+    "content/events/arc_drama.json": "45c91af2320106741c3cbebbf7660b98e8e6a623e1fd976b52b25cbf61c7bc39",
+    "content/events_en/arc_drama.json": "6c31efdc01e475bfece443a16fd1f71230e3d5f18ca3c5a2d9282317e2f2d817",
+    "content/events_ja/arc_drama.json": "7ac3caa56c4da7f8d71c5d83a7f1b1be9a09291a7f40c7bc5796d97e4e17e58a",
+    "content/events_zh-CN/arc_drama.json": "60f990963d6f30906258354a3d0bbe60d2b06cc3d0ea3a1a9054feebd4e97eaa",
+    "content/events_zh-TW/arc_drama.json": "80c661ea134432d043bee671a5e720eca49816f60978d5912ee569df0180da6c",
+    "content/meta/full_game_localization.json": "7c5826d2eecd1be3c7c7a3b56e35aa8fccc6f794f994f344f77dc85755939292",
+    "content/meta/release_content_inventory.json": "be443d423835bcd69df07a11869c76ad88e7f7c26def410161e02b64d8317441",
+    "docs/CODEX_QUEUE.md": "386e0a6d6a67675f6ffdec254d88206dc4eeacc1a04a32f87c83765295dee08b",
+    "docs/CONTENT_RATING_INVENTORY.md": "9cdb693eb9267af57a5b932de711aba14127951d3f9600380f175c4349af8ec3",
+    "docs/WORK_LOG.md": "83c05de7a1689edd81dfe0728524f018f00f8a79bf9c03b53bc8bea29d89a103",
+    "docs/queue_active/ORDER-833.md": "3e93975e9f913daeec3e3781ac6c72ebfd9e6d6e7e31da7c5d7a92c324b2cac8",
+    "docs/queue_archive/ORDER-833-FATHER-DIRECT-PROGRESS.md": "1ef8f40a34b6e93d546faf5308ae8e073af5b9084862ef1132a5aace44ccc2f7",
+    "scenes/StoryMode.gd": "fd4285cdd3affcc720e264d6944b633253b470c72d887c093e382dbfc405404b",
+    "tools/ManualSaveCheck.gd": "ead1453f079d4471a07fe852ac1f0cdc17cfd3e83045151c62f48fdd94d47201",
+    "tools/StoryBackgroundContextCheck.gd": "36db7c64b8950f02b24ff2607b36457c8b172cc058d4ca0005c9fa804d425839",
+    "tools/chapter4_causal_route_audit.py": "8b57ac61409d831e349a2c9426daabbc8d0e7c62ef89a164880bd2be4ed513e6",
+    "tools/peak_scene_chain_audit.py": "cdcaa69e1bf80c3393a1a3b6666a9ba4e05af10f01f28cd8d1f29be69aae6573",
+    "tools/scene_audio_contract_check.py": "6bb51db39d097d3a7b88f84fa5333dd661a5669bb7a500b3cd812ad4a1dc8fd6"
+  },
+  "population": {
+    "committed_paths": 19,
+    "prose_leaves": 70,
+    "korean_source_leaves": 14,
+    "cjk_accepted_leaves": 42,
+    "historical_localization_batches_preserved": 484
+  },
+  "method": [
+    "Independent review of all 19 changed paths, exact 14 code/data blobs and five closure records; actual StoryMode input, visibility, resume and gallery producer were read rather than inferred from test expectations.",
+    "All five locale event files were reverse-restored against fixed baseline 6b9b09c and compared exactly. Old choices0/1 retain results, kind and edges except six approved action-form labels; terminal objects and medical/economic writers are unchanged.",
+    "Independent reviewer checked official five-field responses, source hashes, previous target hashes and 42 acceptance records; prior 484 batches and non-owned accepted rows were preserved.",
+    "Reviewer directly read final focused/background/gallery/full Manual logs. Root observed final exit0 for all five engine invocations; warning29 in full Manual is expected failure injection/recovery, not script/engine errors."
+  ],
+  "findings": [
+    "Only the root asks ward versus deal. New middle choice2 is a strict four-field non-expression continuation with a fixed original terminal; real apply/read-close is preserved.",
+    "Live visibility and newly captured gallery snapshots contain only [2]; direct calls to old0/1 are rejected. Historical result0/1 and frozen old visibility are still read. An old choices-phase load restores a hint without committing an action.",
+    "New platform2 starts its result onboard, while deal2 remains in the meeting room. Historical platform0/deal0 source-paragraph cuts remain intact.",
+    "Initial English and Chinese phrasing was reworked after independent prose review; all 70 final leaves were reread. No new high-confidence source defect found within this unit."
+  ],
+  "checks": [
+    {
+      "name": "CompileCheck",
+      "exit_code": 0,
+      "scripts": 78,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "StoryBackgroundContextCheck W188",
+      "exit_code": 0,
+      "paths": 30,
+      "v4_loads": 45,
+      "locale_reflows": 2,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "ManualSaveCheck --father-direct-progress-only",
+      "exit_code": 0,
+      "routes": 6,
+      "live_routes": 2,
+      "historical_applied_routes": 4,
+      "v4_loads": 14,
+      "frozen_visibility_consumers": 6,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "ManualSaveCheck default",
+      "exit_code": 0,
+      "success_marker": "MANUAL_SAVE_CHECK_OK",
+      "script_engine_leak_errors": 0,
+      "expected_warning_count": 29
+    },
+    {
+      "name": "GalleryReplaySnapshotCheck",
+      "exit_code": 0,
+      "roots": 20,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "Changed Python contracts and negatives",
+      "exit_code": 0,
+      "chapter4_negative_cases": 270,
+      "father_peak_mutations": 47,
+      "unchanged_finale_mutations": 24,
+      "audio_mutations": 30
+    },
+    {
+      "name": "CJK frozen check/import",
+      "exit_code": 0,
+      "locales": 3,
+      "leaves_each": 14,
+      "stderr_bytes": 0
+    },
+    {
+      "name": "audit/EN/hangul/story/demo localization/context/queue/diff",
+      "exit_code": 0,
+      "audit_errors": 0,
+      "audit_warnings": 0
+    }
+  ],
+  "preserved_failures": [
+    "First background fixture had two GDScript inference parse errors; exact failed QA process was stopped with TERM/exit143. First focused Manual failed because 64 frames did not consume direction.hold=2.0.",
+    "Only fixture types and actual timer advancement were repaired; final focused/default checks passed without changing the product to bypass the hold.",
+    "After StoryMode guards changed, three earlier batches were rejected as stale source manifest. Their original VALID responses, rejection logs and later frozen batches remain separate.",
+    "Full retail Japanese audit still fails with 3406 positional-contract errors. Current and HEAD counts match, but nine messages change; the comparison assert also failed and is preserved. This is not a clean or zero-regression verdict for that global audit."
+  ],
+  "limitations": [
+    "Source unit only, not parent833 or W190 T1 assets/direction; those remain open.",
+    "Official ID-bound JA14 and actual five-locale W188 checks do not close the full-retail Japanese audit.",
+    "111 selected impact checks were listed, not all executed.",
+    "Prepared W188 owners and same-process disk reloads, not a natural W1-W240 playthrough or fresh OS-process cold run.",
+    "Actual native display, continuous listening, native-reader review, human playtest and physical-controller feel remain unobserved.",
+    "PR45, its local activity receipt fixes, current main CI completion and external release are outside this GO."
+  ],
+  "evidence_root": "/Users/junheelee/.codex/gangnam-evidence/w188-direct-20261129.wYBwd8",
+  "artifacts": [
+    {
+      "file": "compile.stdout",
+      "bytes": 313,
+      "sha256": "6c7353dde78eddcf3f30cb67661c82d30651d5c0c9badf4dcde0d35d5515fe1d"
+    },
+    {
+      "file": "compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "compile-godot.log",
+      "bytes": 313,
+      "sha256": "6c7353dde78eddcf3f30cb67661c82d30651d5c0c9badf4dcde0d35d5515fe1d"
+    },
+    {
+      "file": "background-retry1.stdout",
+      "bytes": 627,
+      "sha256": "8a22a77022feec7e98151bb07423481deb2ea2797499b3f0b5a06b77eaf6fc24"
+    },
+    {
+      "file": "background-retry1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "background-retry1-godot.log",
+      "bytes": 627,
+      "sha256": "8a22a77022feec7e98151bb07423481deb2ea2797499b3f0b5a06b77eaf6fc24"
+    },
+    {
+      "file": "manual-retry1.stdout",
+      "bytes": 1174,
+      "sha256": "fcb7ba82e9b51d77878749b3122988e635b7bc7dafed5a9353c7c017ba771a5f"
+    },
+    {
+      "file": "manual-retry1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "manual-retry1-godot.log",
+      "bytes": 1174,
+      "sha256": "fcb7ba82e9b51d77878749b3122988e635b7bc7dafed5a9353c7c017ba771a5f"
+    },
+    {
+      "file": "manual-default.stdout",
+      "bytes": 16450,
+      "sha256": "1c7c761f47c5a1df5a0cc4f37b311c5d4743f7e1d3c47ad5cadc662f25bf2625"
+    },
+    {
+      "file": "manual-default.stderr",
+      "bytes": 17468,
+      "sha256": "b3773d613af463ad26d2ea38639cdb15a0d27d31ebd962541d0446666d5ac183"
+    },
+    {
+      "file": "manual-default-godot.log",
+      "bytes": 33456,
+      "sha256": "874c5d1a3238fef0b9a451abd326069abe664b7278dd9f481a824e9ee16a1925"
+    },
+    {
+      "file": "gallery.stdout",
+      "bytes": 639,
+      "sha256": "449d3f7e45e7b41986b9e6c566293639a488f67d0527e1a76c696a0bac5a4c23"
+    },
+    {
+      "file": "gallery.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "gallery-godot.log",
+      "bytes": 639,
+      "sha256": "449d3f7e45e7b41986b9e6c566293639a488f67d0527e1a76c696a0bac5a4c23"
+    },
+    {
+      "file": "chapter4-negative.stdout",
+      "bytes": 45,
+      "sha256": "8a7f3d38ef0798d159fb7b3aa733be9a6125a74e6fd981cdf165d69218f74adc"
+    },
+    {
+      "file": "peak-negative.stdout",
+      "bytes": 83,
+      "sha256": "6512e8df7a6309ed09c9075791970826ebc70779a1e9f7faa1d938329d7fed3e"
+    },
+    {
+      "file": "audio-negative.stdout",
+      "bytes": 37,
+      "sha256": "500bf245707f6e97768ec8c2b7bfd0f6894367ea36b862ef5235b7aed7361a28"
+    },
+    {
+      "file": "ownership-proof-pinned.py",
+      "bytes": 3169,
+      "sha256": "50a3a7f4f8e1b5c55ac2bd632e5dac2201a56604ede12cf732ef7309772bae67"
+    },
+    {
+      "file": "ownership-proof-pinned.stdout",
+      "bytes": 685,
+      "sha256": "4d74f951824958af053224542ca8cdff0a429752ec57364fb67e973bca6d1d2d"
+    },
+    {
+      "file": "ownership-proof-pinned.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "audit.stdout",
+      "bytes": 260,
+      "sha256": "77c736f9473558c2b36c1a815e9660e2b9091441ae66822aafa10d9b7e415e6a"
+    },
+    {
+      "file": "story-demo-localization.stdout",
+      "bytes": 345,
+      "sha256": "0d53f90b4a6106a9a61d34768c4df914b4f4cfe32f47cd5971cac9410110bcfd"
+    },
+    {
+      "file": "ja_translation_audit.stdout",
+      "bytes": 35325,
+      "sha256": "37144f3ea881e24588df50089421f21d859bfd3d012810f71725905c3f46b6d4"
+    },
+    {
+      "file": "ja-baseline-diff.stdout",
+      "bytes": 2817,
+      "sha256": "c0bb70baccec86a50aa1aba66334014811e8599008985bf797e691333a4f97e4"
+    },
+    {
+      "file": "ja-baseline-diff.stderr",
+      "bytes": 89,
+      "sha256": "be24f0bf65dac18011bfc17ca1b01ecb0b520265e31652e84ca6038e58f5eca3"
+    },
+    {
+      "file": "background.stderr",
+      "bytes": 541,
+      "sha256": "6f3a6532827e2fb7357547171678aa600674cf733c50cd6667103e9ceb23511b"
+    },
+    {
+      "file": "manual.stderr",
+      "bytes": 283,
+      "sha256": "5b630eb0a041b564c7a17e3d5720baea3d91c8530e4ff9d97061b1c56447c753"
+    },
+    {
+      "file": "ja-frozen-batch.jsonl",
+      "bytes": 12565,
+      "sha256": "cb06c893bfc2ce652aca6ae2a86f36a36d31274580b13ebcaee3e1d3ad7928b1"
+    },
+    {
+      "file": "ja-frozen-response.jsonl",
+      "bytes": 6452,
+      "sha256": "80cfed68c952724d46afcb02c402a698cb49c219ef2d9c3cce48c52201fa6fab"
+    },
+    {
+      "file": "ja-frozen-check.stdout",
+      "bytes": 118,
+      "sha256": "dd49fe57cef5f36e882e8dd541448b695db983f1a117dd476558f63c0ac6f0d1"
+    },
+    {
+      "file": "ja-import.stdout",
+      "bytes": 119,
+      "sha256": "7aa6bd581d376b645ec866285e03a16ea301f047da23015d3947a590ae8b4fd9"
+    },
+    {
+      "file": "ja-final-check.stderr",
+      "bytes": 45,
+      "sha256": "97ae8a073dace77203a6edf69aea23e4d95cd64a7b6c0a9549d44a19aa6af341"
+    },
+    {
+      "file": "zh-CN-frozen-batch.jsonl",
+      "bytes": 12652,
+      "sha256": "b36c22c11060a7dd49d40b8b42d68917905b0e9293b8fc7074c85638ec52e815"
+    },
+    {
+      "file": "zh-CN-frozen-response.jsonl",
+      "bytes": 5717,
+      "sha256": "57280bd600dd329418a0766a79a9024c42140cc962372669c6c8b7bb5045726a"
+    },
+    {
+      "file": "zh-CN-frozen-check.stdout",
+      "bytes": 121,
+      "sha256": "7839436f1e370859ad3751774cc1fb733196e2f24eb943ab9b8e22d8243300e6"
+    },
+    {
+      "file": "zh-CN-import.stdout",
+      "bytes": 122,
+      "sha256": "001817440cb20ac58b72e68861b850222a0448fd1d6c2785930fd1e1cd4ab62a"
+    },
+    {
+      "file": "zh-CN-final-check.stderr",
+      "bytes": 45,
+      "sha256": "97ae8a073dace77203a6edf69aea23e4d95cd64a7b6c0a9549d44a19aa6af341"
+    },
+    {
+      "file": "zh-TW-frozen-batch.jsonl",
+      "bytes": 12652,
+      "sha256": "3a2f3504babf1d4f4eeecdfefffec3266074d159408285807110d0c3ddabb5b2"
+    },
+    {
+      "file": "zh-TW-frozen-response.jsonl",
+      "bytes": 5726,
+      "sha256": "11fc9c43e36ff18dc42dd470fb793e05a580b5bd0ffc3c7dc2aac18dc0e47dce"
+    },
+    {
+      "file": "zh-TW-frozen-check.stdout",
+      "bytes": 121,
+      "sha256": "96c49feb430739923b3ac78a9bd8abd6f5f3c1ccf8f8c070156217011cfe235c"
+    },
+    {
+      "file": "zh-TW-import.stdout",
+      "bytes": 122,
+      "sha256": "817317c700634ff0e1d7edae63680b269f62eca1b084d18258244df399400100"
+    },
+    {
+      "file": "zh-TW-final-check.stderr",
+      "bytes": 45,
+      "sha256": "97ae8a073dace77203a6edf69aea23e4d95cd64a7b6c0a9549d44a19aa6af341"
+    }
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "native_display",
+    "continuous_listening",
+    "natural_240_week_play",
+    "fresh_os_process_cold",
+    "main_ci_completion",
+    "external_release"
+  ]
+}

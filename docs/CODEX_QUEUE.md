@@ -42,7 +42,7 @@
 
 | 기준 | 현재 실행 범위·남은 일 |
 |---|---|
-| C3 CI | W239 `437b9e7`/run44987646314와830마감/run44988113258 정적 success·엔진 step6 진행 중. 전체성공 미관측,833 제품 `c77d2a6` CI 별도 추적. |
+| C3 CI | 저장 수리 `3787b96`/판정 `372005e` CI success. W188은 제품 push 뒤 실제 CI 추적, 과거 성공 승계0. |
 | C1 대표 완주 | 같은 런 31.3→31.4로 M60 엔딩·크레디트. [실제 증거](queue_active/ORDER-731.md). 사람 판정 별도. |
 | C2 치명 결함 | W192/W200 결과 닫기 뒤 정상 재개. [830](queue_archive/ORDER-830.md) 구현 마감·청취/사람OPEN 보존, 다음 W188 임종 수리. |
 | C4 사람·고지 | [696](queue_archive/ORDER-696.md) 16.2 인계·[728](queue_archive/ORDER-728.md) 본편 빈 기록지 준비·사람2~3h 미완료. [720](queue_archive/ORDER-720.md) 고지 준비렌더15·CJKshipping0. |
@@ -67,7 +67,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-833 · 본편 원고 | [833](queue_active/ORDER-833.md) | W188 중복선택/구저장→W190 유품T1 자산·연출 |
+| 1 | [~] | ORDER-833 · 본편 원고 | [833](queue_active/ORDER-833.md) | W188 직접진행·구저장 단위 마감 → W190 유품T1·잔여 P0 |
 | 2 | [~] | ORDER-834 · 투자·도박 갈래 챕터 연결 | [834](queue_active/ORDER-834.md) | C6 · Claude B1 투자 1~2년 차·B2 도박 1~2년 차 착수(사용자 지시 2026-11-26) |
 | 3 | [ ] | ORDER-835 · 경제 순환 | [835](queue_active/ORDER-835.md) | 834 B1 뒤 · SYSTEMS_DESIGN §1 |
 | 4 | [~] | ORDER-836 · 몸·마음 독자 | [836](queue_active/ORDER-836.md) | 833 뒤 · SYSTEMS_DESIGN §3 · Claude B1-M1·B2 몸 기울기 착수 |

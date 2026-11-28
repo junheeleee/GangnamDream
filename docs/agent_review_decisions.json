@@ -21,6 +21,129 @@
   },
   "decisions": [
     {
+      "id": "order-833-father-direct-progress-2a6dbe9-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-29",
+      "decided_by": "Codex /root/claude_pr45_review_for_user (independent committed-candidate rebinding review)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-833-father-direct-progress",
+      "subject": {
+        "kind": "source",
+        "commit": "2a6dbe9e3a45fda62e9c70c032a8a796756128f4",
+        "tree": "7ff9c2eb7a25ec648e78dc36dc21cac3179bf8e8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-833-father-direct-progress-binding-20261129.json",
+          "sha256": "dca4fe2882a47ec701ade315983b6fb3b83aa0d4ff035cc666d58c7f415643a6"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-833-father-direct-progress-20261129.json",
+          "sha256": "785f984f8beea44196bc9a73c04fd2d5608889b91067a8adc0cd876bb7ad98cb"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "main_ci_completion",
+        "W190_T1_completion",
+        "global_Japanese_audit_completion",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-833-father-direct-progress-binding-20261129.json",
+        "sha256": "dca4fe2882a47ec701ade315983b6fb3b83aa0d4ff035cc666d58c7f415643a6"
+      }
+    },
+    {
+      "id": "order-833-father-direct-progress-01c3043-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-29",
+      "decided_by": "Codex /root/claude_pr45_review_for_user (independent committed-source and full raw-log review)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-833-father-direct-progress",
+      "subject": {
+        "kind": "source",
+        "commit": "01c304345c58a8e289046741b790ab138cec513a",
+        "tree": "863937c3fcc4530a38f951609c0da683649946dc",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-833-father-direct-progress-20261129.json",
+          "sha256": "785f984f8beea44196bc9a73c04fd2d5608889b91067a8adc0cd876bb7ad98cb"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-833-father-direct-progress-20261129.json",
+          "sha256": "785f984f8beea44196bc9a73c04fd2d5608889b91067a8adc0cd876bb7ad98cb"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "main_ci_completion",
+        "W190_T1_completion",
+        "global_Japanese_audit_completion",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-833-father-direct-progress-20261129.json",
+        "sha256": "785f984f8beea44196bc9a73c04fd2d5608889b91067a8adc0cd876bb7ad98cb"
+      }
+    },
+    {
+      "id": "order-833-manual-save-prose-timing-3787b96-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-29",
+      "decided_by": "Codex /root/manual_save_flake_1129 (independent committed-source and raw-log review)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-833-manual-save-prose-timing",
+      "subject": {
+        "kind": "source",
+        "commit": "3787b96b8229bc18a61bbf9eac19150f1d7eea2f",
+        "tree": "191ba74a96293cd8fc4db20c7b4ab2a84e186702",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-833-manual-save-prose-timing-20261129.json",
+          "sha256": "f2a8d3042b91ca3bf8ca33fef5baa8826f912a60e713c014f06c9b193c09c25a"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-833-manual-save-prose-timing-20261129.json",
+          "sha256": "f2a8d3042b91ca3bf8ca33fef5baa8826f912a60e713c014f06c9b193c09c25a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "main_ci_completion",
+        "new_activity_receipt_coverage",
+        "W188_W190_completion",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-833-manual-save-prose-timing-20261129.json",
+        "sha256": "f2a8d3042b91ca3bf8ca33fef5baa8826f912a60e713c014f06c9b193c09c25a"
+      }
+    },
+    {
       "id": "order-214-source-3ab1391-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
       "decided_at": "2026-09-09",
