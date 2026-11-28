@@ -218,6 +218,7 @@ func open() -> void:
 		var ladder := STAKE_LADDER.race_stakes(GameState.flags, int(GameState.turn), float(GameState.money))
 		if not ladder.is_empty():
 			_session_stakes = ladder
+		STAKE_LADDER.note_open("racetrack", GameState.flags, int(GameState.turn), float(GameState.money))
 	# 영속 명마 세계 — GameState.flags에 저장돼 씬 리로드·세이브를 견딘다
 	if not (GameState.flags.get("horse_world") is Dictionary):
 		GameState.flags["horse_world"] = {}

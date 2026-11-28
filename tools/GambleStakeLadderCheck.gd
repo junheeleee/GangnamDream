@@ -22,7 +22,7 @@ func _ready() -> void:
 			push_error("GAMBLE_STAKE_LADDER_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("GAMBLE_STAKE_LADDER_CHECK_OK tiers=%d gates=5 tables=1 legacy=1" % (LADDER.ledger().get("tiers", []) as Array).size())
+	print("GAMBLE_STAKE_LADDER_CHECK_OK tiers=%d gates=11 tables=1 legacy=1" % (LADDER.ledger().get("tiers", []) as Array).size())
 	get_tree().quit(0)
 
 
@@ -48,6 +48,23 @@ func _check_tiers() -> void:
 	_expect(LADDER.tier("holdem", invited, 100, 30_000_000.0).get("id", "") == "high_stakes",
 		"Sangchul's introduction, year 3 and the cash do not open the high-stakes room")
 	_expect(LADDER.holdem_blind_scale(invited, 100, 30_000_000.0) == 10, "the high-stakes blinds are not ten times")
+	# The private tier keeps a rare 30억 tail open (user decision 2026-11-28).
+	var seen := invited.duplicate(true)
+	seen["gamble_high_stakes_seen"] = true
+	_expect(LADDER.tier("holdem", seen, 150, 50_000_000.0).get("id", "") == "high_stakes",
+		"the private game opens without 1억 in cash")
+	_expect(LADDER.tier("holdem", invited, 150, 200_000_000.0).get("id", "") == "high_stakes",
+		"the private game opens before any high-stakes visit")
+	_expect(LADDER.tier("holdem", seen, 150, 200_000_000.0).get("id", "") == "private",
+		"year 4, a high-stakes visit and 1억 do not open the private game")
+	_expect((LADDER.race_stakes(seen, 150, 200_000_000.0) as Array).has(100000000),
+		"the private racetrack does not take a 1억 stake")
+	var marks := invited.duplicate(true)
+	LADDER.note_open("holdem", marks, 100, 30_000_000.0)
+	_expect(bool(marks.get("gamble_high_stakes_seen", false)), "opening the high-stakes room is not recorded")
+	var plain := _visits(4)
+	LADDER.note_open("holdem", plain, 60, 5_000_000.0)
+	_expect(not plain.has("gamble_high_stakes_seen"), "a regular table counts as high stakes")
 
 
 func _check_tables() -> void:

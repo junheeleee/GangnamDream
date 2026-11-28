@@ -126,6 +126,7 @@ func _apply_stake_ladder() -> void:
 		if not ladder.is_empty():
 			_session_buyins = ladder
 			_blind_scale = STAKE_LADDER.holdem_blind_scale(GameState.flags, int(GameState.turn), float(GameState.money))
+		STAKE_LADDER.note_open("holdem", GameState.flags, int(GameState.turn), float(GameState.money))
 	if not _session_buyins.has(_buy_in):
 		_buy_in = int(_session_buyins[0])
 
@@ -298,7 +299,11 @@ func _show_buyin_screen() -> void:
 
 	var sub := Label.new()
 	sub.text = _tr("No-Limit Texas Hold'em  ·  5,000 / 10,000 블라인드", "No-Limit Texas Hold'em  ·  5,000 / 10,000 blinds")
-	if _blind_scale != 1:
+	if _blind_scale >= 100:
+		sub.text = _tr("No-Limit Texas Hold'em  ·  %s / %s 블라인드  ·  초대받은 사람만 앉는 프라이빗 게임",
+			"No-Limit Texas Hold'em  ·  %s / %s blinds  ·  A private game, by invitation only") % [
+			_fmt(_small_blind()), _fmt(_big_blind())]
+	elif _blind_scale != 1:
 		sub.text = _tr("No-Limit Texas Hold'em  ·  %s / %s 블라인드  ·  강남 하이스테이크 룸",
 			"No-Limit Texas Hold'em  ·  %s / %s blinds  ·  Gangnam high-stakes room") % [
 			_fmt(_small_blind()), _fmt(_big_blind())]

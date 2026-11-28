@@ -7,6 +7,10 @@ extends RefCounted
 
 const LEDGER_PATH := "res://content/meta/gamble_stake_ledger.json"
 const HABIT_STATE_FLAG := "branch_habit_state"
+## Set once a table opens at the high-stakes tier or above; the private tier
+## needs it (ORDER-840 G1, 30억 tail opened by user decision 2026-11-28).
+const HIGH_STAKES_SEEN_FLAG := "gamble_high_stakes_seen"
+const HIGH_TIERS := ["high_stakes", "private"]
 
 static var _ledger_cache: Dictionary = {}
 
@@ -67,3 +71,9 @@ static func _ints(values: Array) -> Array:
 	for value in values:
 		out.append(int(value))
 	return out
+
+
+## Called when a table opens in a full run: records a high-stakes visit.
+static func note_open(activity_id: String, flags: Dictionary, turn: int, money: float) -> void:
+	if HIGH_TIERS.has(str(tier(activity_id, flags, turn, money).get("id", ""))):
+		flags[HIGH_STAKES_SEEN_FLAG] = true

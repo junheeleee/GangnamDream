@@ -1,14 +1,79 @@
 {
-  "_doc": "ORDER-840 G1 stake ladder. Read only by systems/GambleStakeLadder.gd. In a full run the racetrack stakes and the hold'em buy-ins (and blinds) come from the highest tier the run has opened; outside a full run the tables keep their fixed lists. A tier opens at min_turn when any requires_any flag is set (empty = none needed), the run has made min_visits habit visits to that activity (BranchHabit), and cash is at least min_cash. Large tables can bankrupt; the 30억 tail stays out of reach outside the first-year hidden ending. Values are [첫 실행 재조정].",
+  "_doc": "ORDER-840 G1 stake ladder. Read only by systems/GambleStakeLadder.gd. In a full run the racetrack stakes and the hold'em buy-ins (and blinds) come from the highest tier the run has opened; outside a full run the tables keep their fixed lists. A tier opens at min_turn when any requires_any flag is set (empty = none needed), the run has made min_visits habit visits to that activity (BranchHabit), and cash is at least min_cash. Large tables can bankrupt. The private tier (year 4, after a high-stakes session, cash 1억+) keeps a rare 30억 tail open on purpose (user decision 2026-11-28): one 1억 trifecta or a run of 3억 hold'em pots; most runs lose it in a few hands. Values are [첫 실행 재조정].",
   "tiers": [
-    {"id": "entry", "min_turn": 0,
-     "race_stakes": [10000, 30000, 100000, 500000],
-     "holdem_buyins": [50000, 100000, 200000, 500000], "holdem_blind_scale": 1},
-    {"id": "regular", "min_turn": 49, "min_visits": 4,
-     "race_stakes": [10000, 30000, 100000, 500000],
-     "holdem_buyins": [100000, 200000, 500000, 1000000], "holdem_blind_scale": 1},
-    {"id": "high_stakes", "min_turn": 97, "requires_any": ["casino_club_introduced"], "min_cash": 20000000,
-     "race_stakes": [100000, 500000, 1000000, 3000000],
-     "holdem_buyins": [2000000, 5000000, 10000000], "holdem_blind_scale": 10}
+    {
+      "id": "entry",
+      "min_turn": 0,
+      "race_stakes": [
+        10000,
+        30000,
+        100000,
+        500000
+      ],
+      "holdem_buyins": [
+        50000,
+        100000,
+        200000,
+        500000
+      ],
+      "holdem_blind_scale": 1
+    },
+    {
+      "id": "regular",
+      "min_turn": 49,
+      "min_visits": 4,
+      "race_stakes": [
+        10000,
+        30000,
+        100000,
+        500000
+      ],
+      "holdem_buyins": [
+        100000,
+        200000,
+        500000,
+        1000000
+      ],
+      "holdem_blind_scale": 1
+    },
+    {
+      "id": "high_stakes",
+      "min_turn": 97,
+      "requires_any": [
+        "casino_club_introduced"
+      ],
+      "min_cash": 20000000,
+      "race_stakes": [
+        100000,
+        500000,
+        1000000,
+        3000000
+      ],
+      "holdem_buyins": [
+        2000000,
+        5000000,
+        10000000
+      ],
+      "holdem_blind_scale": 10
+    },
+    {
+      "id": "private",
+      "min_turn": 145,
+      "requires_any": [
+        "gamble_high_stakes_seen"
+      ],
+      "min_cash": 100000000,
+      "race_stakes": [
+        10000000,
+        30000000,
+        100000000
+      ],
+      "holdem_buyins": [
+        50000000,
+        100000000,
+        300000000
+      ],
+      "holdem_blind_scale": 100
+    }
   ]
 }

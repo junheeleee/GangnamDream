@@ -3233,5 +3233,6 @@
   "      [color=#e8a05d]출발 시각보다 다음 경주 시각을 먼저 본다.[/color]": "      [color=#e8a05d]這場還沒開跑，他先看了下一場的時間。[/color]",
   "      [color=#c8b070]마권을 쥔 손가락이 조금 빨라졌다.[/color]": "      [color=#c8b070]捏著馬票的手指，動得快了一點。[/color]",
   "지갑을 다시 열었다. 다음 경주까지 남은 시간을 손가락으로 셌다.": "他又打開了錢包，扳著手指數到下一場還有多久。",
-  "No-Limit Texas Hold'em  ·  %s / %s 블라인드  ·  강남 하이스테이크 룸": "No-Limit Texas Hold'em  ·  %s / %s 盲注  ·  江南高額桌"
+  "No-Limit Texas Hold'em  ·  %s / %s 블라인드  ·  강남 하이스테이크 룸": "No-Limit Texas Hold'em  ·  %s / %s 盲注  ·  江南高額桌",
+  "No-Limit Texas Hold'em  ·  %s / %s 블라인드  ·  초대받은 사람만 앉는 프라이빗 게임": "No-Limit Texas Hold'em  ·  %s / %s 盲注  ·  只有受邀者才能入座的私人牌局"
 }
