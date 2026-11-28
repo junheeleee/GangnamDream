@@ -57,3 +57,21 @@ Codex 부재(약 1주) 동안 main CI `MANUAL_SAVE_EXIT`만 해소한다. `tools
 terminal_cases의 `arc_father_passing_deal_morning` `result_marker`를 `c77d2a67` 이전 결과 문구
 "정확히 5백만원"에서 현재 결과에만 있는 "입금 내역에 5백만원이 찍혀 있었다"로 맞췄다. 단언·경로·
 재개 조건은 그대로다. 위 19경로의 나머지(단일 딜레마·구저장 호환·StoryMode·산문)는 Codex 소유로 남는다.
+
+## [~] 2026-11-29 재개·저장 검사 선언
+
+PR44는 merge `9a4bd7f`로94커밋을 보존했다. 결과 표지 한 줄도 포함됐다.
+PR45는 main 대상으로 바뀌었고 head `34b25ba`의 실제 CI는 진행 중이다.
+839~841은 최신 사용자/11-27 결정대로 Claude 소유다. 그 제품 파일은 수정하지 않는다.
+
+이 단위의 추가 소유: `tools/ManualSaveCheck.gd`의 글자 크기 변경 후 source
+진행점 검사와 홀덤·정선·매매 활동의 실제 pending/closed 영수증·디스크 재개 검사.
+단언/저장 검증을 줄이지 않는다. 글자가 자연스럽게 진행되는 프레임과 복원 시점을
+구분해 검사하고, 활동은 실제 선택/화면/닫기 경로로 검증한다. PR45 의존분은 병합 뒤
+검사한다. 기록 경로는 이 파일·활성833·큐·CLAUDE·같은 날짜 WORK_LOG다.
+
+지속 작업사본은 `/Users/junheelee/.codex/worktrees/gangnam-integration-20261129/GangnamDream`.
+예전 임시 작업사본과 교환/검증 폴더는 실제 파일0으로 확인됐다. 삭제 원인은 미관측이다.
+그곳의 미커밋 직접진행WIP와 검증은 현재 제품/재검증 증거로 세지 않는다. 커밋된
+`c77d2a6`와 원장 이력/구 저장은 보존하며 새 실제 원문·이전target 지문으로 재개한다.
+원본244변경·project.godot·실제 저장·공개RC·인간 판정은 변경하지 않는다.
