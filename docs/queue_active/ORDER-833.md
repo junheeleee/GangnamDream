@@ -6,7 +6,7 @@
 
 3~5년 차 추가 인계: [830 완료 뒤 실행](../queue_backlog/ORDER-833-Y3-Y5-HANDOFF.md).
 
-### [~] 2026-11-22 W188 P0 1단위 — 사망 통보·회수·W190 유품
+### [x] 2026-11-22 W188 P0 1단위 — 사망 통보·회수·W190 유품
 
 830 구현 마감 `43ff314` 뒤 착수. 정확한34경로·문구·검사·분업은
 [선언/증거](../queue_archive/ORDER-833-FATHER-P0-EVIDENCE.md)가 소유한다.
@@ -16,13 +16,11 @@
 구 pending 두 경로·read_receipt·KTX컷 호환을 고정한 다음 단위이며 P0 전체완료가 아니다.
 
 사망시각·콜백·엔딩은5언어 정합, 공식51target 수용·독립 전수 대조·컴파일69와
-의료/생사 격리 검사 통과. W190 유품은 같은slot의 생사별 본문만 추가했다.
-boss 지정 T1. [유품 그림·연출 착수](../queue_archive/ORDER-833-W190-BELONGINGS.md), 아직 OPEN.
-다음은 옛0/1 선택·edge를 보존하는 신규 직접진행과 유품 자산의 별도 선언/검수.
+의료/생사 격리 검사 통과. [유품T1](../queue_archive/ORDER-833-W190-BELONGINGS.md)도 그림2·조건부연출/종이·5언어60경로/렌더40컷 독립GO. 청취/사람OPEN, 다음3~5년잔여P0.
 
 [x] [W188 직접진행 단위](../queue_archive/ORDER-833-FATHER-DIRECT-PROGRESS.md):
 root 결정 한 번→middle index2. 5언어·새2/옛4·구저장14·배경30경로/45복원·
-전체Manual/Gallery20 검증, 기존 효과·500만원·결과/edge 보존. W190 T1·전역JA·P0전체 미완.
+전체Manual/Gallery20 검증, 기존 효과·500만원·결과/edge 보존. 전역JA·P0전체 미완.
 
 11-29 재개 당시 WIP 파일0. 현행 실물에서 다시 구현했으며 세 활동 검수본은 로컬·미반영이다.
 

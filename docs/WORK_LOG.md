@@ -2,6 +2,8 @@
 
 ## 2026-11-29
 
+- W190 유품T1: CG2·조건부slow/zoom·실제종이절끝1회·옛음악이월 수리. 5언어60경로/종이30·주거6/기억6·cold14/reflow4, 공식renderer40컷·compile78/Gallery20/전체Manual exit0·엔진오류누수0(저장fault warning30). [독립GO](agent_reviews/ORDER-833-W190-belongings-20261129.json), 제품`86c7928`/tree`55651e3`. 초기카페가림·타입/cursor fixture실패와 editor import종료누수 보존. 원문/선택/효과/공개RC·기존327해상도행 불변, 새2 확대채무 유지. 증거 `w190-belongings-20261129.WeCjtD`. 청취·사람·native입력·833전체·이번CI 별도. 다음3~5년P0, 실제W112 변형은 이미 있어 producer와 재대조한다.
+
 - 現source `2a6dbe9`/tree `7ff9c2eb` [재결속 검수](agent_reviews/ORDER-833-father-direct-progress-binding-20261129.json)도 W188 단위 한정GO. 앞 wrapper의 archive3줄은 metadata예외가 아니므로 실제 resolver 신원으로 다시 전수 대조했다. 코드14blob은 동일, 과거01c 판정·43증거/386기록 보존. 도구 예외 확대·엔진 재실행 주장은0이며 이번 wrapper는 허용된 보고/원장/WORK_LOG뿐이다.
 
 - W188 제품 `01c3043`/tree `863937c3`의 [독립 최종 검수](agent_reviews/ORDER-833-father-direct-progress-20261129.json)는 해당 source 단위만 GO. 19경로·70leaf·실제 원로그를 전수 확인했고 남은 JA전역/사람/W190/CI 한계를 보존했다. 아래 자동 통과는 재미·깊이·원어민·사람 GO가 아니다.

@@ -1,6 +1,6 @@
 # ORDER-833 — W190 유품 장면의 T1 자산·연출
 
-## [~] 2026-11-29 착수
+## [x] 2026-11-29 구현·표적 검수 마감
 
 근거: 사용자 W188 사망 통보 통일·W189~192 유품 장면 지시, 부모833의 유품T1 OPEN.
 후보 기준: main `78239d80a59be980aa1534662a3192691a845926`.
@@ -31,3 +31,18 @@ Claude839~841 보호 파일·사용자 원본 worktree·project.godot·공개dem
 두 사건×생사×5언어, 종이 앵커 직전0/끝1/이후0, 자연 타이핑·완독·동일언어 cold전후·선택/결과·언어/글자/해상도 재배치, 의료 기억 추가문단, 주거3종, 생존/지연 불변과 전체상태 불변을 고립 namespace로 검사한다. 신규이미지 import·compile, 시청각/acting/서사·EN/보호demo·context/queue·diff와 표적 영향 검사를 실행한다. 실제 산출물 독립 전수 검수 뒤 커밋/정상push/실제CI를 추적한다.
 
 자동 검사는 계약·타이밍 증거이지 정상속도 사람 청취·원어민·native 화면·물리패드·재미·출시 승인 아니다. 이들 OPEN과 부모833 남은 P0/P1은 유지한다.
+
+## 결과
+
+제품 `86c7928` / tree `55651e3`, 정확20경로. [독립 전수 GO](../agent_reviews/ORDER-833-W190-belongings-20261129.json).
+도달: prepared W190 실제Main→Story 두root×생사×5언어×3선택=60.
+생산자/독자: 두root cg_if_known ↔ ImageRegistry/StoryMode; resource10앵커 ↔ typed-paper 소비자.
+상태: 기존원고·선택·효과·저장형식 불변, 두CG/조건부연출/종이1회만.
+포기 시: 기존 관계/몸/가족3결정의 독자 그대로. 서사: Ch4 boss/W190, T1.
+닫는 것: 유품T1 구현만. 원음청취·native입력·사람·전역JA·부모833·출시/이번CI 완료 아님.
+
+최종: 종이30·주거6/기억6·실제v4동일process복원14/reflow4, 공식renderer40컷(5언어/2크기/큰글자/본문·3선택), compile78/Gallery20/전체Manual exit0·엔진오류누수0. Manual은 의도된저장fault/recovery warning30. 새오디오부정30·기존해상도327행/targets/bands 불변. 새2CG의1080×1.5/4K×3 확대채무와3기존원화warning 보존. EN/서사/보호demo/시청각/정본큐 감사 통과, 영향118목록 전수실행 아님.
+
+실패: 첫QA타입2오류/TERM143, 카페가림2차수리, 실제cold 음악fade이월 수리, future-source cursor fixture 수리, editor import 종료RID/ObjectDB누수는 원자료 보존. import는exit0이나 clean통과로 세지 않는다. 불변274 self-test는exit0/tool출력잘림으로 최종GO 근거에서 제외. 원본user diff SHA 불변, 새로 생성된 비소유UID16개는 외부증거에 recoverable이동(사용자파일삭제0).
+
+증거: `/Users/junheelee/.codex/gangnam-evidence/w190-belongings-20261129.WeCjtD`; built-in 생성·편집과 최종프롬프트/개별한계는 `assets/FATHER_BELONGINGS_VISUAL_BIBLE.md`. 영구규범 승격: 같은 bible/AUDIO_QA, 이 사양은 일회성이다.
