@@ -21,6 +21,49 @@
   },
   "decisions": [
     {
+      "id": "order-833-w190-belongings-961ef0f-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-29",
+      "decided_by": "Codex /root/claude_review_readonly_1129 (independent clean closure-source rebinding)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-833-W190-belongings",
+      "subject": {
+        "kind": "source",
+        "commit": "961ef0f4d470558c5787894d5b819e7360ce2a8f",
+        "tree": "0ed120cc253a397f088a1c8f9709d1f0ad97fb51",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-833-W190-belongings-binding-20261129.json",
+          "sha256": "01c10281a1d4bf4efcbb5e0b07b323c75e38b29910af07271f7c794e6695a04f"
+        },
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-833-W190-belongings-20261129.json",
+          "sha256": "764a4250a7f5a5f1e645c8c5d3d3f6a14b23d2070756d5e3b8dc368fcf8efae6"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_continuous_listening",
+        "new_os_process_cold_start",
+        "W190_specific_frozen_snapshot_matrix",
+        "main_ci_completion",
+        "remaining_ORDER833",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-833-W190-belongings-binding-20261129.json",
+        "sha256": "01c10281a1d4bf4efcbb5e0b07b323c75e38b29910af07271f7c794e6695a04f"
+      }
+    },
+    {
       "id": "order-833-w190-belongings-86c7928-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
       "decided_at": "2026-11-29",
