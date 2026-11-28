@@ -2,6 +2,9 @@
 
 ## 2026-11-29
 
+- W188 직접진행 단위 마감: root에서 병동/거래를 한 번 고르고 두 middle은 실제index2로 계속한다. root 해설·white 의도와 구6라벨을5언어 행동형으로 맞췄고, 옛0/1 결과·edge·kind/terminal·의료2-of-3·500만원은 보존했다. 원고70leaf 독립 전수와 CJK42 공식수용(새계속12/기존문30), JSON5역복원·기존484batch/비소유수용 보존 검증. live/gallery[2]·구choices 힌트/non-auto·구0/1 cold결과와 KTX source컷을 분리했다. compile78·배경30경로/v4복원45/재배치2·집중Manual6경로/복원14/frozen소비자6·전체Manual·Gallery20 exit0/엔진오류·누수0. 부정270/47/30·audit ERROR0/WARN0·EN/서사/보호demo/정본큐 통과. 증거 `w188-direct-20261129.wYBwd8`; 전체Manual stdout SHA `1c7c761f47c5a1df5a0cc4f37b311c5d4743f7e1d3c47ad5cadc662f25bf2625`.
+- 실패도 보존: 첫BG검사 타입2오류는 TERM143, 첫Manual은2초hold를프레임수로대신해exit1→검사만수리. StoryMode 보강뒤 초기교환3개 stale-source 거절→새동결교환 수용. 일본어 전역 positional 감사는 이전/현재3406오류, 메시지9이동 비교assert도실패여서 clean/신규0 주장은하지않는다. 공식JA14 표적과 전역채무는별도. 영향111목록전수·자연240주·새OS cold·실화면/청취·원어민/사람은미관측. W190 T1그림/연출·833전체·이번main CI는별도이며 PR45 세활동검수본도아직로컬이다. 원본244변경/diff SHA `ad91ab6e5fe62134230f6a7f9e5cc359002f6d575ed4ba68e25f22c8ed0dbb86` 불변.
+
 - W188 직접진행 재개: 기존19경로와 root 해설/구6선택 leaf의 행동형 예외를 정확히 선언했다. 새 middle2만 live 진행·옛0/1 결과/receipt/replay 보존을 함께 검증한다. 최신 PR45 CI는 모두 success이나 draft·main 충돌·해금 재잠김 수리 OPEN이라 병합하지 않았으며, Claude 보호파일은 수정하지 않는다. 새 원고·수용·실행 완료는 아직 아니다.
 
 - PR44: 실제94커밋·main계보/충돌·두 workflow의 정적/엔진 success 확인 뒤 `--no-ff` 병합 `9a4bd7f` 정상push, GitHub merged 확인. tree는 원PR head와 동일. ManualSaveCheck 결과표지1줄만 새 본문으로 교체된 것도 확인했다. PR45는 실제 main 대상·head `34b25ba`/draft, 정적2 success·엔진2 진행 중으로 전체성공/병합 미완이다.

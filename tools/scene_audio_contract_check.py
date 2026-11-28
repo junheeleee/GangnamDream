@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import argparse
+import copy
 import glob
 import json
 import re
@@ -829,9 +831,96 @@ def check_w240_general_envelope_anchors(errors: list[str]) -> None:
             errors.append(f"W240 general envelope: {locale} lost its unique physical c1/source0 clause or later ballpoint fact")
 
 
+def validate_w188_boarding_audio(events: dict[str, dict],
+                                event_contracts: dict,
+                                background_profiles: dict) -> list[str]:
+    """Keep legacy cuts and the new platform-only boarding cut runtime-owned."""
+    errors = []
+    try:
+        # Includes exact three stored choices, four immutable legacy routes,
+        # exact four-key new continuations and one honest live dilemma.
+        peaks.validate_father_passing_contract(events)
+    except (ValueError, KeyError, TypeError) as exc:
+        errors.append(f"W188 boarding route contract: {exc}")
+    for event_id, background, audio in (
+            (W188_PLATFORM_EVENT, W188_PLATFORM_BACKGROUND, W188_PLATFORM_AUDIO),
+            (W188_DEAL_ROOM_EVENT, W188_DEAL_ROOM_BACKGROUND, W188_DEAL_ROOM_AUDIO)):
+        event = events.get(event_id, {})
+        choices = event.get("choices", [])
+        if (event.get("background") != background
+                or event_contracts.get(event_id) != audio
+                or any(key in event for key in ("result_background", "result_ambience"))
+                or not isinstance(choices, list)
+                or any(not isinstance(choice, dict)
+                       or any(key in choice for key in ("result_background", "result_ambience"))
+                       for choice in (choices if isinstance(choices, list) else []))):
+            errors.append(
+                f"{event_id}: preserve runtime-staged results and exact location/audio; "
+                "legacy 0 and new platform 2 board, new deal-room 2 stays in the meeting room"
+            )
+    if any(background_profiles.get(background) != "intentional_silence"
+           for background in (W188_PLATFORM_BACKGROUND, W188_CABIN_BACKGROUND)):
+        errors.append("W188 platform and cabin must preserve quiet ambience profiles")
+    return errors
+
+
+def run_w188_audio_mutation_self_test(events: dict[str, dict], manifest: dict) -> int:
+    events = {event_id: events[event_id] for event_id in (
+        "arc_father_passing", W188_PLATFORM_EVENT, W188_DEAL_ROOM_EVENT,
+        W188_HOSPITAL_EVENT, W188_DEAL_MORNING_EVENT)}
+    contracts = manifest.get("events", {})
+    profiles = manifest.get("background_profiles", {})
+    baseline = validate_w188_boarding_audio(events, contracts, profiles)
+    if baseline:
+        raise AssertionError(f"W188 audio baseline invalid: {baseline}")
+    cases = 0
+
+    def reject(bad_events: dict, bad_contracts: dict, bad_profiles: dict,
+               label: str) -> None:
+        nonlocal cases
+        if not validate_w188_boarding_audio(bad_events, bad_contracts, bad_profiles):
+            raise AssertionError(f"W188 audio accepted mutation: {label}")
+        cases += 1
+
+    for event_id in (W188_PLATFORM_EVENT, W188_DEAL_ROOM_EVENT):
+        for owner_index in (None, 0, 1, 2):
+            for field, value in (("result_background", W188_CABIN_BACKGROUND),
+                                 ("result_ambience", "train")):
+                bad = copy.deepcopy(events)
+                owner = bad[event_id] if owner_index is None \
+                    else bad[event_id]["choices"][owner_index]
+                owner[field] = value
+                reject(bad, contracts, profiles, f"{event_id}/{owner_index}/{field}")
+        for index in (0, 1, 2):
+            bad = copy.deepcopy(events)
+            bad[event_id]["choices"][index]["follow_up_event"] = "arc_father_passing"
+            reject(bad, contracts, profiles, f"{event_id}/{index}/edge")
+        bad = copy.deepcopy(events)
+        bad[event_id]["choices"].pop()
+        reject(bad, contracts, profiles, f"{event_id}/remove direct 2")
+        bad_contracts = copy.deepcopy(contracts)
+        bad_contracts[event_id]["ambience"] = "train"
+        reject(events, bad_contracts, profiles, f"{event_id}/wrong ambience")
+        bad = copy.deepcopy(events)
+        bad[event_id]["background"] = W188_CABIN_BACKGROUND
+        reject(bad, contracts, profiles, f"{event_id}/premature cabin")
+    for background in (W188_PLATFORM_BACKGROUND, W188_CABIN_BACKGROUND):
+        bad_profiles = copy.deepcopy(profiles)
+        bad_profiles[background] = "train"
+        reject(events, contracts, bad_profiles, f"{background}/train bed")
+    return cases
+
+
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--self-test-w188", action="store_true")
+    args = parser.parse_args()
     errors: list[str] = []
     manifest = load_json(MANIFEST_PATH)
+    if args.self_test_w188:
+        cases = run_w188_audio_mutation_self_test(load_events(), manifest)
+        print(f"W188_AUDIO_SELF_TEST_OK mutations={cases}")
+        return 0
     acting = load_json(ACTING_PATH)
     events = load_events()
     check_w227_write_anchors(errors)
@@ -1131,39 +1220,9 @@ def main() -> int:
             or any(first_ktx_profiles.get(background) != "intentional_silence"
                    for background in (M23_FIRST_KTX_PLATFORM, M23_FIRST_KTX_CABIN))):
         errors.append(f"{M23_MOTHER_CALL_EVENT}: first KTX platform and cabin must not borrow a train or room bed")
-    w188_boarding_events = (
-        events.get(W188_PLATFORM_EVENT, {}),
-        events.get(W188_DEAL_ROOM_EVENT, {}),
-    )
-    w188_boarding_choices = [
-        event.get("choices", []) if isinstance(event, dict) else []
-        for event in w188_boarding_events
-    ]
-    if (W188_PLATFORM_EVENT not in event_contracts
-            or W188_DEAL_ROOM_EVENT not in event_contracts
-            or w188_boarding_events[0].get("background") != W188_PLATFORM_BACKGROUND
-            or w188_boarding_events[1].get("background") != W188_DEAL_ROOM_BACKGROUND
-            or first_ktx_profiles.get(W188_PLATFORM_BACKGROUND) != "intentional_silence"
-            or first_ktx_profiles.get(W188_CABIN_BACKGROUND) != "intentional_silence"):
-        errors.append(
-            f"{W188_PLATFORM_EVENT}: winter platform and W188 cabin profiles must stay quiet"
-        )
-    for event_id, choices in zip(
-        (W188_PLATFORM_EVENT, W188_DEAL_ROOM_EVENT), w188_boarding_choices
-    ):
-        event = events.get(event_id, {})
-        if (any(key in event for key in ("result_background", "result_ambience"))
-                or not isinstance(choices, list) or len(choices) != 2
-                or not isinstance(choices[0], dict)
-                or choices[0].get("follow_up_event") != W188_HOSPITAL_EVENT
-                or not isinstance(choices[1], dict)
-                or choices[1].get("follow_up_event") != W188_DEAL_MORNING_EVENT
-                or any(any(key in choice for key in
-                           ("result_background", "result_ambience"))
-                       for choice in choices if isinstance(choice, dict))):
-            errors.append(
-                f"{event_id}: keep both result locations runtime-staged; only choice 0 reaches the cabin and hospital"
-            )
+    errors.extend(validate_w188_boarding_audio(
+        events, event_contracts, first_ktx_profiles
+    ))
     hospital_memory = events.get(W188_HOSPITAL_MEMORY_CALLBACK, {})
     if (event_contracts.get(W188_HOSPITAL_MEMORY_CALLBACK) != W188_HOSPITAL_MEMORY_AUDIO
             or hospital_memory.get("background") != "current_housing"

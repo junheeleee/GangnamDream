@@ -74,14 +74,53 @@ W190_PRESERVED_SHA256 = {
     },
 }
 
-# Only the first two known branches change.  The default, both moral variants,
-# and the five older recollections remain the accepted originals in every file.
+# Historical P0 fingerprints, retained as the before-image.  The approved
+# direct-progress repair changes only the default within this old composite.
 W188_PRESERVED_PROSE_SHA256 = {
     "ko": "b96336b211c7b9527ae3e04f177fbf3a7a87179f1aba8c02bb8050a2c1bdf139",
     "en": "5e0e093224bdd155fa379d900390393b8d3c333f483b554031dfcae060ddcec7",
     "ja": "c8fec88cfb56229142f7c4e5e8647e53a64a5f260323917d0d55f35313192df1",
     "zh-CN": "52373e8916ebc4cbb52c74a7584f19699703fddf813decd7946d020a5671d8a0",
     "zh-TW": "52cc4db306d51f10e9eeef8cb36d82e8f73663322c92cf4cadf7351f6042050e",
+}
+# Split from commit 6b9b09c, not recomputed from the edited product: neither
+# moral branch nor any of the five older recollections belongs to this repair.
+W188_PROTECTED_PROSE_SHA256 = {
+    "ko": "8aa3ade52f43ab6aa436643b4567f18f7805df22f8f316b56aef1b98e1a516cd",
+    "en": "f79bb4531bb81651b523fa6abcbda428413b8ec3b8d1e305697d840f081f43b9",
+    "ja": "b02c38430afbef3e57e4d30cfcf581338afda145ab9e299193acadfb2cb51009",
+    "zh-CN": "ed500d7e88df039642f744eff43adadfcfa71cc718058189166f819f804e41db",
+    "zh-TW": "61b9d664b16c2b35eab81e294ae02b6cd55f5bc7dbb3cc99aca159dbbd74c4d6",
+}
+# Those two KTX recollections were repaired in the earlier P0 unit.  They are
+# now accepted history too, not permission for this direct-progress edit.
+W188_ACCEPTED_KTX_KNOWN_SHA256 = {
+    "ko": "321318385aa6ca769be1be266415ff851afdab780548bc875c362c1656fc30f6",
+    "en": "40fecb664a3b583f8efee0c4e653ba2f1533be76a3f995e2ec30fe233234062e",
+    "ja": "a70456c6c346e6397239d872ea7248d31c2fc0d3636cdc65746a9ecce309bdfe",
+    "zh-CN": "4ff3dd33d264e42c5104d29be8776e192f026bf0b190293c34e65d13716b3714",
+    "zh-TW": "30b476b5aae11b36a27ccc1177453a78df9a99d8b07a3b6f8eb396fd1f58149c",
+}
+# Approved five-locale death-notice default after the official CJK import.
+W188_ROOT_DEFAULT_SHA256 = {
+    "ko": "007c3f36d4ca2b63b52cec6ecd1ccf408adbbd1253f0a3adb36eddc96b9224f7",
+    "en": "a331039af81144ea23c951877cdeb605e87843e85ccbb35be1a87a69e8132f59",
+    "ja": "d4fb1755539418248a15e33b23c5e608135f5a45f3b403d1ddd23d59de2520cb",
+    "zh-CN": "d8dae57fac3815146a1b00c651d455c56da8a3774b92ebe9c31334645776b478",
+    "zh-TW": "05b1e8051d56d1d4ee7cd02fc74fe7bf0fd1fe0eaa9251c9a96702ad5e83c5ef",
+}
+W188_DIRECT_EDGES = {
+    "arc_father_passing_platform": "arc_father_passing_hospital_room",
+    "arc_father_passing_deal_room": "arc_father_passing_deal_morning",
+}
+# Exact old 0/1 key shapes, moral-key shapes, results and edges.  Labels alone
+# may be made action-shaped; old cold results must remain byte-for-byte prose.
+W188_LEGACY_CHOICES_SHA256 = {
+    "ko": "c749810192f7437cb3dc6e345b8850a523d59eda1eafcef33cf3201849d47c7a",
+    "en": "59764bdf1ec65da5c4a795e10a01039d0719e34fbd70f41299d4cbec77283a3a",
+    "ja": "06bd025d9afad89c63d6db3142c755de2a545d46cdae25d2602d3bf266084a97",
+    "zh-CN": "abb67b67367b6b4a78655170e70a4762888036925b358ed9c20a481e4ef84f27",
+    "zh-TW": "270be7f9f157257b04ce722f57469775b543886eee588ed5c4ab6aed0f8dba88",
 }
 
 SANGCHUL_LIVE_ID = "arc_sangchul_year3"
@@ -709,7 +748,7 @@ def validate_story_queue_hard_state(
 def validate_father_p0_content(
         localized: dict[str, dict[str, dict[str, Any]]],
         main_source: str) -> list[str]:
-    """Pin the W188 fact repair without changing its old route or state writes."""
+    """Pin W188 death-notice prose, live continuation and unchanged cold routes/writes."""
     errors: list[str] = []
     old_hour_markers = {
         "ko": ("한 시간 전에", "한 시간만 빨랐"),
@@ -741,10 +780,14 @@ def validate_father_p0_content(
         "arc_father_passing_platform": [
             {"follow_up_event": "arc_father_passing_hospital_room"},
             {"follow_up_event": "arc_father_passing_deal_morning"},
+            {"choice_kind": "decision",
+             "follow_up_event": "arc_father_passing_hospital_room"},
         ],
         "arc_father_passing_deal_room": [
             {"follow_up_event": "arc_father_passing_hospital_room"},
             {"follow_up_event": "arc_father_passing_deal_morning"},
+            {"choice_kind": "decision",
+             "follow_up_event": "arc_father_passing_deal_morning"},
         ],
         "arc_father_passing_hospital_room": [{
             "effects": {"mental": -40, "tint": 10},
@@ -787,13 +830,66 @@ def validate_father_p0_content(
             if key not in FATHER_P0_KNOWN_KEYS[:2]
         }
         preserved = {
-            "description": root.get("description"),
             "description_if_moral": root.get("description_if_moral"),
             "other_known": preserved_known,
         }
-        if canonical_sha256(preserved) != W188_PRESERVED_PROSE_SHA256[locale]:
+        if canonical_sha256(preserved) != W188_PROTECTED_PROSE_SHA256[locale]:
             errors.append(
-                f"father P0/{locale}: W188 default/moral/older-known prose changed"
+                f"father P0/{locale}: W188 moral/older-known prose changed"
+            )
+        accepted_ktx = {key: known.get(key) for key in FATHER_P0_KNOWN_KEYS[:2]}
+        if canonical_sha256(accepted_ktx) != W188_ACCEPTED_KTX_KNOWN_SHA256[locale]:
+            errors.append(f"father P0/{locale}: accepted KTX death-notice recollections changed")
+        if canonical_sha256(root.get("description")) != W188_ROOT_DEFAULT_SHA256[locale]:
+            errors.append(f"father P0/{locale}: W188 approved death-notice default changed")
+
+        legacy_choices = {}
+        for event_id, direct_edge in W188_DIRECT_EDGES.items():
+            choices = events.get(event_id, {}).get("choices", [])
+            if not isinstance(choices, list) or len(choices) != 3 \
+                    or any(not isinstance(choice, dict) for choice in choices):
+                errors.append(
+                    f"father P0/{locale}/{event_id}: exact legacy 0/1 plus live 2 required"
+                )
+                continue
+            legacy_choices[event_id] = []
+            for choice in choices[:2]:
+                locked = {
+                    key: value for key, value in choice.items()
+                    if key not in ("text", "text_if_moral")
+                }
+                locked["keys"] = sorted(choice)
+                moral = choice.get("text_if_moral", {})
+                locked["moral_keys"] = sorted(moral) if isinstance(moral, dict) else None
+                legacy_choices[event_id].append(locked)
+                labels = [choice.get("text"), *moral.values()] \
+                    if isinstance(moral, dict) else []
+                if not labels or any(not isinstance(label, str) or not label.strip()
+                                     for label in labels):
+                    errors.append(
+                        f"father P0/{locale}/{event_id}: legacy action labels must remain populated"
+                    )
+            direct = choices[2]
+            exact_keys = {"choice_kind", "text", "result_text", "follow_up_event"} \
+                if locale == "ko" else {"text", "result_text"}
+            if set(direct) != exact_keys:
+                errors.append(
+                    f"father P0/{locale}/{event_id}[2]: direct continuation exact keys changed"
+                )
+            if locale == "ko" and (
+                    direct.get("choice_kind") != "decision"
+                    or direct.get("follow_up_event") != direct_edge):
+                errors.append(
+                    f"father P0/ko/{event_id}[2]: direct continuation changed decision/edge"
+                )
+            if any(not isinstance(direct.get(key), str) or not direct[key].strip()
+                   for key in ("text", "result_text")):
+                errors.append(
+                    f"father P0/{locale}/{event_id}[2]: empty direct continuation prose"
+                )
+        if canonical_sha256(legacy_choices) != W188_LEGACY_CHOICES_SHA256[locale]:
+            errors.append(
+                f"father P0/{locale}: legacy middle shape/result/edge contract changed"
             )
         for key in FATHER_P0_KNOWN_KEYS[:2]:
             body = known.get(key)
@@ -861,9 +957,10 @@ def validate_father_p0_content(
 
         if locale == "ko":
             for event_id, expected in expected_ko_choice_contracts.items():
+                choices = events.get(event_id, {}).get("choices", [])
                 actual = [
                     choice_contract(choice)
-                    for choice in events.get(event_id, {}).get("choices", [])
+                    for choice in (choices if isinstance(choices, list) else [])
                     if isinstance(choice, dict)
                 ]
                 if actual != expected:
@@ -1414,6 +1511,81 @@ func next(): pass
     return cases
 
 
+def run_father_direct_mutation_self_test() -> int:
+    """Source-bound negatives for the approved live-2/legacy-0/1 separation."""
+    localized = load_father_p0_events()
+    main_source = MAIN_GAME.read_text(encoding="utf-8")
+    baseline = validate_father_p0_content(localized, main_source)
+    if baseline:
+        raise AssertionError(f"father direct baseline invalid: {baseline}")
+    cases = 0
+
+    def reject(mutated: dict, label: str) -> None:
+        nonlocal cases
+        if not validate_father_p0_content(mutated, main_source):
+            raise AssertionError(f"father direct accepted mutation: {label}")
+        cases += 1
+
+    for locale in FATHER_P0_LOCALES:
+        for event_id in W188_DIRECT_EDGES:
+            for index in (0, 1):
+                for field, value in (("result_text", "changed old cold result"),
+                                     ("effects", {})):
+                    bad = copy.deepcopy(localized)
+                    bad[locale][event_id]["choices"][index][field] = value
+                    reject(bad, f"{locale}/{event_id}/legacy {index}/{field}")
+                bad = copy.deepcopy(localized)
+                bad[locale][event_id]["choices"][index]["text_if_moral"].pop("black")
+                reject(bad, f"{locale}/{event_id}/legacy {index}/moral shape")
+                bad = copy.deepcopy(localized)
+                bad[locale][event_id]["choices"][index]["text"] = ""
+                reject(bad, f"{locale}/{event_id}/legacy {index}/empty label")
+            for field, value in (("effects", {}), ("text_if_moral", {}),
+                                 ("text", ""), ("result_text", ""),
+                                 ("result_text", ["not prose"])):
+                bad = copy.deepcopy(localized)
+                bad[locale][event_id]["choices"][2][field] = value
+                reject(bad, f"{locale}/{event_id}/direct 2/{field}")
+            bad = copy.deepcopy(localized)
+            bad[locale][event_id]["choices"].pop()
+            reject(bad, f"{locale}/{event_id}/remove direct 2")
+            bad = copy.deepcopy(localized)
+            bad[locale][event_id]["choices"].append(
+                copy.deepcopy(bad[locale][event_id]["choices"][2]))
+            reject(bad, f"{locale}/{event_id}/extra choice")
+            if locale == "ko":
+                for field, value in (("follow_up_event", FATHER_P0_ROOT),
+                                     ("choice_kind", "expression")):
+                    bad = copy.deepcopy(localized)
+                    bad[locale][event_id]["choices"][2][field] = value
+                    reject(bad, f"{locale}/{event_id}/direct 2/{field}")
+                bad = copy.deepcopy(localized)
+                bad[locale][event_id]["choices"][0]["follow_up_event"] = FATHER_P0_ROOT
+                reject(bad, f"{locale}/{event_id}/legacy edge")
+            else:
+                for field, value in (("follow_up_event", FATHER_P0_ROOT),
+                                     ("choice_kind", "decision")):
+                    bad = copy.deepcopy(localized)
+                    bad[locale][event_id]["choices"][2][field] = value
+                    reject(bad, f"{locale}/{event_id}/overlay gameplay {field}")
+        for field in ("description", "description_if_moral", "description_if_known"):
+            bad = copy.deepcopy(localized)
+            root = bad[locale][FATHER_P0_ROOT]
+            if field == "description":
+                root[field] += "\n\nBecause one choice meant this and the other meant that."
+            elif field == "description_if_moral":
+                key = next(iter(root[field]))
+                root[field][key] += "changed protected moral prose"
+            else:
+                root[field][FATHER_P0_KNOWN_KEYS[2]] += "changed protected recollection"
+            reject(bad, f"{locale}/root {field} prose pin")
+        for key in FATHER_P0_KNOWN_KEYS[:2]:
+            bad = copy.deepcopy(localized)
+            bad[locale][FATHER_P0_ROOT]["description_if_known"][key] += "changed accepted KTX prose"
+            reject(bad, f"{locale}/accepted KTX {key} prose pin")
+    return cases
+
+
 def run_self_test() -> int:
     cases = 0
 
@@ -1823,7 +1995,7 @@ func resolve_narrative_bridge(event_id, choice_index):
         bool(validate_event_manager_hard_state_source(unsafe_bridge)),
         "EventManager direct bridge hard-state mutation was not detected",
     )
-    return cases + run_person_deal_self_test()
+    return cases + run_person_deal_self_test() + run_father_direct_mutation_self_test()
 
 
 def main() -> int:

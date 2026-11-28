@@ -300,7 +300,7 @@
   {
     "id": "arc_father_passing",
     "title": "The Call from the Ward",
-    "description": "The ward called.\nThe nurse said Father had suffered an acute deterioration before dawn. The staff had continued treatment, but he had died.\n\"Please come to the ward when you are able.\"\n\nThe voice on the line did not hurry. No train could arrive before the recorded time of death now.\n\nThe ward's confirmed time and an alert for a deal about to begin shared the screen. One time had already stopped. The other was still waiting for Minjun's answer. He held the phone and could not move for a long while.",
+    "description": "The ward called.\nThe nurse said his father had taken a sudden turn for the worse before dawn. The medical team had kept trying, but he had died.\n\"Please come to the ward when you can.\"\n\nThe voice on the phone did not hurry. When {name} asked what time it had happened, the nurse read out the same time again. He opened his mouth to answer, then closed it.\n\nA reminder that the deal was starting appeared over the call screen. He swiped it away, but the meeting-room address was still in his calendar. He stood still for a long time, holding his phone.",
     "description_if_moral": {
       "black": "The ward called.\nThe nurse gave the acute-deterioration time, the treatment window, and the time Father died. A reminder for the deal about to start appeared over the call. The ward number and the calendar alert were rectangles of the same size.\n\nNo train could arrive before the confirmed time. He might still reach the meeting room. The fact that this calculation finished so quickly was another thing Minjun could not erase.",
       "white": "The ward called.\nThe nurse said Father had suffered an acute deterioration before dawn. The staff had continued treatment, but his father had died. The word father reached {name} before the time of death.\n\n\"Please come to the ward when you are able.\"\n\nNo train could arrive before that time. But where he went from here was still his to choose."
@@ -327,7 +327,7 @@
         "text": "Open the deal alert layered over the call. Go to the meeting room.",
         "text_if_moral": {
           "black": "Open the deal alert. This chance also disappears if he waits.",
-          "white": "Open the deal alert. Tell himself the decision can wait a little longer."
+          "white": "Open the deal reminder. Call the ward after the deal."
         },
         "result_text": "The investment meeting address sat over the ward number. Twenty-eight minutes until it began. Reaching Changwon could not change the confirmed time. He might still reach the meeting room.\n\nMinjun picked up his bag. Without closing the ward call screen, he gave the driver the meeting-room address first."
       }
@@ -336,13 +336,13 @@
   {
     "id": "arc_father_passing_platform",
     "title": "Before Departure",
-    "description": "Seoul Station on a winter night. Dry heated air leaked through the open train door. The departure board and the deal alert on his phone showed the same minute.\n\n\"This train will depart shortly. Please board now.\"\n\nMinjun stood before the door. The phone in his pocket rang once more, then stopped. The hospital number.\n\nThe train door and the stairs lay in opposite directions. Neither had closed yet.",
+    "description": "It was a winter night on the platform at Seoul Station. Dry, heated air escaped through the open train doors. {name} looked for the carriage number printed on his ticket.\n\n\"The train will depart shortly. All passengers, please board.\"\n\nHis phone buzzed in his pocket. Below the meeting-room address was a reminder that the meeting was starting. He dismissed it and returned to the screen from his call with the ward.\n\nAt the doorway, cold air from outside and heat from the carriage brushed his face in turn. He adjusted his grip on the bag strap. The step under his feet was narrow.",
     "choices": [
       {
-        "text": "(He took the KTX. Knowing he was already too late.)",
+        "text": "Board the KTX. Head to Changwon, even now.",
         "text_if_moral": {
-          "black": "(Take the KTX. Move before he finishes calculating the loss.)",
-          "white": "(Take the KTX. Even if it is too late, go where he needs to be.)"
+          "black": "Board the KTX before working out the loss.",
+          "white": "Board the KTX. Go to the ward, even now."
         },
         "result_text": "The KTX felt impossibly slow. The whole way, as the scenery fled backward outside the window, Minjun tried to think of nothing at all."
       },
@@ -353,13 +353,17 @@
           "white": "Turn away from the train. Take the deal, knowing what he is leaving behind."
         },
         "result_text": "\"I won't be able to come down to Changwon today.\" Minjun called the ward back and said it. Then he went into the deal.\nHe made five million won on it. Just as planned."
+      },
+      {
+        "text": "Continue",
+        "result_text": "{name} boarded and sat by the window. The doors closed, and the platform pillars began to slide slowly backwards.\n\nThe meeting's scheduled start time had passed. He switched off the screen and held the phone in both hands. Changwon was still a long way off."
       }
     ]
   },
   {
     "id": "arc_father_passing_deal_room",
     "title": "Ten Minutes",
-    "description": "A contract and a bottle of water gone warm sat in the meeting room. The person across from Minjun checked the time.\n\n\"We need your signature within ten minutes. The other side is waiting too.\"\n\nMinjun's phone lay face down on the table. Each vibration made the thin glass surface hum. Turn it over: the hospital number. Turn it back: the signature line.\n\nHis pen would not settle in his hand. Seoul Station was twelve minutes away by taxi.",
+    "description": "A contract and a bottle of water lay on the meeting-room table. The person across from him checked the clock.\n\n\"You need to sign within ten minutes. Someone else is waiting.\"\n\n{name} set his phone face down after the call with the ward. Its vibration carried through the tabletop. The other person turned the contract towards him, open to the signature page.\n\nHe rested the pen tip on the signature line. He could barely press down, leaving only a small dot on the paper. Across the table, he could hear the other person breathing as they waited.",
     "choices": [
       {
         "text": "Put down the pen. Take the fastest KTX.",
@@ -370,12 +374,16 @@
         "result_text": "Minjun stood, leaving the signature line blank. Someone called his name, but he did not turn around.\n\nThe KTX felt impossibly slow. The whole way, as the scenery fled backward outside the window, Minjun tried to think of nothing at all."
       },
       {
-        "text": "(He hung up. There was a deal he had to close right now.)",
+        "text": "End the call with the ward and go ahead with the deal.",
         "text_if_moral": {
-          "black": "(Hang up. This deal vanishes if he does not take it now.)",
-          "white": "(Hang up. Take the deal, knowing what he is leaving behind.)"
+          "black": "End the call and go ahead with the deal.",
+          "white": "Go ahead with the deal, knowing what you are missing."
         },
         "result_text": "\"I won't be able to come down to Changwon today.\" Minjun told the ward, hung up, and went into the deal.\nHe made five million won on it. Just as planned."
+      },
+      {
+        "text": "Continue",
+        "result_text": "{name} signed his name. While the other person took the pages and checked the last one, he turned the cap of the water bottle.\n\nThe vibration on the table stopped. He set down the bottle and turned his phone over. The ward's number was still on the screen."
       }
     ]
   },
