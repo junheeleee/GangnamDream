@@ -21,6 +21,47 @@
   },
   "decisions": [
     {
+      "id": "order-833-father-direct-progress-2a6dbe9-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-29",
+      "decided_by": "Codex /root/claude_pr45_review_for_user (independent committed-candidate rebinding review)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-833-father-direct-progress",
+      "subject": {
+        "kind": "source",
+        "commit": "2a6dbe9e3a45fda62e9c70c032a8a796756128f4",
+        "tree": "7ff9c2eb7a25ec648e78dc36dc21cac3179bf8e8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-833-father-direct-progress-binding-20261129.json",
+          "sha256": "dca4fe2882a47ec701ade315983b6fb3b83aa0d4ff035cc666d58c7f415643a6"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-833-father-direct-progress-20261129.json",
+          "sha256": "785f984f8beea44196bc9a73c04fd2d5608889b91067a8adc0cd876bb7ad98cb"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "main_ci_completion",
+        "W190_T1_completion",
+        "global_Japanese_audit_completion",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-833-father-direct-progress-binding-20261129.json",
+        "sha256": "dca4fe2882a47ec701ade315983b6fb3b83aa0d4ff035cc666d58c7f415643a6"
+      }
+    },
+    {
       "id": "order-833-father-direct-progress-01c3043-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
       "decided_at": "2026-11-29",

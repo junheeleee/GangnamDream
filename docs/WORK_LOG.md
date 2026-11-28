@@ -2,6 +2,8 @@
 
 ## 2026-11-29
 
+- 現source `2a6dbe9`/tree `7ff9c2eb` [재결속 검수](agent_reviews/ORDER-833-father-direct-progress-binding-20261129.json)도 W188 단위 한정GO. 앞 wrapper의 archive3줄은 metadata예외가 아니므로 실제 resolver 신원으로 다시 전수 대조했다. 코드14blob은 동일, 과거01c 판정·43증거/386기록 보존. 도구 예외 확대·엔진 재실행 주장은0이며 이번 wrapper는 허용된 보고/원장/WORK_LOG뿐이다.
+
 - W188 제품 `01c3043`/tree `863937c3`의 [독립 최종 검수](agent_reviews/ORDER-833-father-direct-progress-20261129.json)는 해당 source 단위만 GO. 19경로·70leaf·실제 원로그를 전수 확인했고 남은 JA전역/사람/W190/CI 한계를 보존했다. 아래 자동 통과는 재미·깊이·원어민·사람 GO가 아니다.
 
 - W188 직접진행 단위 마감: root에서 병동/거래를 한 번 고르고 두 middle은 실제index2로 계속한다. root 해설·white 의도와 구6라벨을5언어 행동형으로 맞췄고, 옛0/1 결과·edge·kind/terminal·의료2-of-3·500만원은 보존했다. 원고70leaf 독립 전수와 CJK42 공식수용(새계속12/기존문30), JSON5역복원·기존484batch/비소유수용 보존 검증. live/gallery[2]·구choices 힌트/non-auto·구0/1 cold결과와 KTX source컷을 분리했다. compile78·배경30경로/v4복원45/재배치2·집중Manual6경로/복원14/frozen소비자6·전체Manual·Gallery20 exit0/엔진오류·누수0. 부정270/47/30·audit ERROR0/WARN0·EN/서사/보호demo/정본큐 통과. 증거 `w188-direct-20261129.wYBwd8`; 전체Manual stdout SHA `1c7c761f47c5a1df5a0cc4f37b311c5d4743f7e1d3c47ad5cadc662f25bf2625`.
