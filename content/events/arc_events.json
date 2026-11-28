@@ -536,7 +536,8 @@
           "mental": 3
         },
         "flags": [
-          "arc_invest_guidance_seen"
+          "arc_invest_guidance_seen",
+          "invest_self_directed"
         ],
         "result_text": "\"그래, 네가 알아서 해야지.\"\n임상철이 담담하게 웃었다.\n{name}은 사무실을 나와 수첩을 폈다. '내 방식'이라고 쓴 뒤 펜을 멈췄다.\n빈 줄 아래로 볼펜 잉크가 작은 점 하나를 만들었다.",
         "bridge_summary": "상철의 방식을 거절한 뒤 수첩에 '내 방식'이라고 썼지만, 그 아래는 비어 있었다."

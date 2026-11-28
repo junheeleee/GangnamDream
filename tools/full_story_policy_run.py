@@ -106,7 +106,10 @@ TRADING_STRATEGIES = {
     "trade_coin": ("매매: 코인 집중", "coin"),
 }
 for _name, (_description, _strategy) in TRADING_STRATEGIES.items():
-    POLICIES[_name] = dict(POLICIES["invest"], description=_description, trading_strategy=_strategy)
+    # A measurement run keeps its board: neither the policy nor its exploration
+    # picks "sell everything and delete the app".
+    POLICIES[_name] = dict(POLICIES["invest"], description=_description, trading_strategy=_strategy,
+                           never_choose_flags=["trading_app_deleted"])
 
 
 def build_profiles(seeds: int, explore: float) -> dict:
@@ -129,6 +132,7 @@ def build_profiles(seeds: int, explore: float) -> dict:
                 "modal_policy": {"study_type": 0},
                 "race_bets_per_visit": 3 if name == "gamble" else 1,
                 **({"trading_strategy": spec["trading_strategy"]} if "trading_strategy" in spec else {}),
+                **({"never_choose_flags": spec["never_choose_flags"]} if "never_choose_flags" in spec else {}),
                 "main_action_priority": actions,
                 "main_function_priority": [ACTION_FUNCS[a] for a in actions],
                 "survival_policy": None if name == "overreach" else {

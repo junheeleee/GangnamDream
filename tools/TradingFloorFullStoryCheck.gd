@@ -94,6 +94,14 @@ func _check_activity_source() -> void:
 	var lesson := {"investment_lesson_1": true}
 	_expect(not HABIT._eligible(portfolio, lesson, false), "the board is offered before any holding or visit")
 	_expect(HABIT._eligible(portfolio, lesson, true), "a holding does not open the board")
+	_expect(HABIT._eligible(portfolio, {"invest_self_directed": true}, false),
+		"'I have my own way' does not lead to the board")
+	_expect(not HABIT._eligible(portfolio, {}, true), "the board opens without any investing choice")
+	_expect(BOARD.unlocked_asset_ids({"invest_self_directed": true}, {}).has("kospi_etf"),
+		"a self-directed investor sees no assets")
+	var guidance: Dictionary = DataRegistry.find_event("arc_invest_guidance")
+	var own_way: Array = ((guidance.get("choices", []) as Array)[2] as Dictionary).get("flags", [])
+	_expect(own_way.has("invest_self_directed"), "'I have my own way' does not record the investor")
 	_expect(HABIT._eligible(portfolio, {"investment_lesson_1": true, "trading_board_opened": true}, false),
 		"a trader all in cash loses the board")
 	_expect(not HABIT._eligible(portfolio, {"investment_lesson_1": true,

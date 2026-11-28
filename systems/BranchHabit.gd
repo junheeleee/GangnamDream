@@ -36,6 +36,8 @@ const HABIT_EVENT_IDS := [
 
 ## Set by the portfolio habit's delete-the-app choice (ORDER-839 T4).
 const TRADING_APP_DELETED_FLAG := "trading_app_deleted"
+## Set by "I have my own way" in Sangchul's first investment talk.
+const SELF_DIRECTED_INVESTOR_FLAG := "invest_self_directed"
 static var _ledger_cache: Dictionary = {}
 
 
@@ -151,6 +153,10 @@ static func _eligible(activity: Dictionary, flags: Dictionary, has_portfolio: bo
 	if bool(flags.get(TRADING_APP_DELETED_FLAG, false)):
 		return false
 	if has_portfolio:
+		return true
+	# Refusing Sangchul's lesson with "I have my own way" is still investing: that
+	# run meets the board without a first holding (ORDER-839 T4).
+	if bool(flags.get(SELF_DIRECTED_INVESTOR_FLAG, false)):
 		return true
 	# A run that has already used the trading board keeps it while all in
 	# cash: selling out in a bear market must not lock the board (ORDER-839 T4).

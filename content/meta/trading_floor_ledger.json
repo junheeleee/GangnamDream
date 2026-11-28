@@ -5,7 +5,8 @@
     {
       "id": "first_lesson",
       "requires_any": [
-        "investment_lesson_1"
+        "investment_lesson_1",
+        "invest_self_directed"
       ],
       "assets": [
         "kospi_etf",

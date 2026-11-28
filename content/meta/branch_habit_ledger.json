@@ -40,7 +40,7 @@
     },
     {
       "id": "portfolio",
-      "requires_all": ["investment_lesson_1"],
+      "requires_any": ["investment_lesson_1", "invest_self_directed"],
       "portfolio": true,
       "portfolio_or_any": ["trading_board_opened"],
       "return_gap_after_go": 4,

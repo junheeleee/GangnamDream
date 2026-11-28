@@ -76,6 +76,22 @@ func _policy_index(current: Dictionary, visible_indices: Array[int]) -> int:
 			return cached
 	var policy := _choice_policy()
 	var choices: Array = current.get("choices", [])
+	# A profile may rule out choices that set given flags (839 T4: a trading
+	# measurement never deletes its app). Keep the rest when any remain.
+	var never: Array = _profile.get("never_choose_flags", [])
+	if not never.is_empty():
+		var allowed: Array[int] = []
+		for index in visible_indices:
+			var flags: Array = (choices[index] as Dictionary).get("flags", []) \
+				if index >= 0 and index < choices.size() and choices[index] is Dictionary else []
+			var ruled_out := false
+			for flag_id in never:
+				if flags.has(flag_id):
+					ruled_out = true
+			if not ruled_out:
+				allowed.append(index)
+		if not allowed.is_empty():
+			visible_indices = allowed
 	var pick := visible_indices[0]
 	if _policy_rng.randf() < float(policy.get("explore_rate", 0.0)):
 		pick = visible_indices[_policy_rng.randi_range(0, visible_indices.size() - 1)]
