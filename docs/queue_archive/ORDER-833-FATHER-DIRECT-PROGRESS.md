@@ -123,3 +123,6 @@ PR45는 main 대상으로 바뀌었고 head `34b25ba`의 실제 CI는 진행 중
 원로그·공식batch/response·역복원 검증이며 독립 검수는 제품 신원에 따로 결속한다.
 이 단위 지시는 일회성, 지속 규칙은 기존 SCENE_TIER/CHOICE_CONSEQUENCE/WORK_UNIT을
 따른다. 다음 W190 전용 유품그림·direction/cue는 OPEN이다. 부모833·출시GO 아님.
+
+제품 `01c3043`/tree `863937c3`는 [독립 최종 검수](../agent_reviews/ORDER-833-father-direct-progress-20261129.json)
+한정GO다. 자동 통과는 계약 증거이지 재미·깊이·문체·원어민·사람 GO가 아니다.
