@@ -4,6 +4,7 @@ extends Control
 ## MainGame이 인스턴스해 overlay로 붙이고 open()으로 표시. 닫으면 closed 시그널.
 
 const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
+const STAKE_LADDER := preload("res://systems/GambleStakeLadder.gd")
 signal closed
 
 enum Phase { BETTING, RACE, RESULT }
@@ -18,6 +19,9 @@ const HORSE_TEX := preload("res://assets/ui/horse_silhouette.png")  # 질주 실
 const BG_BETTING_PATH := "res://assets/backgrounds/racetrack_betting_hall.png"
 const BG_TRACK_PATH := "res://assets/backgrounds/racetrack_track_view.png"
 const STAKE_OPTIONS := [10000, 30000, 100000, 500000]
+## This visit's stakes: the fixed list, or in a full run the stake ladder's
+## tier fixed at open (ORDER-840 G1).
+var _session_stakes: Array = STAKE_OPTIONS.duplicate()
 
 var _phase: int = Phase.BETTING
 var _race: Dictionary = {}
@@ -209,6 +213,11 @@ func open() -> void:
 	_pad_horse_idx = 0
 	_pad_stake_idx = 0
 	_pad_result_idx = 0
+	_session_stakes = STAKE_OPTIONS.duplicate()
+	if FULL_STORY_FLOW.is_full_run():
+		var ladder := STAKE_LADDER.race_stakes(GameState.flags, int(GameState.turn), float(GameState.money))
+		if not ladder.is_empty():
+			_session_stakes = ladder
 	# 영속 명마 세계 — GameState.flags에 저장돼 씬 리로드·세이브를 견딘다
 	if not (GameState.flags.get("horse_world") is Dictionary):
 		GameState.flags["horse_world"] = {}
@@ -308,7 +317,7 @@ func _pad_cycle_bet_type(delta: int) -> bool:
 func _pad_cycle_stake(delta: int) -> bool:
 	if _phase != Phase.BETTING:
 		return true
-	var next_idx := clampi(_pad_stake_idx + delta, 0, STAKE_OPTIONS.size() - 1)
+	var next_idx := clampi(_pad_stake_idx + delta, 0, _session_stakes.size() - 1)
 	if next_idx == _pad_stake_idx:
 		return true
 	_pad_stake_idx = next_idx
@@ -330,7 +339,7 @@ func _pad_accept_betting() -> bool:
 	if _picks.size() < need:
 		_toggle_pick(_pad_horse_idx)
 		return true
-	var stake := float(STAKE_OPTIONS[_pad_stake_idx])
+	var stake := float(_session_stakes[mini(_pad_stake_idx, _session_stakes.size() - 1)])
 	_place_bet(stake)
 	return true
 
@@ -574,8 +583,8 @@ func _render_betting() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	bet_panel.add_child(row)
-	for stake_i in range(STAKE_OPTIONS.size()):
-		var amt: int = int(STAKE_OPTIONS[stake_i])
+	for stake_i in range(_session_stakes.size()):
+		var amt: int = int(_session_stakes[stake_i])
 		var b := Button.new()
 		b.text = GameState.format_money(float(amt))
 		_style(b, "#10231a", "#2a7a52")

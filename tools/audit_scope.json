@@ -4777,6 +4777,19 @@
       ]
     },
     {
+      "tool": "tools/GambleStakeLadderCheck.tscn",
+      "godot": true,
+      "why": "840 G1 판의 단계: 정식판 경마 판돈·홀덤 바이인·블라인드가 연차·이력·습관 방문·현금으로 열리는 최고 단계를 따르고 열 때 고정, 정식판 밖은 고정 목록",
+      "paths": [
+        "systems/GambleStakeLadder.gd",
+        "content/meta/gamble_stake_ledger.json",
+        "scenes/RaceTrack.gd",
+        "scenes/HoldemClub.gd",
+        "tools/GambleStakeLadderCheck.gd",
+        "tools/GambleStakeLadderCheck.tscn"
+      ]
+    },
+    {
       "tool": "tools/RaceTrackHiddenStatCheck.tscn",
       "godot": true,
       "why": "840 G1 숨은 수치: 정식판 경마 HUD·결과 경고에 중독도 숫자·게이지가 없고 손의 문장으로만 보인다, 체험판 게이지 유지",

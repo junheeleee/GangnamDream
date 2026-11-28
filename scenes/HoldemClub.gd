@@ -12,7 +12,20 @@ const CHIP_TEX := preload("res://assets/ui/chips/chip_10k.svg")
 
 const SMALL_BLIND := 5_000
 const BIG_BLIND   := 10_000
+
+func _small_blind() -> int:
+	return SMALL_BLIND * _blind_scale
+
+func _big_blind() -> int:
+	return BIG_BLIND * _blind_scale
+
 const VALID_BUYINS := [50_000, 100_000, 200_000, 500_000]
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
+const STAKE_LADDER := preload("res://systems/GambleStakeLadder.gd")
+## This session's buy-ins and blind scale: fixed, or in a full run the stake
+## ladder's tier fixed at open (ORDER-840 G1).
+var _session_buyins: Array = VALID_BUYINS.duplicate()
+var _blind_scale: int = 1
 
 enum Phase { SETUP, PREFLOP, FLOP, TURN, RIVER, SHOWDOWN, RESULT }
 
@@ -105,6 +118,15 @@ func _player_display_name() -> String:
 
 # ── 진입 ──────────────────────────────────────────────────────────
 func _open_session() -> void:
+	_session_buyins = VALID_BUYINS.duplicate()
+	_blind_scale = 1
+	if FULL_STORY_FLOW.is_full_run():
+		var ladder := STAKE_LADDER.holdem_buyins(GameState.flags, int(GameState.turn), float(GameState.money))
+		if not ladder.is_empty():
+			_session_buyins = ladder
+			_blind_scale = STAKE_LADDER.holdem_blind_scale(GameState.flags, int(GameState.turn), float(GameState.money))
+	if not _session_buyins.has(_buy_in):
+		_buy_in = int(_session_buyins[0])
 	BGMPlayer.enter_activity_ambience("casino")
 	_net_session = 0
 	_hands_played = 0
@@ -273,6 +295,10 @@ func _show_buyin_screen() -> void:
 
 	var sub := Label.new()
 	sub.text = _tr("No-Limit Texas Hold'em  ·  5,000 / 10,000 블라인드", "No-Limit Texas Hold'em  ·  5,000 / 10,000 blinds")
+	if _blind_scale != 1:
+		sub.text = _tr("No-Limit Texas Hold'em  ·  %s / %s 블라인드  ·  강남 하이스테이크 룸",
+			"No-Limit Texas Hold'em  ·  %s / %s blinds  ·  Gangnam high-stakes room") % [
+			_fmt(_small_blind()), _fmt(_big_blind())]
 	sub.add_theme_font_size_override("font_size", 12)
 	sub.add_theme_color_override("font_color", Color("#5a6075"))
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -313,7 +339,7 @@ func _show_buyin_screen() -> void:
 	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	vb.add_child(btn_row)
 
-	for bi in VALID_BUYINS:
+	for bi in _session_buyins:
 		var can_afford: bool = GameState.money >= float(bi)
 		var b := _make_btn(_fmt(bi), func():
 			_buy_in = bi
@@ -349,7 +375,7 @@ func _show_buyin_screen() -> void:
 func _deal_next_hand() -> void:
 	_hands_played += 1
 	_player_stack = _buy_in if _hands_played == 1 else _player_stack
-	if _player_stack < BIG_BLIND:
+	if _player_stack < _big_blind():
 		_show_result_screen()
 		return
 	_hand_start_stack = _player_stack
@@ -379,8 +405,8 @@ func _deal_next_hand() -> void:
 	_pad_action_signature = ""
 	_reset_round_actions()
 	# 포스트 블라인드 (플레이어=SB, opp1=BB)
-	_post_blind(0, SMALL_BLIND, true)   # 플레이어 SB
-	_post_blind(1, BIG_BLIND, false)    # opp1 BB
+	_post_blind(0, _small_blind(), true)   # 플레이어 SB
+	_post_blind(1, _big_blind(), false)    # opp1 BB
 
 	_phase = Phase.PREFLOP
 	_action_idx = 0  # 플레이어 먼저 (SB acts first preflop in simplified version)
@@ -415,7 +441,7 @@ func _post_blind(who: int, amount: int, is_player: bool) -> void:
 
 func _affordable_buyins() -> Array:
 	var options: Array = []
-	for bi in VALID_BUYINS:
+	for bi in _session_buyins:
 		if GameState.money >= float(bi):
 			options.append(int(bi))
 	return options
@@ -448,7 +474,7 @@ func _player_pad_actions() -> Array:
 	else:
 		actions.append({"id": "call", "amount": mini(to_call, _player_stack), "label": _tr("Call", "Call")})
 	if _player_stack > to_call:
-		var min_raise := mini(to_call + BIG_BLIND, _player_stack)
+		var min_raise := mini(to_call + _big_blind(), _player_stack)
 		var third_pot := mini(int(float(_pot) * 0.33) + to_call, _player_stack)
 		var half_pot := mini(int(float(_pot) * 0.5) + to_call, _player_stack)
 		var pot_raise := mini(_pot + to_call, _player_stack)
@@ -815,7 +841,7 @@ func _draw_holdem_surface(ctrl: Control) -> void:
 	ctrl.draw_line(Vector2(sz.x * 0.50, sz.y * 0.24), Vector2(sz.x * 0.50, sz.y * 0.80), rail_col, 1.0)
 
 	var pot_pos := Vector2(sz.x * 0.50, sz.y * 0.29)
-	_draw_chip_stack(ctrl, pot_pos, max(_pot, BIG_BLIND), 0.95)
+	_draw_chip_stack(ctrl, pot_pos, max(_pot, _big_blind()), 0.95)
 	if _phase == Phase.SHOWDOWN:
 		ctrl.draw_circle(pot_pos, 44.0, Color(1.0, 0.80, 0.25, 0.08))
 		ctrl.draw_circle(pot_pos, 62.0, Color(1.0, 0.80, 0.25, 0.04))
@@ -859,7 +885,7 @@ func _draw_seat_silhouette(ctrl: Control, pos: Vector2, active: bool, winner: bo
 		ctrl.draw_circle(pos + Vector2(0, -20), 14.5, Color(accent.r, accent.g, accent.b, 0.15))
 
 func _draw_chip_stack(ctrl: Control, center: Vector2, amount: int, alpha: float = 1.0) -> void:
-	var count := clampi(int(ceil(float(amount) / float(BIG_BLIND))), 3, 12)
+	var count := clampi(int(ceil(float(amount) / float(_big_blind()))), 3, 12)
 	var colors := [Color("#d73a49"), Color("#2f6fe4"), Color("#28a36a"), Color("#f0b429"), Color("#e8eaf0")]
 	for i in range(count):
 		var col: Color = colors[i % colors.size()]
@@ -875,7 +901,7 @@ func _draw_chip_stack(ctrl: Control, center: Vector2, amount: int, alpha: float 
 func _draw_bet_stack(ctrl: Control, pos: Vector2, amount: int, color: Color) -> void:
 	if amount <= 0:
 		return
-	var chips := clampi(int(ceil(float(amount) / float(BIG_BLIND))), 1, 5)
+	var chips := clampi(int(ceil(float(amount) / float(_big_blind()))), 1, 5)
 	for i in range(chips):
 		var p := pos + Vector2(float(i % 3) * 10.0 - 10.0, -float(i / 3) * 5.0)
 		var chip_col := color
@@ -997,7 +1023,7 @@ func _show_player_actions() -> void:
 		btn_row.add_child(call_btn)
 
 	# Raise / All-in 프리셋
-	var min_raise := mini(to_call + BIG_BLIND, _player_stack)
+	var min_raise := mini(to_call + _big_blind(), _player_stack)
 	var third_pot  := mini(int(float(_pot) * 0.33) + to_call, _player_stack)
 	var half_pot   := mini(int(float(_pot) * 0.5) + to_call, _player_stack)
 	var pot_raise  := mini(_pot + to_call, _player_stack)
