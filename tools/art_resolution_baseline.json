@@ -37,12 +37,12 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 327,
+  "inventory_count": 329,
   "counts": {
     "1080p": {
       "CG": {
         "native": 0,
-        "light": 87,
+        "light": 89,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -67,7 +67,7 @@
         "native": 0,
         "light": 0,
         "medium": 0,
-        "heavy": 87,
+        "heavy": 89,
         "severe": 0
       },
       "Portrait": {
@@ -3879,6 +3879,40 @@
       ],
       "width": 1280,
       "height": 720,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/father_belongings_cafe_w190_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_father_belongings_cafe_w190"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/cg/story/father_belongings_desk_w190_v1.png": {
+      "kind": "CG",
+      "ids": [
+        "cg_father_belongings_desk_w190"
+      ],
+      "width": 1280,
+      "height": 800,
       "alpha": false,
       "scale": {
         "1080p": 1.5,

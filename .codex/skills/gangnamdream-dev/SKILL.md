@@ -25,6 +25,7 @@ Do not load full logs, release notes, archives, or unrelated active orders by de
 - Treat runtime as evidence. If it conflicts with a domain owner, determine whether the code or document is stale and align both deliberately.
 - Keep edits scoped. Do not revert unrelated work and do not touch a dirty `project.godot` unless the user explicitly assigns it.
 - For image work, read the target visual bible and continuity contract before generation. Recurring cast portraits, place backgrounds, and event CGs have different ownership.
+- New active rasters also need declared `art_resolution_baseline.json` admission: add exact measured rows only, preserve existing dimensions/targets/bands, and retain enlargement debt.
 - For audio work, use recorded or real-instrument sample sources only and preserve source manifests.
 - Keep Korean source and English player surface aligned. Never move gameplay keys into translation overlays.
 

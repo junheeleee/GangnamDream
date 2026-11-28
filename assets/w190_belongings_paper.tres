@@ -1,0 +1,23 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/direction = {
+"pace": "slow",
+"camera": "slow_zoom"
+}
+metadata/paper_anchors = {
+"arc_y4_year_close_daeun": {
+"ko": "{name}은 종이를 다시 접었다.",
+"en": "{name} folded the paper again.",
+"ja": "{name}は紙をもう一度折った。",
+"zh-CN": "{name}重新折好那张纸",
+"zh-TW": "{name}把紙重新摺好"
+},
+"arc_y4_year_close_unattached": {
+"ko": "종이를 펴자 아버지 이름과 약 먹는 시간이 나왔다.",
+"en": "He spread the paper out.",
+"ja": "紙を広げると、父の名前と、薬を飲む時刻が書かれていた。",
+"zh-CN": "展开那张纸，父亲的名字和服药时间出现在眼前。",
+"zh-TW": "他展開那張紙，看見父親的名字和服藥時間。"
+}
+}

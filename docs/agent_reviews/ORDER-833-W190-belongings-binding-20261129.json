@@ -1,0 +1,156 @@
+{
+  "unit_id": "ORDER-833-W190-belongings",
+  "decided_at": "2026-11-29",
+  "reviewer": "Codex /root/claude_review_readonly_1129 (independent clean closure-source rebinding)",
+  "subject": {
+    "kind": "source",
+    "commit": "961ef0f4d470558c5787894d5b819e7360ce2a8f",
+    "tree": "0ed120cc253a397f088a1c8f9709d1f0ad97fb51",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": [
+    ".codex/skills/gangnamdream-dev/SKILL.md",
+    "assets/FATHER_BELONGINGS_VISUAL_BIBLE.md",
+    "assets/cg/story/father_belongings_cafe_w190_v1.png",
+    "assets/cg/story/father_belongings_cafe_w190_v1.png.import",
+    "assets/cg/story/father_belongings_desk_w190_v1.png",
+    "assets/cg/story/father_belongings_desk_w190_v1.png.import",
+    "assets/cg_acting_manifest.json",
+    "assets/event_visual_contracts.json",
+    "assets/scene_audio_manifest.json",
+    "assets/w190_belongings_paper.tres",
+    "autoloads/ImageRegistry.gd",
+    "content/events/arc_year_close.json",
+    "content/meta/release_content_inventory.json",
+    "docs/ART_AI_AUDIT.md",
+    "docs/AUDIO_QA.md",
+    "docs/CONTENT_RATING_INVENTORY.md",
+    "scenes/StoryMode.gd",
+    "tools/StoryBackgroundContextCheck.gd",
+    "tools/art_resolution_baseline.json",
+    "tools/scene_audio_contract_check.py",
+    "CLAUDE.md",
+    "docs/CODEX_QUEUE.md",
+    "docs/WORK_LOG.md",
+    "docs/agent_review_decisions.json",
+    "docs/agent_reviews/ORDER-833-W190-belongings-20261129.json",
+    "docs/queue_active/ORDER-833.md",
+    "docs/queue_archive/ORDER-833-W190-BELONGINGS.md"
+  ],
+  "source_sha256": {
+    ".codex/skills/gangnamdream-dev/SKILL.md": "3d92cdd8c2f26c6bd7c6d69dfd8907cf0146989f4180bc05b7538e7a335e0047",
+    "assets/FATHER_BELONGINGS_VISUAL_BIBLE.md": "4e9a03fb175779a4af516bf51e53f1b77072505a42d6a86db9449f6b87cf78cd",
+    "assets/cg/story/father_belongings_cafe_w190_v1.png": "e8ceacf13c27c933def33c571f96b40123d42dec6525e4766ee1b0ba7fcd198f",
+    "assets/cg/story/father_belongings_cafe_w190_v1.png.import": "24cd69997a63251be2bad3464fe170a4afe3d86405a4dbefa04f9df204bc67e4",
+    "assets/cg/story/father_belongings_desk_w190_v1.png": "4fec57c6739f69f23888ee0b9ab39e3d8b717277cca6f34bb1e0b5e47a3be671",
+    "assets/cg/story/father_belongings_desk_w190_v1.png.import": "ecd21e7998af67b5a8544e53b836883075e323fb60f67bd074a2749d09e1043e",
+    "assets/cg_acting_manifest.json": "2e1af2f3f52b3774eb4e593e7077eb3611d2b77170a351bd7033b80b493d287f",
+    "assets/event_visual_contracts.json": "30e338f55c5273378e0b15255a8ae5a042db22c989e5befb59f1a00d8be4b51c",
+    "assets/scene_audio_manifest.json": "8bed5e945bfdf9bf2f5768db6ee89160c171ad2b30409c7a5e49b9c39dbc02cd",
+    "assets/w190_belongings_paper.tres": "f6705ffb8277f169b5436bc69643132976c33a9239af8bb654588c072962fdc2",
+    "autoloads/ImageRegistry.gd": "be7b2ea8c892ab50390d8ddf1fbdd41c7abfa1c1cabd47aeddca77dd17cc5262",
+    "content/events/arc_year_close.json": "45a9869ade070a311263b326357541a71d3d0c2e39db25e430bb7e3c34f45759",
+    "content/meta/release_content_inventory.json": "ce42d8bc8e9eb52c22c9e082ea18433163e85e48c95fd1a17fda822034773e0c",
+    "docs/ART_AI_AUDIT.md": "dbb101b03a15e7ad9c117aacb31902b825fe01c994d154397d49d62f80c8aec7",
+    "docs/AUDIO_QA.md": "d99d9393cf0da346577b5ed41a42506a1d4fc0e068f099645cfcd210022b3a23",
+    "docs/CONTENT_RATING_INVENTORY.md": "ecefe275d1ee8ec920048b43cad15fef036068c70ed7f9a2f84ff7a8659cccdf",
+    "scenes/StoryMode.gd": "d0a4a1beda956dc859c0eb8fe9fd541481a9f334b1ed6ef7e73f69efccac9d99",
+    "tools/StoryBackgroundContextCheck.gd": "0ae34b822de54197a80abca135ed257966cd118b26209831cd1548915e5b21a6",
+    "tools/art_resolution_baseline.json": "04b69869075f24ff8d76b32f289d3c25c389f841d072d0089abd98df2c493bc3",
+    "tools/scene_audio_contract_check.py": "68efa87e6b9c0a4bee417b1b27455d47ed31a3ad9e20883efedc50b836cb394e",
+    "CLAUDE.md": "1ff95b51264b038e87973073a202aad55a5e4873ab89f0b8f0e4f857eba8714b",
+    "docs/CODEX_QUEUE.md": "ba4f2f95469a88a4eb529c5964228d66f9f286ea8de8b88f09f1cf6f22740936",
+    "docs/WORK_LOG.md": "98def235244ce341b0d8b277caf8d4bcaab91eaa899fe120e9c5d57fe4cc6e33",
+    "docs/agent_review_decisions.json": "3d0eb185075697a419c58fd8a0c4b887d71a0930d72ed45ae1f3b4e3cda483f5",
+    "docs/agent_reviews/ORDER-833-W190-belongings-20261129.json": "764a4250a7f5a5f1e645c8c5d3d3f6a14b23d2070756d5e3b8dc368fcf8efae6",
+    "docs/queue_active/ORDER-833.md": "48968fff42f7942a7df9620851aa29d9291306c284679cc78815415c2ae95cac",
+    "docs/queue_archive/ORDER-833-W190-BELONGINGS.md": "be19edbc78156fa9eb9db34b819e05ca6b9e7edba688fecd8fb77b8ece3c2493"
+  },
+  "population": {
+    "unchanged_product_paths": 20,
+    "closure_paths": 7,
+    "total_reviewed_paths": 27,
+    "prior_ledger_rows_exact": 388,
+    "current_ledger_rows": 389,
+    "retained_raw_artifacts": 46,
+    "retained_rendered_pngs": 40
+  },
+  "method": [
+    "Observed clean HEAD961ef0f and its exact tree before writing this report. Called the unchanged current_agent_source_subject resolver, which returned source961ef0f rather than the earlier product86c7928.",
+    "Read the complete seven-path closure diff: CLAUDE, queue, WORK_LOG, the small owner archive, active parent, original independent report and one prepended delegated decision.",
+    "Compared every one of the twenty product-path SHA values with the original independent report; all twenty bytestrings are unchanged. Rechecked the original report's exact SHA and all forty image-manifest entries plus forty-six retained raw artifacts.",
+    "Compared the ledger to product86c7928: all388 earlier rows remain exactly ordered and identical; the single new row references the unchanged original report, original source86c7928 and correct unit ID.",
+    "No engine, image generation, renderer or player interaction was rerun or claimed. Existing source-quality observations remain applicable because every product byte and retained evidence byte is identical."
+  ],
+  "findings": [
+    "The suffixed ORDER-833-W190-BELONGINGS.md archive is outside the fixed automatic metadata exception, so the closure commit is a new source subject. No validator, resolver or metadata allowlist was widened.",
+    "Closure records mark only the W188/W190 implementation subunit complete; the parent833 remains in progress and residual P0, hearing/human and latest-CI completion remain separate.",
+    "The original W190 source verdict and all its preserved failures and limitations are retained; this binding report does not replace them or treat an earlier GO as a later whole-game approval.",
+    "No additional product defect or false human/release claim was found in the seven closure changes. GO remains confined to the W190 source-art/direction/paper-timing unit."
+  ],
+  "original_review": {
+    "path": "docs/agent_reviews/ORDER-833-W190-belongings-20261129.json",
+    "sha256": "764a4250a7f5a5f1e645c8c5d3d3f6a14b23d2070756d5e3b8dc368fcf8efae6",
+    "subject": {
+      "kind": "source",
+      "commit": "86c7928f179c0303a671e02234a75ee6f7cda475",
+      "tree": "55651e36362c9d5c95530faf6dfb62e85ecc9b05",
+      "manifest_sha256": null
+    },
+    "verdict": "GO"
+  },
+  "checks": [
+    {
+      "name": "Clean candidate and unchanged actual resolver",
+      "result": "source961ef0f/tree0ed120c",
+      "clean_before_report": true,
+      "validator_modified": false
+    },
+    {
+      "name": "All original product bytes",
+      "verified_paths": 20,
+      "changed": 0
+    },
+    {
+      "name": "Retained original raw artifacts and image manifest",
+      "verified_raw_files": 46,
+      "verified_rendered_pngs": 40,
+      "changed": 0
+    },
+    {
+      "name": "Earlier decision-row preservation",
+      "old_rows": 388,
+      "new_rows": 1,
+      "total": 389,
+      "earlier_rows_exact": true
+    },
+    {
+      "name": "Committed closure diff check",
+      "exit_code": 0
+    }
+  ],
+  "limitations": [
+    "All boundaries of the original source report remain in force, including same-process prepared restores, the exact forty large-font prose/choice frames, no W190-specific frozen snapshot matrix, incomplete full-focus/input coverage and recorded enlargement debt.",
+    "The capture was taken before the later audio-only score-retire change and fixture repair; this was already disclosed in the original report. No new capture is claimed by this rebind.",
+    "Editor imports retained shutdown leaks; deliberate ManualSave fault/recovery warnings and earlier fixture/score/framing failures remain recorded rather than erased.",
+    "Automated checks and independent source/frame review do not supply actual hearing, a native reader, human playtest, physical controller feel, native app input, new OS-process cold startup, whole-parent833 completion, latest main CI completion or external release authority.",
+    "The closure's additional author-recorded check summaries are not new independently rerun engine/CI claims."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_continuous_listening",
+    "native_app_input",
+    "new_os_process_cold_start"
+  ],
+  "evidence_root": "/Users/junheelee/.codex/gangnam-evidence/w190-belongings-20261129.WeCjtD",
+  "capture_manifest": {
+    "file": "capture-final.sha256",
+    "sha256": "d3f60729ba9a03b7cfe4e35bd31b4a2467001787e068bcfcb0a42bd2023a8171",
+    "verified_files": 40,
+    "all_directly_viewed": true
+  },
+  "original_artifact_count": 46
+}

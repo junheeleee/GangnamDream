@@ -125,6 +125,8 @@ const W185_DEPARTURE_CUT := preload("res://assets/w185_father_departure_cut.tres
 const W188_PLATFORM := "arc_father_passing_platform"
 const W188_DEAL_ROOM := "arc_father_passing_deal_room"
 const W188_NIGHT_KTX := "ktx_changwon_winter_night_w188"
+const W190_BELONGINGS_IDS := ["arc_y4_year_close_daeun", "arc_y4_year_close_unattached"]
+const W190_BELONGINGS_PAPER := preload("res://assets/w190_belongings_paper.tres")
 const W192_YEAR_CLOSE_IDS := ["arc_year4_close", "arc_year4_close_father_passed"]
 const W192_WIND_CUT := preload("res://assets/w192_year4_close_wind_cut.tres")
 const W192_ROOFTOP := "year4_winter_rooftop"
@@ -205,6 +207,8 @@ var _typing: bool = false
 var _type_full: String = ""     # 현재 문단 전체 텍스트
 var _w208_scan_reveal_at := -1 # Transient character count; never a saved cue.
 var _w208_scan_consumed := false
+var _w190_paper_reveal_at := -1 # Transient clause boundary, never a saved cue.
+var _w190_paper_consumed := false
 var _w227_pen_reveal_at := -1 # Transient reveal position, not a saved action.
 var _w227_pen_consumed := false
 var _w230_pen_reveal_at := -1
@@ -2806,6 +2810,8 @@ func _restore_story_result(context: Dictionary) -> void:
 func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_w208_scan_reveal_at = -1
 	_w208_scan_consumed = false
+	_w190_paper_reveal_at = -1
+	_w190_paper_consumed = false
 	_w227_pen_reveal_at = -1
 	_w227_pen_consumed = false
 	_w230_pen_reveal_at = -1
@@ -2831,6 +2837,25 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 			and context.has("source_text_progress")
 	var phase := str(context.get("phase", "result" if result_phase else "prose"))
 	var saved_locale := str(context.get("story_locale", "")).strip_edges()
+	if _is_w190_belongings_scene():
+		var raw_source: Variant = context.get("source_paragraph_index", null)
+		var raw_progress: Variant = context.get("source_text_progress", null)
+		var located := has_source_position \
+			and typeof(raw_source) in [TYPE_INT, TYPE_FLOAT] \
+			and typeof(raw_progress) in [TYPE_INT, TYPE_FLOAT]
+		if located:
+			located = is_finite(float(raw_source)) and floorf(float(raw_source)) == float(raw_source) \
+				and float(raw_source) >= 0.0 and is_finite(float(raw_progress)) \
+				and float(raw_progress) >= 0.0 and float(raw_progress) <= 1.0
+		var paper_source := _w190_paper_source_index()
+		# Only a located prose position can retain a future paper action.
+		# Another translation cannot prove a current short clause is unread;
+		# an earlier source still leaves the later cafe fold definitely future.
+		_w190_paper_consumed = result_phase or phase != "prose" \
+			or not located or saved_locale not in LocaleManager.SUPPORTED_LANGUAGES
+		if located and not _w190_paper_consumed:
+			_w190_paper_consumed = int(raw_source) > paper_source \
+				or (int(raw_source) == paper_source and saved_locale != LocaleManager.language)
 	if _w227_pen_result_active() and (not has_source_position \
 			or saved_locale.is_empty() or saved_locale != LocaleManager.language):
 		# Proportional progress in another translation cannot prove this short
@@ -3028,6 +3053,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 		_type_pos = saved_type_pos
 		_body_lbl.text = paragraph.substr(0, saved_type_pos)
 		_rebind_w208_scan_reveal()
+		_rebind_w190_paper_reveal()
 		_rebind_w227_pen_reveal()
 		_rebind_w230_pen_reveal()
 		_rebind_w235_paper_reveal()
@@ -3043,6 +3069,7 @@ func _restore_story_paragraph(context: Dictionary, result_phase: bool) -> void:
 	_typing = false
 	_body_lbl.text = paragraph
 	_rebind_w208_scan_reveal()
+	_rebind_w190_paper_reveal()
 	_rebind_w227_pen_reveal()
 	_rebind_w230_pen_reveal()
 	_rebind_w235_paper_reveal()
@@ -3932,6 +3959,7 @@ func _restore_localized_story_text(
 		hint_was_visible: bool,
 		beat_was_waiting: bool) -> void:
 	_w208_scan_reveal_at = -1
+	_w190_paper_reveal_at = -1
 	_w227_pen_reveal_at = -1
 	_w230_pen_reveal_at = -1
 	_w235_paper_reveal_at = -1
@@ -3959,6 +3987,13 @@ func _restore_localized_story_text(
 	var ktx_stage := -1 if _first_ktx_cut_pages.is_empty() else _first_ktx_stage(_para_index)
 	var old_ktx_range := _first_ktx_phase_progress(ktx_stage) if ktx_stage >= 0 else Vector2.ZERO
 	_apply_story_page_data(page_data)
+	if _w190_paper_prose_active() and source_paragraph_index == _w190_paper_source_index():
+		var paper_range := _w190_paper_progress_range()
+		if paper_range.y >= 0.0:
+			# The ordinary source cursor persists which side was actually read.
+			# A new font or locale must neither expose nor replay the paper clause.
+			source_page_progress = maxf(source_page_progress, paper_range.y) if _w190_paper_consumed \
+				else minf(source_page_progress, paper_range.x)
 	if old_final_lights_stage >= 0:
 		var off_range := _w240_final_week_lights_progress_range(1)
 		var green_range := _w240_final_week_lights_progress_range(2)
@@ -4067,6 +4102,10 @@ func _restore_localized_story_text(
 		# A larger page can merge unread text into a fully revealed prior page.
 		# Keep the newly visible part unrevealed until normal typing resumes.
 		was_typing = true
+	if not was_typing and not _w190_paper_consumed \
+			and _w190_paper_prose_active() and source_paragraph_index == _w190_paper_source_index() \
+			and _w190_paper_reveal_position(str(_paragraphs[_para_index])) > 0:
+		was_typing = true
 	if not was_typing and not _w227_pen_consumed and source_paragraph_index == 0 \
 			and _w227_pen_reveal_position(str(_paragraphs[_para_index])) > 0:
 		# A reflow can merge the unread writing clause into a finished prior page.
@@ -4125,6 +4164,7 @@ func _restore_localized_story_text(
 		_continue_hint.visible = hint_was_visible \
 				and not _showing_choices and not _direction_hold_active
 	_rebind_w208_scan_reveal()
+	_rebind_w190_paper_reveal()
 	_rebind_w227_pen_reveal()
 	_rebind_w230_pen_reveal()
 	_rebind_w235_paper_reveal()
@@ -6172,7 +6212,8 @@ func _render_current():
 		# sound like the later face-to-face encounter has already begun.
 		BGMPlayer.enter_ambient_bed(0.0)
 	BGMPlayer.begin_story_event(_current, _event_cg_id)
-	if str(_current.get("id", "")) in [W235_NOTICE, W237_RECORD, W238_REMAINING, W239_FATHER_ALIVE, W239_FATHER_PASSED, W240_GENERAL_SACRIFICE]:
+	if str(_current.get("id", "")) in [W235_NOTICE, W237_RECORD, W238_REMAINING, W239_FATHER_ALIVE, W239_FATHER_PASSED, W240_GENERAL_SACRIFICE] \
+			or _is_w190_belongings_scene():
 		# These new visits don't inherit the prior moment's score, even if its key
 		# matches. W237 admits its own score later at source1. Bind the bed once;
 		# paragraph transitions and language/font refreshes do not restart it.
@@ -6215,6 +6256,8 @@ func _render_current():
 
 	# 본문 문단 분할. 언어 즉시 전환도 같은 해석 함수를 사용해 현재 장면만 다시 바인딩한다.
 	_w208_scan_consumed = false
+	_w190_paper_reveal_at = -1
+	_w190_paper_consumed = false
 	_w227_pen_consumed = false
 	_w230_pen_consumed.clear()
 	_w235_paper_consumed = false
@@ -7565,6 +7608,9 @@ func _set_choice_dock_active(active: bool) -> void:
 func _prepare_scene_direction() -> void:
 	var raw: Variant = _current.get("direction", {})
 	_direction = raw.duplicate(true) if raw is Dictionary else {}
+	if _is_w190_belongings_scene():
+		var belongings_direction: Variant = W190_BELONGINGS_PAPER.get_meta("direction", {})
+		_direction = belongings_direction.duplicate(true) if belongings_direction is Dictionary else {}
 	_direction_hold_consumed = false
 	if str(_direction.get("visual", "")) == "black_future":
 		_story_visual_override_active = true
@@ -8086,6 +8132,7 @@ func _complete_typing() -> void:
 	_typing = false
 	_body_lbl.text = _type_full
 	_maybe_play_w208_scan()
+	_maybe_play_w190_paper()
 	_maybe_play_w227_pen()
 	_maybe_play_w230_pen()
 	_maybe_play_w235_paper()
@@ -8175,6 +8222,109 @@ func _maybe_play_w208_scan() -> void:
 	_w208_scan_reveal_at = -1
 	_w208_scan_consumed = true
 	AudioManager.play("document_scan", -5.0)
+
+func _is_w190_belongings_scene() -> bool:
+	# Use the very same selector as the passed-only prose and CG. A frozen
+	# gallery reads its encounter, never the current run's father's state.
+	return str(_current.get("id", "")) in W190_BELONGINGS_IDS \
+		and _known_flag_condition_matches("father_passed")
+
+func _w190_paper_prose_active() -> bool:
+	return _is_w190_belongings_scene() and not _read_only_replay \
+		and not _pending_after_result and not _showing_choices
+
+func _w190_paper_source_index() -> int:
+	match str(_current.get("id", "")):
+		"arc_y4_year_close_daeun": return 1
+		"arc_y4_year_close_unattached": return 0
+	return -1
+
+func _w190_paper_contract(page_index: int = -1) -> Dictionary:
+	if not _w190_paper_prose_active():
+		return {}
+	if page_index < 0:
+		page_index = _para_index
+	var source_index := _w190_paper_source_index()
+	if _story_source_paragraph_index(page_index) != source_index:
+		return {}
+	var rows: Dictionary = W190_BELONGINGS_PAPER.get_meta("paper_anchors", {})
+	var anchors: Dictionary = rows.get(str(_current.get("id", "")), {})
+	var anchor: String = _fmt(str(anchors.get(LocaleManager.language, "")))
+	var passed_map: Dictionary = _current.get("description_if_known", {})
+	var body: String = _fmt(str(passed_map.get("father_passed", "")))
+	var body_sources := body.split("\n\n")
+	var resolved := _resolved_story_description(_current)
+	var sources := resolved.split("\n\n")
+	# The two authored body paragraphs may have a preserved medical-memory
+	# suffix. That suffix is not a new handling action or a reason to move it.
+	if anchor.is_empty() or body_sources.size() != 2 \
+			or sources.size() < 2 or source_index < 0 \
+			or body_sources[source_index].count(anchor) != 1 \
+			or sources[source_index].count(anchor) != 1 or resolved.count(anchor) != 1:
+		return {}
+	return {"source_index": source_index, "source": sources[source_index], "anchor": anchor}
+
+func _w190_paper_reveal_position(full_text: String, page_index: int = -1) -> int:
+	if page_index < 0:
+		page_index = _para_index
+	var contract := _w190_paper_contract(page_index)
+	if contract.is_empty():
+		return -1
+	var source := str(contract["source"])
+	var anchor := str(contract["anchor"])
+	var source_index := int(contract["source_index"])
+	var anchor_end := source.find(anchor) + anchor.length()
+	var cursor := 0
+	for previous_page in range(_first_story_page_for_source(source_index), page_index):
+		var previous_text := str(_paragraphs[previous_page])
+		var previous_start := source.find(previous_text, cursor)
+		if previous_start < 0:
+			return -1
+		cursor = previous_start + previous_text.length()
+	var page_start := source.find(full_text, cursor)
+	if page_start < 0 or anchor_end > page_start + full_text.length():
+		return -1
+	return maxi(0, anchor_end - page_start)
+
+func _w190_paper_progress_range() -> Vector2:
+	if not _w190_paper_prose_active():
+		return Vector2(-1.0, -1.0)
+	var source_index := _w190_paper_source_index()
+	for page_index in range(_paragraphs.size()):
+		if _story_source_paragraph_index(page_index) != source_index:
+			continue
+		var page := str(_paragraphs[page_index])
+		var reveal_at := _w190_paper_reveal_position(page, page_index)
+		if reveal_at > 0:
+			return Vector2(
+				_story_source_page_progress(page_index, float(reveal_at - 1) / page.length()),
+				_story_source_page_progress(page_index, float(reveal_at) / page.length()))
+	return Vector2(-1.0, -1.0)
+
+func _rebind_w190_paper_reveal() -> void:
+	_w190_paper_reveal_at = -1
+	if not _w190_paper_prose_active():
+		return
+	if _story_source_paragraph_index(_para_index) > _w190_paper_source_index():
+		_w190_paper_consumed = true
+		return
+	if _w190_paper_consumed:
+		return
+	var reveal_at := _w190_paper_reveal_position(_type_full)
+	if reveal_at < 0:
+		return
+	if _type_pos >= reveal_at:
+		_w190_paper_consumed = true
+	elif _typing:
+		_w190_paper_reveal_at = reveal_at
+
+func _maybe_play_w190_paper() -> void:
+	if not _w190_paper_prose_active() or _w190_paper_consumed \
+			or _w190_paper_reveal_at < 0 or _type_pos < _w190_paper_reveal_at:
+		return
+	_w190_paper_reveal_at = -1
+	_w190_paper_consumed = true
+	AudioManager.play("paper_handle", -8.0)
 
 func _w227_pen_result_active() -> bool:
 	return not _read_only_replay and _pending_after_result \
@@ -8570,6 +8720,7 @@ func _maybe_play_physical_cue(event_id: String) -> void:
 func _start_typing(full_text: String, live_advance: bool = false):
 	_type_full = full_text
 	_w208_scan_reveal_at = -1
+	_w190_paper_reveal_at = -1
 	_w227_pen_reveal_at = -1
 	_w230_pen_reveal_at = -1
 	_w235_paper_reveal_at = -1
@@ -8586,6 +8737,9 @@ func _start_typing(full_text: String, live_advance: bool = false):
 	_continue_hint.visible = false
 	if live_advance:
 		_rebind_w208_scan_reveal()
+	# The solitary W190 action is on its initial source0. Arming is silent;
+	# cold/hot restore rebinds again after setting the actual saved type cursor.
+	_rebind_w190_paper_reveal()
 	_rebind_w227_pen_reveal()
 	_rebind_w230_pen_reveal()
 	_rebind_w235_paper_reveal()
@@ -8644,6 +8798,7 @@ func _process(delta):
 	else:
 		_body_lbl.text = _type_full.substr(0, _type_pos)
 		_maybe_play_w208_scan()
+		_maybe_play_w190_paper()
 		_maybe_play_w227_pen()
 		_maybe_play_w230_pen()
 		_maybe_play_w235_paper()

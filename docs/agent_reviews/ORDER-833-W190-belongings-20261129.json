@@ -1,0 +1,471 @@
+{
+  "unit_id": "ORDER-833-W190-belongings",
+  "decided_at": "2026-11-29",
+  "reviewer": "Codex /root/claude_review_readonly_1129 (independent committed-source, raw-log and all forty rendered-frame review)",
+  "subject": {
+    "kind": "source",
+    "commit": "86c7928f179c0303a671e02234a75ee6f7cda475",
+    "tree": "55651e36362c9d5c95530faf6dfb62e85ecc9b05",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": [
+    ".codex/skills/gangnamdream-dev/SKILL.md",
+    "assets/FATHER_BELONGINGS_VISUAL_BIBLE.md",
+    "assets/cg/story/father_belongings_cafe_w190_v1.png",
+    "assets/cg/story/father_belongings_cafe_w190_v1.png.import",
+    "assets/cg/story/father_belongings_desk_w190_v1.png",
+    "assets/cg/story/father_belongings_desk_w190_v1.png.import",
+    "assets/cg_acting_manifest.json",
+    "assets/event_visual_contracts.json",
+    "assets/scene_audio_manifest.json",
+    "assets/w190_belongings_paper.tres",
+    "autoloads/ImageRegistry.gd",
+    "content/events/arc_year_close.json",
+    "content/meta/release_content_inventory.json",
+    "docs/ART_AI_AUDIT.md",
+    "docs/AUDIO_QA.md",
+    "docs/CONTENT_RATING_INVENTORY.md",
+    "scenes/StoryMode.gd",
+    "tools/StoryBackgroundContextCheck.gd",
+    "tools/art_resolution_baseline.json",
+    "tools/scene_audio_contract_check.py"
+  ],
+  "source_sha256": {
+    ".codex/skills/gangnamdream-dev/SKILL.md": "3d92cdd8c2f26c6bd7c6d69dfd8907cf0146989f4180bc05b7538e7a335e0047",
+    "assets/FATHER_BELONGINGS_VISUAL_BIBLE.md": "4e9a03fb175779a4af516bf51e53f1b77072505a42d6a86db9449f6b87cf78cd",
+    "assets/cg/story/father_belongings_cafe_w190_v1.png": "e8ceacf13c27c933def33c571f96b40123d42dec6525e4766ee1b0ba7fcd198f",
+    "assets/cg/story/father_belongings_cafe_w190_v1.png.import": "24cd69997a63251be2bad3464fe170a4afe3d86405a4dbefa04f9df204bc67e4",
+    "assets/cg/story/father_belongings_desk_w190_v1.png": "4fec57c6739f69f23888ee0b9ab39e3d8b717277cca6f34bb1e0b5e47a3be671",
+    "assets/cg/story/father_belongings_desk_w190_v1.png.import": "ecd21e7998af67b5a8544e53b836883075e323fb60f67bd074a2749d09e1043e",
+    "assets/cg_acting_manifest.json": "2e1af2f3f52b3774eb4e593e7077eb3611d2b77170a351bd7033b80b493d287f",
+    "assets/event_visual_contracts.json": "30e338f55c5273378e0b15255a8ae5a042db22c989e5befb59f1a00d8be4b51c",
+    "assets/scene_audio_manifest.json": "8bed5e945bfdf9bf2f5768db6ee89160c171ad2b30409c7a5e49b9c39dbc02cd",
+    "assets/w190_belongings_paper.tres": "f6705ffb8277f169b5436bc69643132976c33a9239af8bb654588c072962fdc2",
+    "autoloads/ImageRegistry.gd": "be7b2ea8c892ab50390d8ddf1fbdd41c7abfa1c1cabd47aeddca77dd17cc5262",
+    "content/events/arc_year_close.json": "45a9869ade070a311263b326357541a71d3d0c2e39db25e430bb7e3c34f45759",
+    "content/meta/release_content_inventory.json": "ce42d8bc8e9eb52c22c9e082ea18433163e85e48c95fd1a17fda822034773e0c",
+    "docs/ART_AI_AUDIT.md": "dbb101b03a15e7ad9c117aacb31902b825fe01c994d154397d49d62f80c8aec7",
+    "docs/AUDIO_QA.md": "d99d9393cf0da346577b5ed41a42506a1d4fc0e068f099645cfcd210022b3a23",
+    "docs/CONTENT_RATING_INVENTORY.md": "ecefe275d1ee8ec920048b43cad15fef036068c70ed7f9a2f84ff7a8659cccdf",
+    "scenes/StoryMode.gd": "d0a4a1beda956dc859c0eb8fe9fd541481a9f334b1ed6ef7e73f69efccac9d99",
+    "tools/StoryBackgroundContextCheck.gd": "0ae34b822de54197a80abca135ed257966cd118b26209831cd1548915e5b21a6",
+    "tools/art_resolution_baseline.json": "04b69869075f24ff8d76b32f289d3c25c389f841d072d0089abd98df2c493bc3",
+    "tools/scene_audio_contract_check.py": "68efa87e6b9c0a4bee417b1b27455d47ed31a3ad9e20883efedc50b836cb394e"
+  },
+  "population": {
+    "committed_paths": 20,
+    "new_cgs": 2,
+    "rendered_frames": 40,
+    "locales": 5,
+    "roots": 2,
+    "resolutions": [
+      "1280x800",
+      "960x600"
+    ],
+    "font": "large",
+    "phases": [
+      "prose",
+      "three_choices"
+    ],
+    "new_audio_mutations": 30,
+    "prior_resolution_rows_preserved": 327
+  },
+  "method": [
+    "Observed clean detached HEAD 86c7928 and exact tree before writing this report; reviewed all twenty committed paths, including the final image imports and resolution/corpus admissions.",
+    "Directly viewed both original CG candidates, both canonical y3 face references, and every one of the forty final renderer PNGs. Two images omitted by the first multi-image tool response were viewed again in a separate call; no image was counted from filename alone.",
+    "Read the passed-only Korean prose, source0/source1 paper anchors in all five languages, consumer dispatch and cold/hot rebind paths. Reverse-restored the two added cg_if_known fields and compared the entire Korean event JSON exactly to the product parent.",
+    "Read final focused, compile, gallery and full Manual stdout/stderr; scanned each final stdout, stderr and Godot log for script/engine errors, failed assertions and leak diagnostics. Exit codes are root-observed final tool results bound by run-results.json, not inferred from success markers alone.",
+    "Independently reran scene_audio_contract_check.py with and without --self-test-w190, cg_acting_contract_check.py, art_resolution_audit.py and git diff --check HEAD^ HEAD; all returned exit0.",
+    "Verified all forty capture manifest hashes and every prior art-resolution row/target/band; release inventory changes are exactly three current-corpus art counts plus two, leaving historical/demo inventory data unchanged."
+  ],
+  "findings": [
+    "Both T1 roots receive dedicated scene imagery only under father_passed. Cafe preserves two y3 adult identities, coats, black crewneck, deliberate downcast gaze, hands, cup/envelope/paper/A5 scale; solitary desk does not invent another home layout or an additional person.",
+    "The original cafe identity/style was acceptable but its important objects were actually hidden by the prose panel. That product framing verdict was REWORK. A first reframe was still too low; the final reframe resolves the action/envelope occlusion across all forty inspected surfaces.",
+    "At compact resolution the lower notebook and lower hands may remain under the normal panel, but the notebook silhouette, empty envelope, instruction sheet and meaningful hand position remain identifiable. Faces and gaze stay legible; no text clipping or missing glyph was found in the inspected two phases.",
+    "Paper handling is armed silently at the actual source clause, dispatched once at -8 dB only when that clause is revealed, and excluded from replay/result/choices. Existing source-position fields preserve the read side without a new save field or permanent flag.",
+    "The same frozen known selector owns prose, CG and conditional direction. Living-Father/Jiyeon paths retain their original surfaces. The existing zero-second ambient-bed transition now retires an inherited score only for the two passed-only visits, then reapplies their own CG bed.",
+    "Exact two-owner audio contracts and thirty negative mutations do not broaden the global silence allowance or weaken existing validators. Cafe uses intentional silence; desk uses the existing single-source room recording. The generic recorded paper cue is not claimed as the exact crease or packet recording.",
+    "No new high-confidence defect was found within this source unit. This is not a verdict on the remaining parent833 work, PR45, current main CI completion or release."
+  ],
+  "ownership_proofs": {
+    "source_reverse_restore_exact": true,
+    "old_resolution_rows_327_preserved": true,
+    "targets_bands_preserved": true,
+    "release_manifest_changed_counter_paths": [
+      "/corpus_contract/active_art_assets",
+      "/corpus_contract/source_raster_assets",
+      "/corpus_contract/packaged_raster_assets"
+    ]
+  },
+  "checks": [
+    {
+      "name": "StoryBackgroundContextCheck W190 final",
+      "exit_code": 0,
+      "marker": "W190_BELONGINGS_OK",
+      "paths": 60,
+      "live_paper": 30,
+      "homes": 6,
+      "medical_memories": 6,
+      "same_process_disk_restores": 14,
+      "reflows": 4,
+      "stderr_bytes": 0,
+      "script_engine_leak_errors": 0
+    },
+    {
+      "name": "CompileCheck final",
+      "exit_code": 0,
+      "marker": "COMPILE_CHECK_OK total=78 stderr_verdict=required",
+      "scripts": 78,
+      "stderr_bytes": 0,
+      "script_engine_leak_errors": 0
+    },
+    {
+      "name": "GalleryReplaySnapshotCheck final",
+      "exit_code": 0,
+      "roots": 20,
+      "stderr_bytes": 0,
+      "script_engine_leak_errors": 0,
+      "W190_specific_frozen_snapshot_matrix": false
+    },
+    {
+      "name": "ManualSaveCheck default final",
+      "exit_code": 0,
+      "marker": "MANUAL_SAVE_CHECK_OK",
+      "stderr_bytes": 17468,
+      "expected_fault_recovery_warnings": 30,
+      "script_engine_leak_errors": 0
+    },
+    {
+      "name": "Official-renderer final captures",
+      "exit_code": 0,
+      "marker": "W190_BELONGINGS_CAPTURE_OK",
+      "frames": 40,
+      "stderr_bytes": 0,
+      "script_engine_leak_errors": 0,
+      "renderer": "OpenGL4.1 Metal Compatibility Apple M1 Max",
+      "prepared_surface": true,
+      "full_focus": false
+    },
+    {
+      "name": "Independent scene audio contract and negative reruns",
+      "exit_code": 0,
+      "mutations": 30,
+      "manifest_cgs": 89
+    },
+    {
+      "name": "Independent CG acting rerun",
+      "exit_code": 0,
+      "active": 89,
+      "actor_contracts": 133,
+      "missing": 0,
+      "stale": 0
+    },
+    {
+      "name": "Independent art resolution rerun",
+      "exit_code": 0,
+      "inventory": 329,
+      "baseline": "locked",
+      "new_asset_1080_scale": 1.5,
+      "new_asset_4k_scale": 3
+    },
+    {
+      "name": "Independent committed diff check",
+      "exit_code": 0
+    }
+  ],
+  "final_log_scans": {
+    "focus-retry2": {
+      "fatal_or_leak_matches": 0,
+      "stderr_bytes": 0,
+      "warnings_stderr": 0
+    },
+    "compile-final": {
+      "fatal_or_leak_matches": 0,
+      "stderr_bytes": 0,
+      "warnings_stderr": 0
+    },
+    "gallery-final": {
+      "fatal_or_leak_matches": 0,
+      "stderr_bytes": 0,
+      "warnings_stderr": 0
+    },
+    "manual-final": {
+      "fatal_or_leak_matches": 0,
+      "stderr_bytes": 17468,
+      "warnings_stderr": 30
+    },
+    "capture-final": {
+      "fatal_or_leak_matches": 0,
+      "stderr_bytes": 0,
+      "warnings_stderr": 0
+    }
+  },
+  "preserved_failures": [
+    "Initial focus/capture fixtures contained two inferred-type GDScript parse errors; root stopped those exact owned processes with exit143. These are not clean passes.",
+    "The first cold focused run and detailed diagnostic showed the preceding reckoning score still playing at about -22.235 dB. This was a real consumer transition defect, fixed by the narrow immediate-retire condition rather than waiting away the failure.",
+    "A later future-source fixture asked type cursor1 after the current cursor had reached5. The fixture now advances from its actual cursor; the source0/source1 semantic guard remains explicit. Failed logs are retained separately from final focus-retry2.",
+    "Initial cafe and first-reframe images remain retained; the earlier identity-only GO never overrode the later UI framing REWORK. Final image bytes and the final forty-frame set were independently rechecked.",
+    "Both import invocations returned exit0 but retained editor shutdown RID/ObjectDB leak diagnostics. They establish import completion only, not clean engine passes.",
+    "The invariant274 self-test tool stream was truncated and has no retained raw output; this GO does not depend on it.",
+    "The reviewer's first corpus-count proof assumed historical and current counters all increased; its assertion failed. The corrected proof checks only the three changed /corpus_contract counters and verifies all historical/demo data remains exact."
+  ],
+  "limitations": [
+    "GO applies to this W190 source-art/direction/paper-timing unit only; no natural W1-W190/W240 playthrough, parent833 completion or release approval is claimed.",
+    "Restores use actual v4 disk save/load and new StoryMode nodes in the same QA process; new OS-process cold startup is unobserved.",
+    "Forty final frames were captured before the later audio-only immediate-retire condition and future-source fixture repair. Visual code and both final image bytes are unchanged; runtime final logs cover the later source. These are official-renderer prepared surfaces, not native app interaction.",
+    "Frozen selectors were read in code and the existing twenty-root gallery regression passed; a W190-specific frozen snapshot matrix was not executed.",
+    "Capture frames cover large-font prose and choices only. Full keyboard/controller focus traversal, result-frame visual captures and normal-speed continuous audiovisual experience are outside this observed frame set.",
+    "Native-reader quality, human playtest, physical-controller feel, actual continuous listening and incidental room-recording content remain unobserved.",
+    "New CGs are 1280x800 masters. Existing 1080p1.5x and 4K3x enlargement debt is recorded and not waived.",
+    "The listed118 impact checks were not all executed; passing focused checks is not full-audit or latest-main-CI success.",
+    "Original player saves/settings/project.godot and public demo bytes were outside this unit; the retained original-user diff hash is an author-observed preservation check, not new player-state observation by this reviewer."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_continuous_listening",
+    "native_app_input",
+    "new_os_process_cold_start"
+  ],
+  "evidence_root": "/Users/junheelee/.codex/gangnam-evidence/w190-belongings-20261129.WeCjtD",
+  "capture_manifest": {
+    "file": "capture-final.sha256",
+    "sha256": "d3f60729ba9a03b7cfe4e35bd31b4a2467001787e068bcfcb0a42bd2023a8171",
+    "verified_files": 40,
+    "all_directly_viewed": true
+  },
+  "artifacts": [
+    {
+      "file": "cafe-initial-ui-obscured.png",
+      "bytes": 1563581,
+      "sha256": "a351a5ad6da9e8618b02732d39e42b4448803e239cac766485b452f283709868"
+    },
+    {
+      "file": "cafe-reframe1-still-too-low.png",
+      "bytes": 1569585,
+      "sha256": "4c19bc31926a7f5724ffc979663d2eb63c4e740c4b2f70a9df776a020f5903f3"
+    },
+    {
+      "file": "capture-final.godot.log",
+      "bytes": 3075,
+      "sha256": "b92eb48434c95fba8e2aaa7d6575f0b2e657a37df32c7a267d05d4cfe5b9f643"
+    },
+    {
+      "file": "capture-final.sha256",
+      "bytes": 4568,
+      "sha256": "d3f60729ba9a03b7cfe4e35bd31b4a2467001787e068bcfcb0a42bd2023a8171"
+    },
+    {
+      "file": "capture-final.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "capture-final.stdout",
+      "bytes": 3075,
+      "sha256": "b92eb48434c95fba8e2aaa7d6575f0b2e657a37df32c7a267d05d4cfe5b9f643"
+    },
+    {
+      "file": "capture-first.godot.log",
+      "bytes": 838,
+      "sha256": "677077ca3928928484b4810348cac35c0a47621cc113845c88363dbeafb46a8f"
+    },
+    {
+      "file": "capture-first.stderr",
+      "bytes": 552,
+      "sha256": "4b3674f4628871358d4e3f6dc5d04b59378fe84fac88839c8c9d2a8c9078c0f1"
+    },
+    {
+      "file": "capture-first.stdout",
+      "bytes": 300,
+      "sha256": "6db538c43070b92897e76d8920ad6d05fd5b23787972070d15b60e290c29f144"
+    },
+    {
+      "file": "capture-retry1.godot.log",
+      "bytes": 3076,
+      "sha256": "3591df7339ea23f216eea674d908ec11dc14a438050a244849ccfaf07d2bc930"
+    },
+    {
+      "file": "capture-retry1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "capture-retry1.stdout",
+      "bytes": 3076,
+      "sha256": "3591df7339ea23f216eea674d908ec11dc14a438050a244849ccfaf07d2bc930"
+    },
+    {
+      "file": "compile-final.godot.log",
+      "bytes": 313,
+      "sha256": "3627395c3e60e80d927604043fb44f1feea965750f59957207041ca5e4fb3130"
+    },
+    {
+      "file": "compile-final.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "compile-final.stdout",
+      "bytes": 313,
+      "sha256": "3627395c3e60e80d927604043fb44f1feea965750f59957207041ca5e4fb3130"
+    },
+    {
+      "file": "compile.godot.log",
+      "bytes": 313,
+      "sha256": "54b500cdcd03c12d5b37a39fe1bc80f9b62f3ddb0059f2da4a515e20ebc1c733"
+    },
+    {
+      "file": "compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "compile.stdout",
+      "bytes": 313,
+      "sha256": "54b500cdcd03c12d5b37a39fe1bc80f9b62f3ddb0059f2da4a515e20ebc1c733"
+    },
+    {
+      "file": "focus-diagnostic.godot.log",
+      "bytes": 1792,
+      "sha256": "f140d4df61b29c61101e71984f02d4d4e64ae3d3d9ae58936c4729c0b1392c19"
+    },
+    {
+      "file": "focus-diagnostic.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "focus-diagnostic.stdout",
+      "bytes": 1792,
+      "sha256": "f140d4df61b29c61101e71984f02d4d4e64ae3d3d9ae58936c4729c0b1392c19"
+    },
+    {
+      "file": "focus-final.godot.log",
+      "bytes": 765,
+      "sha256": "2370db8b17579979934ac25d2d0c888571dcb8c75200a71f09117d61478244f5"
+    },
+    {
+      "file": "focus-final.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "focus-final.stdout",
+      "bytes": 765,
+      "sha256": "2370db8b17579979934ac25d2d0c888571dcb8c75200a71f09117d61478244f5"
+    },
+    {
+      "file": "focus-first.godot.log",
+      "bytes": 757,
+      "sha256": "de079bc5058cd61b0fd4e32c0de1b399734729efeede692bbb7c8e74c410f2de"
+    },
+    {
+      "file": "focus-first.stderr",
+      "bytes": 552,
+      "sha256": "4b3674f4628871358d4e3f6dc5d04b59378fe84fac88839c8c9d2a8c9078c0f1"
+    },
+    {
+      "file": "focus-first.stdout",
+      "bytes": 219,
+      "sha256": "d7679a9af31ac938a8e6af0d649ab983ddc3a5c2c02baf42e5b18b5b4b7a3916"
+    },
+    {
+      "file": "focus-retry1.godot.log",
+      "bytes": 1118,
+      "sha256": "97a16229d68b428a83dbdcc91985cc4477a9bd8b1ab7fe80b1c556a649034bd0"
+    },
+    {
+      "file": "focus-retry1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "focus-retry1.stdout",
+      "bytes": 1118,
+      "sha256": "97a16229d68b428a83dbdcc91985cc4477a9bd8b1ab7fe80b1c556a649034bd0"
+    },
+    {
+      "file": "focus-retry2.godot.log",
+      "bytes": 623,
+      "sha256": "7bc8f913dbfc9d3793f7e045c4864f61d2bd3b7090cfaa561eebcc787e5d2346"
+    },
+    {
+      "file": "focus-retry2.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "focus-retry2.stdout",
+      "bytes": 623,
+      "sha256": "7bc8f913dbfc9d3793f7e045c4864f61d2bd3b7090cfaa561eebcc787e5d2346"
+    },
+    {
+      "file": "gallery-final.godot.log",
+      "bytes": 639,
+      "sha256": "bbd60c2bcac80ef8c1ac15c3ac460ce76094a6dfe2a616e7f98f340eda0af81a"
+    },
+    {
+      "file": "gallery-final.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "gallery-final.stdout",
+      "bytes": 639,
+      "sha256": "bbd60c2bcac80ef8c1ac15c3ac460ce76094a6dfe2a616e7f98f340eda0af81a"
+    },
+    {
+      "file": "import-final.godot.log",
+      "bytes": 2679,
+      "sha256": "44ed7342da4097353566ff3ca13d5bf2ead70b95ef0093ef06b7d409d972baef"
+    },
+    {
+      "file": "import-final.stderr",
+      "bytes": 1019,
+      "sha256": "2bb7399c81936aca8ed55026a640eefac3963a3710c7005ebff5eab224d2922d"
+    },
+    {
+      "file": "import-final.stdout",
+      "bytes": 2243,
+      "sha256": "fcc4ae93a8edc1c5e287ba1e4ad42b73607664f0e191e34918a89482c265c288"
+    },
+    {
+      "file": "import.godot.log",
+      "bytes": 6077,
+      "sha256": "9fb1ca7b427bb2c8de3ba90da61f07f95e93be4bcfda8d1d25cf0e1551aa030a"
+    },
+    {
+      "file": "import.stderr",
+      "bytes": 4027,
+      "sha256": "63f7f1a01d6fdfe92890b1e03f6593881636a3216602e24289f182d17d71c403"
+    },
+    {
+      "file": "import.stdout",
+      "bytes": 2849,
+      "sha256": "259378d1e70b3dbd3078d93995c7429f6a851f8abafaef7b40ae6114de92d508"
+    },
+    {
+      "file": "manual-final.godot.log",
+      "bytes": 33456,
+      "sha256": "111ca88fb7239b34d2f07dae3d00cd98a65be9222ec80237f180d7b98f67e078"
+    },
+    {
+      "file": "manual-final.stderr",
+      "bytes": 17468,
+      "sha256": "b3773d613af463ad26d2ea38639cdb15a0d27d31ebd962541d0446666d5ac183"
+    },
+    {
+      "file": "manual-final.stdout",
+      "bytes": 16450,
+      "sha256": "31cf58e99e8097e727bb7d6c12c1d2a5171d65fbaf894c59186c5683139edd5c"
+    },
+    {
+      "file": "run-results.json",
+      "bytes": 2852,
+      "sha256": "052a8a9b8042a27b245fc13206d957bdb432429703097d260108461d4cdf60ba"
+    }
+  ]
+}

@@ -172,6 +172,10 @@ const W188_PLATFORM := "arc_father_passing_platform"
 const W188_DEAL := "arc_father_passing_deal_room"
 const W188_PLATFORM_BG := "seoul_station_ktx_platform_winter"
 const W188_ONBOARD_BG := "ktx_changwon_winter_night_w188"
+const W190_BELONGINGS := ["arc_y4_year_close_daeun", "arc_y4_year_close_unattached"]
+const W190_CGS := ["cg_father_belongings_cafe_w190", "cg_father_belongings_desk_w190"]
+const W190_TRACKED := ["paper_handle", "page_turn", "cup_set", "cloth_shift",
+	"phone_vibrate", "phone_notification", "pen_write", "pen_ballpoint"]
 const W188_FOLLOW_UPS := [
 	"arc_father_passing_hospital_room",
 	"arc_father_passing_deal_morning",
@@ -630,6 +634,7 @@ var _w240_outbound_reflow_ink := 0
 var _w240_final_capture_dir := ""
 var _w240_final_capture_frames := 0
 var _w240_final_audio_probe_reported := false
+var _w190_audio_start_times: Dictionary = {}
 
 func _ready() -> void:
 	Engine.max_fps = 60
@@ -652,6 +657,16 @@ func _ready() -> void:
 	print("STORY_BACKGROUND_CONTEXT_SOURCE=%s" % ProjectSettings.globalize_path("res://"))
 	await get_tree().process_frame
 	SaveManager.set_setting("story_text_size", "standard")
+	if OS.has_environment("GANGNAM_W190_RELICS_CHECK"):
+		var belongings_ok := await _check_w190_belongings()
+		await _remove_story()
+		await _stop_audio()
+		if belongings_ok and _failures == 0:
+			print("STORY_BACKGROUND_CONTEXT_CHECK_OK scope=%s" % (
+				"w190_belongings_capture" if not OS.get_environment("GANGNAM_W190_CAPTURE_DIR").is_empty()
+				else "w190_belongings"))
+		get_tree().quit(0 if belongings_ok and _failures == 0 else 1)
+		return
 	if OS.has_environment("GANGNAM_W240_FINAL_WEEK_LIGHTS_CHECK"):
 		var w240_final_week_ok: bool = await _check_w240_final_week_lights()
 		await _remove_story()
@@ -14314,6 +14329,494 @@ func _w192_choice_matches(before_flags: Dictionary, before_events: int,
 			choice, checks, receipt, GameState.deferred_events])
 		return false
 	return true
+
+func _check_w190_belongings() -> bool:
+	# Prepared history is not a played 190-week run. Exercise actual localized
+	# StoryMode surfaces, input, source mapping, v4 save/load and reflow only.
+	var capture_dir := OS.get_environment("GANGNAM_W190_CAPTURE_DIR")
+	if not capture_dir.is_empty():
+		return await _w190_capture_surfaces(capture_dir)
+	var paths := 0
+	var live_paper := 0
+	for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+		for kind: int in range(2):
+			for passed: bool in [false, true]:
+				for choice: int in range(3):
+					if not await _w190_open(language, kind, passed):
+						return false
+					var prose_state := _w227_state_bytes()
+					if not await _w190_read_to_choices(kind, passed, prose_state, true):
+						return false
+					if passed:
+						live_paper += 1
+					var before_events: int = GameState.events_seen
+					var before_money: float = float(GameState.money)
+					var before_mental: float = float(GameState.mental)
+					_story.call("_on_choice", choice)
+					await _wait_stable()
+					var receipt: Dictionary = GameState.event_log.back()
+					if not bool(_story.get("_pending_after_result")) \
+							or int(_story.get("_pending_result_choice_index")) != choice \
+							or GameState.events_seen != before_events + 1 \
+							or GameState.money != before_money or GameState.mental != before_mental \
+							or str(receipt.get("event_id", "")) != W190_BELONGINGS[kind] \
+							or int(receipt.get("choice_index", -1)) != choice:
+						_fail("W190 changed an original choice, cost or applied receipt")
+						return false
+					var applied := _w227_state_bytes()
+					var played_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+					while true:
+						await _finish_page()
+						if not _w190_surface(kind, passed) \
+								or not _w227_state_matches(applied, "W190 result", false, "W190") \
+								or int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != played_at:
+							return false
+						if int(_story.get("_para_index")) >= (_story.get("_paragraphs") as Array).size() - 1:
+							break
+						_story.call("_on_advance")
+						await _wait_stable()
+					paths += 1
+
+	var homes := 0
+	for housing: String in ["goshiwon", "oneroom", "apartment"]:
+		for kind: int in range(2):
+			if not await _w190_open("ko", kind, true, housing) \
+					or not _w190_surface(kind, true):
+				return false
+			homes += 1
+	var memories := 0
+	for flag: String in ["father_crisis_contact_present", "father_crisis_contact_called", "father_crisis_contact_missed"]:
+		for kind: int in range(2):
+			if not await _w190_open("ko", kind, true, "oneroom", flag) \
+					or int(_story.call("_story_source_paragraph_count")) != 3 \
+					or not await _w190_read_to_choices(kind, true, _w227_state_bytes(), false):
+				_fail("W190 medical memory moved or duplicated the physical paper action")
+				return false
+			memories += 1
+
+	var cold := 0
+	var reflows := 0
+	for kind: int in range(2):
+		for before: bool in [true, false]:
+			if not await _w190_open("ko", kind, true) \
+					or not await _w190_position_at_paper(before):
+				return false
+			if not await _w190_cold_boundary(kind, before, "ko"):
+				return false
+			cold += 1
+			if not await _w190_open("ko", kind, true) \
+					or not await _w190_position_at_paper(before) \
+					or not await _w190_reflow_boundary(kind, before):
+				return false
+			reflows += 1
+		if not await _w190_open("ko", kind, true) \
+				or not await _w190_position_at_paper(true) \
+				or not await _w190_cold_boundary(kind, true, "en"):
+			return false
+		cold += 1
+		if not await _w190_open("ko", kind, true) \
+				or not await _w190_position_at_paper(true):
+			return false
+		var legacy_state := _w227_state_bytes()
+		var legacy: Dictionary = _story.call("build_save_resume_context")
+		legacy.erase("story_locale")
+		if not await _w190_reload_context(legacy, "ko") \
+				or not bool(_story.get("_w190_paper_consumed")):
+			return false
+		_story.call("_complete_typing")
+		if not _w190_audio(false) or not _w190_surface(kind, true) \
+				or not _w227_state_matches(legacy_state, "W190 legacy", false, "W190"):
+			return false
+		cold += 1
+		# Choice/result restores are after the physical prose action. Neither
+		# rebind nor a later result page may replay it.
+		for phase: String in ["choices", "result"]:
+			if not await _w190_open("ko", kind, true) \
+					or not await _w190_read_to_choices(kind, true, _w227_state_bytes(), false):
+				return false
+			if phase == "result":
+				_story.call("_on_choice", 1)
+				await _wait_stable()
+			var saved := _w227_state_bytes()
+			if not await _w190_reload_context(_story.call("build_save_resume_context"), "en") \
+					or not _w190_surface(kind, true) \
+					or not bool(_story.get("_w190_paper_consumed")) \
+					or not _w190_audio(false) \
+					or not _w227_state_matches(saved, "W190 phase cold", true, "W190"):
+				return false
+			cold += 1
+	# A saved cafe source0 is definitely before the source1 paper action,
+	# including when the localized source0 cursor is only proportional.
+	for language: String in ["ko", "en"]:
+		if not await _w190_open("ko", 0, true):
+			return false
+		var future_state := _w227_state_bytes()
+		# The real scene may already have typed a few characters while its
+		# entry surfaces settled. Advance its current cursor; never rewind it.
+		var future_cursor := int(_story.get("_type_pos")) + 1
+		if int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))) != 0 \
+				or not bool(_story.get("_typing")) \
+				or future_cursor >= str(_story.get("_type_full")).length():
+			_fail("W190 future-source fixture did not retain a partially read cafe source0")
+			return false
+		if not _w227_type_to(future_cursor, "W190") \
+				or not await _w190_reload_context(_story.call("build_save_resume_context"), language) \
+				or bool(_story.get("_w190_paper_consumed")) \
+				or not _w190_audio(false) \
+				or not await _w190_position_at_paper(false) \
+				or not _w227_state_matches(future_state, "W190 future cold", language != "ko", "W190"):
+			return false
+		cold += 1
+	print("W190_BELONGINGS_OK paths=%d live_paper=%d homes=%d medical_memories=%d cold=%d reflows=%d human_gate=OPEN" % [
+		paths, live_paper, homes, memories, cold, reflows])
+	return paths == 60 and live_paper == 30 and homes == 6 and memories == 6 \
+		and cold == 14 and reflows == 4
+
+
+func _w190_capture_surfaces(capture_dir: String) -> bool:
+	var output := DirAccess.open(capture_dir) if capture_dir.is_absolute_path() else null
+	if DisplayServer.get_name() == "headless" or output == null \
+			or not output.get_files().is_empty() or not output.get_directories().is_empty():
+		_fail("W190 capture requires a real renderer and a fresh absolute output directory")
+		return false
+	var frames := 0
+	var root := get_tree().root
+	OS.low_processor_usage_mode = false
+	for size: Vector2i in [Vector2i(1280, 800), Vector2i(960, 600)]:
+		await _remove_story()
+		root.content_scale_size = size
+		root.size = size
+		DisplayServer.window_set_size(size)
+		for _frame in range(4):
+			await get_tree().process_frame
+		if Vector2i(get_viewport().get_visible_rect().size) != size:
+			_fail("W190 capture did not obtain its exact logical viewport")
+			return false
+		for language: String in LocaleManager.SUPPORTED_LANGUAGES:
+			for kind: int in range(2):
+				if not await _w190_open(language, kind, true):
+					return false
+				# Large type owns the highest admitted prose-panel edge (+22px).
+				# Capture that occlusion explicitly instead of hiding the UI.
+				_story.call("_set_story_text_size", "large")
+				await _wait_stable()
+				if not await _w190_position_at_paper(false):
+					return false
+				await _finish_page()
+				var stem := "%s_%s_%dx%d_large" % [language, "cafe" if kind == 0 else "desk", size.x, size.y]
+				var panel := _story.get("_text_panel") as Panel
+				print("W190_CAPTURE_FRAME name=%s_body source=%d prose_panel=%s" % [
+					stem, int(_story.call("_story_source_paragraph_index", int(_story.get("_para_index")))),
+					panel.get_global_rect()])
+				if not _w190_surface(kind, true) \
+						or not await _save_viewport_frame(capture_dir.path_join(stem + "_body.png")):
+					return false
+				frames += 1
+				var acted_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+				var before_choices := _w227_state_bytes()
+				while not bool(_story.get("_showing_choices")):
+					await _finish_page()
+					_story.call("_on_advance")
+					await _wait_stable()
+				if not _w190_surface(kind, true) \
+						or not _w227_state_matches(before_choices, "W190 capture choices", false, "W190") \
+						or int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != acted_at \
+						or not await _save_viewport_frame(capture_dir.path_join(stem + "_choices.png")):
+					return false
+				frames += 1
+	if output.get_files().size() != 40 or frames != 40:
+		_fail("W190 capture did not produce exactly forty body/choices PNGs")
+		return false
+	print("W190_BELONGINGS_CAPTURE_OK frames=%d locales=5 roots=2 resolutions=2 font=large prepared_surface=1 full_focus=0 human_gate=OPEN output=%s" % [frames, capture_dir])
+	return true
+
+
+func _w190_open(language: String, kind: int, passed: bool,
+		housing: String = "oneroom", memory_flag: String = "") -> bool:
+	await _remove_story()
+	await _stop_audio()
+	_context = "%s/W190/k%d/passed=%s/%s" % [language, kind, passed, memory_flag]
+	# A fresh scenario may start immediately after the previous cue. Respect
+	# the real cooldown; never erase its clock to make a dispatch pass.
+	var last_paper := int(AudioManager._last_sfx_ms.get("paper_handle", -1000))
+	var remaining := 351 - (Time.get_ticks_msec() - last_paper)
+	if remaining > 0:
+		await get_tree().create_timer(float(remaining) / 1000.0).timeout
+	_w190_snapshot_audio_times()
+	LocaleManager.set_language(language)
+	SaveManager.set_setting("story_text_size", "standard")
+	if not _prepare_full_owner_history(190, []):
+		return false
+	GameState.housing = housing
+	GameState.money = 40_000_000.0
+	GameState.mental = 70.0
+	GameState.flags["daeun_romance_started"] = kind == 0
+	# Jiyeon's established route must still select the original unattached root.
+	GameState.flags["jiyeon_romance_started"] = kind == 1
+	GameState.cast["father"]["stage"] = "passed" if passed else "hospitalized"
+	if passed:
+		GameState.flags["father_passed"] = true
+	if not memory_flag.is_empty():
+		GameState.flags[memory_flag] = true
+	var ingress := load("res://scenes/MainGame.tscn").instantiate() as Control
+	var selected := str(ingress.call("_chapter_four_causal_arc_id", 190, GameState.flags, passed))
+	ingress.free()
+	if selected != W190_BELONGINGS[kind]:
+		_fail("W190 relationship/life routing changed its original root")
+		return false
+	# Reserve via real MainGame/FullStoryFlow; the prepared earlier weeks above
+	# are intentionally not represented as an actual played route.
+	if not await _open_full_fixture_event(selected, [], true):
+		return false
+	_story.set_process(false)
+	if not _w190_surface(kind, passed) \
+			or bool(_story.call("_is_w190_belongings_scene")) != passed \
+			or int(_story.call("_story_source_paragraph_count")) != (3 if not memory_flag.is_empty() else (2 if passed or kind == 0 else 1)):
+		_fail("W190 lost original sources, selector or conditional surface")
+		return false
+	return _w190_audio(false)
+
+
+func _w190_surface(kind: int, passed: bool) -> bool:
+	if not is_instance_valid(_story):
+		return false
+	var cg: String = W190_CGS[kind]
+	var background := _story.get("_bg_img") as TextureRect
+	var direction: Dictionary = _story.get("_direction")
+	if passed:
+		var expected_stream: AudioStream = BGMPlayer.call("_load_ambience", "apartment")
+		if not bool(_story.get("_current_uses_cg")) \
+				or str(_story.get("_event_cg_id")) != cg \
+				or background.texture == null \
+				or background.texture.resource_path != ImageRegistry.get_cg(cg) \
+				or direction.get("pace") != "slow" or direction.get("camera") != "slow_zoom" \
+				or str(_story.get_meta("living_scene_effect", "")) != "none" \
+				or BGMPlayer._human_ambience_player.playing or BGMPlayer._season_player.playing \
+				or BGMPlayer._player_a.playing or BGMPlayer._player_b.playing \
+				or not str(BGMPlayer._current_human_ambience_key).is_empty() \
+				or not str(BGMPlayer._current_season_key).is_empty() \
+				or not str(BGMPlayer._current_key).is_empty():
+			_fail("W190 passed surface mismatch " + JSON.stringify({
+				"cg_active": bool(_story.get("_current_uses_cg")),
+				"cg_expected": cg, "cg_actual": str(_story.get("_event_cg_id")),
+				"texture_expected": ImageRegistry.get_cg(cg),
+				"texture_actual": "" if background.texture == null else background.texture.resource_path,
+				"direction": direction,
+				"living_effect": _story.get_meta("living_scene_effect", ""),
+				"human_key": BGMPlayer._current_human_ambience_key,
+				"human_playing": BGMPlayer._human_ambience_player.playing,
+				"season_key": BGMPlayer._current_season_key,
+				"season_playing": BGMPlayer._season_player.playing,
+				"score_key": BGMPlayer._current_key,
+				"score_a_playing": BGMPlayer._player_a.playing,
+				"score_b_playing": BGMPlayer._player_b.playing,
+				"score_a_db": BGMPlayer._player_a.volume_db,
+				"score_b_db": BGMPlayer._player_b.volume_db,
+			}))
+			return false
+		if (kind == 0 and (BGMPlayer._ambience_player.playing \
+				or not str(BGMPlayer._current_ambience_key).is_empty())) \
+				or (kind == 1 and (not BGMPlayer._ambience_player.playing \
+				or BGMPlayer._current_ambience_key != "apartment" \
+				or BGMPlayer._ambience_player.stream != expected_stream)):
+			_fail("W190 lost cafe silence or the single-source neutral desk bed")
+			return false
+	else:
+		var expected_background := "cafe" if kind == 0 else ImageRegistry.resolve_contextual_background_id("current_housing")
+		if bool(_story.get("_current_uses_cg")) \
+				or not str(_story.get("_event_cg_id")).is_empty() \
+				or str(_story.get("_event_background_id")) != expected_background \
+				or str(direction.get("pace", "")) == "slow" \
+				or str(direction.get("camera", "")) == "slow_zoom":
+			_fail("W190 alive/Jiyeon path inherited the death-only art/direction")
+			return false
+	return true
+
+
+func _w190_paper_mapping() -> Dictionary:
+	var found: Array[Dictionary] = []
+	for page: int in range((_story.get("_paragraphs") as Array).size()):
+		var text := str((_story.get("_paragraphs") as Array)[page])
+		var reveal := int(_story.call("_w190_paper_reveal_position", text, page))
+		if reveal > 0:
+			found.append({"page": page, "reveal": reveal,
+				"source": int(_story.call("_story_source_paragraph_index", page))})
+	return found[0] if found.size() == 1 else {}
+
+
+func _w190_audio(expect_paper: bool, require_stream: bool = false) -> bool:
+	for sound: String in W190_TRACKED:
+		var expected := expect_paper and sound == "paper_handle"
+		var streams := _w197_sfx_stream_count(sound)
+		var changed := int(AudioManager._last_sfx_ms.get(sound, -1)) \
+			!= int(_w190_audio_start_times.get(sound, -1))
+		if changed != expected \
+				or (not expected and streams != 0) \
+				or (expected and require_stream and streams != 1):
+			_fail("W190 physical cue mismatch: " + sound)
+			return false
+		if expected and require_stream:
+			var gain := float(AudioManager.call("_vol_db")) + AudioManager.sfx_mix_trim_db(sound) - 8.0
+			for player: AudioStreamPlayer in AudioManager._pool:
+				if player.playing and player.stream == AudioManager._sounds.get(sound) \
+						and not is_equal_approx(player.volume_db, gain):
+					_fail("W190 paper request changed its restrained -8 dB mix")
+					return false
+	return true
+
+
+func _w190_snapshot_audio_times() -> void:
+	_w190_audio_start_times.clear()
+	for sound: String in W190_TRACKED:
+		_w190_audio_start_times[sound] = int(AudioManager._last_sfx_ms.get(sound, -1))
+
+
+func _w190_read_to_choices(kind: int, passed: bool, expected_state: String,
+		natural: bool) -> bool:
+	var mapping := _w190_paper_mapping()
+	if passed and (mapping.is_empty() or int(mapping.get("source", -1)) != (1 if kind == 0 else 0)):
+		_fail("W190 paper anchor lost its exact authored source")
+		return false
+	if not passed and not mapping.is_empty():
+		_fail("W190 alive prose admitted a relic paper cue")
+		return false
+	var sounded := false
+	var once_at := -1
+	while not bool(_story.get("_showing_choices")):
+		if passed and int(_story.get("_para_index")) == int(mapping.get("page", -1)) and natural:
+			var reveal := int(mapping.get("reveal", -1))
+			if not _w227_type_to(reveal - 1, "W190") or not _w190_audio(false) \
+					or not _w227_type_to(reveal, "W190") or not _w190_audio(true, true):
+				return false
+		await _finish_page()
+		if passed and int(_story.get("_para_index")) >= int(mapping.get("page", -1)):
+			sounded = true
+			if once_at < 0:
+				once_at = int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+			elif int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != once_at:
+				_fail("W190 repeated paper on a later prose page")
+				return false
+		if not _w190_surface(kind, passed) or not _w190_audio(sounded) \
+				or not _w227_state_matches(expected_state, "W190 prose", false, "W190"):
+			return false
+		_story.call("_on_advance")
+		await _wait_stable()
+	return (_story.get("_choice_box") as Control).get_child_count() == 3 \
+		and _w190_surface(kind, passed) and _w190_audio(passed) \
+		and _w227_state_matches(expected_state, "W190 choices", false, "W190")
+
+
+func _w190_position_at_paper(before: bool) -> bool:
+	var mapping := _w190_paper_mapping()
+	if mapping.is_empty():
+		return false
+	while int(_story.get("_para_index")) < int(mapping["page"]):
+		await _finish_page()
+		_story.call("_on_advance")
+		await _wait_stable()
+	var reveal := int(_story.get("_w190_paper_reveal_at"))
+	return reveal == int(mapping["reveal"]) \
+		and _w227_type_to(reveal - 1 if before else reveal, "W190") \
+		and _w190_audio(not before)
+
+
+func _w190_reload_context(context: Dictionary, language: String) -> bool:
+	if not SaveManager.save_game(W8_QA_SLOT, context, {"qa_fixture": true}):
+		return false
+	await _remove_story()
+	await _stop_audio()
+	_w190_snapshot_audio_times()
+	GameState.start_new_game()
+	LocaleManager.set_language(language)
+	if not SaveManager.load_game(W8_QA_SLOT):
+		return false
+	BGMPlayer.set_ambience("room")
+	BGMPlayer.set_season_ambience("winter")
+	BGMPlayer.play_punctuation("reckoning")
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	_story.set_meta("_screenshot_qa_static_surface", true)
+	add_child(_story)
+	_story.set_process(false)
+	_story.call("_set_auto_mode", false, false, false)
+	await _wait_stable()
+	return true
+
+
+func _w190_cold_boundary(kind: int, before: bool, language: String) -> bool:
+	var applied := _w227_state_bytes()
+	var context: Dictionary = _story.call("build_save_resume_context")
+	if context.get("phase") != "prose" \
+			or int(context.get("source_paragraph_index", -1)) != (1 if kind == 0 else 0) \
+			or not await _w190_reload_context(context, language):
+		return false
+	var future := before and language == "ko"
+	var restored: Dictionary = _story.call("build_save_resume_context")
+	if not _w190_surface(kind, true) or not _w190_audio(false) \
+			or bool(_story.get("_w190_paper_consumed")) == future \
+			or restored.get("event_id") != context.get("event_id") \
+			or restored.get("phase") != "prose" \
+			or int(restored.get("source_paragraph_index", -1)) != int(context.get("source_paragraph_index", -2)) \
+			or (language == "ko" and not is_equal_approx(
+				float(restored.get("source_text_progress", -1.0)),
+				float(context.get("source_text_progress", -2.0)))) \
+			or not _w227_state_matches(applied, "W190 cold", language != "ko", "W190"):
+		_fail("W190 cold boundary mismatch " + JSON.stringify({
+			"expected_future": future, "consumed": _story.get("_w190_paper_consumed"),
+			"reveal": _story.get("_w190_paper_reveal_at"), "type_pos": _story.get("_type_pos"),
+			"saved_locale": context.get("story_locale"), "restored_locale": LocaleManager.language,
+			"saved_source": context.get("source_paragraph_index"),
+			"restored_source": restored.get("source_paragraph_index"),
+			"saved_progress": context.get("source_text_progress"),
+			"restored_progress": restored.get("source_text_progress"),
+		}))
+		return false
+	if future:
+		var reveal := int(_story.get("_w190_paper_reveal_at"))
+		if reveal <= 0 or not _w227_type_to(reveal, "W190") or not _w190_audio(true, true):
+			return false
+	else:
+		_story.call("_complete_typing")
+		_story.call("_complete_typing")
+		if not _w190_audio(false):
+			return false
+	return _w227_state_matches(applied, "W190 cold completed", language != "ko", "W190")
+
+
+func _w190_reflow_boundary(kind: int, before: bool) -> bool:
+	var applied := _w227_state_bytes()
+	var root := get_tree().root
+	var old_scale := root.content_scale_size
+	var old_size := root.size
+	root.content_scale_size = Vector2i(960, 600)
+	root.size = Vector2i(960, 600)
+	await _wait_stable()
+	if bool(_story.get("_w190_paper_consumed")) == before \
+			or not _w190_audio(not before):
+		_fail("W190 compact resize crossed or replayed the paper clause")
+		return false
+	_story.call("_set_story_text_size", "large")
+	await _wait_stable()
+	_story.call("_set_story_language", "en")
+	await _wait_stable()
+	if not _w190_surface(kind, true) or not _w190_audio(not before) \
+			or bool(_story.get("_w190_paper_consumed")) == before \
+			or not _w227_state_matches(applied, "W190 hot reflow", true, "W190"):
+		_fail("W190 hot reflow crossed or replayed the paper clause")
+		return false
+	if before:
+		var reveal := int(_story.get("_w190_paper_reveal_at"))
+		if reveal <= 0 or not _w227_type_to(reveal, "W190") or not _w190_audio(true, true):
+			return false
+	else:
+		var played_at := int(AudioManager._last_sfx_ms.get("paper_handle", -1))
+		_story.call("_complete_typing")
+		if int(AudioManager._last_sfx_ms.get("paper_handle", -1)) != played_at:
+			return false
+	root.content_scale_size = old_scale
+	root.size = old_size
+	await _wait_stable()
+	return true
+
 
 func _check_w188_platform_silence() -> bool:
 	var paths := 0

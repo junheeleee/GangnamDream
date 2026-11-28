@@ -521,4 +521,16 @@
 | CG | `assets/cg/story/final_father_record_general_open_v1.png` | `cg_final_father_record_general_open` | 1280x800 | no | `5cf8d6a65e69` | PASS-B | 빈 의자/탁상 근접으로 다른 집 구조를 발명하지 않음. 독립1280/960: 수첩·두 서류·약봉지 전체 노출, EN 가독성 확인. |
 | CG | `assets/cg/story/final_father_record_general_closed_v1.png` | `cg_final_father_record_general_closed` | 1280x800 | no | `2e96abb922a2` | PASS-B | 무링 수첩 닫힘·두 서류/약봉지·빈 의자 유지. 두 크기·하단 matte 확인, 원화 사이 미세 질감/색차는 남음. |
 
-Inventory: 87 CG / 94 portraits / 146 backgrounds / 327 total.
+### W190 유품 — 별도 에이전트 검수
+
+두 새 CG는 기존 사람 판정의 승계가 아니다. y3 정본·원화 및 실제 renderer의
+5언어×2장면×2해상도×본문/선택40컷을 독립 에이전트가 전수 대조했다. 카페 초기
+가림은 재구도 후 해소했다. compact에서 수첩·손 하단 일부는 패널 아래지만
+얼굴·핵심 동작·안내·빈 봉투는 식별된다. 실청취·사람·원어민 승인 아님.
+
+| Type | Path | Registry ID | Size | Alpha | Hash | Verdict | Notes |
+|---|---|---|---|---|---|---|---|
+| CG | `assets/cg/story/father_belongings_cafe_w190_v1.png` | `cg_father_belongings_cafe_w190` | 1280x800 | no | `e8ceacf13c27` | PASS-B | 두 y3 얼굴·겨울 외투·빈 약봉지·A5. 초기 UI 가림 수리 후 두 크기/5언어 전수 확인. |
+| CG | `assets/cg/story/father_belongings_desk_w190_v1.png` | `cg_father_belongings_desk_w190` | 1280x800 | no | `4fec57c6739f` | PASS-B | 검은 소매·정상 비율·현재 거처 구조 비발명. 두 크기/5언어 원문·3선택 확인. |
+
+Inventory: 89 CG / 94 portraits / 146 backgrounds / 329 total.

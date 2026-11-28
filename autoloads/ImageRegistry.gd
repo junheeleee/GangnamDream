@@ -380,6 +380,8 @@ const FALLBACK_BG = "res://assets/backgrounds/goshiwon_room.png"
 
 # ── CG (감정적 클라이맥스 전체화면) ────────────────────────────
 const CG = {
+	"cg_father_belongings_cafe_w190": "res://assets/cg/story/father_belongings_cafe_w190_v1.png",
+	"cg_father_belongings_desk_w190": "res://assets/cg/story/father_belongings_desk_w190_v1.png",
 	"cg_start":          "res://assets/cg/start.png",
 	"cg_final_week_phone_dark": "res://assets/cg/story/final_week_phone_dark_v1.png",
 	"cg_final_week_phone_green": "res://assets/cg/story/final_week_phone_green_v1.png",

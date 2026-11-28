@@ -67,7 +67,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-833 · 본편 원고 | [833](queue_active/ORDER-833.md) | W188 직접진행·구저장 단위 마감 → W190 유품T1·잔여 P0 |
+| 1 | [~] | ORDER-833 · 본편 원고 | [833](queue_active/ORDER-833.md) | W188/W190 마감·청취OPEN → 3~5년 잔여P0 |
 | 2 | [~] | ORDER-834 · 투자·도박 갈래 챕터 연결 | [834](queue_active/ORDER-834.md) | C6 · Claude B1 투자 1~2년 차·B2 도박 1~2년 차 착수(사용자 지시 2026-11-26) |
 | 3 | [ ] | ORDER-835 · 경제 순환 | [835](queue_active/ORDER-835.md) | 834 B1 뒤 · SYSTEMS_DESIGN §1 |
 | 4 | [~] | ORDER-836 · 몸·마음 독자 | [836](queue_active/ORDER-836.md) | 833 뒤 · SYSTEMS_DESIGN §3 · Claude B1-M1·B2 몸 기울기 착수 |
