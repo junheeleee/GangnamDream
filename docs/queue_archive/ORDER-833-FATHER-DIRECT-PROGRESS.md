@@ -60,6 +60,21 @@ terminal_cases의 `arc_father_passing_deal_morning` `result_marker`를 `c77d2a67
 
 ## [~] 2026-11-29 재개·저장 검사 선언
 
+### [~] 직접진행 재개 — 현재 실물에서 새로 검증
+
+저장 타이밍 수리 뒤 같은 19경로의 직접진행을 재개한다. 최신 사용자 지시에 따라
+5언어 root `description`의 해설 두 문단과 root choice1 white 문구를 함께 고친다.
+구 선택 객체 보존의 예외는 platform choice0와 deal_room choice1의 `text` 및
+`text_if_moral.black/white` 여섯 leaf뿐이다. 괄호·과거형을 행동형으로 바꾸며
+기존 결과·선택 종류·후속 edge·효과는 그대로 둔다. 그 밖의 root moral/known은 불변이다.
+
+새 middle index2는 `text/choice_kind/result_text/follow_up_event` 네 필드만 가진다.
+live는 실제 index2만 보이고 직접 진행하며, 구0/1은 cold 결과·과거 replay에서
+그대로 읽는다. 옛 결과의 KTX 컷과 새 platform2의 실제 열차 탑승을 함께 검사한다.
+위 다섯 검사 파일의 길이/지문 고정은 이 정확한 새 계약과 구호환 부정 시험으로
+교체하며 검사 완화로 삼지 않는다. 새 KO source와 이전 target을 결속한 공식
+교환을 사용하고, 사라진 임시 WIP의 수용·QA는 재사용하지 않는다.
+
 PR44는 merge `9a4bd7f`로94커밋을 보존했다. 결과 표지 한 줄도 포함됐다.
 PR45는 main 대상으로 바뀌었고 head `34b25ba`의 실제 CI는 진행 중이다.
 839~841은 최신 사용자/11-27 결정대로 Claude 소유다. 그 제품 파일은 수정하지 않는다.
