@@ -83,6 +83,8 @@ var _narrative_name_only := false
 var _narrative_name_checked := false
 var _full_story_cash_summary_only := false
 var _full_story_cash_summary_checked := false
+var _prose_resume_only := false
+var _prose_resume_cases := 0
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -91,6 +93,22 @@ func _run() -> void:
 	_backup_settings_file()
 	_backup_meta_progression()
 	_backup_test_slots()
+	_prose_resume_only = OS.get_cmdline_user_args().has("--prose-resume-only")
+	if _prose_resume_only:
+		var original_language := LocaleManager.language
+		for language in ["ko", "en"]:
+			LocaleManager.set_language(language)
+			for saved_size in ["small", "standard", "large"]:
+				for loaded_size in ["small", "standard", "large"]:
+					if saved_size == loaded_size:
+						continue
+					await _free_story()
+					await _check_prose_resume(saved_size, loaded_size)
+		LocaleManager.set_language(original_language)
+		_expect(_prose_resume_cases == 12,
+			"prose resume matrix did not complete all twelve locale/size cases")
+		await _finish()
+		return
 	_full_story_cash_summary_only = OS.get_cmdline_user_args().has("--full-story-cash-summary-only")
 	if _full_story_cash_summary_only:
 		await _check_full_story_cash_summary()
@@ -5005,11 +5023,13 @@ func _check_narrative_name_resume() -> void:
 	_narrative_name_checked = true
 
 
-func _check_prose_resume() -> void:
+func _check_prose_resume(saved_size: String = "large", loaded_size: String = "small") -> void:
 	GameState.start_new_game()
 	if not await _spawn_story("story_knee_choice"):
 		return
-	_story.call("_set_story_text_size", "large")
+	_story.call("_set_story_text_size", saved_size)
+	_expect(str(_story.get("_story_text_size")) == saved_size,
+		"prose fixture did not apply its saved text size")
 	_story.call("_complete_typing")
 	_story.call("_on_advance")
 	var partial_position := mini(
@@ -5035,10 +5055,15 @@ func _check_prose_resume() -> void:
 	await _free_story()
 	# Pagination is presentation state, not narrative state. Loading under a
 	# different text size must return to the same authored source position.
-	SaveManager.set_setting("story_text_size", "small")
+	SaveManager.set_setting("story_text_size", loaded_size)
 	_expect(SaveManager.load_game(TEST_SLOT), "prose save could not be reloaded")
-	if not await _spawn_loaded_story():
+	# Loading restores the source offset synchronously in _ready(). Freeze only
+	# automatic frame ticks before the helper awaits layout; elapsed typing is
+	# tested separately below, not mistaken for extra prose exposed by restore.
+	if not await _spawn_loaded_story(true):
 		return
+	_expect(str(_story.get("_story_text_size")) == loaded_size,
+		"prose fixture did not load under the requested different text size")
 	_expect(str((_story.get("_current") as Dictionary).get("id", "")) == "story_knee_choice",
 		"prose resume loaded the wrong event")
 	var restored_page := int(_story.get("_para_index"))
@@ -5060,6 +5085,25 @@ func _check_prose_resume() -> void:
 		"text-size change exposed prose beyond the saved point")
 	_expect((_story.get("_dialogue_log_entries") as Array) == prose_entries,
 		"prose resume changed or duplicated Dialogue History")
+	var restored_position := int(_story.get("_type_pos"))
+	var interval := float(_story.call("_direction_type_interval"))
+	var accumulator := float(_story.get("_type_accum"))
+	_expect(interval > 0.0 and accumulator >= 0.0 and accumulator < interval,
+		"prose resume restored an invalid typing clock")
+	_expect(restored_full.length() - restored_position >= 4,
+		"prose resume fixture lacks four unread characters for the slow-frame check")
+	# A slow 4-character frame used to fail the +2 restore bound. Drive exactly
+	# that real _process interval AFTER checking the frozen source position.
+	_story.call("_process", 4.0 * interval - accumulator + interval * 0.01)
+	_expect(int(_story.get("_type_pos")) == restored_position + 4 \
+		and (_story.get("_body_lbl") as RichTextLabel).text \
+			== restored_full.substr(0, restored_position + 4),
+		"resumed prose did not type exactly four characters on a slow frame")
+	_expect(int(_story.get("_para_index")) == restored_page \
+		and (_story.get("_dialogue_log_entries") as Array) == prose_entries,
+		"resumed typing advanced the page or duplicated Dialogue History")
+	_story.set_process(true)
+	_prose_resume_cases += 1
 
 func _check_choice_and_result_resume() -> void:
 	if not is_instance_valid(_story):
@@ -8144,9 +8188,11 @@ func _clear_gallery_pair_fixture(root_id: String) -> void:
 	snapshots.erase(root_id)
 	MetaProgression.data["scene_replay_snapshots"] = snapshots
 
-func _spawn_loaded_story() -> bool:
+func _spawn_loaded_story(freeze_processing: bool = false) -> bool:
 	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
 	add_child(_story)
+	if freeze_processing:
+		_story.set_process(false)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if not is_instance_valid(_story) or not _story.has_method("_set_auto_mode"):
@@ -8353,6 +8399,10 @@ func _finish() -> void:
 	_stop_test_audio()
 	await get_tree().create_timer(0.10).timeout
 	if _failures.is_empty():
+		if _prose_resume_only:
+			print("MANUAL_SAVE_PROSE_RESUME_CHECK_OK cases=%d locales=ko/en text_sizes=all-six-directed-pairs restore=frozen-source/no-extra-prose/history timing=real-process-four-characters native=0 new_OS_process=0" % _prose_resume_cases)
+			get_tree().quit(0)
+			return
 		if _full_story_cash_summary_checked:
 			print("MANUAL_SAVE_FULL_STORY_CASH_SUMMARY_CHECK_OK source=actual-routine-money/month-opening/frozen-close residual=unclassified oldsave=partial pending=cold-before-story/ack-write-fault/retry/duplicate calendar=existing-fault-rng quiet=prepared-W13-W16-read0 native=0 new_OS_process=0")
 		if _full_story_cash_summary_only:

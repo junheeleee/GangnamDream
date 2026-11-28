@@ -4,6 +4,7 @@
 
 - PR44: 실제94커밋·main계보/충돌·두 workflow의 정적/엔진 success 확인 뒤 `--no-ff` 병합 `9a4bd7f` 정상push, GitHub merged 확인. tree는 원PR head와 동일. ManualSaveCheck 결과표지1줄만 새 본문으로 교체된 것도 확인했다. PR45는 실제 main 대상·head `34b25ba`/draft, 정적2 success·엔진2 진행 중으로 전체성공/병합 미완이다.
 - 833 재개 선언: 글자크기 재개 검사와 홀덤·정선·매매 세션 영수증은 Codex, 839~841 구현은 Claude. [정확한 범위](queue_archive/ORDER-833-FATHER-DIRECT-PROGRESS.md#-2026-11-29-재개저장-검사-선언). 예전 임시 작업사본/교환·QA 폴더는 파일0, 삭제 원인은 미관측. 커밋된 수리는 존재하나 미커밋 직접진행WIP/옛QA는 현재 증거로 세지 않고 지속 작업사본에서 재개한다. 원본244변경과 tracked diff SHA `ad91ab6e5fe62134230f6a7f9e5cc359002f6d575ed4ba68e25f22c8ed0dbb86` 불변 확인.
+- 저장 문단 검사의 시간 경쟁 수리: 복원 helper의 두 프레임 동안 정상 타이핑이 진행된 값을 복원 오차로 읽었다. 해당 fixture만 첫 yield 전에 process를 동결해 기존 source index/±0.03/미래노출+2/history 단언을 그대로 검사한 뒤, 실제 `_process`로4자를 진행하는 단언을 추가했다. KO/EN×크기변경6방향=12사례가 일반속도·실시간5fps에서 exit0/stderr0. 동결만 푼 대조군은 기존 위치12·미래노출12 실패/exit1로 재현. fixed-fps 실험은 teardown resource1 누수라 clean 통과에서 제외했다. 전체Manual exit0(의도한 저장실패 warning만, script/engine error·누수0), compile78·gallery20root·5장종막과 영향 목록12검사 통과. 증거 `/Users/junheelee/.codex/gangnam-evidence/save-resume-20261129.WrnhVcPK`; import 종료 누수도 별도 원로그 보존. 제품 타이핑·저장형식·Claude 파일 변경0. 독립 검수 `manual_save_flake_1129` 전수 대조, 최종 커밋 결속은 별도 기록.
 
 ## 2026-11-27
 
