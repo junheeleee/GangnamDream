@@ -1,0 +1,1629 @@
+{
+ "schema_version": 1,
+ "ledger_id": "rhythm_recall_v1",
+ "owner": "docs/queue_active/ORDER-837.md",
+ "source": "838 D1 18 runs (2026-11-24): callback/cb_ events whose required flags were set by a reached decision but that the new story never scheduled; one recall per decision (flag set), ordered by the median week the flag was first set",
+ "rules": {
+  "max_gap_weeks": 3,
+  "rest_weeks": "W189-192 after father_passed (mourning), W238+ (finale)",
+  "elapsed_window": "[ceil(elapsed*3/4), elapsed*3/2] weeks after the latest decision_events choice in event_log ('몇 주/몇 달' are vague: [elapsed/2, elapsed*2])"
+ },
+ "recalls": [
+  {
+   "event_id": "callback_crossed_line_early_echo",
+   "requires_flags": [
+    "crossed_line_early"
+   ],
+   "decision_events": [
+    "arc_temptation_01"
+   ],
+   "person": "",
+   "order_week": 4
+  },
+  {
+   "event_id": "callback_deleted_sns_check",
+   "requires_flags": [
+    "deleted_sns"
+   ],
+   "decision_events": [
+    "arc_intro_03_sns"
+   ],
+   "person": "",
+   "order_week": 5,
+   "elapsed_weeks": 43
+  },
+  {
+   "event_id": "callback_envy_fuel_cost",
+   "requires_flags": [
+    "envy_fuel"
+   ],
+   "decision_events": [
+    "arc_intro_03_sns"
+   ],
+   "person": "",
+   "order_week": 5,
+   "elapsed_weeks": 43
+  },
+  {
+   "event_id": "callback_cafe_awkward_echo",
+   "requires_flags": [
+    "cafe_awkward"
+   ],
+   "decision_events": [
+    "cafe_mind_01"
+   ],
+   "person": "",
+   "order_week": 6
+  },
+  {
+   "event_id": "callback_cafe_humiliated_echo",
+   "requires_flags": [
+    "cafe_humiliated"
+   ],
+   "decision_events": [
+    "cafe_bluff_caught"
+   ],
+   "person": "",
+   "order_week": 6,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_cafe_kindness_reunion",
+   "requires_flags": [
+    "cafe_kindness"
+   ],
+   "decision_events": [
+    "cafe_mind_01"
+   ],
+   "person": "",
+   "order_week": 6
+  },
+  {
+   "event_id": "callback_cafe_learned_humility_test",
+   "requires_flags": [
+    "cafe_learned_humility"
+   ],
+   "decision_events": [
+    "cafe_bluff_recover"
+   ],
+   "person": "",
+   "order_week": 6,
+   "elapsed_weeks": 26
+  },
+  {
+   "event_id": "callback_cafe_left_early_echo",
+   "requires_flags": [
+    "cafe_left_early"
+   ],
+   "decision_events": [
+    "cafe_00"
+   ],
+   "person": "",
+   "order_week": 6,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_cafe_overheard_encounter",
+   "requires_flags": [
+    "cafe_overheard_only"
+   ],
+   "decision_events": [
+    "cafe_listen_01"
+   ],
+   "person": "",
+   "order_week": 6
+  },
+  {
+   "event_id": "callback_cafe_stole_lead_echo",
+   "requires_flags": [
+    "cafe_stole_lead"
+   ],
+   "decision_events": [
+    "cafe_peek_01"
+   ],
+   "person": "",
+   "order_week": 6,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_fell_to_darkness_echo",
+   "requires_flags": [
+    "fell_to_darkness"
+   ],
+   "decision_events": [
+    "arc_temptation_fallout"
+   ],
+   "person": "",
+   "order_week": 8,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_stayed_clean_echo",
+   "requires_flags": [
+    "stayed_clean"
+   ],
+   "decision_events": [
+    "arc_temptation_clean"
+   ],
+   "person": "",
+   "order_week": 8,
+   "elapsed_weeks": 13
+  },
+  {
+   "event_id": "callback_declared_dream_check",
+   "requires_flags": [
+    "declared_dream"
+   ],
+   "decision_events": [
+    "arc_intro_04_hyunsu"
+   ],
+   "person": "",
+   "order_week": 9
+  },
+  {
+   "event_id": "callback_mid_goal_echo",
+   "requires_flags": [
+    "set_monthly_goal"
+   ],
+   "decision_events": [
+    "arc_money_check_mid"
+   ],
+   "person": "",
+   "order_week": 11
+  },
+  {
+   "event_id": "callback_parttime_survived",
+   "requires_flags": [
+    "considered_parttime"
+   ],
+   "decision_events": [
+    "arc_money_check_low"
+   ],
+   "person": "",
+   "order_week": 11
+  },
+  {
+   "event_id": "callback_gosiwon_wall_echo",
+   "requires_flags": [
+    "knocked_on_wall"
+   ],
+   "decision_events": [
+    "arc_gosiwon_wall"
+   ],
+   "person": "",
+   "order_week": 12
+  },
+  {
+   "event_id": "callback_cafe_redeemed_echo",
+   "requires_flags": [
+    "cafe_redeemed"
+   ],
+   "decision_events": [
+    "cafe_cb_humiliated_00"
+   ],
+   "person": "",
+   "order_week": 13
+  },
+  {
+   "event_id": "callback_cafe_stole_walked_echo",
+   "requires_flags": [
+    "cafe_stole_walked"
+   ],
+   "decision_events": [
+    "cafe_cb_stole_call"
+   ],
+   "person": "",
+   "order_week": 13,
+   "elapsed_weeks": 26
+  },
+  {
+   "event_id": "callback_rejected_rescue_job_echo",
+   "requires_flags": [
+    "rejected_rescue_job"
+   ],
+   "decision_events": [
+    "arc_rescue_job"
+   ],
+   "person": "",
+   "order_week": 13
+  },
+  {
+   "event_id": "callback_accepted_job_grind_echo",
+   "requires_flags": [
+    "accepted_job_grind"
+   ],
+   "decision_events": [
+    "arc_first_job_week_convenience"
+   ],
+   "person": "",
+   "order_week": 14
+  },
+  {
+   "event_id": "callback_doubted_job_echo",
+   "requires_flags": [
+    "doubted_job"
+   ],
+   "decision_events": [
+    "arc_first_job_week_convenience"
+   ],
+   "person": "",
+   "order_week": 14
+  },
+  {
+   "event_id": "callback_enjoyed_work_echo",
+   "requires_flags": [
+    "enjoyed_work"
+   ],
+   "decision_events": [
+    "arc_first_job_week_convenience"
+   ],
+   "person": "",
+   "order_week": 14
+  },
+  {
+   "event_id": "callback_pride_motive_check",
+   "requires_flags": [
+    "pride_motive"
+   ],
+   "decision_events": [
+    "arc_sangchul_01_answer"
+   ],
+   "person": "",
+   "order_week": 15
+  },
+  {
+   "event_id": "callback_racetrack_bet_first_reflection",
+   "requires_flags": [
+    "racetrack_bet_first"
+   ],
+   "decision_events": [
+    "race_first_visit"
+   ],
+   "person": "",
+   "order_week": 15,
+   "elapsed_weeks": 13
+  },
+  {
+   "event_id": "callback_investment_lesson_echo",
+   "requires_flags": [
+    "investment_lesson_1"
+   ],
+   "decision_events": [
+    "arc_invest_guidance"
+   ],
+   "person": "",
+   "order_week": 17
+  },
+  {
+   "event_id": "callback_daeun_first_kind_memory",
+   "requires_flags": [
+    "daeun_first_kind"
+   ],
+   "decision_events": [
+    "arc_daeun_01_meet"
+   ],
+   "person": "daeun",
+   "order_week": 18
+  },
+  {
+   "event_id": "callback_daeun_kept_distance_echo",
+   "requires_flags": [
+    "daeun_kept_distance"
+   ],
+   "decision_events": [
+    "arc_daeun_01_meet"
+   ],
+   "person": "daeun",
+   "order_week": 18,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_asked_father_more_echo",
+   "requires_flags": [
+    "asked_father_more"
+   ],
+   "decision_events": [
+    "arc_father_quiet_call"
+   ],
+   "person": "father",
+   "order_week": 19
+  },
+  {
+   "event_id": "callback_told_dad_okay_echo",
+   "requires_flags": [
+    "told_dad_okay"
+   ],
+   "decision_events": [
+    "arc_father_01_call"
+   ],
+   "person": "father",
+   "order_week": 19,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jiyeon_got_angry_aftermath",
+   "requires_flags": [
+    "jiyeon_got_angry"
+   ],
+   "decision_events": [
+    "arc_jiyeon_01_crash"
+   ],
+   "person": "jiyeon",
+   "order_week": 20
+  },
+  {
+   "event_id": "callback_jiyeon_took_money_weight",
+   "requires_flags": [
+    "jiyeon_repair_cash_received"
+   ],
+   "decision_events": [
+    "arc_jiyeon_01_crash"
+   ],
+   "person": "jiyeon",
+   "order_week": 20
+  },
+  {
+   "event_id": "callback_jiyeon_walked_away_echo",
+   "requires_flags": [
+    "jiyeon_walked_away"
+   ],
+   "decision_events": [
+    "arc_jiyeon_01_crash"
+   ],
+   "person": "jiyeon",
+   "order_week": 20
+  },
+  {
+   "event_id": "callback_slept_early_echo",
+   "requires_flags": [
+    "slept_early"
+   ],
+   "decision_events": [
+    "arc_night_routine"
+   ],
+   "person": "",
+   "order_week": 20
+  },
+  {
+   "event_id": "callback_delayed_visiting_dad_consequence",
+   "requires_flags": [
+    "delayed_visiting_dad"
+   ],
+   "decision_events": [
+    "arc_father_02_signal"
+   ],
+   "person": "father",
+   "order_week": 21,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_father_going_soon_echo",
+   "requires_flags": [
+    "father_going_soon"
+   ],
+   "decision_events": [
+    "arc_father_02_signal"
+   ],
+   "person": "father",
+   "order_week": 21,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_invest_mindset_echo",
+   "requires_flags": [
+    "invest_mindset"
+   ],
+   "decision_events": [
+    "arc_paycheck_reality"
+   ],
+   "person": "",
+   "order_week": 22
+  },
+  {
+   "event_id": "callback_stayed_up_studying_echo",
+   "requires_flags": [
+    "stayed_up_studying"
+   ],
+   "decision_events": [
+    "arc_night_routine"
+   ],
+   "person": "",
+   "order_week": 22
+  },
+  {
+   "event_id": "callback_demo_resolved_echo",
+   "requires_flags": [
+    "demo_resolved"
+   ],
+   "decision_events": [
+    "arc_four_months_in"
+   ],
+   "person": "",
+   "order_week": 23,
+   "elapsed_weeks": 17
+  },
+  {
+   "event_id": "callback_demo_shortcut_echo",
+   "requires_flags": [
+    "demo_seeking_shortcut"
+   ],
+   "decision_events": [
+    "arc_four_months_in"
+   ],
+   "person": "",
+   "order_week": 23,
+   "elapsed_weeks": 17
+  },
+  {
+   "event_id": "callback_gangnam_doubt_echo",
+   "requires_flags": [
+    "gangnam_doubt_once"
+   ],
+   "decision_events": [
+    "arc_gangnam_visit_alone"
+   ],
+   "person": "",
+   "order_week": 23
+  },
+  {
+   "event_id": "callback_gangnam_vow_echo",
+   "requires_flags": [
+    "gangnam_vow_made"
+   ],
+   "decision_events": [
+    "arc_gangnam_visit_alone"
+   ],
+   "person": "",
+   "order_week": 23
+  },
+  {
+   "event_id": "callback_shared_doubt_echo",
+   "requires_flags": [
+    "shared_doubt_with_hyunsu"
+   ],
+   "decision_events": [
+    "arc_hyunsu_night_talk"
+   ],
+   "person": "hyunsu",
+   "order_week": 24
+  },
+  {
+   "event_id": "callback_hyunsu_comforted_echo",
+   "requires_flags": [
+    "hyunsu_comforted"
+   ],
+   "decision_events": [
+    "hyunsu_result_fail"
+   ],
+   "person": "hyunsu",
+   "order_week": 26
+  },
+  {
+   "event_id": "callback_sangchul_invited_echo",
+   "requires_flags": [
+    "sangchul_invited"
+   ],
+   "decision_events": [
+    "arc_sangchul_02_coffee"
+   ],
+   "person": "sangchul",
+   "order_week": 28,
+   "elapsed_weeks": 4
+  },
+  {
+   "event_id": "callback_asked_hyunsu_next_echo",
+   "requires_flags": [
+    "asked_hyunsu_next_step"
+   ],
+   "decision_events": [
+    "arc_hyunsu_exam_fail"
+   ],
+   "person": "hyunsu",
+   "order_week": 30
+  },
+  {
+   "event_id": "callback_daeun_deflected_echo",
+   "requires_flags": [
+    "daeun_deflected"
+   ],
+   "decision_events": [
+    "arc_daeun_02b_dream"
+   ],
+   "person": "daeun",
+   "order_week": 34,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_daeun_guarded_distance",
+   "requires_flags": [
+    "daeun_guarded"
+   ],
+   "decision_events": [
+    "arc_daeun_02_regular"
+   ],
+   "person": "daeun",
+   "order_week": 34
+  },
+  {
+   "event_id": "callback_daeun_supportive_echo",
+   "requires_flags": [
+    "daeun_supportive"
+   ],
+   "decision_events": [
+    "arc_daeun_02_regular"
+   ],
+   "person": "daeun",
+   "order_week": 34,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_hyunsu_drift_ignored_echo",
+   "requires_flags": [
+    "hyunsu_drift_ignored"
+   ],
+   "decision_events": [
+    "arc_hyunsu_drift"
+   ],
+   "person": "hyunsu",
+   "order_week": 35
+  },
+  {
+   "event_id": "callback_hyunsu_drift_talked_echo",
+   "requires_flags": [
+    "hyunsu_drift_talked"
+   ],
+   "decision_events": [
+    "arc_hyunsu_drift"
+   ],
+   "person": "hyunsu",
+   "order_week": 35
+  },
+  {
+   "event_id": "callback_hyunsu_drift_ramen_echo",
+   "requires_flags": [
+    "hyunsu_drift_ramen"
+   ],
+   "decision_events": [
+    "arc_hyunsu_drift"
+   ],
+   "person": "hyunsu",
+   "order_week": 36
+  },
+  {
+   "event_id": "callback_jiyeon_acknowledged_echo",
+   "requires_flags": [
+    "jiyeon_acknowledged"
+   ],
+   "decision_events": [
+    "arc_jiyeon_02_store"
+   ],
+   "person": "jiyeon",
+   "order_week": 36,
+   "elapsed_weeks": 4
+  },
+  {
+   "event_id": "callback_asked_hyunsu_plan_echo",
+   "requires_flags": [
+    "asked_hyunsu_plan"
+   ],
+   "decision_events": [
+    "arc_hyunsu_new_path"
+   ],
+   "person": "hyunsu",
+   "order_week": 41
+  },
+  {
+   "event_id": "callback_grind_mentality_echo",
+   "requires_flags": [
+    "grind_mentality"
+   ],
+   "decision_events": [
+    "arc_year_one_mark"
+   ],
+   "person": "",
+   "order_week": 50,
+   "elapsed_weeks": 52
+  },
+  {
+   "event_id": "callback_keeps_records_echo",
+   "requires_flags": [
+    "keeps_records"
+   ],
+   "decision_events": [
+    "arc_year_one_mark"
+   ],
+   "person": "",
+   "order_week": 50,
+   "elapsed_weeks": 52
+  },
+  {
+   "event_id": "callback_jaehyuk_01b_pressed_result",
+   "requires_flags": [
+    "jaehyuk_01b_pressed"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_01b_real_face"
+   ],
+   "person": "jaehyuk",
+   "order_week": 56,
+   "elapsed_weeks": 4
+  },
+  {
+   "event_id": "callback_jaehyuk_heard_his_story_echo",
+   "requires_flags": [
+    "jaehyuk_heard_his_story"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_01b_real_face"
+   ],
+   "person": "jaehyuk",
+   "order_week": 56,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_called_about_medication_echo",
+   "requires_flags": [
+    "called_about_medication"
+   ],
+   "decision_events": [
+    "arc_father_medication"
+   ],
+   "person": "",
+   "order_week": 57
+  },
+  {
+   "event_id": "callback_shadow_investigated_echo",
+   "requires_flags": [
+    "shadow_investigated"
+   ],
+   "decision_events": [
+    "callback_shadow_investors_proposal"
+   ],
+   "person": "",
+   "order_week": 65,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_sangchul_personal_echo",
+   "requires_flags": [
+    "sangchul_personal_known"
+   ],
+   "decision_events": [
+    "arc_sangchul_offguard"
+   ],
+   "person": "sangchul",
+   "order_week": 66
+  },
+  {
+   "event_id": "callback_sangchul_deflected_echo",
+   "requires_flags": [
+    "sangchul_deflected"
+   ],
+   "decision_events": [
+    "arc_sangchul_human"
+   ],
+   "person": "sangchul",
+   "order_week": 72
+  },
+  {
+   "event_id": "callback_shared_with_sangchul_echo",
+   "requires_flags": [
+    "shared_with_sangchul"
+   ],
+   "decision_events": [
+    "arc_sangchul_human"
+   ],
+   "person": "sangchul",
+   "order_week": 72
+  },
+  {
+   "event_id": "callback_hyunsu_reconnected_echo",
+   "requires_flags": [
+    "hyunsu_reconnected"
+   ],
+   "decision_events": [
+    "hyunsu_reunion_meet"
+   ],
+   "person": "hyunsu",
+   "order_week": 73
+  },
+  {
+   "event_id": "callback_jaehyuk_02b_questioned_echo",
+   "requires_flags": [
+    "jaehyuk_02b_questioned"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_02b_favor"
+   ],
+   "person": "jaehyuk",
+   "order_week": 80,
+   "elapsed_weeks": 4
+  },
+  {
+   "event_id": "callback_jaehyuk_felt_kindness_echo",
+   "requires_flags": [
+    "felt_jaehyuk_kindness"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_02b_favor"
+   ],
+   "person": "jaehyuk",
+   "order_week": 80
+  },
+  {
+   "event_id": "callback_daeun_chose_her_echo",
+   "requires_flags": [
+    "daeun_chose_her"
+   ],
+   "decision_events": [
+    "arc_daeun_03_fork"
+   ],
+   "person": "daeun",
+   "order_week": 85,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_daeun_let_her_go_echo",
+   "requires_flags": [
+    "daeun_let_her_go"
+   ],
+   "decision_events": [
+    "arc_daeun_03_fork"
+   ],
+   "person": "daeun",
+   "order_week": 85,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jiyeon_refused_coffee_echo",
+   "requires_flags": [
+    "jiyeon_refused_coffee"
+   ],
+   "decision_events": [
+    "arc_jiyeon_03_offer"
+   ],
+   "person": "jiyeon",
+   "order_week": 85,
+   "elapsed_weeks": 4
+  },
+  {
+   "event_id": "callback_confronted_jiyeon_respect",
+   "requires_flags": [
+    "confronted_jiyeon"
+   ],
+   "decision_events": [
+    "arc_jiyeon_truth_moment"
+   ],
+   "person": "jiyeon",
+   "order_week": 86,
+   "elapsed_weeks": 4
+  },
+  {
+   "event_id": "callback_daeun_first_date_next",
+   "requires_flags": [
+    "arc_daeun_03b_seen"
+   ],
+   "decision_events": [
+    "arc_daeun_03b_date"
+   ],
+   "person": "daeun",
+   "order_week": 86,
+   "elapsed_weeks": 4
+  },
+  {
+   "event_id": "callback_daeun_saw_her_ok_echo",
+   "requires_flags": [
+    "daeun_saw_her_ok"
+   ],
+   "decision_events": [
+    "arc_daeun_ghost"
+   ],
+   "person": "daeun",
+   "order_week": 86,
+   "elapsed_weeks": 4
+  },
+  {
+   "event_id": "callback_forgave_jiyeon_outcome",
+   "requires_flags": [
+    "forgave_jiyeon"
+   ],
+   "decision_events": [
+    "arc_jiyeon_truth_moment"
+   ],
+   "person": "jiyeon",
+   "order_week": 86
+  },
+  {
+   "event_id": "callback_jiyeon_came_clean_result",
+   "requires_flags": [
+    "jiyeon_came_clean"
+   ],
+   "decision_events": [
+    "arc_jiyeon_truth_moment"
+   ],
+   "person": "jiyeon",
+   "order_week": 86,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jiyeon_deflected_business_echo",
+   "requires_flags": [
+    "jiyeon_deflected_business"
+   ],
+   "decision_events": [
+    "arc_jiyeon_03b_lunch"
+   ],
+   "person": "jiyeon",
+   "order_week": 86,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jiyeon_together_echo",
+   "requires_flags": [
+    "jiyeon_together"
+   ],
+   "decision_events": [
+    "arc_jiyeon_truth_moment"
+   ],
+   "person": "jiyeon",
+   "order_week": 86,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jiyeon_accepted_echo",
+   "requires_flags": [
+    "jiyeon_accepted"
+   ],
+   "decision_events": [
+    "arc_jiyeon_05_epilogue"
+   ],
+   "person": "jiyeon",
+   "order_week": 88,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jiyeon_forgave_complexity_echo",
+   "requires_flags": [
+    "jiyeon_forgave_complexity"
+   ],
+   "decision_events": [
+    "arc_jiyeon_05_epilogue"
+   ],
+   "person": "jiyeon",
+   "order_week": 88,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jiyeon_prioritized_goal_echo",
+   "requires_flags": [
+    "jiyeon_prioritized_goal"
+   ],
+   "decision_events": [
+    "arc_jiyeon_05_epilogue"
+   ],
+   "person": "jiyeon",
+   "order_week": 88,
+   "elapsed_weeks": 13
+  },
+  {
+   "event_id": "callback_hid_room_parents_echo",
+   "requires_flags": [
+    "hid_room_from_parents"
+   ],
+   "decision_events": [
+    "arc_34_parents_visit"
+   ],
+   "person": "parents",
+   "order_week": 89
+  },
+  {
+   "event_id": "callback_rushed_to_father_moment",
+   "requires_flags": [
+    "rushed_to_father"
+   ],
+   "decision_events": [
+    "arc_father_03_hospital"
+   ],
+   "person": "father",
+   "order_week": 89
+  },
+  {
+   "event_id": "callback_showed_room_parents_echo",
+   "requires_flags": [
+    "showed_room_to_parents"
+   ],
+   "decision_events": [
+    "arc_34_parents_visit"
+   ],
+   "person": "parents",
+   "order_week": 89
+  },
+  {
+   "event_id": "callback_daeun_committed_echo",
+   "requires_flags": [
+    "daeun_close_bond"
+   ],
+   "decision_events": [
+    "arc_daeun_04b_future"
+   ],
+   "person": "daeun",
+   "order_week": 90,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jiyeon_real_talk_echo",
+   "requires_flags": [
+    "jiyeon_real_talk"
+   ],
+   "decision_events": [
+    "arc_jiyeon_real_reason"
+   ],
+   "person": "jiyeon",
+   "order_week": 90
+  },
+  {
+   "event_id": "callback_avoided_comparison_echo",
+   "requires_flags": [
+    "avoided_comparison"
+   ],
+   "decision_events": [
+    "arc_social_comparison"
+   ],
+   "person": "",
+   "order_week": 92
+  },
+  {
+   "event_id": "callback_daeun_breakup_accepted_echo",
+   "requires_flags": [
+    "daeun_breakup_accepted"
+   ],
+   "decision_events": [
+    "arc_daeun_05_breaking"
+   ],
+   "person": "daeun",
+   "order_week": 92,
+   "elapsed_weeks": 4,
+   "elapsed_vague": true
+  },
+  {
+   "event_id": "callback_faced_comparison_echo",
+   "requires_flags": [
+    "faced_comparison"
+   ],
+   "decision_events": [
+    "arc_social_comparison"
+   ],
+   "person": "",
+   "order_week": 92
+  },
+  {
+   "event_id": "callback_honest_comparison_echo",
+   "requires_flags": [
+    "honest_comparison"
+   ],
+   "decision_events": [
+    "arc_social_comparison"
+   ],
+   "person": "",
+   "order_week": 92
+  },
+  {
+   "event_id": "callback_father_promise",
+   "requires_flags": [
+    "promised_father_gangnam"
+   ],
+   "decision_events": [
+    "arc_father_04_visit"
+   ],
+   "person": "father",
+   "order_week": 96
+  },
+  {
+   "event_id": "callback_father_reconciled_started_echo",
+   "requires_flags": [
+    "father_reconciled_started"
+   ],
+   "decision_events": [
+    "arc_father_04_visit"
+   ],
+   "person": "father",
+   "order_week": 96,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_daeun_honest_together_echo",
+   "requires_flags": [
+    "daeun_honest_together"
+   ],
+   "decision_events": [
+    "arc_daeun_05_together"
+   ],
+   "person": "daeun",
+   "order_week": 98
+  },
+  {
+   "event_id": "callback_birthday_rest_echo",
+   "requires_flags": [
+    "birthday_rest_taken"
+   ],
+   "decision_events": [
+    "arc_35_birthday"
+   ],
+   "person": "",
+   "order_week": 101
+  },
+  {
+   "event_id": "callback_birthday_work_echo",
+   "requires_flags": [
+    "birthday_back_to_work"
+   ],
+   "decision_events": [
+    "arc_35_birthday"
+   ],
+   "person": "",
+   "order_week": 101
+  },
+  {
+   "event_id": "callback_jiyeon_referral_met_echo",
+   "requires_flags": [
+    "jiyeon_referral_met"
+   ],
+   "decision_events": [
+    "callback_jiyeon_honest_referral"
+   ],
+   "person": "jiyeon",
+   "order_week": 101,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_daeun_knows_struggle_echo",
+   "requires_flags": [
+    "daeun_knows_struggle"
+   ],
+   "decision_events": [
+    "arc_daeun_year3_together"
+   ],
+   "person": "daeun",
+   "order_week": 102
+  },
+  {
+   "event_id": "callback_daeun_year3_stable_echo",
+   "requires_flags": [
+    "daeun_year3_stable"
+   ],
+   "decision_events": [
+    "arc_daeun_year3_together"
+   ],
+   "person": "daeun",
+   "order_week": 102
+  },
+  {
+   "event_id": "callback_jiyeon_mother_direct_echo",
+   "requires_flags": [
+    "jiyeon_mother_direct"
+   ],
+   "decision_events": [
+    "callback_jiyeon_together_pressure"
+   ],
+   "person": "jiyeon",
+   "order_week": 102,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jaehyuk_refused_echo",
+   "requires_flags": [
+    "jaehyuk_refused"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_03_pitch"
+   ],
+   "person": "jaehyuk",
+   "order_week": 105,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_congratulated_friend_echo",
+   "requires_flags": [
+    "congratulated_friend"
+   ],
+   "decision_events": [
+    "arc_year_two_pressure"
+   ],
+   "person": "",
+   "order_week": 106
+  },
+  {
+   "event_id": "callback_cut_sns_echo",
+   "requires_flags": [
+    "cut_sns"
+   ],
+   "decision_events": [
+    "arc_year_two_pressure"
+   ],
+   "person": "",
+   "order_week": 106,
+   "elapsed_weeks": 104
+  },
+  {
+   "event_id": "callback_contacted_jaehyuk_early_echo",
+   "requires_flags": [
+    "contacted_jaehyuk_early"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_wait"
+   ],
+   "person": "jaehyuk",
+   "order_week": 107
+  },
+  {
+   "event_id": "cb_weight_adjusted_echo",
+   "requires_flags": [
+    "adjusted_my_path"
+   ],
+   "decision_events": [
+    "arc_35_orthodox_weight"
+   ],
+   "person": "",
+   "order_week": 108,
+   "elapsed_weeks": 104
+  },
+  {
+   "event_id": "cb_weight_stayed_echo",
+   "requires_flags": [
+    "stayed_my_path"
+   ],
+   "decision_events": [
+    "arc_35_orthodox_weight",
+    "arc_35_unorthodox_weight"
+   ],
+   "person": "",
+   "order_week": 108,
+   "elapsed_weeks": 104
+  },
+  {
+   "event_id": "callback_gangnam_reason_father_echo",
+   "requires_flags": [
+    "gangnam_reason_father"
+   ],
+   "decision_events": [
+    "arc_why_gangnam_real"
+   ],
+   "person": "father",
+   "order_week": 115
+  },
+  {
+   "event_id": "callback_jiyeon_busan_postcard",
+   "requires_flags": [
+    "jiyeon_sent_off_well"
+   ],
+   "decision_events": [
+    "arc_y3_jiyeon_departure"
+   ],
+   "person": "jiyeon",
+   "order_week": 116
+  },
+  {
+   "event_id": "callback_reached_out_35_echo",
+   "requires_flags": [
+    "reached_out_35"
+   ],
+   "decision_events": [
+    "arc_35_alone"
+   ],
+   "person": "",
+   "order_week": 116
+  },
+  {
+   "event_id": "callback_walked_alone_35_echo",
+   "requires_flags": [
+    "walked_alone_35"
+   ],
+   "decision_events": [
+    "arc_35_alone"
+   ],
+   "person": "",
+   "order_week": 116
+  },
+  {
+   "event_id": "callback_jaehyuk_exploited_echo",
+   "requires_flags": [
+    "jaehyuk_exploited"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_04b_counter",
+    "arc_jaehyuk_mirror_decision"
+   ],
+   "person": "jaehyuk",
+   "order_week": 117,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jaehyuk_partnered_echo",
+   "requires_flags": [
+    "jaehyuk_partnered"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_04b_counter"
+   ],
+   "person": "jaehyuk",
+   "order_week": 117,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_jaehyuk_reported_witness",
+   "requires_flags": [
+    "jaehyuk_reported"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_04b_counter"
+   ],
+   "person": "jaehyuk",
+   "order_week": 117
+  },
+  {
+   "event_id": "callback_jaehyuk_scammed_echo",
+   "requires_flags": [
+    "jaehyuk_scammed"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_ghost_decision"
+   ],
+   "person": "jaehyuk",
+   "order_week": 117,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_joined_victims_echo",
+   "requires_flags": [
+    "joined_victims"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_ghost_decision"
+   ],
+   "person": "",
+   "order_week": 117,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_took_high_road_echo",
+   "requires_flags": [
+    "took_high_road"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_04b_counter"
+   ],
+   "person": "",
+   "order_week": 117,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_midpoint_bet_echo",
+   "requires_flags": [
+    "midpoint_bet_more"
+   ],
+   "decision_events": [
+    "arc_midpoint_reckoning"
+   ],
+   "person": "",
+   "order_week": 121
+  },
+  {
+   "event_id": "callback_midpoint_steady_echo",
+   "requires_flags": [
+    "midpoint_steady"
+   ],
+   "decision_events": [
+    "arc_midpoint_reckoning"
+   ],
+   "person": "",
+   "order_week": 121
+  },
+  {
+   "event_id": "callback_called_hyunsu_scam_echo",
+   "requires_flags": [
+    "called_hyunsu_after_scam"
+   ],
+   "decision_events": [
+    "arc_after_scam"
+   ],
+   "person": "hyunsu",
+   "order_week": 122
+  },
+  {
+   "event_id": "callback_dismissed_sangchul_warning_result",
+   "requires_flags": [
+    "dismissed_sangchul_warning"
+   ],
+   "decision_events": [
+    "arc_sangchul_jiyeon_reveal"
+   ],
+   "person": "sangchul",
+   "order_week": 126,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_goal_grounded_echo",
+   "requires_flags": [
+    "goal_grounded"
+   ],
+   "decision_events": [
+    "arc_goal_vertigo"
+   ],
+   "person": "",
+   "order_week": 126
+  },
+  {
+   "event_id": "callback_jaehyuk_stood_up_aftermath",
+   "requires_flags": [
+    "jaehyuk_stood_up"
+   ],
+   "decision_events": [
+    "arc_jaehyuk_04c_stand_up"
+   ],
+   "person": "jaehyuk",
+   "order_week": 126
+  },
+  {
+   "event_id": "callback_sangchul_jiyeon_connection",
+   "requires_flags": [
+    "sangchul_knows_jiyeon"
+   ],
+   "decision_events": [
+    "arc_sangchul_jiyeon_reveal"
+   ],
+   "person": "jiyeon",
+   "order_week": 126
+  },
+  {
+   "event_id": "callback_goal_questioned_echo",
+   "requires_flags": [
+    "goal_questioned"
+   ],
+   "decision_events": [
+    "arc_goal_vertigo"
+   ],
+   "person": "",
+   "order_week": 127
+  },
+  {
+   "event_id": "callback_jaehyuk_standoff_won_echo",
+   "requires_flags": [
+    "jaehyuk_standoff_won"
+   ],
+   "decision_events": [
+    "callback_jaehyuk_exploited_retaliate"
+   ],
+   "person": "jaehyuk",
+   "order_week": 129,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_called_father_first_echo",
+   "requires_flags": [
+    "called_father_first"
+   ],
+   "decision_events": [
+    "arc_minjun_first_call"
+   ],
+   "person": "father",
+   "order_week": 130
+  },
+  {
+   "event_id": "callback_jaehyuk_final_break_echo",
+   "requires_flags": [
+    "jaehyuk_final_break"
+   ],
+   "decision_events": [
+    "callback_jaehyuk_partnered_reckoning"
+   ],
+   "person": "jaehyuk",
+   "order_week": 131,
+   "elapsed_weeks": 8
+  },
+  {
+   "event_id": "callback_sangchul_cut_ties_echo",
+   "requires_flags": [
+    "sangchul_cut_ties"
+   ],
+   "decision_events": [
+    "arc_sangchul_reckoning"
+   ],
+   "person": "sangchul",
+   "order_week": 132
+  },
+  {
+   "event_id": "callback_sangchul_quietly_distanced_echo",
+   "requires_flags": [
+    "sangchul_quietly_distanced"
+   ],
+   "decision_events": [
+    "arc_sangchul_stairwell"
+   ],
+   "person": "sangchul",
+   "order_week": 132
+  },
+  {
+   "event_id": "callback_cut_sangchul_network_echo",
+   "requires_flags": [
+    "cut_sangchul_network"
+   ],
+   "decision_events": [
+    "arc_y3_cost_of_knowing"
+   ],
+   "person": "sangchul",
+   "order_week": 133,
+   "elapsed_weeks": 16,
+   "elapsed_vague": true
+  },
+  {
+   "event_id": "callback_used_sangchul_after_echo",
+   "requires_flags": [
+    "used_sangchul_network_after"
+   ],
+   "decision_events": [
+    "arc_y3_cost_of_knowing"
+   ],
+   "person": "sangchul",
+   "order_week": 133
+  },
+  {
+   "event_id": "callback_sangchul_news_father_echo",
+   "requires_flags": [
+    "sangchul_news_told_father"
+   ],
+   "decision_events": [
+    "arc_sangchul_year3"
+   ],
+   "person": "sangchul",
+   "order_week": 134
+  },
+  {
+   "event_id": "callback_minseo_card_echo",
+   "requires_flags": [
+    "got_minseo_card"
+   ],
+   "decision_events": [
+    "arc_minseo_01_meet"
+   ],
+   "person": "minseo",
+   "order_week": 147,
+   "elapsed_weeks": 16,
+   "elapsed_vague": true
+  },
+  {
+   "event_id": "cb_cost_reclaimed_echo",
+   "requires_flags": [
+    "reclaimed_cost"
+   ],
+   "decision_events": [
+    "arc_35_path_cost"
+   ],
+   "person": "",
+   "order_week": 148,
+   "elapsed_weeks": 104
+  },
+  {
+   "event_id": "cb_cost_embraced_echo",
+   "requires_flags": [
+    "embraced_cost"
+   ],
+   "decision_events": [
+    "arc_35_path_cost"
+   ],
+   "person": "",
+   "order_week": 149,
+   "elapsed_weeks": 104
+  },
+  {
+   "event_id": "cb_crack_distanced_echo",
+   "requires_flags": [
+    "crack_distanced"
+   ],
+   "decision_events": [
+    "arc_36_trust_crack"
+   ],
+   "person": "",
+   "order_week": 151
+  },
+  {
+   "event_id": "cb_crack_hardened_echo",
+   "requires_flags": [
+    "crack_hardened"
+   ],
+   "decision_events": [
+    "arc_36_trust_crack"
+   ],
+   "person": "",
+   "order_week": 151
+  },
+  {
+   "event_id": "callback_next_milestone_set_echo",
+   "requires_flags": [
+    "next_milestone_set"
+   ],
+   "decision_events": [
+    "arc_first_real_win"
+   ],
+   "person": "",
+   "order_week": 152
+  },
+  {
+   "event_id": "cb_crack_softened_echo",
+   "requires_flags": [
+    "crack_softened"
+   ],
+   "decision_events": [
+    "arc_36_trust_crack"
+   ],
+   "person": "",
+   "order_week": 152
+  },
+  {
+   "event_id": "callback_told_father_win_echo",
+   "requires_flags": [
+    "told_father_win"
+   ],
+   "decision_events": [
+    "arc_first_real_win"
+   ],
+   "person": "father",
+   "order_week": 156
+  },
+  {
+   "event_id": "cb_grace_echo",
+   "requires_flags": [
+    "accepted_grace"
+   ],
+   "decision_events": [
+    "arc_36_unexpected_hand",
+    "arc_36_unexpected_hand_person_deal"
+   ],
+   "person": "",
+   "order_week": 157
+  },
+  {
+   "event_id": "callback_minseo_real_talk_echo",
+   "requires_flags": [
+    "minseo_real_talk"
+   ],
+   "decision_events": [
+    "arc_minseo_02_real"
+   ],
+   "person": "minseo",
+   "order_week": 160
+  },
+  {
+   "event_id": "callback_ignored_body_echo",
+   "requires_flags": [
+    "ignored_body"
+   ],
+   "decision_events": [
+    "arc_36_body_signal"
+   ],
+   "person": "",
+   "order_week": 161
+  },
+  {
+   "event_id": "callback_went_hospital_echo",
+   "requires_flags": [
+    "went_to_hospital"
+   ],
+   "decision_events": [
+    "arc_36_body_signal"
+   ],
+   "person": "",
+   "order_week": 161
+  },
+  {
+   "event_id": "callback_tried_to_go_father_echo",
+   "requires_flags": [
+    "tried_to_go_to_father"
+   ],
+   "decision_events": [
+    "arc_father_passing_hospital_room"
+   ],
+   "person": "father",
+   "order_week": 188
+  }
+ ]
+}

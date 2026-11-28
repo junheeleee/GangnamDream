@@ -1086,19 +1086,19 @@
   {
     "id": "health_burnout_signal",
     "title": "Signs of Burnout",
-    "description": "You didn't want to do anything.\nYou knew you should, you knew you couldn't afford not to.\n{name}'s body just wouldn't move.",
+    "description": "He didn't want to do anything.\nHe knew he should, he knew he couldn't afford not to.\n{name}'s body just wouldn't move.",
     "choices": [
       {
         "text": "Decide to take the whole day completely off",
-        "result_text": "You did nothing. Turned off YouTube too. The silence felt uncomfortable at first, then peaceful."
+        "result_text": "He did nothing. Turned off YouTube too. The silence felt uncomfortable at first, then peaceful."
       },
       {
         "text": "Push through the to-do list anyway",
-        "result_text": "You forced your way through. The tasks got done, but there was no joy in it. So this is what burning out feels like."
+        "result_text": "{name} forced it. The tasks got done, but there was no joy in it. After crossing off the last line, the pen stayed in his hand a long time."
       },
       {
         "text": "Write this feeling down in a journal",
-        "result_text": "For the first time you wrote honestly. 'I'm exhausted.' After writing it down, you felt a little lighter."
+        "result_text": "For the first time he wrote honestly. 'I'm exhausted.' After writing it down, he felt a little lighter."
       }
     ]
   },
@@ -1732,11 +1732,11 @@
   {
     "id": "jeongseon_big_loss_bus",
     "title": "The Bus Home",
-    "description": "You walked out of the Jeongseon casino.\n\nYou got on the bus.\nMountains blur past the window.\n\nYou calculate in your head what you lost today.\nYou keep recounting the same number.\n\nDoesn't matter how many times. It's always the same number.",
+    "description": "{name} walked out of the Jeongseon casino.\n\nHe got on the bus.\nMountains blurred past the window.\n\nHe added up in his head what he had lost today.\nHe kept recounting the same number.\n\nIt didn't matter how many times. It was always the same number.",
     "choices": [
       {
         "text": "It was entertainment money. Just call it fun.",
-        "result_text": "You settled on that conclusion.\n\nYou half believed it.\nNot completely.\n\n{name} didn't take out the phone all the way to the terminal."
+        "result_text": "He settled on that conclusion.\n\nHe half believed it.\nNot completely.\n\n{name} didn't take out the phone all the way to the terminal."
       },
       {
         "text": "Never going back. For real this time.",
@@ -1747,15 +1747,15 @@
   {
     "id": "jeongseon_big_win_urge",
     "title": "One More Round",
-    "description": "The money you won today is in your wallet.\n\nYou're on the way home but your feet won't move.\n\nYou were lucky today.\nAnd when you're lucky, the luck keeps going. — At least right now, {name}'s brain is saying exactly that.",
+    "description": "The money {name} won today was in his wallet.\n\nHe was on the way home, but his feet wouldn't move.\n\nHe had been lucky today.\nAnd when you're lucky, the luck keeps going.\nAt least, that was what his head was telling him right now.",
     "choices": [
       {
         "text": "Go back in. Today's your day.",
-        "result_text": "You went back in.\n\nThe second session was different.\n\nYou left with barely anything in your pocket.\nThe casino always works this way. It never sends you home at your best moment."
+        "result_text": "He went back in.\n\nThe second session was different.\n\nHe left with barely anything in his pocket.\nIn front of the shuttle timetable, {name} opened his empty wallet twice."
       },
       {
         "text": "Quit while you're ahead. Go home.",
-        "result_text": "You turned around.\n\nNot an easy decision.\n\n{name} today — at least on this one call — made the right move.\nThe walk home felt lighter."
+        "result_text": "He turned around.\n\nNot an easy decision.\n\nToday, at least on this one call, {name} made the right move.\nThe walk home felt lighter."
       }
     ]
   },
@@ -1992,8 +1992,8 @@
         "text": "Tonight I sleep early, no excuses"
       },
       {
-        "result_text": "Two coffees. Pushed through. The work got done.\nBut the body remembered.",
-        "text": "Push through on coffee — I have things to do"
+        "result_text": "Two coffees. Pushed through. The work got done.\nBy evening his eyelids felt full of sand.",
+        "text": "Push through on coffee. There's work to do"
       }
     ]
   },
@@ -2064,14 +2064,14 @@
   {
     "id": "health_checkup_reminder",
     "title": "Checkup Notice",
-    "description": "A text about the national health checkup arrived.\n\nYou were eligible this year. Free.\n\n{name} saw the text and swiped it away. Too much hassle.\nBut you couldn't remember the last time you got checked.",
+    "description": "A text about the national health checkup arrived.\n\nHe was eligible this year. Free.\n\n{name} saw the text and swiped it away. Too much hassle.\nBut he couldn't remember the last time he got checked.",
     "choices": [
       {
-        "result_text": "Booked the hospital. Blood test. Chest X-ray.\nWhen they said 'all clear,' the relief was bigger than expected.\nThought you wasn't worried about your health — turns out you were.",
+        "result_text": "Booked the hospital. Blood test. Chest X-ray.\nWhen they said 'all clear,' the relief was bigger than expected.\nThought he wasn't worried about his health — turns out he was.",
         "text": "Make an appointment"
       },
       {
-        "result_text": "Thought, later.\nLater will come. When, you don't know.",
+        "result_text": "Thought, later.\nThe text slid down beneath the ads.",
         "text": "Later"
       }
     ]
@@ -2124,11 +2124,11 @@
   {
     "id": "health_mental_burnout_signal",
     "title": "A Signal",
-    "description": "One of those days you didn't want to do anything.\n\nThere were things to do. But your body wouldn't move.\nOutside the blanket felt too far.\n\n{name} thought — is this burnout?",
+    "description": "One of those days he didn't want to do anything.\n\nThere were things to do. But his body wouldn't move.\nOutside the blanket felt too far.\n\n{name} thought: is this burnout?",
     "choices": [
       {
         "result_text": "Spent the whole day under the blanket.\nGuilt at first, then after a while it was okay.\nTomorrow felt like it'd be different.",
-        "text": "Take the day off — for real"
+        "text": "Take the day off. For real"
       },
       {
         "result_text": "Forced yourself up. Did something.\nThe body moved but the head was gone.\nEfficiency was under half.",

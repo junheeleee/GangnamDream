@@ -1,12 +1,12 @@
 [
   {
     "id": "callback_daeun_knows_struggle_echo",
-    "title": "Being Difficult Together",
-    "description": "Another hard day.\n\nDae-un came in and didn't ask. Just sat.\n\n'How are you doing today?'\n\nThe night {name} had said it out loud for the first time. 'Honestly — things have been hard lately.'\nHer: 'I know. I just want to be difficult with you.'",
+    "title": "Hard Times, Together",
+    "description": "Another hard day.\n\nDaeun came in and sat down beside {name} without asking anything.\n\n\"How was today?\"\n\nThose few words brought back the day {name} first said it out loud.\n\"Honestly, things have been really hard lately.\"",
     "choices": [
       {
         "text": "\"Still hard. But better with you here.\"",
-        "result_text": "She laughed a little, then said nothing.\nJust stayed.\n\nThat offer to share the difficulty — it was still valid.\nThat said a lot."
+        "result_text": "Daeun laughed a little, then said nothing.\nShe just stayed beside {name}.\n\n\"I want to go through the hard part with you.\" {name} didn't bring up what she had said that day. Her shoulder was there again today."
       },
       {
         "text": "\"It got better. Don't worry.\"",
@@ -17,11 +17,11 @@
   {
     "id": "callback_daeun_married_echo",
     "title": "The Feed",
-    "description": "Months later.\n\nThe photo still surfaces sometimes. The wedding dress. The bright smile.\n\n{name} does not resent her. It is simply strange that the smile now belongs to a life outside your memories.\n\nWill a day come when you can smile like that too?",
+    "description": "Months later.\n\nThe photo still surfaces sometimes. The wedding dress. The bright smile.\n\n{name} does not resent her. It is simply strange that the smile now belongs to a life outside his memories.\n\nWill a day come when he can smile like that too?",
     "choices": [
       {
         "text": "Genuinely glad for her",
-        "result_text": "Took a while to land. But today it was real.\n\nDifferent destinations. She reached hers.\n{name} is still moving toward theirs."
+        "result_text": "{name} had kept asking whether it was sincere. Today it seemed to be.\n\nDifferent destinations. She reached hers.\n{name} is still moving toward theirs."
       },
       {
         "text": "Just close the app",
@@ -32,7 +32,7 @@
   {
     "id": "callback_daeun_gangnam_first_echo",
     "title": "The Café Promise",
-    "description": "Daeun finished her first day at the Gangnam office.\n\n'How was it?' {name} asked.\n'Everyone walks so fast there.' She laughed.\n\nYou remembered the map pin you had saved. 'When you're in Gangnam, let's go to that café nearby.'",
+    "description": "Daeun finished her first day at the Gangnam office.\n\n'How was it?' {name} asked.\n'Everyone walks so fast there.' She laughed.\n\nHe remembered the map pin he had saved. 'When you're in Gangnam, let's go to that café nearby.'",
     "choices": [
       {
         "text": "\"Let's go this weekend. I'll buy.\"",
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "\"Yes. But I learned things from him.\"",
-        "result_text": "Dad thought about it, then:\n'Even a flawed person teaches something.'\n\nAn unexpected kind of comfort.\nWhat Sangchul gave {name} — that was separate from who Sangchul was."
+        "result_text": "Dad thought about it, then:\n'Even a flawed person teaches something.'\n\nAn unexpected kind of comfort.\nThat night, {name} still kept the books the way Sangchul had taught."
       },
       {
         "text": "\"That chapter's over, Dad.\"",
-        "result_text": "'Right,' Dad said. Moved on.\n\nHis name in a newspaper. Then just a name.\n{name} felt the weight shift. Slightly lighter."
+        "result_text": "'Right,' Dad said. Moved on.\n\nIt was in the past. Im Sangchul had become a name in the newspaper.\n{name} closed the article without reading to the end."
       }
     ]
   },
@@ -66,7 +66,7 @@
     "choices": [
       {
         "text": "Accept both — that's the most honest framing",
-        "result_text": "People you can't thank and can't blame — there are a few of those in every life.\n\nHolding both without resolving them. That's actually closer to real.\nA little less stuck."
+        "result_text": "Someone you can neither repay nor resent.\n{name} neither deleted Sangchul's number nor kept it in favorites."
       },
       {
         "text": "Still not resolved — more time needed",
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "\"Me too. Slowly.\"",
-        "result_text": "Ji-yeon sent a small emoji.\n\nNot deep friends — but people who knew the same question at the same time.\nThat's a certain kind of connection. Enough for Seoul."
+        "result_text": "Ji-yeon sent a small emoji.\n\nNot deep friends, but people who knew they were headed the same way."
       },
       {
         "text": "\"Still figuring mine out.\"",
-        "result_text": "'That's still figuring it out,' Ji-yeon replied.\n\nTrue. Wandering with intention is also a path.\n{name} smiled a little and put the phone down."
+        "result_text": "'That's still figuring it out,' Ji-yeon replied.\n\nIt didn't sound like comfort, but it wasn't wrong either.\n{name} smiled a little and put the phone down."
       }
     ]
   }

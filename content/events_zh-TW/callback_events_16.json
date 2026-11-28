@@ -137,7 +137,7 @@
     "choices": [
       {
         "text": "只是聽著",
-        "result_text": "聽了。\nJaehyuk 還是老樣子。\n也確認了——斷絕往來是對的。"
+        "result_text": "聽了。\nJaehyuk 還是老樣子。\n{name}只是點點頭，就聊起了別的。"
       },
       {
         "text": "說「別再提那個人了。」",

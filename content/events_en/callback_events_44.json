@@ -10,7 +10,7 @@
       },
       {
         "text": "Watch the river, steady the heart again",
-        "result_text": "The river reaches the sea without rushing.\n\n{name} leaned on the railing and watched it a long while."
+        "result_text": "{name} leaned on the railing and watched the river a long while. The water wasn't fast, yet the branch drifting by earlier had already passed under the bridge."
       }
     ]
   },
@@ -51,11 +51,11 @@
     "choices": [
       {
         "text": "Be a little more honest this time",
-      "result_text": "You showed her your bank balance and recent spending.\n\nDaeun studied the screen and said, 'Thank you for telling me. I like being able to see a little more of your world.'\nAfter she handed the phone back, the figures on the screen looked sharper than before."
+      "result_text": "He showed her his bank balance and recent spending.\n\nDaeun studied the screen and said, 'Thank you for telling me. I like being able to see a little more of your world.'\nAfter she handed the phone back, the figures on the screen looked sharper than before."
       },
       {
       "text": "Draw a line and say you do not want to talk about it yet",
-      "result_text": "'It's okay. You can tell me when you're ready. I won't press.'\n\nDaeun meant it. From then on, she stopped bringing up money first. It was easier, and a new unasked space appeared between you."
+      "result_text": "'It's okay. You can tell me when you're ready. I won't press.'\n\nDaeun meant it. From then on, she stopped bringing up money first. It was easier, and a new unasked space appeared between them."
       }
     ]
   },
@@ -66,7 +66,7 @@
     "choices": [
       {
         "text": "\"I wasn't ashamed. That's where I started.\"",
-        "result_text": "Dad was quiet for a long time.\n\n'...Right. Nothing to be ashamed of.'\n\nThe choice not to hide that narrow room had shown his parents who their son really was."
+        "result_text": "Dad was quiet for a long time.\n\n'...Right. Nothing to be ashamed of.'\n\nDad said he still hadn't deleted the photo of that narrow room from his phone."
       },
       {
         "text": "\"I've moved somewhere better now. Come see it.\"",
@@ -85,18 +85,18 @@
       },
       {
         "text": "\"I can show you now. I've moved somewhere better.\"",
-        "result_text": "'...Yeah. You'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of."
+        "result_text": "'...Yeah. I'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of."
       }
     ]
   },
   {
     "id": "callback_birthday_rest_echo",
     "title": "The Birthday I Rested",
-    "description": "On {name}'s 35th birthday, they closed the plan for that one day and just spent it as a birthday.\n\nThey think of that day sometimes.\n\nResting didn't break anything. If anything, the next day was lighter.",
+    "description": "On {name}'s 35th birthday, he closed the plan for that one day and just spent it as a birthday.\n\nHe thinks of that day sometimes.\n\nResting didn't break anything. If anything, the next day was lighter.",
     "choices": [
       {
-        "text": "That choice was right — rest is a strategy too",
-        "result_text": "Run without stopping and something eventually snaps.\n\n{name} knows that one day of birthday rest was maintenance the five-year run required.\nSometimes you go farther by stopping."
+        "text": "That choice was right. Rest is a strategy too",
+        "result_text": "He had rested that birthday, and the next week's plan still rolled on.\n\n{name} left this year's birthday square on the calendar blank too."
       },
       {
         "text": "I know now I need to rest more often",
@@ -107,29 +107,29 @@
   {
     "id": "callback_birthday_work_echo",
     "title": "The Birthday I Worked",
-    "description": "On {name}'s 35th birthday, they replied briefly to the messages and pulled the plan back out.\n\nThe day they didn't stop, even on a birthday.\n\nIt came to mind today. Did you have to go that far — or is that why you're here?",
+    "description": "On {name}'s 35th birthday, he replied briefly to the messages and pulled the plan back out.\n\nThe day he didn't stop, even on a birthday.\n\nIt came to mind today. Had he needed to go that far, or was that why he was here now?",
     "choices": [
       {
-        "text": "That's why I'm here — no regrets",
-        "result_text": "The days you went one step further while others rested.\n\nThat accumulated into the current gap.\n{name} quietly thanked the self of that birthday."
+        "text": "That's why I'm here. No regrets",
+        "result_text": "The days he went one step further while others rested.\n\nThat accumulated into the current gap.\n{name} quietly thanked the self of that birthday."
       },
       {
         "text": "Next birthday, a day off is allowed",
-        "result_text": "That day's desperation was necessary. But not every time.\n\n{name} knows now that living a little differently is allowed."
+        "result_text": "That day's desperation was necessary. But not every time.\n\n{name} left next year's birthday square blank."
       }
     ]
   },
   {
     "id": "callback_reached_out_35_echo",
     "title": "Reaching Out First",
-    "description": "At 35, in that piercingly lonely stretch, {name} reached out first to anyone at all.\n\nThat courage comes to mind sometimes.\n\nToday, on another similarly hollow day, they picked up the phone.",
+    "description": "At 35, in that piercingly lonely stretch, {name} reached out first to anyone at all.\n\nThat courage comes to mind sometimes.\n\nToday, on another similarly hollow day, he picked up the phone.",
     "choices": [
       {
-        "text": "Like that time — extend a hand first",
-        "result_text": "Loneliness deepens if you sit still.\n\nThat small courage to reach out first saved {name} more than once.\nToday too, they checked in on someone. When a reply came, the room felt less cold."
+        "text": "Like that time, extend a hand first",
+        "result_text": "That small courage to reach out first had saved {name} more than once.\nToday too, he checked in on someone. When a reply came, the room felt less cold."
       },
       {
-        "text": "This time alone is fine — I've grown sturdier",
+        "text": "This time alone is fine. I've grown sturdier",
         "result_text": "Back then, anyone would do. Now, alone is bearable.\n\nThe strength to endure loneliness had grown a little."
       }
     ]
@@ -152,15 +152,15 @@
   {
     "id": "callback_went_hospital_echo",
     "title": "Going to the Hospital",
-    "description": "At 36, when the body sent signals, {name} put work aside and went to the hospital. Had to know.\n\nThey think it was the right call.\n\nToday the body is heavy again. This is the final stretch.",
+    "description": "At 36, when the body sent signals, {name} put work aside and went to the hospital. Had to know.\n\nHe thinks it was the right call.\n\nToday the body is heavy again. This is the final stretch.",
     "choices": [
       {
-        "text": "Like that time — body first",
-        "result_text": "Collapsing right at the finish line means nothing.\n\nAs going to the hospital protected {name} then, they chose the body first today too.\nNo health, no Gangnam."
+        "text": "Like that time, body first",
+        "result_text": "As going to the hospital had protected {name} then, he chose the body first today too."
       },
       {
-        "text": "Trust the test results — pace it, no overreach",
-        "result_text": "Thanks to that checkup, {name} knows their own condition.\n\nInstead of running blindly, they found a sustainable speed."
+        "text": "Trust the test results, pace it, no overreach",
+        "result_text": "Thanks to that checkup, {name} knows his own condition.\n\nInstead of running blindly, he found a sustainable speed."
       }
     ]
   },
@@ -171,7 +171,7 @@
     "choices": [
       {
         "text": "Not putting it off this time — go to the hospital",
-        "result_text": "The price of putting it off came back as a bigger signal.\n\nThis time {name} didn't delay.\nLearned the body is like debt — put it off and the interest compounds."
+        "result_text": "The price of putting it off came back as a bigger signal.\n\nThis time {name} didn't delay.\nTook the afternoon off and pulled a waiting-number ticket at the clinic."
       },
       {
         "text": "Just a little more — rest properly when it's over",
@@ -197,15 +197,15 @@
   {
     "id": "callback_cut_sns_echo",
     "title": "Cutting SNS Off",
-    "description": "In the second year in Seoul, shaken by news of friends doing well, {name} decided: 'Cut SNS. Comparison is poison for focus.'\n\nThey hadn't looked at the feed since.\n\nToday they happened to hear someone's update — the kind of news that once would have rattled them.",
+    "description": "In the second year in Seoul, shaken by news of friends doing well, {name} decided: 'Cut SNS. Comparison is poison for focus.'\n\nHe hadn't looked at the feed since.\n\nToday he happened to hear someone's update — the kind of news that once would have rattled him.",
     "choices": [
       {
-        "text": "No longer shaken — I have my own pace",
-        "result_text": "Not watching others' speed, they could see their own.\n\n{name} knows now that cutting SNS was a choice for focus, not escape.\nFrom a place free of comparison, their own path was clearer."
+        "text": "No longer shaken. I have my own pace",
+        "result_text": "Not watching others' speed, he could see his own.\n\n{name} took in the news and finished what he'd been doing."
       },
       {
-        "text": "Sometimes I'm curious — but I still don't look",
-        "result_text": "There was curiosity. But {name} knows its cost too.\n\nAfter a brief hesitation, they set the phone down."
+        "text": "Sometimes I'm curious. But I still don't look",
+        "result_text": "There was curiosity. But {name} knows its cost too.\n\nAfter a brief hesitation, he set the phone down."
       }
     ]
   }

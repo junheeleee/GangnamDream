@@ -1,0 +1,15 @@
+{
+  "_doc": "Full-story easter eggs. Read only by systems/EasterEggRoute.gd. The eight authored eggs lived in the old random pool, which the full story never runs (0 exposures in 28 full-run traces, 2026-11-26). On a free full-story week the first egg in this order whose own conditions hold (EventManager.deferred_event_is_eligible) and that has not played yet appears, at most one per min_gap_weeks. Each egg's own conditions and once-only flag stay the source of truth. rest_weeks stay quiet.",
+  "min_gap_weeks": 6,
+  "rest_weeks": [[189, 192], [238, 240]],
+  "eggs": [
+    "egg_deja_vu",
+    "egg_veteran_return",
+    "egg_triangle_kimbap",
+    "egg_4am_clarity",
+    "egg_gambling_mirror",
+    "egg_gosiwon_sage",
+    "egg_honest_paradox",
+    "egg_quiet_rich"
+  ]
+}

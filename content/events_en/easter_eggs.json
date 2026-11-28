@@ -2,11 +2,11 @@
   {
     "id": "egg_gosiwon_sage",
     "title": "The Goshiwon Sage",
-    "description": "Over 30 months living in the goshiwon now.\n\n{name} knows everything about this tiny room.\nWhich wall best transmits the neighbor's snoring.\nWhose side dishes last longest in the shared fridge.\nThat shower stall #3 has the strongest water pressure at 2 AM.\n\nAt this point it isn't housing — it's ascetic training.\n\n{name} happened to look in the mirror. A man with a sage's expression was there.",
+    "description": "Over 30 months living in the goshiwon now.\n\n{name} knows everything about this tiny room.\nWhich wall best transmits the neighbor's snoring.\nWhose side dishes last longest in the shared fridge.\nThat shower stall #3 has the strongest water pressure at 2 AM.\n\nAt this point it isn't housing. It's ascetic training.\n\n{name} happened to look in the mirror. A man with a sage's expression was there.",
     "choices": [
       {
         "text": "Compile 30 months of know-how into a notebook",
-        "result_text": "He titled it 'The Goshiwon Survival Codex.'\n\nThe art of frugality, the philosophy of soundproofing, minimum-cost nutrition.\nWriting it out, it became a whole book.\n\nThis wouldn't get him to Gangnam — but at least, in this trench, {name} was stronger than anyone.\n\nSomeone who knows the bottom completely doesn't fear falling."
+        "result_text": "He titled it 'The Goshiwon Survival Codex.'\n\nThe art of frugality, the philosophy of soundproofing, minimum-cost nutrition.\nWriting it out, it became a whole book.\n\nThis wouldn't get him to Gangnam, but at least, in this trench, {name} was stronger than anyone.\n\nOn the cover he wrote 'First Edition' in ballpoint."
       },
       {
         "text": "I want out of here now",
@@ -17,26 +17,26 @@
   {
     "id": "egg_triangle_kimbap",
     "title": "The Triangle Kimbap Chronicles",
-    "description": "In front of the triangle kimbap shelf at the convenience store.\n\n{name} looked at the display and realized:\nHe'd memorized every flavor — bibimbap, tuna mayo, spam, kimchi fried rice.\nEven which brand's kimbap had stickier rice.\n\nHe checked his balance. Under 800,000 won.\n\nFive years ago, and now, dinner is triangle kimbap.\nThe only thing that changed — he can eat it without heating now.",
+    "description": "In front of the triangle kimbap shelf at the convenience store.\n\n{name} looked at the display and realized:\nHe'd memorized every flavor. Bibimbap, tuna mayo, spam, kimchi fried rice.\nEven which brand's kimbap had stickier rice.\n\nHe checked his balance. Under 800,000 won.\n\nFive years ago, and now, dinner is triangle kimbap.\nThe only thing that changed is that he can eat it without heating now.",
     "choices": [
       {
         "text": "Buy two today. A luxury.",
-        "result_text": "One tuna mayo, one spam.\n\n2,400 won at the register.\n\n{name} walked out holding two, strangely feeling rich.\n\nWhether it's sad or fortunate that the bar for happiness dropped this low — felt like both.\n\nStill, tonight's dinner is two."
+        "result_text": "One tuna mayo, one spam.\n\n2,400 won at the register.\n\n{name} walked out holding two, strangely feeling rich.\n\nWhether it was sad or fortunate that the bar for happiness had dropped this low, he couldn't say. It felt like both.\n\nStill, tonight's dinner is two."
       },
       {
         "text": "Hold back. One is enough.",
-        "result_text": "He grabbed just one.\n\n1,200 won. That was enough.\n\nPaying, {name} thought:\nIs this thrift the road to Gangnam, or just getting used to being poor.\n\nWhen you can't tell the difference is the most dangerous time — {name} knew that.\nStill, tonight it's one."
+        "result_text": "He grabbed just one.\n\n1,200 won. That was enough.\n\nPaying, {name} thought:\nIs this thrift the road to Gangnam, or just getting used to being poor.\n\nHe folded the receipt into the back of his wallet.\nThe wallet was already thick with the same receipts."
       }
     ]
   },
   {
     "id": "egg_4am_clarity",
     "title": "4 AM",
-    "description": "4 AM. Can't sleep.\n\nStaring at the ceiling. A crack shaped like a person's profile.\nSeeing it every day, they've become friends.\n\nEverything is sharp at this hour.\nThings invisible by day are all visible at 4 AM.\nHow far he's come, how far he hasn't.\n\n{name} sat up.\nIn this trench, it was the most honest hour.",
+    "description": "4 AM. Can't sleep.\n\nStaring at the ceiling. A crack shaped like a person's profile.\nSeeing it every day, they've become friends.\n\nEverything is sharp at this hour.\nThings invisible by day are all visible at 4 AM.\nHow far he's come, how far he hasn't.\n\n{name} sat up.\nThe streetlight outside the window was still on.",
     "choices": [
       {
         "text": "Just acknowledge what you feel right now",
-        "result_text": "He said it out loud — that it's hard.\n\nIn the empty room, quietly.\n\"...This is hard.\"\n\nStrangely, getting the words out made it a little lighter.\n\nAdmitting you're not okay took more courage than pretending you were.\n\n4:30 AM. {name} lay back down. This time, sleep came."
+        "result_text": "He tried saying it out loud, that it was hard.\n\nIn the empty room, quietly.\n\"...This is hard.\"\n\nStrangely, getting the words out made it a little lighter.\n\nThe room looked a little bigger than before.\n\n4:30 AM. {name} lay back down. This time, sleep came."
       },
       {
         "text": "Drink some water and rewrite the plan",
@@ -47,26 +47,26 @@
   {
     "id": "egg_honest_paradox",
     "title": "The Price of Honesty",
-    "description": "{name} never once cut a corner.\n\nNever skipped overtime, paid taxes honestly, never touched risky investments.\nLived exactly as society said to — 'live right.'\n\nAnd his account never crossed 100 million won.\n\nMeanwhile someone who started the same time made it to Gangnam through crypto, another through real estate gap-investing, another through parents' help.\n\n{name} stared at the calculator.\nThe price of honesty — how much, exactly.",
+    "description": "{name} never once cut a corner.\n\nNever skipped overtime, paid taxes honestly, never touched risky investments.\nLived exactly the way society told him to: 'live right.'\n\nAnd his account never crossed 100 million won.\n\nMeanwhile someone who started the same time made it to Gangnam through crypto, another through real estate gap-investing, another through parents' help.\n\n{name} stared at the calculator.\nWhat was the price of honesty, exactly.",
     "choices": [
       {
         "text": "Still, my way wasn't wrong",
-        "result_text": "{name} set the calculator down.\n\nOthers may have gone faster. Held more.\nBut {name} sleeps well at night.\nDoesn't owe anyone, didn't deceive anyone.\n\nWhether that's cheaper or dearer than 100 million — he'll know when he dies.\n\nAt least for now, he wasn't ashamed."
+        "result_text": "{name} set the calculator down.\n\nOthers may have gone faster. Held more.\nBut {name} sleeps well at night.\nDoesn't owe anyone, didn't deceive anyone.\n\nWhether that was cheaper or dearer than 100 million, the calculator couldn't say.\n\nAt least for now, he wasn't ashamed."
       },
       {
-        "text": "Maybe try it differently, just once — wavering for the first time",
-        "result_text": "For the first time, {name} seriously considered another path.\n\nIf it's a game the orthodox way can't win —\nmaybe the rules need bending.\n\nThe thought was frightening, and strangely freeing.\n\nHe hadn't done anything yet. But a latch somewhere in his heart had come loose.\nWhether this is a beginning or a fall, he doesn't yet know."
+        "text": "Maybe try it differently, just once. Wavering for the first time",
+        "result_text": "For the first time, {name} seriously considered another path.\n\nIf it was a game the orthodox way couldn't win,\nmaybe the rules need bending.\n\nThe thought was frightening, and strangely freeing.\n\nHe hadn't done anything yet. But a latch somewhere in his heart had come loose.\nWhether this is a beginning or a fall, he doesn't yet know."
       }
     ]
   },
   {
     "id": "egg_gambling_mirror",
     "title": "The Gambler in the Mirror",
-    "description": "He stood in front of the bathroom mirror.\n\nHis eyes were bloodshot.\nHe'd slept badly yesterday, the day before — because of charts, bets, the next hand.\n\nThe man in the mirror looked at {name}.\nNot the gaze that dreamed of Gangnam five years ago.\nA gaze chased by something.\n\nWhen did the goal become 'the next hand' instead of Gangnam.\n\nThe man in the mirror didn't answer.",
+    "description": "He stood in front of the bathroom mirror.\n\nHis eyes were bloodshot.\nHe'd slept badly yesterday, the day before. Because of charts, bets, the next hand.\n\nThe man in the mirror looked at {name}.\nNot the gaze that dreamed of Gangnam five years ago.\nA gaze chased by something.\n\nWhen did the goal become 'the next hand' instead of Gangnam.\n\nThe man in the mirror didn't answer.",
     "choices": [
       {
         "text": "Stop now. Delete every gambling app.",
-        "result_text": "He took out his phone.\n\nGambling apps, betting site bookmarks, chart alerts — deleted one by one.\nHis hands shook. Even deleting, he wanted to reinstall.\n\nThat was the proof it was addiction.\n\n{name} threw the phone far away and pulled the blanket over his head.\nJust today. He'd try to endure just today.\n\nIt always starts with 'just today.' Quitting was the same."
+        "result_text": "He took out his phone.\n\nGambling apps, betting site bookmarks, chart alerts. He deleted them one by one.\nHis hands shook. Even deleting, he wanted to reinstall.\n\nHis thumb kept feeling for the empty spots where the icons had been.\n\n{name} threw the phone far away and pulled the blanket over his head.\nJust today. He'd try to endure just today.\n\nThe phone screen kept lighting up and going dark. {name} never reached for it."
       },
       {
         "text": "Look away from the mirror. It's still fine.",
@@ -81,41 +81,41 @@
     "choices": [
       {
         "text": "This is my way. Numbers are just numbers.",
-        "result_text": "{name} slurped the ramyeon.\n\nWith 2 billion in the bank, ramyeon tasted the same.\nMaybe even better — his mind was at ease.\n\nMoney wasn't a goal but freedom.\nFreedom to leave when he must, freedom to stay if he wants.\n\n{name} was enjoying that freedom now.\nGangnam — he can go when he wants to. No rush."
+        "result_text": "{name} slurped the ramyeon.\n\nWith 2 billion in the bank, ramyeon tasted the same.\nMaybe even better.\n\nKnowing he could leave anytime, he would sleep in this room again tonight.\nGangnam could wait until he wanted it. No rush."
       },
       {
         "text": "Now it's really time to leave. For Gangnam.",
-        "result_text": "He drank the broth to the last drop.\n\n2 billion. That's enough now.\nThe stubbornness he'd shown in the goshiwon — this far was plenty.\n\n{name} opened the real estate app.\nLooked at Gangnam listings seriously, for the first time.\n\nThose numbers he'd only seen on screen five years ago —\nwere now a price he could pay.\n\nHe cooked one last ramyeon for the next-room exam-prepper."
+        "result_text": "He drank the broth to the last drop.\n\n2 billion. That's enough now.\nThe stubbornness he'd shown in the goshiwon — this far was plenty.\n\n{name} opened the real estate app.\nLooked at Gangnam listings seriously, for the first time.\n\nThe numbers he'd only ever seen on a screen five years ago\nwere now a price he could pay.\n\nHe cooked one last ramyeon for the next-room exam-prepper."
       }
     ]
   },
   {
     "id": "egg_deja_vu",
     "title": "Déjà Vu",
-    "description": "The goshiwon room. An ordinary night.\n\nThen {name} suddenly froze.\n\nThis scene — he felt like he'd seen it before.\nThe crack in this ceiling, the air of this hour, this hopelessness.\nClearly a first time, yet his body remembered first.\n\nHe felt he vaguely knew what would happen next.\nWho he'd meet, where he'd waver, what he'd regret.\n\nMust be his imagination. {name} shook his head.\nBut the familiarity didn't fade easily.",
+    "description": "The goshiwon room. An ordinary night.\n\nThen {name} suddenly froze.\n\nHe felt like he'd seen this scene before.\nThe crack in this ceiling, the air of this hour, this hopelessness.\nClearly a first time, yet his body remembered first.\n\nHe felt he vaguely knew what would happen next.\nWho he'd meet, where he'd waver, what he'd regret.\n\nMust be his imagination. {name} shook his head.\nBut the familiarity didn't fade easily.",
     "choices": [
       {
-        "text": "Do it differently this time — trust the instinct",
-        "result_text": "{name} didn't reject the strange familiarity — he followed it.\n\n'If it was like this before, then differently this time.'\n\nThere was no basis. But the instinct was strangely clear.\nLike someone who'd already walked this path once.\n\nMaybe someone lives the same life over and over.\nSearching for a better ending."
+        "text": "Do it differently this time. Trust the instinct",
+        "result_text": "{name} didn't push the strange familiarity away. He followed it.\n\n'If it was like this before, then differently this time.'\n\nThere was no basis. But the instinct was strangely clear.\nLike someone who'd already walked this path once.\n\nMaybe someone lives the same life over and over.\nSearching for a better ending."
       },
       {
-        "text": "It's just a feeling — forget it and sleep",
-        "result_text": "{name} pulled up the blanket.\n\nDéjà vu. A trick the brain sometimes plays.\nHe'd read somewhere it was a scientifically explained phenomenon.\n\nThinking that, his mind eased.\n\nBut right before sleep, just for a moment —\n'I feel like this night ended this way before too' crossed his mind.\nAnd {name} fell asleep. Like he always had."
+        "text": "It's just a feeling. Forget it and sleep",
+        "result_text": "{name} pulled up the blanket.\n\nDéjà vu. A trick the brain sometimes plays.\nHe'd read somewhere it was a scientifically explained phenomenon.\n\nThinking that, his mind eased.\n\nBut right before sleep, just for a moment,\n'I feel like this night ended this way before too' crossed his mind.\nAnd {name} fell asleep. Like he always had."
       }
     ]
   },
   {
     "id": "egg_veteran_return",
     "title": "Lost Count of Which Time",
-    "description": "33 again. The goshiwon again. 500,000 won in the account again.\n\n{name} knew this starting point too well.\nAnd that however he starts, the same crossroads always come.\n\nSangchul's offer, Jaehyuk's call, Jiyeon's world, Father's illness.\nHe knows it all. Where he wavers, where he collapses.\n\nBut knowing didn't mean he could live differently.\nRepeating the same mistakes while knowing them —\nmaybe that was the very definition of being human.\n\n{name} let out a long breath. Alright, this time.",
+    "description": "33 again. The goshiwon again. 500,000 won in the account again.\n\n{name} knew this starting point too well.\nAnd that however he starts, the same crossroads always come.\n\nSangchul's offer, Jaehyuk's call, Jiyeon's world, Father's illness.\nHe knows it all. Where he wavers, where he collapses.\n\nBut knowing didn't mean he could live differently.\nLast time, too, he had known, and stopped at the same spot.\n\n{name} let out a long breath. Alright, this time.",
     "choices": [
       {
-        "text": "Live truly differently this time — use everything I know",
-        "result_text": "{name} recalled everything learned from past lives.\n\nWhich offers were traps, which chances were real.\nThe map of failures was in his head.\n\nThis time he walks with that map in hand.\n\nStill, the ending is unknown. Life isn't a test you pass by memorizing.\nBut at least he won't fall in the same trap twice.\nThat alone — maybe this life will be a little better."
+        "text": "Live truly differently this time. Use everything I know",
+        "result_text": "{name} recalled everything learned from past lives.\n\nWhich offers were traps, which chances were real.\nThe map of failures was in his head.\n\nThis time he walks with that map in hand.\n\nStill, the ending is unknown.\nBut at least he won't fall in the same trap twice.\nThat alone might make this life a little better."
       },
       {
-        "text": "Knowing changes nothing — just let it flow",
-        "result_text": "{name} gave a bitter smile.\n\nDoes knowing change anything. In the end you waver at the same place, regret the same things.\nThat's human.\n\nBut strangely, that resignation wasn't despair.\n\nThat living again and again turns out similar —\nmaybe it meant this life already fit {name}.\nAcceptance, too, was a kind of ending."
+        "text": "Knowing changes nothing. Just let it flow",
+        "result_text": "{name} gave a bitter smile.\n\nDoes knowing change anything. In the end you waver at the same place, regret the same things.\n\nBut strangely, that resignation wasn't despair.\n\nIf every life came out about the same,\nmaybe this one already fit {name}."
       }
     ]
   }

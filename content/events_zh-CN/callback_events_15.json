@@ -40,8 +40,8 @@
     "title": "Jiyeon的介绍",
     "description": "见到Jiyeon介绍的那个人，是两个月前的事。\n今天，那个人又联系了我。",
     "choices": [
-      {"text": "又见了一面", "result_text": "又见了一面。\nJiyeon牵起的线——不再依靠Jiyeon，也延续了下去。"},
-      {"text": "说了句“这次有点忙”", "result_text": "说了句：“最近有点忙。”\n对方理解了。"}
+      {"text": "又见了一面", "result_text": "又见了一面。\nJiyeon牵起的线，不再依靠Jiyeon，也延续了下去。"},
+      {"text": "说了句“这次有点忙”", "result_text": "说了句：“最近有点忙。”\n对方说理解。"}
     ]
   },
   {
@@ -49,7 +49,7 @@
     "title": "避开生意话题之后",
     "description": "把Jiyeon谈生意的话轻轻带过，是两个月前的事。\n今天，Jiyeon又提起了那件事。\n这次很直接。",
     "choices": [
-      {"text": "这次认真听了", "result_text": "听了听。\n比起轻轻带过——听过之后，事情更清楚了。"},
+      {"text": "这次认真听了", "result_text": "听了听。\n比起轻轻带过，听过之后，事情更清楚了。"},
       {"text": "这次也委婉地带过", "result_text": "又带过了。\nJiyeon的神情变了一瞬。\n她说：“我知道了。”"}
     ]
   },

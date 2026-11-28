@@ -122,15 +122,15 @@
   {
     "id": "callback_sangchul_cut_ties_echo",
     "title": "Saying I'll Report You",
-    "description": "When they learned Sangchul's truth, {name} cut ties, saying 'I'll report you.'\n\nThat resolute choice comes back sometimes.\n\nToday the weight of that decision lingers.",
+    "description": "When he learned Sangchul's truth, {name} cut ties, saying 'I'll report you.'\n\nThat resolute choice comes back sometimes.\n\nToday the weight of that decision lingers.",
     "choices": [
       {
-        "text": "I did the right thing — chose conscience over gain",
-        "result_text": "Sangchul's network and information were vast, but he was the man who ruined Dad.\n\n{name} doesn't regret choosing conscience over gain.\nSome bridges must be burned to protect yourself."
+        "text": "I did the right thing. chose conscience over gain",
+        "result_text": "Sangchul's network and information were vast, but he was the man who ruined Dad.\n\n{name} didn't regret choosing conscience over gain."
       },
       {
-        "text": "Cutting him off — I came this far on my own",
-        "result_text": "The road without a mentor or network was harder, but cleaner.\n\n{name} knows they rose on their own without Sangchul."
+        "text": "Cutting him off, I came this far on my own",
+        "result_text": "The road without a mentor or network was harder, but cleaner."
       }
     ]
   },
@@ -167,30 +167,30 @@
   {
     "id": "callback_contacted_jaehyuk_early_echo",
     "title": "Reaching Out to Jaehyuk First",
-    "description": "After being scammed, {name} reached out first — 'Jaehyuk, how've you been?'\n\nThat complicated feeling comes back sometimes.\n\nToday they think about how to settle that matter.",
+    "description": "After being scammed, {name} reached out first — 'Jaehyuk, how've you been?'\n\nThat complicated feeling comes back sometimes.\n\nToday he thinks about how to settle that matter.",
     "choices": [
       {
-        "text": "Reaching out first — was to find closure",
-        "result_text": "Carrying hatred takes energy too.\n\n{name} wanted to somehow tie off that relationship.\nNot forgiveness, but closure — that was for themselves."
+        "text": "Reaching out first was to find closure",
+        "result_text": "{name} wanted to somehow tie off that relationship.\nNot forgiveness but closure. That was for himself."
       },
       {
-        "text": "Now — I'm no longer bound by that matter",
-        "result_text": "Tie your heart to the past and you lose the strength to go forward.\n\n{name} left the Jaehyuk matter in the past and set their gaze ahead."
+        "text": "Now I'm no longer bound by that matter",
+        "result_text": "{name} left the Jaehyuk matter in the past and set his gaze ahead."
       }
     ]
   },
   {
     "id": "callback_congratulated_friend_echo",
     "title": "Congratulating Sincerely",
-    "description": "At a thriving friend's news, {name} said, 'congratulations sincerely — you're on your own path.'\n\nThat mature heart comes back sometimes.\n\nToday they hear another's good news.",
+    "description": "At a thriving friend's news, {name} said, 'Sincere congratulations. I'm on my own path.'\n\nThat mature heart comes back sometimes.\n\nToday he hears another's good news.",
     "choices": [
       {
-        "text": "I can now rejoice at others' success — without envy",
-        "result_text": "Only one who accepts that another's success isn't their failure can congratulate sincerely.\n\n{name} knows that ease comes from conviction in one's own path.\nRejoicing without envy was the sturdiest self-esteem."
+        "text": "I can now rejoice at others' success without envy",
+        "result_text": "{name} sent a congratulations message and went back to what he'd been doing."
       },
       {
-        "text": "My path too — I walk it quietly",
-        "result_text": "Congratulate sincerely, but your pace stays unshaken.\n\n{name} walked their own road without being swayed by others' speed."
+        "text": "My path too, I walk it quietly",
+        "result_text": "He congratulated them sincerely, and his pace didn't change.\n\n{name} walked his own road without being swayed by others' speed."
       }
     ]
   }

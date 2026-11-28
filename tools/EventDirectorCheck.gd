@@ -243,6 +243,8 @@ func _check_father_life_contracts() -> void:
 		"arc_year4_close": "arc_year4_close_father_passed",
 		"arc_daeun_hometown_2": \
 			"arc_daeun_hometown_2_father_passed",
+		"gambling_rock_bottom": \
+			"gambling_rock_bottom_father_passed",
 	}
 	var father_live_only_receipt_flags := [
 		"called_dad_milestone",

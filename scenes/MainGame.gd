@@ -8,6 +8,14 @@ const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam
 const SEOUL_MAP_STRIP_SCRIPT = preload("res://ui_components/SeoulMapStrip.gd")
 const DEMO_CORE_LOOP_V2 = preload("res://systems/DemoCoreLoopV2.gd")
 const FULL_STORY_FLOW = preload("res://systems/FullStoryFlow.gd")
+const BODY_BAND_SCENES = preload("res://systems/BodyBandScenes.gd")
+const BODY_TIDE = preload("res://systems/BodyTide.gd")
+const RHYTHM_RECALL = preload("res://systems/RhythmRecall.gd")
+const INVEST_BRANCH_BEATS = preload("res://systems/InvestBranchBeats.gd")
+const GAMBLE_BRANCH_BEATS = preload("res://systems/GambleBranchBeats.gd")
+const BRANCH_HABIT = preload("res://systems/BranchHabit.gd")
+const EASTER_EGG_ROUTE = preload("res://systems/EasterEggRoute.gd")
+const ADDICTION_ARC = preload("res://systems/AddictionArc.gd")
 const CHAPTER5_CAUSAL_ROUTE = preload("res://systems/Chapter5CausalRoute.gd")
 const CHAPTER5_FINALE_ROUTE = preload("res://systems/Chapter5FinaleRoute.gd")
 const CORE_LOOP_PLANNER_SCRIPT = preload("res://scenes/CoreLoopPlanner.gd")
@@ -551,7 +559,7 @@ func _continue_after_story():
 			or GameState.flags.has("full_story_calendar_save_pending")
 			or GameState.flags.has("full_story_activity_save_pending")
 			or (FULL_STORY_FLOW.is_full_run()
-				and GameState.flags.has("open_racetrack_after_story"))
+				and FULL_STORY_FLOW.has_activity_flag())
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -634,8 +642,7 @@ func _full_story_route_week() -> bool:
 		push_error("Full story preview has an invalid saved owner")
 		return true
 	if FULL_STORY_FLOW.is_full_run() \
-			and GameState.flags.has("open_racetrack_after_story") \
-			and not GameState.flags["open_racetrack_after_story"] is bool:
+			and not FULL_STORY_FLOW.activity_flags_valid():
 		push_error("Full story has an invalid direct activity flag")
 		return true
 	# Keep the already-calculated state on a failed save. Retrying only the
@@ -716,6 +723,7 @@ func _full_story_advance_week(expected_turn: int) -> bool:
 		return false
 	if not FULL_STORY_FLOW.apply_background_for_turn(expected_turn):
 		return false
+	_full_story_apply_body_tide(expected_turn)
 	if GameState.is_game_over:
 		# Real fatal state is not the demo's reset-to-survival behavior.
 		if not _full_story_resume_ending():
@@ -999,9 +1007,10 @@ func _full_story_continue_activity(expected_turn: int, phase: String) -> void:
 			or not FULL_STORY_FLOW.is_full_run():
 		_full_story_advancing = false
 		return
-	if phase == "entry" and not FULL_STORY_FLOW.begin_activity("racetrack"):
+	if phase == "entry" and not FULL_STORY_FLOW.begin_activity(
+			FULL_STORY_FLOW.pending_activity_id()):
 		_full_story_advancing = false
-		push_error("Full story could not reserve its authored racetrack return")
+		push_error("Full story could not reserve its authored activity return")
 		return
 	var saved := _full_story_save_activity(expected_turn, phase)
 	_full_story_advancing = false
@@ -1016,12 +1025,13 @@ func _full_story_activity_phase_is_valid(phase: String) -> bool:
 	if not receipts is Dictionary:
 		return false
 	var raw: Variant = receipts.get(str(GameState.turn), null)
-	if not raw is Dictionary or raw.get("activity_id", null) != "racetrack" \
+	if not raw is Dictionary \
+			or not FULL_STORY_FLOW.ACTIVITY_SOURCES.has(str(raw.get("activity_id", ""))) \
 			or not _economy_integer_matches(raw.get("turn", null), GameState.turn):
 		return false
 	if phase == "entry":
 		return raw.get("status", null) == "pending" \
-			and FULL_STORY_FLOW.pending_activity_id() == "racetrack"
+			and FULL_STORY_FLOW.pending_activity_id() == str(raw["activity_id"])
 	return phase == "closed" and raw.get("status", null) in ["closed", "cancelled"] \
 		and FULL_STORY_FLOW.pending_activity_id().is_empty()
 
@@ -1030,7 +1040,7 @@ func _full_story_pending_activity_save_is_valid() -> bool:
 	var pending: Variant = GameState.flags.get("full_story_activity_save_pending")
 	return pending is Dictionary and pending.size() == 3 \
 		and _economy_integer_matches(pending.get("turn", null), GameState.turn) \
-		and pending.get("activity_id", null) == "racetrack" \
+		and FULL_STORY_FLOW.ACTIVITY_SOURCES.has(str(pending.get("activity_id", ""))) \
 		and pending.get("phase", null) is String \
 		and _full_story_activity_phase_is_valid(str(pending["phase"]))
 
@@ -1043,7 +1053,8 @@ func _full_story_save_activity(expected_turn: int, phase: String) -> bool:
 	GameState.flags.erase("full_story_activity_save_pending")
 	if not SaveManager.autosave():
 		GameState.flags["full_story_activity_save_pending"] = {
-			"turn": expected_turn, "activity_id": "racetrack", "phase": phase,
+			"turn": expected_turn, "activity_id": _full_story_turn_activity_id(),
+			"phase": phase,
 		}
 		_full_story_seal_surface()
 		push_warning("Full story paused after a failed activity save")
@@ -1051,10 +1062,26 @@ func _full_story_save_activity(expected_turn: int, phase: String) -> bool:
 	return true
 
 
+## The activity this week's full-story receipt belongs to ("" if none).
+func _full_story_turn_activity_id() -> String:
+	var receipts: Variant = FULL_STORY_FLOW.snapshot().get("activity_receipts", {})
+	if receipts is Dictionary:
+		var raw: Variant = (receipts as Dictionary).get(str(GameState.turn), null)
+		if raw is Dictionary:
+			return str((raw as Dictionary).get("activity_id", ""))
+	return FULL_STORY_FLOW.pending_activity_id()
+
+
 func _full_story_after_activity_saved(phase: String) -> void:
 	if phase == "entry":
 		SceneTransition.fade_in()
-		_open_racetrack()
+		match _full_story_turn_activity_id():
+			"holdem":
+				_open_holdem()
+			"jeongseon_casino":
+				_open_jeongseon_casino()
+			_:
+				_open_racetrack()
 	elif bool(get_meta("_screenshot_qa_static_surface", false)):
 		set_meta("_full_story_activity_closed_turn", GameState.turn)
 	else:
@@ -6750,6 +6777,12 @@ func _run_week_start_economy() -> void:
 	GameState.flags["monthly_economy_turn"] = GameState.turn
 	if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
 		var crisis = _roll_monthly_crisis()
+		# The full story has no action board: "one more task this week" or "drop
+		# one planned task" would promise a mechanic that does not exist there.
+		# The roll still happens so the RNG stream stays the same.
+		if FULL_STORY_FLOW.is_full_run() \
+				and str(crisis.get("type", "")) in ["bonus_ap", "ap_penalty"]:
+			crisis = {}
 		if not crisis.is_empty():
 			var crisis_type := str(crisis.get("type", ""))
 			if _demo_pressure_enabled() and crisis_type in [
@@ -6780,7 +6813,7 @@ func _begin_month():
 			or GameState.flags.has("full_story_calendar_save_pending")
 			or GameState.flags.has("full_story_activity_save_pending")
 			or (FULL_STORY_FLOW.is_full_run()
-				and GameState.flags.has("open_racetrack_after_story"))
+				and FULL_STORY_FLOW.has_activity_flag())
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -6839,7 +6872,7 @@ func _begin_month_story_and_render():
 			or GameState.flags.has("full_story_calendar_save_pending")
 			or GameState.flags.has("full_story_activity_save_pending")
 			or (FULL_STORY_FLOW.is_full_run()
-				and GameState.flags.has("open_racetrack_after_story"))
+				and FULL_STORY_FLOW.has_activity_flag())
 			or not FULL_STORY_FLOW.pending_activity_id().is_empty()
 			or FULL_STORY_FLOW.at_boundary()):
 		_full_story_route_week()
@@ -6885,6 +6918,46 @@ func _begin_month_story_and_render():
 		var ms_id = _next_milestone_id()
 		if ms_id != "":
 			_go_story_mode([ms_id])
+			return
+		# 중독 70에 닿은 런의 바닥 장면, 도움을 청한 런의 회복 아크(834 B2.6).
+		var addiction_id := _full_story_addiction_scene_id()
+		if addiction_id != "":
+			_go_story_mode([addiction_id])
+			return
+		# 몸·마음이 한 구간 아래로 내려간 뒤 처음 비는 주에 몸의 장면 하나(836 M1).
+		var body_id := _full_story_body_band_scene_id()
+		if body_id != "":
+			_go_story_mode([body_id])
+			return
+		# 월초 건강 위기가 온 런은 다음 빈 주에 그 몸에 답하는 장면 하나(836 B2).
+		var crisis_id := _full_story_body_crisis_scene_id()
+		if crisis_id != "":
+			_go_story_mode([crisis_id])
+			return
+		# 상철의 첫 수업에서 투자를 고른 런의 1~2년 차 투자 장면 하나(834 B1).
+		var invest_id := _full_story_invest_beat_id()
+		if invest_id != "":
+			_go_story_mode([invest_id])
+			return
+		# 경마·정선·홀덤에 발을 들인 런의 1~2년 차 도박 장면 하나(834 B2).
+		var gamble_id := _full_story_gamble_beat_id()
+		if gamble_id != "":
+			_go_story_mode([gamble_id])
+			return
+		# 조건이 맞은 런에만 한 번씩 나오는 이스터에그(빈 주, 6주 간격).
+		var egg_id := _full_story_easter_egg_id()
+		if egg_id != "":
+			_go_story_mode([egg_id])
+			return
+		# 발을 들인 런이 빈 주에 스스로 고르는 습관 방문 하나(834 B2.5).
+		var habit_id := _full_story_habit_id()
+		if habit_id != "":
+			_go_story_mode([habit_id])
+			return
+		# 네 번째 빈 주가 되기 전, 이미 한 결정의 회수 장면 하나(837 B1).
+		var recall_id := _full_story_rhythm_recall_id()
+		if recall_id != "":
+			_go_story_mode([recall_id])
 			return
 	if _full_story_route_week():
 		return
@@ -6990,6 +7063,131 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 		SceneTransition.go_covered("res://scenes/StoryMode.tscn")
 	else:
 		SceneTransition.go("res://scenes/StoryMode.tscn")
+
+func _full_story_body_band_scene_id() -> String:
+	# Full run only: the demo and AP surfaces keep their bytes and pools.
+	if not FULL_STORY_FLOW.is_full_run() or GameState.turn <= 1:
+		return ""
+	return BODY_BAND_SCENES.take_scene(
+		GameState.flags,
+		{"health": GameState.health, "mental": GameState.mental},
+		int(GameState.turn),
+		not GameState.current_job.is_empty(),
+		func(event_id: String) -> bool:
+			return not DataRegistry.find_event(event_id).is_empty())
+
+
+func _full_story_body_crisis_scene_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return BODY_TIDE.take_crisis_scene(
+		GameState.flags,
+		int(GameState.turn),
+		int(GameState.health),
+		func(event_id: String) -> bool:
+			return not DataRegistry.find_event(event_id).is_empty())
+
+
+func _full_story_apply_body_tide(expected_turn: int) -> void:
+	# Full run only: a rest or strain choice tilts the next weeks (836 B2).
+	if not FULL_STORY_FLOW.is_full_run():
+		return
+	var delta := BODY_TIDE.take_week(GameState.flags, expected_turn, GameState.event_log)
+	if delta != 0:
+		GameState.modify_stat("health", delta)
+
+
+func _full_story_invest_beat_id() -> String:
+	# Full run only: the demo and AP surfaces keep their bytes and pools.
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	var lean := ""
+	if GameState.route_orthodox > GameState.route_unorthodox:
+		lean = "orthodox"
+	elif GameState.route_unorthodox > GameState.route_orthodox:
+		lean = "unorthodox"
+	return INVEST_BRANCH_BEATS.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		str(GameState.housing),
+		GameState.portfolio,
+		GameState.market_prices,
+		_full_story_branch_event_open,
+		{},
+		{
+			"market_cycle": str(GameState.market_context.get("cycle", "neutral")),
+			"cast_stages": {"sangchul": GameState.get_cast_stage("sangchul")},
+			"route_lean": lean,
+		})
+
+
+func _full_story_branch_event_open(event_id: String) -> bool:
+	# Older routes and the random pool may already have played a beat.
+	if DataRegistry.find_event(event_id).is_empty():
+		return false
+	for raw in GameState.event_log:
+		if raw is Dictionary and str((raw as Dictionary).get("event_id", "")) == event_id:
+			return false
+	return true
+
+
+func _full_story_gamble_beat_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return GAMBLE_BRANCH_BEATS.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		not GameState.current_job.is_empty(),
+		_full_story_branch_event_open,
+		{},
+		{"addiction": int(GameState.addiction_tendency)})
+
+
+func _full_story_addiction_scene_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return ADDICTION_ARC.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		int(GameState.addiction_tendency),
+		_full_story_branch_event_open)
+
+
+func _full_story_easter_egg_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return EASTER_EGG_ROUTE.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		func(event_id: String) -> bool:
+			return EventManager.deferred_event_is_eligible(event_id),
+		func(event_id: String) -> bool:
+			return not _full_story_branch_event_open(event_id))
+
+
+func _full_story_habit_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return BRANCH_HABIT.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		not GameState.portfolio.is_empty(),
+		GameState.event_log,
+		func(event_id: String) -> bool:
+			return not DataRegistry.find_event(event_id).is_empty())
+
+
+func _full_story_rhythm_recall_id() -> String:
+	if not FULL_STORY_FLOW.is_full_run():
+		return ""
+	return RHYTHM_RECALL.take_scene(
+		GameState.flags,
+		int(GameState.turn),
+		int(GameState.flags.get("foreground_story_turn", -1)),
+		GameState.event_log,
+		func(event_id: String) -> bool:
+			return EventManager.deferred_event_is_eligible(event_id))
+
 
 func _foreground_story_consumed_this_week() -> bool:
 	return int(GameState.flags.get("foreground_story_turn", -1)) == GameState.turn
@@ -7464,6 +7662,16 @@ func _story_graph_contract_event_id(
 				return "arc_daeun_03_fork_hold_receipt"
 			if released_daeun and not chose_daeun:
 				return "arc_daeun_03_fork_release_receipt"
+		# Letting Daeun go is not a choice to lose everyone: once her parting
+		# scenes have played (or M22's last week arrives), Jiyeon's offer still
+		# comes inside M22 if the player already knows her from the store.
+		# User decision 2026-11-26 — D1 re-measure: the release closed both doors.
+		if released_daeun and not chose_daeun \
+				and f.get("arc_daeun_fork_receipt_seen", false) \
+				and f.get("arc_jiyeon_store_seen", false) \
+				and not f.get("arc_jiyeon_offer_seen", false) \
+				and (f.get("arc_daeun_regret_seen", false) or t >= 88):
+			return "arc_jiyeon_03_offer"
 		if f.get("arc_daeun_fork_seen", false) \
 				or f.get("arc_jiyeon_offer_seen", false) \
 				or f.get("arc_y2_relationship_fork_unattached_seen", false):
@@ -9140,6 +9348,9 @@ func _apply_monthly_event(ev: Dictionary):
 			GameState.modify_stat("health", -hp_dmg)
 			GameState.modify_hidden_stat("stress", 12)
 			_show_toast("%s — %s" % [title, desc], color)
+			if FULL_STORY_FLOW.is_full_run():
+				# The next free week answers the body with a scene (836 B2).
+				BODY_TIDE.queue_crisis(GameState.flags, int(GameState.turn))
 			GameState.add_log(desc, "system")
 
 # ── 쌓인 능력이 세계를 다르게 보이게 하는 순간 ───────────────────────
@@ -18297,12 +18508,45 @@ func _on_racetrack_closed():
 	_render_ap_actions()
 
 func _open_holdem():
-	if not _can_open_gamble_session():
+	if FULL_STORY_FLOW.is_full_run():
+		if not _full_story_activity_can_open("holdem"):
+			return
+	elif not _can_open_gamble_session():
 		return
 	_enter_minigame_overlay(holdem_club)
 	holdem_club.open()
 
+## Full story: a choice opened this activity for this week only (ORDER-834 B2).
+func _full_story_activity_can_open(activity_id: String) -> bool:
+	return not _minigame_overlay_active \
+		and FULL_STORY_FLOW.pending_activity_id() == activity_id \
+		and not GameState.flags.has("full_story_activity_save_pending") \
+		and FULL_STORY_FLOW.begin_activity(activity_id)
+
+## Full story: the minigame already settled every bet. Receipt the real session
+## and return to the same story week, without AP or a second payout.
+func _full_story_close_activity(activity_id: String, node: Node, game_id: String,
+		axis_action: String) -> void:
+	if not _minigame_overlay_active \
+			or FULL_STORY_FLOW.pending_activity_id() != activity_id:
+		return
+	var details := _gamble_session_details(game_id, node)
+	if not FULL_STORY_FLOW.close_activity(activity_id,
+			int(details["rounds"]), float(details["session_net"])):
+		push_error("Full story could not close its actual %s session" % activity_id)
+		return
+	_exit_minigame_overlay()
+	if int(details["rounds"]) > 0:
+		GameState.register_action_axis("money", game_id, axis_action)
+		details["settled"] = true
+		_record_gamble_session_result(details)
+	if _full_story_save_activity(GameState.turn, "closed"):
+		_full_story_after_activity_saved("closed")
+
 func _on_holdem_closed():
+	if FULL_STORY_FLOW.is_full_run():
+		_full_story_close_activity("holdem", holdem_club, "holdem", "gamble_holdem")
+		return
 	_exit_minigame_overlay()
 	_record_gamble_session_result(_settle_gamble_session(
 		"gamble_holdem", "holdem", "underground", holdem_club))
@@ -18324,12 +18568,18 @@ func _on_scalping_closed():
 	_render_ap_actions()
 
 func _open_jeongseon_casino():
-	if not _can_open_gamble_session():
+	if FULL_STORY_FLOW.is_full_run():
+		if not _full_story_activity_can_open("jeongseon_casino"):
+			return
+	elif not _can_open_gamble_session():
 		return
 	_enter_minigame_overlay(jeongseon_casino)
 	jeongseon_casino.open()
 
 func _on_jeongseon_casino_closed():
+	if FULL_STORY_FLOW.is_full_run():
+		_full_story_close_activity("jeongseon_casino", jeongseon_casino, "casino", "gamble_casino")
+		return
 	_exit_minigame_overlay()
 	_record_gamble_session_result(_settle_gamble_session(
 		"gamble_casino", "casino", "expedition", jeongseon_casino))

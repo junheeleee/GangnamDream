@@ -64,7 +64,9 @@ func process_month(news_items):
 	_check_margin_calls()
 	portfolio_updated.emit()
 
-func buy_asset(asset_id, amount_krw):
+## `allow_below_min`: an authored story choice may name a smaller stake than the
+## trading screen's minimum ("1만원을 입금했다"); fractional quantity is fine.
+func buy_asset(asset_id, amount_krw, allow_below_min: bool = false):
 	var asset = DataRegistry.get_asset(asset_id)
 	if asset.is_empty():
 		return {"success": false, "message": LocaleManager.ui("존재하지 않는 자산입니다.", "Asset does not exist.")}
@@ -75,7 +77,7 @@ func buy_asset(asset_id, amount_krw):
 	if current_price <= 0.0:
 		return {"success": false, "message": LocaleManager.ui("자산 가격 정보가 없습니다.", "Asset price data is unavailable.")}
 	var min_invest = float(asset.get("min_invest", current_price))
-	if cash_committed < min_invest:
+	if cash_committed < min_invest and not allow_below_min:
 		return {"success": false, "message": LocaleManager.ui("최소 투자 금액은 %s입니다.", "Minimum investment is %s.") % GameState.format_money(min_invest)}
 	if cash_committed > GameState.money:
 		return {"success": false, "message": LocaleManager.ui("잔액이 부족합니다.", "Insufficient balance.")}

@@ -2411,10 +2411,10 @@
       {
         "text": "팔았다. 손가락이 멈칫했지만",
         "effects": {
-          "money": -100000,
           "mental": 3,
           "investment_skill": 2
         },
+        "market_sell": {"asset_id": "*", "ratio": 1.0},
         "flags": [
           "arc_invest_first_loss_seen",
           "cut_loss_first"
@@ -2436,10 +2436,11 @@
       {
         "text": "20만원을 더 넣었다. 평균 단가가 낮아졌다",
         "effects": {
-          "money": -200000,
           "investment_skill": 1,
           "mental": -2
         },
+        "market_buy": {"asset_id": "kospi_etf", "amount": 200000},
+        "tendency": {"invest": 4},
         "flags": [
           "arc_invest_first_loss_seen",
           "averaged_down"

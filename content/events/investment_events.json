@@ -1268,12 +1268,12 @@
       {
         "text": "소액만 참여해본다 — FOMO를 달랜다",
         "effects": {
-          "money": -500000,
           "gambling_tendency": 8,
           "addiction_tendency": 10,
           "investment_skill": -1,
           "tint": -2
         },
+        "market_buy": {"asset_id": "bitcoin", "amount": 500000},
         "result_text": "50만 원을 넣었다. 처음엔 두 배가 됐다.\n그리고 반 토막. 다시 조금 올라와서 -30%에 멈췄다.\n팔아야 하는데, 손에 안 잡혔다.\n코인의 마력은 그거였다. 손절이 불가능하다.",
         "route": "unorthodox"
       },
@@ -1293,7 +1293,7 @@
           "mental": 4,
           "intelligence": 4
         },
-        "result_text": "블록체인 백서를 읽었다. 기술은 흥미로웠다.\n이해하지 못하는 것에 돈을 넣지 않겠다는 원칙이 생겼다.\n그 원칙 하나가 나중에 {name}을 몇 번은 구해줄 거였다."
+        "result_text": "블록체인 백서를 읽었다. 기술은 흥미로웠다.\n{name}은 수첩 첫 장에 한 줄을 적었다. '이해 못 하면 넣지 않는다.'\n밑줄은 두 번 그었다."
       }
     ]
   },
@@ -1695,7 +1695,7 @@
       "opportunity"
     ],
     "cooldown": 20,
-    "description": "지금까지 걸어온 길이 어떤 문을 열었다.\n증권사 프라이빗 뱅킹 센터. 일반 고객은 들어오지 못하는 곳.\n\n\"저희 리서치팀 보고서를 먼저 공유드릴 수 있어요.\n합법적인 범위 내에서, 정보는 빠를수록 좋으니까요.\"\n\n같은 출발선이 아니다. 정도를 걸어온 자에게만 열리는 문.",
+    "description": "지금까지 걸어온 길이 어떤 문을 열었다.\n증권사 프라이빗 뱅킹 센터. 일반 고객은 들어오지 못하는 곳.\n\n\"저희 리서치팀 보고서를 먼저 공유드릴 수 있어요.\n합법적인 범위 내에서, 정보는 빠를수록 좋으니까요.\"\n\n안내 데스크 직원이 {name}의 이름을 한 번에 불렀다.",
     "choices": [
       {
         "text": "PB 서비스를 받기로 한다",
@@ -1709,7 +1709,7 @@
         "flags": [
           "pb_access"
         ],
-        "result_text": "이제 시장보다 하루 빠른 분석을 받는다.\n공개된 정보지만, 해석이 다르다.\n같은 수영장에서 수영하더라도, 레인이 다르다는 걸 처음 알았다."
+        "result_text": "이제 시장보다 하루 빠른 분석을 받는다.\n공개된 정보지만, 해석이 다르다.\n첫 보고서 표지에는 {name}의 이름이 인쇄되어 있었다."
       },
       {
         "text": "감사하지만, 혼자 결정하고 싶다",
@@ -1740,7 +1740,7 @@
       "risk"
     ],
     "cooldown": 14,
-    "description": "밤 늦은 포장마차. 처음 보는 중년 남자가 말을 건다.\n\n\"...잠깐, 당신 아는 스타일이다. 정석만으로 안 가는 사람.\"\n\n맞다. 어떻게 알았을까.\n그가 목소리를 낮춘다.\n\"이번 달에 특정 소재주 움직임이 있을 거야.\n내부 얘기는 아니야. 그냥 감이 좋아서 하는 말.\"\n\n법적으로 문제없는 선에서의 정보다. 아마도.",
+    "description": "밤 늦은 포장마차. 처음 보는 중년 남자가 말을 건다.\n\n\"...잠깐, 당신 아는 스타일이다. 정석만으로 안 가는 사람.\"\n\n맞다. 어떻게 알았을까.\n그가 목소리를 낮춘다.\n\"이번 달에 반도체 테마주 쪽에 움직임이 있을 거야.\n내부 얘기는 아니야. 그냥 감이 좋아서 하는 말.\"\n\n법적으로 문제없는 선에서의 정보다. 아마도.",
     "choices": [
       {
         "text": "그 정보를 살려 포지션을 잡는다",
@@ -1754,15 +1754,21 @@
         "flags": [
           "took_gray_tip"
         ],
-        "result_text": "포지션을 잡았다. 맞을 수도, 틀릴 수도 있다.\n그 남자가 맞다면 수익. 틀리다면 손실.\n하지만 이런 정보는 찾을 줄 아는 사람에게만 온다."
+        "result_text": "포지션을 잡았다. 맞을 수도, 틀릴 수도 있다.\n그 남자가 맞다면 수익. 틀리다면 손실.\n주문 내역에 'AI 반도체 테마'라는 이름이 찍혔다.",
+        "market_buy": {
+          "asset_id": "ai_chip",
+          "cash_ratio": 0.2,
+          "min": 10000,
+          "max": 15000000
+        }
       },
       {
-        "text": "무시한다 — 루머는 루머다",
+        "text": "무시한다. 루머는 루머다",
         "effects": {
           "intelligence": 3,
           "mental": 3
         },
-        "result_text": "그냥 마셨다. 좋은 소주였다.\n정보라는 이름의 잡음은 시장에 넘쳐흐른다.\n버릴 줄 아는 것도 기술이다."
+        "result_text": "그냥 마셨다. 좋은 소주였다.\n남자는 먼저 자리를 떴다.\n{name}은 그가 남긴 소주 반병을 마저 비웠다."
       },
       {
         "text": "그 사람에 대해 더 알아본다",
@@ -2087,7 +2093,7 @@
   {
     "id": "sangchul_tip_redev",
     "title": "임상철의 귀띔 — 급매물",
-    "description": "부동산 문을 열자 임상철이 손짓했다.\n\n「민준아, 이건 아무한테나 말 안 하는 건데.」\n\n역세권 상가 지분 급매. 주인이 급전이 필요해서 시세보다 한참 아래로 내놨다고 했다.\n\n「내가 30년 본 물건 중에 손에 꼽아. 근데 돈이라는 게, 확실한 건 없다. 그건 알고 들어가라.」\n\n신뢰가 쌓인 사람만 들을 수 있는 정보다. 하지만 결정은 결국 내 몫이다.",
+    "description": "부동산 문을 열자 임상철이 손짓했다.\n\n「이건 아무한테나 말 안 하는 건데.」\n\n역세권 상가 지분 급매. 주인이 급전이 필요해서 시세보다 한참 아래로 내놨다고 했다.\n\n「내가 30년 본 물건 중에 손에 꼽아. 근데 돈이라는 게, 확실한 건 없다. 그건 알고 들어가라.」\n\n상철은 거기까지만 말하고 커피를 마셨다. 사라는 말도, 말라는 말도 하지 않았다.",
     "category": "investment",
     "rarity": "rare",
     "weight": 4,
@@ -2200,6 +2206,8 @@
     "rarity": "uncommon",
     "weight": 5,
     "hidden": false,
+    "background": "gukbap_restaurant_night",
+    "portrait": "sangchul_normal",
     "conditions": {
       "cast_stage": {
         "person": "sangchul",
@@ -2227,10 +2235,10 @@
         "flags": [
           "heeded_sangchul_warning"
         ],
-        "result_text": "그날 밤 포트폴리오를 다시 들여다봤다.\n과하게 물려 있던 자리가 보였다.\n노인의 말은 공짜로 듣는 30년치 수업료다."
+        "result_text": "그날 밤 포트폴리오를 다시 들여다봤다.\n과하게 물려 있던 자리가 보였다.\n{name}은 그 종목 옆에 연필로 작게 '상철'이라고 적어 두었다."
       },
       {
-        "text": "「이번엔 다르다」 — 내 판단대로 간다",
+        "text": "「이번엔 다르다」. 내 판단대로 간다",
         "effects": {
           "investment_skill": 1,
           "mental": -4
@@ -2356,6 +2364,8 @@
           "luck": -1,
           "mental": -4
         },
+        "market_buy": {"asset_id": "kospi_3x", "cash_ratio": 0.3, "min": 15000, "max": 10000000},
+        "tendency": {"invest": 4},
         "result_text": "30%를 3배 레버리지에 넣었다.\n그건 사실상 전체 포트의 90%를 한 방향에 거는 것과 같았다."
       },
       {
@@ -2372,7 +2382,7 @@
   {
     "id": "market_crash_panic",
     "title": "폭락장",
-    "description": "시장이 무너지고 있었다.\n\n미국 고용지표 충격. 서킷브레이커. 코스피 -8%.\n\n SNS에는 '다 팔았다', '이미 늦었다'가 가득했다.\n{name}의 포트폴리오도 새빨간 숫자들이었다.",
+    "description": "시장이 무너지고 있었다.\n\n미국 고용지표 충격. 서킷브레이커.\n\n SNS에는 '다 팔았다', '이미 늦었다'가 가득했다.\n{name}의 포트폴리오도 새빨간 숫자들이었다.",
     "category": "investment",
     "rarity": "uncommon",
     "weight": 5,
@@ -2389,29 +2399,42 @@
     "cooldown": 15,
     "choices": [
       {
-        "text": "공포를 이용한다 — 분할 매수 기회",
+        "text": "공포를 이용한다. 분할 매수 기회다",
         "effects": {
           "investment_skill": 3,
           "intelligence": 2,
           "mental": -8
         },
-        "result_text": "공포에 살 수 있었다.\n2개월 뒤 시장은 50% 반등했고, 그 포지션은 두 배가 됐다."
+        "result_text": "공포 속에서 분할 매수 주문을 넣었다.\n체결 알림이 세 번 울렸다. 화면의 숫자는 여전히 빨갰다.",
+        "market_buy": {
+          "asset_id": "kospi_etf",
+          "cash_ratio": 0.3,
+          "min": 10000,
+          "max": 20000000
+        },
+        "tendency": {
+          "invest": 2
+        }
       },
       {
-        "text": "전량 매도 — 원금은 지켜야 한다",
+        "text": "전량 매도한다. 원금은 지켜야 한다",
         "effects": {
           "mental": 11,
           "investment_skill": 1
         },
-        "result_text": "팔았다. 손실을 확정했다.\n그 뒤로 한동안 시장을 보지 않았다."
+        "result_text": "팔았다. 손실을 확정했다.\n그 뒤로 한동안 시장을 보지 않았다.",
+        "market_sell": {
+          "asset_id": "*",
+          "ratio": 1.0
+        }
       },
       {
-        "text": "아무것도 안 한다 — 흔들리지 않는다",
+        "text": "아무것도 안 한다. 흔들리지 않는다",
         "effects": {
           "mental": -9,
           "investment_skill": 2
         },
-        "result_text": "버텼다. 그게 전부였다.\n버티는 것도 전략이라는 걸, 그때 처음 알았다."
+        "result_text": "버텼다. 그게 전부였다.\n앱을 지우지는 않고, 알림만 껐다."
       }
     ]
   },
@@ -2487,6 +2510,8 @@
           "health": -3,
           "mental": -5
         },
+        "market_buy": {"asset_id": "nasdaq", "cash_ratio": 0.1, "min": 50000, "max": 1000000},
+        "tendency": {"invest": 4},
         "result_text": "샀다. 그리고 새벽 4시에 잠들었다.\n다음날 -3%. 피로와 손실이 함께 쌓였다."
       }
     ]
@@ -2524,6 +2549,116 @@
           "mental": 7
         },
         "result_text": "껐다.\n강남 집값이 오르든 말든, 오늘 할 일은 오늘 해야 했다."
+      }
+    ]
+  },
+  {
+    "id": "habit_portfolio_check",
+    "title": "계좌를 연다",
+    "description": "일요일 밤, 증권 앱을 열었다. 보유 종목 옆 숫자가 빨강과 파랑 사이를 오가고 있었다.\n\n잔고 화면 아래에 '주문 가능 금액'이 떠 있었다. 통장에 있는 돈이 그대로 거기 옮겨 와 있었다.\n\n손가락이 매수 버튼 위에 잠깐 머물렀다.",
+    "category": "investment",
+    "rarity": "story",
+    "weight": 1.0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "investment",
+      "habit"
+    ],
+    "cooldown": 1,
+    "choices": [
+      {
+        "text": "모아 둔 돈 일부로 지수 ETF를 더 산다",
+        "effects": {
+          "mental": 1
+        },
+        "market_buy": {
+          "asset_id": "kospi_etf",
+          "cash_ratio": 0.15,
+          "min": 10000,
+          "max": 3000000
+        },
+        "result_text": "체결 알림이 떴다. 평균 단가가 소수점 아래에서 조금 움직였다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "가진 것의 절반을 판다",
+        "effects": {
+          "mental": -1
+        },
+        "market_sell": {
+          "asset_id": "*",
+          "ratio": 0.5
+        },
+        "result_text": "매도 체결. 확정된 숫자가 처음으로 움직이지 않았다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "앱을 닫고 그대로 둔다",
+        "effects": {},
+        "result_text": "화면을 끄자 방이 어두워졌다. 휴대폰을 엎어 두고 누웠다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "habit_portfolio_regular",
+    "title": "새벽의 호가창",
+    "description": "새벽 세 시, 미국장 마감 한 시간 전. 화면 불빛이 천장에 네모를 그렸다.\n\n하루에도 몇 번씩 앱을 열었다 닫았다. 보유 평가액이 어제보다 몇십만 원 움직여 있었다.\n\n오른쪽 위에 '레버리지 상품 거래 가능'이라는 배지가 새로 붙어 있었다.",
+    "category": "investment",
+    "rarity": "story",
+    "weight": 1.0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "investment",
+      "habit"
+    ],
+    "cooldown": 1,
+    "choices": [
+      {
+        "text": "남은 돈 일부로 나스닥 ETF를 더 산다",
+        "effects": {
+          "health": -1,
+          "mental": -1
+        },
+        "market_buy": {
+          "asset_id": "nasdaq",
+          "cash_ratio": 0.25,
+          "min": 10000,
+          "max": 10000000
+        },
+        "result_text": "체결음이 울렸다. 창밖이 조금씩 밝아졌다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "3배 레버리지 상품에 일부를 싣는다",
+        "effects": {
+          "health": -1,
+          "mental": -2
+        },
+        "market_buy": {
+          "asset_id": "kospi_3x",
+          "cash_ratio": 0.15,
+          "min": 15000,
+          "max": 10000000
+        },
+        "result_text": "체결 내역에 3이라는 숫자가 찍혀 있었다. 다시 잠이 오지 않았다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "전부 팔고 앱을 지운다",
+        "effects": {
+          "mental": 2
+        },
+        "market_sell": {
+          "asset_id": "*",
+          "ratio": 1.0
+        },
+        "result_text": "삭제 버튼을 누르자 아이콘이 흔들리다 사라졌다. 바탕화면에 빈칸 하나가 남았다.",
+        "follow_up_event": ""
       }
     ]
   }

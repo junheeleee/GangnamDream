@@ -6,7 +6,7 @@
     "choices": [
       {
         "text": "Enduring then became the foundation now",
-        "result_text": "'Best option' can sound shabby. But those shabby best-options stacked into a path.\n\nBecause the first week was endured, there was a second week, and so on to here.\n{name} acknowledged that persistence anew."
+        "result_text": "The first week's check-ins were still in the phone calendar, every box filled without a late mark.\n\n{name} looked at the screen a moment, then checked tomorrow's alarm again."
       },
       {
         "text": "Now I do more than just endure",
@@ -21,10 +21,10 @@
     "choices": [
       {
         "text": "Finding meaning in work isn't bad either",
-        "result_text": "See every hour only as a means to Gangnam and five years is too long.\n\nIf you can find small reward in the work itself, the road hurts less.\n{name} was finding a balance between means and process."
+        "result_text": "At lunch, saving the finished spreadsheet, {name} nodded to himself.\n\nGangnam was still far off. Still, the afternoon didn't feel long."
       },
       {
-        "text": "Still, the goal is elsewhere — don't forget",
+        "text": "Still, the goal is elsewhere. Don't forget",
         "result_text": "Even if the work is good, this isn't the destination.\n\n{name} decided not to settle into satisfaction."
       }
     ]
@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "Doubting yet continuing was the answer",
-        "result_text": "Doubt wasn't something to erase but to carry.\n\nHad they quit then, there'd be no foundation now.\n{name} acknowledged the self who stepped forward even within doubt."
+        "result_text": "Had he quit then, there'd be no foundation now.\n\n{name} hung the ID badge around his neck and pressed the elevator button."
       },
       {
         "text": "Re-examine whether that doubt was right",
@@ -50,12 +50,12 @@
     "description": "The day of the first paycheck, instead of celebrating, {name} immediately opened the investing app. 'This money can't just sit in the account.'\n\nThat instinct built the current momentum.\n\nMoney came in again today.",
     "choices": [
       {
-        "text": "That mindset — make money work",
+        "text": "That same mindset: make money work",
         "result_text": "Knew from the first payday that salary alone can't reach Gangnam.\n\nMoney making money. {name} grasped it early, started early.\nThat one month's head start becomes a large gap five years out."
       },
       {
         "text": "Now I watch risk over speed",
-        "result_text": "At first, believed rolling it all was the answer.\n\nNow knows not losing matters as much as gaining."
+        "result_text": "At first, he believed keeping it all in play was the answer.\n\nNow, before pressing buy, {name} writes down the stop-loss price first."
       }
     ]
   },
@@ -126,25 +126,25 @@
     "choices": [
       {
         "text": "Those dawns weren't wasted",
-        "result_text": "A light left on while others slept.\n\nThose hours built an invisible gap.\n{name} knows they owe a lot to the dawn self."
+        "result_text": "A light left on while others slept.\n\nThose hours built an invisible gap.\nTonight too, {name} left the desk lamp on and opened the book."
       },
       {
-        "text": "Cut the reckless all-nighters now — watch efficiency",
-        "result_text": "All-nighters powered by desperation were needed, but can't last forever.\n\n{name} began to value quality of time over quantity."
+        "text": "Cut the reckless all-nighters and watch efficiency",
+        "result_text": "All-nighters powered by desperation were needed, but can't last forever.\n\nWhen midnight came, {name} closed the book and switched off the desk lamp."
       }
     ]
   },
   {
     "id": "callback_keeps_records_echo",
     "title": "The Day I Organized a Year's Records",
-    "description": "In the first year in Seoul, {name} organized a year of records to 'confirm in numbers how far I'd come.'\n\nThat habit continued.\n\nToday they opened those records again.",
+    "description": "In the first year in Seoul, {name} organized a year of records to 'confirm in numbers how far I'd come.'\n\nThat habit continued.\n\nToday he opened those records again.",
     "choices": [
       {
         "text": "Records steady me when I waver",
-        "result_text": "Emotion lies that 'nothing has changed,' but records don't lie.\n\nThe numbers compared to a year ago gave {name} objective comfort.\nSeeing how far you've come shows how much farther to go."
+        "result_text": "The numbers compared to a year ago gave {name} objective comfort.\n{name} folded down the corner of that page."
       },
       {
-        "text": "Beyond records — design the next year",
+        "text": "Beyond records, design the next year",
         "result_text": "Didn't stop at writing down the road traveled.\n\n{name} used that data to plan the next year's strategy."
       }
     ]
@@ -159,7 +159,7 @@
         "result_text": "Even the year called a warm-up was a full sprint to someone.\n\nPushing that hard produced a speed unlike others'.\n{name} didn't regret the ferocity."
       },
       {
-        "text": "Ferocity alone won't last — pace it sustainably",
+        "text": "Ferocity alone won't last. Pace it sustainably",
         "result_text": "Early explosive drive was needed. But five years isn't a sprint.\n\n{name} converted ferocity into a sustainable pace."
       }
     ]

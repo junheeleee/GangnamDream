@@ -2,11 +2,11 @@
   {
     "id": "callback_asked_father_more_echo",
     "title": "Dad Spoke First",
-    "description": "It was a Sunday evening call.\n\nDad brought it up himself.\n\n'Minjun-ah. Last time you asked how I was doing — really asked.'\n\nA pause.\n\n'That meant something.'",
+    "description": "It was a Sunday evening call.\n\nDad brought it up himself.\n\n'Son. Last time you asked how I was doing — really asked.'\n\nA pause.\n\n'That meant something.'",
     "choices": [
       {
         "text": "\"I worry about you, Dad.\"",
-        "result_text": "'...Yeah.'\n\nNot many words. But this call was different.\nAsking a little more the last time had come back around like this.\n\n{name} hung up and sat still for a while."
+        "result_text": "'...Yeah.'\n\nNot many words. But this call ran a little longer before it ended.\n\n{name} hung up and sat still for a while."
       },
       {
         "text": "\"Don't mention it. I was just curious.\"",
@@ -17,30 +17,30 @@
   {
     "id": "callback_medication_visited_echo",
     "title": "A Train Ticket and a Medicine Bag",
-    "description": "While sorting photos on your phone, you found a train ticket to Changwon from three months ago.\nThe next photo showed a medicine bag on the table and an apple your father had peeled.\n\nThe man who told you not to come had been waiting by the door to take your bag.",
+    "description": "While sorting photos on his phone, he found a train ticket to Changwon from three months ago.\nThe next photo showed a medicine bag on the table and an apple his father had peeled.\n\nThe man who told him not to come had been waiting by the door to take his bag.",
     "choices": [
       {
         "text": "Save the photos and date in the family album",
-        "result_text": "Under the ticket, you wrote: 'The weekend he started medication.'\nThat day, your father had put another piece of fish in your bowl instead of saying thank you. Even what went unsaid now had a date."
+        "result_text": "Under the ticket, he wrote: 'The weekend he started medication.'\nThat day, his father had put another piece of fish in his bowl instead of saying thank you. Even what went unsaid now had a date."
       },
       {
         "text": "Close the photos but keep the ticket",
-        "result_text": "You closed the photos without deleting the ticket.\nOne small date remained as proof that you had actually gone down that weekend."
+        "result_text": "He closed the photos without deleting the ticket.\nOne small date remained as proof that he had actually gone down that weekend."
       }
     ]
   },
   {
     "id": "callback_medication_ignored_echo",
     "title": "The Time You Did Not Go",
-    "description": "You searched your messages for 'medication' and found your mother's text from three months ago.\n'Your father started blood pressure medicine.'\nBelow it sat your reply — 'Okay' — and the empty space where no call had followed.",
+    "description": "He searched his messages for 'medication' and found his mother's text from three months ago.\n'Your father started blood pressure medicine.'\nBelow it sat his reply — 'Okay' — and the empty space where no call had followed.",
     "choices": [
       {
         "text": "Apologize to your mother for brushing it aside",
-        "result_text": "'I treated it too lightly then. I'm sorry.'\nAfter a long pause, your mother replied, 'I know.'\nIt was a short message, but this time you did not close the conversation first."
+        "result_text": "'I treated it too lightly then. I'm sorry.'\nAfter a long pause, his mother replied, 'I know.'\nIt was a short message, but this time he did not close the conversation first."
       },
       {
         "text": "Close the search results",
-        "result_text": "You closed the search results.\nOther messages rose to the top of the list, but those two words — 'Okay' — remained in the search history."
+        "result_text": "He closed the search results.\nOther messages rose to the top of the list, but those two words — 'Okay' — remained in the search history."
       }
     ]
   },

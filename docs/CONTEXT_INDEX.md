@@ -38,6 +38,7 @@ Updated: 2026-09-01
 | 선택·5장 결과 | `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | 표현·기억·결정 선택, 영수증·사실·반복 패턴, 챕터 간 스노우볼과 엔딩 입력 |
 | 인과·장소·대화 채널 | `content/meta/story_rules.json`, `docs/STORY_CONSISTENCY_SYSTEM.md` | 선행조건, 통화/기억, 장면 전환 |
 | 관계·결혼 | `docs/ROMANCE_SYSTEM.md` | 호칭, 상호배타, 결혼·이별 |
+| 풀프라이스 시스템 기준 | `docs/SYSTEMS_DESIGN.md` | 경제·세 갈래·몸과 마음·리듬·엔딩의 완성 기준과 실측 간극 |
 | 밸런스 | `docs/BALANCE.md`, `autoloads/GameState.gd` | 의도 밴드와 현재 실행값 |
 | MORAL_TINT | `docs/MORAL_TINT.md` | 숨은 변화의 의미와 표현 한계 |
 | 영어·다국어 | `docs/I18N_GLOSSARY.md`, `docs/I18N_INFRASTRUCTURE.md` | 용어, 폴백, 출시 언어 |
@@ -84,6 +85,7 @@ Updated: 2026-09-01
 - `content/meta/chapter1_core_loop_v2_causal_ledger.json`
 - `content/meta/demo_core_loop_v2.json`
 - `docs/AP_REDESIGN.md`
+- `docs/SYSTEMS_DESIGN.md`
 - `docs/BALANCE.md`
 - `autoloads/GameState.gd`
 - `scenes/MainGame.gd`의 관련 함수

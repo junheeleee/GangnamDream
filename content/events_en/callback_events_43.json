@@ -2,11 +2,11 @@
   {
     "id": "callback_told_father_win_echo",
     "title": "That Phone Call",
-    "description": "A Sunday call.\n\nDad brought it up out of nowhere.\n\n'Minjun-ah — that time you called because something went well. Your voice sounded good that day.'\n\nThe day {name} first crossed 50 million won, the first call was to Dad.",
+    "description": "A Sunday call.\n\nDad brought it up out of nowhere.\n\n'Son, that time you called because something went well. Your voice sounded good that day.'\n\nThe day {name} first crossed 50 million won, the first call was to Dad.",
     "choices": [
       {
         "text": "\"I was happy. I wanted to hear your voice.\"",
-        "result_text": "'...Yeah. I felt good that day too.'\n\nThe first person {name} thought of after making money was Dad. That meant something.\nNumbers are cold when looked at alone. Less so when there's someone to share them with."
+        "result_text": "'...Yeah. I felt good that day too.'\n\nThe first person {name} thought of after making money was Dad.\nAfter the call ended, {name} held the phone for a long while."
       },
       {
         "text": "\"It wasn't a big deal. I made a fuss over nothing.\"",
@@ -47,15 +47,15 @@
   {
     "id": "callback_gangnam_vow_echo",
     "title": "The Vow That Day",
-    "description": "The first time {name} went to Gangnam alone, they made a silent vow: 'I'll definitely make it here.'\n\nToday they passed that street again.\n\nA little closer than back then. Not arrived yet, but closer.",
+    "description": "The first time {name} went to Gangnam alone, he made a silent vow: 'I'll definitely make it here.'\n\nToday he passed that street again.\n\nA little closer than back then. Not arrived yet, but closer.",
     "choices": [
       {
         "text": "Renew the vow once more",
-        "result_text": "That day's vow wasn't empty.\n\nA vow made only in words is different from one backed by months of accumulated time.\n{name} paused on that street, then kept walking."
+        "result_text": "That day's vow wasn't empty.\n\n{name} paused on that street, then kept walking."
       },
       {
-        "text": "Know a vow isn't enough — audit the actions",
-        "result_text": "A vow is a starting line, not a finish.\n\n{name} coldly retraced what had actually been done since that day."
+        "text": "A vow wasn't enough. Audit the actions",
+        "result_text": "{name} coldly retraced what had actually been done since that day."
       }
     ]
   },
@@ -65,12 +65,12 @@
     "description": "The first time {name} went to Gangnam alone, they got honest: 'you don't know if this is really your goal.'\n\nThey carried that doubt and still made it this far.\n\nToday the question surfaced again. Found an answer?",
     "choices": [
       {
-        "text": "Now I know — this is my goal",
-        "result_text": "Pushing a doubted goal all the way through.\n\nIn that process {name} confirmed it was truly theirs.\nA goal made stronger precisely because it had been shaken."
+        "text": "Now I know. This is my goal",
+        "result_text": "{name} still remembered the exit he took the first day he got off at Gangnam Station.\n\nToday he walked past that exit without slowing down."
       },
       {
-        "text": "Still don't always know — but keep going",
-        "result_text": "You can walk without certainty.\n\nDecided not to erase the doubt, but to carry it."
+        "text": "Still don't always know. But keep going",
+        "result_text": "Climbing the station stairs, no answer came.\n\nHe decided not to erase the doubt, but to carry it."
       }
     ]
   },
@@ -95,11 +95,11 @@
     "description": "On the night the weight of 3 billion won pressed down, {name} did nothing and just lay down to sleep.\n\nThe doubt of that day.\n\nTonight a similar night returned.",
     "choices": [
       {
-        "text": "Like that day — sleep first, look again tomorrow",
-        "result_text": "Stopping is a strategy too.\n\n{name} now knows that just sleeping that day wasn't running away — it was recovery.\nThe next morning the numbers were the same, but the person was a little different."
+        "text": "Like that day, sleep first, look again tomorrow",
+        "result_text": "{name} turned the phone face down and lay down.\nThe next morning the numbers were the same, but the person was a little different."
       },
       {
-        "text": "Not just lying down this time — do one small thing",
+        "text": "Not just lying down this time. do one small thing",
         "result_text": "Remembering that day's helplessness.\n\nDecided to do one tiny thing before sleep today."
       }
     ]

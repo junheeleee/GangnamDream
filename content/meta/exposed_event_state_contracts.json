@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "scope": {
-    "root_count": 380,
-    "exposed_count": 531,
-    "root_ids_sha256": "6a21c7452a07d317d4ba1f964881e9dc0b6f0151dca0404452e9a3180301876e",
-    "exposed_ids_sha256": "6c401705db2b8762b74831bfd8825d3d395c2fe39c3a08467dac4b62dff28fb0"
+    "root_count": 381,
+    "exposed_count": 536,
+    "root_ids_sha256": "7acaeed6021b32d95f5cae1dfd4b1f09e3fc7090d135c988bab7714018251917",
+    "exposed_ids_sha256": "80c5f479c1ab895d911eb42f3a5d221a3c835acd4cdbf730a6f15e3e79f14041"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -436,6 +436,26 @@
       "relationship"
     ],
     "arc_daeun_wedding_day": [
+      "relationship"
+    ],
+    "arc_daeun_wedding_night": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_wedding_night_choice": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_wedding_night_honest": [
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_wedding_night_tea": [
+      "housing",
+      "location",
       "relationship"
     ],
     "arc_daeun_wedding_groom_side": [
@@ -2040,6 +2060,7 @@
       "location"
     ],
     "egg_honest_paradox": [
+      "employment",
       "location"
     ],
     "egg_quiet_rich": [
@@ -2072,6 +2093,11 @@
       "location"
     ],
     "gambling_rock_bottom": [
+      "employment",
+      "father_life",
+      "location"
+    ],
+    "gambling_rock_bottom_father_passed": [
       "employment",
       "father_life",
       "location"

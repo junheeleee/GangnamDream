@@ -6,26 +6,26 @@
     "choices": [
       {
         "text": "Does he know I made it?",
-        "result_text": "Even if he's gone, {name} got here on what he gave.\n\nIt wasn't revenge. It was proof.\n\"I did it\" — that single line is what all of this was running toward."
+        "result_text": "Even if he's gone, {name} got here on what he gave.\n\n{name} turned the words \"I did it\" over once, silently."
       },
       {
         "text": "The first thought was right",
-        "result_text": "It was never just about the money.\nSomewhere along the way it felt like it became about that — but it had always been the same reason.\n\n{name} understood that wasn't confusion. It was growth."
+        "result_text": "It was never just about the money.\nSomewhere along the way, what began for Father had come to feel like it was about the money.\n\n{name} opened the notebook to its first page and looked for a long while at the handwriting from the day 3 billion was first written down."
       }
     ]
   },
   {
     "id": "callback_called_father_first_echo",
     "title": "The One Who Calls First",
-    "description": "This time, Father called first.\n\n\"Oh, Minjun. You doing okay?\"\n\nAnswering the call, {name} remembered — there was a time when he'd called first.\nNo reason. Sunday morning.\n\nThat seems to have changed something.",
+    "description": "This time, Father called first.\n\n\"Hey, son. You doing okay?\"\n\nAnswering the call, {name} remembered calling first once.\nNo reason. Sunday morning.\n\nOn the other end, Father laughed first.",
     "choices": [
       {
         "text": "\"Yes, Father. I'm good.\" — short and warm",
-        "result_text": "The call ended.\n\nFather calling first seemed like nothing at first — but after hanging up, it was something.\n\nOne call made first. And now this."
+        "result_text": "The call ended.\n\n{name} looked down at the ended call for a long while. 'Father' sat at the top of the recent calls."
       },
       {
         "text": "The conversation ran long",
-        "result_text": "An hour passed.\n\nUsually ten minutes. Weather, food, Seoul rent, hometown news.\n\nOne Sunday call for no reason — it made this conversation."
+        "result_text": "An hour passed.\n\nUsually ten minutes. Weather, food, Seoul rent, hometown news.\n\n{name} stared at the length in the call log for a while."
       }
     ]
   },
@@ -35,11 +35,11 @@
     "description": "A message from Han Jiyeon.\n\n\"I opened the office. It's small. I wanted to send you a photo when I hung the sign.\"\n\nA photo was attached. A back street in Busan somewhere. A small sign. Han Jiyeon Real Estate.\n\n{name} looked at it for a long time.",
     "choices": [
       {
-        "text": "\"I'm really glad for you.\" — brief, sincere",
-        "result_text": "Jiyeon replied. \"Thank you. For seeing me off well.\"\n\nThat felt like a proper ending.\nDifferent directions — but seeing each other's path clearly."
+        "text": "\"I'm really glad for you.\" Brief, sincere",
+        "result_text": "Jiyeon replied. \"Thank you. For seeing me off well.\"\n\nThat felt like a proper ending.\nDifferent directions, but both knew they'd seen each other off well."
       },
       {
-        "text": "\"That's really yours now.\" — her words from back then came back",
+        "text": "\"That's really yours now.\" Her words from back then came back",
         "result_text": "Jiyeon just said \"Yes.\"\n\nThat short reply felt like it had a long silence behind it.\n\nNot her father's firm. Her name on the door.\nThat was genuinely hers."
       }
     ]
@@ -51,7 +51,7 @@
     "choices": [
       {
         "text": "Turned it down again. That decision was right.",
-        "result_text": "Declined.\n\nHanging up, {name} knew this wasn't a loss.\nCutting something means you no longer need to depend on it."
+        "result_text": "Declined.\n\nHanging up, {name} knew this wasn't a loss.\nHaving cut it, he no longer needed to depend on it."
       },
       {
         "text": "Hesitated for a moment. Declined anyway.",

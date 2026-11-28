@@ -77,11 +77,11 @@
   {
     "id": "callback_sangchul_jiyeon_connection",
     "title": "Sangchul 先提起的名字",
-    "description": "今天，和 Sangchul 吃飯時，他先開口問了。\n「Minjun，你認識 Han Jiyeon 嗎？\n她最近有在聊你的事。」",
+    "description": "今天，和 Sangchul 吃飯時，他先開口問了。\n「你認識 Han Jiyeon 嗎？\n她最近有在聊你的事。」",
     "choices": [
       {
         "text": "「聊什麼？」繼續問",
-        "result_text": "Sangchul 說：「是好話。說你是個值得信任的人。」\nJiyeon、Sangchul——評價在這張人脈網裡流動著。\n名聲，就是在看不見的地方形成的。"
+        "result_text": "Sangchul 說：「是好話。說你是個值得信任的人。」\n就算{name}不在場，他的名字也在被人提起。"
       },
       {
         "text": "說聲「是嗎？」就帶過",
@@ -107,7 +107,7 @@
   {
     "id": "callback_jaehyuk_felt_kindness_echo",
     "title": "Jaehyuk 的另一面",
-    "description": "Choi Jaehyuk 曾出乎意料地幫過忙。\n從那之後，看待 Jaehyuk 的眼光有了些變化。\n今天，又碰見了 Jaehyuk。\n還是個讓人不自在的人——卻有些不一樣了。",
+    "description": "Choi Jaehyuk 曾出乎意料地幫過忙。\n從那之後，看待 Jaehyuk 的眼光有了些變化。\n今天，又碰見了 Jaehyuk。\n還是個讓人不自在的人，但這次是他先點了點頭。",
     "choices": [
       {
         "text": "先開口搭話",
@@ -115,7 +115,7 @@
       },
       {
         "text": "直接走過去",
-        "result_text": "走了過去。\nJaehyuk 也走了過去。\n和複雜的人相處——也許這才是適當的距離。"
+        "result_text": "走了過去。\nJaehyuk 也走了過去。\n{name}沒有回頭看 Jaehyuk 的背影。"
       }
     ]
   },
@@ -126,11 +126,11 @@
     "choices": [
       {
         "text": "回應對方的聯絡",
-        "result_text": "「那天你做得很好。我也想那樣，可是沒能做到。」\n這句話，在心裡留了很久。\n撐住的人——會留在沒能撐住的人的記憶裡。"
+        "result_text": "「那天你做得很好。我也想那樣，可是沒能做到。」\n這句話，在心裡留了很久。"
       },
       {
         "text": "說句「沒什麼啦」就帶過",
-        "result_text": "說了聲：「沒什麼啦。」\n對方卻說：「……不，真的很了不起。」\n當事人不知道，旁邊看著的人卻知道。"
+        "result_text": "說了聲：「沒什麼啦。」\n對方卻說：「……不，真的很了不起。」"
       }
     ]
   },
@@ -141,7 +141,7 @@
     "choices": [
       {
         "text": "再問問，發生了什麼事",
-        "result_text": "對方說，他當初勉強鋪開的事業卡住了。\n要是一起做，我也會跟著卡住吧。\n拒絕——當時是勇氣，現在成了判斷力。"
+        "result_text": "對方說，他當初勉強鋪開的事業卡住了。\n要是一起做，自己也會跟著卡住吧。\n{name}沒有刪掉那天掛斷的通話紀錄。"
       },
       {
         "text": "說聲「喔」就帶過",

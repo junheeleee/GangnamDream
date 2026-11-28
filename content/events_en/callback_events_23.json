@@ -2,75 +2,75 @@
   {
     "id": "callback_jaehyuk_exploited_echo",
     "title": "After Being Used by Jaehyuk",
-    "description": "Two months since you found out Jaehyuk had used you.\nYou thought you'd sorted it out.\nToday, Jaehyuk contacted you.",
+    "description": "Two months since he found out Jaehyuk had used him.\nHe thought he'd sorted it out.\nToday, Jaehyuk contacted him.",
     "choices": [
       {
         "text": "Don't answer",
-        "result_text": "You didn't pick up.\nBeing used once had sharpened your judgment."
+        "result_text": "He didn't pick up.\nHaving been used once, his thumb hit decline first this time."
       },
       {
         "text": "Hear what he has to say",
-        "result_text": "You listened.\nIt wasn't an apology.\nIt was another proposal."
+        "result_text": "He listened.\nIt wasn't an apology.\nIt was another proposal."
       }
     ]
   },
   {
     "id": "callback_jaehyuk_partnered_echo",
     "title": "After Partnering with Jaehyuk",
-    "description": "Two months into the partnership with Jaehyuk.\nThings were moving along.\nToday he asked for your opinion on an important decision.",
+    "description": "Two months into the partnership with Jaehyuk.\nThings were moving along.\nToday Jaehyuk asked for {name}'s opinion on an important decision.",
     "choices": [
       {
         "text": "Speak your mind honestly",
-        "result_text": "You told him straight.\nJaehyuk paused to think.\n\"That's a fair point,\" he said."
+        "result_text": "{name} told him straight.\nJaehyuk paused to think.\n\"That's a fair point,\" he said."
       },
       {
         "text": "Defer to Jaehyuk's judgment",
-        "result_text": "You left it to him.\nHe decided."
+        "result_text": "{name} left it to Jaehyuk.\nJaehyuk decided."
       }
     ]
   },
   {
     "id": "callback_jaehyuk_refused_echo",
     "title": "After Turning Down Jaehyuk's Offer",
-    "description": "Two months since you turned down Jaehyuk's offer.\nThe relationship had been awkward ever since.\nToday you heard news about Jaehyuk through a mutual contact.",
+    "description": "Two months since he turned down Jaehyuk's offer.\nThe relationship had been awkward ever since.\nToday he heard news about Jaehyuk through a mutual contact.",
     "choices": [
       {
         "text": "Find out what happened",
-        "result_text": "You couldn't tell whether the deal had worked out or not.\nBut the feeling that you were right to say no was still there."
+        "result_text": "He couldn't tell whether the deal had worked out or not.\nBut the feeling that he was right to say no was still there."
       },
       {
         "text": "Don't give it a second thought",
-        "result_text": "You let it go.\nHowever things turned out on Jaehyuk's side—that's the story after you said no."
+        "result_text": "He let it go.\nHowever things turned out on Jaehyuk's side, {name} didn't search his name."
       }
     ]
   },
   {
     "id": "callback_jaehyuk_scammed_echo",
     "title": "After Being Scammed by Jaehyuk",
-    "description": "Two months since it was confirmed that Jaehyuk had scammed you.\nYou had looked into legal options.\nToday a lawyer got in touch.",
+    "description": "Two months since it was confirmed that Jaehyuk had scammed him.\nHe had looked into legal options.\nToday a lawyer got in touch.",
     "choices": [
       {
         "text": "Go through the process",
-        "result_text": "You followed the proper steps.\nIt was complicated.\nBut letting it go could have cost even more in the long run."
+        "result_text": "He followed the proper steps.\nIt was complicated.\nBut letting it go could have cost even more in the long run."
       },
       {
         "text": "Weigh whether it's worth the cost and energy",
-        "result_text": "You considered dropping it.\nThe lawyer said, \"This might not be just your problem.\""
+        "result_text": "He considered dropping it.\nThe lawyer said, \"This might not be just your problem.\""
       }
     ]
   },
   {
     "id": "callback_jiyeon_together_echo",
     "title": "After Deciding to Be with Jiyeon",
-    "description": "Two months since you decided to be together with Jiyeon.\nIt had felt unfamiliar at first.\nToday Jiyeon reached out first.",
+    "description": "Two months since he decided to be together with Jiyeon.\nIt had felt unfamiliar at first.\nToday Jiyeon reached out first.",
     "choices": [
       {
         "text": "Answer warmly",
-        "result_text": "You answered warmly.\nJiyeon said, \"Nothing special—have you eaten?\""
+        "result_text": "He answered warmly.\nJiyeon said, \"Nothing special—have you eaten?\""
       },
       {
         "text": "Stop asking why she's calling first",
-        "result_text": "You just picked up.\nJiyeon laughed. \"You always used to ask what was up.\""
+        "result_text": "He just picked up.\nJiyeon laughed. \"You always used to ask what was up.\""
       }
     ]
   },
@@ -122,15 +122,15 @@
   {
     "id": "callback_daeun_let_her_go_echo",
     "title": "After Letting Daeun Go",
-    "description": "Two months since you chose to let Daeun go.\nIt had been your decision.\nToday you ran into Daeun by chance.",
+    "description": "Two months since he chose to let Daeun go.\nIt had been his decision.\nToday he ran into Daeun by chance.",
     "choices": [
       {
         "text": "Say hello naturally",
-        "result_text": "You said hello naturally.\nShe did too.\nLetting go had made this naturalness possible."
+        "result_text": "He said hello naturally.\nShe did too.\nEach of them walked on the way they'd been going."
       },
       {
         "text": "Make eye contact but walk past",
-        "result_text": "You walked past.\nIt felt like the right call."
+        "result_text": "He walked past.\nIt felt like the right call."
       }
     ]
   },
@@ -182,15 +182,15 @@
   {
     "id": "callback_fell_to_darkness_echo",
     "title": "After Crossing Into Darker Territory",
-    "description": "Two months since you crossed a line that wasn't clearly drawn.\nThe money had come in.\nBut something nagged at you sometimes.\nToday you saw where things were heading.",
+    "description": "Two months since he crossed a line that wasn't clearly drawn.\nThe money had come in.\nBut something nagged at him sometimes.\nToday he saw where things were heading.",
     "choices": [
       {
         "text": "Keep going",
-        "result_text": "You kept going.\nAs long as the money comes in—you keep going."
+        "result_text": "He kept going.\nWhile the numbers kept landing in the account, he couldn't see a reason to stop."
       },
       {
         "text": "You can still stop here",
-        "result_text": "You stopped.\nThe unease had made you stop."
+        "result_text": "He stopped.\nThe unease had made him stop."
       }
     ]
   },

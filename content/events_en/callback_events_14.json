@@ -17,15 +17,15 @@
   {
     "id": "callback_stayed_clean_echo",
     "title": "Staying Clean",
-    "description": "Three months since you held the line against temptation.\nToday you looked back at whether that was right.\nWord came that the path you'd been tempted toward had run into trouble.",
+    "description": "Three months since he held the line against temptation.\nToday he looked back at whether that was right.\nWord came that the path he'd been tempted toward had run into trouble.",
     "choices": [
       {
         "text": "It was right to hold it",
-        "result_text": "Holding out had been right.\nStaying clean isn't losing an opportunity — it's waiting for a better one."
+        "result_text": "Holding out had been right.\nOnly now did {name} delete the offer message from back then."
       },
       {
         "text": "Partly feels like luck",
-        "result_text": "Partly luck.\nBut that luck only became luck because you'd held the line."
+        "result_text": "Partly luck.\nBut it was {name}'s own hand that pressed decline back then."
       }
     ]
   },
@@ -193,15 +193,15 @@
   {
     "id": "callback_joined_victims_echo",
     "title": "Joining the Group",
-    "description": "Two months since you joined the victim group.\nToday you received an update on the class action progress.",
+    "description": "Two months since he joined the victim group.\nToday he received an update on the class action progress.",
     "choices": [
       {
         "text": "Stay with it",
-        "result_text": "The suit was moving forward.\nAlone, you'd have given up."
+        "result_text": "The suit was moving forward.\nAlone, he'd have given up."
       },
       {
         "text": "It takes a lot of energy. Pull back a little.",
-        "result_text": "You pulled back.\nYou were starting to drain."
+        "result_text": "He pulled back.\nHe was starting to drain."
       }
     ]
   },

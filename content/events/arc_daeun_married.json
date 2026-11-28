@@ -631,6 +631,7 @@
         "flags": [
           "arc_daeun_wedding_day_seen"
         ],
+        "follow_up_event": "arc_daeun_wedding_night",
         "cast_effects": {
           "daeun": {
             "affinity": 8
@@ -647,6 +648,7 @@
         "flags": [
           "arc_daeun_wedding_day_seen"
         ],
+        "follow_up_event": "arc_daeun_wedding_night",
         "result_text": "단상에 선 {name}의 눈에 자꾸 빈 의자들이 밟혔다.\n\n강남은 가까워졌는데, 그 길에서 사람들이 하나씩 떨어져 나갔다.\n오늘에서야 그 셈이 눈에 보였다. 얻은 것과, 그동안 배웅도 없이 잃은 것들.\n다은이 걸어오는 그 짧은 시간이 유난히 길었다."
       }
     ]

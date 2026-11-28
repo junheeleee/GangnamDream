@@ -2,7 +2,7 @@
   {
     "id": "casino_chip_exchange",
     "title": "칩으로 바꾸는 순간",
-    "description": "정선 카지노 환전 창구.\n\n{name}은 현금을 내밀었다. 직원이 세더니 칩을 밀어줬다.\n\n초록색, 검정색, 보라색. 무게가 있었다.\n\n이상했다. 방금까지 돈이었던 게, 손에 쥐니 장난감 같았다.\n5만원이 칩 한 개. 그 칩이 5만원이라는 실감이 — 안 났다.\n\n그게 이 게임의 첫 번째 속임수라는 걸, {name}은 나중에 알게 된다.",
+    "description": "정선 카지노 환전 창구.\n\n{name}은 현금을 내밀었다. 직원이 세더니 칩을 밀어줬다.\n\n초록색, 검정색, 보라색. 무게가 있었다.\n\n이상했다. 방금까지 돈이었던 게, 손에 쥐니 장난감 같았다.\n5만원이 칩 한 개였다. {name}은 칩을 손가락 사이에서 굴려 보다가, 그게 며칠 치 밥값인지 세는 걸 그만두었다.",
     "category": "gambling",
     "rarity": "uncommon",
     "weight": 0.9,
@@ -30,7 +30,8 @@
           "tint": 3
         },
         "flags": [
-          "casino_set_limit"
+          "casino_set_limit",
+          "open_casino_after_story"
         ],
         "result_text": "10만원어치만 바꿨다. 지갑은 차에 두고 왔다.\n\n칩 두 개. 이게 오늘의 전부다.\n잃으면 끝, 따면 일어선다. 규칙을 미리 정해두니 마음이 가벼웠다.\n\n칩이 가벼워 보일수록, 한도를 정하는 사람이 이긴다.",
         "follow_up_event": ""
@@ -38,13 +39,13 @@
       {
         "text": "넉넉하게 바꿔둔다 — 모자라면 김이 새니까",
         "effects": {
-          "money": -300000,
           "mental": -4,
           "addiction_tendency": 6,
           "tint": -2
         },
         "flags": [
-          "casino_chips_loaded"
+          "casino_chips_loaded",
+          "open_casino_after_story"
         ],
         "result_text": "30만원어치 칩을 받았다. 묵직했다.\n\n넉넉해야 마음 편히 친다고 생각했다.\n근데 그 '넉넉함'이 곧 기준이 됐다. 30만원은 어느새 '오늘 쓸 돈'이 되어 있었다.\n\n많이 바꿀수록 많이 잃는 구조라는 걸, 환전 창구에선 아무도 말해주지 않았다.",
         "follow_up_event": "casino_no_clocks"
@@ -79,7 +80,7 @@
           "tint": 4
         },
         "flags": [],
-        "result_text": "새벽 4시 17분.\n\n{name}은 칩을 정리하고 일어났다. 다리가 저렸다. 여섯 시간을 앉아 있었던 거다.\n\n밖으로 나오자 찬 공기가 얼굴을 때렸다. 산속의 새벽.\n그 추위가 반가웠다. 시간이 다시 흐르기 시작했다.\n\n시계가 없는 방을 제 발로 나오는 것 — 그것도 실력이었다.",
+        "result_text": "새벽 4시 17분.\n\n{name}은 칩을 정리하고 일어났다. 다리가 저렸다. 여섯 시간을 앉아 있었던 거다.\n\n밖으로 나오자 찬 공기가 얼굴을 때렸다. 산속의 새벽.\n그 추위가 반가웠다. 시간이 다시 흐르기 시작했다.\n\n{name}은 휴대폰을 꺼내 시간을 다시 확인했다. 4시 19분이었다.",
         "follow_up_event": ""
       },
       {
@@ -335,6 +336,256 @@
           "race_chased_final"
         ],
         "result_text": "{name}은 오늘 잃은 걸 다 걸었다. 마지막이니까.\n\n말들이 달렸다. 끝까지 봤다. 아니었다.\n\n베팅창 앞은 어느새 텅 비어 있었다. 다들 비슷한 표정으로 흩어졌다.\n\n막차에서 은행 앱을 열었다. 만회하려다 두 배로 잃은 하루였다.\n'마지막 경주'라는 말은, 늘 마지막이 아니어서 위험했다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "habit_race_saturday",
+    "title": "토요일 경마장",
+    "description": "토요일 오후 과천. 매표소 앞 줄이 계단 아래까지 늘어져 있었다.\n\n전광판에 1경주 배당이 올라왔다. 지난주에 1착을 한 말은 배당이 낮아져 있었다.\n\n주머니 속 지갑이 평소보다 무겁게 느껴졌다. 아직 마권은 사지 않았다.",
+    "category": "gambling",
+    "rarity": "story",
+    "weight": 1.0,
+    "background": "racetrack_betting",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "gambling",
+      "race",
+      "habit"
+    ],
+    "cooldown": 1,
+    "choices": [
+      {
+        "text": "마권을 사서 오늘 경주를 본다",
+        "effects": {
+          "health": -1,
+          "mental": 2
+        },
+        "flags": [
+          "open_racetrack_after_story"
+        ],
+        "result_text": "줄 끝에 섰다. 앞사람이 쥔 신문 귀퉁이에 볼펜 동그라미가 빼곡했다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "전광판만 보고 돌아간다",
+        "effects": {
+          "mental": 1
+        },
+        "result_text": "출구 쪽 회전문을 밀었다. 등 뒤에서 출발 신호가 울렸다.\n\n역까지 걷는 동안 한 번도 돌아보지 않았다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "habit_race_regular",
+    "title": "또 토요일",
+    "description": "금요일 밤부터 출주표를 내려받아 두었다. 토요일 아침에는 알람보다 먼저 눈이 떠졌다.\n\n과천으로 가는 4호선. 같은 칸에 지난주에 본 얼굴이 둘 있었다. 서로 아는 척은 하지 않았다.\n\n휴대폰 메모에 지난주에 잃은 금액이 적혀 있었다. 그 아래 칸은 비어 있었다.",
+    "category": "gambling",
+    "rarity": "story",
+    "weight": 1.0,
+    "background": "subway",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "gambling",
+      "race",
+      "habit"
+    ],
+    "cooldown": 1,
+    "choices": [
+      {
+        "text": "오늘 메모 칸을 채우러 간다",
+        "effects": {
+          "health": -2,
+          "mental": -1,
+          "addiction_tendency": 2
+        },
+        "flags": [
+          "open_racetrack_after_story"
+        ],
+        "result_text": "경마공원역에서 내렸다. 계단을 오르는 발이 먼저 길을 알고 있었다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "다음 역에서 내려 반대편 열차를 탄다",
+        "effects": {
+          "mental": -2,
+          "addiction_tendency": -1
+        },
+        "result_text": "반대편 승강장 의자에 앉아 메모 앱을 닫았다.\n\n손가락이 한동안 꺼진 화면 위에 머물러 있었다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "habit_holdem_night",
+    "title": "금요일 밤의 계단",
+    "description": "금요일 밤, 지하로 내려가는 계단 앞에서 걸음이 느려졌다. 철문 너머로 칩 부딪는 소리가 새어 나왔다.\n\n휴대폰에 메시지가 와 있었다. \"오늘 한 자리 비어요.\"\n\n지갑에는 이번 주 생활비가 들어 있었다.",
+    "category": "gambling",
+    "rarity": "story",
+    "weight": 1.0,
+    "background": "holdem_club",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "habit"
+    ],
+    "cooldown": 1,
+    "choices": [
+      {
+        "text": "계단을 내려가 빈자리에 앉는다",
+        "effects": {
+          "health": -1,
+          "mental": 2
+        },
+        "flags": [
+          "open_holdem_after_story"
+        ],
+        "result_text": "딜러가 고개만 까딱했다. 칩 한 줄이 앞으로 밀려왔다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "답장하지 않고 지나간다",
+        "effects": {
+          "mental": 1
+        },
+        "result_text": "편의점 불빛 아래에서 메시지를 다시 읽었다.\n\n읽음 표시만 남기고 휴대폰을 주머니에 넣었다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "habit_holdem_regular",
+    "title": "늘 앉던 자리",
+    "description": "딜러 왼쪽 세 번째 자리. 언제부턴가 그 자리가 비어 있으면 {name}의 자리처럼 여겨졌다.\n\n지난번에 진 패가 아직 머릿속에서 다시 돌아갔다. 리버에 떨어진 하트 7.\n\n오늘은 처음 바꿀 칩을 두 배로 하자는 생각이 먼저 들었다.",
+    "category": "gambling",
+    "rarity": "story",
+    "weight": 1.0,
+    "background": "holdem_club",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "habit"
+    ],
+    "cooldown": 1,
+    "choices": [
+      {
+        "text": "그 자리에 앉아 칩을 바꾼다",
+        "effects": {
+          "health": -2,
+          "mental": -1,
+          "addiction_tendency": 2
+        },
+        "flags": [
+          "open_holdem_after_story"
+        ],
+        "result_text": "의자가 아직 따뜻했다. 앞사람이 방금 일어난 자리였다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "오늘은 그 자리를 비워 둔다",
+        "effects": {
+          "mental": -2,
+          "addiction_tendency": -1
+        },
+        "result_text": "계단 위에서 한 번 멈췄다. 아래에서 누군가 그 의자를 끌어당기는 소리가 들렸다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "habit_casino_trip",
+    "title": "고한행 셔틀",
+    "description": "셔틀버스 문이 열리자 찬 공기가 들어왔다. 산 사이로 카지노 건물 불빛이 먼저 보였다.\n\n왕복 차비와 휴게소 밥값으로 이미 3만원을 썼다.\n\n입구 회전문 옆 전광판에는 시계가 없었다. 날짜만 떠 있었다.",
+    "category": "gambling",
+    "rarity": "story",
+    "weight": 1.0,
+    "background": "jeongseon_casino_exterior",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "gambling",
+      "casino",
+      "habit"
+    ],
+    "cooldown": 1,
+    "choices": [
+      {
+        "text": "회전문을 밀고 들어간다",
+        "effects": {
+          "health": -2,
+          "mental": 1,
+          "money": -30000
+        },
+        "flags": [
+          "open_casino_after_story"
+        ],
+        "result_text": "보안 검색대를 지나자 기계음이 귀를 덮었다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "돌아가는 셔틀 시간을 확인한다",
+        "effects": {
+          "mental": 1,
+          "money": -30000
+        },
+        "result_text": "다음 셔틀까지 사십 분. 매점에서 산 캔커피가 다 식을 때까지 벤치에 앉아 있었다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "habit_casino_regular",
+    "title": "사북의 모텔 간판",
+    "description": "사북 시내 모텔 간판들이 셔틀 창밖으로 지나갔다. 일주일 단위로 방을 잡는 사람들이 있다는 얘기를 지난번에 들었다.\n\n지갑 안쪽 칸에 접어 둔 오만원권 세 장이 있었다. 이번 달 방세였다.\n\n셔틀이 카지노 앞에 멈췄다.",
+    "category": "gambling",
+    "rarity": "story",
+    "weight": 1.0,
+    "background": "jeongseon_casino_exterior",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "gambling",
+      "casino",
+      "habit"
+    ],
+    "cooldown": 1,
+    "choices": [
+      {
+        "text": "내려서 곧장 테이블로 간다",
+        "effects": {
+          "health": -3,
+          "mental": -2,
+          "money": -30000,
+          "addiction_tendency": 3
+        },
+        "flags": [
+          "open_casino_after_story"
+        ],
+        "result_text": "회전문을 지나며 휴대폰을 무음으로 돌렸다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "내리지 않고 셔틀을 탄 채 역으로 돌아간다",
+        "effects": {
+          "mental": -2,
+          "money": -30000,
+          "addiction_tendency": -2
+        },
+        "result_text": "고한역 대합실 시계가 오후 두 시를 가리켰다.\n\n서울행 열차표를 끊는 손이 조금 떨렸다.",
         "follow_up_event": ""
       }
     ]

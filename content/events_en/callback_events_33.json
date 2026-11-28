@@ -2,11 +2,11 @@
   {
     "id": "callback_sangchul_forgiven_echo",
     "title": "The Days After Forgiving",
-    "description": "Months had passed since he'd told Sangchul, \"That one word is enough.\"\n\nHe hadn't cut ties. But it wasn't like before either.\nThey kept an awkward distance, crossing paths at the cafe now and then.\n\nToday Sangchul sent a short message.\n\"Got time for a coffee?\"\n\nMinjun stared at the screen for a long while.\nHad the forgiveness back then come from a heart that had truly let go — or just from not wanting to face him?",
+    "description": "Months had passed since he'd told Sangchul, \"That one word is enough.\"\n\nHe hadn't cut ties. But it wasn't like before either.\nThey kept an awkward distance, crossing paths at the cafe now and then.\n\nToday Sangchul sent a short message.\n\"Got time for a coffee?\"\n\n{name} stared at the screen for a long while.\nHad the forgiveness back then come from a heart that had truly let go, or just from not wanting to face him?",
     "choices": [
       {
         "text": "Go — the forgiveness was real",
-        "result_text": "They didn't talk about much. The market, the weather.\n\nBut walking out afterward, his chest felt lighter.\n\nForgiving the man who'd ruined his father — it had never been for that man's sake.\nIt was for Minjun himself, who'd decided to stop carrying that weight around.\n\nHe only understood that now."
+        "result_text": "They didn't talk about much. The market, the weather.\n\nBut walking out afterward, his chest felt lighter.\n\n{name} had sat at the same table as the man who ruined his father and talked about the weather. Walking to the station, he couldn't decide who to tell."
       },
       {
         "text": "Don't reply — forgiving isn't forgetting",

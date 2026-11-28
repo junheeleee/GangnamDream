@@ -96,7 +96,7 @@
   {
     "id": "callback_cafe_kindness_reunion",
     "title": "Meeting Them Again",
-    "description": "At a bus stop, by chance.\nThe person who bought you an americano in the café.\n'Oh, it's you from back then. How have you been?'",
+    "description": "At a bus stop, by chance.\nThe person who bought him an americano in the café.\n'Oh, it's you from back then. How have you been?'",
     "choices": [
       {
         "text": "Greet them warmly and chat",
@@ -104,7 +104,7 @@
       },
       {
         "text": "Just say hi and catch the bus",
-        "result_text": "'Hello.' And you got on the bus.\nThrough the window you could see them. They waved briefly.\nSometimes it helps just knowing people like that exist."
+        "result_text": "'Hello.' And he got on the bus.\nThrough the window he could see them. They waved briefly.\nThe bus pulled away, and {name} kept looking out the window for a while."
       }
     ]
   },

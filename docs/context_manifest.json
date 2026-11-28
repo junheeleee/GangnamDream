@@ -157,6 +157,9 @@
       "docs/ENDING_CONTRACT.md",
       "content/endings.json",
       "systems/EndingSystem.gd"
+    ],
+    "full_game_systems": [
+      "docs/SYSTEMS_DESIGN.md"
     ]
   },
   "task_profiles": {
@@ -190,7 +193,8 @@
         "content/meta/demo_core_loop_v2.json",
         "docs/AP_REDESIGN.md",
         "docs/BALANCE.md",
-        "autoloads/GameState.gd"
+        "autoloads/GameState.gd",
+        "docs/SYSTEMS_DESIGN.md"
       ],
       "conditional": [
         "docs/GAME_RECOMPOSITION_PLAN.md",
@@ -296,6 +300,7 @@
       "docs/SCENE_TIER.md",
       "docs/STORY_BIBLE.md",
       "docs/STORY_CONSISTENCY_SYSTEM.md",
+      "docs/SYSTEMS_DESIGN.md",
       "docs/WORK_UNIT.md"
     ],
     "plans_and_backlog": [

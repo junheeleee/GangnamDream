@@ -20,6 +20,7 @@ const FATHER_PASSED_EVENT_VARIANTS := {
 	"arc_year1_close": "arc_year1_close_father_passed",
 	"arc_sangchul_year3": "arc_sangchul_year3_father_passed",
 	"amb_mlm_aftermath": "amb_mlm_aftermath_father_passed",
+	"gambling_rock_bottom": "gambling_rock_bottom_father_passed",
 	"callback_borrowed_parents_repay_moment": \
 		"callback_borrowed_parents_repay_moment_father_passed",
 	"callback_proactive_parent_care_echo": \

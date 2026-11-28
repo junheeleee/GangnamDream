@@ -794,11 +794,11 @@ def _ending_for(state: SimState) -> str:
     tier = int(JOBS.get(state.job_id, {}).get("tier", 0))
     if state.job_id and assets >= 100_000_000.0 and ("job_changed_success" in state.flags or tier >= 4):
         return "career_climber"
+    if "father_reconciled" in state.flags: return "late_call"
     if state.health >= 70.0 and state.mental >= 70.0 and max(state.cast.values()) >= 60.0:
         return "healthy_retirement"
     if state.route_orthodox >= 20 and assets < 300_000_000.0:
         return "orthodox_hollow"
-    if "father_reconciled" in state.flags: return "late_call"
     return "ordinary_life"
 
 

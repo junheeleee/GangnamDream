@@ -32,7 +32,7 @@
   {
     "id": "callback_jiyeon_prioritized_goal_echo",
     "title": "选择目标的结果",
-    "description": "把目标放在和Jiyeon的关系之前，是三个月前的事。\n今天，重新想了想——当时的选择对不对。\n资产比那时多了。",
+    "description": "把目标放在和Jiyeon的关系之前，是三个月前的事。\n今天，重新想了想当时的选择对不对。\n资产比那时多了。",
     "choices": [
       {
         "text": "觉得那个选择是对的",
@@ -40,7 +40,7 @@
       },
       {
         "text": "好像太冷淡了",
-        "result_text": "心里还留着遗憾。\n要抓住目标——但别太把人当成成本。"
+        "result_text": "心里还留着遗憾。\n{name}点开和Jiyeon的聊天窗口，什么也没写，又关掉了。"
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "觉得这样也挺好",
-        "result_text": "走过去了。\n和好人之间的距离——也不一定非要近。"
+        "result_text": "走过去了。\n直到Daeun转过街角，{name}都没有回头。"
       },
       {
         "text": "要不，还是打个招呼",
-        "result_text": "说了句：“你好，Daeun。”\nDaeun说：“啊，Minjun。好久不见。”"
+        "result_text": "说了句：“你好，Daeun。”\nDaeun说：“啊，{name}。好久不见。”"
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "觉得这样就好",
-        "result_text": "那就好。\n即使联系已经断了——光是知道对方过得不错，心里也轻松些。"
+        "result_text": "那就好。\n即使联系已经断了，光是知道Daeun过得不错，心里也轻松些。"
       },
       {
         "text": "想着要不要联系一下",
-        "result_text": "想联系她。\n可这份心情，究竟是为了Daeun——还是为了自己，却分不清。"
+        "result_text": "想联系她。\n可这份心情，究竟是为了Daeun，还是为了自己，却分不清。"
       }
     ]
   },
@@ -96,7 +96,7 @@
     "choices": [
       {
         "text": "就这样放着了",
-        "result_text": "并不是所有感情，都必须清清楚楚。\n不确定的感情——也可能是对那个人的尊重。"
+        "result_text": "并不是所有感情，都必须清清楚楚。\n{name}删掉了正要发出的消息，把手机扣在桌上。"
       },
       {
         "text": "试着往更亲近的方向迈一步",
@@ -107,11 +107,11 @@
   {
     "id": "callback_jaehyuk_heard_his_story_echo",
     "title": "听过Jaehyuk的故事之后",
-    "description": "听Jaehyuk讲自己的事，是两个月前。\n那时再次明白——每个人都有自己的理由。\n今天遇见了Jaehyuk。",
+    "description": "听Jaehyuk讲自己的事，是两个月前。\n那天听到的话，还以几个词的样子留在{name}的笔记本角落里。\n今天遇见了Jaehyuk。",
     "choices": [
       {
         "text": "“谢谢你那时跟我说那些”",
-        "result_text": "Jaehyuk说：“……谢什么。”\n没再说话——但表情不一样了。"
+        "result_text": "Jaehyuk说：“……谢什么。”\n没再说话，但Jaehyuk没有移开视线。"
       },
       {
         "text": "自然地打个招呼",
@@ -126,7 +126,7 @@
     "choices": [
       {
         "text": "想想是不是自己那次逼问产生了影响",
-        "result_text": "因果关系并不明确。\n但——那也可能成了最后的契机。"
+        "result_text": "因果关系并不明确。\n但那也可能成了最后的契机。"
       },
       {
         "text": "那应该是个正确的决定",
@@ -137,11 +137,11 @@
   {
     "id": "callback_sangchul_invited_echo",
     "title": "Sangchul的邀请之后",
-    "description": "Sangchul邀请我参加那次聚会，是一个月前的事。\n在场认识的人——今天又联系了过来。",
+    "description": "Sangchul发出那次聚会的邀请，是一个月前的事。\n在场认识的人，今天又联系了过来。",
     "choices": [
       {
         "text": "继续来往",
-        "result_text": "又见面了。\nSangchul的人脉——既是他的，如今也有一点属于我了。"
+        "result_text": "又见面了。\n两张名片新放进了{name}的钱包。"
       },
       {
         "text": "说这次没时间",
@@ -201,7 +201,7 @@
     "choices": [
       {
         "text": "高兴地回应",
-        "result_text": "聊了很久。\n原谅不是关系的终点——而是下一个阶段的开始。"
+        "result_text": "聊了很久。\n挂了电话，窗外已经暗了下来。"
       },
       {
         "text": "只简单问候几句",
@@ -216,7 +216,7 @@
     "choices": [
       {
         "text": "觉得沉默也是一种反应",
-        "result_text": "什么也不说——也是一种表达。\nJiyeon的沉默——意味着她听到了。"
+        "result_text": "那时Jiyeon什么也没说，但也没有起身离开。"
       },
       {
         "text": "她似乎还没有接受",

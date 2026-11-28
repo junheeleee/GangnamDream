@@ -137,7 +137,7 @@
     "choices": [
       {
         "text": "只是听着",
-        "result_text": "听了。\nJaehyuk还是老样子。\n这让我确认——断绝关系是对的。"
+        "result_text": "听了。\nJaehyuk还是老样子。\n{name}只是点点头，就聊起了别的。"
       },
       {
         "text": "说：“别再聊那个人了”",

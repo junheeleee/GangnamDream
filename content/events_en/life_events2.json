@@ -112,18 +112,18 @@
   {
     "id": "health_checkup_00",
     "title": "The Results",
-    "description": "The national health checkup results came back.\nMost things: normal. One item — marked 'borderline.'\nThe doctor said, \"Nothing urgent yet, but you need to change your lifestyle.\nSleep, diet, exercise.\"\n\n{name} knows. Just hasn't been doing any of it.",
+    "description": "The national health checkup results came back.\nMost things: normal. One item was marked 'borderline.'\nThe doctor said, \"Nothing urgent yet, but you need to change your lifestyle.\nSleep, diet, exercise.\"\n\n{name} knows. Just hasn't been doing any of it.",
     "choices": [
       {
-        "text": "Take it seriously. Change the routine.  (health investment / time)",
-        "result_text": "{name} started walking in the evenings that same day. Cut late-night snacks.\nNo dramatic changes. Just a little — the body started feeling different."
+        "text": "Take it seriously. Change the routine.",
+        "result_text": "{name} started walking in the evenings that same day. Cut late-night snacks.\nNo dramatic changes. The stairs left him a little less winded each week."
       },
       {
-        "text": "Acknowledge it and forget it. Later.  (reality / neglect)",
+        "text": "Acknowledge it and forget it. Later.",
         "result_text": "Filed the results in a drawer.\nThe next checkup, same conversation."
       },
       {
-        "text": "Get further testing. Want to know exactly.  (information / cost)",
+        "text": "Get further testing. Want to know exactly.",
         "result_text": "Detailed results: still okay. But 'what you do now matters most.'\nSpent money, but felt lighter."
       }
     ]

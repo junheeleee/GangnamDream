@@ -20,12 +20,12 @@
     "description": "At some early point, {name} crossed a line they shouldn't have, telling themselves 'just once.'\n\nThe weight of that choice comes back sometimes.\n\nToday they stand before a similar gray zone.",
     "choices": [
       {
-        "text": "I learned then — 'just once' is the most dangerous phrase",
-        "result_text": "'Just once' was a spell that summoned the second time.\n\n{name} remembers the unease of crossing that line.\nThey decided never to fool themselves with those words again."
+        "text": "I learned then. 'Just once' is the most dangerous phrase",
+        "result_text": "{name} typed 'just once' into the phone's notes app, then deleted it.\n\n{name} remembers the unease of crossing that line.\nHe decided never to fool himself with those words again."
       },
       {
-        "text": "Repay that debt — the clean way",
-        "result_text": "A line once crossed can't be undone, but the life after can be lived differently.\n\n{name} decided to fill that choice with honest effort."
+        "text": "Repay that debt the clean way",
+        "result_text": "{name} wrote down, on a separate page, the money that came from it.\n\nHe decided to cross it off, bit by bit, with money earned honestly."
       }
     ]
   },
@@ -50,12 +50,12 @@
     "description": "At the spot where they were once humiliated, {name} asked again 'properly this time,' with what they'd learned.\n\nThat moment of redemption comes back sometimes.\n\nToday they face an area that was once a weakness.",
     "choices": [
       {
-        "text": "Repaid the humiliation — with growth",
+        "text": "Repaid the humiliation with growth",
         "result_text": "That embarrassing moment made them grit their teeth and learn.\n\n{name} turned a former weakness into a strength.\nHumiliation wasn't the end, but a chance to learn properly."
       },
       {
-        "text": "Now — I'm not ashamed of not knowing",
-        "result_text": "Hiding what you don't know is more dangerous than being embarrassed by it.\n\n{name} learned asking isn't shameful."
+        "text": "Now I'm not ashamed of not knowing",
+        "result_text": "When a term came up he didn't know, {name} raised a hand and asked.\n\nThe person beside him nodded and wrote the same thing down."
       }
     ]
   },
@@ -80,11 +80,11 @@
     "description": "{name} once left an awkward situation uncomfortably.\n\nThat moment of avoidance comes back sometimes.\n\nToday they face an uncomfortable situation again.",
     "choices": [
       {
-        "text": "Now — I hold my ground even when uncomfortable",
+        "text": "Now I hold my ground, even when it's uncomfortable",
         "result_text": "Flee every awkward thing and the chance to toughen up vanishes too.\n\n{name} slowly built the strength to endure discomfort.\nJust staying instead of fleeing made some situations familiar."
       },
       {
-        "text": "Sometimes avoiding is better — I discern",
+        "text": "Sometimes stepping away is better. I choose when",
         "result_text": "No need to endure every discomfort.\n\n{name} learned to tell which to weather and which to leave."
       }
     ]
@@ -110,12 +110,12 @@
     "description": "When the goshiwon owner offered a job, {name} declined — 'you'll just take the thought, you're looking for something better.'\n\nThat pride — or stubbornness — comes back sometimes.\n\nToday they stand at a similar fork of kindness.",
     "choices": [
       {
-        "text": "Declining then — led to a better path",
-        "result_text": "Had they settled into the immediate offer, they'd have stopped there.\n\n{name} kept the stubbornness of seeking something better.\nSometimes declining a good offer was a choice for something bigger."
+        "text": "Declining then led to a better path",
+        "result_text": "{name} still remembered his own voice the day he turned down that job offer.\n\nThe stubbornness to find a better place hadn't moved."
       },
       {
-        "text": "You must know how to accept help too — I know now",
-        "result_text": "Declining every kindness out of pride is foolish sometimes.\n\n{name} also learned the flexibility to accept help worth accepting."
+        "text": "I have to know how to accept help too. I know that now",
+        "result_text": "{name} deleted the reply once, then wrote it again.\n\n\"Thank you. I'll come see you next week, then.\""
       }
     ]
   },

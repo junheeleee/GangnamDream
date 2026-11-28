@@ -1,0 +1,27 @@
+{
+  "_doc": "ORDER-834 gambling branch, years 1-4 (B2, B3). Read only by systems/GambleBranchBeats.gd through systems/BranchBeats.gd. Beats play on free full-story weeks in this order, inside their windows, at most one per min_gap_weeks, each behind the fact that makes it possible. Wagers are the authored money effects of each choice. Years 3-4 also read addiction (min/max_addiction); from 70 the rock bottom belongs to systems/AddictionArc.gd.",
+  "min_gap_weeks": 3,
+  "beats": [
+    {"event_id": "race_early_lesson", "min_week": 14, "max_week": 60, "requires": ["racetrack_visited", "racetrack_guide_met"]},
+    {"event_id": "race_number_three", "min_week": 16, "max_week": 80, "requires": ["racetrack_visited"]},
+    {"event_id": "race_coworker_encounter", "min_week": 24, "max_week": 96, "requires": ["racetrack_visited"], "has_job": true},
+    {"event_id": "race_last_train_home", "min_week": 28, "max_week": 100, "requires": ["racetrack_visited"]},
+    {"event_id": "race_addiction_warning", "min_week": 32, "max_week": 104, "requires": ["racetrack_will_return"]},
+    {"event_id": "race_mentor_truth", "min_week": 40, "max_week": 110, "requires": ["racetrack_guide_met"], "forbids": ["racetrack_paused"]},
+    {"event_id": "race_last_bettor", "min_week": 44, "max_week": 120, "requires": ["racetrack_visited"], "forbids": ["racetrack_paused", "race_mentor_truth_heard"]},
+    {"event_id": "casino_chip_exchange", "min_week": 77, "max_week": 120, "requires": ["casino_club_introduced"]},
+    {"event_id": "casino_no_clocks", "min_week": 80, "max_week": 130, "requires": ["casino_club_introduced"], "forbids": ["casino_set_limit"]},
+    {"event_id": "casino_comp_offer", "min_week": 84, "max_week": 140, "requires": ["casino_club_introduced"]},
+    {"event_id": "holdem_first_visit", "min_week": 60, "max_week": 120, "requires": ["entered_network"]},
+    {"event_id": "holdem_read_people", "min_week": 64, "max_week": 130, "requires": ["holdem_visited"]},
+    {"event_id": "holdem_regular", "min_week": 70, "max_week": 140, "requires": ["holdem_visited"]},
+    {"event_id": "drama_addiction_mirror", "min_week": 97, "max_week": 190, "requires_any": ["racetrack_visited", "holdem_visited", "casino_set_limit", "casino_chips_loaded"], "min_addiction": 50, "max_addiction": 69},
+    {"event_id": "drama_addiction_warning", "min_week": 97, "max_week": 188, "requires_any": ["racetrack_visited", "holdem_visited", "casino_set_limit", "casino_chips_loaded"], "min_addiction": 65, "max_addiction": 69, "forbids": ["father_passed", "addiction_dad_warned"]},
+    {"event_id": "race_big_win", "min_week": 97, "max_week": 200, "requires": ["racetrack_visited"], "forbids": ["in_recovery_started"]},
+    {"event_id": "holdem_big_pot", "min_week": 97, "max_week": 200, "requires": ["holdem_regular"], "forbids": ["holdem_quit", "in_recovery_started"]},
+    {"event_id": "holdem_bad_beat", "min_week": 100, "max_week": 200, "requires": ["holdem_visited"], "forbids": ["holdem_quit", "in_recovery_started"]},
+    {"event_id": "holdem_losing_streak", "min_week": 105, "max_week": 200, "requires": ["holdem_regular"], "forbids": ["holdem_quit", "in_recovery_started"]},
+    {"event_id": "jeongseon_big_win_urge", "min_week": 97, "max_week": 200, "requires": ["jeongseon_session_win"], "forbids": ["in_recovery_started"]},
+    {"event_id": "jeongseon_big_loss_bus", "min_week": 97, "max_week": 200, "requires": ["jeongseon_session_loss"], "forbids": ["in_recovery_started"]}
+  ]
+}

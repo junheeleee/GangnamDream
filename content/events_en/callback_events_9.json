@@ -178,15 +178,15 @@
   {
     "id": "callback_pride_motive_check",
     "title": "The Cost of Pride",
-    "description": "You've been running on pride, it seems.\nToday suddenly — unclear whether this was your own goal or something to show someone else.",
+    "description": "He's been running on pride, it seems.\nToday, suddenly, it was unclear whether this was his own goal or something to show someone else.",
     "choices": [
       {
         "text": "Sort out the reasons again",
-        "result_text": "You wrote it down.\nWhy Gangnam. Who it's for.\nHalf pride, half something real.\nIf half is real — that's enough reason to keep going."
+        "result_text": "He wrote it down.\nWhy Gangnam. Who it's for.\nHalf pride, half something real.\n{name} circled the 'real' half."
       },
       {
         "text": "Whatever the reason — results matter",
-        "result_text": "Results matter. You kept running.\nBut running on pride alone — sometimes even reaching the goal leaves you empty.\nThat was starting to make sense."
+        "result_text": "Results matter. He kept running.\nBut even on the night last month's target was passed, {name} couldn't think of anyone to celebrate with."
       }
     ]
   },

@@ -5,11 +5,11 @@
     "description": "Cleaning out the wallet — a business card.\n\nLee Minseo. The woman who owns the Gangnam apartment.\n\n'If you want to know how I did it, reach out.'\n\nMonths since she said that.",
     "choices": [
       {
-        "text": "Send the message — ask to meet",
-        "result_text": "'you've been waiting. Let's get coffee.'\n\nFast reply.\n\nA card that sat in a wallet for three months finally got used."
+        "text": "Send a message asking to meet",
+        "result_text": "'I've been waiting to hear from you. Let's meet sometime.'\n\nFast reply.\n\nA card that sat in a wallet for three months finally got used."
       },
       {
-        "text": "Not yet — not ready to stand in front of her",
+        "text": "Not yet. not ready to stand in front of her",
         "result_text": "Wants to show up with something to show.\nNot empty-handed.\n\nPut the card back. Still there when it's time."
       }
     ]
@@ -17,11 +17,11 @@
   {
     "id": "callback_minseo_real_talk_echo",
     "title": "When the Goal Disappears",
-    "description": "Something Minseo said keeps coming back.\n\n'When you have a goal — prepare for when it disappears.'\n\nMade no sense back then — what it meant that the 3 billion won would vanish the moment you had it.\nLately you think you're starting to understand.",
+    "description": "Something Minseo said keeps coming back.\n\n'When you have a goal — prepare for when it disappears.'\n\nMade no sense back then — what it meant that the 3 billion won would vanish the moment he had it.\nLately he thinks he's starting to understand.",
     "choices": [
       {
         "text": "Think about what comes after 3 billion won",
-        "result_text": "'If I hit the number — then what?'\n\nUncomfortable question. The goal had been the engine.\nWithout it: who am you?\n\nMinseo must have been talking about this. Now it makes sense."
+        "result_text": "If 3 billion won came in, then what?\n\nThe question was strangely uncomfortable.\nThe goal had been the engine all along. Without it, who would be left?\n\n{name} copied what Minseo said that day under the 3 billion in the notebook."
       },
       {
         "text": "Not there yet — focus on the goal first",

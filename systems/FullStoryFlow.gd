@@ -104,18 +104,55 @@ static func _last_turn_for_state(state: Dictionary) -> int:
 	return 0
 
 
+## Activities a full-story choice may open on its own week (ORDER-834 B2).
+## Each maps to the producer flag the choice sets and the exact (event, choice)
+## reads that may open it; a receipt is valid only behind one of those reads.
+## B2.5 adds the free-week habit scenes (systems/BranchHabit.gd) as sources.
+## The racetrack row keeps its original single source, so older saves still load.
+const ACTIVITY_FLAGS := {
+	"racetrack": "open_racetrack_after_story",
+	"holdem": "open_holdem_after_story",
+	"jeongseon_casino": "open_casino_after_story",
+}
+const ACTIVITY_SOURCES := {
+	"racetrack": [["race_first_visit", 1],
+		["habit_race_saturday", 0], ["habit_race_regular", 0]],
+	"holdem": [["holdem_regular", 0],
+		["habit_holdem_night", 0], ["habit_holdem_regular", 0]],
+	"jeongseon_casino": [["casino_chip_exchange", 0], ["casino_chip_exchange", 1],
+		["habit_casino_trip", 0], ["habit_casino_regular", 0]],
+}
+
+
 static func pending_activity_id() -> String:
-	var pending: Variant = GameState.flags.get("open_racetrack_after_story", false)
-	return "racetrack" if pending is bool and pending else ""
+	for activity_id in ACTIVITY_FLAGS:
+		var pending: Variant = GameState.flags.get(ACTIVITY_FLAGS[activity_id], false)
+		if pending is bool and pending:
+			return activity_id
+	return ""
+
+
+static func has_activity_flag() -> bool:
+	for flag_id in ACTIVITY_FLAGS.values():
+		if GameState.flags.has(flag_id):
+			return true
+	return false
+
+
+static func activity_flags_valid() -> bool:
+	for flag_id in ACTIVITY_FLAGS.values():
+		if GameState.flags.has(flag_id) and not GameState.flags[flag_id] is bool:
+			return false
+	return true
 
 
 static func begin_activity(activity_id: String) -> bool:
-	if not is_full_run() or not valid_session() or activity_id != "racetrack" \
+	if not is_full_run() or not valid_session() or not ACTIVITY_SOURCES.has(activity_id) \
 			or GameState.is_game_over or pending_activity_id() != activity_id:
 		return false
 	var state := snapshot()
-	if not _current_uncompleted_turn(state) \
-			or not _activity_source_closed(state, GameState.turn):
+	var source := _activity_source(state, GameState.turn, activity_id)
+	if not _current_uncompleted_turn(state) or source.is_empty():
 		return false
 	var chain: Dictionary = state["chain"]
 	if chain.is_empty() or not bool(chain["closed"]) \
@@ -127,7 +164,7 @@ static func begin_activity(activity_id: String) -> bool:
 		return str((receipts[turn_key] as Dictionary).get("status", "")) == "pending"
 	receipts[turn_key] = {
 		"turn": GameState.turn, "activity_id": activity_id,
-		"source_event_id": "race_first_visit", "choice_index": 1,
+		"source_event_id": str(source[0]), "choice_index": int(source[1]),
 		"status": "pending", "rounds": 0, "net": 0,
 	}
 	state["activity_receipts"] = receipts
@@ -138,7 +175,7 @@ static func begin_activity(activity_id: String) -> bool:
 static func close_activity(activity_id: String, rounds: int, net: float) -> bool:
 	# Racetrack already owns every wager and payout. This only closes its handoff.
 	# Zero completed races can still include the existing tipster's real expense.
-	if not is_full_run() or not valid_session() or activity_id != "racetrack" \
+	if not is_full_run() or not valid_session() or not ACTIVITY_SOURCES.has(activity_id) \
 			or rounds < 0 or not is_finite(net) or net != floor(net):
 		return false
 	var state := snapshot()
@@ -154,7 +191,7 @@ static func close_activity(activity_id: String, rounds: int, net: float) -> bool
 		return receipt["status"] == status \
 			and _integer_equals(receipt["rounds"], rounds) \
 			and float(receipt["net"]) == net
-	if pending_activity_id() != activity_id:
+	if pending_activity_id() != activity_id or receipt.get("activity_id", null) != activity_id:
 		return false
 	receipt["status"] = status
 	receipt["rounds"] = rounds
@@ -162,7 +199,7 @@ static func close_activity(activity_id: String, rounds: int, net: float) -> bool
 	receipts[turn_key] = receipt
 	state["activity_receipts"] = receipts
 	_store(state)
-	GameState.flags.erase("open_racetrack_after_story")
+	GameState.flags.erase(ACTIVITY_FLAGS[activity_id])
 	return true
 
 
@@ -720,11 +757,20 @@ static func _event_choices(event: Dictionary) -> Array:
 	return choices if choices is Array else []
 
 
-static func _activity_source_closed(state: Dictionary, at_turn: int) -> bool:
-	var read := _read_record(state, at_turn, "race_first_visit")
-	return not read.is_empty() and _integer_equals(read.get("choice_index", null), 1) \
+static func _source_read_valid(state: Dictionary, at_turn: int, event_id: String,
+		choice_index: int) -> bool:
+	var read := _read_record(state, at_turn, event_id)
+	return not read.is_empty() and _integer_equals(read.get("choice_index", null), choice_index) \
 		and read.get("expression", null) is bool and not bool(read["expression"]) \
 		and _read_application_valid(read, at_turn)
+
+
+## The (event, choice) read on `at_turn` that may open `activity_id`, or [].
+static func _activity_source(state: Dictionary, at_turn: int, activity_id: String) -> Array:
+	for pair in ACTIVITY_SOURCES.get(activity_id, []):
+		if _source_read_valid(state, at_turn, str(pair[0]), int(pair[1])):
+			return pair
+	return []
 
 
 static func _valid_activity_receipts(state: Dictionary, last: int) -> bool:
@@ -741,14 +787,18 @@ static func _valid_activity_receipts(state: Dictionary, last: int) -> bool:
 		var at_turn := int(raw_key)
 		var raw_receipt: Variant = receipts[raw_key]
 		if at_turn < 1 or at_turn > mini(last + 1, GameState.RUN_TURN_LIMIT) \
-				or not raw_receipt is Dictionary \
-				or not _activity_source_closed(state, at_turn):
+				or not raw_receipt is Dictionary:
 			return false
 		var receipt: Dictionary = raw_receipt
-		if not _integer_equals(receipt.get("turn", null), at_turn) \
-				or receipt.get("activity_id", null) != "racetrack" \
-				or receipt.get("source_event_id", null) != "race_first_visit" \
-				or not _integer_equals(receipt.get("choice_index", null), 1) \
+		var activity_id := str(receipt.get("activity_id", ""))
+		var source_event: String = str(receipt.get("source_event_id", ""))
+		var source_choice: Variant = receipt.get("choice_index", null)
+		var listed := false
+		for pair in ACTIVITY_SOURCES.get(activity_id, []):
+			if str(pair[0]) == source_event and _integer_equals(source_choice, int(pair[1])):
+				listed = true
+		if not listed or not _source_read_valid(state, at_turn, source_event, int(source_choice)) \
+				or not _integer_equals(receipt.get("turn", null), at_turn) \
 				or not _bounded_integer(receipt.get("rounds", null), 0, 2147483647):
 			return false
 		var net: Variant = receipt.get("net", null)
@@ -761,15 +811,17 @@ static func _valid_activity_receipts(state: Dictionary, last: int) -> bool:
 				var chain: Dictionary = state["chain"]
 				if at_turn != last + 1 or GameState.turn != at_turn \
 						or rounds != 0 or float(net) != 0.0 \
-						or pending_activity_id() != "racetrack" \
+						or pending_activity_id() != activity_id \
 						or chain.is_empty() or not bool(chain["closed"]) \
 						or (state["routine_receipts"] as Dictionary).has(raw_key):
 					return false
+			# A settled receipt only forbids a pending flag on its own week. An
+			# earlier week's settled racetrack must not void tonight's casino.
 			"closed":
-				if rounds <= 0 or not pending_activity_id().is_empty():
+				if rounds <= 0 or (at_turn == last + 1 and not pending_activity_id().is_empty()):
 					return false
 			"cancelled":
-				if rounds != 0 or not pending_activity_id().is_empty():
+				if rounds != 0 or (at_turn == last + 1 and not pending_activity_id().is_empty()):
 					return false
 			_:
 				return false
@@ -917,8 +969,7 @@ static func _valid_state(state: Dictionary) -> bool:
 	var final_turn := _last_turn_for_state(state)
 	if state.get("profile", null) == PROFILE_FULL \
 			and (not _bounded_integer(GameState.turn, 1, GameState.RUN_TURN_LIMIT + 1) \
-				or (GameState.flags.has("open_racetrack_after_story") \
-					and not GameState.flags["open_racetrack_after_story"] is bool)):
+				or not activity_flags_valid()):
 		return false
 	if final_turn == 0 or GameState.turn < 1 or GameState.turn > final_turn + 1 \
 			or not _calendar_values_match(str(state.get("profile", "")), GameState.turn,
@@ -1017,19 +1068,21 @@ static func _valid_read_record(raw: Variant, at_turn: int) -> bool:
 		return false
 	var choice_index := int(record["choice_index"])
 	if is_full_run() and event.has("year_scene_year"):
-		var year_scene: Variant = choices[choice_index].get("year_scene", null)
+		# The curated rows are rebuilt from the scenes seen in that year so far.
+		# Scenes still played after the curation (W237~W240 for year 5, always
+		# arc_final_countdown) can reorder them, so the live row at the old index
+		# is not the receipt's identity. Bind the receipt to the selection the
+		# choice recorded; wrong year, type, scene or extra fields still fail.
 		var saved_year_scene: Variant = record.get("year_scene", null)
-		if not year_scene is Dictionary or (year_scene as Dictionary).size() != 2 \
+		if not _bounded_integer(event.get("year_scene_year", null), 1, 5) \
 				or not saved_year_scene is Dictionary \
 				or (saved_year_scene as Dictionary).size() != 2 \
-				or not _bounded_integer((year_scene as Dictionary).get("year", null), 1, 5) \
 				or not _integer_equals((saved_year_scene as Dictionary).get("year", null),
-					int((year_scene as Dictionary)["year"])) \
+					int(event["year_scene_year"])) \
 				or not (saved_year_scene as Dictionary).get("scene_id", null) is String \
-				or (saved_year_scene as Dictionary)["scene_id"] \
-					!= (year_scene as Dictionary).get("scene_id", null) \
+				or str((saved_year_scene as Dictionary)["scene_id"]).is_empty() \
 				or GameState.get_year_scene_selection(int(event["year_scene_year"])) \
-					!= str((year_scene as Dictionary).get("scene_id", "")):
+					!= str((saved_year_scene as Dictionary)["scene_id"]):
 			return false
 	return GameState.is_expression_choice(choices[choice_index]) == record["expression"] \
 		and _read_application_valid(record, at_turn)

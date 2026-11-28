@@ -2039,6 +2039,7 @@ func apply_choice(event, authored_choice) -> bool:
 		for investment_effect in investment_effects:
 			if investment_effect is Dictionary:
 				apply_investment_effect(investment_effect)
+	_apply_market_choice(choice)
 	# 발견 레이어 — 선택지가 단서를 줄 수 있다: "clues": ["clue_x"]
 	for clue_id in choice.get("clues", []):
 		add_clue(str(clue_id))
@@ -2344,6 +2345,43 @@ func apply_relationship_effect(effect):
 			"met_turn": turn,
 		})
 	stats_changed.emit()
+
+## ORDER-834 B1: an authored story choice may actually trade, through the same
+## InvestmentSystem the market screen uses (fees, average price, portfolio).
+##   "market_sell": {"asset_id": "kospi_etf" | "*", "ratio": 1.0}
+##   "market_buy":  {"asset_id": "kospi_etf", "amount": 200000}
+##                  or {"asset_id": ..., "cash_ratio": 0.3, "min": 35000, "max": 5000000}
+## A buy never spends more than the cash on hand; an unaffordable one is skipped.
+const INVESTMENT_SYSTEM_SCRIPT := "res://systems/InvestmentSystem.gd"
+
+static func market_buy_amount(spec: Dictionary, cash: float) -> float:
+	var amount := 0.0
+	if spec.has("amount"):
+		amount = float(spec["amount"])
+	elif spec.has("cash_ratio"):
+		amount = clampf(cash * float(spec["cash_ratio"]),
+			float(spec.get("min", 0.0)), float(spec.get("max", INF)))
+	amount = floorf(minf(amount, maxf(cash, 0.0)))
+	return amount if amount >= 1.0 else 0.0
+
+func _apply_market_choice(choice: Dictionary) -> void:
+	var sell: Variant = choice.get("market_sell", null)
+	var buy: Variant = choice.get("market_buy", null)
+	if not sell is Dictionary and not buy is Dictionary:
+		return
+	var market: Node = load(INVESTMENT_SYSTEM_SCRIPT).new()
+	if sell is Dictionary:
+		var target := str((sell as Dictionary).get("asset_id", "*"))
+		var ratio := float((sell as Dictionary).get("ratio", 1.0))
+		for asset_id in portfolio.keys().duplicate():
+			if target == "*" or str(asset_id) == target:
+				market.sell_asset(str(asset_id), ratio)
+	if buy is Dictionary:
+		var amount := market_buy_amount(buy, float(money))
+		var asset_id := str((buy as Dictionary).get("asset_id", ""))
+		if amount > 0.0 and not asset_id.is_empty():
+			market.buy_asset(asset_id, amount, true)
+	market.free()
 
 func apply_investment_effect(effect):
 	var asset_id = str(effect.get("asset_id", ""))
@@ -4348,6 +4386,10 @@ func _divorce_ending_for_assets(total_assets: float) -> String:
 	# 부자 엔딩을 꾸며내지 않고 그냥 사람의 전용 결별 변주로 회수한다.
 	return "lonely_rich" if total_assets >= GANGNAM_TARGET else "ordinary_life"
 
+func _full_story_run() -> bool:
+	return bool(load("res://systems/FullStoryFlow.gd").is_full_run())
+
+
 func check_game_over():
 	if is_game_over:
 		return
@@ -4384,7 +4426,11 @@ func check_game_over():
 		finish_run("debt_spiral"); return
 	if total_now < -100_000_000:
 		finish_run("bankruptcy"); return
-	if addiction_tendency >= 90:
+	# The full story never ends a run on a number alone (DECISIONS 2026-11-26):
+	# at 70 AddictionArc guarantees the rock-bottom scene, and only a run that
+	# chose to go deeper there, or relapsed, can be ruined by addiction.
+	if addiction_tendency >= 90 and (not _full_story_run()
+			or bool(flags.get("chose_deeper", false)) or bool(flags.get("relapsed", false))):
 		finish_run("crypto_ghost"); return
 
 	# M56-M60 owns the final document/person decisions for its locked route.
@@ -4494,9 +4540,10 @@ func check_game_over():
 		# 이혼(강남 미달 엣지 — 서명했으나 끝내 못 닿음): 버렸는데 얻지도 못한 결말
 		if flags.get("daeun_divorced", false):
 			finish_run(_divorce_ending_for_assets(total)); return
-		# 연인 엔딩
-		if flags.get("daeun_romance_started", false):
-			finish_run("with_daeun"); return          # 다은과 연인 (Y5 고백)
+		# 연인 엔딩. 결혼(이혼은 위에서 분기)도 같은 사람의 결말이다. 결혼 경로가
+		# 연애 플래그 없이 도착해도 배우자를 지우지 않는다(with_daeun의 daeun_married 변주).
+		if flags.get("daeun_romance_started", false) or flags.get("daeun_married", false):
+			finish_run("with_daeun"); return          # 다은과 연인·부부
 		# 지연이 떠남(안주를 견디지 못함) = 자기를 지키고 그녀를 잃음. ordinary에 jiyeon_left 변주.
 		if flags.get("jiyeon_left", false):
 			finish_run("ordinary_life"); return       # dik: jiyeon_left 변주
@@ -4546,15 +4593,16 @@ func check_game_over():
 		if not current_job.is_empty() and total >= 100_000_000 \
 				and (flags.get("job_changed_success", false) or int(flags.get("max_job_tier", 0)) >= 4):
 			finish_run("career_climber"); return
+		# 아버지 화해 — 살아 계신 아버지와 화해한 런의 결산(사용자 승인 2026-11-25).
+		# 건강한 삶보다 먼저: 루틴이 건강·정신을 거의 늘 70+로 유지해 그 아래에선 가려졌다.
+		if flags.get("father_reconciled", false) and not flags.get("father_passed", false):
+			finish_run("late_call"); return           # 늦은 전화 (화해)
 		# 건강한 삶 (건강+정신 양호, 관계 있음)
 		if health >= 70 and mental >= 70 and has_any_close_relationship():
 			finish_run("healthy_retirement"); return
 		# 공허한 성공 (정석 많이 쌓았는데 자산 없음 — 허탈한 결말)
 		if route_orthodox >= 20 and total < 300_000_000:
 			finish_run("orthodox_hollow"); return
-		# 아버지 화해
-		if flags.get("father_reconciled", false) and not flags.get("father_passed", false):
-			finish_run("late_call"); return           # 늦은 전화 (화해)
 		# 버텨온 것들 (직장 유지 + 번아웃 경험 or 이직 시도 — 낮은 자산의 직장인 결산)
 		# career_climber(A)는 위에서 1억+ 잡음 → 여기 오면 1억 미만의 직장인
 		if not current_job.is_empty() \
@@ -4784,6 +4832,17 @@ func load_from_dict(data):
 		flags.erase("kept_clean_hands")
 		flags.erase("arc_temptation_clean_seen")
 		flags.erase("stayed_clean")
+	# `daeun_married` is Minjun's own engagement (arc_daeun_proposal_answer).
+	# Older saves also wrote it when a released Daeun's wedding photo surfaced
+	# (arc_daeun_year3_apart), so the run later replayed Minjun's own wedding with
+	# her and ended in with_daeun. That photo is recorded by its own receipt
+	# `arc_daeun_year3_apart_seen`; drop the polluted alias unless the engagement
+	# really happened or the married arc already started on this save.
+	if bool(flags.get("daeun_married", false)) \
+			and bool(flags.get("arc_daeun_year3_apart_seen", false)) \
+			and not bool(flags.get("arc_daeun_proposal_seen", false)) \
+			and not bool(flags.get("arc_daeun_our_home_seen", false)):
+		flags.erase("daeun_married")
 	# 구버전 세이브 호환 — cast 없으면 기본값 채움
 	if cast == null or cast.is_empty():
 		cast = _default_cast()

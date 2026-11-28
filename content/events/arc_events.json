@@ -4224,9 +4224,10 @@
         "text": "1만원 넣었다 — 일단 느껴봐야 안다",
         "effects": {
           "investment_skill": 1,
-          "money": -10000,
           "mental": 2
         },
+        "market_buy": {"asset_id": "kospi_etf", "amount": 10000},
+        "tendency": {"invest": 4},
         "flags": [
           "arc_ch1_invest_chart_seen"
         ],
@@ -4240,6 +4241,7 @@
           "investment_skill": 1,
           "mental": 1
         },
+        "tendency": {"invest": 2},
         "flags": [
           "arc_ch1_invest_chart_seen"
         ],
@@ -4435,6 +4437,7 @@
           "health": -3,
           "intelligence": 1
         },
+        "tendency": {"invest": 2},
         "flags": [
           "arc_ch1_invest_deep_seen"
         ],

@@ -32,15 +32,15 @@
   {
     "id": "holdem_bad_beat",
     "title": "Bad Beat",
-    "description": "Pocket aces.\n\nThe odds of losing with this hand are under 20%. Flop, turn — still ahead.\n\nOn the river, the opponent hit trips.\n\nA statistically absurd thing just happened right in front of {name}.",
+    "description": "Pocket aces.\n\nThe odds of losing with this hand are under 20%. Flop, turn. Still ahead.\n\nOn the river, the opponent hit trips.\n\nA statistically absurd thing just happened right in front of {name}.",
     "choices": [
       {
         "text": "Accept it. That's poker",
-        "result_text": "Slid the chips over.\n\"Bad beat,\" the dealer said.\n{name} nodded.\n\nDid nothing wrong. That's why the loss was clean.\nPlaying poker well and making money at poker are different things."
+        "result_text": "Slid the chips over.\n\"Bad beat,\" the dealer said.\n{name} nodded.\n\nDid nothing wrong. That's why the loss was clean.\n{name} counted the remaining chips and pocketed them."
       },
       {
         "text": "On tilt — go all-in recklessly next hand",
-        "result_text": "Made the decision with emotion. The result was predetermined.\n\nLost 150,000 won and left.\nGangnam street outside. Cold and bright.\n\nPrinciples always collapse this fast."
+        "result_text": "Made the decision with emotion. The result was predetermined.\n\nLost 150,000 won and left.\nGangnam street outside. Cold and bright.\n\n{name} stood at the top of the stairs for a long while."
       }
     ]
   },
@@ -62,15 +62,15 @@
   {
     "id": "holdem_big_pot",
     "title": "Big Pot",
-    "description": "The biggest pot of the session was building.\n\nThe opponent was calm. Large chip stack.\n{name}'s hand wasn't bad. That was the problem — not bad.\n\nCalling means betting everything won today.",
+    "description": "The biggest pot of the session was building.\n\nThe opponent was calm. Large chip stack.\n{name}'s hand wasn't bad. That was the problem: not bad.\n\nCalling means betting everything won today.",
     "choices": [
       {
         "text": "Call",
         "result_text": "Won.\n\nGasps from the table. The opponent flipped cards and stood up.\n\n{name} felt hands slightly trembling while stacking chips.\nWorried about wanting to feel this again."
       },
       {
-        "text": "Fold — this isn't my hand",
-        "result_text": "Put the chips down.\n\nOpponent showed the cards. Would have lost.\n\nStrangely satisfied. Not losing what you would have lost — that's winning too."
+        "text": "Fold. This isn't my hand",
+        "result_text": "Put the chips down.\n\nOpponent showed the cards. Would have lost.\n\nStrangely satisfied. He stacked his chips, picturing the other hand once more."
       }
     ]
   },
@@ -92,15 +92,15 @@
   {
     "id": "holdem_losing_streak",
     "title": "Five in a Row",
-    "description": "You lost five hands in a row today.\n\nStatistically, it's possible. You can lose five straight even with an 80% edge.\n\nBut right now it didn't feel like {name} was running on statistics.\n\nSomething about today felt off.",
+    "description": "He lost five hands in a row today.\n\nStatistically, it's possible. You can lose five straight even with an 80% edge.\n\nBut right now it didn't feel like {name} was running on statistics.\n\nSomething about today felt off.",
     "choices": [
       {
         "text": "Quietly leave my seat",
-        "result_text": "You gathered your chips and stood up.\nThe dealer said, \"Thanks for playing.\"\n\nClimbing the stairs, you thought:\nYou could see two hands you'd played wrong today.\nBeing able to see them means you're learning."
+        "result_text": "He gathered his chips and stood up.\nThe dealer said, \"Thanks for playing.\"\n\nClimbing the stairs, he went back over the night.\nHe could see two hands he'd played wrong today.\nHe went over them again before he reached the street."
       },
       {
-        "text": "\"One more hand\" — try to change the momentum",
-        "result_text": "You played one more.\nThere was no way it would go well in this state.\n\nYou lost another 40,000 won and walked out.\n\nYou tallied the total loss as you came down the stairs — no, up them.\nThe elevator doors closed."
+        "text": "\"One more hand.\" Try to change the momentum",
+        "result_text": "He played one more.\nThere was no way it would go well in this state.\n\nHe lost another 40,000 won and walked out.\n\nHe tallied the total loss as he came down the stairs. No, up them.\nThe elevator doors closed."
       }
     ]
   }

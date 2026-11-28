@@ -17,7 +17,7 @@
   {
     "id": "arc_daeun_families_meet",
     "title": "The Families Meet",
-    "description": "The introductions. A quiet Korean restaurant.\n\n{name}'s father had spent a lifetime in the factory: stooped shoulders, a borrowed suit. Daeun's mother had come up on the dawn bus from the countryside, her knuckles thick from work.\n\nNeither of them had anything. You could see it at a glance.\n\nHis father spoke, with effort.\n\"I... once did a terrible thing to my child, over a debt. A shameful father...\"\n\nSilence settled over the table. Daeun's mother looked at {name}.\nWhatever {name} said next, his father's remaining pride hung on it.",
+    "description": "The introductions. A quiet Korean restaurant.\n\n{name}'s father had spent a lifetime in the factory: stooped shoulders, a borrowed suit. Daeun's mother had come up on the dawn bus from the countryside, her knuckles thick from work.\n\nNeither of them had anything. It showed at a glance.\n\nHis father spoke, with effort.\n\"I... once did a terrible thing to my child, over a debt. A shameful father...\"\n\nSilence settled over the table. Daeun's mother looked at {name}.\nWhatever {name} said next, his father's remaining pride hung on it.",
     "choices": [
       {
         "text": "\"My father paid off every won of that debt. Everything I am, I owe to him.\"",

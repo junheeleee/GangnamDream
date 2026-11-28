@@ -4401,10 +4401,13 @@
     {
       "tool": "tools/EventDirectorCheck.tscn",
       "godot": true,
-      "why": "디렉터 런타임",
+      "why": "디렉터 런타임 · 아버지 별세 변형 목록(엔진 FATHER_PASSED_EVENT_VARIANTS와 동기)·생존 전용 사건 차단",
       "paths": [
         "content/meta/event_director.json",
-        "autoloads/EventManager.gd"
+        "autoloads/EventManager.gd",
+        "content/events/arc_addiction_recovery.json",
+        "tools/EventDirectorCheck.gd",
+        "tools/EventDirectorCheck.tscn"
       ]
     },
     {
@@ -4715,6 +4718,161 @@
       "paths": [
         "content/events/**",
         "content/meta/narrative_spine.json"
+      ]
+    },
+    {
+      "tool": "tools/RhythmRecallCheck.tscn",
+      "godot": true,
+      "why": "837 B1 회수 스케줄러: 원장 무결성·3주 공백 뒤 1장면·쉼표 주·오래된 결정 우선·재사용 금지·시간 창·저장 왕복·5언어",
+      "paths": [
+        "systems/RhythmRecall.gd",
+        "content/meta/rhythm_recall_ledger.json",
+        "scenes/MainGame.gd",
+        "content/events/callback_*.json",
+        "tools/RhythmRecallCheck.gd",
+        "tools/RhythmRecallCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/BodyBandScenesCheck.tscn",
+      "godot": true,
+      "why": "836 M1 몸·마음 구간 장면: 하락 시 1회·장별 반복 금지·직장 전제·저장 왕복·붕괴 전 위험 장면 보장",
+      "paths": [
+        "systems/BodyBandScenes.gd",
+        "scenes/MainGame.gd",
+        "content/events/life_events.json",
+        "content/events/life_events2.json",
+        "content/events/work_events.json",
+        "content/events/drama_events.json",
+        "tools/BodyBandScenesCheck.gd",
+        "tools/BodyBandScenesCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/YearSceneReceiptReorderCheck.tscn",
+      "godot": true,
+      "why": "W236 연차 장면 영수증이 W240 재정렬 뒤에도 유효(엔딩 직전 정지 회귀)",
+      "paths": [
+        "systems/FullStoryFlow.gd",
+        "autoloads/GameState.gd",
+        "content/events/arc_year_close.json",
+        "tools/YearSceneReceiptReorderCheck.gd",
+        "tools/YearSceneReceiptReorderCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/AddictionArcCheck.tscn",
+      "godot": true,
+      "why": "834 B2.6 중독은 장면으로 끝난다: 70에 바닥 1회, 도움 뒤 회복 아크 간격(1주·4주·4주), 한 판 더/재발 이탈, 애도 쉼, 회복 중 도박 습관 잠금·재발 시 해제, 아버지 별세 변형(어머니), 정식 런 밖 90 종료 보존",
+      "paths": [
+        "systems/AddictionArc.gd",
+        "autoloads/GameState.gd",
+        "autoloads/EventManager.gd",
+        "systems/BranchHabit.gd",
+        "content/meta/branch_habit_ledger.json",
+        "scenes/MainGame.gd",
+        "content/events/arc_addiction_recovery.json",
+        "tools/AddictionArcCheck.gd",
+        "tools/AddictionArcCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/BodyTideCheck.tscn",
+      "godot": true,
+      "why": "836 B2 몸 기울기: 원장 선택 실재, 쉬기 6주 회복·버티기 6주 소모, 최신 선택 교체, 같은 주 1회, 월초 위기 → 다음 빈 주 몸 장면 1개(미사용 먼저·오래된 순), 저장 왕복, 정식 런 한정",
+      "paths": [
+        "systems/BodyTide.gd",
+        "content/meta/body_tide_ledger.json",
+        "scenes/MainGame.gd",
+        "tools/BodyTideCheck.gd",
+        "tools/BodyTideCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/EasterEggRouteCheck.tscn",
+      "godot": true,
+      "why": "본편 이스터에그: 원장 8개 실재·자기 플래그로 1회, 자기 조건이 맞을 때만 빈 주에 원장 순서·6주 간격·애도/종막 쉼·저장 왕복, 실제 EventManager 조건 판정",
+      "paths": [
+        "systems/EasterEggRoute.gd",
+        "content/meta/easter_egg_ledger.json",
+        "scenes/MainGame.gd",
+        "content/events/easter_eggs.json",
+        "tools/EasterEggRouteCheck.gd",
+        "tools/EasterEggRouteCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/BranchHabitCheck.tscn",
+      "godot": true,
+      "why": "834 B2.5 빈 주 습관 방문: 발을 들인 뒤에만, 간 다음 주 재호출·거절 뒤 휴지·습관 변형·애도/종막 쉼·그만둠·보유 전제·번갈아·저장 왕복, 가는 선택이 실제 미니게임/매매",
+      "paths": [
+        "systems/BranchHabit.gd",
+        "content/meta/branch_habit_ledger.json",
+        "systems/FullStoryFlow.gd",
+        "scenes/MainGame.gd",
+        "content/events/gambling_narrative.json",
+        "content/events/investment_events.json",
+        "tools/BranchHabitCheck.gd",
+        "tools/BranchHabitCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/GambleBranchBeatsCheck.tscn",
+      "godot": true,
+      "why": "834 B2 도박 1~2년 차: 플레이어가 만든 사실(경마 방문·멘토·정선·네트워크) 뒤에만, 원장 순서·창·간격·직장 전제·멈춤 출구·저장 왕복",
+      "paths": [
+        "systems/GambleBranchBeats.gd",
+        "systems/BranchBeats.gd",
+        "content/meta/gamble_branch_ledger.json",
+        "scenes/MainGame.gd",
+        "content/events/racetrack_events.json",
+        "content/events/gambling_narrative.json",
+        "content/events/holdem_events.json",
+        "content/events/drama_events.json",
+        "content/events/life_events.json",
+        "tools/GambleBranchBeatsCheck.gd",
+        "tools/GambleBranchBeatsCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/InvestBranchBeatsCheck.tscn",
+      "godot": true,
+      "why": "834 B1 투자 1~2년 차: 상철 첫 수업에서만 열리고, 원장 순서·창·주거·간격·실제 손실·저장 왕복, 선택이 실제로 매매",
+      "paths": [
+        "systems/InvestBranchBeats.gd",
+        "systems/BranchBeats.gd",
+        "systems/InvestmentSystem.gd",
+        "content/meta/invest_branch_ledger.json",
+        "autoloads/GameState.gd",
+        "scenes/MainGame.gd",
+        "content/events/arc_events.json",
+        "content/events/arc_midgame.json",
+        "content/events/investment_events.json",
+        "tools/InvestBranchBeatsCheck.gd",
+        "tools/InvestBranchBeatsCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/RelationshipForkReleaseCheck.tscn",
+      "godot": true,
+      "why": "M22에서 다은을 보내면 이별 장면 뒤 같은 창 안에 지연 제안이 열린다(두 관계를 다 잃지 않음)",
+      "paths": [
+        "scenes/MainGame.gd",
+        "tools/RelationshipForkReleaseCheck.gd",
+        "tools/RelationshipForkReleaseCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/DaeunMarriedMeaningCheck.tscn",
+      "godot": true,
+      "why": "daeun_married는 민준의 약혼만 뜻한다(풀어준 다은의 결혼 사진이 민준의 결혼 아크·with_daeun으로 새지 않음)",
+      "paths": [
+        "autoloads/GameState.gd",
+        "content/events/arc_daeun_extension.json",
+        "content/events/arc_daeun_romance.json",
+        "content/events/callback_events_39.json",
+        "tools/DaeunMarriedMeaningCheck.gd",
+        "tools/DaeunMarriedMeaningCheck.tscn"
       ]
     },
     {

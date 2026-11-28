@@ -2,15 +2,15 @@
   {
     "id": "callback_next_milestone_set_echo",
     "title": "Setting the Next Goal Right Away",
-    "description": "The day {name} first hit 50 million won, before even celebrating, they set the next goal. '500 million won.'\n\nThat immediacy carried all the way here.\n\nToday, before another milestone, that day came to mind.",
+    "description": "The day {name} first hit 50 million won, before even celebrating, he set the next goal. '500 million won.'\n\nThat immediacy carried all the way here.\n\nToday, before another milestone, that day came to mind.",
     "choices": [
       {
-        "text": "Like then — don't stop, look at the next number",
+        "text": "Like then, don't stop, look at the next number",
         "result_text": "A habit of not lingering on achievement.\n\nThat pushed {name} quickly to the next stage.\nFrom 50 million won to 500 million won, that gaze eventually aimed at 3 billion won."
       },
       {
-        "text": "This time, pause — acknowledge coming this far",
-        "result_text": "Look only at next and you miss now.\n\n{name} paused to acknowledge how far they'd come."
+        "text": "This time, pause, acknowledge coming this far",
+        "result_text": "{name} paused to acknowledge how far he'd come."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "\"Because I believed you'd get back up.\"",
-        "result_text": "'...That helped more than comfort would have.'\n\nWhat a fallen person needs is sometimes not pity but the premise that they'll rise again.\n{name} knew that instinctively."
+        "result_text": "'...That helped more than comfort would have.'\n\nInstead of answering, {name} asked when the next exam was."
       },
       {
         "text": "\"I wished someone had asked me that too.\"",
-        "result_text": "When you fall, 'what now' lifts you more than 'it's okay.'\n\n{name} had offered Hyun-su the words they'd wanted to hear."
+        "result_text": "{name} had offered Hyun-su the words he'd wanted to hear."
       }
     ]
   },
@@ -47,15 +47,15 @@
   {
     "id": "callback_hyunsu_drift_ignored_echo",
     "title": "Just Walking Past",
-    "description": "While Hyun-su was drifting, {name} was too busy with their own affairs and just walked past.\n\nToday they heard about Hyun-su by chance. He'd more or less landed on his feet.\n\nWalking past that time nags sometimes.",
+    "description": "While Hyun-su was drifting, {name} was too busy with his own affairs and just walked past.\n\nToday he heard about Hyun-su by chance. He'd more or less landed on his feet.\n\nWalking past that time nags sometimes.",
     "choices": [
       {
         "text": "Reach out now, even late",
-        "result_text": "Late, but reached out.\n\nHyun-su was unexpectedly glad. 'Hyung, long time.'\nDoing now what couldn't be done then beat not doing it at all."
+        "result_text": "Late, but he reached out.\n\nHyun-su was unexpectedly glad. 'Hyung, long time.'\nThe call ran longer than he expected."
       },
       {
-        "text": "I had no room then either — accept it",
-        "result_text": "A drowning person can hardly save another.\n\n{name} could barely keep themselves afloat then too."
+        "text": "I had no room then either. Accept it",
+        "result_text": "{name} could barely keep himself afloat then too."
       }
     ]
   },
@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "\"I held on because you picked up.\"",
-        "result_text": "'You did the same for me. That's what we are.'\n\nHaving someone to call when you're collapsing.\nThat was the rope that held {name} through that night."
+        "result_text": "'You did the same for me. That's what we are.'\n\nSomeone to call when he was falling apart.\nThat was the rope that held {name} through that night."
       },
       {
         "text": "\"Alone, I couldn't have gotten up.\"",
-        "result_text": "Having even one person you can show weakness to."
+        "result_text": "Even one person he could show weakness to."
       }
     ]
   },
@@ -107,7 +107,7 @@
   {
     "id": "callback_called_about_medication_echo",
     "title": "Calling Dad Directly",
-    "description": "When {name} heard about Dad's medication, they called Dad directly instead of going through Mom.\n\nToday Dad brought up that call.\n\n'Minjun-ah. You called me directly that time, not your mother. That was — reassuring.'",
+    "description": "When {name} heard about Dad's medication, he called Dad directly instead of going through Mom.\n\nToday Dad brought up that call.\n\n'Son. You called me directly that time, not your mother. That was — reassuring.'",
     "choices": [
       {
         "text": "\"It's about you, Dad. Of course I'd ask you directly.\"",
@@ -167,7 +167,7 @@
   {
     "id": "callback_avoided_comparison_echo",
     "title": "Pretending Not to See",
-    "description": "When {name} ran into a successful classmate at a restaurant, they pretended not to see and found a corner seat.\n\nThat avoidance comes back sometimes.\n\nToday, a similar situation — heard someone's doing well.",
+    "description": "When {name} ran into a successful classmate at a restaurant, they pretended not to see and found a corner seat.\n\nThat avoidance comes back sometimes.\n\nToday, news that someone was doing well popped up in the group chat.",
     "choices": [
       {
         "text": "I don't avoid anymore — I stand tall in my place",
@@ -175,7 +175,7 @@
       },
       {
         "text": "Avoiding then — was also a way of protecting myself",
-        "result_text": "When you're sure to be shaken, avoiding is one method.\n\nNo need to throw yourself into an unprepared comparison."
+        "result_text": "{name} muted the group chat and turned the phone face down.\n\nIt stayed off for the rest of the evening."
       }
     ]
   },
@@ -186,7 +186,7 @@
     "choices": [
       {
         "text": "\"Honesty's easier. You doing well too?\"",
-        "result_text": "Stating your situation without dressing it up.\n\nThat actually drew out the other's respect.\n{name} wasn't ashamed of having been honest in the face of comparison."
+        "result_text": "Stating his situation without dressing it up.\n\nThat actually drew out the other's respect.\n{name} wasn't ashamed of having been honest in the face of comparison."
       },
       {
         "text": "\"Talking with you back then fired me up too.\"",

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/FullStoryPolicyRun.gd" id="1_policy"]
+
+[node name="FullStoryPolicyRun" type="Node"]
+script = ExtResource("1_policy")

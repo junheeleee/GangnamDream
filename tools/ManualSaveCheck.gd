@@ -6646,7 +6646,7 @@ func _check_father_passing_terminal_result_resume() -> void:
 		},
 		{
 			"event_id": "arc_father_passing_deal_morning",
-			"result_marker": "정확히 5백만원",
+			"result_marker": "입금 내역에 5백만원이 찍혀 있었다",
 			"route_flag": "chose_money_over_father",
 			"deferred_id": "callback_chose_money_father_echo",
 		},

@@ -265,7 +265,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "그냥 뒀다.\n적당한 거리가 좋다고 생각했는데 — 이건 거리가 아니라 그냥 멀어진 것이었다."
+        "result_text": "그냥 뒀다.\n다음 주에도 다은과의 대화창은 열리지 않았다."
       }
     ]
   },
@@ -691,7 +691,7 @@
   {
     "id": "callback_father_going_soon_visit",
     "title": "아버지 시간",
-    "description": "아버지 몸이 많이 안 좋다는 걸 알게 됐다.\n지금이 좋을 때 자주 봐야 한다고 — 고모한테 그런 말을 들었다.\n고향 가는 버스 시간표를 검색했다.",
+    "description": "아버지 몸이 많이 안 좋다는 걸 알게 됐다.\n지금이 좋을 때 자주 봐야 한다고, 고모한테 그런 말을 들었다.\n고향 가는 버스 시간표를 검색했다.",
     "category": "family",
     "rarity": "uncommon",
     "weight": 0.8,
@@ -734,7 +734,7 @@
   {
     "id": "callback_father_reconciled_started_progress",
     "title": "화해의 속도",
-    "description": "아버지와 화해를 시작한 지 8개월이 됐다.\n처음엔 어색했는데 — 이제 전화하는 게 자연스러워졌다.\n오늘 아버지가 먼저 전화하셨다.\n아무 이유 없이.",
+    "description": "아버지와 화해를 시작한 지 8개월이 됐다.\n처음엔 어색했는데, 이제 통화 기록에 '아버지'가 자주 보였다.\n오늘 아버지가 먼저 전화하셨다.\n아무 이유 없이.",
     "category": "family",
     "rarity": "uncommon",
     "weight": 1.0,

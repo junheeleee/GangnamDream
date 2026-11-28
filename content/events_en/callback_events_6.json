@@ -66,26 +66,26 @@
     "choices": [
       {
         "text": "\"Doing well. Let's grab food sometime.\"",
-      "result_text": "Daeun replied at once. 'Sounds good. How about Thursday?'\nYou opened the calendar and cleared the time after work. A map pin for a noodle shop near the convenience store appeared in the chat."
+      "result_text": "Daeun replied at once. 'Sounds good. How about Thursday?'\nHe opened the calendar and cleared the time after work. A map pin for a noodle shop near the convenience store appeared in the chat."
       },
       {
         "text": "Just reply \"Doing well.\"",
-      "result_text": "Daeun replied, 'Good to hear :)'\nYou tapped the message field once more, wrote nothing, and turned off the screen. Her last message remained above the read receipt for the rest of the night."
+      "result_text": "Daeun replied, 'Good to hear :)'\nHe tapped the message field once more, wrote nothing, and turned off the screen. Her last message remained above the read receipt for the rest of the night."
       }
     ]
   },
   {
     "id": "callback_daeun_guarded_distance",
     "title": "The Distance That Grew",
-    "description": "You'd kept drawing lines around Daeun.\nToday you heard through a mutual friend.\nDaeun had moved to a different neighborhood.",
+    "description": "He'd kept drawing lines around Daeun.\nToday he heard through a mutual friend.\nDaeun had moved to a different neighborhood.",
     "choices": [
       {
         "text": "Try reaching out",
-        "result_text": "You sent a text. 'Heard you moved. How are you?'\nOnly the read receipt appeared.\nNo reply.\nYou were the one who drew the lines."
+        "result_text": "He sent a text. 'Heard you moved. How are you?'\nOnly the read receipt appeared.\nNo reply.\nHe was the one who drew the lines."
       },
       {
         "text": "Leave it",
-        "result_text": "You left it.\nYou thought you wanted a comfortable distance — but this wasn't distance, it was just far."
+        "result_text": "He left it.\nThe next week, the chat with Daeun stayed closed too."
       }
     ]
   },
@@ -242,7 +242,7 @@
   {
     "id": "callback_father_going_soon_visit",
     "title": "Father's Time",
-    "description": "You found out your father's health had gotten much worse.\nYou should see him often while it's still a good time — your aunt told you something like that.\nYou searched the bus schedule to your hometown.",
+    "description": "You found out your father's health had gotten much worse.\nYour aunt told you to see him often while he was still doing all right.\nYou searched the bus schedule to your hometown.",
     "choices": [
       {
         "text": "Go down this week",
@@ -257,7 +257,7 @@
   {
     "id": "callback_father_reconciled_started_progress",
     "title": "The Pace of Reconciliation",
-    "description": "Eight months since you started making things right with your father.\nIt was awkward at first — but now calling feels natural.\nToday your father called first.\nNo reason in particular.",
+    "description": "Eight months since you started making things right with your father.\nIt was awkward at first; now 'Father' shows up often in the call log.\nToday your father called first.\nNo reason in particular.",
     "choices": [
       {
         "text": "Talk for a long time",
