@@ -1,0 +1,95 @@
+{
+  "_doc": "ORDER-839 T1/T3 full-story trading board. Read only by scenes/TradingFloor.gd. A portfolio habit scene opens one session (FullStoryFlow activity trading_floor); a session has orders_per_session orders. Assets are listed only once the run's story has opened them: a tier opens when any requires_any flag is set or any requires_any_event scene is in the event log. Holdings stay listed so they can be sold. T3: private-banking access or the Gangnam property scene opens fractional property; joining, founding or being pitched a startup opens the startup stakes. Counts are [첫 실행 재조정].",
+  "orders_per_session": 3,
+  "tiers": [
+    {
+      "id": "first_lesson",
+      "requires_any": [
+        "investment_lesson_1",
+        "invest_self_directed"
+      ],
+      "assets": [
+        "kospi_etf",
+        "sp500",
+        "samsung",
+        "reits"
+      ]
+    },
+    {
+      "id": "after_first_loss",
+      "requires_any": [
+        "arc_invest_first_loss_seen"
+      ],
+      "requires_any_event": [
+        "arc_invest_first_loss"
+      ],
+      "assets": [
+        "nasdaq",
+        "nvidia",
+        "kakao",
+        "hyundai"
+      ]
+    },
+    {
+      "id": "crypto_mania",
+      "requires_any_event": [
+        "inv_crypto_mania"
+      ],
+      "assets": [
+        "bitcoin",
+        "ethereum",
+        "meme_coin"
+      ]
+    },
+    {
+      "id": "leverage_temptation",
+      "requires_any_event": [
+        "leverage_temptation",
+        "habit_portfolio_regular"
+      ],
+      "assets": [
+        "kospi_3x",
+        "nasdaq_3x"
+      ]
+    },
+    {
+      "id": "gray_zone_tip",
+      "requires_any": [
+        "took_gray_tip"
+      ],
+      "assets": [
+        "ai_chip"
+      ]
+    },
+    {
+      "id": "property_access",
+      "requires_any": [
+        "pb_access",
+        "arc_gangnam_real_estate_seen"
+      ],
+      "requires_any_event": [
+        "arc_gangnam_real_estate"
+      ],
+      "assets": [
+        "officetel",
+        "gangnam_share"
+      ]
+    },
+    {
+      "id": "startup_circle",
+      "requires_any": [
+        "joined_startup",
+        "startup_joined",
+        "startup_founded",
+        "startup_collab_proposed"
+      ],
+      "requires_any_event": [
+        "arc_jaehyuk_03_pitch"
+      ],
+      "assets": [
+        "seed_startup",
+        "ai_startup"
+      ]
+    }
+  ]
+}

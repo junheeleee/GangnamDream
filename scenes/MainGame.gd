@@ -305,6 +305,7 @@ var roulette_table     # 정선 카지노 룰렛 오버레이
 var big_wheel_game     # 정선 카지노 빅휠 오버레이
 var dai_sai_table      # 정선 카지노 다이사이 오버레이
 var jeongseon_casino     # 정선 카지노 허브 오버레이
+var trading_floor        # 투자 매매 화면 (정식판 계좌 습관 활동, ORDER-839 T1)
 # 상황 카드 시스템 — 매 턴 뽑은 상황들 + 이번 턴 처리한 상황 id
 var month_situations: Array = []
 var month_situations_turn: int = -1
@@ -389,6 +390,10 @@ func _ready():
 	jeongseon_casino.dai_sai_table    = dai_sai_table
 	add_child(jeongseon_casino)
 	jeongseon_casino.closed.connect(_on_jeongseon_casino_closed)
+	trading_floor = load("res://scenes/TradingFloor.gd").new()
+	trading_floor.setup(investment_system)
+	add_child(trading_floor)
+	trading_floor.closed.connect(_on_trading_floor_closed)
 	# A present owner, even damaged, must not become a new run merely because
 	# its display log is empty. Its existing fail-closed reader owns the save.
 	if GameState.action_log.is_empty() and not FULL_STORY_FLOW.owns_session():
@@ -1080,6 +1085,8 @@ func _full_story_after_activity_saved(phase: String) -> void:
 				_open_holdem()
 			"jeongseon_casino":
 				_open_jeongseon_casino()
+			"trading_floor":
+				_open_trading_floor()
 			_:
 				_open_racetrack()
 	elif bool(get_meta("_screenshot_qa_static_surface", false)):
@@ -9323,7 +9330,10 @@ func _apply_monthly_event(ev: Dictionary):
 			GameState.add_log(desc, "system")
 			AudioManager.play("money_gain")
 		"market_boom":
-			investment_system.apply_market_shock()  # opposite: boost
+			# The shock first took fear/greed 25 down, so a boom netted -5
+			# (ORDER-839 T0). The full run skips it; the approved demo keeps it.
+			if not FULL_STORY_FLOW.is_full_run():
+				investment_system.apply_market_shock()
 			GameState.market_context["fear_greed"] = min(90, int(GameState.market_context.get("fear_greed", 50)) + 20)
 			GameState.market_context["cycle"] = "bull"
 			GameState.market_context["crash_risk"] = 0.02
@@ -18586,6 +18596,30 @@ func _on_jeongseon_casino_closed():
 	_refresh_all()
 	_render_ap_actions()
 
+## ORDER-839 T1: the portfolio habit scene opened the trading board for this
+## week. Every order already settled through InvestmentSystem; closing only
+## receipts the session and returns to the same story week.
+func _open_trading_floor():
+	if not FULL_STORY_FLOW.is_full_run() or not _full_story_activity_can_open("trading_floor"):
+		return
+	_enter_minigame_overlay(trading_floor)
+	trading_floor.open()
+
+func _on_trading_floor_closed():
+	if not FULL_STORY_FLOW.is_full_run() or not _minigame_overlay_active \
+			or FULL_STORY_FLOW.pending_activity_id() != "trading_floor":
+		return
+	var details := _gamble_session_details("trading", trading_floor)
+	if not FULL_STORY_FLOW.close_activity("trading_floor",
+			int(details["rounds"]), float(details["session_net"])):
+		push_error("Full story could not close its actual trading session")
+		return
+	_exit_minigame_overlay()
+	if int(details["rounds"]) > 0:
+		GameState.register_action_axis("money", "trading", "invest_trading")
+	if _full_story_save_activity(GameState.turn, "closed"):
+		_full_story_after_activity_saved("closed")
+
 # (구형 _open_baccarat/_open_blackjack + 핸들러 제거 — 정선 카지노 허브의
 #  _launch_*로 일원화됨. baccarat_table/blackjack_table 노드는 허브가 사용.)
 
@@ -18644,6 +18678,8 @@ func _activity_direction_id(overlay: Node) -> String:
 		return "scalping"
 	if overlay == jeongseon_casino:
 		return "casino"
+	if overlay == trading_floor:
+		return "trading"
 	if overlay == job_hunt_game:
 		return "job_hunt"
 	if overlay == aruba_game:

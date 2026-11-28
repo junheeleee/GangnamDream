@@ -73,8 +73,8 @@
 | 4 | [~] | ORDER-836 · 몸·마음 독자 | [836](queue_active/ORDER-836.md) | 833 뒤 · SYSTEMS_DESIGN §3 · Claude B1-M1·B2 몸 기울기 착수 |
 | 5 | [~] | ORDER-837 · 공백 주 리듬 | [837](queue_active/ORDER-837.md) | 834·835 뒤 · SYSTEMS_DESIGN §4 · Claude B1 회수 스케줄러 착수 |
 | 6 | [ ] | ORDER-838 · 엔딩 도달·재플레이 | [838](queue_active/ORDER-838.md) | 834~837 뒤 · SYSTEMS_DESIGN §5 |
-| 7 | [ ] | ORDER-839 · 투자 매매 | [839](queue_active/ORDER-839.md) | #44 뒤 · 설계 완료 |
-| 8 | [ ] | ORDER-840 · 도박 | [840](queue_active/ORDER-840.md) | #44 뒤 · 설계 완료 · 834 B4 |
+| 7 | [~] | ORDER-839 · 투자 매매 | [839](queue_active/ORDER-839.md) | Claude · T1 매매 화면 |
+| 8 | [~] | ORDER-840 · 도박 | [840](queue_active/ORDER-840.md) | Claude · G2 단골 |
 | 9 | [ ] | ORDER-841 · 연애 | [841](queue_active/ORDER-841.md) | 839·840 뒤 · 기준 초안 |
 | 10 | [~] | ORDER-829 · 체험판 M01~M06 품질 | [829](queue_active/ORDER-829.md) | 830 뒤 체험판 사람 1명 1시간 |
 | 11 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 새 번역 일시 중지 · #41/#42 병합 |

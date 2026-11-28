@@ -252,11 +252,11 @@
   "news": {
     "news_001": {
       "headline": "{topic}外资转为净买入——KOSPI反弹预期升温",
-      "topics": ["Hanseong Electronics", "SK海力士", "LG新能源", "Daehyeon Motor", "NAVER", "Daon", "POSCO"]
+      "topics": ["Hanseong Electronics", "Haesol Semiconductor", "Nuri Battery", "Daehyeon Motor", "Onnuri", "Daon", "Donghae Steel"]
     },
     "news_002": {
       "headline": "{topic}成为AI受益股焦点——传机构投资者增持",
-      "topics": ["Encore", "微软", "谷歌", "亚马逊AWS", "Meta", "AMD", "Orca"]
+      "topics": ["Encore", "WindCore", "SearchOne", "EverMarket云", "Linkverse", "ArcChip", "Orca"]
     },
     "news_003": {
       "headline": "{topic}公寓价格一个月暴涨1亿韩元——恐慌性购房恐将重演",
@@ -272,7 +272,7 @@
     },
     "news_006": {
       "headline": "{topic}公开发布，相关股票齐涨——AI超级周期拉开序幕",
-      "topics": ["GPT-5", "三星Gauss 2", "HyperCLOVA X2", "Claude 4", "Gemini Ultra", "Copilot Enterprise", "Sora2"]
+      "topics": ["新一代对话式AI", "Hanseong AI模型2", "Onnuri AI 2", "竞品对话式AI新模型", "SearchOne AI Ultra", "WindCore AI助手企业版", "视频生成AI"]
     },
     "news_007": {
       "headline": "{topic}获C轮融资1200亿韩元——跻身独角兽进入倒计时",
@@ -280,15 +280,15 @@
     },
     "news_008": {
       "headline": "引入{topic}后，IT求职竞争比突破30:1——求职者掀起自学编程热",
-      "topics": ["常态化招聘", "匿名招聘", "AI能力测评", "以岗位为中心的招聘", "作品集选拔", "GitHub简历", "编程测试"]
+      "topics": ["常态化招聘", "匿名招聘", "AI能力测评", "以岗位为中心的招聘", "作品集选拔", "代码仓库简历", "编程测试"]
     },
     "news_009": {
       "headline": "{topic}单日暴涨+22%——牛市开端还是死猫反弹，争论再起",
-      "topics": ["Corecoin", "Novacoin", "Solana", "瑞波币", "迷因币币", "艾达币", "Avalanche"]
+      "topics": ["Corecoin", "Novacoin", "高速链币", "汇款币", "迷因币", "研究型币", "子网币"]
     },
     "news_010": {
       "headline": "{topic}业绩爆雷……营业利润下降37%，未达预期",
-      "topics": ["Hanseong Electronics", "SK海力士", "Daon", "Daehyeon Motor", "LG新能源", "Celltrion", "HMM"]
+      "topics": ["Hanseong Electronics", "Haesol Semiconductor", "Daon", "Daehyeon Motor", "Nuri Battery", "Hanul Bio", "Daeyang Shipping"]
     },
     "news_011": {
       "headline": "美联储鹰派言论引发{topic}震荡——10年期国债收益率突破4.8%",
@@ -308,7 +308,7 @@
     },
     "news_015": {
       "headline": "{topic}用电需求暴增——数据中心电费由谁承担引争议",
-      "topics": ["AI数据中心", "ChatGPT服务器", "云基础设施", "半导体工厂", "Encore GPU集群", "三星AI设施", "NAVER数据中心"]
+      "topics": ["AI数据中心", "对话式AI服务器", "云基础设施", "半导体工厂", "Encore GPU集群", "Hanseong Electronics AI设施", "Onnuri数据中心"]
     },
     "news_016": {
       "headline": "韩国初创企业中的{topic}宣布倒闭——称成加息与融资寒冬牺牲品",
@@ -320,15 +320,15 @@
     },
     "news_018": {
       "headline": "{topic}遭大规模黑客攻击——交易所客户资产蒸发800亿韩元，震惊市场",
-      "topics": ["Upbit", "Bithumb", "Coinone", "Korbit", "海外交易所", "DeFi协议", "NFT交易平台"]
+      "topics": ["Coinmaru", "Bithouse", "OneCoin交易所", "Coingate", "海外交易所", "DeFi协议", "NFT交易平台"]
     },
     "news_019": {
       "headline": "{topic}遭集中做空——散户愤言“又被收割了”",
-      "topics": ["Daon", "LG新能源", "KakaoBank", "Celltrion", "EcoPro", "KOSDAQ生物科技股", "二次电池股"]
+      "topics": ["Daon", "Nuri Battery", "Daon Bank", "Hanul Bio", "GreenCell", "KOSDAQ生物科技股", "二次电池股"]
     },
     "news_020": {
       "headline": "{topic}市盈率45倍引争议……成长股还是泡沫，华尔街看法分化",
-      "topics": ["Encore", "Bolton", "Palantir", "Snowflake", "CrowdStrike", "Rivian", "ARM"]
+      "topics": ["Encore", "Bolton", "数据分析巨头", "云数据企业", "网络安全巨头", "电动卡车新创", "CoreDesign"]
     },
     "news_021": {
       "headline": "{topic}全租房源消失——租客被迫转向月租",
@@ -360,11 +360,11 @@
     },
     "news_028": {
       "headline": "外资大规模撤离{topic}……汇率突破1450韩元，抛售蔓延",
-      "topics": ["KOSPI", "KOSDAQ", "Hanseong Electronics", "SK海力士", "韩国股市", "外资持有股票", "蓝筹股"]
+      "topics": ["KOSPI", "KOSDAQ", "Hanseong Electronics", "Haesol Semiconductor", "韩国股市", "外资持有股票", "蓝筹股"]
     },
     "news_029": {
       "headline": "{topic}决定拆股——散户入场预期推动盘后股价大涨",
-      "topics": ["Encore", "Orca", "Bolton", "谷歌", "亚马逊", "微软", "伯克希尔哈撒韦"]
+      "topics": ["Encore", "Orca", "Bolton", "SearchOne", "EverMarket", "WindCore", "价值投资控股公司"]
     },
     "news_030": {
       "headline": "{topic}成交断崖持续——高利率下，买卖双方均在观望",
@@ -384,7 +384,7 @@
     },
     "news_034": {
       "headline": "全球科技业寒冬——{topic}裁员30%，引发震动",
-      "topics": ["谷歌韩国", "Meta韩国", "Daon", "NAVER", "Coupang", "Baedal Minjok", "Toss"]
+      "topics": ["SearchOne Korea", "Linkverse Korea", "Daon", "Onnuri", "Baro Market", "Hankki Delivery", "MoaPay"]
     },
     "news_035": {
       "headline": "公务员、国企岗位再受追捧——{topic}之下，人们重回稳定职业",
@@ -392,15 +392,15 @@
     },
     "news_036": {
       "headline": "市场期待更多Corecoin现货ETF获批，{topic}同步大涨",
-      "topics": ["Novacoin", "Solana", "瑞波币", "山寨币板块", "DeFi代币", "L2代币", "与BTC挂钩的加密货币"]
+      "topics": ["Novacoin", "高速链币", "汇款币", "山寨币板块", "DeFi代币", "L2代币", "与BTC挂钩的加密货币"]
     },
     "news_037": {
       "headline": "{topic}创52周新高——追涨还是获利了结，投资者陷入纠结",
-      "topics": ["Hanseong Electronics", "Daehyeon Motor", "KB金融", "SK Innovation", "LG化学", "POSCO Holdings", "Hanwha Aerospace"]
+      "topics": ["Hanseong Electronics", "Daehyeon Motor", "Hangang Financial", "Haesol Energy", "Nuri Chemical", "Donghae Steel Holdings", "Haneul Defense"]
     },
     "news_038": {
       "headline": "美国CPI大幅超预期——{topic}遭恐慌抛售，纳斯达克下跌-3.2%",
-      "topics": ["纳斯达克", "S&P500", "Bolton", "Meta", "Netflix", "Encore", "大型科技股"]
+      "topics": ["纳斯达克", "S&P500", "Bolton", "Linkverse", "StreamBox", "Encore", "大型科技股"]
     },
     "news_039": {
       "headline": "{topic}新房申购竞争比389:1——“买房中彩”热潮再现",
@@ -428,15 +428,15 @@
     },
     "news_045": {
       "headline": "机构投资者大举配置{topic}——加密货币走进正规金融体系的信号",
-      "topics": ["Corecoin", "Novacoin", "瑞波币", "Solana", "BTC ETF", "ETH ETF", "稳定币"]
+      "topics": ["Corecoin", "Novacoin", "汇款币", "高速链币", "BTC ETF", "ETH ETF", "稳定币"]
     },
     "news_046": {
       "headline": "机构悄然吸筹{topic}的迹象浮现——下月业绩发布在即",
-      "topics": ["Hanseong Electronics", "Daehyeon Motor", "LG新能源", "SK Innovation", "Hanwha Solutions", "三星SDI", "Doosan Enerbility"]
+      "topics": ["Hanseong Electronics", "Daehyeon Motor", "Nuri Battery", "Haesol Energy", "Haeoreum Solar", "Hanseong Battery", "Hanbit Heavy Industries"]
     },
     "news_047": {
       "headline": "{topic}公布业绩大幅超预期——常规交易时段外大涨+6%",
-      "topics": ["Encore", "微软", "Orca", "谷歌", "Meta", "亚马逊", "Netflix"]
+      "topics": ["Encore", "WindCore", "Orca", "SearchOne", "Linkverse", "EverMarket", "StreamBox"]
     },
     "news_048": {
       "headline": "{topic}公告地价飙升——综合不动产税大增，多房业主发愁",
@@ -456,7 +456,7 @@
     },
     "news_052": {
       "headline": "二三十岁人群创业热升温——梦想“像{topic}一样做出独角兽”的人激增",
-      "topics": ["Toss的Lee Seunggeon", "Danggeun Market", "Yanolja", "Kurly", "Krafton", "Socar", "Zigbang"]
+      "topics": ["MoaPay创始人", "邻里集市", "Shumpyo Stay", "Saebyeok Market", "Byeolbit Games", "Tago Car", "找房应用"]
     },
     "news_053": {
       "headline": "外企扩大在韩法人实体规模——{topic}招聘通道拓宽",
@@ -464,11 +464,11 @@
     },
     "news_054": {
       "headline": "{topic}减半倒计时D-30——“史诗级上涨”看多派与“已反映在价格中”谨慎派交锋",
-      "topics": ["Corecoin", "莱特币", "Corecoin Cash", "eCash", "门罗币", "Zcash", "Dash"]
+      "topics": ["Corecoin", "轻量币", "Corecoin Cash", "eCash", "匿名币", "隐私币", "支付币"]
     },
     "news_055": {
       "headline": "{topic}目标价接连上调……证券业喊出“现在是买入时机”",
-      "topics": ["Hanseong Electronics", "SK海力士", "Daehyeon Motor", "LG新能源", "三星生物制剂", "Daon Pay", "Krafton"]
+      "topics": ["Hanseong Electronics", "Haesol Semiconductor", "Daehyeon Motor", "Nuri Battery", "Hanseong Bio", "Daon Pay", "Byeolbit Games"]
     },
     "news_056": {
       "headline": "美元持续走强，{topic}下跌——以韩元投资者面临双重损失警告",
@@ -488,11 +488,11 @@
     },
     "news_060": {
       "headline": "{topic}开源发布引爆AI民主化争论——企业垄断还是开放共享",
-      "topics": ["Meta Llama", "Mistral AI", "NAVER HyperCLOVA", "三星Gauss", "Daon KoGPT", "LG EXAONE", "Konan Technology"]
+      "topics": ["Linkverse AI模型", "欧洲AI新创", "Onnuri AI", "Hanseong AI模型", "Daon KoGPT", "Nuri AI", "AI搜索企业"]
     },
     "news_061": {
       "headline": "{topic}员工平均年薪突破1亿韩元——初创公司胜过大企业的观念扩散",
-      "topics": ["Toss", "Daon", "NAVER", "Coupang", "Baedal Minjok", "Danggeun Market", "Krafton"]
+      "topics": ["MoaPay", "Daon", "Onnuri", "Baro Market", "Hankki Delivery", "邻里集市", "Byeolbit Games"]
     },
     "news_062": {
       "headline": "正式员工比例创历史新低——{topic}背景下，劳动力市场两极分化加深",
@@ -500,15 +500,15 @@
     },
     "news_063": {
       "headline": "韩国加密货币溢价突破10%——{topic}重回韩国市场过热区间，警报再响",
-      "topics": ["Corecoin", "Novacoin", "瑞波币", "韩国加密货币市场", "Upbit成交量", "Bithumb行情", "山寨币市场"]
+      "topics": ["Corecoin", "Novacoin", "汇款币", "韩国加密货币市场", "Coinmaru交易量", "Bithouse行情", "山寨币市场"]
     },
     "news_064": {
       "headline": "{topic}启动会计审查的消息传出，盘中暴跌-9%",
-      "topics": ["Daon", "Celltrion", "HMM", "Hanjin KAL", "EcoPro", "NICE评估信息", "POSCO DX"]
+      "topics": ["Daon", "Hanul Bio", "Daeyang Shipping", "Changgong Holdings", "GreenCell", "信用评级机构", "Donghae Steel IT"]
     },
     "news_065": {
       "headline": "{topic}CEO突然辞职传闻四起——股价盘中跌幅达-14%",
-      "topics": ["Bolton", "英特尔", "波音", "Uber", "Twitter(X)", "Rivian", "快时尚企业"]
+      "topics": ["Bolton", "BlueChips", "飞机制造商", "RideOne", "短文社交平台", "电动卡车新创", "快时尚企业"]
     },
     "news_066": {
       "headline": "{topic}未售新房加速增加——新房销售市场寒冬预测接踵而至",
@@ -523,8 +523,8 @@
       "topics": ["MZ世代", "二十多岁初入社会的年轻人", "上班族", "大学生", "身兼多职的人", "自由职业者", "独居人群"]
     },
     "news_069": {
-      "headline": "三星、SK的{topic}供应合同——数万亿韩元大单即将敲定",
-      "topics": ["HBM4", "下一代AI芯片", "面向Encore的HBM", "Orca AI服务器内存", "微软AI基础设施", "谷歌TPU", "亚马逊定制芯片"]
+      "headline": "Hanseong、Haesol的{topic}供应合同——数万亿韩元大单即将敲定",
+      "topics": ["HBM4", "下一代AI芯片", "面向Encore的HBM", "Orca AI服务器内存", "WindCore AI基础设施", "SearchOne AI芯片", "EverMarket自研芯片"]
     },
     "news_070": {
       "headline": "{topic}融资寒冬持续——风投称“没有盈利能力，就不投”",
@@ -536,15 +536,15 @@
     },
     "news_072": {
       "headline": "{topic}成交量创历史新高——散户爆发式涌入，引发过热担忧",
-      "topics": ["韩国加密货币市场", "Upbit", "Bithumb", "整个加密货币市场", "Corecoin成交量", "山寨币市场", "期货成交量"]
+      "topics": ["韩国加密货币市场", "Coinmaru", "Bithouse", "整个加密货币市场", "Corecoin成交量", "山寨币市场", "期货成交量"]
     },
     "news_073": {
       "headline": "{topic}被列为中美贸易摩擦受损股——短期难免走弱",
-      "topics": ["Hanseong Electronics", "SK海力士", "LG新能源", "KOSPI出口股", "半导体股", "电池股", "二次电池股"]
+      "topics": ["Hanseong Electronics", "Haesol Semiconductor", "Nuri Battery", "KOSPI出口股", "半导体股", "电池股", "二次电池股"]
     },
     "news_074": {
       "headline": "华尔街分析师报告称“{topic}未来12个月可能上涨30%”",
-      "topics": ["Encore", "微软", "谷歌", "亚马逊", "Meta", "Orca", "Bolton"]
+      "topics": ["Encore", "WindCore", "SearchOne", "EverMarket", "Linkverse", "Orca", "Bolton"]
     },
     "news_075": {
       "headline": "{topic}GTX通车敲定，车站周边房源消失——挂牌价暴涨",
@@ -560,7 +560,7 @@
     },
     "news_078": {
       "headline": "{topic}可替代人类的领域迅速扩大——威胁白领岗位的警告响起",
-      "topics": ["ChatGPT", "Claude", "Gemini", "Copilot", "AI律师", "AI会计师", "AI医生"]
+      "topics": ["对话式AI", "竞品对话式AI", "SearchOne AI", "WindCore AI助手", "AI律师", "AI会计师", "AI医生"]
     },
     "news_079": {
       "headline": "创业失败者聚会{topic}……重新看待创业失败经历的文化扩散",

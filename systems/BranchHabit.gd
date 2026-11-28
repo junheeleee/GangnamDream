@@ -34,6 +34,10 @@ const HABIT_EVENT_IDS := [
 	"habit_portfolio_check", "habit_portfolio_regular",
 ]
 
+## Set by the portfolio habit's delete-the-app choice (ORDER-839 T4).
+const TRADING_APP_DELETED_FLAG := "trading_app_deleted"
+## Set by "I have my own way" in Sangchul's first investment talk.
+const SELF_DIRECTED_INVESTOR_FLAG := "invest_self_directed"
 static var _ledger_cache: Dictionary = {}
 
 
@@ -55,6 +59,12 @@ static func _state(flags: Dictionary) -> Dictionary:
 	if not state.get("calls", null) is Dictionary:
 		state["calls"] = {}
 	return state
+
+
+## Weeks after a visit before the activity calls again; an activity may set its
+## own (the trading board moves monthly, ORDER-839 T1).
+static func _gap_after_go(source: Dictionary, activity: Dictionary) -> int:
+	return int(activity.get("return_gap_after_go", source.get("return_gap_after_go", 1)))
 
 
 static func _story_year(turn: int) -> String:
@@ -137,7 +147,23 @@ static func _eligible(activity: Dictionary, flags: Dictionary, has_portfolio: bo
 	for flag_id in activity.get("forbids", []):
 		if not waived and bool(flags.get(str(flag_id), false)):
 			return false
-	return not bool(activity.get("portfolio", false)) or has_portfolio
+	if not bool(activity.get("portfolio", false)):
+		return true
+	# "Sell everything and delete the app" closes the trading board for good.
+	if bool(flags.get(TRADING_APP_DELETED_FLAG, false)):
+		return false
+	if has_portfolio:
+		return true
+	# Refusing Sangchul's lesson with "I have my own way" is still investing: that
+	# run meets the board without a first holding (ORDER-839 T4).
+	if bool(flags.get(SELF_DIRECTED_INVESTOR_FLAG, false)):
+		return true
+	# A run that has already used the trading board keeps it while all in
+	# cash: selling out in a bear market must not lock the board (ORDER-839 T4).
+	for flag_id in activity.get("portfolio_or_any", []):
+		if bool(flags.get(str(flag_id), false)):
+			return true
+	return false
 
 
 ## Returns this free week's habit scene ("" for none) and records the offer.
@@ -168,9 +194,10 @@ static func take_scene(flags: Dictionary, turn: int, has_portfolio: bool, event_
 			if not bool((offer as Dictionary).get("went", false)):
 				gap = int(source.get("return_gap_after_skip", 4))
 			elif int((offer as Dictionary).get("streak", 1)) >= int(source.get("max_streak", 2)):
-				gap = int(source.get("return_gap_after_streak", 3))
+				gap = maxi(int(source.get("return_gap_after_streak", 3)),
+					_gap_after_go(source, activity))
 			else:
-				gap = int(source.get("return_gap_after_go", 1))
+				gap = _gap_after_go(source, activity)
 		if turn - last < gap or turn == last:
 			continue
 		if _calls_this_year(state, activity_id, turn) >= int(source.get("max_calls_per_year", 6)):
@@ -195,7 +222,7 @@ static func take_scene(flags: Dictionary, turn: int, has_portfolio: bool, event_
 	var previous: Variant = offers.get(activity_id, null)
 	if previous is Dictionary and bool((previous as Dictionary).get("went", false)) \
 			and turn - int((previous as Dictionary).get("turn", -100)) \
-				<= int(source.get("return_gap_after_go", 1)) + 1:
+				<= _gap_after_go(source, best) + 1:
 		streak = int((previous as Dictionary).get("streak", 1)) + 1
 	offers[activity_id] = {"turn": turn, "event": chosen, "settled": false, "went": false,
 		"streak": streak}

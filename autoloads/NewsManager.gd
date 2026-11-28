@@ -23,21 +23,26 @@ func generate_monthly_news():
 	news_generated.emit(selected)
 	return selected
 
-func _apply_news_pressure(item):
-	var sentiment = str(item.get("sentiment", "neutral"))
-	var fear_delta = 0
-	match sentiment:
+## Fear/greed change of one news item; a misleading item pushes the other way.
+## InvestmentSystem reads the same table to centre full-run news (ORDER-839 T0).
+func fear_delta(item: Dictionary, misleading: bool) -> int:
+	var delta := 0
+	match str(item.get("sentiment", "neutral")):
 		"greed":
-			fear_delta = 7
+			delta = 7
 		"fear":
-			fear_delta = -9
+			delta = -9
 		"panic":
-			fear_delta = -16
+			delta = -16
 		"euphoria":
-			fear_delta = 13
-	if bool(item.get("misleading", false)):
-		fear_delta = int(round(float(fear_delta) * -0.35))
-	GameState.market_context["fear_greed"] = clamp(int(GameState.market_context.get("fear_greed", 50)) + fear_delta, 0, 100)
+			delta = 13
+	if misleading:
+		delta = int(round(float(delta) * -0.35))
+	return delta
+
+func _apply_news_pressure(item):
+	var fear_delta_now: int = fear_delta(item, bool(item.get("misleading", false)))
+	GameState.market_context["fear_greed"] = clamp(int(GameState.market_context.get("fear_greed", 50)) + fear_delta_now, 0, 100)
 
 	# 카테고리 가격 영향은 InvestmentSystem._news_bias_for_asset()가 처리 (market_effect 필드)
 	if item.get("bubble_asset", "") != "":

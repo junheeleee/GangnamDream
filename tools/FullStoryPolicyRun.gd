@@ -76,6 +76,22 @@ func _policy_index(current: Dictionary, visible_indices: Array[int]) -> int:
 			return cached
 	var policy := _choice_policy()
 	var choices: Array = current.get("choices", [])
+	# A profile may rule out choices that set given flags (839 T4: a trading
+	# measurement never deletes its app). Keep the rest when any remain.
+	var never: Array = _profile.get("never_choose_flags", [])
+	if not never.is_empty():
+		var allowed: Array[int] = []
+		for index in visible_indices:
+			var flags: Array = (choices[index] as Dictionary).get("flags", []) \
+				if index >= 0 and index < choices.size() and choices[index] is Dictionary else []
+			var ruled_out := false
+			for flag_id in never:
+				if flags.has(flag_id):
+					ruled_out = true
+			if not ruled_out:
+				allowed.append(index)
+		if not allowed.is_empty():
+			visible_indices = allowed
 	var pick := visible_indices[0]
 	if _policy_rng.randf() < float(policy.get("explore_rate", 0.0)):
 		pick = visible_indices[_policy_rng.randi_range(0, visible_indices.size() - 1)]
@@ -175,7 +191,86 @@ func _drive_main(main: Node) -> bool:
 			"casino":
 				if await _drive_casino(main):
 					return false
+			"trading":
+				var board := main.get("trading_floor") as Node
+				if is_instance_valid(board) and bool(board.get("visible")):
+					await _drive_trading(board)
+					return false
 	return await super(main)
+
+
+## ORDER-839 T1/T4: the trading board. Each call places at most one order of
+## this session's plan, then leaves with Escape like a pad player. The plan
+## reads only what the board shows: the cycle on the HUD, the listed assets,
+## cash and holdings. Strategies (profile `trading_strategy`):
+##   default/index  a quarter of the cash into an index fund
+##   cycle          bull: half the cash into tech; bear: sell everything;
+##                  sideways: a quarter into the index
+##   leverage       half the cash into the first 3x product listed, else tech
+##   coin           half the cash into the meme coin or core coin, else index
+func _drive_trading(board: Node) -> void:
+	var plan_key := "policy_plan_%d" % int(GameState.turn)
+	if not board.has_meta(plan_key):
+		board.set_meta(plan_key, _trading_plan(board))
+	var plan: Array = board.get_meta(plan_key)
+	if int(board.call("orders_left")) > 0 and not plan.is_empty():
+		var order: Array = plan.pop_front()
+		board.set_meta(plan_key, plan)
+		board.call("_select", str(order[1]))
+		await get_tree().process_frame
+		if str(order[0]) == "buy":
+			var amount := int(floor(float(GameState.money) * float(order[2])))
+			var price := float(GameState.market_prices.get(str(order[1]), 0.0))
+			if amount >= int(ceil(float(board.call("_min_invest", str(order[1]), price)))):
+				board.call("_do_buy", amount)
+		else:
+			board.call("_do_sell", float(order[2]))
+		await get_tree().create_timer(0.05).timeout
+		return
+	await _send_key(KEY_ESCAPE)
+	await get_tree().create_timer(0.05).timeout
+
+
+func _trading_plan(board: Node) -> Array:
+	var listed: Array = board.call("_asset_ids")
+	var cash := float(GameState.money)
+	var pick := func(ids: Array) -> String:
+		for aid in ids:
+			if listed.has(aid):
+				return str(aid)
+		return ""
+	var index_id: String = pick.call(["sp500", "kospi_etf"]) if cash >= 2_400_000.0 \
+		else pick.call(["kospi_etf"])
+	var plan: Array = []
+	if cash < 300_000.0 and str(_profile.get("trading_strategy", "index")) != "cycle":
+		return plan
+	match str(_profile.get("trading_strategy", "index")):
+		"cycle":
+			match str(GameState.market_context.get("cycle", "neutral")):
+				"bull":
+					var growth: String = pick.call(["nasdaq", "nvidia", "kospi_etf"])
+					if not growth.is_empty() and cash >= 300_000.0:
+						plan.append(["buy", growth, 0.5])
+				"bear":
+					for aid in GameState.portfolio.keys():
+						if plan.size() < 3:
+							plan.append(["sell", str(aid), 1.0])
+				_:
+					if not index_id.is_empty() and cash >= 300_000.0:
+						plan.append(["buy", index_id, 0.25])
+		"leverage":
+			var lever: String = pick.call(["nasdaq_3x", "kospi_3x", "nasdaq", "kospi_etf"])
+			if not lever.is_empty():
+				plan.append(["buy", lever, 0.5])
+		"coin":
+			var coin: String = pick.call(["meme_coin", "bitcoin"]) if cash >= 4_000_000.0 \
+				else pick.call(["meme_coin", "kospi_etf"])
+			if not coin.is_empty():
+				plan.append(["buy", coin, 0.5])
+		_:
+			if not index_id.is_empty():
+				plan.append(["buy", index_id, 0.25])
+	return plan
 
 
 ## ORDER-834 B2: play a fixed number of hands at the default buy-in and the

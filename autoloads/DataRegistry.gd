@@ -299,7 +299,7 @@ const THOUGHT_TEXT_EN := {
 
 const NEWS_TOPICS_EN := {
 	"korean_stocks": ["Hanseong Electronics", "Daehyeon Motor", "Daon", "KOSPI", "Korean blue chips", "battery stocks"],
-	"us_stocks": ["Nasdaq", "S&P 500", "Encore", "Apple", "big tech", "growth stocks"],
+	"us_stocks": ["Nasdaq", "S&P 500", "Encore", "WindCore", "big tech", "growth stocks"],
 	"real_estate": ["Gangnam", "Seoul apartments", "jeonse market", "new districts", "redevelopment zones"],
 	"politics": ["tax policy", "financial regulation", "housing policy", "startup incentives", "crypto regulation"],
 	"social_trends": ["young investors", "salary workers", "side hustlers", "online communities", "retail traders"],

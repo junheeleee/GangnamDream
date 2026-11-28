@@ -3,6 +3,8 @@ extends Control
 ## 폼 읽기 → 베팅 → 레이스 애니메이션 → 정산으로 플레이 가능하게 한다.
 ## MainGame이 인스턴스해 overlay로 붙이고 open()으로 표시. 닫으면 closed 시그널.
 
+const FULL_STORY_FLOW := preload("res://systems/FullStoryFlow.gd")
+const STAKE_LADDER := preload("res://systems/GambleStakeLadder.gd")
 signal closed
 
 enum Phase { BETTING, RACE, RESULT }
@@ -17,6 +19,9 @@ const HORSE_TEX := preload("res://assets/ui/horse_silhouette.png")  # 질주 실
 const BG_BETTING_PATH := "res://assets/backgrounds/racetrack_betting_hall.png"
 const BG_TRACK_PATH := "res://assets/backgrounds/racetrack_track_view.png"
 const STAKE_OPTIONS := [10000, 30000, 100000, 500000]
+## This visit's stakes: the fixed list, or in a full run the stake ladder's
+## tier fixed at open (ORDER-840 G1).
+var _session_stakes: Array = STAKE_OPTIONS.duplicate()
 
 var _phase: int = Phase.BETTING
 var _race: Dictionary = {}
@@ -208,6 +213,12 @@ func open() -> void:
 	_pad_horse_idx = 0
 	_pad_stake_idx = 0
 	_pad_result_idx = 0
+	_session_stakes = STAKE_OPTIONS.duplicate()
+	if FULL_STORY_FLOW.is_full_run():
+		var ladder := STAKE_LADDER.race_stakes(GameState.flags, int(GameState.turn), float(GameState.money))
+		if not ladder.is_empty():
+			_session_stakes = ladder
+		STAKE_LADDER.note_open("racetrack", GameState.flags, int(GameState.turn), float(GameState.money))
 	# 영속 명마 세계 — GameState.flags에 저장돼 씬 리로드·세이브를 견딘다
 	if not (GameState.flags.get("horse_world") is Dictionary):
 		GameState.flags["horse_world"] = {}
@@ -307,7 +318,7 @@ func _pad_cycle_bet_type(delta: int) -> bool:
 func _pad_cycle_stake(delta: int) -> bool:
 	if _phase != Phase.BETTING:
 		return true
-	var next_idx := clampi(_pad_stake_idx + delta, 0, STAKE_OPTIONS.size() - 1)
+	var next_idx := clampi(_pad_stake_idx + delta, 0, _session_stakes.size() - 1)
 	if next_idx == _pad_stake_idx:
 		return true
 	_pad_stake_idx = next_idx
@@ -329,7 +340,7 @@ func _pad_accept_betting() -> bool:
 	if _picks.size() < need:
 		_toggle_pick(_pad_horse_idx)
 		return true
-	var stake := float(STAKE_OPTIONS[_pad_stake_idx])
+	var stake := float(_session_stakes[mini(_pad_stake_idx, _session_stakes.size() - 1)])
 	_place_bet(stake)
 	return true
 
@@ -385,11 +396,27 @@ func _refresh_top() -> void:
 	_header.text = _tr("[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s", "[b]Race Track[/b]   ·   Race %d   ·   %dm   ·   Track %s") % [
 		_races_today, int(_race.get("distance", 0)), str(_race.get("track", ""))]
 	var addic: int = GameState.addiction_tendency
+	if FULL_STORY_FLOW.is_full_run():
+		# Addiction is a hidden stat: the full story shows the body, not a gauge
+		# (ORDER-840 G1). The approved demo keeps its gauge.
+		_hud.text = _tr("현금 [b]%s[/b]      안목(지력) %d", "Cash [b]%s[/b]      Read (INT) %d") % [
+			GameState.format_money(GameState.money), GameState.intelligence] + _full_story_hand_line(addic)
+		return
 	var bars: int = clampi(addic / 10, 0, 10)
 	var ac: String = "#5de89c" if addic < 40 else ("#e8c45d" if addic < 70 else "#e85d5d")
 	_hud.text = _tr("현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d", "Cash [b]%s[/b]      Addiction [color=%s]%s[/color] %d/100      Read (INT) %d") % [
 		GameState.format_money(GameState.money),
 		ac, ("▰".repeat(bars) + "▱".repeat(10 - bars)), addic, GameState.intelligence]
+
+## How the habit shows in a full story: in the hands, never as a number.
+func _full_story_hand_line(addic: int) -> String:
+	if addic >= 70:
+		return _tr("      [color=#e8a05d]출발 시각보다 다음 경주 시각을 먼저 본다.[/color]",
+			"      [color=#e8a05d]He checks when the next race starts before this one has.[/color]")
+	if addic >= 40:
+		return _tr("      [color=#c8b070]마권을 쥔 손가락이 조금 빨라졌다.[/color]",
+			"      [color=#c8b070]The fingers holding the ticket have got a little quicker.[/color]")
+	return ""
 
 func _render() -> void:
 	_refresh_top()
@@ -557,8 +584,8 @@ func _render_betting() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	bet_panel.add_child(row)
-	for stake_i in range(STAKE_OPTIONS.size()):
-		var amt: int = int(STAKE_OPTIONS[stake_i])
+	for stake_i in range(_session_stakes.size()):
+		var amt: int = int(_session_stakes[stake_i])
 		var b := Button.new()
 		b.text = GameState.format_money(float(amt))
 		_style(b, "#10231a", "#2a7a52")
@@ -1162,7 +1189,11 @@ func _render_result() -> void:
 	if GameState.addiction_tendency >= 70:
 		var warn := Label.new()
 		_f(warn); warn.add_theme_font_size_override("font_size", 13)
-		warn.text = _tr("위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)", "Danger signal: 'just one more' is the trap. (Addiction %d)") % GameState.addiction_tendency
+		if FULL_STORY_FLOW.is_full_run():
+			warn.text = _tr("지갑을 다시 열었다. 다음 경주까지 남은 시간을 손가락으로 셌다.",
+				"He opened his wallet again and counted the minutes to the next race on his fingers.")
+		else:
+			warn.text = _tr("위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)", "Danger signal: 'just one more' is the trap. (Addiction %d)") % GameState.addiction_tendency
 		warn.add_theme_color_override("font_color", Color("#e8a05d"))
 		box.add_child(warn)
 

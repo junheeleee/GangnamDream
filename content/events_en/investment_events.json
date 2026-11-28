@@ -903,15 +903,11 @@
   {
     "id": "habit_portfolio_check",
     "title": "Opening the Account",
-    "description": "On Sunday night he opened the brokerage app. The numbers beside his holdings flickered between red and blue.\n\nAt the bottom of the balance screen sat 'Available to order.' The money in his bank account had moved there unchanged.\n\nHis finger rested on the buy button for a moment.",
+    "description": "On Sunday night he opened the brokerage app. The numbers beside his watchlist flickered between red and blue.\n\nAt the bottom of the balance screen sat 'Available to order.' The money in his bank account had moved there unchanged.\n\nHis finger rested on the buy button for a moment.",
     "choices": [
       {
-        "text": "Put some of his savings into more index ETF",
-        "result_text": "The fill notice popped up. His average cost shifted a little, somewhere past the decimal point."
-      },
-      {
-        "text": "Sell half of what he holds",
-        "result_text": "Sell order filled. For the first time, the settled number stayed still."
+        "text": "Open the order screen",
+        "result_text": "The chart settled into place, one candle at a time. He told himself three orders this month, no more."
       },
       {
         "text": "Close the app and leave it",
@@ -922,15 +918,11 @@
   {
     "id": "habit_portfolio_regular",
     "title": "The Order Book at Dawn",
-    "description": "Three in the morning, an hour before the US close. The screen threw a square of light onto the ceiling.\n\nHe opened and closed the app several times a day now. His holdings had moved a few hundred thousand won since yesterday.\n\nIn the top right corner a new badge had appeared: 'Leveraged products enabled.'",
+    "description": "Three in the morning, an hour before the US close. The screen threw a square of light onto the ceiling.\n\nHe opened and closed the app several times a day now. The prices on his watchlist had moved a long way since yesterday.\n\nIn the top right corner a new badge had appeared: 'Leveraged products enabled.'",
     "choices": [
       {
-        "text": "Put some of what's left into more Nasdaq ETF",
-        "result_text": "The fill chimed. Outside, the window began to pale."
-      },
-      {
-        "text": "Load part of it into a 3x leveraged product",
-        "result_text": "The order history showed a 3 next to it. Sleep didn't come back."
+        "text": "Scroll the order book all the way down",
+        "result_text": "His eyes stung. Three orders were enough, even at three in the morning. He said it to himself once more."
       },
       {
         "text": "Sell everything and delete the app",

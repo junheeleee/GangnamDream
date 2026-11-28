@@ -386,23 +386,23 @@
       "headline": "{topic}外資轉為淨買進——市場期待 KOSPI 反彈",
       "topics": [
         "Hanseong Electronics",
-        "SK 海力士",
-        "LG Energy Solution",
+        "Haesol Semiconductor",
+        "Nuri Battery",
         "Daehyeon Motor",
-        "NAVER",
+        "Onnuri",
         "Daon",
-        "POSCO"
+        "Donghae Steel"
       ]
     },
     "news_002": {
       "headline": "{topic}成為 AI 受惠股焦點——傳出機構投資人提高持股比重",
       "topics": [
         "Encore",
-        "微軟",
-        "Google",
-        "Amazon AWS",
-        "Meta",
-        "AMD",
+        "WindCore",
+        "SearchOne",
+        "EverMarket雲端",
+        "Linkverse",
+        "ArcChip",
         "Orca"
       ]
     },
@@ -445,13 +445,13 @@
     "news_006": {
       "headline": "{topic}公開發表，相關股票同步飆漲——「AI 超級週期」起跑訊號",
       "topics": [
-        "GPT-5",
-        "Samsung Gauss 2",
-        "HyperCLOVA X2",
-        "Claude 4",
-        "Gemini Ultra",
-        "Copilot Enterprise",
-        "Sora2"
+        "新一代對話式AI",
+        "Hanseong AI模型2",
+        "Onnuri AI 2",
+        "競品對話式AI新模型",
+        "SearchOne AI Ultra",
+        "WindCore AI助理企業版",
+        "影片生成AI"
       ]
     },
     "news_007": {
@@ -474,7 +474,7 @@
         "AI 能力測驗",
         "職務導向招募",
         "作品集甄選",
-        "GitHub 履歷",
+        "程式碼倉庫履歷",
         "程式測驗"
       ]
     },
@@ -483,23 +483,23 @@
       "topics": [
         "Corecoin",
         "Novacoin",
-        "Solana",
-        "XRP",
-        "迷因幣幣",
-        "ADA",
-        "Avalanche"
+        "高速鏈幣",
+        "匯款幣",
+        "迷因幣",
+        "研究型幣",
+        "子網幣"
       ]
     },
     "news_010": {
       "headline": "{topic}財報震撼市場……營業利益減少37%，「未達獲利預期」",
       "topics": [
         "Hanseong Electronics",
-        "SK 海力士",
+        "Haesol Semiconductor",
         "Daon",
         "Daehyeon Motor",
-        "LG Energy Solution",
-        "Celltrion",
-        "HMM"
+        "Nuri Battery",
+        "Hanul Bio",
+        "Daeyang Shipping"
       ]
     },
     "news_011": {
@@ -554,12 +554,12 @@
       "headline": "{topic}用電需求暴增——資料中心電費籌措方案引發爭議",
       "topics": [
         "AI 資料中心",
-        "ChatGPT 伺服器",
+        "對話式AI伺服器",
         "雲端基礎設施",
         "半導體工廠",
         "Encore GPU 叢集",
-        "Samsung AI 設施",
-        "NAVER 資料中心"
+        "Hanseong Electronics AI設施",
+        "Onnuri資料中心"
       ]
     },
     "news_016": {
@@ -589,10 +589,10 @@
     "news_018": {
       "headline": "交易所遭大規模駭客攻擊，{topic}客戶800億韓元資產蒸發，震撼市場",
       "topics": [
-        "Upbit",
-        "Bithumb",
-        "Coinone",
-        "Korbit",
+        "Coinmaru",
+        "Bithouse",
+        "OneCoin交易所",
+        "Coingate",
         "海外交易所",
         "DeFi 協定",
         "NFT 交易平台"
@@ -602,10 +602,10 @@
       "headline": "{topic}成為集中放空目標——散戶怒喊「又被割了」",
       "topics": [
         "Daon",
-        "LG Energy Solution",
-        "KakaoBank",
-        "Celltrion",
-        "EcoPro",
+        "Nuri Battery",
+        "Daon Bank",
+        "Hanul Bio",
+        "GreenCell",
         "KOSDAQ 生技股",
         "二次電池股"
       ]
@@ -615,11 +615,11 @@
       "topics": [
         "Encore",
         "Bolton",
-        "Palantir",
-        "Snowflake",
-        "CrowdStrike",
-        "Rivian",
-        "ARM"
+        "數據分析巨頭",
+        "雲端數據企業",
+        "網路安全巨頭",
+        "電動卡車新創",
+        "CoreDesign"
       ]
     },
     "news_021": {
@@ -712,7 +712,7 @@
         "KOSPI",
         "KOSDAQ",
         "Hanseong Electronics",
-        "SK 海力士",
+        "Haesol Semiconductor",
         "韓國股市",
         "外資持股",
         "藍籌股"
@@ -724,10 +724,10 @@
         "Encore",
         "Orca",
         "Bolton",
-        "Google",
-        "Amazon",
-        "微軟",
-        "Berkshire Hathaway"
+        "SearchOne",
+        "EverMarket",
+        "WindCore",
+        "價值投資控股公司"
       ]
     },
     "news_030": {
@@ -781,13 +781,13 @@
     "news_034": {
       "headline": "全球科技業寒冬——{topic}裁員30%，震撼市場",
       "topics": [
-        "Google 韓國",
-        "Meta 韓國",
+        "SearchOne Korea",
+        "Linkverse Korea",
         "Daon",
-        "NAVER",
-        "Coupang",
-        "Baemin",
-        "Toss"
+        "Onnuri",
+        "Baro Market",
+        "Hankki Delivery",
+        "MoaPay"
       ]
     },
     "news_035": {
@@ -806,8 +806,8 @@
       "headline": "期待 Corecoin 現貨 ETF 再獲核准，{topic}同步飆漲",
       "topics": [
         "Novacoin",
-        "Solana",
-        "XRP",
+        "高速鏈幣",
+        "匯款幣",
         "山寨幣整體",
         "DeFi 代幣",
         "L2 代幣",
@@ -819,11 +819,11 @@
       "topics": [
         "Hanseong Electronics",
         "Daehyeon Motor",
-        "KB 金融",
-        "SK Innovation",
-        "LG 化學",
-        "POSCO Holdings",
-        "Hanwha Aerospace"
+        "Hangang Financial",
+        "Haesol Energy",
+        "Nuri Chemical",
+        "Donghae Steel Holdings",
+        "Haneul Defense"
       ]
     },
     "news_038": {
@@ -832,8 +832,8 @@
         "那斯達克",
         "S&P500",
         "Bolton",
-        "Meta",
-        "Netflix",
+        "Linkverse",
+        "StreamBox",
         "Encore",
         "大型科技股整體"
       ]
@@ -915,8 +915,8 @@
       "topics": [
         "Corecoin",
         "Novacoin",
-        "XRP",
-        "Solana",
+        "匯款幣",
+        "高速鏈幣",
         "BTC ETF",
         "ETH ETF",
         "穩定幣"
@@ -927,23 +927,23 @@
       "topics": [
         "Hanseong Electronics",
         "Daehyeon Motor",
-        "LG Energy Solution",
-        "SK Innovation",
-        "Hanwha Solutions",
-        "Samsung SDI",
-        "Doosan Enerbility"
+        "Nuri Battery",
+        "Haesol Energy",
+        "Haeoreum Solar",
+        "Hanseong Battery",
+        "Hanbit Heavy Industries"
       ]
     },
     "news_047": {
       "headline": "{topic}財報大幅超出預期——常規交易時段外暴漲+6%",
       "topics": [
         "Encore",
-        "微軟",
+        "WindCore",
         "Orca",
-        "Google",
-        "Meta",
-        "Amazon",
-        "Netflix"
+        "SearchOne",
+        "Linkverse",
+        "EverMarket",
+        "StreamBox"
       ]
     },
     "news_048": {
@@ -997,13 +997,13 @@
     "news_052": {
       "headline": "20、30多歲族群掀創業熱——夢想「像{topic}一樣，我也能打造獨角獸」的人激增",
       "topics": [
-        "Toss 的 Lee Seunggun",
-        "Karrot",
-        "Yanolja",
-        "Kurly",
-        "Krafton",
-        "Socar",
-        "Zigbang"
+        "MoaPay創辦人",
+        "鄰里市集",
+        "Shumpyo Stay",
+        "Saebyeok Market",
+        "Byeolbit Games",
+        "Tago Car",
+        "找房App"
       ]
     },
     "news_053": {
@@ -1022,24 +1022,24 @@
       "headline": "距離{topic}減半還有 D-30——「歷史級漲勢」樂觀派與「已反映」謹慎派交鋒",
       "topics": [
         "Corecoin",
-        "Litecoin",
+        "輕量幣",
         "Corecoin Cash",
         "eCash",
-        "Monero",
-        "Zcash",
-        "Dash"
+        "匿名幣",
+        "隱私幣",
+        "支付幣"
       ]
     },
     "news_055": {
       "headline": "{topic}目標價紛紛調升……券商喊「現在就是買進時機」",
       "topics": [
         "Hanseong Electronics",
-        "SK 海力士",
+        "Haesol Semiconductor",
         "Daehyeon Motor",
-        "LG Energy Solution",
-        "Samsung Biologics",
+        "Nuri Battery",
+        "Hanseong Bio",
         "Daon Pay",
-        "Krafton"
+        "Byeolbit Games"
       ]
     },
     "news_056": {
@@ -1093,25 +1093,25 @@
     "news_060": {
       "headline": "{topic}釋出開源內容，引爆 AI 民主化辯論——企業壟斷或共享",
       "topics": [
-        "Meta Llama",
-        "Mistral AI",
-        "NAVER HyperCLOVA",
-        "Samsung Gauss",
+        "Linkverse AI模型",
+        "歐洲AI新創",
+        "Onnuri AI",
+        "Hanseong AI模型",
         "Daon KoGPT",
-        "LG EXAONE",
-        "Konan Technology"
+        "Nuri AI",
+        "AI搜尋企業"
       ]
     },
     "news_061": {
       "headline": "{topic}員工平均年薪突破1億韓元——「新創比大企業好」的觀念擴散",
       "topics": [
-        "Toss",
+        "MoaPay",
         "Daon",
-        "NAVER",
-        "Coupang",
-        "Baemin",
-        "Karrot",
-        "Krafton"
+        "Onnuri",
+        "Baro Market",
+        "Hankki Delivery",
+        "鄰里市集",
+        "Byeolbit Games"
       ]
     },
     "news_062": {
@@ -1131,10 +1131,10 @@
       "topics": [
         "Corecoin",
         "Novacoin",
-        "XRP",
+        "匯款幣",
         "韓國加密貨幣市場",
-        "Upbit 交易量",
-        "Bithumb 行情",
+        "Coinmaru交易量",
+        "Bithouse行情",
         "山寨幣市場"
       ]
     },
@@ -1142,23 +1142,23 @@
       "headline": "傳出{topic}遭啟動會計監理——盤中暴跌-9%",
       "topics": [
         "Daon",
-        "Celltrion",
-        "HMM",
-        "Hanjin KAL",
-        "EcoPro",
-        "NICE 信用資訊",
-        "POSCO DX"
+        "Hanul Bio",
+        "Daeyang Shipping",
+        "Changgong Holdings",
+        "GreenCell",
+        "信用評等機構",
+        "Donghae Steel IT"
       ]
     },
     "news_065": {
       "headline": "{topic}執行長突傳辭職傳聞——股價盤中跌幅達-14%",
       "topics": [
         "Bolton",
-        "Intel",
-        "Boeing",
-        "Uber",
-        "Twitter（X）",
-        "Rivian",
+        "BlueChips",
+        "飛機製造商",
+        "RideOne",
+        "短文社群平台",
+        "電動卡車新創",
         "快時尚企業"
       ]
     },
@@ -1199,15 +1199,15 @@
       ]
     },
     "news_069": {
-      "headline": "Samsung 與 SK 的{topic}供貨合約——數兆韓元大交易即將成交",
+      "headline": "Hanseong 與 Haesol 的{topic}供貨合約——數兆韓元大交易即將成交",
       "topics": [
         "HBM4",
         "新一代 AI 晶片",
         "供應 Encore 的 HBM",
         "Orca AI 伺服器記憶體",
-        "微軟 AI 基礎設施",
-        "Google TPU",
-        "Amazon 客製化晶片"
+        "WindCore AI基礎設施",
+        "SearchOne AI晶片",
+        "EverMarket自研晶片"
       ]
     },
     "news_070": {
@@ -1238,8 +1238,8 @@
       "headline": "{topic}交易量刷新歷史新高——散戶爆量湧入，憂心過熱",
       "topics": [
         "韓國加密貨幣市場",
-        "Upbit",
-        "Bithumb",
+        "Coinmaru",
+        "Bithouse",
         "整體加密貨幣市場",
         "Corecoin 交易量",
         "山寨幣市場",
@@ -1250,8 +1250,8 @@
       "headline": "{topic}被歸為美中貿易衝突受害股——短期弱勢難免",
       "topics": [
         "Hanseong Electronics",
-        "SK 海力士",
-        "LG Energy Solution",
+        "Haesol Semiconductor",
+        "Nuri Battery",
         "KOSPI 出口股",
         "半導體股",
         "電池股",
@@ -1262,10 +1262,10 @@
       "headline": "華爾街分析師報告：「{topic}未來12個月可能上漲30%」",
       "topics": [
         "Encore",
-        "微軟",
-        "Google",
-        "Amazon",
-        "Meta",
+        "WindCore",
+        "SearchOne",
+        "EverMarket",
+        "Linkverse",
         "Orca",
         "Bolton"
       ]
@@ -1309,10 +1309,10 @@
     "news_078": {
       "headline": "{topic}可取代人類的領域快速擴大——警告「白領工作受威脅」",
       "topics": [
-        "ChatGPT",
-        "Claude",
-        "Gemini",
-        "Copilot",
+        "對話式AI",
+        "競品對話式AI",
+        "SearchOne AI",
+        "WindCore AI助理",
         "AI 律師",
         "AI 會計師",
         "AI 醫師"
