@@ -1,0 +1,107 @@
+{
+  "unit_id": "ORDER-833-manual-save-prose-timing",
+  "decided_at": "2026-11-29",
+  "reviewer": "Codex /root/manual_save_flake_1129 (independent of root implementation)",
+  "subject": {
+    "kind": "source",
+    "commit": "3787b96b8229bc18a61bbf9eac19150f1d7eea2f",
+    "tree": "191ba74a96293cd8fc4db20c7b4ab2a84e186702",
+    "manifest_sha256": null
+  },
+  "scope": "Only ManualSaveCheck prose-restore timing and related regression; not ORDER-833 as a whole.",
+  "population": [
+    "tools/ManualSaveCheck.gd",
+    "CLAUDE.md",
+    "docs/WORK_LOG.md",
+    "docs/queue_archive/ORDER-833-FATHER-DIRECT-PROGRESS.md"
+  ],
+  "method": "Independent exhaustive committed-diff review; exact test source hash; direct complete stdout/stderr reading and Godot-log error scan. Python checks observed by root, not independently rerun.",
+  "verdict": "GO",
+  "findings": [
+    "Two helper frame yields allowed real typing to exceed the saved-prefix bound; synchronous restore itself was not found defective.",
+    "All existing source-index, progress tolerance, saved-prefix and dialogue-history assertions remain unchanged.",
+    "Only this fixture freezes automatic process ticks before its first yield. It then drives the real typing process for exactly four characters and checks text, page and history.",
+    "Actual saved/loaded text sizes and the twelve-case KO/EN directed size matrix are asserted.",
+    "Default full ManualSaveCheck and three related Godot checks passed without script/engine errors or leaks. Full Manual stderr contains expected save-fault, older-version and recovery warnings.",
+    "Original user worktree retained 244 paths and tracked diff SHA ad91ab6e5fe62134230f6a7f9e5cc359002f6d575ed4ba68e25f22c8ed0dbb86."
+  ],
+  "source_sha256": "b0dbae4593ae0caa58adc5c189f2c3a66d275c3c8c807f8b32c6fc44cebdade6",
+  "evidence_root": "/Users/junheelee/.codex/gangnam-evidence/save-resume-20261129.WrnhVcPK",
+  "observations": [
+    {
+      "case": "normal twelve-case matrix",
+      "exit": 0,
+      "stderr_bytes": 0,
+      "stdout_and_godot_sha256": "a86751308202335bcf00f9f0b592e44a29b9e03d6df3548063295d49e1419b8c"
+    },
+    {
+      "case": "wall-time max-fps 5 twelve-case matrix",
+      "exit": 0,
+      "stderr_bytes": 0,
+      "stdout_and_godot_sha256": "e0a89b53a301ddd6f8bc1cb81196f555add2d1f223c2c864a9614f1ad1f22261"
+    },
+    {
+      "case": "temporary unfrozen fixed-fps 5 negative control",
+      "exit": 1,
+      "expected_failures": {
+        "source_progress": 12,
+        "future_prefix": 12
+      },
+      "godot_sha256": "0015e7b54fcaff1a3810fe75f7642794fcd16b5ee50164f7dacf3d12569d0cf0"
+    },
+    {
+      "case": "full ManualSaveCheck",
+      "exit": 0,
+      "stdout_sha256": "6d0730dfcabf0d24c36eaf2b92158802d8249bb9608e662fa16a7cf292b9de75",
+      "stderr_sha256": "c0cf916b275b617ec89d6947b81186e87fb7e7b07e2f227cbc06cb55cae4cfa8",
+      "godot_sha256": "cee65af4512d98c95a7876da606afaad200a6d3fb5599043850957b40e2ec71b"
+    },
+    {
+      "case": "CompileCheck",
+      "exit": 0,
+      "scripts": 78,
+      "stderr_bytes": 0,
+      "stdout_sha256": "6fb16650cbe593adb89ee17e56b9fc0d185e22c9b0bb3df144e36716aaa177bb"
+    },
+    {
+      "case": "GalleryReplaySnapshotCheck",
+      "exit": 0,
+      "roots": 20,
+      "stderr_bytes": 0,
+      "stdout_sha256": "0cd21b6135109f425581fe0a605cd1fd5beb80b66aac87336fbeff54e923ec85"
+    },
+    {
+      "case": "Chapter5FinaleRouteCheck",
+      "exit": 0,
+      "stderr_bytes": 0,
+      "stdout_sha256": "9c2867659433fc80c70b06d240846879f38651ff47f5c456e359d73a05258082"
+    }
+  ],
+  "excluded_runs": [
+    "Initial editor import completed but emitted exit RID leaks; not a clean runtime pass.",
+    "Final fixed-fps virtual-time matrix emitted ObjectDB/resource leakage; not a clean pass. Real-time max-fps 5 provided clean slow-frame evidence."
+  ],
+  "root_observed_python_passes": [
+    "chapter5_finale_route_audit.py --self-test",
+    "chapter5_finale_route_audit.py",
+    "chapter5_general_finale_route_audit.py --self-test",
+    "chapter5_general_finale_route_audit.py",
+    "english_hangul_audit.py",
+    "feature_liveness_audit.py",
+    "context_manifest_check.py",
+    "queue_consistency_check.py",
+    "audit.py",
+    "en_coverage_check.py"
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "main_ci_completion",
+    "PR45_merge",
+    "new_three_activity_receipt_coverage",
+    "W188_direct_progress_completion",
+    "W190_asset_completion",
+    "external_release"
+  ]
+}

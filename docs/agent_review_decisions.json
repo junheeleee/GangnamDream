@@ -21,6 +21,47 @@
   },
   "decisions": [
     {
+      "id": "order-833-manual-save-prose-timing-3787b96-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-11-29",
+      "decided_by": "Codex /root/manual_save_flake_1129 (independent committed-source and raw-log review)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-833-manual-save-prose-timing",
+      "subject": {
+        "kind": "source",
+        "commit": "3787b96b8229bc18a61bbf9eac19150f1d7eea2f",
+        "tree": "191ba74a96293cd8fc4db20c7b4ab2a84e186702",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-833-manual-save-prose-timing-20261129.json",
+          "sha256": "f2a8d3042b91ca3bf8ca33fef5baa8826f912a60e713c014f06c9b193c09c25a"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-833-manual-save-prose-timing-20261129.json",
+          "sha256": "f2a8d3042b91ca3bf8ca33fef5baa8826f912a60e713c014f06c9b193c09c25a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "main_ci_completion",
+        "new_activity_receipt_coverage",
+        "W188_W190_completion",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-833-manual-save-prose-timing-20261129.json",
+        "sha256": "f2a8d3042b91ca3bf8ca33fef5baa8826f912a60e713c014f06c9b193c09c25a"
+      }
+    },
+    {
       "id": "order-214-source-3ab1391-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
       "decided_at": "2026-09-09",
