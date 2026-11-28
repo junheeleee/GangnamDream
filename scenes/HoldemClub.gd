@@ -117,7 +117,8 @@ func _player_display_name() -> String:
 	return LocaleManager.ui("김민준", "Kim Minjun")
 
 # ── 진입 ──────────────────────────────────────────────────────────
-func _open_session() -> void:
+## ORDER-840 G1: fix this visit's buy-ins and blinds before the session opens.
+func _apply_stake_ladder() -> void:
 	_session_buyins = VALID_BUYINS.duplicate()
 	_blind_scale = 1
 	if FULL_STORY_FLOW.is_full_run():
@@ -127,6 +128,8 @@ func _open_session() -> void:
 			_blind_scale = STAKE_LADDER.holdem_blind_scale(GameState.flags, int(GameState.turn), float(GameState.money))
 	if not _session_buyins.has(_buy_in):
 		_buy_in = int(_session_buyins[0])
+
+func _open_session() -> void:
 	BGMPlayer.enter_activity_ambience("casino")
 	_net_session = 0
 	_hands_played = 0
@@ -1761,6 +1764,7 @@ func _can_process_betting() -> bool:
 func open() -> void:
 	if visible: return
 	_invalidate_action_flow()
+	_apply_stake_ladder()
 	_open_session()
 
 func _start_hand() -> void:

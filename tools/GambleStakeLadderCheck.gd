@@ -69,7 +69,7 @@ func _check_tables() -> void:
 	var club: Control = CLUB.new()
 	add_child(club)
 	await get_tree().process_frame
-	club.call("_open_session")
+	club.call("_apply_stake_ladder")
 	_expect((club.get("_session_buyins") as Array).has(10000000) and int(club.call("_big_blind")) == 100000,
 		"the full-run club does not open the high-stakes room")
 	club.queue_free()
@@ -77,7 +77,7 @@ func _check_tables() -> void:
 	var legacy: Control = CLUB.new()
 	add_child(legacy)
 	await get_tree().process_frame
-	legacy.call("_open_session")
+	legacy.call("_apply_stake_ladder")
 	_expect((legacy.get("_session_buyins") as Array) == CLUB.VALID_BUYINS and int(legacy.call("_big_blind")) == 10000,
 		"outside a full run the club no longer uses its fixed buy-ins")
 	legacy.queue_free()
