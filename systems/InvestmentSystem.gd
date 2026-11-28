@@ -12,6 +12,8 @@ var cycle_timer: int = 0
 const FULL_RUN_FEAR_GREED_REVERSION := 0.15
 ## Full-run cap on the hidden low-mental buy fee (legacy: up to 20%). [첫 실행 재조정]
 const FULL_RUN_MENTAL_FEE_CAP := 0.02
+## Full-run strength of the bull/bear drift (legacy 1.0). [첫 실행 재조정]
+const FULL_RUN_CYCLE_BIAS_SCALE := 1.5
 const FULL_RUN_PRICE_HISTORY_MONTHS := 60
 static var _news_expectation_cache: Dictionary = {}
 
@@ -213,6 +215,10 @@ func _update_asset(asset, news_items):
 			cycle_bias = volatility * 0.25
 		"bear":
 			cycle_bias = -volatility * 0.28
+	if FULL_STORY_FLOW.is_full_run():
+		# Reading the cycle should pay (ORDER-839 T4, user decision 2026-11-28):
+		# at 1.0x cycle reading beat the index by ~15% only, inside salary noise.
+		cycle_bias *= FULL_RUN_CYCLE_BIAS_SCALE
 	var greed_bias = (fear_greed - 50.0) / 1000.0 * float(asset.get("fear_greed_sensitivity", 0.1))
 	var random_move = (randf() + randf() + randf() - 1.5) * volatility
 	var news_bias = _news_bias_for_asset(asset, news_items)

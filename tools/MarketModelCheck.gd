@@ -8,7 +8,9 @@ extends Node
 ## and each category's price effect), so the long-run market follows the
 ## engine's own cycles and drift. The approved demo market is pinned: the same
 ## seed must give the same 24 months of prices as before the repair.
-## `market_boom` in a full run raises fear/greed instead of netting -5.
+## `market_boom` in a full run raises fear/greed instead of netting -5. A
+## monthly saver who reads the cycle ends at least 30% above one who only
+## buys the index (cycle strength 1.5x in a full run).
 
 const INV := preload("res://systems/InvestmentSystem.gd")
 const FLOW := preload("res://systems/FullStoryFlow.gd")
@@ -34,8 +36,9 @@ func _ready() -> void:
 			push_error("MARKET_MODEL_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("MARKET_MODEL_CHECK_OK fg_m60=%d bear_late=%.2f kospi=%.2f sp500=%.2f nasdaq=%.2f coin=%.2f legacy=1 boom=1" % [
-		stats["fg"], stats["bear"], stats["kospi_etf"], stats["sp500"], stats["nasdaq"], stats["bitcoin"]])
+	print("MARKET_MODEL_CHECK_OK fg_m60=%d bear_late=%.2f kospi=%.2f sp500=%.2f nasdaq=%.2f coin=%.2f cycle_edge=%.2f legacy=1 boom=1" % [
+		stats["fg"], stats["bear"], stats["kospi_etf"], stats["sp500"], stats["nasdaq"], stats["bitcoin"],
+		stats["cycle_edge"]])
 	get_tree().quit(0)
 
 
@@ -78,16 +81,40 @@ func _full_run_stats() -> Dictionary:
 	var ratios := {"kospi_etf": [], "sp500": [], "nasdaq": [], "bitcoin": []}
 	var fg_end: Array = []
 	var bear_late := 0
+	var index_end: Array = []
+	var cycle_end: Array = []
 	for s in range(SEEDS):
 		seed(2000 + s)
 		var inv := _fresh_market(true)
 		var start := {}
 		for id in ratios:
 			start[id] = float(GameState.market_prices.get(id, 1.0))
+		var index_units := 0.0
+		var cycle_cash := 0.0
+		var cycle_units := 0.0
+		var cycle_asset := ""
 		for m in range(MONTHS):
+			# A monthly saver: the index keeps buying the US large-cap ETF; the
+			# cycle reader holds tech in a bull, cash in a bear, the index otherwise.
+			var sp: float = float(GameState.market_prices.get("sp500", 1.0))
+			index_units += 1_000_000.0 / sp
+			cycle_cash += 1_000_000.0
+			var cycle := str(GameState.market_context.get("cycle", "neutral"))
+			var want := "nasdaq" if cycle == "bull" else ("" if cycle == "bear" else "sp500")
+			if want != cycle_asset:
+				if cycle_asset != "":
+					cycle_cash += cycle_units * float(GameState.market_prices.get(cycle_asset, 0.0)) * 0.995
+					cycle_units = 0.0
+				cycle_asset = want
+			if cycle_asset != "":
+				cycle_units += cycle_cash * 0.997 / float(GameState.market_prices.get(cycle_asset, 1.0))
+				cycle_cash = 0.0
 			inv.process_month(NewsManager.generate_monthly_news())
 			if m >= 24 and str(GameState.market_context.get("cycle", "")) == "bear":
 				bear_late += 1
+		index_end.append(index_units * float(GameState.market_prices.get("sp500", 0.0)))
+		cycle_end.append(cycle_cash + (cycle_units * float(GameState.market_prices.get(cycle_asset, 0.0))
+			if cycle_asset != "" else 0.0))
 		fg_end.append(int(GameState.market_context.get("fear_greed", 50)))
 		for id in ratios:
 			ratios[id].append(float(GameState.market_prices.get(id, 0.0)) / maxf(float(start[id]), 1.0))
@@ -101,6 +128,9 @@ func _full_run_stats() -> Dictionary:
 	_expect(stats["bear"] < 0.5, "bear share in years 3-5 %.2f not below 0.5" % stats["bear"])
 	_expect(stats["kospi_etf"] >= 1.0, "KOSPI200 ETF median %.2f below 1.0 after five years" % stats["kospi_etf"])
 	_expect(stats["sp500"] >= 0.95, "US large-cap ETF median %.2f below 0.95 after five years" % stats["sp500"])
+	# Skill should pay: reading the cycle beats saving into the index (839 T4).
+	stats["cycle_edge"] = _median(cycle_end) / maxf(_median(index_end), 1.0)
+	_expect(stats["cycle_edge"] >= 1.30, "cycle reading beats the index by only %.2fx" % stats["cycle_edge"])
 	return stats
 
 
