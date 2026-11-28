@@ -1,6 +1,6 @@
 # ORDER-840 — 도박 깊이: 읽는 실력·판의 상승·5년 차 결산
 
-#### [~] ORDER-840 · C6 · 도박 깊이 — G1·G2 완료(Claude, `claude/market-trading-depth`), 다음 G3
+#### [~] ORDER-840 · C6 · 도박 깊이 — G1·G2 완료, G3 착수(Claude, `claude/market-trading-depth`)
 
 2026-11-27 사용자 지시("도박 설계 진행해"). 완성 기준은 [SYSTEMS_DESIGN §2](../SYSTEMS_DESIGN.md)의 투자·도박 다섯 기준이 소유한다.
 설계: Claude(이 사양). 구현·연출·번역: Codex. **PR #44 병합 뒤 착수한다.** 수치는 모두 `[첫 실행 재조정]`이다. 834 B4(5년 차 결산)는 이 사양의 G4로 옮긴다.
@@ -98,7 +98,7 @@
   - 윤 사장: 3년 차(W97+) 4번째 방문 뒤 계단참에서 300만원을 부탁하고(빌려준다/거절) 더는 오지 않는다. 8주 뒤 번호가 바뀌었다는 소식. 한 선생: 5번째 방문 끝에 그만둔다.
   - 상태는 `holdem_regulars` 플래그(`gone`·`lent`)에 남는다. G4 결산 장면이 읽을 자리다. 대출은 판 손익(영수증)에서 뺀다.
   - 미측정: 버릇을 읽으면 기대값이 실제로 오르는지는 G5 정책 전략으로 잰다.
-- **G3** 블랙잭 기본 전략 장면·판단 보조, 정선 VIP, 경마 VIP·정보상 이력
+- **G3 [~] 11-28 Claude** 블랙잭 기본 전략 장면·판단 보조, 정선 VIP, 경마 VIP·정보상 이력. 만지는 파일: `scenes/BlackjackTable.gd`, `scenes/BaccaratTable.gd`, `scenes/RaceTrack.gd`, `systems/GambleStakeLadder.gd`, `content/meta/gamble_stake_ledger.json`, `locale/ui_{ja,zh-CN,zh-TW}.json`, 신규 `tools/CasinoDepthCheck`, `tools/audit_scope.json`, 문서. 정식판만.
 - **G4** 5년 차 결산 3장면, 3~4년 차 신규 결정 2장면, 도박 파멸 엔딩 표시 정합, "멈춘 사람" 판정(838)
 - **G5** 정책 전략 3종·밸런스 재조정, `ScreenshotQA`(KO/EN 1280×800, 패드), 사람 플레이
 
