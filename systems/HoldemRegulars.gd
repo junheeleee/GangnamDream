@@ -64,7 +64,7 @@ static func visits(flags: Dictionary, rid: String) -> int:
 
 
 static func tells_known(flags: Dictionary, rid: String) -> int:
-	var per := maxi(1, int(ledger().get("visits_per_tell", 2)))
+	var per: int = maxi(1, int(ledger().get("visits_per_tell", 2)))
 	var tells: Array = regular(rid).get("tells", [])
 	return mini(tells.size(), floori(float(visits(flags, rid)) / float(per)))
 
@@ -159,7 +159,7 @@ static func observed_tell(rid: String, decision: Dictionary, rng: RandomNumberGe
 		return ""
 	var show: Dictionary = ledger().get("tell_show", {})
 	var bluffing := bool(decision.get("bluff", false))
-	var strong := not bluffing and float(decision.get("strength", 0.0)) >= float(ledger().get("strong_hand", 0.72))
+	var strong: bool = not bluffing and float(decision.get("strength", 0.0)) >= float(ledger().get("strong_hand", 0.72))
 	var tells: Array = regular(rid).get("tells", [])
 	for k in range(tells.size()):
 		var kind := str((tells[k] as Dictionary).get("kind", ""))
